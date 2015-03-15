@@ -227,7 +227,7 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
     wiredep: {
       target: {
-        src: '<%= yeoman.client %>/index.html',
+        src: 'server/views/index.html',
         ignorePath: '<%= yeoman.client %>/',
         exclude: [/bootstrap-sass-official/, /bootstrap.js/, '/json3/', '/es5-shim/', /bootstrap.css/, /font-awesome.css/ ]
       }
@@ -251,7 +251,7 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: ['<%= yeoman.client %>/index.html'],
+      html: ['server/views/index.html'],
       options: {
         dest: '<%= yeoman.dist %>/public'
       }
@@ -525,7 +525,7 @@ module.exports = function (grunt) {
           endtag: '<!-- endinjector -->'
         },
         files: {
-          '<%= yeoman.client %>/index.html': [
+          'server/views/index.html': [
               ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
@@ -565,7 +565,7 @@ module.exports = function (grunt) {
           endtag: '<!-- endinjector -->'
         },
         files: {
-          '<%= yeoman.client %>/index.html': [
+          'server/views/index.html': [
             '<%= yeoman.client %>/{app,components}/**/*.css'
           ]
         }
@@ -617,7 +617,7 @@ module.exports = function (grunt) {
       'autoprefixer',
       'express:dev',
       'wait',
-      'open',
+      // 'open',
       'watch'
     ]);
   });

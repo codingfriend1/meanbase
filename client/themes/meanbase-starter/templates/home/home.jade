@@ -1,0 +1,12 @@
+.container
+	.jumbotron
+		h1#page-title.mb-editable {{page.title}}
+		p#content-1.mb-editable(ng-bind-html="page.content['content-1'] ? page.content['content-1'] : 'content-1 prefiller'")
+		p
+			a.btn.btn-lg.btn-primary(href='/', role='button') View navbar docs »
+	.col-sm-4
+		div#content-2.mb-editable(ng-bind-html="page.content['content-2'] ? page.content['content-2'] : 'content-2 prefiller'")
+	.col-sm-4
+		div#content-3.mb-editable(ng-bind-html="page.content['content-3'] ? page.content['content-3'] : 'content-3 prefiller'")
+	.col-sm-4
+		div#content-4.mb-editable(ng-bind-html="page.content['content-4'] ? page.content['content-4'] : 'content-4 prefiller'")
