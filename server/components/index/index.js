@@ -13,8 +13,8 @@ var fs = require('fs');
 function compileIndex(theme) {
 	// Get file paths
 	var viewFilePath = config.root + '/server/views/index.html',
-		themeJSPath = config.root + '/client/themes/' + theme + '/scripts.html',
-		themeCSSPath = config.root + '/client/themes/' + theme + '/styles.html';
+		themeJSPath = config.root + '/client/themes/' + theme + '/assets/scripts.html',
+		themeCSSPath = config.root + '/client/themes/' + theme + '/assets/styles.html';
 
 	// Get file contents
 	var themeJS = fs.readFileSync(themeJSPath,'utf8'),
@@ -34,4 +34,4 @@ function compileIndex(theme) {
 	}
 }
 
-compileIndex('meanbase-secondary');
+compileIndex('meanbase-starter');

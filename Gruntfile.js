@@ -69,6 +69,14 @@ module.exports = function (grunt) {
         ],
         tasks: ['injector:css']
       },
+      compileThemeAssets: {
+        files: [
+          '<%= yeoman.client %>/themes/**/*.css',
+          '<%= yeoman.client %>/themes/**/*.js',
+          '<%= yeoman.client %>/themes/**/*.styl'
+        ],
+        tasks: ['compile-theme-assets']
+      },
       mochaTest: {
         files: ['server/**/*.spec.js'],
         tasks: ['env:test', 'mochaTest']
@@ -361,6 +369,7 @@ module.exports = function (grunt) {
             'bower_components/**/*',
             'assets/images/{,*/}*.{webp}',
             'assets/fonts/**/*',
+            'themes/**/*',
             'index.html'
           ]
         }, {
@@ -585,6 +594,39 @@ module.exports = function (grunt) {
     }, 1500);
   });
 
+
+
+
+
+  // Add link each theme's assets into main file.
+  grunt.registerTask("compile-theme-assets", "Combine javascript and css files in each theme info scripts.html and styles.html", function() {
+
+    // loop through each theme in the themes folder
+    grunt.file.expand("client/themes/*").forEach(function (dir) {
+
+      var injector = grunt.config.get('injector') || {options: {}, scripts: {options:{}, css: {}}};
+
+      injector.css.files[dir + '/assets/styles.html'] = [
+        dir + '/**/*.css',
+        dir + '/*.css'
+      ];
+
+      injector.scripts.files[dir + '/assets/scripts.html'] = [
+        dir + '/**/*.js',
+        dir + '/*.js',
+        '!' + dir + '/*spec.js',
+        '!' + dir + '/**/*spec.js'
+      ];
+      grunt.config.set('injector', injector);
+    });
+    grunt.task.run('injector');
+  });
+
+
+
+
+
+
   grunt.registerTask('express-keepalive', 'Keep grunt running', function() {
     this.async();
   });
@@ -616,6 +658,7 @@ module.exports = function (grunt) {
       'wiredep',
       'autoprefixer',
       'express:dev',
+      'compile-theme-assets',
       'wait',
       // 'open',
       'watch'
