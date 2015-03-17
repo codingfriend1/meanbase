@@ -96,7 +96,7 @@ module.exports = function (grunt) {
       stylus: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/*.styl'],
-        tasks: ['stylus', 'autoprefixer']
+        tasks: ['stylus:cms', 'autoprefixer']
       },
       jade: {
         files: [
@@ -420,11 +420,13 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'jade',
-        'stylus',
+        'stylus:cms',
+        'stylus:theme'
       ],
       test: [
         'jade',
-        'stylus',
+        'stylus:cms',
+        'stylus:theme'
       ],
       debug: {
         tasks: [
@@ -437,7 +439,8 @@ module.exports = function (grunt) {
       },
       dist: [
         'jade',
-        'stylus',
+        'stylus:cms',
+        'stylus:theme',
         'imagemin',
         'svgmin'
       ]
@@ -503,17 +506,19 @@ module.exports = function (grunt) {
 
     // Compiles Stylus to CSS
     stylus: {
-      server: {
-        options: {
-          paths: [
-            '<%= yeoman.client %>/bower_components',
-            '<%= yeoman.client %>/app',
-            '<%= yeoman.client %>/components'
-          ],
-          "include css": true
-        },
-        files: {
-          '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.styl'
+      cms: {
+        server: {
+          options: {
+            paths: [
+              '<%= yeoman.client %>/bower_components',
+              '<%= yeoman.client %>/app',
+              '<%= yeoman.client %>/components'
+            ],
+            "include css": true
+          },
+          files: {
+            '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.styl'
+          }
         }
       }
     },
@@ -604,7 +609,8 @@ module.exports = function (grunt) {
     // loop through each theme in the themes folder
     grunt.file.expand("client/themes/*").forEach(function (dir) {
 
-      var injector = grunt.config.get('injector') || {options: {}, scripts: {options:{}, css: {}}};
+      var injector = grunt.config.get('injector') || {options: {}, scripts: {options:{}}, css: {}};
+      var stylus = grunt.config.get('stylus') || {};
 
       injector.css.files[dir + '/assets/styles.html'] = [
         dir + '/**/*.css',
@@ -617,9 +623,31 @@ module.exports = function (grunt) {
         '!' + dir + '/*spec.js',
         '!' + dir + '/**/*spec.js'
       ];
+
+      if(!stylus.theme)
+        stylus.theme = {files: {}, option: {
+          starttag: '/* theme css */',
+          endtag: '/* theme css */'
+        }};
+
+      // Combine all theme stylus files into theme.css
+      stylus.theme.files[dir + '/assets/theme.css'] = [
+        dir + '/**/*.styl',
+        '!' + dir + '/assets/theme.styl'
+      ];
+
+      // injector.stylus.files[dir + '/assets/theme.styl'] = [
+      //   dir + '/**/*.styl',
+      //   '!' + dir + '/assets/theme.styl'
+      // ];
+
+      console.log('injector.theme', injector.theme);
+
       grunt.config.set('injector', injector);
+      grunt.config.set('stylus', stylus);
     });
     grunt.task.run('injector');
+    grunt.task.run('stylus:theme');
   });
 
 
