@@ -420,13 +420,11 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'jade',
-        'stylus:cms',
-        'stylus:theme'
+        'stylus:cms'
       ],
       test: [
         'jade',
-        'stylus:cms',
-        'stylus:theme'
+        'stylus:cms'
       ],
       debug: {
         tasks: [
@@ -440,7 +438,6 @@ module.exports = function (grunt) {
       dist: [
         'jade',
         'stylus:cms',
-        'stylus:theme',
         'imagemin',
         'svgmin'
       ]
@@ -612,6 +609,8 @@ module.exports = function (grunt) {
       var injector = grunt.config.get('injector') || {options: {}, scripts: {options:{}}, css: {}};
       var stylus = grunt.config.get('stylus') || {};
 
+      console.log('stylus', stylus);
+
       injector.css.files[dir + '/assets/styles.html'] = [
         dir + '/**/*.css',
         dir + '/*.css'
@@ -624,24 +623,21 @@ module.exports = function (grunt) {
         '!' + dir + '/**/*spec.js'
       ];
 
-      if(!stylus.theme)
+      if(!stylus.theme) {
         stylus.theme = {files: {}, option: {
           starttag: '/* theme css */',
           endtag: '/* theme css */'
         }};
+      }
+      console.log('stylus.theme', stylus.theme);
 
       // Combine all theme stylus files into theme.css
       stylus.theme.files[dir + '/assets/theme.css'] = [
         dir + '/**/*.styl',
+        dir + '/**/*.css',
+        '!' + dir + '/assets/theme.css',
         '!' + dir + '/assets/theme.styl'
       ];
-
-      // injector.stylus.files[dir + '/assets/theme.styl'] = [
-      //   dir + '/**/*.styl',
-      //   '!' + dir + '/assets/theme.styl'
-      // ];
-
-      console.log('injector.theme', injector.theme);
 
       grunt.config.set('injector', injector);
       grunt.config.set('stylus', stylus);
