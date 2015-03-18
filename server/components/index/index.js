@@ -25,8 +25,6 @@ function compileIndex(theme) {
 	// Insert the theme's styles and scripts into the index.html
 	$('head').append(themeCSS);
 	$('body').append(themeJS);
-
-	console.log('index', $.html());
 	try {
 		fs.writeFileSync(config.root + '/client/index.html', $.html(), 'utf8');
 	} catch(error) {

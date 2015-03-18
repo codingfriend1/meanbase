@@ -1,0 +1,84 @@
+//Static navbar 
+.container
+	include ../../components/site-menu
+	.row
+		.col-md-8
+			h1#page-title.mb-editable {{page.title}}
+			p.lead
+				| by 
+				a(href='#') {{page.author}}
+			hr
+			p
+				span.glyphicon.glyphicon-time 
+				| {{page.created | date: 'MMM d, y h:mm a'}} 
+			hr
+			img.img-responsive(src='http://placehold.it/900x300', alt='')
+			hr
+			div#content-1.mb-editable(ng-bind-html="page.content['content-1'] ? page.content['content-1'] : 'content-1 prefiller'")
+			hr
+			.well
+				h4 Leave a Comment:
+				form(ng-submit="addComment(comment)")
+					.form-group
+						.input-group
+							.input-group-addon Name
+							input(type="text" ng-model="comment.author" placeholder="nickname" id="comment-author").form-control
+					.form-group
+						.input-group
+							.input-group-addon Email
+							input(type="email" ng-model="comment.email" placeholder="email" id="comment-email").form-control
+						p.help-block This will not be shown
+					.form-group
+						label(for="comment-content") Message
+						textarea(ng-model="comment.content" placeholder="Message" id="comment-content" rows="3").form-control
+					button.btn.btn-primary(type='submit') Comment
+			hr
+			.well.media(ng-repeat="comment in page.comments")
+				a.pull-left(href='#')
+					img.media-object(src='http://placehold.it/64x64', alt='')
+				.media-body
+					h4.media-heading {{comment.author}}
+					small {{comment.date | date: 'MMM d, y h:mm a'}} 
+					p {{comment.content}}
+		.col-md-4
+			.well
+				h4 Blog Search
+				.input-group
+					input.form-control(type='text')
+					span.input-group-btn
+					button.btn.btn-default(type='button')
+						span.glyphicon.glyphicon-search
+			.well
+				h4 Blog Categories
+			.row
+				.col-lg-6
+					ul.list-unstyled
+						li
+						a(href='#') Category Name
+						li
+						a(href='#') Category Name
+						li
+						a(href='#') Category Name
+						li
+						a(href='#') Category Name
+				.col-lg-6
+					ul.list-unstyled
+						li
+						a(href='#') Category Name
+						li
+						a(href='#') Category Name
+						li
+						a(href='#') Category Name
+						li
+						a(href='#') Category Name
+			.well
+				h4 Side Widget Well
+				p
+					| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.
+	hr
+	footer
+	.row
+		.col-lg-12
+		p Copyright © Your Website 2014
+
+

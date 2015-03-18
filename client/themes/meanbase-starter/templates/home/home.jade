@@ -1,4 +1,5 @@
 .container
+	include ../../components/site-menu
 	.jumbotron
 		h1#page-title.mb-editable {{page.title}}
 		p#content-1.mb-editable(ng-bind-html="page.content['content-1'] ? page.content['content-1'] : 'content-1 prefiller'")

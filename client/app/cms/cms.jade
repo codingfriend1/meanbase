@@ -1,0 +1,26 @@
+#wrapper
+	// Sidebar
+	#sidebar-wrapper
+		ul.sidebar-nav
+			li.sidebar-brand
+				a(href='/' target="_self") Back to Site
+			li
+				a(ui-sref='cms.themes') Themes                
+			li
+				a(ui-sref='cms.comments') Comments                
+			li
+				a(ui-sref='cms.users') Users                
+			li
+				a(ui-sref='cms.media') Media                
+			li
+				a(ui-sref='cms.extensions') Extensions               
+			li
+				a(ui-sref='cms.analytics') Analytics
+	#page-content-wrapper                       
+		//- a#menu-toggle.btn.btn-default(href='#menu-toggle') Open/close Menu
+		div(ui-view="")
+//- script.
+//- 	$("#menu-toggle").click(function(e) {
+//- 		e.preventDefault();
+//- 		$("#wrapper").toggleClass("toggled");
+//- 	});

@@ -10,6 +10,9 @@ var index = require('./components/index');
 module.exports = function(app) {
 
   // Insert routes below
+  app.use('/api/themes', require('./api/themes'));
+  app.use('/api/roles', require('./api/roles'));
+  app.use('/api/pages', require('./api/pages'));
   app.use('/api/things', require('./api/thing'));
   app.use('/api/users', require('./api/user'));
 

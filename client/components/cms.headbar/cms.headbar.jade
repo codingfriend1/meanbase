@@ -1,0 +1,40 @@
+//meanbase Head Tool Bar 
+nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation")
+	.container
+		div.navbar-header 
+			button.navbar-toggle.collapsed(data-toggle="collapse" data-target="#mb-headbar-child" aria-controls="navbar")
+				span.sr-only Toggle navigation
+				span.icon-bar
+				span.icon-bar
+				span.icon-bar
+			a(href='/cms' target="_self").navbar-brand Manage Site
+		div#mb-headbar-child.navbar-collapse.collapse
+			ul.nav.navbar-nav
+				li.dropdown
+					//- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
+					a.dropdown-toggle(data-toggle="dropdown" role="button") New Page
+					ul#mb-new-template.dropdown-menu(role="menu")
+						li.disabled
+							a(href="#")
+								| Template 
+						li.divider
+						li(ng-repeat="template in mb.templates")
+							a(href="#" ng-click="mb.createPage($event)") {{template}}
+				li#mb-edit
+					a(ng-hide="editMode" ng-click="mb.beginEditing()") Edit
+					button.btn.btn-success(ng-show="editMode" ng-click="mb.saveChanges()") Save
+				li#mb-cancel(ng-show="editMode")
+					button.btn.btn-warning(ng-click="mb.discardChanges()") discard
+				li#mb-page-settings(ng-show="editMode")
+					button.btn.btn-primary(data-toggle="modal" data-target="#editPageModal") Settings
+				li#mb-trash(ng-show="editMode")
+					button.btn.btn-danger(ng-click="mb.deletePage()") delete page
+			ul.nav.navbar-nav.navbar-right
+				li.dropdown
+					a.dropdown-toggle(data-toggle="dropdown" role="button")
+						| codingfriend1 (Admin)
+					ul.dropdown-menu(role="menu" ng-click="mb.logout()").dropdown-menu-right
+						li 
+							a Log Out
+						li 
+							a(href="/cms/users" target="_self") Account Settings

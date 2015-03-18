@@ -1,0 +1,45 @@
+.container
+		include ../../components/site-menu
+		.row
+			#leftCol.col-md-3
+				.well
+					//- ul(role="menu" data-menu="sidebar")
+					//- 	li(ng-repeat="menu in menus.sidebar").mb-draggable
+					//- 		a(href="{{menu.url}}").mb-editable {{menu.title}}
+					ul#sidebar.nav.nav-stacked(data-menu="sidebar" ng-sortable="mb.sortableMenus")
+						li(ng-repeat="menu in menus.sidebar track by menu.id" mb-menu="menu" ng-class="active(menu.url, 'active')")
+							a(href="{{menu.url}}" target="{{menu.target}}") {{menu.title}}
+			.col-md-9
+				h2#page-title.mb-editable {{page.title}}
+				p#content-1.mb-editable(ng-bind-html="page.content['content-1'] ? page.content['content-1'] : defaultText")
+		.row
+			.col-md-12#content-2.mb-editable(ng-bind-html="page.content['content-2'] ? page.content['content-2'] : defaultText")
+		.row
+			.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3#content-3.mb-editable(ng-bind-html="page.content['content-3'] ? page.content['content-3'] : defaultTitle")
+					.panel-body
+						#content-4.mb-editable(ng-bind-html="page.content['content-4'] ? page.content['content-4'] : defaultText")
+			.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3#content-5.mb-editable(ng-bind-html="page.content['content-5'] ? page.content['content-5'] : defaultTitle")
+					.panel-body
+						#content-6.mb-editable(ng-bind-html="page.content['content-6'] ? page.content['content-6'] : defaultText")
+		.row
+			.col-md-12
+				hr
+				div#content-7.mb-editable(ng-bind-html="page.content['content-7'] ? page.content['content-7'] : defaultText")
+		.row
+			.col-md-4
+				img.img-responsive(src='//placehold.it/300x300')
+			.col-md-4
+				img.img-responsive(src='//placehold.it/300x300')
+			.col-md-4
+				img.img-responsive(src='//placehold.it/300x300')
+		div#content-8.mb-editable(ng-bind-html="page.content['content-8'] ? page.content['content-8'] : defaultText")
+		hr
+
+
+

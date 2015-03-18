@@ -73,7 +73,8 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.client %>/themes/**/*.css',
           '<%= yeoman.client %>/themes/**/*.js',
-          '<%= yeoman.client %>/themes/**/*.styl'
+          '<%= yeoman.client %>/themes/**/*.styl',
+          '!<%= yeoman.client %>/themes/**/theme.css'
         ],
         tasks: ['compile-theme-assets']
       },
@@ -100,8 +101,8 @@ module.exports = function (grunt) {
       },
       jade: {
         files: [
-          '<%= yeoman.client %>/{app,components}/*',
-          '<%= yeoman.client %>/{app,components}/**/*.jade'],
+          '<%= yeoman.client %>/{app,components,themes}/*',
+          '<%= yeoman.client %>/{app,components,themes}/**/*.jade'],
         tasks: ['jade']
       },
       gruntfile: {
@@ -493,7 +494,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= yeoman.client %>',
           src: [
-            '{app,components}/**/*.jade'
+            '{app,components,themes}/**/*.jade'
           ],
           dest: '.tmp',
           ext: '.html'
@@ -504,18 +505,16 @@ module.exports = function (grunt) {
     // Compiles Stylus to CSS
     stylus: {
       cms: {
-        server: {
-          options: {
-            paths: [
-              '<%= yeoman.client %>/bower_components',
-              '<%= yeoman.client %>/app',
-              '<%= yeoman.client %>/components'
-            ],
-            "include css": true
-          },
-          files: {
-            '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.styl'
-          }
+        options: {
+          paths: [
+            '<%= yeoman.client %>/bower_components',
+            '<%= yeoman.client %>/app',
+            '<%= yeoman.client %>/components'
+          ],
+          "include css": true
+        },
+        files: {
+          '.tmp/app/app.css' : '<%= yeoman.client %>/app/app.styl'
         }
       }
     },
@@ -629,7 +628,7 @@ module.exports = function (grunt) {
           endtag: '/* theme css */'
         }};
       }
-      console.log('stylus.theme', stylus.theme);
+      // console.log('stylus.theme', stylus.cms);
 
       // Combine all theme stylus files into theme.css
       stylus.theme.files[dir + '/assets/theme.css'] = [
