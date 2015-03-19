@@ -1,6 +1,37 @@
 'use strict';
 
-// CRUD controls operations to the database from server requests
+/*
+  * CRUD
+  * controls operations with a collection in the database from server requests
+  
+  * getIdentifer()
+    - All requests get run through getIdentifer which determines whether data is coming in through body, params, or query
+
+  * handleError()
+    - Universal handler for error messages. Currently returns a 500 along with the error.
+
+  * findById               - finds by _id
+  * find                   - finds by mongoDB query
+  * findAndPopulate        - finds by mongoDB query *requires 
+  * findAndSort            - finds by mongoDB query
+  * findAll  
+
+  * create                 - object(s) should be sent on req.body
+  * createAndLink          - object(s) should be sent on req.body
+
+  * update
+    - The identifier should be sent on req.body.identifier and replacement data on req.body.replacement
+    - Or identifier should be in params or query while replacement data should be sent through req.body
+  * updateById             - req.params should have an _id and replacement data should be on req.body
+
+  * delete                 - deletes by mongoDB query
+  * deleteById             - looks for an _id property anywhere on req object
+  * deleteAndDependancies  - deletes by mongoDB query
+  * deleteAndUnlink        - deletes by mongoDB query
+
+*/
+
+
 
 var _ = require('lodash');
 
@@ -33,7 +64,7 @@ CRUD.prototype.find = function(req, res) {
 };
 
 // Gets some items and populates their linked documents
-CRUD.prototype.findAndPopulate = function(req, res) {
+CRUD.prototype.findAndPopulate = function(req, res, populate) {
   var identifier = getIdentifer(req);
   this.collection.find(identifier).populate(populateQuery).exec(function(err, found) {
     if(err) { return handleError(res, err); }
@@ -89,6 +120,7 @@ CRUD.prototype.createAndLink = function(req, res, linkModel, linkField) {
 // Updates existing items in the collection.
 CRUD.prototype.update = function(req, res) {
   var identifier = getIdentifer(req);
+  console.log('identifier', identifier, 'req.body', req.body);
   this.collection.update(identifier, req.body, {multi: true, upsert: true}, function(err, found) {
     if (err) { return handleError(res, err); }
     if(!found) { return res.send(404); }

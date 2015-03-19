@@ -15,20 +15,29 @@ module.exports = function() {
 		published: true,
 	};
 
+	var tutorial = {
+		author: 'demo',
+		visibility: 'Everyone',
+		url: '/tutorial',
+		tabTitle: 'meanbase - tutorial',
+		template: 'page',
+		title: 'Tutorial',
+		content: {'content-1': 'Create your themes in client/themes/ folder. Use generator-angular-fullstack to understand project structure. '},
+		description: 'A tutorial to get you running with meanbase.',
+		summary: 'A tutorial to get you running with meanbase.',
+		published: true,
+	};
+
 	// In case we need to delete any pages
-	// Pages.findById('5508f3e60b00f2edae1bd61c', function (err, page) {
-	//   if(err) { return handleError(err); }
-	//   if(!page) { return false; }
-	//   page.remove(function(err) {
-	//     if(err) { return handleError(err); }
-	//     console.log('removed page');
-	//   });
-	// });
+	Pages.remove({}, function (err, page) {
+	  if(err) { return handleError(err); }
+	  if(!page) { return false; }
+	});
 
 	Pages.find(function (err, pages) {
 	  if(err) { return handleError(err); }
 	  if(pages.length === 0) {
-	  	Pages.create(demoHome, function(err, page) {
+	  	Pages.create([demoHome, tutorial], function(err, page) {
   		  if(err) { return handleError(err); }
   		  console.log('initialize page: ', page);
   		});

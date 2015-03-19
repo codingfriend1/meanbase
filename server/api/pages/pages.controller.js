@@ -6,65 +6,41 @@ var CRUD = require('../../components/CRUD');
 var collection = new CRUD(Pages);
 
 // Get list of pages
-exports.index = function(req, res) {
-  Pages.find(function (err, pages) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, pages);
-  });
+exports.findAll = function(req, res) {
+  collection.findAll(req, res);
 };
 
 // Get some pages
 exports.find = function(req, res) {
-  console.log('req', req.params);
-  // Pages.find(req.params, function (err, pages) {
-  //   if(err) { return handleError(res, err); }
-  //   return res.json(200, pages);
-  // });
-};
-
-// Get a single pages
-exports.show = function(req, res) {
-  Pages.findById(req.params.id, function (err, pages) {
-    if(err) { return handleError(res, err); }
-    if(!pages) { return res.send(404); }
-    return res.json(pages);
-  });
+  collection.find(req, res);
 };
 
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
-  Pages.create(req.body, function(err, pages) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, pages);
-  });
+  collection.create(req, res);
 };
 
-// Updates an existing pages in the DB.
+// Updates pages in the database
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Pages.findById(req.params.id, function (err, pages) {
-    if (err) { return handleError(res, err); }
-    if(!pages) { return res.send(404); }
-    var updated = _.merge(pages, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, pages);
-    });
-  });
+  collection.update(req, res);
 };
 
 // Deletes a pages from the DB.
-exports.destroy = function(req, res) {
-  Pages.findById(req.params.id, function (err, pages) {
-    if(err) { return handleError(res, err); }
-    if(!pages) { return res.send(404); }
-    pages.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
-  });
+exports.delete = function(req, res) {
+  collection.delete(req, res);
 };
 
-function handleError(res, err) {
-  return res.send(500, err);
-}
+// Get a single pages
+exports.findById = function(req, res) {
+  collection.findById(req, res);
+};
+
+// Updates an existing page in the DB.
+exports.updateById = function(req, res) {
+  collection.updateById(req, res);
+};
+
+// Deletes a pages from the DB.
+exports.deleteById = function(req, res) {
+  collection.deleteById(req, res);
+};
