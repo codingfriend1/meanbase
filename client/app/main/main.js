@@ -5,6 +5,18 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('main', {
         url: '/',
+        // templateUrl: function ($stateParams, $http){
+        //   $http.get('/api/pages', {params: {url: '/'}}).success(function(page) {
+        //     console.log('worked');
+        //     page.template = 'themes/meanbase-starter/templates/home/home.html';
+        //     return page.template;
+        //   }).error(function(error) {
+        //     console.log('/api/pages', error);
+        //     page.template = 'themes/meanbase-starter/templates/home/home.html';
+        //     return page.template;
+        //   });
+        //   // return 'themes/meanbase-starter/templates/home/home.html';
+        // },
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl'
       });
@@ -18,15 +30,16 @@ angular.module('meanbaseApp')
     .state('main.page', {
       url: '^/:page',
       templateUrl: function ($stateParams){
+        console.log('$stateParams.page', $stateParams.page);
       	$http.get('/api/pages', {params: {url: $stateParams.page}}).success(function(page) {
       		console.log('worked');
       		page.template = 'themes/meanbase-starter/templates/home/home.html';
       		return page.template;
       	}).error(function(error) {
-			console.log('/api/pages', error);
-			page.template = 'themes/meanbase-starter/templates/home/home.html';
-			return page.template;
-		});
+    			console.log('/api/pages', error);
+    			page.template = 'themes/meanbase-starter/templates/home/home.html';
+    			return page.template;
+    		});
 			// return 'themes/meanbase-starter/templates/home/home.html';
 		},
       controller: 'HomeCtrl'

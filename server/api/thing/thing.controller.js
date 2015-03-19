@@ -11,13 +11,12 @@
 
 var _ = require('lodash');
 var Thing = require('./thing.model');
+var CRUD = require('../../components/CRUD');
+var collection = new CRUD(Thing);
 
 // Get list of things
 exports.index = function(req, res) {
-  Thing.find(function (err, things) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, things);
-  });
+  collection.find(req, res);
 };
 
 // Get a single thing

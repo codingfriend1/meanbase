@@ -2,6 +2,8 @@
 
 var _ = require('lodash');
 var Pages = require('./pages.model');
+var CRUD = require('../../components/CRUD');
+var collection = new CRUD(Pages);
 
 // Get list of pages
 exports.index = function(req, res) {
@@ -9,6 +11,15 @@ exports.index = function(req, res) {
     if(err) { return handleError(res, err); }
     return res.json(200, pages);
   });
+};
+
+// Get some pages
+exports.find = function(req, res) {
+  console.log('req', req.params);
+  // Pages.find(req.params, function (err, pages) {
+  //   if(err) { return handleError(res, err); }
+  //   return res.json(200, pages);
+  // });
 };
 
 // Get a single pages
