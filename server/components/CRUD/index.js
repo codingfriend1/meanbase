@@ -98,7 +98,11 @@ CRUD.prototype.create = function(req, res) {
   this.collection.create(req.body, function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
-    return res.json(201, found);
+
+    // Since mongoose returns created items as list of params we must iterate through them
+    var allFound = getArguments(arguments);
+
+    return res.json(201, allFound);
   });
 };
 
@@ -120,11 +124,11 @@ CRUD.prototype.createAndLink = function(req, res, linkModel, linkField) {
 // Updates existing items in the collection.
 CRUD.prototype.update = function(req, res) {
   var identifier = getIdentifer(req);
-  console.log('identifier', identifier, 'req.body', req.body);
   this.collection.update(identifier, req.body, {multi: true, upsert: true}, function(err, found) {
     if (err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
-    return res.json(200, found);
+    var allFound = getArguments(arguments);
+    return res.json(200, allFound);
   });
 };
 
@@ -243,4 +247,13 @@ function getIdentifer(req) {
 // Handles the response to database errors
 function handleError(res, err) {
   return res.send(500, err);
+}
+
+function getArguments(args) {
+  // Since mongoose returns created items as list of params we must iterate through them
+  var allFound = [];
+  for (var i = 1; i < args.length; ++i) {
+    allFound.push(args[i]);
+  }
+  return allFound;
 }
