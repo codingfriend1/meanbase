@@ -23,7 +23,7 @@
     $stateProvider
       .state('main.page', {
         url: '^/*page',
-        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', function(endpoints, $templateFactory, $stateParams, $q) {
+        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', function(endpoints, $templateFactory, $stateParams, $q, $state) {
 
           // Instantiate a new endpoints service to communite with server database
           var endpoint = new endpoints('pages');
@@ -34,20 +34,21 @@
           // Find a page with a url that matches the current url
           endpoint.read({url: '/' + $stateParams.page}).success(function(response) {
 
+            // If no page was found then redirect to the 404 page. A hard refresh is necessary so the server will load the page.
+            if(!response[0]) { window.location.href = '/404'; return false; }
+
             // window.siteTheme is set inline on the index.html page and is compiled through the server string manipulation
             var templatePath = 'themes/' + window.siteTheme + '/templates/' + response[0].template + '/' + response[0].template + '.html';
 
             // Ui Router templateProvider expects an html string instead of a url
             $templateFactory.fromUrl(templatePath).then(function(html) {
+              if(!html) { window.location.href = '/404'; return false; }
               deferred.resolve(html);
             });
 
           }).error(function(error) {
-
-            $templateFactory.fromUrl('themes/meanbase-starter/templates/home/home.html').then(function(html) {
-              deferred.reject(html);
-            });
-
+            console.log('Could not request page template: ', error);
+            window.location.href = '/404';
           });
 
           return deferred.promise;
