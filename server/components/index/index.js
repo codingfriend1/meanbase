@@ -5,7 +5,6 @@
 'use strict';
 
 var config = require('../../config/environment');
-var cheerio = require('cheerio');
 var fs = require('fs');
 
 // Get's the scripts and styles from the chosen theme and inserts them into the index.html
@@ -19,14 +18,15 @@ function compileIndex(theme) {
 	// Get file contents
 	var themeJS = fs.readFileSync(themeJSPath,'utf8'),
 		themeCSS = fs.readFileSync(themeCSSPath,'utf8'),
-		index = fs.readFileSync(viewFilePath,'utf8'),
-		$ = cheerio.load(index);
+		index = fs.readFileSync(viewFilePath,'utf8');
 
-	// Insert the theme's styles and scripts into the index.html
-	$('head').append(themeCSS);
-	$('body').append(themeJS);
+		// Insert given theme's assets into index.html
+		index = index.replace('<!-- Theme Styles -->', themeCSS);
+		index = index.replace('<!-- Theme Scripts -->', themeJS);
+
 	try {
-		fs.writeFileSync(config.root + '/client/index.html', $.html(), 'utf8');
+		// Write the results back to index.html in client/ folder
+		fs.writeFileSync(config.root + '/client/index.html', index, 'utf8');
 	} catch(error) {
 		console.log('error: ', error);
 	}
