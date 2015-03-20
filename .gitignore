@@ -3,5 +3,6 @@ public
 .tmp
 .idea
 client/bower_components
+documentation
 dist
 /server/config/local.env.js

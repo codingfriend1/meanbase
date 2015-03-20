@@ -7,7 +7,7 @@
 var config = require('../../config/environment');
 var fs = require('fs');
 
-// Get's the scripts and styles from the chosen theme and inserts them into the index.html
+// Gets the scripts and styles from the chosen theme and inserts them into the index.html
 // PARAMS theme: 'String'
 function compileIndex(theme) {
 	// Get file paths

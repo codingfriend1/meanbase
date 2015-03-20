@@ -133,6 +133,23 @@ module.exports = function (grunt) {
       }
     },
 
+    // Docco
+    docco: {
+      debug: {
+        src: [
+          'client/app/**/*.controller.js',
+          'client/components/endpoints/*.js',
+          'client/components/cms.headbar/*.js',
+          'server/components/CRUD/index.js',
+          'server/components/index/index.js',
+          '!**/*spec.js'
+        ],
+        options: {
+          output: 'documentation/'
+        }
+      }
+    },
+
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
@@ -736,6 +753,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('build', [
+    'docco',
     'clean:dist',
     'injector:stylus', 
     'concurrent:dist',
