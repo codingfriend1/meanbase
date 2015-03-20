@@ -5,7 +5,6 @@
 'use strict';
 
 var errors = require('./components/errors');
-var index = require('./components/index');
 
 module.exports = function(app) {
 

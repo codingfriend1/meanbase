@@ -21,6 +21,7 @@ if(config.seedDB) { require('./config/seed'); }
 var app = express();
 var server = require('http').createServer(app);
 require('./init')(); //Create dummy data on startup
+require('./components/index')('meanbase-starter'); //Set our default theme
 require('./config/express')(app);
 require('./routes')(app);
 
