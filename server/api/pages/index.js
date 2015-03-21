@@ -2,6 +2,7 @@
 
 var express = require('express');
 var controller = require('./pages.controller');
+var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 // Affecting multiple or all items.

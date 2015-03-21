@@ -16,13 +16,13 @@
     });
 
   // ####Child Routes
-  // - Handles every kind of route that doesn't begin with cms/
+  // - Handles every kind of route that doesn't begin with cms
   // - Contacts the server database to find which view to load
   angular.module('meanbaseApp')
   .config(function ($stateProvider) {
     $stateProvider
       .state('main.page', {
-        url: '^/*page',
+        url: '^/{page:(?!cms).*}',
         templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', function(endpoints, $templateFactory, $stateParams, $q, $state) {
 
           // - Instantiate a new endpoints service to communite with server database

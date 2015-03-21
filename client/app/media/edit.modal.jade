@@ -1,0 +1,21 @@
+#editMedia.modal.fade(tabindex='-1', role='dialog', aria-labelledby='editMediaLabel', aria-hidden='true')
+	.modal-dialog.modal-xl
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal')
+					span(aria-hidden='true') ×
+					span.sr-only Close
+				h4#editMediaLabel.modal-title {{selectedImage.title}}
+			.modal-body
+				.mb-image-display
+					img.img-responsive(src="../../{{selectedImage.url}}")
+				.form-group
+					label Title
+					input.form-control(ng-model="{{selectedImage.title}}")
+				.form-group
+					label Alt
+					textarea.form-control(ng-model="{{selectedImage.alt}}")
+			.modal-footer
+				button.btn.btn-danger(ng-click="deleteImage(selectedImage)") Delete
+				button.btn.btn-default(type='button', data-dismiss='modal') Close
+				button.btn.btn-success(ng-click="") Save

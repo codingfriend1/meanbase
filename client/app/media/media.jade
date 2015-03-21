@@ -1,2 +1,41 @@
-.col-md-12
-    | This is the media view.
+
+.a-3.a-middle
+	h1.page-header
+		| Media
+.a-9.a-right.a-middle
+	button.btn.btn-danger(ng-click="deleteAll()") Delete All
+	button.btn.btn-success(data-toggle='modal' data-target='#uploadMedia') Upload Media
+.a-12
+	.form-group
+		input.form-control(ng-model="whichImage" placeholder="filter")
+.a-12
+	button.btn.btn-default(ng-click="select()") Select
+	button.btn.btn-default(ng-click="selectAll()") Select All
+	button.btn.btn-danger(ng-click="deleteSelected()") Delete Selected
+	button.btn.btn-warning(ng-click="updateSelected()") Update Selected
+
+.a-4.m-6.c-12(ng-repeat="image in images")
+	.mb-media-item.a-center
+		img.img-responsive(ng-src="../../{{image.url}}" alt='{{image.alt}}' data-toggle='modal' data-target='#editMedia' ng-click="editMedia(image)")
+hr
+.text-center
+	.a-12
+		ul.pagination
+			li
+				a(href='#') «
+			li.active
+				a(href='#') 1
+			li
+				a(href='#') 2
+			li
+				a(href='#') 3
+			li
+				a(href='#') 4
+			li
+				a(href='#') 5
+			li
+				a(href='#') »
+hr
+
+include upload.modal.jade
+include edit.modal.jade

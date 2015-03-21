@@ -7,9 +7,10 @@ angular.module('meanbaseApp', [
   'ui.router',
   'ui.bootstrap'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider) {
     $urlRouterProvider
       .otherwise('/');
+    $urlMatcherFactoryProvider.strictMode(false);
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');

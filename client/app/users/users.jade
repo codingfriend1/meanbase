@@ -1,2 +1,119 @@
-.col-md-12
-    | This is the users view.
+h1 Users and Privilages
+hr
+h3 Roles and Privilages
+form(ng-submit="updateRole(roleForm)" name="roleForm")
+	.mb-dark-panel.panel
+		.panel-heading
+				.a-6.m-12.m-center
+					.mb-p-25
+						select.mb-panel-select(ng-model="selectedRole" ng-change="updatePermissions()")
+							option(value='{{role._id}}' ng-repeat="role in roles") {{role.role}}
+				.a-6.m-12.a-right.m-center
+					.mb-p-25
+						button.btn.btn-danger(ng-click="deleteRole()") Delete
+						button.btn.btn-primary(ng-click="createRole()") New Role
+						button.btn.btn-success(type="submit") Save
+		.panel-body
+			.mb-form-group
+				input#mb-privilage-edit.mb-checkbox(type='checkbox' ng-model="permissions.editContent" ng-checked="permissions.editContent")
+				label(for='mb-privilage-edit') Edit Content
+			.mb-form-group
+				input#mb-privilage-publish.mb-checkbox(type='checkbox' ng-model="permissions.publishContent" ng-checked="permissions.publishContent")
+				label(for='mb-privilage-publish') Publish Content
+			.mb-form-group
+				input#mb-privilage-delete.mb-checkbox(type='checkbox' ng-model="permissions.deleteContent" ng-checked="permissions.deleteContent")
+				label(for='mb-privilage-delete') Delete Content
+			.mb-form-group
+				input#mb-privilage-manage-media.mb-checkbox(type='checkbox' ng-model="permissions.manageMedia" ng-checked="permissions.manageMedia")
+				label(for='mb-privilage-manage-media') Manage Media
+			.mb-form-group
+				input#mb-privilage-restrict.mb-checkbox(type='checkbox' ng-model="permissions.restrictAccess" ng-checked="permissions.restrictAccess")
+				label(for='mb-privilage-restrict') Restrict Access
+			.mb-form-group
+				input#mb-privilage-manage-extensions.mb-checkbox(type='checkbox' ng-model="permissions.manageExtensions" ng-checked="permissions.manageExtensions")
+				label(for='mb-privilage-manage-extensions') Manage Extensions
+			.mb-form-group
+				input#mb-privilage-moderate-comments.mb-checkbox(type='checkbox' ng-model="permissions.moderateComments" ng-checked="permissions.moderateComments")
+				label(for='mb-privilage-moderate-comments') Moderate Comments
+			.mb-form-group
+				input#mb-privilage-manage-users.mb-checkbox(type='checkbox' ng-model="permissions.manageUsers" ng-checked="permissions.manageUsers")
+				label(for='mb-privilage-manage-users') Manage Users
+			.mb-form-group
+				input#mb-privilage-manage-roles.mb-checkbox(type='checkbox' ng-model="permissions.manageRoles" ng-checked="permissions.manageRoles")
+				label(for='mb-privilage-manage-roles') Manage Roles
+			.mb-form-group
+				input#mb-privilage-change-settings.mb-checkbox(type='checkbox' ng-model="permissions.changeSiteSettings" ng-checked="permissions.changeSiteSettings")
+				label(for='mb-privilage-change-settings') Change Site Settings
+			.mb-form-group
+				input#mb-privilage-import-export.mb-checkbox(type='checkbox' ng-model="permissions.importExportData" ng-checked="permissions.importExportData")
+				label(for='mb-privilage-import-export') Import/Export Data
+			.mb-form-group
+				input#mb-privilage-delete-site.mb-checkbox(type='checkbox' ng-model="permissions.deleteSite" ng-checked="permissions.deleteSite")
+				label(for='mb-privilage-delete-site') Delete Site
+			.mb-form-group
+				input#mb-privilage-all.mb-checkbox(type='checkbox' ng-model="permissions.allPrivilages" ng-checked="permissions.allPrivilages")
+				label(for='mb-privilage-all') All Privilages
+h1 Users
+
+.a-8
+	.mb-p-1
+		.form-group
+			input(type="text" placeholder="filter users" ng-model="userFilter").form-control
+.a-4
+	.mb-p-1.a-right
+		button.btn.btn-success(data-toggle='modal' data-target='#newUser') New User
+
+.panel-group#users-accordian(role="tablist" aria-multiselectable="true")
+
+		.panel.panel-primary(ng-repeat="user in users | filter:filterUsers")
+				.panel-heading(role="tab" data-toggle="collapse" data-parent="#users-accordian" href="#user-{{$index}}" aria-expanded="true" aria-controls="collapse-one")
+						.a-6
+							h4.panel-title {{user.username}}
+						.a-6.a-right
+							p.h5.panel-title {{user.access.role}}
+				.panel-collapse.collapse(role="tabpanel" aria-labelledby="headingOne" id="user-{{$index}}")
+						.panel-body.equal
+							.a-6.m-12
+								.mb-p-1
+									.form-group
+										label Username
+										input(type="text" ng-model="user.username").form-control
+											
+							.a-6.m-12
+								.mb-p-1
+									.form-group
+										label Email
+										input(type="text" ng-model="user.email").form-control
+							.a-6.m-12
+								.mb-p-1
+									.form-group
+										label New Password
+										input(type="password" placeholder="password" ng-model="currentPassword").form-control
+							.a-6.m-12
+								.mb-p-1
+									.form-group
+										label Repeat New Password
+										input(type="password" placeholder="password" ng-model="currentPasswordConfirm").form-control
+							.a-3.m-6
+								.mb-p-1
+									.form-group
+										p.h5 Allow User:
+										select.mb-panel-select
+											option(ng-model='user.access' ng-value="role._id" ng-repeat="role in roles" ng-selected="role._id == user.access._id") {{role.role}}
+							.a-3.m-6
+								.mb-p-1
+									.form-group
+										p.h5 Account Enabled
+										label.mb-toggle-switch
+											input(type="checkbox" ng-model="user.active" ng-checked="user.active")
+											span
+							.a-3.m-6
+								.mb-p-1
+									.form-group
+										p.h5| Last Logged In
+										| {{user.lastVisited | date: 'MMM d, y h:mm a'}} 
+							.a-12.a-right
+								.mb-p-1
+									button.btn.btn-danger(ng-click="deleteUser(user, $index)") Delete
+									button.btn.btn-success(ng-click="updateUser(user)") Update
+include newuser.modal.jade

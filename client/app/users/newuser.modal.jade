@@ -1,0 +1,27 @@
+#newUser.modal.fade(tabindex='-1', role='dialog', aria-labelledby='newUserLabel', aria-hidden='true')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal')
+					span(aria-hidden='true') ×
+					span.sr-only Close
+				h4#newUserLabel.modal-title New User
+			.modal-body
+				.form-group
+					label Username
+					input(type="text" ng-model="new.username" placeholder="username").form-control
+				.form-group
+					label Email
+					input(type="text" ng-model="new.email" placeholder="email").form-control
+				.form-group
+					label Password
+					input(type="password" ng-model="new.password" placeholder="password").form-control
+				.form-group
+					label Password Confirm
+					input(type="password" ng-model="passwordConfirm" placeholder="confirm password").form-control
+				.form-group
+					select.mb-panel-select(ng-model="new.access")
+						option(value='{{role._id}}' ng-repeat="role in roles") {{role.role}}
+			.modal-footer
+				button.btn.btn-default(type='button', data-dismiss='modal') Close
+				button.btn.btn-primary(type='button' ng-click="createUser()" data-dismiss='modal') Create User

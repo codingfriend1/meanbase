@@ -1,0 +1,72 @@
+#uploadMedia.modal.fade(tabindex='-1', role='dialog', aria-labelledby='uploadMediaLabel', aria-hidden='true')
+	.modal-dialog.modal-xl
+		.modal-content
+			.modal-header
+				button.close(type='button', data-dismiss='modal')
+					span(aria-hidden='true') ×
+					span.sr-only Close
+				h4#uploadMediaLabel.modal-title Upload Media
+			.modal-body
+				div.mb-file-upload(ng-controller="uploadCTRL" nv-file-drop uploader="uploader" filters="queueLimit, customFilter")
+					h3 Upload Files
+					div.mb-file-drop-zone(nv-file-over uploader="uploader").a-center.form-inline
+						p.h4.mb-p-25 Drop files here or
+						.form-group
+							input(type='file' name='image[]' nv-file-select multiple uploader="uploader").inline.mb-file-center
+							p.help-text Upload a multiple files.
+					.a-6
+						
+					.a-6.a-right
+						p Queue length: {{ uploader.queue.length }}
+					div.mb-upload-que
+						table.table
+							thead
+								tr
+									th(width="50%") Name
+									th Size
+									th Progress
+									th Status
+									th Actions
+							tbody
+								tr(ng-repeat="file in uploader.queue")
+									td
+										strong
+											{{file.file.name}}
+									td(nowrap)
+										{{file.file.size/1024/1024|number:2}} MB
+									td
+										.progress-bar(role="progress-bar" ng-style="{ 'width': file.progress + '%' }")
+
+									td.text-center
+										span(ng-show="file.isSuccess")
+											i.glyphicon.glyphicon-ok
+										span(ng-show="file.isCancel")
+											i.glyphicon.glyphicon-ban-circle
+										span(ng-show="file.isError")
+											i.glyphicon.glyphicon-remove
+									td(nowrap)
+										button.btn.btn-success.btn-xs(type='button', ng-click='file.upload()', ng-disabled='file.isReady || file.isUploading || file.isSuccess')
+											span.glyphicon.glyphicon-upload
+											| Upload
+										button.btn.btn-warning.btn-xs(type='button', ng-click='file.cancel()', ng-disabled='!file.isUploading')
+											span.glyphicon.glyphicon-ban-circle
+											| Cancel
+										button.btn.btn-danger.btn-xs(type='button', ng-click='file.remove()')
+											span.glyphicon.glyphicon-trash
+											| Remove
+
+						div
+							| Queue Progress
+							.progress
+								.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
+							button.button.btn.btn-success.btn-s(ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length")
+								span.glyphicon.glyphicon-upload
+								|  Upload All
+							button.btn.btn-warning.btn-s(type='button', ng-click='uploader.cancelAll()', ng-disabled='!uploader.isUploading')
+								span.glyphicon.glyphicon-ban-circle
+								|  Cancel all
+							button.btn.btn-danger.btn-s(type='button', ng-click='uploader.clearQueue()', ng-disabled='!uploader.queue.length')
+								span.glyphicon.glyphicon-trash
+								|  Remove all
+			.modal-footer
+				button.btn.btn-default(type='button', data-dismiss='modal') Close
