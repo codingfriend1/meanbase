@@ -6,7 +6,7 @@ module.exports = function() {
 	var basicRoles = [];
 
 	var basic = {
-		role: 'user',
+		role: 'basic',
 		permissions: {
 			editContent: false,
 			publishContent: false,
@@ -25,7 +25,7 @@ module.exports = function() {
 	};
 
 	var level1 = {
-		role: 'Level 1',
+		role: 'level 1',
 		permissions: {
 			editContent: true,
 			publishContent: false,
@@ -44,7 +44,7 @@ module.exports = function() {
 	};
 
 	var level2 = {
-		role: 'Level 2',
+		role: 'level 2',
 		permissions: {
 			editContent: true,
 			publishContent: true,
@@ -63,7 +63,7 @@ module.exports = function() {
 	};
 
 	var level3 = {
-		role: 'Level 3',
+		role: 'level 3',
 		permissions: {
 			editContent: true,
 			publishContent: true,
@@ -82,7 +82,7 @@ module.exports = function() {
 	};
 
 	var level4 = {
-		role: 'Level 4',
+		role: 'level 4',
 		permissions: {
 			editContent: true,
 			publishContent: true,
@@ -101,7 +101,7 @@ module.exports = function() {
 	};
 
 	var level5 = {
-		role: 'Level 5',
+		role: 'level 5',
 		permissions: {
 			editContent: true,
 			publishContent: true,
