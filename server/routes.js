@@ -18,11 +18,13 @@ module.exports = function(app) {
   app.use('/auth', require('./auth'));
   
   // All undefined asset or api routes should return a 404
-  app.route('/:url(api|auth|components|app|bower_components|assets)/*')
-   .get(errors[404]);
+  // app.route('/:url(api|auth|components|app|bower_components|assets|404)/*')
+  //  .get(errors[404]);
 
-  app.route('/404')
-   .get(errors[404]);
+ app.route('/:url(api|auth|components|app|bower_components|assets|404)/*')
+    .get(function(req, res) {
+       res.sendfile(app.get('appPath') + '/app/404/404.html');
+     });
 
   // All other routes should redirect to the index.html
   app.route('/*')

@@ -2,11 +2,11 @@
 (function() {
   /*
     * Controls the routes for the front end of the site
-    * Defines a parent route for the front end (compared to /cms/ for backend)
-    * All other routes beginning at root and not cms go to main.child and search for a template in the page data
+    * Defines a parent route for the front end (compared to /cms parent for backend)
+    * All other routes beginning at root and not cms go to "main" children and search for a template url from the server
   */
 
-  // Define parent route for front end site. Important! Don't give this route a url
+  // Parent route for front end site. Important! Don't give this route a url
   angular.module('meanbaseApp')
     .config(function ($stateProvider) {
       $stateProvider
@@ -16,8 +16,8 @@
         });
     });
 
-  // Define the page routes for the front end
-  // Controller and template will be determined by the page logic
+  // Handles every kind of route that doesn't begin with /cms/
+  // Contacts the server database to find which view to load
   angular.module('meanbaseApp')
   .config(function ($stateProvider) {
     $stateProvider
@@ -31,24 +31,30 @@
           // Prepare a promise to return to templateProvider
           var deferred = $q.defer();
 
-          // Find a page with a url that matches the current url
+          // Find a page in the database with a url that matches the current url
           endpoint.read({url: '/' + $stateParams.page}).success(function(response) {
 
-            // If no page was found then redirect to the 404 page. A hard refresh is necessary so the server will load the page.
-            if(!response[0]) { window.location.href = '/404'; return false; }
+            // If no page was found then redirect to a 404 page.
+            if(!response[0]) { $state.go('main.missing'); return false; }
 
-            // window.siteTheme is set inline on the index.html page and is compiled through the server string manipulation
-            var templatePath = 'themes/' + window.siteTheme + '/templates/' + response[0].template + '/' + response[0].template + '.html';
+            // meanbaseGlobals.siteTheme is set inline on the index.html page and is compiled through server string manipulation
+            var templatePath = 'themes/' + meanbaseGlobals.siteTheme + '/templates/' + response[0].template + '/' + response[0].template + '.html';
+            // var templatePath = 'themes/' + meanbaseGlobals.siteTheme + '/templates/' + response[0].template + '/about.html';
+
+            // Save the rest of the page data on the meanbaseGlobals object for use in the rest of the app
+            meanbaseGlobals.page = response[0];
 
             // Ui Router templateProvider expects an html string instead of a url
             $templateFactory.fromUrl(templatePath).then(function(html) {
-              if(!html) { window.location.href = '/404'; return false; }
+              // If html returned the index page instead of the template.html then redirect to 404
+              if(html.indexOf('<html') > -1) {  $state.go('main.missing'); return false; }
+              // else resolve with template html
               deferred.resolve(html);
             });
 
           }).error(function(error) {
             console.log('Could not request page template: ', error);
-            window.location.href = '/404';
+            $state.go('main.missing');
           });
 
           return deferred.promise;

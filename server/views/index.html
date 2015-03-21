@@ -23,7 +23,8 @@
     <!-- Theme Styles -->
     <script>
       // This theme name gets dynamically created on the server when it compiles this file so it can be used throughout the application especially ui-router
-      window.siteTheme = 'theme-name';
+      window.meanbaseGlobals = {};
+      window.meanbaseGlobals.siteTheme = 'theme-name';
     </script>
   </head>
   <body ng-app="meanbaseApp">
@@ -65,6 +66,8 @@
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
+          <script src="app/404/404.controller.js"></script>
+          <script src="app/404/404.js"></script>
           <script src="app/account/account.js"></script>
           <script src="app/account/login/login.controller.js"></script>
           <script src="app/account/settings/settings.controller.js"></script>
