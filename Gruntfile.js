@@ -137,7 +137,7 @@ module.exports = function (grunt) {
     docco: {
       debug: {
         src: [
-          'client/app/**/*.controller.js',
+          'client/app/**/*.js',
           'client/components/endpoints/*.js',
           'client/components/cms.headbar/*.js',
           'server/components/CRUD/index.js',

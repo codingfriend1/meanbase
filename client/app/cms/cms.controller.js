@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('CmsCtrl', function ($scope) {
+  .controller('cmsCtrl', function ($scope) {
     $scope.message = 'Hello';
   });
