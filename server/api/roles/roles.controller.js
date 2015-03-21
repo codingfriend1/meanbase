@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var populateGlobalRoles = require('../../components/roles');
 var Roles = require('./roles.model');
 var CRUD = require('../../components/CRUD');
 var collection = new CRUD(Roles);
@@ -17,17 +18,17 @@ exports.find = function(req, res) {
 
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
-  collection.create(req, res);
+  collection.create(req, res, callback);
 };
 
 // Updates pages in the database
 exports.update = function(req, res) {
-  collection.update(req, res);
+  collection.update(req, res, callback);
 };
 
 // Deletes a pages from the DB.
 exports.delete = function(req, res) {
-  collection.delete(req, res);
+  collection.delete(req, res, callback);
 };
 
 // Get a single pages
@@ -37,10 +38,16 @@ exports.findById = function(req, res) {
 
 // Updates an existing page in the DB.
 exports.updateById = function(req, res) {
-  collection.updateById(req, res);
+  collection.updateById(req, res, callback);
 };
 
 // Deletes a pages from the DB.
 exports.deleteById = function(req, res) {
-  collection.deleteById(req, res);
+  collection.deleteById(req, res, callback);
 };
+
+function callback(found) {
+	console.log('callback found', found);
+	populateGlobalRoles(found);
+	console.log('roles call successful');
+}

@@ -39,7 +39,7 @@ module.exports = function() {
 	  if(pages.length === 0) {
 	  	Pages.create([demoHome, tutorial], function(err, page) {
   		  if(err) { return handleError(err); }
-  		  console.log('initialize page: ', page);
+  		  console.log('Pages initialized');
   		});
 	  }
 	});

@@ -45,69 +45,74 @@ CRUD.prototype.setCollection = function(collection) {
 };
 
 // Get a single item
-CRUD.prototype.findById = function(req, res) {
+CRUD.prototype.findById = function(req, res, callback) {
   this.collection.findById(req.params.id, function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
+    if(callback) callback(found);
     return res.json(found);
   });
 };
 
 // Get some items
-CRUD.prototype.find = function(req, res) {
+CRUD.prototype.find = function(req, res, callback) {
   var identifier = getIdentifer(req);
   this.collection.find(identifier, function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
+    if(callback) callback(found);
     return res.json(200, found);
   });
 };
 
 // Gets some items and populates their linked documents
-CRUD.prototype.findAndPopulate = function(req, res, populate) {
+CRUD.prototype.findAndPopulate = function(req, res, callback, populate) {
   var identifier = getIdentifer(req);
   this.collection.find(identifier).populate(populateQuery).exec(function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
+    if(callback) callback(found);
     return res.json(200, found);
   });
 };
 
 // Find items and sort by a filter
-CRUD.prototype.findAndSort = function(req, res, sortFilter) {
+CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
   var identifier = getIdentifer(req);
   this.collection.find(identifier).sort(sortFilter).exec(function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
+    if(callback) callback(found);
     return res.json(200, found);
   });
 };
 
 // Get All items
-CRUD.prototype.findAll = function(req, res) {
+CRUD.prototype.findAll = function(req, res, callback) {
   this.collection.find(function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
+    if(callback) callback(found);
     return res.json(200, found);
   });
 };
 
 // Creates new items in the collection.
 // Accepts an array of items or just one item object
-CRUD.prototype.create = function(req, res) {
+CRUD.prototype.create = function(req, res, callback) {
   this.collection.create(req.body, function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
 
     // Since mongoose returns created items as list of params we must iterate through them
     var allFound = getArguments(arguments);
-
+    if(callback) callback(allFound);
     return res.json(201, allFound);
   });
 };
 
 // Creates a new item in this collection and links it to another collection.
-CRUD.prototype.createAndLink = function(req, res, linkModel, linkField) {
+CRUD.prototype.createAndLink = function(req, res, callback, linkModel, linkField) {
   this.collection.create(req.body, function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -116,24 +121,26 @@ CRUD.prototype.createAndLink = function(req, res, linkModel, linkField) {
     linkModel.update(linkIdentifier, {$push: linkObject}, function(err, updatedFind) {
       if(err) { return handleError(res, err); }
       if(!found) { return res.send(404); }
+      if(callback) callback();
       return res.json(201, updatedFind);
     });
   });
 };
 
 // Updates existing items in the collection.
-CRUD.prototype.update = function(req, res) {
+CRUD.prototype.update = function(req, res, callback) {
   var identifier = getIdentifer(req);
-  this.collection.update(identifier, req.body, {multi: true, upsert: true}, function(err, found) {
+  this.collection.update(identifier, req.body, {multi: true}, function(err, found) {
     if (err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
     var allFound = getArguments(arguments);
+    if(callback) callback();
     return res.json(200, allFound);
   });
 };
 
 // Updates one existing item in the collection.
-CRUD.prototype.updateById = function(req, res) {
+CRUD.prototype.updateById = function(req, res, callback) {
   if(req.body._id) { delete req.body._id; }
   this.collection.findById(req.params.id, function (err, found) {
     if (err) { return handleError(res, err); }
@@ -141,29 +148,32 @@ CRUD.prototype.updateById = function(req, res) {
     var updated = _.merge(found, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
+      if(callback) callback();
       return res.json(200, found);
     });
   });
 };
 
 // Deletes multiple items from the collection.
-CRUD.prototype.delete = function(req, res) {
+CRUD.prototype.delete = function(req, res, callback) {
   var identifier = getIdentifer(req);
   this.collection.remove(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
+    if(callback) callback();
     return res.send(204);
   });
 };
 
 // Deletes a single item from the collection.
-CRUD.prototype.deleteById = function(req, res) {
+CRUD.prototype.deleteById = function(req, res, callback) {
   var identifier = getIdentifer(req);
   this.collection.findById(identifier._id, function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
     found.remove(function(err) {
       if(err) { return handleError(res, err); }
+      if(callback) callback();
       return res.send(204);
     });
   });
@@ -171,7 +181,7 @@ CRUD.prototype.deleteById = function(req, res) {
 
 // Deletes some items from this collection 
 // and any linked documents that depended on it from another collection
-CRUD.prototype.deleteAndDependancies = function(req, res, dependantField, dependantModel) {
+CRUD.prototype.deleteAndDependancies = function(req, res, callback, dependantField, dependantModel) {
   var identifier = getIdentifer(req);
   var self = this;
   this.collection.find(identifier, function(err, foundOrigional) {
@@ -189,6 +199,7 @@ CRUD.prototype.deleteAndDependancies = function(req, res, dependantField, depend
       // Delete the document itself
       self.model.remove(identifier, function(err, found) {
         if(err) { return handleError(res, err); }
+        if(callback) callback();
         return res.send(204);
       });
     });
@@ -196,7 +207,7 @@ CRUD.prototype.deleteAndDependancies = function(req, res, dependantField, depend
 };
 
 // Deletes items from this collections and destories their links in another collection
-CRUD.prototype.deleteAndUnlink = function(req, res, linkField, linkModel) {
+CRUD.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkModel) {
   var self = this;
   var identifier = getIdentifer(req);
   self.model.find(identifier, function(err, found) {
@@ -221,6 +232,7 @@ CRUD.prototype.deleteAndUnlink = function(req, res, linkField, linkModel) {
       if(err) { return handleError(res, err); }
       self.model.remove({_id: {$in: ids}}, function(err, found) {
         if(err) { return handleError(res, err); }
+        if(callback) callback();
         return res.send(204);
       });
     });
