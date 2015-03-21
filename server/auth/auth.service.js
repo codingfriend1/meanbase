@@ -91,5 +91,6 @@ function setTokenCookie(req, res) {
 
 exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
+exports.hasPermission = hasPermission;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;
