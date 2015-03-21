@@ -6,7 +6,7 @@ module.exports = function() {
 	var basicRoles = [];
 
 	var basic = {
-		role: 'Basic',
+		role: 'user',
 		permissions: {
 			editContent: false,
 			publishContent: false,
@@ -120,7 +120,7 @@ module.exports = function() {
 	};
 
 	var master = {
-		role: 'Master',
+		role: 'admin',
 		permissions: {
 			editContent: true,
 			publishContent: true,
@@ -139,6 +139,11 @@ module.exports = function() {
 	};
 
 	basicRoles.push(basic, level1, level2, level3, level4, level5, master);
+
+	// Roles.remove({}, function(err, roles) {
+	//   if(err) { return handleError(err); }
+	//   console.log('deleted roles');
+	// });
 
 	Roles.find(function (err, roles) {
 	  if(err) { return handleError(err); }

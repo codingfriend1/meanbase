@@ -57,13 +57,15 @@ function hasRole(roleRequired) {
  * Checks if the user role has permission to use the route
  */
 function hasPermission(permissionName) {
-  if (!roleRequired) throw new Error('Required role needs to be set');
+  if (!permissionName) throw new Error('Required role needs to be set');
 
   return compose()
     .use(isAuthenticated())
     .use(function roleHasPermission(req, res, next) {
-      if(!req.user.role in GLOBALS.meanbaseGlobals.roles) { res.send(403); return false; }
-      if(GLOBALS.meanbaseGlobals.roles[req.user.role].indexOf(permissionName) > -1) {
+      console.log('user.role', req.user.role, 'permission', permissionName);
+      if(!req.user.role in GLOBAL.meanbaseGlobals.roles) { res.send(403); return false; }
+      
+      if(GLOBAL.meanbaseGlobals.roles[req.user.role].indexOf(permissionName) > -1 || GLOBAL.meanbaseGlobals.roles[req.user.role].indexOf('allPrivilages') > -1) {
         next();
       } else {
         res.send(403);

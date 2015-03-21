@@ -47,7 +47,5 @@ exports.deleteById = function(req, res) {
 };
 
 function callback(found) {
-	console.log('callback found', found);
 	populateGlobalRoles(found);
-	console.log('roles call successful');
 }

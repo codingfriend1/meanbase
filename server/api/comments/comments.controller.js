@@ -1,9 +1,9 @@
 'use strict';
 
 var _ = require('lodash');
-var Themes = require('./themes.model');
+var Comments = require('./comments.model');
 var CRUD = require('../../components/CRUD');
-var collection = new CRUD(Themes);
+var collection = new CRUD(Comments);
 
 // Get list of pages
 exports.findAll = function(req, res) {

@@ -7,15 +7,15 @@ var router = express.Router();
 
 // Affecting multiple or all items.
 router.get('/', controller.find);
-router.post('/', controller.create);
-router.put('/', controller.update);
-router.patch('/', controller.update);
-router.delete('/', controller.delete);
+router.post('/', auth.hasPermission('manageRoles'), controller.create);
+router.put('/', auth.hasPermission('manageRoles'), controller.update);
+router.patch('/', auth.hasPermission('manageRoles'), controller.update);
+router.delete('/', auth.hasPermission('manageRoles'), controller.delete);
 
 // Affecting single items.
 router.get('/:id', controller.findById);
-router.put('/:id', controller.updateById);
-router.patch('/:id', controller.updateById);
-router.delete('/:id', controller.deleteById);
+router.put('/:id', auth.hasPermission('manageRoles'), controller.updateById);
+router.patch('/:id', auth.hasPermission('manageRoles'), controller.updateById);
+router.delete('/:id', auth.hasPermission('manageRoles'), controller.deleteById);
 
 module.exports = router;
