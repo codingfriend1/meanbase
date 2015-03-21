@@ -32,7 +32,7 @@
           var deferred = $q.defer();
 
           // - Find a page in the database with a url that matches the current url
-          endpoint.read({url: '/' + $stateParams.page}).success(function(response) {
+          endpoint.find({url: '/' + $stateParams.page}).success(function(response) {
 
             // - If no page was found then redirect to a 404 page.
             if(!response[0]) { $state.go('main.missing'); return false; }

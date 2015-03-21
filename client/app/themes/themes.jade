@@ -1,9 +1,9 @@
 h2 Themes
-#mb-site-theme
+.container
     .d-4.t-6(ng-repeat="theme in themes").mb-theme
         h4 {{theme.title}} 
         //- img(src="http://placehold.it/300x200")
-        img(src="/{{theme.preview}}" data-toggle='modal' data-target='#theme-{{$index}}').img-responsive.img-thumbnail
+        img(ng-src="../../themes/{{theme.url}}/assets/images/screenshot.png" data-toggle='modal' data-target='#theme-{{$index}}').img-responsive.img-thumbnail
         .modal.fade(id="theme-{{$index}}" tabindex='-1', role='dialog', aria-labelledby='theme-{{$index}}Label', aria-hidden='true')
             .modal-dialog
                 .modal-content

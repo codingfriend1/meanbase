@@ -12,7 +12,7 @@
 			});
 		};
 
-		endpoints.prototype.read = function(identifier) {
+		endpoints.prototype.find = function(identifier) {
 			return $http.get(this.baseRoute + this.endpoint, {params: identifier}).error(function(error) {
 				this.errorHandler(error);
 			});
