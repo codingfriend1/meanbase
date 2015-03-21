@@ -144,6 +144,7 @@ module.exports = function() {
 	  if(roles.length === 0) {
 	  	Roles.create(basicRoles, function(err, roles) {
   		  if(err) { return handleError(err); }
+  		  var roles = getArguments(arguments);
   		  console.log('initialize roles: ', roles);
   		});
 	  }
@@ -151,5 +152,14 @@ module.exports = function() {
 
 	function handleError(err) {
 	  return console.log('Initializing data error: ', err);
+	}
+
+	function getArguments(args) {
+	  // Since mongoose returns created items as list of params we must iterate through them
+	  var allFound = [];
+	  for (var i = 1; i < args.length; ++i) {
+	    allFound.push(args[i]);
+	  }
+	  return allFound;
 	}
 };

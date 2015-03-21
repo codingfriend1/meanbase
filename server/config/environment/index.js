@@ -32,6 +32,9 @@ var all = {
   // List of user roles
   userRoles: ['guest', 'user', 'admin'],
 
+  // Default theme to load before any are chosen
+  theme: 'meanbase-starter',
+
   // MongoDB connection options
   mongo: {
     options: {

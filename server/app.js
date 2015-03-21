@@ -6,6 +6,7 @@
 
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+GLOBAL.meanbaseGlobals = {};
 
 var express = require('express');
 var mongoose = require('mongoose');
@@ -21,7 +22,7 @@ if(config.seedDB) { require('./config/seed'); }
 var app = express();
 var server = require('http').createServer(app);
 require('./init')(); //Create dummy data on startup
-require('./components/index')('meanbase-starter'); //Set our default theme
+require('./components/index')(config.theme); //Set our default theme
 require('./config/express')(app);
 require('./routes')(app);
 
