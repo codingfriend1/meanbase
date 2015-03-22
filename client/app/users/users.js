@@ -6,6 +6,7 @@ angular.module('meanbaseApp')
       .state('cms.users', {
         url: '/users',
         templateUrl: 'app/users/users.html',
-        controller: 'UsersCtrl'
+        controller: 'UsersCtrl',
+        authenticate: true
       });
   });

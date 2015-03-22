@@ -8,6 +8,7 @@ angular.module('meanbaseApp')
       .state('cms', {
         url: '/cms',
         templateUrl: 'app/cms/cms.html',
-        controller: 'cmsCtrl'
+        controller: 'cmsCtrl',
+        authenticate: true
       });
   });

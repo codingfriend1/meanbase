@@ -6,6 +6,7 @@ angular.module('meanbaseApp')
       .state('cms.analytics', {
         url: '/analytics',
         templateUrl: 'app/analytics/analytics.html',
-        controller: 'AnalyticsCtrl'
+        controller: 'AnalyticsCtrl',
+        authenticate: true
       });
   });

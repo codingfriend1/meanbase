@@ -6,6 +6,7 @@ angular.module('meanbaseApp')
       .state('cms.extensions', {
         url: '/extensions',
         templateUrl: 'app/extensions/extensions.html',
-        controller: 'ExtensionsCtrl'
+        controller: 'ExtensionsCtrl',
+        authenticate: true
       });
   });

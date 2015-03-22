@@ -6,6 +6,7 @@ angular.module('meanbaseApp')
       .state('cms.themes', {
         url: '/themes',
         templateUrl: 'app/themes/themes.html',
-        controller: 'ThemesCtrl'
+        controller: 'ThemesCtrl',
+        authenticate: true
       });
   });
