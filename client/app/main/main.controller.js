@@ -1,22 +1,15 @@
 'use strict';
+(function(){
+  angular.module('meanbaseApp').controller('MainCtrl', MainCtrl);
 
-angular.module('meanbaseApp')
-  .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
+  MainCtrl.$inject = ['$scope', '$http', 'Auth', '$location'];
+  function MainCtrl($scope, $http, Auth, $location) {
+    $scope.isLoggedIn = Auth.isLoggedIn();
+    $scope.currentUser = Auth.getCurrentUser();
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-    });
-
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
+    $scope.logout = function() {
+      Auth.logout();
+      $location.path('/login');
     };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
-    };
-  });
+  }
+})();

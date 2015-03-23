@@ -1,5 +1,5 @@
 //meanbase Head Tool Bar 
-nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation")
+nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation" ng-show="isLoggedIn")
 	.container
 		div.navbar-header 
 			button.navbar-toggle.collapsed(data-toggle="collapse" data-target="#mb-headbar-child" aria-controls="navbar")
@@ -31,10 +31,9 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 					button.btn.btn-danger(ng-click="mb.deletePage()") delete page
 			ul.nav.navbar-nav.navbar-right
 				li.dropdown
-					a.dropdown-toggle(data-toggle="dropdown" role="button")
-						| codingfriend1 (Admin)
-					ul.dropdown-menu(role="menu" ng-click="mb.logout()").dropdown-menu-right
+					a.dropdown-toggle(data-toggle="dropdown" role="button") {{currentUser.name}} ({{currentUser.role}})
+					ul.dropdown-menu(role="menu").dropdown-menu-right
 						li 
-							a Log Out
+							a(ng-click="logout()") Log Out
 						li 
 							a(ui-sref='settings') Account Settings
