@@ -34,44 +34,47 @@
 	.mb-lockbefore 
 		font-family "FontAwesome"
 		
-
-	.panel 
-		margin-bottom 0.5em
+	.panel-select
+		background-color: #27AE60
+		color: #ECF0F1
+		border: none
+		font-size: 1.5em
+		border-radius: 3px
 		
-	.panel-head 
-		border-top-right-radius: 3px
-		border-top-left-radius: 3px
-		background-color: #2C3E50
-		padding 0.5em
-		
+	.panel
 		button
 			margin-left 0.5em
-			
-		.panel-title
-			display: inline-block
-			vertical-align: middle
-			padding: 0.5em
 
-		.panel-righthand 
-			display: inline-block
-			box-sizing: border-box
-			vertical-align: middle
-			text-align: right
-			padding: 0.5em
+	.panel-dark
+		margin-bottom 0.5em
+		
+		.panel-head 
+			border-top-right-radius: 3px
+			border-top-left-radius: 3px
+			background-color: #2C3E50
+			padding 0.5em
 			
-		.panel-select
-			background-color: #27AE60
-			color: #ECF0F1
-			border: none
-			font-size: 1.5em
-			border-radius: 3px
-	
-	.panel-body
-		background-color: #ECF0F1
-		border 2px solid #2C3E50
-		padding 1em
-		border-bottom-left-radius 3px
-		border-bottom-right-radius 3px
+			button
+				margin-left 0.5em
+				
+			.panel-title
+				display: inline-block
+				vertical-align: middle
+				padding: 0.5em
+
+			.panel-righthand 
+				display: inline-block
+				box-sizing: border-box
+				vertical-align: middle
+				text-align: right
+				padding: 0.5em
+		
+		.panel-body
+			background-color: #ECF0F1
+			border 2px solid #2C3E50
+			padding 1em
+			border-bottom-left-radius 3px
+			border-bottom-right-radius 3px
 
 		button,
 		input[type="submit"],
@@ -102,8 +105,13 @@
 		
 
 	.form-group 
-		position: relative
-		display: inline-block
+		position relative
+		display inline-block
+	
+	.p-1 
+		padding 1em
+		.form-group
+			display block
 	
 
 	input[type=email] + label,
@@ -119,10 +127,6 @@
 		top: 4px
 		color: #ddd
 		left: 12px
-	
-
-	input.mb-with-icon 
-		padding-left: 3em
 	
 
 	input[type=radio],
@@ -158,15 +162,20 @@
 
 	input[type=checkbox]:checked + label:before 
 		content:"\f14a"
+		
+	.mb-toggle-switch
+		margin-top -1em
 
-	button.mb-toggle-active 
-		padding: 0
-		margin: 0
-		background-color: transparent
-		color: #27AE60
-		border-radius: 0
-		font-size: 2.2em
+		input
+			display none
 
-	button.mb-toggle-active:hover 
-		background-color: transparent
+		input + span.mb-switch:before
+			font-family 'FontAwesome'
+			font-size 2.75em
+			content "\f204" /* off */
+			color #2C3E50
+
+		input:checked + span.mb-switch:before
+			content "\f205" /* on */
+			color #27AE60
 	

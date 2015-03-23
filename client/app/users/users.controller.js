@@ -4,21 +4,81 @@
 
 	UsersCtrl.$inject = ['$scope', 'endpoints'];
 	function UsersCtrl($scope, endpoints) {
-	  var self = this;
 	  var endpoints = {
 	  	roles: new endpoints('roles'),
 	  	users: new endpoints('users')
 	  };
 
+	  // Get all roles and their permissions and set the roles panel selected role to the first one
 	  endpoints.roles.find({}).success(function(roles) {
 	  	$scope.roles = roles
 	  	$scope.selectedRole = $scope.roles[0];
-	  	// $scope.selectedRole.permissions['allPrivilages'] = null;
-	  	console.log('$scope.selectedRole', $scope.selectedRole);
 	  });
 
+	  // Get all users
 	  endpoints.users.find({}).success(function(users) {
-	  	$scope.users = users
+	  	$scope.users = users;
 	  });
+
+	  // Create a new role
+	  $scope.createRole = function() {
+	  	var pass = true;
+	  	var roleName = prompt('Role Name?');
+	  	if(!roleName || !$scope.selectedRole) { return false; }
+	  	for(var i = 0; i < $scope.roles.length; i++) {
+	  		if($scope.roles[i].role === roleName) { console.log('That role already exists just modify it.'); pass = false; return false; }
+	  	}
+	  	if(!pass) { return false; } 
+
+  		endpoints.roles.create({role: roleName, permissions: $scope.selectedRole.permissions}).then(function(response) {
+  			console.log(response);
+  		});
+	  };
+
+	  // Update a role
+	  $scope.updateRole = function(roleForm) {
+	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'admin') { return false; }
+  		endpoints.roles.update({_id: $scope.selectedRole._id}, {permissions: $scope.selectedRole.permissions}).then(function(response) {
+  			console.log(response);
+  		});
+	  };
+
+	  // Delete a role and move the users of that role to 'basic'
+	  $scope.deleteRole = function() {
+	  	var confirmed = confirm('Are you sure you want to delete this role? All users currently using this role will be switched to basic.');
+	  	if(!confirmed) return false;
+	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'basic' || $scope.selectedRole.role === 'admin') { return false; }
+
+  		endpoints.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
+  			console.log('Moved users with ' + $scope.selectedRole.role + ' over to basic');
+  		}).finally(function(response) {
+  			endpoints.roles.delete({_id: $scope.selectedRole._id}).then(function(response) {
+					console.log(response);
+				});
+  		});
+	  };
+
+	  // Update a user
+	  $scope.updateUser = function(user) {
+	  	var newInfo = {};
+	  	angular.copy(user, newInfo);
+	  	if(!user) return false;
+	  	endpoints.users.update({_id: user._id}, newInfo).then(function(response) {
+	  		console.log(response);
+	  	});
+	  };
+
+	  // Delete a user
+	  $scope.deleteUser = function(user, index) {
+	  	if(!user) return false;
+	  	endpoints.users.deleteOne(user._id).then(function(response) {
+	  		$scope.users.splice(index, 1);
+	  	});
+	  };
+
+	  $scope.userFilter = '';
+	  $scope.filterUsers = function(user) {
+	  	return (user.name + user.email + user.role + user.lastVisited).toLowerCase().indexOf($scope.userFilter.toLowerCase()) >= 0;
+	  };
 	}
 })();

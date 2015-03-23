@@ -1,6 +1,12 @@
 'use strict';
+(function(){
+	angular.module('meanbaseApp').controller('PageCtrl', PageCtrl);
 
-angular.module('meanbaseApp')
-  .controller('PageCtrl', function ($scope) {
-    $scope.message = 'Hello';
-  });
+	PageCtrl.$inject = ['$scope'];
+	function PageCtrl($scope) {
+
+		$scope.page = window.meanbaseGlobals.page;
+			
+	}
+})();
+

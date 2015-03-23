@@ -1,0 +1,67 @@
+'use strict';
+
+angular.module('meanbaseApp')
+  .directive('edit', function () {
+    return {
+      restrict: 'EA',
+      scope: {
+      	html:'=ngBindHtml',
+      	editMode:'=edit',
+      	config:'=config'
+      },
+      link: function (scope, element, attrs) {
+        var config = scope.config || {
+			    language: 'en',
+			    allowedContent: true,
+			    entities: false,
+			    fullPage: true,
+			    filebrowserBrowseUrl: '/api/images/ckeditor',
+			    filebrowserImageUploadUrl: '/client/assets/images'
+			  };
+
+        var ck = {}, snapshot;
+
+        if(!scope.html) {
+        	scope.html = attrs.id? attrs.id + ' editable area': 'editable area';
+        }
+
+        function startUpCKEditor() {
+        	element.attr('contenteditable', true);
+        	// Create ck instance
+        	ck = CKEDITOR.inline(element[0], config);
+
+        	// Set the ck instances value to the value of ng-bind-html
+        	ck.setData(scope.html);
+
+        	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
+        	snapshot = ck.getData();
+
+        	// When ckeditor data updates, update the scope.html
+        	ck.on('pasteState', function() {
+        	  scope.$apply(function() {
+        	    scope.html = ck.getData();
+        	  });
+        	});
+        } //startUpCKEditor
+
+        function shutdownCkEditor() {
+        	if(ck.destroy) { ck.destroy(); element.attr('contenteditable', false); }
+        }
+
+        // Watch editMode to know when to start up and shut down ckeditor
+        scope.$watch('editMode', function(newValue, oldValue) {
+        	if(newValue) {
+        		startUpCKEditor();
+        	} else {
+        		shutdownCkEditor();
+        	}
+        });
+
+
+        scope.$on('$destroy', function onDestroy() {
+        	shutdownCkEditor();
+        });
+
+      } //link
+    }; //return
+  });

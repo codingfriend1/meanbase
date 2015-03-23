@@ -30,7 +30,7 @@ var all = {
   },
 
   // List of user roles
-  userRoles: ['guest', 'user', 'admin'],
+  userRoles: ['guest', 'user', 'admin', 'basic', 'level 1', 'level 2', 'level 3', 'level 4', 'level 5'],
 
   // Default theme to load before any are chosen
   theme: 'meanbase-starter',

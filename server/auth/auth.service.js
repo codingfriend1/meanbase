@@ -28,7 +28,7 @@ function isAuthenticated() {
       User.findById(req.user._id, function (err, user) {
         if (err) return next(err);
         if (!user) return res.send(401);
-
+        if(!user.enabled) return res.send(401);
         req.user = user;
         next();
       });
@@ -62,10 +62,10 @@ function hasPermission(permissionName) {
   return compose()
     .use(isAuthenticated())
     .use(function roleHasPermission(req, res, next) {
-      console.log('user.role', req.user.role, 'permission', permissionName);
       if(!req.user.role in GLOBAL.meanbaseGlobals.roles) { res.send(403); return false; }
-      
-      if(GLOBAL.meanbaseGlobals.roles[req.user.role].indexOf(permissionName) > -1 || GLOBAL.meanbaseGlobals.roles[req.user.role].indexOf('allPrivilages') > -1) {
+
+      var matchingRole = GLOBAL.meanbaseGlobals.roles[req.user.role]
+      if(matchingRole && (matchingRole.indexOf(permissionName) > -1 || matchingRole.indexOf('allPrivilages') > -1)) {
         next();
       } else {
         res.send(403);

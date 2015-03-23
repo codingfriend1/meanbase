@@ -7,29 +7,51 @@
 		}
 
 		endpoints.prototype.create = function(data) {
+			var self = this;
 			return $http.post(this.baseRoute + this.endpoint, data).error(function(error) {
-				this.errorHandler(error);
+				self.errorHandler(error);
 			});
 		};
 
 		endpoints.prototype.find = function(identifier) {
+			var self = this;
 			return $http.get(this.baseRoute + this.endpoint, {params: identifier}).error(function(error) {
-				this.errorHandler(error);
+				self.errorHandler(error);
 			});
 		};
 
-		endpoints.prototype.update = function(identifier, replacementData) {
-			return $http.put(this.baseRoute + this.endpoint, {identifier: identifier, replacementData: replacementData}).error(function(error) {
-				this.errorHandler(error);
+		endpoints.prototype.update = function(identifier, replacement) {
+			var self = this;
+			return $http.put(this.baseRoute + this.endpoint, {identifier: identifier, replacement: replacement}).error(function(error) {
+				self.errorHandler(error);
 			});
 		};
 
 		endpoints.prototype.delete = function(identifier) {
+			var self = this;
 			return $http.delete(this.baseRoute + this.endpoint, {
 			    params: identifier,
 			    headers: {"Content-Type": "application/json;charset=utf-8"}
   			}).error(function(error) {
-				this.errorHandler(error);
+				self.errorHandler(error);
+			});
+		};
+
+		endpoints.prototype.findOne = function(id) {
+			return $http.get(this.baseRoute + this.endpoint + '/' + id).error(function(error) {
+				self.errorHandler(error);
+			});
+		};
+
+		endpoints.prototype.updateOne = function(id, replacement) {
+			return $http.put(this.baseRoute + this.endpoint + '/' + id, replacement).error(function(error) {
+				self.errorHandler(error);
+			});
+		};
+
+		endpoints.prototype.deleteOne = function(id) {
+			return $http.delete(this.baseRoute + this.endpoint + '/' + id).error(function(error) {
+				self.errorHandler(error);
 			});
 		};
 

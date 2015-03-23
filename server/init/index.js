@@ -6,6 +6,7 @@
 module.exports = function() {
 	console.log('Initializing data in mongoDB');
 	require('./pages')();
+	require('./users')();
 	require('./roles')();
 	require('./themes')();
 };
