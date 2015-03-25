@@ -56,15 +56,25 @@
     text-indent 20px
     line-height 40px
 
-.sidebar-nav li a
+.sidebar-nav 
+  li a
     display block
     text-decoration none
     color #999999
+    
+  li a.disabled
+    display none
+    text-decoration none
+    color #555
 
-.sidebar-nav li a:hover
+  li a:hover
     text-decoration none
     color #fff
     background rgba(255,255,255,0.2)
+    
+  li a.disabled:hover
+    background none
+    color #555
 
 .sidebar-nav li a:active,
 .sidebar-nav li a:focus

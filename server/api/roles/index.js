@@ -7,6 +7,7 @@ var router = express.Router();
 
 // Affecting multiple or all items.
 router.get('/', controller.find);
+router.get('/all', controller.findAll);
 router.post('/', auth.hasPermission('manageRoles'), controller.create);
 router.put('/', auth.hasPermission('manageRoles'), controller.update);
 router.patch('/', auth.hasPermission('manageRoles'), controller.update);

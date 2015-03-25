@@ -127,6 +127,34 @@ angular.module('meanbaseApp')
         }
       },
 
+      // Check if the user's role has the correct permission
+      hasPermission: function(permissionName, cb) {
+        if(currentUser.hasOwnProperty('$promise')) {
+          currentUser.$promise.then(function() {
+            if(!currentUser.hasOwnProperty('permissions')) { cb(false); return false; }
+            // If user's role is in meanbaseGlobals.roles then check roles to see if user has permission
+            // Or if user has allPrivilages
+            if(currentUser.permissions.indexOf(permissionName) > -1 || currentUser.permissions.indexOf('allPrivilages') > -1) {
+              cb(true);
+            } else {
+              cb(false);
+            }
+          }).catch(function() {
+            cb(false);
+          });
+        } else if(currentUser.hasOwnProperty('permissions')) {
+          // If user's role is in meanbaseGlobals.roles then check roles to see if user has permission
+          // Or if user has allPrivilages
+          if(currentUser.permissions.indexOf(permissionName) > -1 || currentUser.permissions.indexOf('allPrivilages') > -1) {
+            cb(true);
+          } else {
+            cb(false);
+          }
+        } else {
+          cb(false);
+        }
+      },
+
       /**
        * Check if a user is an admin
        *

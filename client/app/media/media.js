@@ -7,6 +7,6 @@ angular.module('meanbaseApp')
         url: '/media',
         templateUrl: 'app/media/media.html',
         controller: 'MediaCtrl',
-        authenticate: true
+        hasPermission: 'manageMedia'
       });
   });

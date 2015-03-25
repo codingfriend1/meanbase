@@ -8,7 +8,12 @@ var collection = new CRUD(Roles);
 
 // Get list of pages
 exports.findAll = function(req, res) {
-  collection.findAll(req, res);
+	if(!GLOBAL.meanbaseGlobals.roles) {
+		populateGlobalRoles(false, function() {
+			return res.json(200, GLOBAL.meanbaseGlobals.roles);
+		});
+	}
+  return res.json(200, GLOBAL.meanbaseGlobals.roles);
 };
 
 // Get some pages

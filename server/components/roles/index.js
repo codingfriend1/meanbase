@@ -2,14 +2,16 @@ GLOBAL.meanbaseGlobals.roles = {};
 var Roles = require('../../api/roles/roles.model');
 
 // Get All items
-module.exports = function getAllRoles(roles) {
+module.exports = function getAllRoles(roles, callback) {
 	if(roles) {
 		populateGlobalRoles(roles);
+		if(callback) callback();
 		return roles;
 	} else {
 		Roles.find(function (err, found) {
 		  if(err || !found) { return false; }
 		  populateGlobalRoles(found);
+		  if(callback) callback();
 		  return found;
 		});
 	}

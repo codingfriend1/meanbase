@@ -7,13 +7,21 @@ angular.module('meanbaseApp', [
   'ui.router',
   'ui.bootstrap'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider
       .otherwise('/');
     $urlMatcherFactoryProvider.strictMode(false);
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
+
+    $provide.decorator('$rootScope', ['$delegate', function($delegate){
+      $delegate.constructor.prototype.$onRootScope = function(name, listener){
+        var unsubscribe = $delegate.$on(name, listener);
+        this.$on('$destroy', unsubscribe);
+      };
+      return $delegate;
+    }]);
   })
 
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
@@ -49,6 +57,12 @@ angular.module('meanbaseApp', [
         if (next.authenticate && !loggedIn) {
           $location.path('/login');
         }
+      });
+
+      if(!next.hasPermission) return false;
+
+      Auth.hasPermission(next.hasPermission, function(hasPermission) {
+        if(!hasPermission) { $location.path('/login'); }
       });
     });
   });

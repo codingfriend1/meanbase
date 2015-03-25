@@ -1,6 +1,9 @@
 'use strict';
+(function(){
+	angular.module('meanbaseApp').controller('cmsCtrl', CMSCtrl);
 
-angular.module('meanbaseApp')
-  .controller('cmsCtrl', function ($scope) {
-    $scope.message = 'Hello';
-  });
+	CMSCtrl.$inject = ['$scope', 'Auth'];
+	function CMSCtrl($scope, Auth) {
+		$scope.user = Auth.getCurrentUser();
+  }
+})();

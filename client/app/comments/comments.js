@@ -7,6 +7,6 @@ angular.module('meanbaseApp')
         url: '/comments',
         templateUrl: 'app/comments/comments.html',
         controller: 'CommentsCtrl',
-        authenticate: true
+        hasPermission: 'moderateComments'
       });
   });

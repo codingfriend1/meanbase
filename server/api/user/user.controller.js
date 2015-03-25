@@ -68,7 +68,6 @@ exports.index = function(req, res) {
 exports.create = function (req, res, next) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
-  newUser.role = 'user';
   newUser.save(function(err, user) {
     if (err) return validationError(res, err);
     var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
@@ -131,6 +130,9 @@ exports.me = function(req, res, next) {
   }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
     if (err) return next(err);
     if (!user) return res.json(401);
+    var user = user.toJSON();
+    var permissions = GLOBAL.meanbaseGlobals.roles[user.role];
+    if(permissions) { user.permissions = permissions; console.log('added permissions'); }
     res.json(user);
   });
 };

@@ -8,6 +8,6 @@ angular.module('meanbaseApp')
         templateUrl: 'app/users/users.html',
         controller: 'UsersCtrl',
         controllerAs:'stateCtrl',
-        authenticate: true
+        hasPermission: 'manageUsers'
       });
   });

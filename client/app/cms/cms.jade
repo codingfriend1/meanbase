@@ -1,26 +1,21 @@
 #wrapper
-	// Sidebar
 	#sidebar-wrapper
 		ul.sidebar-nav
-			li.sidebar-brand
+			li.sidebar-brand 
 				a(ui-sref='main.page') Back to Site
 			li
-				a(ui-sref='cms.themes') Themes                
+				a(ui-sref='cms.themes' ng-show="user.permissions.indexOf('changeSiteSettings') > -1") Themes                
 			li
-				a(ui-sref='cms.comments') Comments                
+				a(ui-sref='cms.comments' ng-show="user.permissions.indexOf('manageComments') > -1") Comments                
 			li
-				a(ui-sref='cms.users') Users                
+				a(ui-sref='cms.users' ng-show="user.permissions.indexOf('manageUsers') > -1") Users                
 			li
-				a(ui-sref='cms.media') Media                
+				a(ui-sref='cms.media' ng-show="user.permissions.indexOf('manageMedia') > -1") Media                
 			li
-				a(ui-sref='cms.extensions') Extensions               
+				a(ui-sref='cms.extensions' ng-show="user.permissions.indexOf('manageExtensions') > -1") Extensions               
 			li
 				a(ui-sref='cms.analytics') Analytics
 	#meanbase-cms                      
-		//- a#menu-toggle.btn.btn-default(href='#menu-toggle') Open/close Menu
 		div(ui-view="")
-//- script.
-//- 	$("#menu-toggle").click(function(e) {
-//- 		e.preventDefault();
-//- 		$("#wrapper").toggleClass("toggled");
-//- 	});
+			h1 Welcome to meanbase CMS. 
+			p This dashboard allows you to manage your site
