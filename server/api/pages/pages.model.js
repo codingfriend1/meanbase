@@ -16,7 +16,7 @@ var PagesSchema = new Schema({
 	},
 	visibility: {
 		type: String,
-		default: 'Everyone',
+		default: 'basic',
 		trim: true
 	},
 	editability: {
