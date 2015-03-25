@@ -2,13 +2,13 @@
 	"author": "Jon Paul Miles",
 	"email": "codingfriend1@gmail.com",
 	"website": "www.codingfriend.com",
-	"title": "Meanbase Starter",
-	"description": "The starter theme for meanbase",
-	"url": "meanbase-starter",
+	"title": "Test Theme",
+	"description": "A second theme for testing theme switching",
+	"url": "test-theme",
 	"templates": {
-		"home": ["home", "404"],
+		"home": ["home"],
 		"archive": ["archive"],
 		"page": ["page"],
-		"article": ["article"]
+		"article": ["article", "404"]
 	}
 }

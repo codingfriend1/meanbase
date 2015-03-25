@@ -28,6 +28,7 @@ module.exports = function() {
 	Themes.find(function (err, themes) {
 	  if(err) { return handleError(err); }
 	  if(!themes) { return false; }
+	  if(!themes) { return false; }
 	  // Remove all found themes
 	  Themes.remove(function(err) {
 	    if(err) { return handleError(err); }

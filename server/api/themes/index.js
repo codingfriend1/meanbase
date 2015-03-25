@@ -6,10 +6,13 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
+//Switch themes - attach id onto req.params
+router.post('/activate', auth.hasPermission('changeSiteSettings'), controller.activate);
+
 // Affecting multiple or all items.
 router.get('/', controller.find);
 router.post('/', controller.create);
-router.put('/', auth.hasPermission('changeSiteSettings'), controller.update);
+router.put('/', auth.hasPermission('changeSiteSettings'), controller.update); 
 router.patch('/', auth.hasPermission('changeSiteSettings'), controller.update);
 router.delete('/', auth.hasPermission('changeSiteSettings'), controller.delete);
 

@@ -4,7 +4,7 @@ module.exports = function() {
 
 	var demoHome = {
 		"author": "demo",
-		"visibility": "Everyone",
+		"visibility": "basic",
 		"url": "/",
 		"tabTitle": "meanbase",
 		"template": "home",
@@ -17,7 +17,7 @@ module.exports = function() {
 
 	var tutorial = {
 		"author": "demo",
-		"visibility": "Everyone",
+		"visibility": "basic",
 		"url": "/tutorial",
 		"tabTitle": "meanbase - tutorial",
 		"template": "page",

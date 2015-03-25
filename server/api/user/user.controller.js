@@ -132,7 +132,7 @@ exports.me = function(req, res, next) {
     if (!user) return res.json(401);
     var user = user.toJSON();
     var permissions = GLOBAL.meanbaseGlobals.roles[user.role];
-    if(permissions) { user.permissions = permissions; console.log('added permissions'); }
+    if(permissions) { user.permissions = permissions; }
     res.json(user);
   });
 };

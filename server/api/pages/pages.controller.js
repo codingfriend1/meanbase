@@ -12,7 +12,7 @@ exports.findAll = function(req, res) {
 
 // Get some pages
 exports.find = function(req, res) {
-  collection.find(req, res);
+  collection.find(req, res, modifyTemplate);
 };
 
 // Creates a new pages in the DB.
@@ -44,3 +44,7 @@ exports.updateById = function(req, res) {
 exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
+
+function modifyTemplate(page) {
+	
+}
