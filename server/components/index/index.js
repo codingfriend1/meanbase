@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Compiles the client/index.html from a copy in server/views/index.html with the chosen theme assets
  * Grunt loads /app/ themes and scripts into server/views/index.html
@@ -6,15 +8,40 @@
  var config = require('../../config/environment');
  var themesFolder = '/client/themes/';
  var fs = require('fs');
+ var Themes = require('../../api/themes/themes.model');
+
+module.exports = function(theme) {
+	if(theme) {
+		compileIndex(theme);
+	} else {
+		Themes.find({active: true}, function(err, found) {
+			if(err) { return handleError(res, err); }
+			if(found < 1) { 
+				getFirstTheme(function(found) {
+					compileIndex(found);
+				}); 
+			} else {
+				compileIndex(found[0]);
+			}
+		});
+	}
+}
+
+function getFirstTheme(callback) {
+	Themes.find({}, function(err, found) {
+		if(err) { return console.log('error finding themes', err); }
+		if(found.length < 1) { return console.log('could not find any themes'); }
+		if(callback) { callback(found[0]); }
+		return found[0];
+	});
+}
 
 // Gets the scripts and styles from the chosen theme and inserts them into the index.html
-// PARAMS theme: 'String'
-module.exports = function(theme) {
- 	'use strict';
+function compileIndex(theme) {
 	// Get file paths for the server/views/index and the chosen theme's scripts and styles templates
 	var viewFilePath = config.root + '/server/views/index.html',
-		themeJSPath = config.root + themesFolder + theme + '/assets/scripts.html',
-		themeCSSPath = config.root + themesFolder + theme + '/assets/styles.html';
+		themeJSPath = config.root + themesFolder + theme.url + '/assets/scripts.html',
+		themeCSSPath = config.root + themesFolder + theme.url + '/assets/styles.html';
 
 	// Try to read the file contents
 	try {
@@ -28,7 +55,8 @@ module.exports = function(theme) {
 	}
 
 	// If the file reads were successful then insert given theme's assets into index.html
-	index = index.replace('theme-name', theme);
+	index = index.replace('theme-name', theme.url);
+	index = index.replace("'theme-templates'", JSON.stringify(theme.templates));
 	index = index.replace('<!-- Theme Styles -->', themeCSS);
 	index = index.replace('<!-- Theme Scripts -->', themeJS);
 

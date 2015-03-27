@@ -4,6 +4,7 @@ var _ = require('lodash');
 var Themes = require('./themes.model');
 var CRUD = require('../../components/CRUD');
 var setGlobalTheme = require('../../components/themes');
+var compileIndex = require('../../components/index');
 var collection = new CRUD(Themes);
 
 // Get list of pages
@@ -18,9 +19,8 @@ exports.activate = function(req, res) {
 	  Themes.update({_id: req.body.id}, {active: true}, function(error, found) {
 	  	if (error) { return res.send(500, error); }
 	  	if(!found) { return res.send(404); }
-	  	setGlobalTheme(function(theme) {
-	  		return res.json(200, theme);
-	  	});
+	  	compileIndex();
+	  	return res.json(found);
 	  });
 	});
 };

@@ -11,11 +11,13 @@ angular.module('meanbaseApp')
 
     $scope.activateTheme = function() {
       $modalInstance.close(theme);
-      console.log('id', theme._id);
       $http.post('api/themes/activate', {id: theme._id}).then(function(theme) {
-        console.log('theme activated', theme);
+        var reload = confirm('Themes changed please reload the page.');
+        if(reload) {
+          location.reload();
+        }
       }, function(error) {
-        console.log('error', error);
+        console.log('Switching themes error: ', error);
       });
     };
 
