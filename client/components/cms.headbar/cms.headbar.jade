@@ -21,7 +21,7 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 						li(ng-repeat="template in themeTemplates")
 							a(href="#" ng-click="mb.createPage($event)") {{template}}
 				li#mb-edit
-					a(ng-hide="editMode" ng-click="mb.beginEditing()") Edit
+					a(ng-hide="editMode" ng-click="editMode = !editMode") Edit
 					button.btn.btn-success(ng-show="editMode" ng-click="mb.saveChanges()") Save
 				li#mb-cancel(ng-show="editMode")
 					button.btn.btn-warning(ng-click="mb.discardChanges()") discard

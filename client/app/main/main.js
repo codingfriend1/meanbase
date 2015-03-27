@@ -58,7 +58,8 @@
           });
 
           return deferred.promise;
-        }]
+        }],
+        controller: 'TemplateCtrl'
       });
   });
 })();

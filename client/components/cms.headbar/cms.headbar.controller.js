@@ -4,5 +4,6 @@
 	HeadbarController.$inject = ['$scope'];
 	function HeadbarController($scope) {
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
+		$scope.editMode = false;
 	}
 })();
