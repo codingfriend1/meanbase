@@ -625,8 +625,6 @@ module.exports = function (grunt) {
       var injector = grunt.config.get('injector') || {options: {}, scripts: {options:{}}, css: {}};
       var stylus = grunt.config.get('stylus') || {};
 
-      console.log('stylus', stylus);
-
       injector.css.files[dir + '/assets/styles.html'] = [
         dir + '/**/*.css',
         dir + '/*.css'

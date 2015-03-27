@@ -49,7 +49,11 @@ CRUD.prototype.findById = function(req, res, callback) {
   this.collection.findById(req.params.id, function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
-    if(callback) callback(found);
+
+    // If the function has a callback use it and if it returns a value send that value instead
+    if(callback) var modified = callback(found);
+    if(modified) { found = modified; }
+    
     return res.json(found);
   });
 };
@@ -60,7 +64,11 @@ CRUD.prototype.find = function(req, res, callback) {
   this.collection.find(identifier, function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
-    if(callback) callback(found);
+
+    // If the function has a callback use it and if it returns a value send that value instead
+    if(callback) var modified = callback(found);
+    if(modified) { found = modified; }
+    
     return res.json(200, found);
   });
 };
@@ -71,7 +79,11 @@ CRUD.prototype.findAndPopulate = function(req, res, callback, populate) {
   this.collection.find(identifier).populate(populateQuery).exec(function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
-    if(callback) callback(found);
+
+    // If the function has a callback use it and if it returns a value send that value instead
+    if(callback) var modified = callback(found);
+    if(modified) { found = modified; }
+    
     return res.json(200, found);
   });
 };
@@ -82,7 +94,11 @@ CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
   this.collection.find(identifier).sort(sortFilter).exec(function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
-    if(callback) callback(found);
+
+    // If the function has a callback use it and if it returns a value send that value instead
+    if(callback) var modified = callback(found);
+    if(modified) { found = modified; }
+    
     return res.json(200, found);
   });
 };
@@ -92,7 +108,11 @@ CRUD.prototype.findAll = function(req, res, callback) {
   this.collection.find(function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
-    if(callback) callback(found);
+
+    // If the function has a callback use it and if it returns a value send that value instead
+    if(callback) var modified = callback(found);
+    if(modified) { found = modified; }
+    
     return res.json(200, found);
   });
 };

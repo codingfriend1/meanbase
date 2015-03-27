@@ -4,9 +4,7 @@
 
 	PageCtrl.$inject = ['$scope'];
 	function PageCtrl($scope) {
-
 		$scope.page = window.meanbaseGlobals.page;
-			
 	}
 })();
 

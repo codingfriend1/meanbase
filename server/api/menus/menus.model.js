@@ -4,15 +4,15 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var MenusSchema = new Schema({
-  title: String,
-  id: {
-  	type: Date,
-  	unique: true,
-  	default: new Date()
+  title: {
+    type: String,
+    trim: true,
+    require: true
   },
   url: {
   	type: String,
-  	trim: true
+  	trim: true,
+    require: true
   },
   group: {
   	type: String,
@@ -21,7 +21,7 @@ var MenusSchema = new Schema({
   },
   position: {
   	type: Number,
-  	default: 0
+  	default: 0,
   },
   classes: {
   	type: String,
