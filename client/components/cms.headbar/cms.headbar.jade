@@ -1,5 +1,5 @@
 //meanbase Head Tool Bar 
-nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation" ng-show="isLoggedIn")
+nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation" ng-show="isLoggedIn" ng-controller="cms.headbar.controller")
 	.container
 		div.navbar-header 
 			button.navbar-toggle.collapsed(data-toggle="collapse" data-target="#mb-headbar-child" aria-controls="navbar")
@@ -18,7 +18,7 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 							a(href="#")
 								| Template 
 						li.divider
-						li(ng-repeat="template in mb.templates")
+						li(ng-repeat="template in themeTemplates")
 							a(href="#" ng-click="mb.createPage($event)") {{template}}
 				li#mb-edit
 					a(ng-hide="editMode" ng-click="mb.beginEditing()") Edit
