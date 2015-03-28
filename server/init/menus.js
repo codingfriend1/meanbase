@@ -12,17 +12,24 @@ module.exports = function() {
 	var tutorial = {
 		"title": "Tutorial",
 		"url": "/tutorial",
-		"position": "1"
+		"position": 0
 	};
 
 	var login = {
 		"title": "Login",
 		"url": "/login",
 		"group": "rightHand",
-		"position": "2"
+		"position": 1
 	};
 
-	var mainMenus = [tutorial, login];
+	var youtubeDemo = {
+		"title": "Youtube Demo",
+		"url": "https://www.youtube.com/watch?v=tteztXru4eA&feature=youtu.be",
+		"group": "sidebar",
+		"position": 0
+	};
+
+	var mainMenus = [tutorial, login, youtubeDemo];
 
 	// Menus.remove({}, function (err, menus) {
 	//   if(err) { return handleError(err); }

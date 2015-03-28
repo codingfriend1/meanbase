@@ -34,7 +34,7 @@
     });
 
     // Set up config for sortable menus
-    $scope.menusConfig = { 
+    $rootScope.menusConfig = { 
       group: 'menus',
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
@@ -49,8 +49,8 @@
     // If edit mode changes we want to enable or disable draggable menus
     var menusSnapshot;
     $scope.$watch('editMode', function() {
-      menusSnapshot = angular.copy($scope.menus);
-      $scope.menusConfig.disabled = !$scope.editMode;
+      menusSnapshot = angular.copy($rootScope.menus);
+      $rootScope.menusConfig.disabled = !$scope.editMode;
     });
 
     // Save menu ordering when saveEdits event is emitted
@@ -65,7 +65,7 @@
       endpoints.menus.delete({}).then(function(deleteResponse) {
         endpoints.menus.create(unmappedMenus).then(function(createResponse) {
           endpoints.menus.find({}).then(function(response) {
-            $scope.menus = response.data;
+            $rootScope.menus = response.data;
           });
         });
       });
@@ -74,7 +74,7 @@
 
     // When cms.headbar or any other script releases the event to discard edits, reset menus to snapshot
     $scope.$onRootScope('cms.discardEdits', function() {
-      $scope.menus = menusSnapshot;
+      $rootScope.menus = menusSnapshot;
     });
 
     // Prevent menu links from working while in edit mode
@@ -97,12 +97,12 @@
     // Unmap the client menu structure so that mongoose database can understand
     function updatePositionData() {
       var unmappedMenus = [];
-      for(var menu in $scope.menus) {
-        if ($scope.menus.hasOwnProperty(menu)) {
-          for(var i = 0; i < $scope.menus[menu].length; i++) {
-            $scope.menus[menu][i].location = menu;
-            $scope.menus[menu][i].position = i;
-            unmappedMenus.push($scope.menus[menu][i]);
+      for(var menu in $rootScope.menus) {
+        if ($rootScope.menus.hasOwnProperty(menu)) {
+          for(var i = 0; i < $rootScope.menus[menu].length; i++) {
+            $rootScope.menus[menu][i].group = menu;
+            $rootScope.menus[menu][i].position = i;
+            unmappedMenus.push($rootScope.menus[menu][i]);
           }
         } 
       }
@@ -116,8 +116,8 @@
 
       $scope.newMenuItem = function() {
         if($scope.menuItem._id) { delete $scope.menuItem._id; }
-        $scope.menuItem.position = $scope.menus[$scope.menuItem.group].length;
-        $scope.menus[$scope.menuItem.group].push($scope.menuItem);
+        $scope.menuItem.position = $rootScope.menus[$scope.menuItem.group].length;
+        $rootScope.menus[$scope.menuItem.group].push($scope.menuItem);
         $modalInstance.dismiss();
       };
 
@@ -131,7 +131,7 @@
 
       $scope.removeMenuItem = function() {
         updatePositionData();
-        $scope.menus[menuItem.group].splice(menuItem.position, 1);
+        $rootScope.menus[menuItem.group].splice(menuItem.position, 1);
         $modalInstance.dismiss();
       };
 

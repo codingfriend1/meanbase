@@ -6,9 +6,9 @@
 					//- ul(role="menu" data-menu="sidebar")
 					//- 	li(ng-repeat="menu in menus.sidebar").mb-draggable
 					//- 		a(href="{{menu.url}}") {{menu.title}}
-					ul#sidebar.nav.nav-stacked(data-menu="sidebar" ng-sortable="mb.sortableMenus")
-						li(ng-repeat="menu in menus.sidebar track by menu.id" mb-menu="menu" ng-class="active(menu.url, 'active')")
-							a(href="{{menu.url}}" target="{{menu.target}}") {{menu.title}}
+					ul#sidebar.nav.nav-stacked(ng-sortable="menusConfig")
+						li(ng-repeat="menu in menus.sidebar").mb-draggable
+							a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
 			.col-md-9
 				h2#page-title(edit="editMode" ng-bind-html="page.title")
 				//- h2#page-title {{page.title}}
