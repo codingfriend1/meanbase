@@ -24,7 +24,6 @@
       .state('main.page', {
         url: '^/{page:(?!cms).*}',
         templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', function(endpoints, $templateFactory, $stateParams, $q, $state) {
-
           // - Instantiate a new endpoints service to communite with server database
           var endpoint = new endpoints('pages');
 
@@ -58,8 +57,7 @@
           });
 
           return deferred.promise;
-        }],
-        controller: 'TemplateCtrl'
+        }]
       });
   });
 })();

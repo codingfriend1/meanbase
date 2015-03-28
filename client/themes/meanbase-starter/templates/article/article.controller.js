@@ -2,5 +2,5 @@
 
 angular.module('meanbaseApp')
   .controller('ArticleCtrl', function ($scope) {
-    
+  	
   });

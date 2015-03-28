@@ -2,8 +2,8 @@
 (function(){
   angular.module('meanbaseApp').controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$scope', '$http', 'Auth', '$location', 'endpoints'];
-  function MainCtrl($scope, $http, Auth, $location, endpoints) {
+  MainCtrl.$inject = ['$rootScope', '$scope', '$http', 'Auth', '$location', 'endpoints'];
+  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints) {
     $scope.isLoggedIn = Auth.isLoggedIn();
     
     $scope.logout = function() {
@@ -21,6 +21,13 @@
     // Get all the menus
     endpoints.menus.find({}).then(function(response) {
       $scope.menus = response.data;
+    });
+
+    // Get the current page by watching for changes on meanbaseGlobals.page
+    $scope.$watch(function() {
+      return window.meanbaseGlobals.page;
+    }, function(page) {
+      $scope.page = page;
     });
 
   }
