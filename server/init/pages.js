@@ -9,7 +9,12 @@ module.exports = function() {
 		"tabTitle": "meanbase",
 		"template": "home",
 		"title": "meanbase",
-		"content": {"content-1": "Meanbase is a CMS built on the MEAN stack and made to be simple and intuitive for users and developers."},
+		"content": {
+			"content-1": "Meanbase is a CMS built on the MEAN stack and made to be simple and intuitive for users and developers.",
+			"content-2": "<h3>Simple</h3><p>Meanbase is designed from the ground up to be simple for an average user to learn so you can hand over your product for them to update without stress and training.</p>",
+			"content-3": "<h3>Fast</h3><p>Meanbase CMS runs off of the MEAN stack: Mongo, Express, Angular, and Node meaning it's generally faster than other web technologies so you don't have to wait for every page to refresh when making edits.</p>",
+			"content-4": "<h3>Developer Friendly</h3><p>Meanbase is also focused on making the process of creating themes, modifying the CMS, and adding extensions&nbsp;delightful for developers who have to interact with the code every day. It's provides you control and simplicity so you can spend more time focusing on what matters.</p>"
+		},
 		"description": "A demo home page created automatically in meanbase.",
 		"summary": "A demo home page created automatically in meanbase.",
 		"published": true
