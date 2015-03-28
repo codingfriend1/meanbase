@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: 404Ctrl', function () {
+describe('Controller: MissingCtrl', function () {
 
   // load the controller's module
   beforeEach(module('meanbaseApp'));
 
-  var 404Ctrl, scope;
+  var MissingCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    404Ctrl = $controller('404Ctrl', {
+    MissingCtrl = $controller('MissingCtrl', {
       $scope: scope
     });
   }));

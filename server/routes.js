@@ -24,9 +24,9 @@ module.exports = function(app) {
   // app.route('/:url(api|auth|components|app|bower_components|assets|404)/*')
   //  .get(errors[404]);
 
- app.route('/:url(api|auth|components|app|bower_components|assets|404)/*')
+ app.route('/:url(api|auth|components|app|bower_components|assets|404|missing)/*')
     .get(function(req, res) {
-       res.sendfile(app.get('appPath') + '/app/404/404.html');
+       res.sendfile(app.get('appPath') + '/app/missing/missing.html');
      });
 
   // All other routes should redirect to the index.html

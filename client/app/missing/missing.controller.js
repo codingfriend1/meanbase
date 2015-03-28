@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('404Ctrl', function ($scope) {
+  .controller('MissingCtrl', function ($scope) {
     $scope.message = 'Hello';
   });

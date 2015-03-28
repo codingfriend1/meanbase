@@ -10,9 +10,9 @@
 				span.icon-bar
 			a.navbar-brand(href='/') Home
 		#navbar.navbar-collapse.collapse
-			ul#sortable-head.nav.navbar-nav(data-menu="main" ng-sortable="mb.sortableMenus")
-				li(ng-repeat="menu in menus.main" mb-menu="menu" ng-class="active(menu.url, 'active')")
-					a(href="{{menu.url}}" target="{{menu.target}}") {{menu.title}}
+			ul.nav.navbar-nav(ng-sortable="menusConfig")
+				li(ng-repeat="menu in menus.main").mb-draggable
+					a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
 			//- ul.nav.navbar-nav
 			//- 	li.drop-down.mb-dropdown-toggle
 			//- 		a(data-toggle="dropdown" href="#").dropdown-toggle

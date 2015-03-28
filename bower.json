@@ -15,7 +15,8 @@
     "lodash": "~2.4.1",
     "angular-ui-router": "~0.2.10",
     "flexgrid": "https://github.com/codingfriend1/flexgrid.git#~1.5.2",
-    "ckeditor": "~4.4.7"
+    "ckeditor": "~4.4.7",
+    "Sortable": "ng-sortable"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
