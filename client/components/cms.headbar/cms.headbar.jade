@@ -1,5 +1,5 @@
 //meanbase Head Tool Bar 
-nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation" ng-show="isLoggedIn" ng-controller="cms.headbar.controller")
+nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation" ng-show="isLoggedIn" ng-controller="cms.headbar.controller as headbar")
 	.container
 		div.navbar-header 
 			button.navbar-toggle.collapsed(data-toggle="collapse" data-target="#mb-headbar-child" aria-controls="navbar")
@@ -13,22 +13,22 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 				li.dropdown
 					//- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
 					a.dropdown-toggle(data-toggle="dropdown" role="button") New Page
-					ul#mb-new-template.dropdown-menu(role="menu")
+					ul.dropdown-menu(role="menu")
 						li.disabled
 							a(href="#")
 								| Template 
 						li.divider
 						li(ng-repeat="template in themeTemplates")
-							a(href="#" ng-click="mb.createPage($event)") {{template}}
-				li#mb-edit
-					a(ng-hide="editMode" ng-click="editMode = !editMode") Edit
-					button.btn.btn-success(ng-show="editMode" ng-click="mb.saveChanges()") Save
-				li#mb-cancel(ng-show="editMode")
-					button.btn.btn-warning(ng-click="mb.discardChanges()") discard
-				li#mb-page-settings(ng-show="editMode")
-					button.btn.btn-primary(data-toggle="modal" data-target="#editPageModal") Settings
-				li#mb-trash(ng-show="editMode")
-					button.btn.btn-danger(ng-click="mb.deletePage()") delete page
+							a(href="#" ng-click="headbar.createPage($event)") {{template}}
+				li
+					a(ng-hide="editMode" ng-click="headbar.toggleEdit()") Edit
+					button.btn.btn-success(ng-show="editMode" ng-click="headbar.saveChanges()") Save
+				li(ng-show="editMode")
+					button.btn.btn-warning(ng-click="headbar.discardChanges()") discard
+				li(ng-show="editMode")
+					button.btn.btn-primary(ng-click="headbar.editPageModal()") Settings
+				li(ng-show="editMode")
+					button.btn.btn-danger(ng-click="headbar.deletePage()") delete page
 			ul.nav.navbar-nav.navbar-right
 				li.dropdown
 					a.dropdown-toggle(data-toggle="dropdown" role="button") {{currentUser.name}} ({{currentUser.role}})
@@ -37,3 +37,31 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 							a(ng-click="logout()") Log Out
 						li 
 							a(ui-sref='settings') Account Settings
+script(type="text/ng-template" id="editmodal.modal.html")
+	.modal-header
+		button.close(type='button' ng-click="cancel()")
+			span(aria-hidden='true') ×
+			span.sr-only Close
+		h4.modal-title Page Settings
+	.modal-body
+		.form-group
+			label Google Search Title
+			input.form-control(type='text' ng-model="page.tabTitle")
+		.form-group
+			label URL address
+			input.form-control(type='text' ng-model="page.url")
+		.form-group
+			label Facebook and Google Page Description
+			textarea.form-control(rows="5" ng-model="page.description")
+		.row
+			.col-sm-6
+				p.h5 Created
+				p {{page.created | date: 'MMM d, y h:mm a'}}
+			.col-sm-6
+				p.h5 Updated
+				p {{page.updated | date: 'MMM d, y h:mm a'}}
+	.modal-footer
+		.col-sm-9
+			p.h6.text-left (The headbar save and discard buttons will store changes)
+		.col-sm-3
+			button.btn.btn-default(type='button' ng-click="cancel()") Close

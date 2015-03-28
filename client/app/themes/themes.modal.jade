@@ -1,6 +1,6 @@
 script(type="text/ng-template" id="theme.modal.html")
 	.modal-header
-		button.close(type='button', data-dismiss='modal')
+		button.close(type='button'  ng-click="cancel()")
 			span(aria-hidden='true') ×
 			span.sr-only Close
 		h4(id="theme-{{$index}}").modal-title {{theme.title}}

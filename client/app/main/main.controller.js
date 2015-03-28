@@ -18,16 +18,18 @@
     // Get the current logged in user
     $scope.currentUser = Auth.getCurrentUser();
 
+    $rootScope.editMode = false;
+
     // Get all the menus
     endpoints.menus.find({}).then(function(response) {
-      $scope.menus = response.data;
+      $rootScope.menus = response.data;
     });
 
     // Get the current page by watching for changes on meanbaseGlobals.page
     $scope.$watch(function() {
       return window.meanbaseGlobals.page;
     }, function(page) {
-      $scope.page = page;
+      $rootScope.page = page;
     });
 
   }

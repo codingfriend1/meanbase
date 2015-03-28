@@ -7,6 +7,8 @@ angular.module('meanbaseApp')
       scope: {
       	html:'=ngBindHtml',
       	editMode:'=edit',
+
+        // should contain discard() to undo edits
       	config:'=config'
       },
       link: function (scope, element, attrs) {
@@ -26,6 +28,7 @@ angular.module('meanbaseApp')
         }
 
         function startUpCKEditor() {
+          
         	element.attr('contenteditable', true);
         	// Create ck instance
         	ck = CKEDITOR.inline(element[0], config);
@@ -36,12 +39,6 @@ angular.module('meanbaseApp')
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
         	snapshot = ck.getData();
 
-        	// When ckeditor data updates, update the scope.html
-        	ck.on('pasteState', function() {
-        	  scope.$apply(function() {
-        	    scope.html = ck.getData();
-        	  });
-        	});
         } //startUpCKEditor
 
         function shutdownCkEditor() {
@@ -57,9 +54,14 @@ angular.module('meanbaseApp')
         	}
         });
 
+        // When cms.headbar or any other script releases the event to discard edits, reset to snapshot
+        scope.$onRootScope('cms.discardEdits', function() {
+          scope.html = snapshot;
+        });
 
-        scope.$on('$destroy', function onDestroy() {
-        	shutdownCkEditor();
+        // When the save edits event is fired on rootscope listen and save ckeditor data to html
+        scope.$onRootScope('cms.saveEdits', function() {
+          scope.html = ck.getData();
         });
 
       } //link
