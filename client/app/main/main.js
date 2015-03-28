@@ -36,6 +36,21 @@
             // - If no page was found then redirect to a 404 page.
             if(!response[0]) { $state.go('main.missing'); return false; }
 
+
+            // Loop through the template mapping stored in themeTemplates. 
+            // That variable came from the theme's theme.json file. 
+            // It finds which template to load based on the template that came back for the page
+            // This is done to keep different themes' templates compatible
+            var mappedTemplate = response[0].template;
+            for (var property in meanbaseGlobals.themeTemplates) {
+              if (meanbaseGlobals.themeTemplates.hasOwnProperty(property)) {
+                if(meanbaseGlobals.themeTemplates[property].indexOf(response[0].template) > -1) {
+                  mappedTemplate = property;
+                  break;
+                }
+              }
+            }
+
             // - Construct a url string from the theme name and template name to pass into $templateFactory
             // - meanbaseGlobals.siteTheme is set inline on the index.html page and is compiled through server string manipulation
             var templatePath = 'themes/' + meanbaseGlobals.siteTheme + '/templates/' + response[0].template + '/' + response[0].template + '.html';
