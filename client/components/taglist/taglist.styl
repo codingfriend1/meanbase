@@ -1,0 +1,66 @@
+// Thank you DesignModo Flat Ui for these styles
+// I modified some to my preference
+
+.tag-list
+	display inline-block
+	min-width 80%
+	padding 6px 1px 1px 6px
+	margin-bottom 18px
+	font-size 0
+	text-align left
+	background-color #fff
+	border 2px solid #1abc9c
+	border-radius 6px
+	
+	input
+		min-width 80px
+		max-width inherit
+		padding 0
+		margin 0
+		font-size 14px
+		color #34495e
+		vertical-align top
+		background-color transparent
+		border none
+		outline 0
+		box-shadow none
+		
+		&.error
+			color #E74C3C
+.tag
+	color #fff
+	background-color #1abc9c
+	position relative
+	display inline-block
+	padding 6px 21px 6px 8px
+	margin 0 5px 5px 0
+	overflow hidden
+	font-size 13px
+	line-height 15px
+	color #7b8996
+	vertical-align middle
+	cursor pointer
+	// background-color #ebedef
+	border-radius 4px
+	font-weight 700
+	line-height 1
+	color #fff
+	white-space nowrap
+	
+	.remove
+		position absolute
+		top 0
+		right 0
+		bottom 0
+		z-index 2
+		width 100%
+		padding 0 10px 0 0
+		font-size 12px
+		text-align right
+		text-decoration none
+		cursor pointer
+		&:after
+			line-height 27px
+			font-family FontAwesome
+			content "\f00d"
+			color white

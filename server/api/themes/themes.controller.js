@@ -6,6 +6,8 @@ var CRUD = require('../../components/CRUD');
 var setGlobalTheme = require('../../components/themes');
 var compileIndex = require('../../components/index');
 var collection = new CRUD(Themes);
+var fs = require('fs');
+var config = require('../../config/environment');
 
 // Get list of pages
 exports.findAll = function(req, res) {
@@ -37,7 +39,7 @@ exports.create = function(req, res) {
 
 // Updates pages in the database
 exports.update = function(req, res) {
-  collection.update(req, res);
+  collection.update(req, res, updateFile);
 };
 
 // Deletes a pages from the DB.
@@ -59,3 +61,11 @@ exports.updateById = function(req, res) {
 exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
+
+function updateFile(theme) {
+	if(theme._id) { delete theme._id; }
+	if(theme.__v) { delete theme.__v; }
+	if(theme.active) { delete theme.active; }
+	var themeJSON = JSON.stringify(theme, null, 2);
+	fs.writeFileSync(config.root + '/client/themes/' + theme.url + '/theme.json', themeJSON);
+}

@@ -154,7 +154,7 @@ CRUD.prototype.update = function(req, res, callback) {
     if (err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
     var allFound = getArguments(arguments);
-    if(callback) callback();
+    if(callback) callback(req.body);
     return res.json(200, allFound);
   });
 };
@@ -168,7 +168,7 @@ CRUD.prototype.updateById = function(req, res, callback) {
     var updated = _.merge(found, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      if(callback) callback();
+      if(callback) callback(req.body);
       return res.json(200, found);
     });
   });
