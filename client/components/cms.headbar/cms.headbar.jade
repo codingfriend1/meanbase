@@ -31,7 +31,7 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 					button.btn.btn-danger(ng-click="headbar.deletePage()") delete page
 			ul.nav.navbar-nav.navbar-right
 				li.dropdown
-					a.dropdown-toggle(data-toggle="dropdown" role="button") {{currentUser.name}} ({{currentUser.role}})
+					a.dropdown-toggle(data-toggle="dropdown" role="button") Hi, {{currentUser.name}} ({{currentUser.role}})
 					ul.dropdown-menu(role="menu").dropdown-menu-right
 						li 
 							a(ng-click="logout()") Log Out
