@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp', [
+  'extensions',
   'ngCookies',
   'ngResource',
   'ngSanitize',

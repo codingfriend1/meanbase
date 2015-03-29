@@ -12,8 +12,9 @@
 				| {{page.created | date: 'MMM d, y h:mm a'}} 
 			hr
 			img.img-responsive(src='http://placehold.it/900x300', alt='')
+			div.extensions-area
 			hr
-			div#content-1.mb-editable(ng-bind-html="page.content['content-1'] ? page.content['content-1'] : 'content-1 prefiller'")
+			div#content-1.mb-editable(edit="editMode" ng-bind-html="page.content['content-1']")
 			hr
 			.well
 				h4 Leave a Comment:
@@ -27,7 +28,7 @@
 						input(type="email" ng-model="comment.email" placeholder="email").form-control
 					p.help-block This will not be shown
 				.form-group
-					label(for="comment-content") Message
+					label Message
 					textarea(ng-model="comment.content" placeholder="Message" rows="3").form-control
 				button.btn.btn-primary(ng-click="submitComment()") Comment
 				.alert.alert-success(ng-show="sucessfulSend") Comment sent!
