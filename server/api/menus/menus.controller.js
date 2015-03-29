@@ -5,6 +5,20 @@ var Menus = require('./menus.model');
 var CRUD = require('../../components/CRUD');
 var collection = new CRUD(Menus);
 
+collection.modifyBody = function(body) {
+  if(body && body.url && body.url.charAt(0) != '/') {
+    body.url = '/' + body.url;
+  }
+  return body;
+};
+
+collection.modifyIdentifier = function(identifier) {
+  if(identifier && identifier.url && identifier.url.charAt(0) != '/') {
+    identifier.url = '/' + identifier.url;
+  }
+  return identifier;
+};
+
 // Get list of pages
 exports.findAll = function(req, res) {
   collection.findAll(req, res, restructureMenus);

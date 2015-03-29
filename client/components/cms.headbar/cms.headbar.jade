@@ -49,7 +49,9 @@ script(type="text/ng-template" id="editmodal.modal.html")
 			input.form-control(type='text' ng-model="page.tabTitle")
 		.form-group
 			label URL address
-			input.form-control(type='text' ng-model="page.url")
+			.input-group
+				span.input-group-addon /
+				input.form-control(type='text' ng-model="page.url")
 		.form-group
 			label Facebook and Google Page Description
 			textarea.form-control(rows="5" ng-model="page.description")

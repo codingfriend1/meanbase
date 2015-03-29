@@ -21,18 +21,18 @@
 					.form-group
 						.input-group
 							.input-group-addon Name
-							input(type="text" ng-model="comment.author" placeholder="nickname" id="comment-author").form-control
+							input(type="text" ng-model="comment.author" placeholder="nickname").form-control
 					.form-group
 						.input-group
 							.input-group-addon Email
-							input(type="email" ng-model="comment.email" placeholder="email" id="comment-email").form-control
+							input(type="email" ng-model="comment.email" placeholder="email").form-control
 						p.help-block This will not be shown
 					.form-group
 						label(for="comment-content") Message
-						textarea(ng-model="comment.content" placeholder="Message" id="comment-content" rows="3").form-control
+						textarea(ng-model="comment.content" placeholder="Message" rows="3").form-control
 					button.btn.btn-primary(type='submit') Comment
 			hr
-			.well.media(ng-repeat="comment in page.comments")
+			.well.media(ng-repeat="comment in comments")
 				a.pull-left(href='#')
 					img.media-object(src='http://placehold.it/64x64', alt='')
 				.media-body

@@ -37,6 +37,14 @@ var _ = require('lodash');
 
 function CRUD(collection) {
   this.collection = collection || {}; //Set up the name of the collection we will be interacting with
+
+  // Modify the body before it interacts with the database
+  // Should be a function
+  this.modifyBody = null;
+
+  // Modify the identifier before it interacts with the database
+  // Should be a function
+  this.modifyIdentifier = null;
 }
 
 // If not set in the constructor you may set the collection here
@@ -60,7 +68,7 @@ CRUD.prototype.findById = function(req, res, callback) {
 
 // Get some items
 CRUD.prototype.find = function(req, res, callback) {
-  var identifier = getIdentifer(req);
+  var identifier = this.getIdentifer(req);
   this.collection.find(identifier, function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -75,7 +83,7 @@ CRUD.prototype.find = function(req, res, callback) {
 
 // Gets some items and populates their linked documents
 CRUD.prototype.findAndPopulate = function(req, res, callback, populate) {
-  var identifier = getIdentifer(req);
+  var identifier = this.getIdentifer(req);
   this.collection.find(identifier).populate(populateQuery).exec(function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -90,7 +98,7 @@ CRUD.prototype.findAndPopulate = function(req, res, callback, populate) {
 
 // Find items and sort by a filter
 CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
-  var identifier = getIdentifer(req);
+  var identifier = this.getIdentifer(req);
   this.collection.find(identifier).sort(sortFilter).exec(function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -149,8 +157,7 @@ CRUD.prototype.createAndLink = function(req, res, callback, linkModel, linkField
 
 // Updates existing items in the collection.
 CRUD.prototype.update = function(req, res, callback) {
-  var identifier = getIdentifer(req);
-  console.log('req.body', req.body);
+  var identifier = this.getIdentifer(req);
   this.collection.update(identifier, req.body, {multi: true}, function(err, found) {
     if (err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -175,9 +182,28 @@ CRUD.prototype.updateById = function(req, res, callback) {
   });
 };
 
+CRUD.prototype.updateOneAndUpdate = function(req, res, callback) {
+  var self = this;
+  var identifier = this.getIdentifer(req);
+  this.collection.findOne(identifier, function(err, found) {
+    if (err) { return handleError(res, err); }
+    if(!found) { return res.send(404); }
+    self.collection.update(identifier, req.body, function(err, updated) {
+      if (err) { return handleError(res, err); }
+      if(!updated) { return res.send(404); }
+      if(callback) { callback(found, req.body); }
+      return res.json(200, updated);
+    });
+  });
+};
+
+CRUD.prototype.updateRaw = function(identifier, content) {
+  this.collection.update(identifier, content, {multi: true});
+};
+
 // Deletes multiple items from the collection.
 CRUD.prototype.delete = function(req, res, callback) {
-  var identifier = getIdentifer(req);
+  var identifier = this.getIdentifer(req);
   this.collection.remove(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -188,7 +214,7 @@ CRUD.prototype.delete = function(req, res, callback) {
 
 // Deletes a single item from the collection.
 CRUD.prototype.deleteById = function(req, res, callback) {
-  var identifier = getIdentifer(req);
+  var identifier = this.getIdentifer(req);
   this.collection.findById(identifier._id, function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -200,10 +226,29 @@ CRUD.prototype.deleteById = function(req, res, callback) {
   });
 };
 
+CRUD.prototype.deleteOneAndUpdate = function(req, res, callback) {
+  var self = this;
+  var identifier = this.getIdentifer(req);
+  this.collection.findOne(identifier, function(err, found) {
+    if (err) { return handleError(res, err); }
+    if(!found) { return res.send(404); }
+    self.collection.remove(identifier, function(err, deleted) {
+      if (err) { return handleError(res, err); }
+      if(!deleted) { return res.send(404); }
+      if(callback) { callback(found); }
+      return res.json(200);
+    });
+  });
+};
+
+CRUD.prototype.deleteRaw = function(identifier) {
+  this.collection.remove(identifier, function(err, response) {});
+};
+
 // Deletes some items from this collection 
 // and any linked documents that depended on it from another collection
 CRUD.prototype.deleteAndDependancies = function(req, res, callback, dependantField, dependantModel) {
-  var identifier = getIdentifer(req);
+  var identifier = this.getIdentifer(req);
   var self = this;
   this.collection.find(identifier, function(err, foundOrigional) {
     if(err) { return handleError(res, err); }
@@ -230,7 +275,7 @@ CRUD.prototype.deleteAndDependancies = function(req, res, callback, dependantFie
 // Deletes items from this collections and destories their links in another collection
 CRUD.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkModel) {
   var self = this;
-  var identifier = getIdentifer(req);
+  var identifier = this.getIdentifer(req);
   self.model.find(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -264,7 +309,7 @@ CRUD.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkMod
 module.exports = CRUD;
 
 // Handles the request object to determine how data was sent to the server
-function getIdentifer(req) {
+CRUD.prototype.getIdentifer = function(req) {
   var identifier = {};
   if(req.body && req.body.identifier && req.body.replacement) {
     identifier = req.body.identifier; 
@@ -274,6 +319,12 @@ function getIdentifer(req) {
   } else if (req.params) {
     identifier = req.params;
   }
+
+  // Modify the req.body before it interacts with the database
+  if(this.modifyBody) { req.body = this.modifyBody(req.body) }
+
+  // Modify the identifier before it interacts with the database
+  if(this.modifyIdentifier) { identifier = this.modifyIdentifier(identifier) }
   return identifier;
 }
 

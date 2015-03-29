@@ -31,6 +31,7 @@
       return window.meanbaseGlobals.page;
     }, function(page) {
       $rootScope.page = page;
+      if($rootScope.page && $rootScope.page.url.charAt(0) === '/') { $rootScope.page.url = $rootScope.page.url.substr(1); }
     });
 
     // Set up config for sortable menus
@@ -47,9 +48,10 @@
 
     // Store snapshot of menu for when discardEdits is called
     // If edit mode changes we want to enable or disable draggable menus
-    var menusSnapshot;
+    var menusSnapshot, pageSnapshot;
     $scope.$watch('editMode', function() {
       menusSnapshot = angular.copy($rootScope.menus);
+      pageSnapshot = angular.copy($rootScope.page);
       $rootScope.menusConfig.disabled = !$scope.editMode;
     });
 
@@ -72,9 +74,10 @@
 
     }); //onRootScope()
 
-    // When cms.headbar or any other script releases the event to discard edits, reset menus to snapshot
+    // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when you first clicked edit
     $scope.$onRootScope('cms.discardEdits', function() {
       $rootScope.menus = menusSnapshot;
+      $rootScope.page = pageSnapshot;
     });
 
     // Prevent menu links from working while in edit mode

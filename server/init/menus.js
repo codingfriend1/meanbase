@@ -29,7 +29,14 @@ module.exports = function() {
 		"position": 0
 	};
 
-	var mainMenus = [tutorial, login, youtubeDemo];
+	var article = {
+		"title": "Why a CMS?",
+		"url": "/why-cms",
+		"group": "main",
+		"position": 2
+	};
+
+	var mainMenus = [tutorial, login, youtubeDemo, article];
 
 	// Menus.remove({}, function (err, menus) {
 	//   if(err) { return handleError(err); }

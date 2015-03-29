@@ -9,13 +9,16 @@
 			page: new endpoints('pages')
 		};
 
+		// Since this controller loads before the $rootScope.page value is set we need it to watch that value
+		$scope.$watch('page');
+
 		this.toggleEdit = function() {
 			$rootScope.editMode = !$rootScope.editMode;
 		};
 
 		this.createPage = function(e) {
 			// Prepare new page default text based on url
-			var url = prompt('url (no spaces)');
+			var url = prompt('url');
 			if(url === null) { return false; }
 			$rootScope.editMode = false;
 			prepareDefaultPage(url, e);
@@ -36,10 +39,13 @@
 		this.saveChanges = function() {
 			this.toggleEdit();
 			if(!$scope.page._id) { return false; }
-			$rootScope.$emit('cms.saveEdits');
+
+			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
+			$rootScope.$emit('cms.saveEdits', $scope.page);
 
 			//We need to wait for the "edit" directive to store changes in page.content
 			$timeout(function(){
+				modifyPage($scope.page);
 				endpoints.page.update({_id: $scope.page._id}, $scope.page);
 			});
 		};
@@ -53,14 +59,15 @@
 
 		this.deletePage = function() {
 			this.toggleEdit();
-			if(!$scope.page._id) { return false; }
+			console.log('deletePage', $scope.page);
+			if(!$rootScope.page._id) { return false; }
 
 			// Delete page
-			endpoints.page.delete({_id: $scope.page._id}).then(function() {
+			endpoints.page.delete({_id: $rootScope.page._id}).then(function() {
+				$location.url('/');
 
-				// Delete menu with same url
-				endpoints.menus.delete({url: $scope.page.url}).then(function() {
-					$location.url('/');
+				// Delete menu with the same url
+				endpoints.menus.delete({url: $rootScope.page.url}).then(function() {
 
 					// Replenish menus
 					endpoints.menus.find({}).then(function(response) {
@@ -115,6 +122,10 @@
 			endpoints.page.create(newPage).then(function(response) {
 				$location.url(url);
 			});
+		}
+
+		function modifyPage(page) {
+			if(page.url.charAt(0) !== '/') { page.url = '/' + page.url; }
 		}
 	}
 })();

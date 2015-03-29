@@ -5,6 +5,25 @@ var Comments = require('./comments.model');
 var CRUD = require('../../components/CRUD');
 var collection = new CRUD(Comments);
 
+var onlyApproved = false;
+
+collection.modifyBody = function(body) {
+  if(body && body.url && body.url.charAt(0) != '/') {
+    body.url = '/' + body.url;
+  }
+  return body;
+};
+
+collection.modifyIdentifier = function(identifier) {
+  if(identifier && identifier.url && identifier.url.charAt(0) != '/') {
+    identifier.url = '/' + identifier.url;
+  }
+  if(identifier && onlyApproved) {
+    identifier.approved = true;
+  }
+  return identifier;
+};
+
 // Get list of pages
 exports.findAll = function(req, res) {
   collection.findAll(req, res);
@@ -13,6 +32,12 @@ exports.findAll = function(req, res) {
 // Get some pages
 exports.find = function(req, res) {
   collection.find(req, res);
+};
+
+exports.findApproved = function(req, res) {
+  onlyApproved = true;
+  collection.find(req, res);
+  onlyApproved = false;
 };
 
 // Creates a new pages in the DB.

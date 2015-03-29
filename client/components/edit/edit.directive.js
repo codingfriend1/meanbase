@@ -56,7 +56,8 @@ angular.module('meanbaseApp')
 
         // When cms.headbar or any other script releases the event to discard edits, reset to snapshot
         scope.$onRootScope('cms.discardEdits', function() {
-          scope.html = snapshot;
+          ck.setData(scope.html);
+          // scope.html = snapshot;
         });
 
         // When the save edits event is fired on rootscope listen and save ckeditor data to html

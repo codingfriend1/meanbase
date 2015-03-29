@@ -7,7 +7,9 @@ var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 // Affecting multiple or all items.
-router.get('/', controller.find);
+router.get('/approved', controller.findApproved);
+
+router.get('/', auth.hasPermission('moderateComments'), controller.find);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/', auth.hasPermission('moderateComments'), controller.update);
 router.patch('/', auth.hasPermission('moderateComments'), controller.update);
