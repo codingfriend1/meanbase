@@ -4,7 +4,6 @@
 	// @ngInject
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout) {
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
-
 		var endpoints = {
 			menus: new endpoints('menus'),
 			page: new endpoints('pages')

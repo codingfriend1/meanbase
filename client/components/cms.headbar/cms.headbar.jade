@@ -10,7 +10,7 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 			a(ui-sref='cms').navbar-brand Manage Site
 		div#mb-headbar-child.navbar-collapse.collapse
 			ul.nav.navbar-nav
-				li.dropdown
+				li.dropdown(ng-show="currentUser.permissions.indexOf('editContent') > -1")
 					//- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
 					a.dropdown-toggle(data-toggle="dropdown" role="button") New Page
 					ul.dropdown-menu(role="menu")
@@ -20,14 +20,14 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 						li.divider
 						li(ng-repeat="template in themeTemplates")
 							a(href="#" ng-click="headbar.createPage($event)") {{template}}
-				li
+				li(ng-show="currentUser.permissions.indexOf('editContent') > -1")
 					a(ng-hide="editMode" ng-click="headbar.toggleEdit()") Edit
 					button.btn.btn-success(ng-show="editMode" ng-click="headbar.saveChanges()") Save
 				li(ng-show="editMode")
 					button.btn.btn-warning(ng-click="headbar.discardChanges()") discard
 				li(ng-show="editMode")
 					button.btn.btn-primary(ng-click="headbar.editPageModal()") Settings
-				li(ng-show="editMode")
+				li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
 					button.btn.btn-danger(ng-click="headbar.deletePage()") delete page
 			ul.nav.navbar-nav.navbar-right
 				li.dropdown
