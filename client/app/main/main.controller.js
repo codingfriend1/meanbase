@@ -26,6 +26,7 @@
       $rootScope.menus = response.data;
     });
 
+    // $rootScope.page = {};
     // Get the current page by watching for changes on meanbaseGlobals.page
     $scope.$watch(function() {
       return window.meanbaseGlobals.page;

@@ -9,9 +9,6 @@
 			page: new endpoints('pages')
 		};
 
-		// Since this controller loads before the $rootScope.page value is set we need it to watch that value
-		$scope.$watch('page');
-
 		this.toggleEdit = function() {
 			$rootScope.editMode = !$rootScope.editMode;
 		};
