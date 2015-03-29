@@ -47,10 +47,10 @@ module.exports = function() {
 	};
 
 	// In case we need to delete any pages
-	Pages.remove({}, function (err, page) {
-	  if(err) { return handleError(err); }
-	  if(!page) { return false; }
-	});
+	// Pages.remove({}, function (err, page) {
+	//   if(err) { return handleError(err); }
+	//   if(!page) { return false; }
+	// });
 
 	Pages.find(function (err, pages) {
 	  if(err) { return handleError(err); }

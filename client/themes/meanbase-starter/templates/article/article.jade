@@ -17,20 +17,20 @@
 			hr
 			.well
 				h4 Leave a Comment:
-				form(ng-submit="addComment(comment)")
-					.form-group
-						.input-group
-							.input-group-addon Name
-							input(type="text" ng-model="comment.author" placeholder="nickname").form-control
-					.form-group
-						.input-group
-							.input-group-addon Email
-							input(type="email" ng-model="comment.email" placeholder="email").form-control
-						p.help-block This will not be shown
-					.form-group
-						label(for="comment-content") Message
-						textarea(ng-model="comment.content" placeholder="Message" rows="3").form-control
-					button.btn.btn-primary(type='submit') Comment
+				.form-group
+					.input-group
+						.input-group-addon Name
+						input(type="text" ng-model="comment.author" placeholder="nickname").form-control
+				.form-group
+					.input-group
+						.input-group-addon Email
+						input(type="email" ng-model="comment.email" placeholder="email").form-control
+					p.help-block This will not be shown
+				.form-group
+					label(for="comment-content") Message
+					textarea(ng-model="comment.content" placeholder="Message" rows="3").form-control
+				button.btn.btn-primary(ng-click="submitComment()") Comment
+				.alert.alert-success(ng-show="sucessfulSend") Comment sent!
 			hr
 			.well.media(ng-repeat="comment in comments")
 				a.pull-left(href='#')

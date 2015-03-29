@@ -6,10 +6,14 @@ var CRUD = require('../../components/CRUD');
 var collection = new CRUD(Comments);
 
 var onlyApproved = false;
+var creatingComment = false;
 
 collection.modifyBody = function(body) {
   if(body && body.url && body.url.charAt(0) != '/') {
     body.url = '/' + body.url;
+  }
+  if(body && creatingComment) {
+    if(body.approved) { body.approved = false; }
   }
   return body;
 };
@@ -42,7 +46,11 @@ exports.findApproved = function(req, res) {
 
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
+  // For security purposes we want to modify the comment in modifyBody 
+  // to not have approved already set to true
+  creatingComment = true;
   collection.create(req, res);
+  creatingComment = false;
 };
 
 // Updates pages in the database
