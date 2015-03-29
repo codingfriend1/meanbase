@@ -1,7 +1,8 @@
+
 h1 Users and Privilages
 hr
 h3 Roles and Privilages
-.panel-dark
+.panel-dark#users
 	.panel-head
 			.a-6.m-12.m-center
 				select.panel-select(ng-options="role as role.role for role in roles track by role.role" ng-model="selectedRole")
@@ -22,7 +23,7 @@ accordion(close-others="true")
 	accordion-group(ng-repeat="user in users | filter:filterUsers" is-open="status.open").panel-primary.panel
 		accordion-heading.panel-heading(ng-click="status.open=!status.open")
 			span {{user.name}} 
-			i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}") 
+			i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron
 			span.pull-right| {{user.role}} 
 		.panel-body.equal
 			.a-6.m-12

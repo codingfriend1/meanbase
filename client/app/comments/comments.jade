@@ -1,50 +1,43 @@
-h1 Comments
-h4 Filter by
+h1 Moderate Comments
+p An approved comment will show up on your site so everyone can see. Unless a comment is approved only privilaged users can see it
+h4 Show only...
 .radio-inline
-    label
-        input(type="radio" ng-model="approval" value="true")
-        | approved
+    input(type="radio" ng-model="approval" ng-value="true")#approval-true
+    label(for="approval-true") approved
 .radio-inline
-    label
-        input(type="radio" ng-model="approval" value="false")
-        | unapproved
+    input(type="radio" ng-model="approval" ng-value="false")#approval-false
+    label(for="approval-false") ignored
 .radio-inline
-    label
-        input(type="radio" ng-model="approval" value="")
-        | both
+    input(type="radio" ng-model="approval" ng-value="")#approval-both
+    label(for="approval-both") both
 .form-group
     input(type="text" placeholder="filter comments by text" ng-model="commentFilter").form-control
-.form-group
-    select.form-control(ng-model="whichPage")
-        option(value="") All Pages
-        option(ng-repeat="page in pages") {{page.title}}
-.panel-group#comments-accordian(role="tablist" aria-multiselectable="true")
-
-    .panel.panel-primary(ng-repeat="comment in comments | filter:filterComments | filter: {approved: approval, title: whichPage}")
-        .panel-heading(role="tab" data-toggle="collapse" data-parent="#comments-accordian" href="#comment-{{$index}}" aria-expanded="true" aria-controls="collapse-one")
-            .a-6
-                h4.panel-title {{comment.author}}
-            .a-6.a-right
-                p.h5.panel-title {{comment.title}}
-        .panel-collapse.collapse(role="tabpanel" aria-labelledby="headingOne" id="comment-{{$index}}")
-            .panel-body.equal
-                .a-6.m-12
-                    .a-9.m-9.a-middle
-                        p.h4 email
-                        p {{comment.email}}
-                .a-6.m-12
-                    .a-9.m-9.a-middle
-                        p.h4 ip
-                        p {{comment.ip}}
-                .a-12
-                    p.h4 content
-                    p {{comment.content}}
-                .a-6.m-12.a-middle
-                    p.h4 Date
-                    p {{comment.date | date: 'MMM d, y h:mm a'}}
-                .a-6.m-12.a-right.a-middle.m-center
-                    button.btn.btn-danger() Ban commentor
-                    button.btn.btn-danger(ng-click="deleteComment(comment, $index)") Delete
-                    button.btn.btn-warning(ng-click="editComment(comment, $index)") Edit
-                    button.btn.btn-success(ng-hide="comment.approved" ng-click="approveComment(comment, $index)") Approve
-                    button.btn.btn-warning(ng-show="comment.approved" ng-click="unapproveComment(comment, $index)") Unapprove
+accordion(close-others="true")
+    accordion-group(ng-repeat="comment in comments | filter:filterComments | filter: {approved: approval, title: whichPage}" is-open="status.open").panel-primary.panel
+        accordion-heading.panel-heading(ng-click="status.open=!status.open")
+            i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
+             span.commment-author {{comment.author}} 
+            i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron 
+            span.pull-right| {{comment.url | removeSlash}} 
+        .panel-body.equal
+            .a-6.m-12
+                .a-9.m-9.a-middle
+                    p.h4 email
+                    p {{comment.email}}
+            .a-6.m-12
+                .a-9.m-9.a-middle
+                    p.h4 ip
+                    p {{comment.ip}}
+            .a-12
+                p.h4 content
+                p {{comment.content}}
+            .a-6.m-12.a-middle
+                p.h4 Date
+                p {{comment.date | date: 'MMM d, y h:mm a'}}
+            .a-6.m-12.a-right.a-middle.m-center
+                button.btn.btn-danger() Ban commentor
+                button.btn.btn-danger(ng-click="deleteComment(comment, $index)") Delete
+                button.btn.btn-warning(ng-click="editComment(comment, $index)") Edit
+                button.btn.btn-success(ng-hide="comment.approved" ng-click="approveComment(comment, $index)") Approve
+                button.btn.btn-warning(ng-show="comment.approved" ng-click="unapproveComment(comment, $index)") Unapprove
+                    

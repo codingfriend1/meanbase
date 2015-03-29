@@ -1,10 +1,7 @@
-
-.a-3.a-middle
-	h1.page-header
-		| Media
-.a-9.a-right.a-middle
-	button.btn.btn-danger(ng-click="deleteAll()") Delete All
-	button.btn.btn-success(data-toggle='modal' data-target='#uploadMedia') Upload Media
+h1 Media
+p Manage and see images, videos, and documents your site is using
+button.btn.btn-danger(ng-click="deleteAll()") Delete All
+button.btn.btn-success(data-toggle='modal' data-target='#uploadMedia') Upload Media
 .a-12
 	.form-group
 		input.form-control(ng-model="whichImage" placeholder="filter")

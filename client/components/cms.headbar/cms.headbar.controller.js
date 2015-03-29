@@ -2,7 +2,7 @@
 	angular.module('meanbaseApp').controller('cms.headbar.controller', HeadbarController);
 
 	// @ngInject
-	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal) {
+	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout) {
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 
 		var endpoints = {
@@ -36,9 +36,13 @@
 
 		this.saveChanges = function() {
 			this.toggleEdit();
-			$rootScope.$emit('cms.saveEdits');
 			if(!$scope.page._id) { return false; }
-			endpoints.page.update({_id: $scope.page._id}, $scope.page);
+			$rootScope.$emit('cms.saveEdits');
+
+			//We need to wait for the "edit" directive to store changes in page.content
+			$timeout(function(){
+				endpoints.page.update({_id: $scope.page._id}, $scope.page);
+			});
 		};
 
 		this.discardChanges = function() {

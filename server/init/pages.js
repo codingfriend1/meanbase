@@ -3,7 +3,7 @@ module.exports = function() {
 	var Pages = require('../api/pages/pages.model');
 
 	var demoHome = {
-		"author": "demo",
+		"author": "Admin",
 		"visibility": "basic",
 		"url": "/",
 		"tabTitle": "meanbase",
@@ -21,7 +21,7 @@ module.exports = function() {
 	};
 
 	var tutorial = {
-		"author": "demo",
+		"author": "Admin",
 		"visibility": "basic",
 		"url": "/tutorial",
 		"tabTitle": "meanbase - tutorial",
@@ -30,6 +30,19 @@ module.exports = function() {
 		"content": {"content-1": "Create your themes in client/themes/ folder. Use generator-angular-fullstack to understand project structure. "},
 		"description": "A tutorial to get you running with meanbase.",
 		"summary": "A tutorial to get you running with meanbase.",
+		"published": true
+	};
+
+	var article = {
+		"author": "Admin",
+		"visibility": "basic",
+		"url": "/why-cms",
+		"tabTitle": "Why a CMS?",
+		"template": "article",
+		"title": "Why use a CMS",
+		"content": {"content-1": "A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves."},
+		"description": "Why do we need a CMS?",
+		"summary": "A reason to use a CMS",
 		"published": true
 	};
 
@@ -42,7 +55,7 @@ module.exports = function() {
 	Pages.find(function (err, pages) {
 	  if(err) { return handleError(err); }
 	  if(pages.length === 0) {
-	  	Pages.create([demoHome, tutorial], function(err, page) {
+	  	Pages.create([demoHome, tutorial, article], function(err, page) {
   		  if(err) { return handleError(err); }
   		  console.log('Pages initialized');
   		});

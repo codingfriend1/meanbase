@@ -119,7 +119,7 @@ module.exports = function() {
 		}
 	};
 
-	var master = {
+	var admin = {
 		role: 'admin',
 		permissions: {
 			editContent: true,
@@ -138,7 +138,7 @@ module.exports = function() {
 		}
 	};
 
-	basicRoles.push(basic, level1, level2, level3, level4, level5, master);
+	basicRoles.push(basic, level1, level2, level3, level4, level5, admin);
 
 	// Roles.remove({}, function(err, roles) {
 	//   if(err) { return handleError(err); }

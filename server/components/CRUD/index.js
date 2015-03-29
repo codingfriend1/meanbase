@@ -150,6 +150,7 @@ CRUD.prototype.createAndLink = function(req, res, callback, linkModel, linkField
 // Updates existing items in the collection.
 CRUD.prototype.update = function(req, res, callback) {
   var identifier = getIdentifer(req);
+  console.log('req.body', req.body);
   this.collection.update(identifier, req.body, {multi: true}, function(err, found) {
     if (err) { return handleError(res, err); }
     if(!found) { return res.send(404); }

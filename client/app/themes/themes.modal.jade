@@ -20,11 +20,15 @@ script(type="text/ng-template" id="theme.modal.html")
 				textarea.form-control {{theme.description}}
 			p(ng-if="theme.active").mb-active-theme.bg-success Currently in use
 			p(ng-if="!theme.active").mb-active-theme.bg-warning Not being used
-			.form-group
-				label Map Theme Templates (in case two themes don't use the same template)
-				.form-group(ng-repeat="(template, tags) in templates")
-					label.template-label {{template}}
-					taglist(ng-model="templates[template]")
+			hr
+			h4 Template Mapping
+			p This section allows you to map templates that your data may be using to the templates that your theme supports. So if your page uses the "willy-wonka" template but your new "Boring" theme doesn't support that, then just add "willy-wonka" as a tag to a template your theme does support
+			label.your-templates-label Supported Templates
+			label.template-field-label Incoming Templates
+
+			.form-group(ng-repeat="(template, tags) in templates")
+				label.template-label {{template}}
+				taglist(ng-model="templates[template]")
 	.modal-footer
 		button.btn.btn-danger(ng-click="deleteTheme(theme)" data-dismiss='modal') Delete
 		button.btn.btn-warning(type='button' ng-click="updateTheme()" data-dismiss='modal') Update
