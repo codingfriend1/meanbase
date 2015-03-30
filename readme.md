@@ -20,6 +20,13 @@ This project was posted before was ready in order for collaboration to be availa
 ####Users
 - To login visit /login
 
+####Install
+Run
+- mongod
+- npm install
+- bower install
+- grunt serve
+
 
 ##MIT LICENSE
 

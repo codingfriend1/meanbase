@@ -4,9 +4,10 @@ hr
 h3 Roles and Privilages
 .panel-dark#users
 	.panel-head
-			.a-6.m-12.m-center
+		.row
+			.col-sm-6.col-xs-3
 				select.panel-select(ng-options="role as role.role for role in roles track by role.role" ng-model="selectedRole")
-			.a-6.m-12.a-right.m-center
+			.col-sm-6.col-xs-9.text-right
 				button.btn.btn-danger(ng-click="deleteRole()" ng-disabled="selectedRole.role === 'basic' || selectedRole.role === 'admin'") Delete
 				button.btn.btn-primary(ng-click="createRole()") New Role
 				button.btn.btn-success(ng-click="updateRole()" ng-disabled="selectedRole.role === 'admin'") Save
@@ -16,7 +17,6 @@ h3 Roles and Privilages
 			label(for="{{permissionName}}")| {{permissionName | camelToHuman}}
 
 h1 Users
-.p-1
 	.form-group
 		input(type="text" placeholder="filter users" ng-model="userFilter").form-control
 accordion(close-others="true")
@@ -26,31 +26,27 @@ accordion(close-others="true")
 			i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron
 			span.pull-right| {{user.role}} 
 		.panel-body.equal
-			.a-6.m-12
-				.p-1
+			.row
+				.col-md-6
 					.form-group
 						label Username
-						input(type="text" ng-model="user.name").form-control
-							
-			.a-6.m-12
-				.p-1
+						input(type="text" ng-model="user.name").form-control	
+				.col-md-6
 					.form-group
 						label Email
 						input(type="text" ng-model="user.email").form-control
-			.a-3.m-4
-				.p-1
+			.row
+				.col-sm-3.col-xs-6
 					.form-group
 						p.h5 Allow User:
 						select.panel-select(ng-model="user.role")
 							option(ng-repeat="role in roles" ng-selected="role.role == user.role") {{role.role}}
-			.a-3.m-4
-				.p-1
+				.col-sm-4.col-xs-6
 					.form-group
 						p.h5 Account Enabled
 						label.mb-toggle-switch
 							input(type="checkbox" ng-model="user.enabled" ng-checked="user.enabled")
-							span.mb-switch
-			.a-6.m-4.a-right.a-bottom
-				.p-1
+								span.mb-switch
+				.col-sm-5.col-xs-12.text-right
 					button.btn.btn-danger(ng-click="deleteUser(user, $index)" ng-disabled="user.role === 'admin'") Delete
 					button.btn.btn-success(ng-click="updateUser(user)") Update

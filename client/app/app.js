@@ -1,13 +1,12 @@
 'use strict';
 
 angular.module('meanbaseApp', [
-  'extensions',
+  // 'extensions',
   'ngCookies',
   'ngResource',
   'ngSanitize',
   'ui.router',
-  'ui.bootstrap',
-  'ng-sortable'
+  'ui.bootstrap'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider

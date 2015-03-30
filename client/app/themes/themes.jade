@@ -1,10 +1,8 @@
 h2 Themes
-.container
-    .d-4.t-6(ng-repeat="theme in themes").mb-theme
-        h4 {{theme.title}} 
-        img(ng-src="../../themes/{{theme.url}}/assets/images/screenshot.png" ng-click="openModal(theme)").img-responsive.img-thumbnail
-        .a-center
-            p(ng-if="theme.active").mb-active-theme.bg-success Currently in use
-            p(ng-if="!theme.active").mb-active-theme.bg-warning Not being used
-h3 Social Sharing Setup
-button.mb-button.mb-connect-social Connect
+.row
+	.col-md-4.col-sm-6(ng-repeat="theme in themes")
+			h4 {{theme.title}} 
+			img(ng-src="../../themes/{{theme.url}}/assets/images/screenshot.png" ng-click="openModal(theme)").img-responsive.img-thumbnail
+			.text-center
+				p(ng-if="theme.active").mb-active-theme.bg-success Currently in use
+				p(ng-if="!theme.active").mb-active-theme.bg-warning Not being used

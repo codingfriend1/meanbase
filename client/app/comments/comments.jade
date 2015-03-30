@@ -25,24 +25,27 @@
                 i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron 
                 span.pull-right| {{comment.url | removeSlash}} 
             .panel-body.equal
-                .a-6.m-12
-                    .a-9.m-9.a-middle
-                        p.h4 email
-                        p {{comment.email}}
-                .a-6.m-12
-                    .a-9.m-9.a-middle
-                        p.h4 ip
-                        p {{comment.ip}}
-                .a-12
-                    p.h4 content
-                    p {{comment.content}}
-                .a-6.m-12.a-middle
-                    p.h4 Date
-                    p {{comment.date | date: 'MMM d, y h:mm a'}}
-                .a-6.m-12.a-right.a-middle.m-center
-                    button.btn.btn-danger() Ban commentor
-                    button.btn.btn-danger(ng-click="deleteComment(comment, $index)") Delete
-                    button.btn.btn-warning(ng-click="editComment(comment, $index)") Edit
-                    button.btn.btn-success(ng-hide="comment.approved" ng-click="approveComment(comment, $index)") Approve
-                    button.btn.btn-warning(ng-show="comment.approved" ng-click="unapproveComment(comment, $index)") Unapprove
+                .row
+                    .col-sm-4.col-xs-12
+                        .a-9.m-9
+                            p.h4 email
+                            p {{comment.email}}
+                    .col-sm-4.col-xs-6
+                        .a-9.m-9
+                            p.h4 ip
+                            p {{comment.ip}}
+                    .col-sm-4.col-xs-6
+                        p.h4 Date
+                        p {{comment.date | date: 'MMM d, y h:mm a'}}
+                .row
+                    .col-sm-12
+                        p.h4 content
+                        p {{comment.content}}
+                .row
+                    .col-sm-12.text-right
+                        button.btn.btn-danger() Ban commentor
+                        button.btn.btn-danger(ng-click="deleteComment(comment, $index)") Delete
+                        button.btn.btn-warning(ng-click="editComment(comment, $index)") Edit
+                        button.btn.btn-success(ng-hide="comment.approved" ng-click="approveComment(comment, $index)") Approve
+                        button.btn.btn-warning(ng-show="comment.approved" ng-click="unapproveComment(comment, $index)") Unapprove
                     
