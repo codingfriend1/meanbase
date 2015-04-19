@@ -1,35 +1,22 @@
-h1 Media
+h1 Upload and edit media
 p Manage and see images, videos, and documents your site is using
-button.btn.btn-danger(ng-click="deleteAll()") Delete All
-button.btn.btn-success(data-toggle='modal' data-target='#uploadMedia') Upload Media
-.a-12
-	.form-group
-		input.form-control(ng-model="whichImage" placeholder="filter")
-.a-12
-	button.btn.btn-default(ng-click="select()") Select
-	button.btn.btn-default(ng-click="selectAll()") Select All
-	button.btn.btn-danger(ng-click="deleteSelected()") Delete Selected
-	button.btn.btn-warning(ng-click="updateSelected()") Update Selected
-
-.a-4.m-6.c-12(ng-repeat="image in images")
-	.mb-media-item.a-center
-		img.img-responsive(ng-src="../../{{image.url}}" alt='{{image.alt}}' data-toggle='modal' data-target='#editMedia' ng-click="editMedia(image)")
+div.drop-zone(nv-file-over uploader="uploader").text-center.form-inline
+	p.h4 Drop files here to upload or
+	.form-group.text-center
+		input.form-control(type='file' nv-file-select multiple uploader="uploader")
+	.progress
+			.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
+//- .form-group
+//- 	button.btn.btn-danger(ng-click="deleteAllVisible()") Delete All Visibile
+//- .btn-group.btn-group-justified
+//- 	a.btn.btn-danger Delete All Visible
+//- 	a.btn.btn-primary Attribute All Visible
 hr
-.text-center
-	.a-12
-		ul.pagination
-			li
-				a(href='#') «
-			li.active
-				a(href='#') 1
-			li
-				a(href='#') 2
-			li
-				a(href='#') 3
-			li
-				a(href='#') 4
-			li
-				a(href='#') 5
-			li
-				a(href='#') »
-hr
+h3 Edit Images
+.mass-edit-buttons
+	button.btn.delete-visible(ng-click="deleteAllVisible()") Delete All Visible
+	button.btn.delete-selected(ng-click="deleteSelected()") Delete All Selected
+image-selector
+//- .a-4.m-6.c-12(ng-repeat="image in images")
+	//- .mb-media-item.a-center
+	//- 	img.img-responsive(ng-src="../../{{image.url}}" alt='{{image.alt}}' data-toggle='modal' data-target='#editMedia' ng-click="editMedia(image)")

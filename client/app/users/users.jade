@@ -30,7 +30,7 @@ accordion(close-others="true")
 				.col-md-6
 					.form-group
 						label Username
-						input(type="text" ng-model="user.name").form-control	
+						input(type="text" ng-model="user.name").form-control
 				.col-md-6
 					.form-group
 						label Email
@@ -46,7 +46,7 @@ accordion(close-others="true")
 						p.h5 Account Enabled
 						label.mb-toggle-switch
 							input(type="checkbox" ng-model="user.enabled" ng-checked="user.enabled")
-								span.mb-switch
+							span.mb-switch
 				.col-sm-5.col-xs-12.text-right
 					button.btn.btn-danger(ng-click="deleteUser(user, $index)" ng-disabled="user.role === 'admin'") Delete
 					button.btn.btn-success(ng-click="updateUser(user)") Update

@@ -18,6 +18,9 @@ var passport = require('passport');
 var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
+var multer  = require('multer');
+var fs = require('fs');
+var folderName;
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -27,6 +30,30 @@ module.exports = function(app) {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(multer({ 
+    dest: './client/assets/images/',
+    rename: function (fieldname, filename) {
+      folderName = filename.replace(/\W+/g, '-').toLowerCase() + '_' + Date.now();
+      return 'origional';
+    },
+    changeDest: function(dest, req, res) {
+      var destination = dest + folderName + '/';
+      if(!fs.existsSync(destination)){
+        fs.mkdirSync(destination, "0766", function(err){
+          if(err){ 
+            console.log(err);
+            response.send("ERROR! Can't make the directory! \n");    // echo the result back
+          }
+        });   
+      }
+
+      req.body = {
+        url: 'assets/images/' + folderName + '/',
+      };
+
+      return destination; 
+    }
+  }));
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());

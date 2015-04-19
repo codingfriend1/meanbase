@@ -1,0 +1,211 @@
+// .vertical-center
+// 	position relative
+// 	top 50%
+// 	-webkit-transform translateY(-50%)
+// 	-ms-transform translateY(-50%)
+// 	transform translateY(-50%)
+#meanbase-cms
+	.image-selector
+		position relative
+		text-align center
+		
+		.headbar
+			// background-color #2C3E50
+			padding 0.5em
+			color #F1C40F
+			border-radius 3px
+			
+			.form-group,
+			label
+				margin-bottom 0
+			
+			input[type=checkbox] + label
+				font-size 1.25em
+			
+			label:before
+				color #F1C40F !important
+		
+		.body
+			position relative
+			// margin-top 0.5em
+		.album-left
+			margin-right 1em
+		
+		.set-albums 
+			margin-right 1em
+			padding-top 0.5em
+				
+		.image-details
+			margin-top 0.5em
+			// background-color #2C3E50
+			padding 0.2em
+			color #F1C40F
+			border-radius 3px
+		.btn-spacing
+			button
+				margin-right 0.5em
+			
+			.pagination
+				margin 0em 0
+				
+		.fullscreen-image
+			max-height 300px
+		.previous-image
+			color SUN-FLOWER
+			font-size 2em
+			padding-right 1em
+			
+			position absolute
+			left 1em
+			top 50%
+			-webkit-transform translateY(-50%)
+			-ms-transform translateY(-50%)
+			transform translateY(-50%)
+			// left 0
+			// position absolute
+			// top 200px
+			// font-size 2.25em
+			// z-index 3
+			// background-color rgba(255, 255, 255, 0.25)
+			// color grey
+			// border-radius 15em
+			// padding 0.3em 0.4em
+			// margin 0.25em
+		.next-image
+			color SUN-FLOWER
+			font-size 2em
+			padding-left 1em
+			// right 0
+			position absolute
+			top 50%
+			-webkit-transform translateY(-50%)
+			-ms-transform translateY(-50%)
+			transform translateY(-50%)
+			right 1em
+			// font-size 2.25em
+			// z-index 3
+			// background-color rgba(255, 255, 255, 0.25)
+			// color grey
+			// border-radius 15em
+			// padding 0.3em 0.4em
+			// margin 0.25em
+		button.crop
+			background-color SUN-FLOWER
+			color MIDNIGHT-BLUE
+		.exit-fullscreen
+			color SUN-FLOWER
+			margin-left 1em
+			font-size 2em
+			
+			// position absolute
+			// top 0
+			// right 0
+			// padding 1em
+			// margin 0.25em
+			// font-size 1.2em
+			// font-size 2.25em
+			// z-index 3
+			// background-color rgba(255, 255, 255, 0.25)
+			// color grey
+			// border-radius 15em
+			// padding 0.3em 0.4em
+		
+		// .h-center
+		// 	display inline-block
+			
+		.image-grid-4
+			display inline-block
+			box-sizing border-box
+			margin 0.25em
+			border-radius 3px
+			// margin-right -0.25em
+			width 33%
+			max-width 100px
+			padding 0 0.3em 0.3em
+			overflow hidden
+			max-height 100px
+			
+		.image-thumbnail
+			
+			// padding 0 0.3em
+			// width 33%
+			position static
+			cursor pointer
+			// display inline-block
+			// width 33%
+			// height 200px
+			// margin 5px
+			// border 3px solid #c99
+			// background-position center center
+			// background-size cover
+			
+			img
+				// height 100%
+				min-width 100%
+				min-height 100%
+				left 50%
+				position relative
+				transform translateX(-50%)
+			
+			// &.selected:before
+			// 	position absolute
+			// 	top 0
+			// 	left 0
+			// 	padding 0.2em 0.4em
+			// 	margin 0.3em
+			// 	border-bottom-right-radius 3px
+			// 	font-size 1.2em
+			// 	font-family FontAwesome
+			// 	content: "\f00c"
+			// 	color #ECF0F1
+			// 	background-color #27AE60
+			// 	cursor pointer
+					
+			.selector
+				position absolute
+				top 0
+				left 0
+				padding 0.2em 0.4em
+				margin 0.3em
+				border-bottom-right-radius 3px
+				font-size 1.5em
+				z-index 3
+				cursor pointer
+				&.fa-check-circle-o
+					color #27AE60
+			
+			.invisible
+				opacity 0
+				
+			.fullscreen
+				position static
+				-webkit-transform translateX(0)
+				-ms-transform translateX(0)
+				transform translateX(0)
+				
+				min-width initial
+				min-height initial
+				width auto
+				height auto
+			&.backdrop
+				position absolute
+				top 0
+				left 0
+				width 100%
+				z-index 2
+				background-color white
+				text-align center
+
+				// &:after
+				// 	position absolute
+				// 	top 0
+				// 	right 0
+				// 	padding 0.25em 0.5em
+				// 	margin 0.3em
+				// 	font-size 2em
+				// 	font-family FontAwesome
+				// 	content: "\f00d"
+				// 	color #27AE60
+				// 	background-color none
+				// 	cursor pointer
+		

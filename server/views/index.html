@@ -13,6 +13,8 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="../../bower_components/cropper/dist/cropper.css" />
+      <link rel="stylesheet" href="../../bower_components/ng-cropper/dist/ngCropper.all.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
@@ -63,6 +65,10 @@
       <script src="../../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="../../bower_components/ckeditor/ckeditor.js"></script>
       <script src="../../bower_components/Sortable/Sortable.js"></script>
+      <script src="../../bower_components/angular-touch/angular-touch.js"></script>
+      <script src="../../bower_components/angular-file-upload/angular-file-upload.js"></script>
+      <script src="../../bower_components/cropper/dist/cropper.js"></script>
+      <script src="../../bower_components/ng-cropper/dist/ngCropper.all.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -98,6 +104,7 @@
           <script src="components/cms.headbar/cms.headbar.controller.js"></script>
           <script src="components/edit/edit.directive.js"></script>
           <script src="components/endpoints/endpoints.service.js"></script>
+          <script src="components/image-selector/image-selector.directive.js"></script>
           <script src="components/modal/modal.service.js"></script>
           <script src="components/mongoose-error/mongoose-error.directive.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>

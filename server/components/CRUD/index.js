@@ -215,7 +215,7 @@ CRUD.prototype.delete = function(req, res, callback) {
 // Deletes a single item from the collection.
 CRUD.prototype.deleteById = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
-  this.collection.findById(identifier._id, function (err, found) {
+  this.collection.findById(identifier.id, function (err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
     found.remove(function(err) {
@@ -308,13 +308,20 @@ CRUD.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkMod
 
 module.exports = CRUD;
 
+
+function isEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+
 // Handles the request object to determine how data was sent to the server
 CRUD.prototype.getIdentifer = function(req) {
   var identifier = {};
   if(req.body && req.body.identifier && req.body.replacement) {
     identifier = req.body.identifier; 
     req.body = req.body.replacement;
-  } else if (req.query) {
+  } else if (!isEmpty(req.body) && !req.body.replacement) {
+    identifier = req.body; 
+  } else if (!isEmpty(req.query)) {
     identifier = req.query;
   } else if (req.params) {
     identifier = req.params;

@@ -38,18 +38,21 @@
 		};
 
 		endpoints.prototype.findOne = function(id) {
+			var self = this;
 			return $http.get(this.baseRoute + this.endpoint + '/' + id).error(function(error) {
 				self.errorHandler(error);
 			});
 		};
 
 		endpoints.prototype.updateOne = function(id, replacement) {
+			var self = this;
 			return $http.put(this.baseRoute + this.endpoint + '/' + id, replacement).error(function(error) {
 				self.errorHandler(error);
 			});
 		};
 
 		endpoints.prototype.deleteOne = function(id) {
+			var self = this;
 			return $http.delete(this.baseRoute + this.endpoint + '/' + id).error(function(error) {
 				self.errorHandler(error);
 			});

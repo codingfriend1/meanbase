@@ -10,8 +10,15 @@ var MediaSchema = new Schema({
 	},
 	alt: {
 		type: String,
-		trim: true
-	}
+		trim: true,
+		default: ''
+	},
+	attribute: {
+		type: String,
+		trim: true,
+		default: ''
+	},
+	groups: Array
 });
 
 module.exports = mongoose.model('Media', MediaSchema);
