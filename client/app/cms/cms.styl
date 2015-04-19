@@ -53,26 +53,33 @@
     list-style none
 
 .sidebar-nav li
-    text-indent 20px
+    text-indent 10px
     line-height 40px
 
 .sidebar-nav 
-  li a
-    display block
-    text-decoration none
-    color #999999
-    
-  li a.disabled
+  li 
+      cursor pointer
+    a
+        text-decoration none
+        color #999999
+    i
+        font-size 1.3em
+        margin-right 0.75em
+        color #666
+  li.disabled
     display none
     text-decoration none
     color #555
 
-  li a:hover
+  li:hover
     text-decoration none
-    color #fff
     background rgba(255,255,255,0.2)
+    a
+        color #fff
+    i
+        color #999
     
-  li a.disabled:hover
+  li.disabled:hover
     background none
     color #555
 
