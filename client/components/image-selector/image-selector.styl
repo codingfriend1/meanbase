@@ -114,6 +114,7 @@
 		// 	display inline-block
 			
 		.image-grid-4
+			position relative
 			display inline-block
 			box-sizing border-box
 			margin 0.25em
@@ -125,12 +126,30 @@
 			overflow hidden
 			max-height 100px
 			
+			&:before
+				position absolute
+				top 0
+				left 0
+				padding 0.3em 0.5em
+				content "\f119"
+				border-bottom-right-radius 3px
+				font-size 1.2em
+				font-family FontAwesome
+				background-color rgba(255,255,255, 0.3)
+				color CONCRETE
+				z-index 3
+				
+			&.selected:before
+				color GREEN-SEA
+				content "\f00c"
+			
 		.image-thumbnail
 			
 			// padding 0 0.3em
 			// width 33%
-			position static
+			position relative
 			cursor pointer
+			
 			// display inline-block
 			// width 33%
 			// height 200px
