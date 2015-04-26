@@ -9,26 +9,6 @@ div.image-selector
 						.input-group-addon 
 							i.fa.fa-search
 						input.form-control(placeholder="Search Media" ng-model="mediaFilter")
-				//- <div class="btn-group" dropdown="">
-				//-       <button type="button" class="btn btn-danger">Action</button>
-				//-       <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
-				//-         <span class="caret"></span>
-				//-         <span class="sr-only">Split button!</span>
-				//-       </button>
-				//-       <ul class="dropdown-menu" role="menu">
-				//-         <li><a href="#">Action</a></li>
-				//-         <li><a href="#">Another action</a></li>
-				//-         <li><a href="#">Something else here</a></li>
-				//-         <li class="divider"></li>
-				//-         <li><a href="#">Separated link</a></li>
-				//-       </ul>
-				//-     </div>
-				//- select.form-control(ng-model="groups" ng-options="group for group in groups")
-			//- .col-xs-12.text-left
-			//- 	.form-group
-			//- 		input#select-all.checkbox(type="checkbox" ng-model="selectAll")
-			//- 		label(for="select-all")| Select All Visible
-				//- i.fa.fa-expand.fa-lg.pull-right
 		.row(ng-show="fullscreen")
 			.col-sm-12
 				.btn-spacing.pull-left
@@ -46,7 +26,7 @@ div.image-selector
 						//- i.fa.fa-expand(ng-click="select($event, item)")
 			.col-sm-12(ng-show="fullscreen" ng-swipe-right="prev()" ng-swipe-left="next()")
 				.fullscreen-master-container
-					i.fa.fa-frown-o.select-button(ng-click="selectImage($event, item)" ng-class="{selected: selectedImages.indexOf(fullscreenImage) !== -1}")
+					i.fa.fa-frown-o.select-button(ng-click="selectImage($event, fullscreenImage)" ng-class="{selected: selectedImages.indexOf(fullscreenImage) !== -1}")
 					i.previous-image-button.fa.fa-chevron-left(ng-click="prev()")
 					i.fa.fa-chevron-right.next-image-button(ng-click="next()")
 					.fullsize-box.main

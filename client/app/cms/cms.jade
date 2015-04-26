@@ -3,19 +3,19 @@
 		ul.sidebar-nav
 			li.sidebar-brand 
 				a(ui-sref='main.page') Back to Site
-			li(ui-sref='cms.themes' ng-show="user.permissions.indexOf('changeSiteSettings') > -1")
+			li(ui-sref='cms.themes' ng-show="user.permissions.indexOf('changeSiteSettings') > -1" ng-click="toggleMenu()")
 				i.fa.fa-paint-brush
 				a Themes                
-			li(ui-sref='cms.comments' ng-show="user.permissions.indexOf('moderateComments') > -1")
+			li(ui-sref='cms.comments' ng-show="user.permissions.indexOf('moderateComments') > -1" ng-click="toggleMenu()")
 				i.fa.fa-comments
 				a Comments                
-			li(ui-sref='cms.users' ng-show="user.permissions.indexOf('manageUsers') > -1") 
+			li(ui-sref='cms.users' ng-show="user.permissions.indexOf('manageUsers') > -1" ng-click="toggleMenu()") 
 				i.fa.fa-users
 				a Users                
-			li(ui-sref='cms.media' ng-show="user.permissions.indexOf('manageMedia') > -1")
+			li(ui-sref='cms.media' ng-show="user.permissions.indexOf('manageMedia') > -1" ng-click="toggleMenu()")
 				i.fa.fa-image
 				a Media                
-			li(ui-sref='cms.extensions' ng-show="user.permissions.indexOf('manageExtensions') > -1")
+			li(ui-sref='cms.extensions' ng-show="user.permissions.indexOf('manageExtensions') > -1" ng-click="toggleMenu()")
 				i.fa.fa-plug
 				a Extensions               
 			li(ui-sref='cms.analytics')
