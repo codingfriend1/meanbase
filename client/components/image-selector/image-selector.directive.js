@@ -10,6 +10,7 @@ angular.module('meanbaseApp')
         var media = new endpoints('media');
         scope.fullscreen = false;
         scope.selectedGroup = scope.groups[0];
+        scope.selectedImages = [];
 
 
         // Sets up fields to search by
@@ -79,6 +80,8 @@ angular.module('meanbaseApp')
           // Set the fullscreen image to the image that was clicked on
           scope.fullscreenImage = angular.element($event.target).scope().item;
 
+          console.log('selectedImages.indexOf(fullscreenImage) !== -1', scope.selectedImages.indexOf(scope.fullscreenImage) !== -1);
+
           scope.firstImageUrl = scope.fullscreenImage.modifiedurl;
           globals._fullscreenImage = angular.copy(scope.fullscreenImage);
 
@@ -102,6 +105,19 @@ angular.module('meanbaseApp')
               scope.media.splice(scope.media.indexOf(image), 1);
             });
           }
+        };
+
+        scope.selectImage = function(e, item) {
+          // If image is not selected
+          if(scope.selectedImages.indexOf(item) === -1) {
+            scope.selectedImages.push(item);
+          } else {
+            scope.selectedImages.splice(scope.selectedImages.indexOf(item), 1);
+          }
+        };
+
+        scope.getSelectedImages = function() {
+          return scope.selectedImages;
         };
 
         dom.mainFullsizeBox.bind('transitionend', switchImages);

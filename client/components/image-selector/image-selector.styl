@@ -61,6 +61,24 @@
 			height 300px
 			max-width 100%
 			overflow hidden
+			position relative
+			
+			.select-button
+				position absolute
+				top 0
+				left 0
+				padding 0.3em 0.5em
+				content "\f119"
+				border-bottom-right-radius 3px
+				font-size 1.75em
+				font-family FontAwesome
+				background-color rgba(255,255,255, 0.3)
+				color ASBESTOS
+				z-index 4
+				
+				&.selected:before
+					color GREEN-SEA
+					content "\f00c"
 				
 		.fullsize-box
 			display inline-block
@@ -196,9 +214,9 @@
 				color ASBESTOS
 				z-index 4
 				
-			&.selected:before
-				color GREEN-SEA
-				content "\f00c"
+				&.selected:before
+					color GREEN-SEA
+					content "\f00c"
 			
 		.image-thumbnail
 			

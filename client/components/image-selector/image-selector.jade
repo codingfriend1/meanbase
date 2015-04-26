@@ -41,20 +41,16 @@ div.image-selector
 			.col-sm-12(ng-show="!fullscreen")
 				.image-grid-4(ng-repeat="item in ($parent.filteredMedia = (media | filter:filterMedia))")
 					div.image-thumbnail
-						i.fa.fa-frown-o.select-button
+						i.fa.fa-frown-o.select-button(ng-click="selectImage($event, item)" ng-class="{selected: selectedImages.indexOf(item) !== -1}")
 						img(ng-src="{{item.modifiedurl}}" ng-click="expand($event, item, $index)" ng-swipe-right="prev()" ng-swipe-left="next()")
 						//- i.fa.fa-expand(ng-click="select($event, item)")
-			.col-sm-12(ng-show="fullscreen" ng-swipe-right="prev()" ng-swipe-left="next()").fullscreen-master-container
-				i.previous-image-button.fa.fa-chevron-left(ng-click="prev()")
-				i.fa.fa-chevron-right.next-image-button(ng-click="next()")
-				//- div(ng-if="cropMode" class="image-cropper")
-				//- 	img(ng-if="cropMode" ng-src="{{fullscreenImage.modifiedurl}}" ng-cropper ng-show="{{showEvent}}" ng-hide="{{hideEvent}}" ng-options="options")
-				//- .fullsize-box.previous-image.previous-image.left
-				//- 	img(ng-src="{{previousImage.modifiedurl}}").fullscreen-image
-				.fullsize-box.main
-					img(ng-src="{{firstImageUrl}}").fullscreen-image
-				//- .fullsize-box.next-image.right
-				//- 	img(ng-src="{{nextImage.modifiedurl}}").fullscreen-image
+			.col-sm-12(ng-show="fullscreen" ng-swipe-right="prev()" ng-swipe-left="next()")
+				.fullscreen-master-container
+					i.fa.fa-frown-o.select-button(ng-click="selectImage($event, item)" ng-class="{selected: selectedImages.indexOf(fullscreenImage) !== -1}")
+					i.previous-image-button.fa.fa-chevron-left(ng-click="prev()")
+					i.fa.fa-chevron-right.next-image-button(ng-click="next()")
+					.fullsize-box.main
+						img(ng-src="{{firstImageUrl}}").fullscreen-image
 	.image-details(ng-show="fullscreen")
 		.row
 			.col-sm-12

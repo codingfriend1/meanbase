@@ -61,5 +61,22 @@ angular.module('meanbaseApp')
       });
     };
 
+    $scope.deleteSelected = function() {
+      var selectedImages = angular.element('image-selector').scope().selectedImages;
+      var urlArray = [];
+
+      // Get the visibile images' urls
+      for (var i = 0; i < $scope.selectedImages.length; i++) {
+        urlArray.push($scope.selectedImages[i].url);
+      };
+
+      // Delete those images
+      endpoint.delete({ url: {$in: urlArray } }).then(function() {
+        for (var i = 0; i < $scope.selectedImages.length; i++) {
+          $scope.media.splice($scope.media.indexOf($scope.selectedImages[i]), 1);
+        }
+      });
+    };
+
     getMedia();
   });
