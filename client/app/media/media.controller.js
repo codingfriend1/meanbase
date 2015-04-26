@@ -24,6 +24,17 @@ angular.module('meanbaseApp')
       $scope.uploader.progress = 0;
     };
 
+    function getGroups() {
+      // Get media groups
+      for (var i = 0; i < $scope.media.length; i++) { //Loop through each media
+        for (var x = 0; x < $scope.media[i].groups.length; x++) { //Loop through each group in media
+          if($scope.groups.indexOf($scope.media[i].groups[x]) === -1) { //Already exists?
+            $scope.groups.push($scope.media[i].groups[x]); //else add to groups array
+          }
+        }
+      }
+    }
+
     function getMedia() {
        endpoint.find({}).success(function(media) {
         $scope.media = media;
@@ -33,14 +44,7 @@ angular.module('meanbaseApp')
           $scope.media[i].modifiedurl = $scope.media[i].url + 'origional.jpg';
         };
 
-        // Get media groups
-        for (var i = 0; i < $scope.media.length; i++) { //Loop through each media
-          for (var x = 0; x < $scope.media[i].groups.length; x++) { //Loop through each group in media
-            if($scope.groups.indexOf($scope.media[i].groups[x]) === -1) { //Already exists?
-              $scope.groups.push($scope.media[i].groups[x]); //else add to groups array
-            }
-          }
-        }
+        getGroups();
 
       }); //Find All Media
     }
@@ -52,6 +56,8 @@ angular.module('meanbaseApp')
       for (var i = 0; i < $scope.filteredMedia.length; i++) {
         urlArray.push($scope.filteredMedia[i].url);
       };
+
+      if(urlArray.length < 1) return false;
 
       // Delete those images
       endpoint.delete({ url: {$in: urlArray } }).then(function() {
@@ -70,12 +76,44 @@ angular.module('meanbaseApp')
         urlArray.push($scope.selectedImages[i].url);
       };
 
+      if(urlArray.length < 1) return false;
+
       // Delete those images
       endpoint.delete({ url: {$in: urlArray } }).then(function() {
         for (var i = 0; i < $scope.selectedImages.length; i++) {
           $scope.media.splice($scope.media.indexOf($scope.selectedImages[i]), 1);
         }
       });
+    };
+
+    $scope.groupSelected = function() {
+      var prompt = window.prompt('Album Name?');
+      var re = new RegExp("[_a-zA-Z0-9\\-\\.]+");
+
+      if(!prompt || !re.test(prompt)) return false;
+
+      var imageSelector = angular.element('image-selector').scope()
+
+      var selectedImages = imageSelector.getSelectedImages();
+
+      var urlArray = [];
+
+      // Get the visibile images' urls
+      for (var i = 0; i < $scope.selectedImages.length; i++) {
+        urlArray.push($scope.selectedImages[i].url);
+      };
+
+      if(urlArray.length < 1) return false;
+
+      // Update those images
+      endpoint.update({ url: {$in: urlArray } }, { $push: {groups: prompt} }).then(function() {
+        for (var i = 0; i < $scope.selectedImages.length; i++) {
+          $scope.selectedImages[i].groups.push(prompt);
+          getGroups();
+          imageSelector.selectedGroup = prompt;
+        }
+      });
+
     };
 
     getMedia();

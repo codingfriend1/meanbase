@@ -39,7 +39,7 @@ div.image-selector
 	.body
 		.row
 			.col-sm-12(ng-show="!fullscreen")
-				.image-grid-4(ng-repeat="item in ($parent.filteredMedia = (media | filter:filterMedia))")
+				.image-grid-4(ng-repeat="item in ($parent.filteredMedia = (media | filter:filterMedia| filter:filterByAlbum))")
 					div.image-thumbnail
 						i.fa.fa-frown-o.select-button(ng-click="selectImage($event, item)" ng-class="{selected: selectedImages.indexOf(item) !== -1}")
 						img(ng-src="{{item.modifiedurl}}" ng-click="expand($event, item, $index)" ng-swipe-right="prev()" ng-swipe-left="next()")

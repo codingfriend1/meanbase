@@ -19,6 +19,11 @@ angular.module('meanbaseApp')
           return (media.url + media.alt + media.attribute + media.groups.toString()).toLowerCase().indexOf(scope.mediaFilter.toLowerCase()) >= 0;
         };
 
+        scope.filterByAlbum = function(media) {
+          if(scope.selectedGroup === 'all') return true;
+          return media.groups.indexOf(scope.selectedGroup) >= 0;
+        };
+
 
         // Stores all elements in the dom object
         var dom = {
