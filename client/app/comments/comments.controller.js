@@ -2,6 +2,9 @@
 
 angular.module('meanbaseApp')
   .controller('CommentsCtrl', function ($scope, endpoints) {
+
+    $scope.$parent.pageTitle = 'Moderate Comments';
+    
   	var comments = new endpoints('comments');
 
   	comments.find({}).then(function(response) {

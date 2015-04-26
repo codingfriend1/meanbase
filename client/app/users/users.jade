@@ -1,6 +1,3 @@
-
-h1 Users and Privilages
-hr
 h3 Roles and Privilages
 .panel-dark#users
 	.panel-head
@@ -16,7 +13,7 @@ h3 Roles and Privilages
 			input.checkbox(id="{{permissionName}}" type="checkbox" ng-model="selectedRole.permissions[permissionName]" ng-checked="permissionValue")
 			label(for="{{permissionName}}")| {{permissionName | camelToHuman}}
 
-h1 Users
+h3 Users
 	.form-group
 		input(type="text" placeholder="filter users" ng-model="userFilter").form-control
 accordion(close-others="true")

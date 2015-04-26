@@ -2,5 +2,5 @@
 
 angular.module('meanbaseApp')
   .controller('AnalyticsCtrl', function ($scope) {
-    $scope.message = 'Hello';
+    $scope.$parent.pageTitle = 'Site Traffic and Stats';
   });

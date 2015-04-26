@@ -2,7 +2,9 @@
 
 angular.module('meanbaseApp')
   .controller('ThemesCtrl', function ($scope, endpoints, $modal) {
-    $scope.message = 'Hello';
+
+    $scope.$parent.pageTitle = 'Themes';
+
     var endpoint = new endpoints('themes');
 
     endpoint.find({}).success(function(themes) {

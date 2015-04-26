@@ -4,6 +4,9 @@
 
 	UsersCtrl.$inject = ['$scope', 'endpoints'];
 	function UsersCtrl($scope, endpoints) {
+
+		$scope.$parent.pageTitle = "Users and Permissions";
+
 	  var endpoints = {
 	  	roles: new endpoints('roles'),
 	  	users: new endpoints('users')

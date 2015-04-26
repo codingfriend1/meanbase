@@ -36,19 +36,25 @@ div.image-selector
 					button.btn.btn-danger.fa.fa-trash(ng-click="deleteOne(fullscreenImage)")  Delete
 				i.exit-fullscreen.fa.fa-times(ng-click="exitFullscreen()").pull-right
 					
-
-	.row
-		.col-sm-12.body(ng-show="!fullscreen")
-			.image-grid-4(ng-repeat="item in ($parent.filteredMedia = (media | filter:filterMedia))")
-				div.image-thumbnail
-					img(ng-src="{{item.modifiedurl}}" ng-click="expand($event, item, $index)" ng-swipe-right="prev()" ng-swipe-left="next()")
-					//- i.fa.fa-expand(ng-click="select($event, item)")
-		.col-sm-12(ng-show="fullscreen")
-			i.previous-image.fa.fa-chevron-left(ng-click="prev()")
-			//- div(ng-if="cropMode" class="image-cropper")
-			//- 	img(ng-if="cropMode" ng-src="{{fullscreenImage.modifiedurl}}" ng-cropper ng-show="{{showEvent}}" ng-hide="{{hideEvent}}" ng-options="options")
-			img(ng-src="{{fullscreenImage.modifiedurl}}" ng-swipe-right="prev()" ng-swipe-left="next()").fullscreen-image
-			i.fa.fa-chevron-right.next-image(ng-click="next()")
+	.body
+		.row
+			.col-sm-12(ng-show="!fullscreen")
+				.image-grid-4(ng-repeat="item in ($parent.filteredMedia = (media | filter:filterMedia))")
+					div.image-thumbnail
+						i.fa.fa-frown-o.select-button
+						img(ng-src="{{item.modifiedurl}}" ng-click="expand($event, item, $index)" ng-swipe-right="prev()" ng-swipe-left="next()")
+						//- i.fa.fa-expand(ng-click="select($event, item)")
+			.col-sm-12(ng-show="fullscreen" ng-swipe-right="prev()" ng-swipe-left="next()").fullscreen-master-container
+				i.previous-image-button.fa.fa-chevron-left(ng-click="prev()")
+				i.fa.fa-chevron-right.next-image-button(ng-click="next()")
+				//- div(ng-if="cropMode" class="image-cropper")
+				//- 	img(ng-if="cropMode" ng-src="{{fullscreenImage.modifiedurl}}" ng-cropper ng-show="{{showEvent}}" ng-hide="{{hideEvent}}" ng-options="options")
+				//- .fullsize-box.previous-image.previous-image.left
+				//- 	img(ng-src="{{previousImage.modifiedurl}}").fullscreen-image
+				.fullsize-box.main
+					img(ng-src="{{firstImageUrl}}").fullscreen-image
+				//- .fullsize-box.next-image.right
+				//- 	img(ng-src="{{nextImage.modifiedurl}}").fullscreen-image
 	.image-details(ng-show="fullscreen")
 		.row
 			.col-sm-12
@@ -61,8 +67,7 @@ div.image-selector
 				.form-group
 					.input-group
 						.input-group-addon(title="Attribute information of the image owner") Owner
-						input.form-control(placeholder="Attribute" ng-model="fullscreenImage.attribute")
+						input.form-control(placeholder="Attribute information of the image owner" ng-model="fullscreenImage.attribute")
 			.col-sm-8.text-left
-				.form-group
-					label.set-albums Albums
-					taglist(ng-model="fullscreenImage.groups")
+				label.set-albums Albums
+				taglist(ng-model="fullscreenImage.groups")

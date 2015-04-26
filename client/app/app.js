@@ -8,7 +8,8 @@ angular.module('meanbaseApp', [
   'ui.router',
   'ui.bootstrap',
   'ngCropper',
-  'angularFileUpload'
+  'angularFileUpload',
+  'ngTouch'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider
