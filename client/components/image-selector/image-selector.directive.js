@@ -80,8 +80,6 @@ angular.module('meanbaseApp')
           // Set the fullscreen image to the image that was clicked on
           scope.fullscreenImage = angular.element($event.target).scope().item;
 
-          console.log('selectedImages.indexOf(fullscreenImage) !== -1', scope.selectedImages.indexOf(scope.fullscreenImage) !== -1);
-
           scope.firstImageUrl = scope.fullscreenImage.modifiedurl;
           globals._fullscreenImage = angular.copy(scope.fullscreenImage);
 

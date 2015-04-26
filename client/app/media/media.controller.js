@@ -62,7 +62,7 @@ angular.module('meanbaseApp')
     };
 
     $scope.deleteSelected = function() {
-      var selectedImages = angular.element('image-selector').scope().selectedImages;
+      var selectedImages = angular.element('image-selector').scope().getSelectedImages();
       var urlArray = [];
 
       // Get the visibile images' urls
