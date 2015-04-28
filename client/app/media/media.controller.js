@@ -7,7 +7,8 @@ angular.module('meanbaseApp')
 
     
     var endpoint = new endpoints('media');
-    $scope.groups = ['all'];
+    $scope.groups = ['all', 'selected'];
+    $scope.media = [];
 
     if ($cookieStore.get('token')) {
       var uploader = $scope.uploader = new FileUploader({
@@ -35,19 +36,19 @@ angular.module('meanbaseApp')
       }
     }
 
-    function getMedia() {
-       endpoint.find({}).success(function(media) {
-        $scope.media = media;
+    // function getMedia() {
+    //    endpoint.find({}).success(function(media) {
+    //     $scope.media = media;
 
-        // Take the image path from the server and choose the appropriate image to display
-        for (var i = 0; i < $scope.media.length; i++) {
-          $scope.media[i].modifiedurl = $scope.media[i].url + 'origional.jpg';
-        };
+    //     // Take the image path from the server and choose the appropriate image to display
+    //     for (var i = 0; i < $scope.media.length; i++) {
+    //       $scope.media[i].modifiedurl = $scope.media[i].url + 'origional.jpg';
+    //     };
 
-        getGroups();
+    //     getGroups();
 
-      }); //Find All Media
-    }
+    //   }); //Find All Media
+    // }
 
     $scope.deleteAllVisible = function() {
       var urlArray = [];
@@ -116,5 +117,5 @@ angular.module('meanbaseApp')
 
     };
 
-    getMedia();
+    // getMedia();
   });

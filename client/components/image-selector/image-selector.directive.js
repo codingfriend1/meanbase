@@ -5,6 +5,10 @@ angular.module('meanbaseApp')
     return {
       templateUrl: 'components/image-selector/image-selector.html',
       restrict: 'EA',
+      // scope: {
+      //   multiple:"=",
+          // gallerySlug:"="
+      // },
       link: function (scope, element, attrs) {
 
         var media = new endpoints('media');
@@ -12,6 +16,29 @@ angular.module('meanbaseApp')
         scope.selectedGroup = scope.groups[0];
         scope.selectedImages = [];
 
+        scope.groups = ['all', 'selected'];
+        function getGroups() {
+          // Get media groups
+          for (var i = 0; i < scope.media.length; i++) { //Loop through each media
+            for (var x = 0; x < scope.media[i].groups.length; x++) { //Loop through each group in media
+              if(scope.groups.indexOf(scope.media[i].groups[x]) === -1) { //Already exists?
+                scope.groups.push(scope.media[i].groups[x]); //else add to groups array
+              }
+            }
+          }
+        }
+
+        media.find({}).success(function(media) {
+          scope.media = media;
+
+          // Take the image path from the server and choose the appropriate image to display
+          for (var i = 0; i < scope.media.length; i++) {
+            scope.media[i].modifiedurl = scope.media[i].url + 'origional.jpg';
+          };
+
+          getGroups();
+
+        }); //Find All Media
 
         // Sets up fields to search by
         scope.mediaFilter = '';
@@ -21,6 +48,7 @@ angular.module('meanbaseApp')
 
         scope.filterByAlbum = function(media) {
           if(scope.selectedGroup === 'all') return true;
+          if(scope.selectedGroup === 'selected' && scope.selectedImages.indexOf(media) > -1) { return true; }
           return media.groups.indexOf(scope.selectedGroup) >= 0;
         };
 
@@ -46,7 +74,10 @@ angular.module('meanbaseApp')
         function saveImageEdits() {
           if(!scope.fullscreenImage || !scope.fullscreenImage._id) return false;
 
-            if(globals._fullscreenImage.alt === scope.fullscreenImage.alt && globals._fullscreenImage.attribute === scope.fullscreenImage.attribute && scope.fullscreenImage.groups.sort().join(',') === globals._fullscreenImage.groups.sort().join(',')) {
+          var groupsArraysMatch = scope.fullscreenImage.groups.sort().join(',') === globals._fullscreenImage.groups.sort().join(',');
+          var galleriesArraysMatch = scope.fullscreenImage.galleries.sort().join(',') === globals._fullscreenImage.galleries.sort().join(',');
+
+            if(globals._fullscreenImage.alt === scope.fullscreenImage.alt && globals._fullscreenImage.attribute === scope.fullscreenImage.attribute && groupsArraysMatch && galleriesArraysMatch) {
               return false;
             }
           media.update({_id: scope.fullscreenImage._id}, scope.fullscreenImage);
@@ -123,6 +154,24 @@ angular.module('meanbaseApp')
 
         scope.getSelectedImages = function() {
           return scope.selectedImages;
+        };
+
+        // Add the gallery slug to the selected images
+        scope.saveSelectedToGallery = function() {
+          if(scope.gallerySlug) {
+            var urlArray = [];
+
+            // Get the visibile images' urls
+            for (var i = 0; i < $scope.selectedImages.length; i++) {
+              $scope.selectedImages[i].galleries.push(scope.gallerySlug);
+              urlArray.push($scope.selectedImages[i].url);
+            };
+
+            if(urlArray.length < 1) return false;
+
+            // Add the gallery name to those images
+            endpoint.update({ url: {$in: urlArray } }, { $push: {galleries: scope.gallerySlug} });
+          }
         };
 
         dom.mainFullsizeBox.bind('transitionend', switchImages);

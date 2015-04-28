@@ -1,8 +1,8 @@
 #wrapper(ng-class="{'toggled': menuOpen}")
 	#sidebar-wrapper
 		ul.sidebar-nav
-			li.sidebar-brand 
-				a(ui-sref='main.page') Back to Site
+			li.sidebar-brand(ui-sref='main.page') 
+				a Back to Site
 			li(ui-sref='cms.themes' ng-show="user.permissions.indexOf('changeSiteSettings') > -1" ng-click="toggleMenu()")
 				i.fa.fa-paint-brush
 				a Themes                

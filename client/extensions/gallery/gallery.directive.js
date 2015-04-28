@@ -8,7 +8,7 @@ angular.module('extensions')
       scope: {
       	interval:"@",
       	editMode:"=",
-      	gallerySlug:"="
+      	gallerySlug:"@"
       },
       link: function (scope, element, attrs) {
       	var media = new endpoints('media');

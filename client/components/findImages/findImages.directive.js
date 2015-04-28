@@ -1,13 +1,21 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('findImages', function () {
+  .directive('findImages', function (endpoints) {
     return {
       templateUrl: 'components/findImages/findImages.html',
-      restrict: 'EA',
+      restrict: 'A',
       link: function (scope, element, attrs) {
+        var media = new endpoints('media');
+
+        var gallerySlug = scope.$eval(attrs.findImages);
+
       	element.bind('click', function() {
-      		alert('hi');
+      		// if(gallerySlug) {
+        //     media.find({galleries: gallerySlug}).then(function(response) {
+
+        //     });
+        //   }
       	});
       }
     };
