@@ -5,7 +5,7 @@
   // MainCtrl.$inject = ['$rootScope', '$scope', '$http', 'Auth', '$location', 'endpoints'];
   // @ngInject
   function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal) {
-    $scope.isLoggedIn = Auth.isLoggedIn();
+    $rootScope.isLoggedIn = Auth.isLoggedIn();
     
     $scope.logout = function() {
       Auth.logout();

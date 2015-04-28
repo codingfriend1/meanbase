@@ -16,6 +16,7 @@ angular.module('meanbaseApp')
         })
         .then( function() {
           // Account created, redirect to home
+          $rootScope.isLoggedIn = Auth.isLoggedIn();
           $location.path('/');
         })
         .catch( function(err) {

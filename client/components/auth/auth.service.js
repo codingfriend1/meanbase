@@ -25,6 +25,7 @@ angular.module('meanbaseApp')
           password: user.password
         }).
         success(function(data) {
+          $rootScope.isLoggedIn = true;
           $cookieStore.put('token', data.token);
           currentUser = User.get();
           deferred.resolve(data);
@@ -47,6 +48,7 @@ angular.module('meanbaseApp')
       logout: function() {
         $cookieStore.remove('token');
         currentUser = {};
+        $rootScope.isLoggedIn = false;
       },
 
       /**
@@ -63,6 +65,7 @@ angular.module('meanbaseApp')
           function(data) {
             $cookieStore.put('token', data.token);
             currentUser = User.get();
+            $rootScope.isLoggedIn = true;
             return cb(user);
           },
           function(err) {

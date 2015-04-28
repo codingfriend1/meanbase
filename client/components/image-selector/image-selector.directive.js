@@ -86,6 +86,8 @@ angular.module('meanbaseApp')
           scope.fullscreenImage = angular.element($event.target).scope().item;
 
           scope.firstImageUrl = scope.fullscreenImage.modifiedurl;
+
+          $compile(dom.mainFullsizeBox)(scope);
           globals._fullscreenImage = angular.copy(scope.fullscreenImage);
 
           if(scope.fullscreen === false) {
