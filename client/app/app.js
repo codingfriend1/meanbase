@@ -9,7 +9,8 @@ angular.module('meanbaseApp', [
   'ui.bootstrap',
   'ngCropper',
   'angularFileUpload',
-  'ngTouch'
+  'ngTouch',
+  'extensions'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider

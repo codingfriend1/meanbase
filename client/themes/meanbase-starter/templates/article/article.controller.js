@@ -3,7 +3,7 @@
 angular.module('meanbaseApp')
   .controller('ArticleCtrl', function ($scope, endpoints, $rootScope, $timeout, $http) {
   	var commentsApproved = new endpoints('comments/approved');
-  	var comments = new endpoints('comments');
+    var comments = new endpoints('comments');
   	$scope.sucessfulSend = false;
   	// Everything needs to be wrapped in a timeout
   	$timeout(function() {

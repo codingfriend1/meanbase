@@ -18,7 +18,8 @@ var MediaSchema = new Schema({
 		trim: true,
 		default: ''
 	},
-	groups: Array
+	groups: Array,
+	galleries: Array
 });
 
 module.exports = mongoose.model('Media', MediaSchema);
