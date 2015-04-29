@@ -20,6 +20,7 @@
     <!-- build:css({.tmp,client}) app/app.css -->
     <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
+      <link rel="stylesheet" href="components/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.css">
       <!-- endinjector -->
     <!-- endbuild -->
     <!-- Theme Styles -->
@@ -55,6 +56,7 @@
     <![endif]-->
     <!-- build:js({client,node_modules}) app/vendor.js -->
       <!-- bower:js -->
+      <script src="../../bower_components/modernizr/modernizr.js"></script>
       <script src="../../bower_components/jquery/dist/jquery.js"></script>
       <script src="../../bower_components/angular/angular.js"></script>
       <script src="../../bower_components/angular-resource/angular-resource.js"></script>
@@ -74,6 +76,8 @@
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
+        <script src="components/libraries/codrops/classie.js"></script>
+        <script src="components/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js"></script>
           <!-- injector:js -->
           <script src="app/account/account.js"></script>
           <script src="app/account/login/login.controller.js"></script>
@@ -106,6 +110,8 @@
           <script src="components/endpoints/endpoints.service.js"></script>
           <script src="components/findImages/findImages.directive.js"></script>
           <script src="components/image-selector/image-selector.directive.js"></script>
+          <script src="components/libraries/codrops/classie.js"></script>
+          <script src="components/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js"></script>
           <script src="components/modal/modal.service.js"></script>
           <script src="components/mongoose-error/mongoose-error.directive.js"></script>
           <script src="components/navbar/navbar.controller.js"></script>

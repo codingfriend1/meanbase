@@ -1,1 +1,10 @@
-div this is the findImages directive
+.morph-button.morph-button-overlay.morph-button-fixed
+	button(type='button') 
+		i.fa.fa-image.fa-lg|  Choose images
+	.morph-content
+		div
+			.content-style-overlay
+				h2 Select Images
+				button.btn.btn-success.choose-images-button(ng-click="chooseImages()")| Choose Images
+				button.btn.btn-warning.icon-close(ng-click="ignoreAndClose()")| Close
+				image-selector(multiple="true" gallery-slug="gallerySlug")

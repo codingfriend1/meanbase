@@ -13,10 +13,10 @@ angular.module('meanbaseApp')
 
         var media = new endpoints('media');
         scope.fullscreen = false;
+        scope.groups = ['all', 'selected'];
         scope.selectedGroup = scope.groups[0];
         scope.selectedImages = [];
 
-        scope.groups = ['all', 'selected'];
         function getGroups() {
           // Get media groups
           for (var i = 0; i < scope.media.length; i++) { //Loop through each media
