@@ -24,7 +24,6 @@ angular.module('extensions')
       	}
 
       	scope.refreshImageList = function(images) {
-      		console.log('getting new images');
       		scope.images = images;
       	};
 

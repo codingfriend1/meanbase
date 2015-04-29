@@ -1,5 +1,7 @@
 'use strict';
 
+// This directive 
+
 angular.module('meanbaseApp')
   .directive('findImages', function ($rootScope, endpoints) {
     return {
@@ -12,8 +14,8 @@ angular.module('meanbaseApp')
 
         scope.chooseImages = function() {
           imageSelectorEl.isolateScope().saveSelectedToGallery();
-          if(attrs.callback) {
-            var cb = scope.$eval(attrs.callback);
+          if(attrs.foundCallback) {
+            var cb = scope.$eval(attrs.foundCallback);
             cb(imageSelectorEl.isolateScope().getSelectedImages());
           }
           $rootScope.$emit('chose images', imageSelectorEl.isolateScope().getSelectedImages());

@@ -10,6 +10,7 @@
   </carousel>
 </div>
 
-<div ng-if="editMode">
-  <div find-images="gallerySlug" callback="refreshImageList"></div>
+<div ng-if="editMode" class="text-center gallery-editmode-container">
+  <h3>"{{gallerySlug}}" gallery</h3>
+  <div find-images="gallerySlug" found-callback="refreshImageList"></div>
 </div>
