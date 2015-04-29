@@ -63,9 +63,11 @@
 		this.button.addEventListener( 'click', function() { self.toggle(); } );
 		// close
 		if( this.options.closeEl !== '' ) {
-			var closeEl = this.el.querySelector( this.options.closeEl );
+			var closeEl = this.el.querySelectorAll( this.options.closeEl );
 			if( closeEl ) {
-				closeEl.addEventListener( 'click', function() { self.toggle(); } );
+				for (var i = 0; i < closeEl.length; i++) {
+					closeEl[i].addEventListener( 'click', function() { self.toggle(); } );
+				};
 			}
 		}
 	}
