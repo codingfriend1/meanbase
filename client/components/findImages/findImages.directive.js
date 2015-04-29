@@ -1,6 +1,6 @@
 'use strict';
 
-// This directive 
+// This directive popups up a modal to select images by and returns the selected images using the provided callback though the attribute "found-callback='functionName'"
 
 angular.module('meanbaseApp')
   .directive('findImages', function ($rootScope, endpoints) {
@@ -10,16 +10,26 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
         var media = new endpoints('media');
 
-        var imageSelectorEl = angular.element('image-selector');
+        var imageSelector = angular.element('image-selector').isolateScope();
+
+        var cb;
+
+        if(attrs.foundCallback) {
+          cb = scope.$eval(attrs.foundCallback);
+        }
 
         scope.chooseImages = function() {
-          imageSelectorEl.isolateScope().saveSelectedToGallery();
-          if(attrs.foundCallback) {
-            var cb = scope.$eval(attrs.foundCallback);
-            cb(imageSelectorEl.isolateScope().getSelectedImages());
-          }
-          $rootScope.$emit('chose images', imageSelectorEl.isolateScope().getSelectedImages());
+          cb(imageSelector.getSelectedImages());
+          $rootScope.$emit('chose images', imageSelector.getSelectedImages());
         };
+
+        $rootScope.$onRootScope('cms.saveEdits', function() {
+          imageSelector.saveSelectedToGallery();
+        });
+
+        $rootScope.$onRootScope('cms.discardEdits', function() {
+          cb(imageSelector.getInitialImages());
+        });
 
         var docElem = window.document.documentElement, didScroll, scrollPosition;
 

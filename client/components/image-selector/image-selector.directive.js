@@ -36,6 +36,8 @@ angular.module('meanbaseApp')
               scope.selectedImages.push(scope.media[i]);
             }
           }
+
+          scope.initialSelected = angular.copy(scope.selectedImages);
         }
 
         media.find({}).success(function(media) {
@@ -165,6 +167,10 @@ angular.module('meanbaseApp')
 
         scope.getSelectedImages = function() {
           return scope.selectedImages;
+        };
+
+        scope.getInitialImages = function() {
+          return scope.initialSelected;
         };
 
         // Add the gallery slug to the selected images
