@@ -5,10 +5,10 @@ angular.module('meanbaseApp')
     return {
       templateUrl: 'components/image-selector/image-selector.html',
       restrict: 'EA',
-      // scope: {
-      //   multiple:"=",
-          // gallerySlug:"="
-      // },
+      scope: {
+        multiple:"=",
+        gallerySlug:"="
+      },
       link: function (scope, element, attrs) {
 
         var media = new endpoints('media');
@@ -28,6 +28,16 @@ angular.module('meanbaseApp')
           }
         }
 
+        // Get items already in the gallery slug
+        function getSelected() {
+          if(!scope.gallerySlug) return false;
+          for (var i = 0; i < scope.media.length; i++) { //Loop through each media
+            if(scope.media[i].galleries.indexOf(scope.gallerySlug) > -1) {
+              scope.selectedImages.push(scope.media[i]);
+            }
+          }
+        }
+
         media.find({}).success(function(media) {
           scope.media = media;
 
@@ -37,6 +47,7 @@ angular.module('meanbaseApp')
           };
 
           getGroups();
+          getSelected();
 
         }); //Find All Media
 
@@ -162,15 +173,18 @@ angular.module('meanbaseApp')
             var urlArray = [];
 
             // Get the visibile images' urls
-            for (var i = 0; i < $scope.selectedImages.length; i++) {
-              $scope.selectedImages[i].galleries.push(scope.gallerySlug);
-              urlArray.push($scope.selectedImages[i].url);
+            for (var i = 0; i < scope.selectedImages.length; i++) {
+              scope.selectedImages[i].galleries.push(scope.gallerySlug);
+              urlArray.push(scope.selectedImages[i].url);
             };
 
             if(urlArray.length < 1) return false;
 
-            // Add the gallery name to those images
-            endpoint.update({ url: {$in: urlArray } }, { $push: {galleries: scope.gallerySlug} });
+            // Clear all the images in the gallery before reassigning them
+            // This strategy is quicker than checking which ones were added and removed
+            media.update({galleries: scope.gallerySlug}, { $pull: {galleries: scope.gallerySlug} }).then(function() {
+              media.update({ url: {$in: urlArray } }, { $push: {galleries: scope.gallerySlug} });
+            });
           }
         };
 

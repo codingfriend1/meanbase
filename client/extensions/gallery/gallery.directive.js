@@ -22,6 +22,15 @@ angular.module('extensions')
       		  };
       		});
       	}
+
+      	scope.refreshImageList = function(images) {
+      		console.log('getting new images');
+      		scope.images = images;
+      	};
+
+      	// scope.$onRootScope('chose images', function(e, images) {
+      	// 	scope.images = images;
+      	// });
       	
       }
     };
