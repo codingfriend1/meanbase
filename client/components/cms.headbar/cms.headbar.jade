@@ -2,13 +2,13 @@
 nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation" ng-show="isLoggedIn" ng-controller="cms.headbar.controller as headbar")
 	.container
 		div.navbar-header 
-			button.navbar-toggle.collapsed(data-toggle="collapse" data-target="#mb-headbar-child" aria-controls="navbar")
+			button.navbar-toggle.collapsed(ng-init="cmsHeabarClosed = true" ng-click="cmsHeabarClosed = !cmsHeabarClosed")
 				span.sr-only Toggle navigation
 				span.icon-bar
 				span.icon-bar
 				span.icon-bar
 			a(ui-sref='cms').navbar-brand Manage Site
-		div#mb-headbar-child.navbar-collapse.collapse
+		div#mb-headbar-child(collapse="cmsHeabarClosed")
 			ul.nav.navbar-nav
 				li.dropdown(ng-show="currentUser.permissions.indexOf('editContent') > -1")
 					//- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
