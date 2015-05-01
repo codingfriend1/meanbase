@@ -37,8 +37,10 @@ angular.module('meanbaseApp')
 
         // When the save button is hit on the cms headbar have image-selector add the gallery slug to the selected images
         scope.$onRootScope('cms.saveEdits', function() {
-          imageSelector.saveSelectedToGallery();
-          areChanges = false;
+          if(areChanges) {
+            imageSelector.saveSelectedToGallery();
+            areChanges = false;
+          }
         });
 
         // If the discard button is hit on the cms headbar have image-selector reset the gallery images and 
