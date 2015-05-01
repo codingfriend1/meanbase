@@ -1,4 +1,5 @@
-<div ng-if="!editMode">
+<div class="ex-gallery">
+  <div ng-if="editMode" find-images-for="gallerySlug" class="gallery-find-images"></div>
   <carousel interval="interval">
     <slide ng-repeat="image in images" active="image.active">
       <img ng-src="{{image.modifiedurl}}" style="margin:auto;">
@@ -8,9 +9,4 @@
       </div>
     </slide>
   </carousel>
-</div>
-
-<div ng-if="editMode" class="text-center gallery-editmode-container">
-  <h3>"{{gallerySlug}}" gallery</h3>
-  <div find-images="gallerySlug" found-callback="refreshImageList"></div>
 </div>

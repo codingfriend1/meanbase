@@ -12,11 +12,26 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         var media = new endpoints('media');
-        scope.fullscreen = false;
-        scope.groups = ['all', 'selected'];
-        scope.selectedGroup = scope.groups[0];
-        scope.selectedImages = [];
+    
+        // Stores all interactive elements in the dom object
+        var dom = {
+          fullscreenContainer: angular.element('.fullscreen-master-container'),
+          mainFullsizeBox: angular.element('.fullsize-box.main'),
+          nextImageTag: null, //is the next image in sequence when moving right
+          previousImageTag: null //is the previous image in sequence when moving left
+        };
 
+        // This isn't site wide globals just globals to this file
+        var globals = {
+          direction: '',
+          nextImage: null,
+          previousImage: null,
+          fullsizeImageIndex: null,
+          _fullscreenImage: null
+        };
+
+        // Creates albums or groups from all the images returned from the server 
+        // only does this when directive is loaded
         function getGroups() {
           // Get media groups
           for (var i = 0; i < scope.media.length; i++) { //Loop through each media
@@ -28,8 +43,9 @@ angular.module('meanbaseApp')
           }
         }
 
-        // Get items already in the gallery slug
-        function getSelected() {
+        // Selects the appropriate images already used by the gallery
+        // Only runs on initial load
+        function getSelectionFromSlug() {
           if(!scope.gallerySlug) return false;
           for (var i = 0; i < scope.media.length; i++) { //Loop through each media
             if(scope.media[i].galleries.indexOf(scope.gallerySlug) > -1) {
@@ -37,50 +53,29 @@ angular.module('meanbaseApp')
             }
           }
 
-          scope.initialSelected = angular.copy(scope.selectedImages);
+          // Saves the current selection
+          saveSelection('longTermSelection');
+          saveSelection('shortTermSelection');
         }
 
-        media.find({}).success(function(media) {
-          scope.media = media;
-
-          // Take the image path from the server and choose the appropriate image to display
-          for (var i = 0; i < scope.media.length; i++) {
-            scope.media[i].modifiedurl = scope.media[i].url + 'origional.jpg';
+        // Stores the currently selected images in the property name passed in
+        function saveSelection(property) {
+          if(!scope[property]) { return false; }
+          scope[property] = [];
+          for (var i = 0; i < scope.selectedImages.length; i++) {
+            scope[property].push(scope.selectedImages[i].url);
           };
-
-          getGroups();
-          getSelected();
-
-        }); //Find All Media
-
-        // Sets up fields to search by
-        scope.mediaFilter = '';
-        scope.filterMedia = function(media) {
-          return (media.url + media.alt + media.attribute + media.groups.toString()).toLowerCase().indexOf(scope.mediaFilter.toLowerCase()) >= 0;
         };
 
-        scope.filterByAlbum = function(media) {
-          if(scope.selectedGroup === 'all') return true;
-          if(scope.selectedGroup === 'selected' && scope.selectedImages.indexOf(media) > -1) { return true; }
-          return media.groups.indexOf(scope.selectedGroup) >= 0;
-        };
-
-
-        // Stores all elements in the dom object
-        var dom = {
-          fullscreenContainer: angular.element('.fullscreen-master-container'),
-          mainFullsizeBox: angular.element('.fullsize-box.main'),
-          nextImageTag: null,
-          previousImageTag: null
-        };
-
-        // This isn't site wide globals just globals to this file
-        var globals = {
-          direction: '',
-          nextImage: null,
-          previousImage: null,
-          fullsizeImageIndex: null,
-          _fullscreenImage: null
+        // Reverts selection back to a saved state in the property
+        function resetToSelection(property) {
+          if(!scope[property]) { return false; }
+          scope.selectedImages = [];
+          for (var i = 0; i < scope.media.length; i++) {
+            if(scope[property].indexOf(scope.media[i].url) > -1) {
+              scope.selectedImages.push(scope.media[i]);
+            }
+          };
         };
 
         // Saves changes caption, albums, and owner to the database
@@ -96,104 +91,8 @@ angular.module('meanbaseApp')
           media.update({_id: scope.fullscreenImage._id}, scope.fullscreenImage);
         }
 
-        // Returns the image that comes before the current fullscreen image
-        function findPrevious(currentIndex) {
-          globals.previousImage = angular.element('.image-thumbnail').eq(currentIndex - 1).find('img');
 
-          if(globals.previousImage.length > 0) {
-            // Returns scope data object of image
-            return globals.previousImage.scope().item;
-          }
-          return {};
-        }
-
-        // Returns the image that comes after the current fullscreen image
-        function findNext(currentIndex) {
-
-          // Using the index of the currently viewed image, find the image that comes afterwards
-          globals.nextImage = angular.element('.image-thumbnail').eq(currentIndex + 1).find('img');
-
-          if(globals.nextImage.length > 0) {
-            // Returns scope data object of image
-            return globals.nextImage.scope().item;
-          }
-          return {};
-          
-        }
-
-        scope.expand = function($event, image, $index) {
-
-          // Store the index position of the fullscreen image
-          globals.fullsizeImageIndex = $index;
-
-          // Set the fullscreen image to the image that was clicked on
-          scope.fullscreenImage = angular.element($event.target).scope().item;
-
-          scope.firstImageUrl = scope.fullscreenImage.modifiedurl;
-
-          $compile(dom.mainFullsizeBox)(scope);
-          globals._fullscreenImage = angular.copy(scope.fullscreenImage);
-
-          if(scope.fullscreen === false) {
-            scope.fullscreen = true;
-          } else {
-            // To Do: Have clicking the image select it
-          }
-        };
-
-        scope.exitFullscreen = function() {
-          saveImageEdits();
-          scope.fullscreen = false;
-        };
-
-        scope.deleteOne = function(image) {
-          // Delete image
-          if(image.url) {
-            media.delete({ url: image.url}).then(function() {
-              scope.fullscreen = false;
-              scope.media.splice(scope.media.indexOf(image), 1);
-            });
-          }
-        };
-
-        scope.selectImage = function(e, item) {
-          // If image is not selected
-          if(scope.selectedImages.indexOf(item) === -1) {
-            scope.selectedImages.push(item);
-          } else {
-            scope.selectedImages.splice(scope.selectedImages.indexOf(item), 1);
-          }
-        };
-
-        scope.getSelectedImages = function() {
-          return scope.selectedImages;
-        };
-
-        scope.getInitialImages = function() {
-          return scope.initialSelected;
-        };
-
-        // Add the gallery slug to the selected images
-        scope.saveSelectedToGallery = function() {
-          if(scope.gallerySlug) {
-            var urlArray = [];
-
-            // Get the visibile images' urls
-            for (var i = 0; i < scope.selectedImages.length; i++) {
-              scope.selectedImages[i].galleries.push(scope.gallerySlug);
-              urlArray.push(scope.selectedImages[i].url);
-            };
-
-            if(urlArray.length < 1) return false;
-
-            // Clear all the images in the gallery before reassigning them
-            // This strategy is quicker than checking which ones were added and removed
-            media.update({galleries: scope.gallerySlug}, { $pull: {galleries: scope.gallerySlug} }).then(function() {
-              media.update({ url: {$in: urlArray } }, { $push: {galleries: scope.gallerySlug} });
-            });
-          }
-        };
-
+        // When the slider has finished it's animated slide then function the switchImages function
         dom.mainFullsizeBox.bind('transitionend', switchImages);
 
         function switchImages() {
@@ -224,6 +123,94 @@ angular.module('meanbaseApp')
           // Store the image data snapshot in case we don't save our changes
           globals._fullscreenImage = angular.copy(scope.fullscreenImage); 
         } 
+
+
+        // Returns the image that comes before the current fullscreen image
+        function findPrevious(currentIndex) {
+          globals.previousImage = angular.element('.image-thumbnail').eq(currentIndex - 1).find('img');
+
+          if(globals.previousImage.length > 0) {
+            // Returns scope data object of image
+            return globals.previousImage.scope().item;
+          }
+          return {};
+        }
+
+        // Returns the image that comes after the current fullscreen image
+        function findNext(currentIndex) {
+
+          // Using the index of the currently viewed image, find the image that comes afterwards
+          globals.nextImage = angular.element('.image-thumbnail').eq(currentIndex + 1).find('img');
+
+          if(globals.nextImage.length > 0) {
+            // Returns scope data object of image
+            return globals.nextImage.scope().item;
+          }
+          return {};
+          
+        }
+
+        // Find all media
+        media.find({}).success(function(media) {
+          scope.media = media;
+
+          // Take the image path from the server and choose the appropriate image to display
+          for (var i = 0; i < scope.media.length; i++) {
+            scope.media[i].modifiedurl = scope.media[i].url + 'origional.jpg';
+          };
+
+          getGroups();
+          getSelectionFromSlug();
+
+        });
+
+
+        scope.fullscreen = false;
+        scope.groups = ['all', 'selected'];
+        scope.selectedGroup = scope.groups[0];
+        scope.selectedImages = [];
+        scope.longTermSelection = [];
+        scope.shortTermSelection = [];
+
+        // Sets up fields to search by
+        scope.mediaFilter = '';
+        scope.filterMedia = function(media) {
+          return (media.url + media.alt + media.attribute + media.groups.toString()).toLowerCase().indexOf(scope.mediaFilter.toLowerCase()) >= 0;
+        };
+
+        // Filter by album or group
+        scope.filterByAlbum = function(media) {
+          if(scope.selectedGroup === 'all') return true;
+          if(scope.selectedGroup === 'selected' && scope.selectedImages.indexOf(media) > -1) { return true; }
+          return media.groups.indexOf(scope.selectedGroup) >= 0;
+        };
+
+        // Makes the clicked image fullsize
+        scope.expand = function($event, image, $index) {
+
+          // Store the index position of the fullscreen image
+          globals.fullsizeImageIndex = $index;
+
+          // Set the fullscreen image to the image that was clicked on
+          scope.fullscreenImage = angular.element($event.target).scope().item;
+
+          scope.firstImageUrl = scope.fullscreenImage.modifiedurl;
+
+          $compile(dom.mainFullsizeBox)(scope);
+          globals._fullscreenImage = angular.copy(scope.fullscreenImage);
+
+          if(scope.fullscreen === false) {
+            scope.fullscreen = true;
+          } else {
+            // To Do: Have clicking the image select it
+          }
+        };
+
+        // Exits fullsize image
+        scope.exitFullscreen = function() {
+          saveImageEdits();
+          scope.fullscreen = false;
+        };
 
         // Slide to the next image
         scope.next = function() {
@@ -297,6 +284,76 @@ angular.module('meanbaseApp')
               e.preventDefault();
               scope.next();
             }
+          }
+        };
+
+        scope.deleteOne = function(image) {
+          // Delete image
+          if(image.url) {
+            media.delete({ url: image.url}).then(function() {
+              scope.fullscreen = false;
+              scope.media.splice(scope.media.indexOf(image), 1);
+            });
+          }
+        };
+
+        scope.selectImage = function(e, item) {
+          // If image is not selected
+          if(scope.selectedImages.indexOf(item) === -1) {
+            scope.selectedImages.push(item);
+          } else {
+            scope.selectedImages.splice(scope.selectedImages.indexOf(item), 1);
+          }
+        };
+
+        scope.getSelectedImages = function() {
+          return scope.selectedImages;
+        };
+
+        // Gets images that were selected when the directive was created or was updated by cms.saveEdits
+        scope.getInitialImages = function() {
+          var gettingInitialImages = [];
+          for (var i = 0; i < scope.media.length; i++) {
+            if(scope.longTermSelection.indexOf(scope.media[i].url) > -1) {
+              gettingInitialImages.push(scope.media[i]);
+            }
+          };
+          return gettingInitialImages;
+        };
+
+        // If "choose images" was clicked then we want to remember that selection next time the overlay opens
+        scope.rememberSelection = function() {
+          saveSelection('shortTermSelection');
+          return scope.shortTermSelection;
+        };
+
+        // Unless "close" was clicked then we should forget any selection changes that were made
+        scope.forgetSelection = function() {
+          resetToSelection('shortTermSelection');
+          return scope.shortTermSelection;
+        };
+
+        // Add the gallery slug to the selected images and send updates to server database
+        scope.saveSelectedToGallery = function() {
+          if(scope.gallerySlug) {
+            var urlArray = [];
+
+            // Get the visibile images' urls
+            for (var i = 0; i < scope.selectedImages.length; i++) {
+              scope.selectedImages[i].galleries.push(scope.gallerySlug);
+              urlArray.push(scope.selectedImages[i].url);
+            };
+
+            saveSelection('longTermSelection');
+            saveSelection('shortTermSelection');
+
+            if(urlArray.length < 1) return false;
+
+            // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
+            // This strategy is quicker than checking which ones were added and removed
+            media.update({galleries: scope.gallerySlug}, { $pull: {galleries: scope.gallerySlug} }).then(function() {
+              media.update({ url: {$in: urlArray } }, { $push: {galleries: scope.gallerySlug} });
+            });
           }
         };
 

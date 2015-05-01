@@ -1,5 +1,7 @@
 'use strict';
 
+// This directive uses the gallerySlug passed in to get the appropriate images and display them in a slider
+
 angular.module('extensions')
   .directive('gallery', function (endpoints) {
     return {
@@ -13,7 +15,7 @@ angular.module('extensions')
       link: function (scope, element, attrs) {
       	var media = new endpoints('media');
 
-      	// Find all images that have this gallery slug
+      	// Use all images that have this gallery slug title
       	if(scope.gallerySlug) {
       		media.find({galleries: scope.gallerySlug}).then(function(response) {
       		  scope.images = response.data;
@@ -23,13 +25,12 @@ angular.module('extensions')
       		});
       	}
 
-      	scope.refreshImageList = function(images) {
-      		scope.images = images;
-      	};
-
-      	// scope.$onRootScope('chose images', function(e, images) {
-      	// 	scope.images = images;
-      	// });
+        // If images where chosen that share the name of this gallery slug then retrieve those selected images
+      	scope.$onRootScope('cms.choseImages', function(e, gallery) {
+          if(scope.gallerySlug === gallery.gallerySlug) {
+            scope.images = gallery.images;
+          }
+      	});
       	
       }
     };

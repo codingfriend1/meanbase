@@ -1,107 +1,137 @@
 'use strict';
 
-// This directive popups up a modal to select images by and returns the selected images using the provided callback though the attribute "found-callback='functionName'"
+// This directive popups up a modal to select images by
+// It returns the selected images using the provided callback found-callback="functionName"
+// A gallerySlug string must be passed into the find-images attribute
 
 angular.module('meanbaseApp')
-  .directive('findImages', function ($rootScope, endpoints) {
+  .directive('findImagesFor', function ($rootScope, endpoints, $parse) {
     return {
       templateUrl: 'components/findImages/findImages.html',
       restrict: 'A',
+      replace: true,
       link: function (scope, element, attrs) {
-        var media = new endpoints('media');
+        var media = new endpoints('media'); //Get server images
+        var imageSelector = angular.element('image-selector').isolateScope(); //Get properties on image-selector
+        var areChanges = false; //Used to detect if different images were selected and loaded into the gallery
 
-        var imageSelector = angular.element('image-selector').isolateScope();
-
-        var cb;
-
-        if(attrs.foundCallback) {
-          cb = scope.$eval(attrs.foundCallback);
+        // If a gallery slug was passed into find-images="" then use it when emitting events else use meanbase-gallery
+        if(attrs.findImagesFor) {
+          scope.gallerySlug = scope.$eval(attrs.findImagesFor) || 'meanbase-gallery';
+        } else {
+          scope.gallerySlug = 'meanbase-gallery';
         }
 
+        // If the overlay was closed while saving then send the chosen images back to the requester and remember the selection that was just made
         scope.chooseImages = function() {
-          cb(imageSelector.getSelectedImages());
-          $rootScope.$emit('chose images', imageSelector.getSelectedImages());
+          $rootScope.$emit('cms.choseImages', {gallerySlug:  scope.gallerySlug, images: imageSelector.getSelectedImages()});
+          imageSelector.rememberSelection();
+          areChanges = true;
         };
 
-        $rootScope.$onRootScope('cms.saveEdits', function() {
+        // If the overlay is closed without saving selection resort back to selection before overlay was opened
+        scope.close = function() {
+          imageSelector.forgetSelection();
+          // areChanges should stay as it is because we forget the selection and no change to the gallery is made
+        };
+
+        // When the save button is hit on the cms headbar have image-selector add the gallery slug to the selected images
+        scope.$onRootScope('cms.saveEdits', function() {
           imageSelector.saveSelectedToGallery();
+          areChanges = false;
         });
 
-        $rootScope.$onRootScope('cms.discardEdits', function() {
-          cb(imageSelector.getInitialImages());
+        // If the discard button is hit on the cms headbar have image-selector reset the gallery images and 
+        scope.$onRootScope('cms.discardEdits', function() {
+          if(areChanges) {
+            $rootScope.$emit('cms.choseImages', {gallerySlug:  scope.gallerySlug, images: imageSelector.getInitialImages()});
+            areChanges = false;
+          }
         });
 
-        var docElem = window.document.documentElement, didScroll, scrollPosition;
 
-        // trick to prevent scrolling when opening/closing button
-        function noScrollFn() {
-          window.scrollTo( scrollPosition ? scrollPosition.x : 0, scrollPosition ? scrollPosition.y : 0 );
-        }
 
-        function noScroll() {
-          window.removeEventListener( 'scroll', scrollHandler );
-          window.addEventListener( 'scroll', noScrollFn );
-        }
+        /*
+        *
+        * Codrops Button Morph Affect
+        *
+        */
+        function morphButtonAffect() {
+          var docElem = window.document.documentElement, didScroll, scrollPosition;
 
-        function scrollFn() {
-          window.addEventListener( 'scroll', scrollHandler );
-        }
+          // trick to prevent scrolling when opening/closing button
+          function noScrollFn() {
+            window.scrollTo( scrollPosition ? scrollPosition.x : 0, scrollPosition ? scrollPosition.y : 0 );
+          }
 
-        function canScroll() {
-          window.removeEventListener( 'scroll', noScrollFn );
+          function noScroll() {
+            window.removeEventListener( 'scroll', scrollHandler );
+            window.addEventListener( 'scroll', noScrollFn );
+          }
+
+          function scrollFn() {
+            window.addEventListener( 'scroll', scrollHandler );
+          }
+
+          function canScroll() {
+            window.removeEventListener( 'scroll', noScrollFn );
+            scrollFn();
+          }
+
+          function scrollHandler() {
+            if( !didScroll ) {
+              didScroll = true;
+              setTimeout( function() { scrollPage(); }, 60 );
+            }
+          };
+
+          function scrollPage() {
+            scrollPosition = { x : window.pageXOffset || docElem.scrollLeft, y : window.pageYOffset || docElem.scrollTop };
+            didScroll = false;
+          };
+
           scrollFn();
+          
+          var el = document.querySelector( '.morph-button' );
+          
+          new UIMorphingButton( el, {
+            closeEl : '.icon-close',
+            onBeforeOpen : function() {
+              // don't allow to scroll
+              noScroll();
+            },
+            onAfterOpen : function() {
+              // can scroll again
+              canScroll();
+              // add class "noscroll" to body
+              // classie.addClass( document.body, 'noscroll' );
+              document.body.classList.add('noscroll');
+              // add scroll class to main el
+              // classie.addClass( el, 'scroll' );
+              el.classList.add('scroll');
+            },
+            onBeforeClose : function() {
+              // remove class "noscroll" to body
+              // classie.removeClass( document.body, 'noscroll' );
+              // remove scroll class from main el
+              // classie.removeClass( el, 'scroll' );
+
+              document.body.classList.remove('noscroll');
+              el.classList.remove('scroll');
+
+              // don't allow to scroll
+              noScroll();
+            },
+            onAfterClose : function() {
+              // can scroll again
+              canScroll();
+            }
+          } );
         }
 
-        function scrollHandler() {
-          if( !didScroll ) {
-            didScroll = true;
-            setTimeout( function() { scrollPage(); }, 60 );
-          }
-        };
+        morphButtonAffect();
 
-        function scrollPage() {
-          scrollPosition = { x : window.pageXOffset || docElem.scrollLeft, y : window.pageYOffset || docElem.scrollTop };
-          didScroll = false;
-        };
 
-        scrollFn();
-        
-        var el = document.querySelector( '.morph-button' );
-        
-        new UIMorphingButton( el, {
-          closeEl : '.icon-close',
-          onBeforeOpen : function() {
-            // don't allow to scroll
-            noScroll();
-          },
-          onAfterOpen : function() {
-            // can scroll again
-            canScroll();
-            // add class "noscroll" to body
-            // classie.addClass( document.body, 'noscroll' );
-            document.body.classList.add('noscroll');
-            // add scroll class to main el
-            // classie.addClass( el, 'scroll' );
-            el.classList.add('scroll');
-          },
-          onBeforeClose : function() {
-            // remove class "noscroll" to body
-            // classie.removeClass( document.body, 'noscroll' );
-            // remove scroll class from main el
-            // classie.removeClass( el, 'scroll' );
-
-            document.body.classList.remove('noscroll');
-            el.classList.remove('scroll');
-
-            // don't allow to scroll
-            noScroll();
-          },
-          onAfterClose : function() {
-            // can scroll again
-            canScroll();
-          }
-        } );
-
-      }
-    };
-  });
+      } // link
+    }; // return
+  }); //directive
