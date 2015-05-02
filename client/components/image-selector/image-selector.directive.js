@@ -299,6 +299,7 @@ angular.module('meanbaseApp')
 
         scope.selectImage = function(e, item) {
           // If image is not selected
+          if(scope.multiple === false) { scope.selectedImages = []; };
           if(scope.selectedImages.indexOf(item) === -1) {
             scope.selectedImages.push(item);
           } else {
@@ -307,7 +308,11 @@ angular.module('meanbaseApp')
         };
 
         scope.getSelectedImages = function() {
-          return scope.selectedImages;
+          if(scope.multiple === false) {
+            return scope.selectedImages[0];
+          } else {
+            return scope.selectedImages;
+          }
         };
 
         // Gets images that were selected when the directive was created or was updated by cms.saveEdits

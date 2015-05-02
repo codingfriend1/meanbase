@@ -1,5 +1,5 @@
 <div class="ex-gallery">
-  <div ng-if="editMode" find-images-for="gallerySlug" class="gallery-find-images"></div>
+  <div ng-if="editMode" find-images-for="gallerySlug" update-these="images" multiple="true" class="gallery-find-images"></div>
   <carousel interval="interval">
     <slide ng-repeat="image in images" active="image.active">
       <img ng-src="{{image.modifiedurl}}" style="margin:auto;">
