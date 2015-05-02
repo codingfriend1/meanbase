@@ -1,0 +1,5 @@
+div.meanbase-image-wrapper
+	div(find-images-for="{{imageSource}}" multiple="{{multiple}}" save-as="page" ng-if="editMode")
+	span(ng-repeat="image in images")
+		img(ng-src="{{image.modifiedurl}}" alt="{{image.alt}}" title="{{image.attribute}}" ng-show="image").img-responsive
+		div.caption(ng-if="caption") {{image.alt}}

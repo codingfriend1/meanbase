@@ -34,11 +34,12 @@
 				div#content-7(edit="editMode" ng-bind-html="page.content['content-7']")
 		.row
 			.col-md-4
-				img.img-responsive(src='http://placehold.it/300x300')
+				span(image-source="image-1" edit-mode="editMode" multiple="true" placehold-it="http://placehold.it/300x300" caption="false").img-responsive
 			.col-md-4
-				img.img-responsive(src='http://placehold.it/300x300')
+				span(image-source="image-2" edit-mode="editMode").img-responsive
 			.col-md-4
-				img.img-responsive(src='http://placehold.it/300x300')
+				span(image-source="image-3" edit-mode="editMode").img-responsive
+				//- img.img-responsive(src='http://placehold.it/300x300')
 		div#content-8(edit="editMode" ng-bind-html="page.content['content-8']")
 		hr
 

@@ -1,17 +1,19 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('imageSelector', function (Cropper, endpoints, $compile, $timeout) {
+  .directive('imageSelector', function (Cropper, endpoints, $compile, $timeout, $rootScope) {
     return {
       templateUrl: 'components/image-selector/image-selector.html',
       restrict: 'EA',
       scope: {
-        multiple:"=",
-        gallerySlug:"="
+        multiple:"@",
+        gallerySlug:"@",
+        saveAs:"@"
       },
       link: function (scope, element, attrs) {
 
         var media = new endpoints('media');
+        var page = new endpoints('pages');
     
         // Stores all interactive elements in the dom object
         var dom = {
@@ -47,11 +49,27 @@ angular.module('meanbaseApp')
         // Only runs on initial load
         function getSelectionFromSlug() {
           if(!scope.gallerySlug) return false;
-          for (var i = 0; i < scope.media.length; i++) { //Loop through each media
-            if(scope.media[i].galleries.indexOf(scope.gallerySlug) > -1) {
-              scope.selectedImages.push(scope.media[i]);
+
+          if(scope.saveAs && scope.saveAs === 'page') {
+            if(scope.gallerySlug in $rootScope.page.images) {
+
+              for (var i = 0; i < scope.media.length; i++) { //Loop through each media
+                for (var x = 0; x < $rootScope.page.images[scope.gallerySlug].length; x++) {
+                  if($rootScope.page.images[scope.gallerySlug][x].url === scope.media[i].url) {
+                    scope.selectedImages.push(scope.media[i]);
+                  }
+                };
+              }
+              
+            }
+          } else {
+            for (var i = 0; i < scope.media.length; i++) { //Loop through each media
+              if(scope.media[i].galleries.indexOf(scope.gallerySlug) > -1) {
+                scope.selectedImages.push(scope.media[i]);
+              }
             }
           }
+          
 
           // Saves the current selection
           saveSelection('longTermSelection');
@@ -171,6 +189,8 @@ angular.module('meanbaseApp')
         scope.selectedImages = [];
         scope.longTermSelection = [];
         scope.shortTermSelection = [];
+
+        scope.multiple = (scope.multiple === "true" || scope.multiple === true);
 
         // Sets up fields to search by
         scope.mediaFilter = '';
@@ -299,7 +319,7 @@ angular.module('meanbaseApp')
 
         scope.selectImage = function(e, item) {
           // If image is not selected
-          if(scope.multiple === false) { scope.selectedImages = []; };
+          if(scope.multiple === false || scope.multiple === 'false') { scope.selectedImages = []; };
           if(scope.selectedImages.indexOf(item) === -1) {
             scope.selectedImages.push(item);
           } else {
@@ -308,7 +328,7 @@ angular.module('meanbaseApp')
         };
 
         scope.getSelectedImages = function() {
-          if(scope.multiple === false) {
+          if(scope.multiple === false || scope.multiple === 'false') {
             return scope.selectedImages[0];
           } else {
             return scope.selectedImages;
@@ -338,29 +358,80 @@ angular.module('meanbaseApp')
           return scope.shortTermSelection;
         };
 
-        // Add the gallery slug to the selected images and send updates to server database
-        scope.saveSelectedToGallery = function() {
-          if(scope.gallerySlug) {
-            var urlArray = [];
+        scope.publishSelected = function() {
+          var imageArray = [];
 
-            // Get the visibile images' urls
-            for (var i = 0; i < scope.selectedImages.length; i++) {
+          // Get the visibile images' urls
+          for (var i = 0; i < scope.selectedImages.length; i++) {
+            if(scope.saveAs && scope.saveAs === 'page') {
+              imageArray.push(scope.selectedImages[i]);
+            } else {
               scope.selectedImages[i].galleries.push(scope.gallerySlug);
-              urlArray.push(scope.selectedImages[i].url);
-            };
+              imageArray.push(scope.selectedImages[i].url);
+            }
+          };
 
-            saveSelection('longTermSelection');
-            saveSelection('shortTermSelection');
+          saveSelection('longTermSelection');
+          saveSelection('shortTermSelection');
 
-            if(urlArray.length < 1) return false;
+          if(imageArray.length < 1 || !$rootScope.page.url) return false;
 
+          if(scope.saveAs && scope.saveAs === 'page') {
+            var data = {};
+            data[scope.gallerySlug] = imageArray;
+            // page.update({url: $rootScope.page.url}, {{ $push: {images: data} }).then(function() {
+            //   console.log('success');
+            // });
+          } else {
             // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
             // This strategy is quicker than checking which ones were added and removed
-            media.update({galleries: scope.gallerySlug}, { $pull: {galleries: scope.gallerySlug} }).then(function() {
-              media.update({ url: {$in: urlArray } }, { $push: {galleries: scope.gallerySlug} });
+            media.update({galleries: scope.gallerySlug}, { $pull: {galleries: scope.gallerySlug} }).finally(function() {
+              media.update({ url: {$in: imageArray } }, { $push: {galleries: scope.gallerySlug} });
             });
           }
         };
+
+        // Add the gallery slug to the selected images and send updates to server database
+        // scope.saveSelectedToGallery = function() {
+        //   if(scope.gallerySlug) {
+        //     var urlArray = [];
+
+        //     // Get the visibile images' urls
+        //     for (var i = 0; i < scope.selectedImages.length; i++) {
+        //       scope.selectedImages[i].galleries.push(scope.gallerySlug);
+        //       urlArray.push(scope.selectedImages[i].url);
+        //     };
+
+        //     saveSelection('longTermSelection');
+        //     saveSelection('shortTermSelection');
+
+        //     if(urlArray.length < 1) return false;
+
+        //     // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
+        //     // This strategy is quicker than checking which ones were added and removed
+        //     media.update({galleries: scope.gallerySlug}, { $pull: {galleries: scope.gallerySlug} }).then(function() {
+        //       media.update({ url: {$in: urlArray } }, { $push: {galleries: scope.gallerySlug} });
+        //     });
+        //   }
+        // };
+
+        // scope.saveSelectedToPage = function() {
+        //   var imageArray = [];
+
+        //   // Get the visibile images' urls
+        //   for (var i = 0; i < scope.selectedImages.length; i++) {
+        //     imageArray.push(scope.selectedImages[i]);
+        //   };
+
+        //   saveSelection('longTermSelection');
+        //   saveSelection('shortTermSelection');
+
+        //   if(imageArray.length < 1 || !$rootScope.page.url) return false;
+
+        //   page.update({url: $rootScope.page.url}, images[scope.gallerySlug]: imageArray}).then(function() {
+        //     console.log('success');
+        //   });
+        // };
 
         // Clean up our event listeners when we leave this page
         scope.$on('$destroy', function() {

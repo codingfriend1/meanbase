@@ -42,11 +42,12 @@ var PagesSchema = new Schema({
 		type: Object,
 		default: {}
 	},
+	images: {
+		type: Object,
+		default: []
+	},
 	description: String,
 	summary: String,
-	// galleries: [models.gallerySchema],
-	// comments: [{type:Schema.ObjectId, ref: 'Comment'}], 
-	// menuId: {type: Schema.ObjectId, ref: 'Menu'},
 	meta: Object,
 	published: {
 		type: Boolean,
