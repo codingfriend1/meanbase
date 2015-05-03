@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $window, $rootScope) {
+  .controller('LoginCtrl', function ($scope, Auth, $location, $window, $rootScope, $timeout) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -15,8 +15,9 @@ angular.module('meanbaseApp')
         })
         .then( function() {
           // Logged in, redirect to home
-          $rootScope.isLoggedIn = Auth.isLoggedIn();
-          $location.path('/');
+          $timeout(function() {
+            $location.path('/');
+          });
         })
         .catch( function(err) {
           $scope.errors.other = err.message;

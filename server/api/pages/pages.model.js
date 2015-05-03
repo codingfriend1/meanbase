@@ -44,7 +44,7 @@ var PagesSchema = new Schema({
 	},
 	images: {
 		type: Object,
-		default: []
+		default: {}
 	},
 	description: String,
 	summary: String,

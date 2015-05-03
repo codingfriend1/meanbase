@@ -191,14 +191,17 @@ CRUD.prototype.updateOneAndUpdate = function(req, res, callback) {
     self.collection.update(identifier, req.body, function(err, updated) {
       if (err) { return handleError(res, err); }
       if(!updated) { return res.send(404); }
-      if(callback) { callback(found, req.body); }
+      if(found) {
+        found = found.toJSON();
+        if(callback) { callback(found, req.body); }
+      }
       return res.json(200, updated);
     });
   });
 };
 
 CRUD.prototype.updateRaw = function(identifier, content) {
-  this.collection.update(identifier, content, {multi: true});
+  this.collection.update(identifier, content, {multi: true}, function(err, updated) {});
 };
 
 // Deletes multiple items from the collection.

@@ -169,17 +169,25 @@ angular.module('meanbaseApp')
         }
 
         // Find all media
-        media.find({}).success(function(media) {
-          scope.media = media;
+        function getMedia() {
+          media.find({}).success(function(media) {
+            scope.media = media;
 
-          // Take the image path from the server and choose the appropriate image to display
-          for (var i = 0; i < scope.media.length; i++) {
-            scope.media[i].modifiedurl = scope.media[i].url + 'origional.jpg';
-          };
+            // Take the image path from the server and choose the appropriate image to display
+            for (var i = 0; i < scope.media.length; i++) {
+              scope.media[i].modifiedurl = scope.media[i].url + 'origional.jpg';
+            };
 
-          getGroups();
-          getSelectionFromSlug();
+            getGroups();
+            getSelectionFromSlug();
 
+          });
+        }
+
+        getMedia();
+
+        scope.$onRootScope('cms.imagesUploaded', function() {
+          getMedia();
         });
 
 
@@ -379,9 +387,9 @@ angular.module('meanbaseApp')
           if(scope.saveAs && scope.saveAs === 'page') {
             var data = {};
             data[scope.gallerySlug] = imageArray;
-            // page.update({url: $rootScope.page.url}, {{ $push: {images: data} }).then(function() {
-            //   console.log('success');
-            // });
+            page.update({url: $rootScope.page.url}, { $set: {images: data} }).then(function() {
+              console.log('success');
+            });
           } else {
             // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
             // This strategy is quicker than checking which ones were added and removed

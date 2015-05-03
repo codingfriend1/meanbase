@@ -27,6 +27,9 @@ angular.module('meanbaseApp')
       		attribute: "placehold.it"
       	}];
 
+      	if(!$rootScope.page.images) {
+      		$rootScope.page.images = {};
+      	}
 
       	if(scope.imageSource in $rootScope.page.images) {
       		scope.images = $rootScope.page.images[scope.imageSource];
