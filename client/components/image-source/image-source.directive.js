@@ -18,8 +18,8 @@ angular.module('meanbaseApp')
       		scope.imageSource = scope.imageSource || 'meanbase-image';
       	}
 
-      	scope.caption = (scope.caption === true || 'true');
-      	scope.multiple = (scope.multiple === true || 'true');
+      	scope.caption = (scope.caption === true || scope.caption === 'true');
+      	scope.multiple = (scope.multiple === true || scope.multiple === 'true');
 
       	scope.images = [{
       		modifiedurl: scope.placeholdIt || 'http://placehold.it/300x300',
