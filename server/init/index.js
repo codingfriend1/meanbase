@@ -11,4 +11,5 @@ module.exports = function() {
 	require('./users')();
 	require('./roles')();
 	require('./themes')();
+	require('./extensions')();
 };

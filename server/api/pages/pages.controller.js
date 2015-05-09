@@ -28,7 +28,7 @@ exports.findAll = function(req, res) {
 
 // Get some pages
 exports.find = function(req, res) {
-  collection.find(req, res);
+  collection.findAndPopulate(req, res, 'Extensions');
 };
 
 // Creates a new pages in the DB.

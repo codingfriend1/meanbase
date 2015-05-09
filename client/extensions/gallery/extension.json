@@ -1,0 +1,10 @@
+{
+  "name": "gallery",
+  "urls": [
+  	"extensions/gallery/extension.directive.js",
+  	"extensions/gallery/extension.css"
+  ],
+  "config": {
+  	"interval": 3000
+  }
+}

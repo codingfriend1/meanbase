@@ -82,7 +82,7 @@ CRUD.prototype.find = function(req, res, callback) {
 };
 
 // Gets some items and populates their linked documents
-CRUD.prototype.findAndPopulate = function(req, res, callback, populate) {
+CRUD.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.find(identifier).populate(populateQuery).exec(function(err, found) {
     if(err) { return handleError(res, err); }

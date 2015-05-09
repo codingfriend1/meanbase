@@ -1,0 +1,8 @@
+.ex-gallery {
+  position: relative;
+}
+.ex-gallery .gallery-find-images {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
