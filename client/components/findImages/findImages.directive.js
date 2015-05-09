@@ -11,23 +11,20 @@ angular.module('meanbaseApp')
       restrict: 'A',
       replace: true,
       scope: {
-        updateThese: "=",
-        findImagesFor: "=",
-        multiple: "="
+        findImagesFor: "@",
+        multiple: "@",
+        saveAs:"@"
       },
       link: function (scope, element, attrs) {
         var imageSelector = angular.element('image-selector').isolateScope(); //Get properties on image-selector
         var areChanges = false; //Used to detect if different images were selected and loaded into the gallery
 
-        scope.multiple = scope.multiple || true;
-
         // If a gallery slug was passed into find-images-for="" then use it when emitting events else use meanbase-gallery
-        scope.gallerySlug = scope.findImagesFor || 'meanbase-gallery';
+        scope.gallerySlug = attrs.findImagesFor || 'meanbase-gallery';
 
         // If the overlay was closed while saving then send the chosen images back to the requester and remember the selection that was just made
         scope.chooseImages = function() {
           var selectedImages = imageSelector.getSelectedImages();
-          if(scope.updateThese) { scope.updateThese = selectedImages; }
           $rootScope.$emit('cms.choseImages', {gallerySlug:  scope.gallerySlug, images: selectedImages});
           imageSelector.rememberSelection();
           areChanges = true;
@@ -42,7 +39,7 @@ angular.module('meanbaseApp')
         // When the save button is hit on the cms headbar have image-selector add the gallery slug to the selected images
         scope.$onRootScope('cms.saveEdits', function() {
           if(areChanges) {
-            imageSelector.saveSelectedToGallery();
+            imageSelector.publishSelected();
             areChanges = false;
           }
         });
@@ -51,8 +48,7 @@ angular.module('meanbaseApp')
         scope.$onRootScope('cms.discardEdits', function() {
           if(areChanges) {
             var selectedImages = imageSelector.getInitialImages();
-            if(scope.updateThese) { scope.updateThese = selectedImages; }
-            $rootScope.$emit('cms.choseImages', {gallerySlug:  scope.gallerySlug, images: selectedImages});
+              $rootScope.$emit('cms.choseImages', {gallerySlug:  scope.gallerySlug, images: selectedImages});
             areChanges = false;
           }
         });

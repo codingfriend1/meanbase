@@ -39,13 +39,14 @@ exports.create = function(req, res) {
 // Updates a page and it's comments' url if changed
 exports.updateOneAndUpdate = function(req, res) {
   collection.updateOneAndUpdate(req, res, function(found, newValue) {
-  	if(found.url || newValue.url && found.url !== newValue.url) {
-  		// Update comments with that same url
-  		collection.setCollection(Comments);
-  		collection.updateRaw({url: found.url}, {url: newValue.url});
-  		
-  		collection.setCollection(Pages);
-  	}
+    if(found.hasOwnProperty('url') && newValue.hasOwnProperty('url')) {
+      if(found.url !== newValue.url) {
+        // Update comments with that same url
+        collection.setCollection(Comments);
+        collection.updateRaw({url: found.url}, {url: newValue.url});
+        collection.setCollection(Pages);
+      }
+    }
   });
 };
 

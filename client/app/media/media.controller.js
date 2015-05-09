@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('MediaCtrl', function ($scope, endpoints, $modal, FileUploader, $timeout, $cookieStore) {
+  .controller('MediaCtrl', function ($scope, endpoints, $modal, FileUploader, $timeout, $cookieStore, $rootScope) {
 
     $scope.$parent.pageTitle = 'Upload and edit media';
 
@@ -21,8 +21,8 @@ angular.module('meanbaseApp')
     }
 
     uploader.onCompleteAll = function() {
-      getMedia();
       $scope.uploader.progress = 0;
+      $rootScope.$emit('cms.imagesUploaded');
     };
 
     function getGroups() {
