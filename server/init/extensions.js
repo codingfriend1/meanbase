@@ -24,53 +24,9 @@ module.exports = function() {
 		}
 	} //for
 
+	GLOBAL.meanbaseGlobals.extensions = extensionsJSONS;
 
-
-	// Gets the scripts and styles from the extension and insert them into the client/index.html
-	function compileIndex(extensionJSONS) {
-		// Get file paths for the server/views/index and the chosen theme's scripts and styles templates
-		var clientIndexPath = config.root + '/client/index.html';
-
-		// Try to read the file contents
-		try {
-			var clientIndex = fs.readFileSync(clientIndexPath, 'utf8');
-		} catch(error) {
-			console.log('Error compiling the index.html with the chosen theme: ', error);
-			return false;
-		}
-
-		for (var i = 0; i < extensionJSONS.length; i++) {
-			for (var x = 0; x < extensionJSONS[i].urls.length; x++) {
-				var cssPattern = new RegExp("\.(css)$");
-				var jsPattern = new RegExp("\.(js)$");
-
-				if(cssPattern.test(extensionJSONS[i].urls[x])) {
-					console.log('linking css');
-					clientIndex = clientIndex.replace('<!-- extensions:css -->', '<link rel="stylesheet" href="' + extensionJSONS[i].urls[x] + '">' + '\n <!-- extensions:css -->');
-				} else if(jsPattern.test(extensionJSONS[i].urls[x])) {
-					console.log('linking js');
-					clientIndex = clientIndex.replace('<!-- extensions:js -->', '<script src="' + extensionJSONS[i].urls[x] + '"></script>' + '\n <!-- extensions:js -->');
-				}
-			};
-		};
-		try {
-			// Write the results back to client/index.html
-			fs.writeFileSync(clientIndexPath, clientIndex, 'utf8');
-			console.log(fs.readFileSync(clientIndexPath, 'utf8'));
-		} catch(error) {
-			console.log('error: ', error);
-		}
-	}
-
-
-
-	compileIndex(extensionsJSONS);
-
-
-
-
-
-	// Remove all found themes
+	// Remove all found Extensions
 	// Extension.remove(function(err) {
  // 		if(err) { return handleError(err); }
 	// });
