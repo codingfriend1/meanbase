@@ -6,6 +6,9 @@
 
   // ####Parent route for front end site. 
   // - **Important! Don't give this route a url** since we want the ability to have routes without a prefix (/)
+
+  angular.module('extensions', []);
+
   angular.module('meanbaseApp')
     .config(function ($stateProvider) {
       $stateProvider

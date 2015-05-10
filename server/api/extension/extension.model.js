@@ -12,7 +12,7 @@ var ExtensionSchema = new Schema({
   	type: Boolean,
   	default: true
   },
-  html: String
+  text: String
 });
 
 module.exports = mongoose.model('Extension', ExtensionSchema);

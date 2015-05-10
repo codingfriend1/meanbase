@@ -6,9 +6,10 @@ var mongoose = require('mongoose'),
 
 // Since extensions is embedded in page we define that schema here
 var ExtensionsSchema = new Schema({
+	name: String,
   group: String,
   position: Number,
-  html: String,
+  text: String,
   config: Schema.Types.Mixed,
   data: Schema.Types.Mixed
 });

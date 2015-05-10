@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('edit', function () {
+  .directive('edit', function ($sanitize) {
     return {
       restrict: 'EA',
       scope: {

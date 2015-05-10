@@ -14,8 +14,8 @@ h3 Roles and Privilages
 			label(for="{{permissionName}}")| {{permissionName | camelToHuman}}
 
 h3 Users
-	.form-group
-		input(type="text" placeholder="filter users" ng-model="userFilter").form-control
+.form-group
+	input(type="text" placeholder="filter users" ng-model="userFilter").form-control
 accordion(close-others="true")
 	accordion-group(ng-repeat="user in users | filter:filterUsers" is-open="status.open").panel-primary.panel
 		accordion-heading.panel-heading(ng-click="status.open=!status.open")

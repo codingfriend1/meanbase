@@ -15,7 +15,7 @@ module.exports = function() {
 			if(stat.isDirectory()) {
 				try {
 					var extensionJSON = JSON.parse(fs.readFileSync(extensionsFolderUrl + extensionsFolder[ii] + '/extension.json', 'utf8'));
-					extensionJSON.html = fs.readFileSync(extensionsFolderUrl + extensionsFolder[ii] + '/index.html', 'utf8');
+					extensionJSON.text = fs.readFileSync(extensionsFolderUrl + extensionsFolder[ii] + '/index.html', 'utf8');
 					extensionsJSONS.push(extensionJSON);
 				} catch(error) {
 					console.log('Could not parse extension.json in root of extension', error);
@@ -24,6 +24,7 @@ module.exports = function() {
 		}
 	} //for
 
+	// We are putting this on the global so that when the client/index.html is compiled it will include the extension links
 	GLOBAL.meanbaseGlobals.extensions = extensionsJSONS;
 
 	// Remove all found Extensions

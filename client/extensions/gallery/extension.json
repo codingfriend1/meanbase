@@ -1,8 +1,8 @@
 {
   "name": "gallery",
   "urls": [
-  	"extensions/gallery/extension.directive.js",
-  	"extensions/gallery/extension.css"
+  	"extensions/gallery/gallery.directive.js",
+  	"extensions/gallery/gallery.css"
   ],
   "config": {
   	"interval": 3000

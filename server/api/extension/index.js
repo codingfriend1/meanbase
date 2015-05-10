@@ -6,8 +6,7 @@ var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 // Affecting multiple or all items.
-router.get('/', controller.find);
-// router.get('/', auth.hasPermission('manageExtensions'), controller.find);
+router.get('/', auth.hasPermission('editContent'), controller.find);
 router.post('/', auth.hasPermission('manageExtensions'), controller.create);
 router.put('/', auth.hasPermission('manageExtensions'), controller.update);
 router.patch('/', auth.hasPermission('manageExtensions'), controller.update);

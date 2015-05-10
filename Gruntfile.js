@@ -57,15 +57,15 @@ module.exports = function (grunt) {
     watch: {
       injectJS: {
         files: [
-          '<%= yeoman.client %>/{app,components,extensions}/**/*.js',
-          '!<%= yeoman.client %>/{app,components,extensions}/**/*.spec.js',
-          '!<%= yeoman.client %>/{app,components,extensions}/**/*.mock.js',
+          '<%= yeoman.client %>/{app,components}/**/*.js',
+          '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
+          '!<%= yeoman.client %>/{app,components}/**/*.mock.js',
           '!<%= yeoman.client %>/app/app.js'],
         tasks: ['injector:scripts']
       },
       injectCss: {
         files: [
-          '<%= yeoman.client %>/{app,components,extensions}/**/*.css'
+          '<%= yeoman.client %>/{app,components}/**/*.css'
         ],
         tasks: ['injector:css']
       },
@@ -91,12 +91,12 @@ module.exports = function (grunt) {
       },
       injectStylus: {
         files: [
-          '<%= yeoman.client %>/{app,components,extensions}/**/*.styl'],
+          '<%= yeoman.client %>/{app,components}/**/*.styl'],
         tasks: ['injector:stylus']
       },
       stylus: {
         files: [
-          '<%= yeoman.client %>/{app,components,extensions}/**/*.styl'],
+          '<%= yeoman.client %>/{app,components}/**/*.styl'],
         tasks: ['stylus:cms', 'autoprefixer']
       },
       jade: {
@@ -110,11 +110,11 @@ module.exports = function (grunt) {
       },
       livereload: {
         files: [
-          '{.tmp,<%= yeoman.client %>}/{app,components,extensions}/**/*.css',
-          '{.tmp,<%= yeoman.client %>}/{app,components,extensions}/**/*.html',
-          '{.tmp,<%= yeoman.client %>}/{app,components,extensions}/**/*.js',
-          '!{.tmp,<%= yeoman.client %>}{app,components,extensions}/**/*.spec.js',
-          '!{.tmp,<%= yeoman.client %>}/{app,components,extensions}/**/*.mock.js',
+          '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.css',
+          '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.html',
+          '{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
+          '!{.tmp,<%= yeoman.client %>}{app,components}/**/*.spec.js',
+          '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js',
           '<%= yeoman.client %>/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
         options: {
@@ -172,7 +172,7 @@ module.exports = function (grunt) {
         src: ['server/**/*.spec.js']
       },
       all: [
-        '<%= yeoman.client %>/{app,components,extensions}/**/*.js',
+        '<%= yeoman.client %>/{app,components}/**/*.js',
         '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
         '!<%= yeoman.client %>/{app,components}/**/*.mock.js'
       ],
@@ -356,12 +356,12 @@ module.exports = function (grunt) {
       },
       main: {
         cwd: '<%= yeoman.client %>',
-        src: ['{app,components,extensions}/**/*.html'],
+        src: ['{app,components}/**/*.html'],
         dest: '.tmp/templates.js'
       },
       tmp: {
         cwd: '.tmp',
-        src: ['{app,components,extensions}/**/*.html'],
+        src: ['{app,components}/**/*.html'],
         dest: '.tmp/tmp-templates.js'
       }
     },
@@ -409,7 +409,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd: '<%= yeoman.client %>',
         dest: '.tmp/',
-        src: ['{app,components,extensions}/**/*.css']
+        src: ['{app,components}/**/*.css']
       }
     },
 
@@ -554,10 +554,10 @@ module.exports = function (grunt) {
         },
         files: {
           'server/views/index.html': [
-              ['{.tmp,<%= yeoman.client %>}/{app,components,extensions}/**/*.js',
+              ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
-               '!{.tmp,<%= yeoman.client %>}/{app,components,extensions}/**/*.spec.js',
-               '!{.tmp,<%= yeoman.client %>}/{app,components,extensions}/**/*.mock.js']
+               '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
+               '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
             ]
         }
       },
@@ -576,7 +576,7 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.client %>/app/app.styl': [
-            '<%= yeoman.client %>/{app,components,extensions}/**/*.styl',
+            '<%= yeoman.client %>/{app,components}/**/*.styl',
             '!<%= yeoman.client %>/app/app.styl'
           ]
         }
@@ -595,7 +595,7 @@ module.exports = function (grunt) {
         },
         files: {
           'server/views/index.html': [
-            '<%= yeoman.client %>/{app,components,extensions}/**/*.css'
+            '<%= yeoman.client %>/{app,components}/**/*.css'
           ]
         }
       }

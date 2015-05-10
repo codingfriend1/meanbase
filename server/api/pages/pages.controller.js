@@ -8,8 +8,15 @@ var CRUD = require('../../components/CRUD');
 var collection = new CRUD(Pages);
 
 collection.modifyBody = function(body) {
-  if(body && body.url && body.url.charAt(0) != '/') {
-    body.url = '/' + body.url;
+  if(body) {
+
+    if(body.url && body.url.charAt(0) != '/') {
+      body.url = '/' + body.url;
+    }
+
+    if(body.extensions) {
+      body.extensions = unstructureExtensions(body.extensions);
+    }
   }
   return body;
 };
@@ -23,12 +30,12 @@ collection.modifyIdentifier = function(identifier) {
 
 // Get list of pages
 exports.findAll = function(req, res) {
-  collection.findAll(req, res);
+  collection.findAll(req, res, restructureExtensions);
 };
 
 // Get some pages
 exports.find = function(req, res) {
-  collection.findAndPopulate(req, res, 'Extensions');
+  collection.findAndPopulate(req, res, 'Extensions', restructureExtensions);
 };
 
 // Creates a new pages in the DB.
@@ -82,3 +89,34 @@ exports.updateById = function(req, res) {
 exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
+
+
+function restructureExtensions(response) {
+  if(!response) { return response; }
+  var allExtensions = response.extensions || [];
+
+  // Sort the menus into groups so angular can use them easily
+  var i = 0, extensions = {};
+  while(i < allExtensions.length) {
+    if(extensions[allExtensions[i].group] == undefined) {
+      extensions[allExtensions[i].group] = [];
+    }
+    extensions[allExtensions[i].group].push(allExtensions[i]);
+    i++;
+  }
+
+  response.extensions = extensions;
+  return response;
+};
+
+
+function unstructureExtensions(extensions) {
+
+  var formattedExtensions = [];
+  for (var property in extensions) {
+      if (extensions.hasOwnProperty(property)) {
+          formattedExtensions.concat(extensions[property]);
+      }
+  }
+  return formattedExtensions;
+}

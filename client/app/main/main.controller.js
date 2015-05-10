@@ -4,7 +4,7 @@
 
   // MainCtrl.$inject = ['$rootScope', '$scope', '$http', 'Auth', '$location', 'endpoints'];
   // @ngInject
-  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal) {
+  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize) {
     $rootScope.isLoggedIn = Auth.isLoggedIn();
     
     $scope.logout = function() {
@@ -33,6 +33,9 @@
     }, function(page) {
       $rootScope.page = page;
       if($rootScope.page && $rootScope.page.url.charAt(0) === '/') { $rootScope.page.url = $rootScope.page.url.substr(1); }
+      if($rootScope.page && !$rootScope.page.extensions) {
+        $rootScope.page.extensions = {};
+      }
     });
 
     // Set up config for sortable menus
