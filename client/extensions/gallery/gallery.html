@@ -1,15 +1,13 @@
 <carousel interval="interval">
-  <slide ng-repeat="image in data.images" active="image.active">
-    <img ng-src="{{image.modifiedurl}}" style="margin:auto;">
+  <slide ng-repeat="image in images" active="image.active">
+    <img ng-src="{{image.modifiedurl}}" style="margin:auto;" fallback-src="http://placehold.it/900x300">
     <div class="carousel-caption">
       <h4>Slide {{$index}}</h4>
       <p>{{image.alt}}</p>
     </div>
   </slide>
 </carousel>
-<div ng-if="editMode">
-  <div find-images-for="{{extension.config.slug}}" multiple="true" class="gallery-find-images"></div>
-
+<div ng-if="editMode" class="gallery-config">
   <div class="form-group">
     <div class="input-group">
       <div class="input-group-addon">
@@ -28,4 +26,5 @@
   </div>
 
   <button class="btn btn-danger" ng-click="removeThisExtension(extension)">Remove This From Here</button>
+  <div find-images-for="{{extension.config.slug}}" multiple="true" class="gallery-find-images"></div>
 </div>

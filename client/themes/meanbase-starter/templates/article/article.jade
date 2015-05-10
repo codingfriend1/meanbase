@@ -11,10 +11,9 @@
 				span.glyphicon.glyphicon-time 
 				| {{page.created | date: 'MMM d, y h:mm a'}} 
 			hr
-			div(extensions-selector="extensions-1")
 			div(ng-repeat="extension in page.extensions['extensions-1']" ng-sortable="sortableExtensionsConfig")
 				div(dynamic-html="extension.text" ng-class="{'mb-draggable': editMode}")
-			//- gallery(edit-mode="editMode" interval="3000" gallery-slug="gallery-1")
+			div(extensions-selector="extensions-1")
 			hr
 			div#content-1.mb-editable(edit="editMode" ng-bind-html="page.content['content-1']")
 			hr

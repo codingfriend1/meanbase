@@ -5,7 +5,7 @@
 // A gallerySlug string must be passed into the find-images attribute
 
 angular.module('meanbaseApp')
-  .directive('findImagesFor', function ($rootScope, endpoints, $parse) {
+  .directive('findImagesFor', function ($rootScope, endpoints, $parse, $timeout) {
     return {
       templateUrl: 'components/findImages/findImages.html',
       restrict: 'A',
@@ -16,8 +16,7 @@ angular.module('meanbaseApp')
         saveAs:"@"
       },
       link: function (scope, element, attrs) {
-
-        var imageSelector = angular.element('image-selector').isolateScope(); //Get properties on image-selector
+        var imageSelector = element.find('image-selector').scope(); //Get properties on image-selector
         var areChanges = false; //Used to detect if different images were selected and loaded into the gallery
 
         // If a gallery slug was passed into find-images-for="" then use it when emitting events else use meanbase-gallery

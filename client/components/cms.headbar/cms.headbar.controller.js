@@ -37,6 +37,8 @@
 			this.toggleEdit();
 			if(!$rootScope.page._id) { return false; }
 
+			console.log('$rootScope.page', $rootScope.page);
+
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
 			$rootScope.$emit('cms.saveEdits', $rootScope.page);
 

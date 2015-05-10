@@ -1,1 +1,10 @@
+.gallery-config {
+	margin: 0 0 1em;
+	padding: 1em;
+	background-color: #ECF0F1;
+	border-radius: 4px;
+}
 
+.carousel {
+	margin-top: 1em;
+}
