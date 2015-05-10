@@ -1,13 +1,12 @@
 ###Meanbase 1.0.0
 
-From the lessons I've learned working on meanbase and angular, I have decided to completely restructure meanbase. This is the starting template. From the start it uses yeoman generator-angular-fullstack with authentication and authorization templates.
+Since a good CMS for the MEAN stack was not available I decided to begin building one myself. The CMS itself will be free as my way of thanking the open source web community for making all kinds awesome libraries for free. Thank you guys! Here's me giving back.
+
+From the start it uses yeoman generator-angular-fullstack with authentication and authorization templates.
 [https://github.com/DaftMonk/generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack)
 
 Here is a link to a demo of the old version. A new demo will be available once I
 reach a couple more checkpoints. [Youtube Meanbase Demo](http://youtu.be/tteztXru4eA)
-
-####Users
-- To login visit /login
 
 ####Install
 Run
