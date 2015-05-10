@@ -6,7 +6,6 @@ angular.module('meanbaseApp')
       templateUrl: 'components/extensions-selector/extensions-selector.html',
       restrict: 'A',
       link: function (scope, element, attrs) {
-      	var page = new endpoints('page');
       	var modalInstance;
       	scope.openModal = function () {
       	  modalInstance = $modal.open({
@@ -34,6 +33,8 @@ angular.module('meanbaseApp')
             };
 
             $rootScope.page.extensions[attrs.extensionsSelector] = $rootScope.page.extensions[attrs.extensionsSelector].concat(extensionsResponse);
+
+            modalInstance = null;
 	  	    });
       	};
 
