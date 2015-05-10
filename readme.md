@@ -3,19 +3,8 @@
 From the lessons I've learned working on meanbase and angular, I have decided to completely restructure meanbase. This is the starting template. From the start it uses yeoman generator-angular-fullstack with authentication and authorization templates.
 [https://github.com/DaftMonk/generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack)
 
-Since this version is currently not presentable, here is a link to demo of the old version.
-[Youtube Meanbase Demo](http://youtu.be/tteztXru4eA)
-
-This project was posted before was ready in order for collaboration to be available.
-
-####Meanbase has two main goals:
-- To be self-explanitory and effecient for users
-- To be fun and customizable for developers. 
-
-####Code Design Strategy
-- Upon server startup and client-request-theme-change, the server reads the index.html file in server/views/ and adds the active theme's styles and scripts to it as well as passing in some global data for the cms to use. It then writes this concatination to client/index.html. When scripts and styles are added to the project grunt inserts them into server/views/index.html.
-- Whenever a page is requested ui-router makes a call to the server to get the page data and the template path for the correct view to render. This allows pages to each use individual templates that your theme supports.
-- cms/* routes are ignored by this template call.
+Here is a link to a demo of the old version. A new demo will be available once I
+reach a couple more checkpoints. [Youtube Meanbase Demo](http://youtu.be/tteztXru4eA)
 
 ####Users
 - To login visit /login
@@ -26,6 +15,18 @@ Run
 - npm install
 - bower install
 - grunt serve
+
+####Meanbase has two main goals:
+- To be self-explanitory and effecient for users
+- To be fun and customizable for developers. 
+
+####Code Design Strategy
+- Upon server startup and client-request-theme-change, the server reads the index.html file in server/views/ and adds the active theme's styles and scripts to it as well as passing in some global data for the cms to use. It then writes this concatination to client/index.html. When scripts and styles are added to the project grunt inserts them into server/views/index.html.
+- Whenever a page is requested ui-router makes a call to the server to get the page data and the template path for the correct view to render. This allows pages to each use individual templates that your theme supports.
+- cms/* routes are ignored by this template call.
+
+####Contributers
+- David Wible
 
 
 ##MIT LICENSE
