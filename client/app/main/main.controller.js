@@ -50,6 +50,17 @@
       scrollSpeed: 10 // px
     };
 
+    $rootScope.sortableExtensionsConfig = { 
+      group: 'extensions',
+      ghostClass: "mb-draggable-ghost",
+      draggable: ".mb-draggable",
+      filter: ".ignore-draggable",
+      animation: 250,
+      scroll: true, // or HTMLElement
+      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
+      scrollSpeed: 10 // px
+    };
+
     // Store snapshot of menu for when discardEdits is called
     // If edit mode changes we want to enable or disable draggable menus
     var menusSnapshot, pageSnapshot;

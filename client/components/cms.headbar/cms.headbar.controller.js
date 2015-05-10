@@ -123,6 +123,22 @@
 
 		function modifyPage(page) {
 			if(page.url.charAt(0) !== '/') { page.url = '/' + page.url; }
+			// updateExtensionPositionData();
+		}
+
+		function updateExtensionPositionData() {
+		  for(var property in $rootScope.page.extensions) {
+		    if ($rootScope.page.extensions.hasOwnProperty(property)) {
+		      for(var i = 0; i < $rootScope.page.extensions[property].length; i++) {
+		      	console.log('$rootScope.page.extensions[property][i]', $rootScope.page.extensions[property][i]);
+		        $rootScope.page.extensions[property][i].group = property;
+		        $rootScope.page.extensions[property][i].position = i;
+
+		        console.log('$rootScope.page.extensions[property][i]', $rootScope.page.extensions[property][i]);
+		      }
+		    } 
+		  }
+		  console.log($rootScope.page.extensions);
 		}
 	}
 })();
