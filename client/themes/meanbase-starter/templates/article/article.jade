@@ -11,9 +11,7 @@
 				span.glyphicon.glyphicon-time 
 				| {{page.created | date: 'MMM d, y h:mm a'}} 
 			hr
-			div(ng-repeat="extension in page.extensions['extensions-1']" ng-sortable="sortableExtensionsConfig")
-				div(dynamic-html="extension.text" ng-class="{'mb-draggable': editMode}")
-			div(extensions-selector="extensions-1")
+			div(extensions-area="extensions-1")
 			hr
 			div#content-1.mb-editable(edit="editMode" ng-bind-html="page.content['content-1']")
 			hr
@@ -43,14 +41,16 @@
 					p {{comment.content}}
 		.col-md-4
 			.well
-				h4 Blog Search
-				.input-group
-					input.form-control(type='text')
-					span.input-group-btn
-					button.btn.btn-default(type='button')
-						span.glyphicon.glyphicon-search
+				div(extensions-area="sidebar-1")
+				//- h4 Blog Search
+				//- .input-group
+				//- 	input.form-control(type='text')
+				//- 	span.input-group-btn
+				//- 	button.btn.btn-default(type='button')
+				//- 		span.glyphicon.glyphicon-search
 			.well
 				h4 Blog Categories
+				div(extensions-area="sidebar-2")
 			.row
 				.col-lg-6
 					ul.list-unstyled
@@ -73,13 +73,15 @@
 						li
 						a(href='#') Category Name
 			.well
-				h4 Side Widget Well
-				p
-					| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.
+				div(extensions-area="sidebar-3")
+				//- h4 Side Widget Well
+				//- p
+				//- 	| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.
 	hr
 	footer
-	.row
-		.col-lg-12
-		p Copyright © Your Website 2014
+		div(extensions-area="footer-1")
+		.row
+			.col-lg-12
+			p Copyright © Your Website 2014
 
 

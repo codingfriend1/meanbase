@@ -50,7 +50,7 @@
       scrollSpeed: 10 // px
     };
 
-    $rootScope.sortableExtensionsConfig = { 
+    $rootScope.sortableExtensions = { 
       group: 'extensions',
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
