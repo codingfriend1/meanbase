@@ -35,15 +35,15 @@
 
 		this.saveChanges = function() {
 			this.toggleEdit();
-			if(!$scope.page._id) { return false; }
+			if(!$rootScope.page._id) { return false; }
 
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
-			$rootScope.$emit('cms.saveEdits', $scope.page);
+			$rootScope.$emit('cms.saveEdits', $rootScope.page);
 
 			//We need to wait for the "edit" directive to store changes in page.content
 			$timeout(function(){
-				modifyPage($scope.page);				
-				endpoints.page.update({_id: $scope.page._id}, $scope.page);
+				modifyPage($rootScope.page);				
+				endpoints.page.update({_id: $rootScope.page._id}, $rootScope.page);
 			});
 		};
 
@@ -56,7 +56,6 @@
 
 		this.deletePage = function() {
 			this.toggleEdit();
-			console.log('deletePage', $scope.page);
 			if(!$rootScope.page._id) { return false; }
 
 			// Delete page
@@ -126,19 +125,18 @@
 			// updateExtensionPositionData();
 		}
 
-		function updateExtensionPositionData() {
-		  for(var property in $rootScope.page.extensions) {
-		    if ($rootScope.page.extensions.hasOwnProperty(property)) {
-		      for(var i = 0; i < $rootScope.page.extensions[property].length; i++) {
-		      	console.log('$rootScope.page.extensions[property][i]', $rootScope.page.extensions[property][i]);
-		        $rootScope.page.extensions[property][i].group = property;
-		        $rootScope.page.extensions[property][i].position = i;
+		// function updateExtensionPositionData() {
+		// 	var updatedExtensions = [];
+		//   for(var property in $rootScope.page.extensions) {
+		//     if ($rootScope.page.extensions.hasOwnProperty(property)) {
+		//       for(var i = 0; i < $rootScope.page.extensions[property].length; i++) {
+		//         $rootScope.page.extensions[property][i].group = property;
+		//         $rootScope.page.extensions[property][i].position = i;
+		//         updatedExtensions.push($rootScope.page.extensions[property][i]);
+		//       }
+		//     } 
+		//   }
+		// }
 
-		        console.log('$rootScope.page.extensions[property][i]', $rootScope.page.extensions[property][i]);
-		      }
-		    } 
-		  }
-		  console.log($rootScope.page.extensions);
-		}
 	}
 })();

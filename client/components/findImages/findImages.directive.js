@@ -16,6 +16,7 @@ angular.module('meanbaseApp')
         saveAs:"@"
       },
       link: function (scope, element, attrs) {
+
         var imageSelector = angular.element('image-selector').isolateScope(); //Get properties on image-selector
         var areChanges = false; //Used to detect if different images were selected and loaded into the gallery
 

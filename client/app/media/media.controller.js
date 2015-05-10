@@ -69,20 +69,24 @@ angular.module('meanbaseApp')
     };
 
     $scope.deleteSelected = function() {
-      var selectedImages = angular.element('image-selector').scope().getSelectedImages();
+      var selectedImages = angular.element('image-selector').isolateScope().getSelectedImages();
       var urlArray = [];
 
+      if(!angular.isArray(selectedImages)) {
+        selectedImages = [selectedImages];
+      }
+
       // Get the visibile images' urls
-      for (var i = 0; i < $scope.selectedImages.length; i++) {
-        urlArray.push($scope.selectedImages[i].url);
+      for (var i = 0; i < selectedImages.length; i++) {
+        urlArray.push(selectedImages[i].url);
       };
 
       if(urlArray.length < 1) return false;
 
       // Delete those images
       endpoint.delete({ url: {$in: urlArray } }).then(function() {
-        for (var i = 0; i < $scope.selectedImages.length; i++) {
-          $scope.media.splice($scope.media.indexOf($scope.selectedImages[i]), 1);
+        for (var i = 0; i < selectedImages.length; i++) {
+          $scope.media.splice($scope.media.indexOf(selectedImages[i]), 1);
         }
       });
     };
@@ -93,23 +97,27 @@ angular.module('meanbaseApp')
 
       if(!prompt || !re.test(prompt)) return false;
 
-      var imageSelector = angular.element('image-selector').scope()
+      var imageSelector = angular.element('image-selector').isolateScope()
 
       var selectedImages = imageSelector.getSelectedImages();
+
+      if(!angular.isArray(selectedImages)) {
+        selectedImages = [selectedImages];
+      }
 
       var urlArray = [];
 
       // Get the visibile images' urls
-      for (var i = 0; i < $scope.selectedImages.length; i++) {
-        urlArray.push($scope.selectedImages[i].url);
+      for (var i = 0; i < selectedImages.length; i++) {
+        urlArray.push(selectedImages[i].url);
       };
 
       if(urlArray.length < 1) return false;
 
       // Update those images
       endpoint.update({ url: {$in: urlArray } }, { $push: {groups: prompt} }).then(function() {
-        for (var i = 0; i < $scope.selectedImages.length; i++) {
-          $scope.selectedImages[i].groups.push(prompt);
+        for (var i = 0; i < selectedImages.length; i++) {
+          selectedImages[i].groups.push(prompt);
           getGroups();
           imageSelector.selectedGroup = prompt;
         }
