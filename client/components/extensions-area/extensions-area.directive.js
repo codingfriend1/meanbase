@@ -9,7 +9,7 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
       	if(attrs.extensionsArea.length > 0) {
 
-          
+          scope.removeThisExtension = scope.$parent.removeThisExtension;
           scope.$watch(function() { return $rootScope.editMode }, function(newValue, oldValue) {
             scope.editMode = newValue;
           });
