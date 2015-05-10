@@ -35,7 +35,7 @@ exports.findAll = function(req, res) {
 
 // Get some pages
 exports.find = function(req, res) {
-  collection.findAndPopulate(req, res, 'Extensions', restructureExtensions);
+  collection.find(req, res, restructureExtensions);
 };
 
 // Creates a new pages in the DB.
@@ -93,20 +93,38 @@ exports.deleteById = function(req, res) {
 
 function restructureExtensions(response) {
   if(!response) { return response; }
-  var allExtensions = response.extensions || [];
 
-  // Sort the menus into groups so angular can use them easily
-  var i = 0, extensions = {};
-  while(i < allExtensions.length) {
-    if(extensions[allExtensions[i].group] == undefined) {
-      extensions[allExtensions[i].group] = [];
+  if(Object.prototype.toString.call( response ) === '[object Array]') {
+    for (var i = 0; i < response.length; i++) {
+      var allExtensions = response[i].extensions || [];
+      // Sort the menus into groups so angular can use them easily
+      var x = 0, extensions = {};
+      while(x < allExtensions.length) {
+        if(extensions[allExtensions[x].group] == undefined) {
+          extensions[allExtensions[x].group] = [];
+        }
+        extensions[allExtensions[x].group].push(allExtensions[x]);
+        x++;
+      }
+      response[i].extensions = extensions;
+    };
+    return response;
+  } else {
+    var allExtensions = response.extensions || [];
+
+    // Sort the menus into groups so angular can use them easily
+    var i = 0, extensions = {};
+    while(i < allExtensions.length) {
+      if(extensions[allExtensions[i].group] == undefined) {
+        extensions[allExtensions[i].group] = [];
+      }
+      extensions[allExtensions[i].group].push(allExtensions[i]);
+      i++;
     }
-    extensions[allExtensions[i].group].push(allExtensions[i]);
-    i++;
-  }
 
-  response.extensions = extensions;
-  return response;
+    response.extensions = extensions;
+    return response;
+  }
 };
 
 
@@ -115,7 +133,7 @@ function unstructureExtensions(extensions) {
   var formattedExtensions = [];
   for (var property in extensions) {
       if (extensions.hasOwnProperty(property)) {
-          formattedExtensions.concat(extensions[property]);
+          formattedExtensions = formattedExtensions.concat(extensions[property]);
       }
   }
   return formattedExtensions;

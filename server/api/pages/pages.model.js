@@ -4,20 +4,6 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 
-// Since extensions is embedded in page we define that schema here
-var ExtensionsSchema = new Schema({
-	name: String,
-  group: String,
-  position: Number,
-  text: String,
-  config: Schema.Types.Mixed,
-  data: Schema.Types.Mixed
-});
-
-mongoose.model('Extensions', ExtensionsSchema);
-
-
-
 var PagesSchema = new Schema({
 	url: {
 		type: String,
@@ -62,7 +48,14 @@ var PagesSchema = new Schema({
 		default: {}
 	},
 	extensions: [
-		{type: Schema.ObjectId, ref: 'Extensions'}
+		{
+			name: String,
+		  group: String,
+		  position: Number,
+		  text: String,
+		  config: Schema.Types.Mixed,
+		  data: Schema.Types.Mixed
+		}
 	],
 	description: String,
 	summary: String,

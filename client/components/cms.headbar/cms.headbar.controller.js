@@ -42,7 +42,7 @@
 
 			//We need to wait for the "edit" directive to store changes in page.content
 			$timeout(function(){
-				modifyPage($scope.page);
+				modifyPage($scope.page);				
 				endpoints.page.update({_id: $scope.page._id}, $scope.page);
 			});
 		};

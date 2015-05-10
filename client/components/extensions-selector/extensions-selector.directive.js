@@ -32,11 +32,8 @@ angular.module('meanbaseApp')
               };
               extensionsResponse.push(extension);
             };
+
             $rootScope.page.extensions[attrs.extensionsSelector] = extensionsResponse;
-	  	      // page.update({url: $rootScope.page.url}, {$push: {extensions: chosenExtensions}}).success(function(res) {
-	  	      // 	console.log('response', res);
-	  	      // 	$rootScope.page.extensions.push(chosenExtensions);
-	  	      // });
 	  	    });
       	};
 

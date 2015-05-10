@@ -90,7 +90,7 @@ CRUD.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
 
     // If the function has a callback use it and if it returns a value send that value instead
     if(callback) var modified = callback(found);
-    if(modified) { found = modified; }    
+    if(modified) { found = modified; }  
     return res.json(200, found);
   });
 };
