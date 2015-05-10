@@ -13,7 +13,6 @@ angular.module('extensions')
         if(!scope.extension.config.slug) { scope.extension.config.slug = 'gallery-1'; }
         if(!scope.extension.config.interval) { scope.extension.config.interval = 3000; }
 
-        scope.editMode = $rootScope.editMode;
         scope.slug = scope.extension.config.slug;
         scope.interval = scope.extension.config.interval;
 
@@ -34,7 +33,6 @@ angular.module('extensions')
             scope.images = gallery.images;
           }
       	});
-      	
       }
     };
   });

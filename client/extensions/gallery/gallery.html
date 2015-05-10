@@ -8,7 +8,7 @@
   </slide>
 </carousel>
 <div ng-if="editMode">
-  <div find-images-for="{{gallerySlug}}" update-these="images" multiple="true" class="gallery-find-images"></div>
+  <div find-images-for="{{slug}}" multiple="true" class="gallery-find-images"></div>
 
   <div class="form-group">
     <div class="input-group">
@@ -26,4 +26,6 @@
       <input type="text" class="form-control" placeholder="3000" ng-model="interval">
     </div>
   </div>
+
+  <button class="btn btn-danger" ng-click="removeThisExtension(extension)">Remove This From Here</button>
 </div>

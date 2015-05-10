@@ -11,6 +11,7 @@
 				span.glyphicon.glyphicon-time 
 				| {{page.created | date: 'MMM d, y h:mm a'}} 
 			hr
+			{{page.extensions['extensions-1'] | json}}
 			div(extensions-selector="extensions-1")
 			div(ng-repeat="extension in page.extensions['extensions-1']")
 				div(dynamic-html="extension.text")

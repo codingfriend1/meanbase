@@ -24,7 +24,7 @@ angular.module('meanbaseApp')
             for (var i = 0; i < chosenExtensions.length; i++) {
               var extension = {
                 group: attrs.extensionsSelector,
-                position: $rootScope.page.extensions[attrs.extensionsSelector].length,
+                position: ($rootScope.page.extensions[attrs.extensionsSelector].length - 1 < 0)? 0: $rootScope.page.extensions[attrs.extensionsSelector].length - 1,
                 text: chosenExtensions[i].text,
                 name: chosenExtensions[i].name,
                 config: chosenExtensions[i].config,
@@ -33,7 +33,7 @@ angular.module('meanbaseApp')
               extensionsResponse.push(extension);
             };
 
-            $rootScope.page.extensions[attrs.extensionsSelector] = extensionsResponse;
+            $rootScope.page.extensions[attrs.extensionsSelector] = $rootScope.page.extensions[attrs.extensionsSelector].concat(extensionsResponse);
 	  	    });
       	};
 

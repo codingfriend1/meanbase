@@ -101,6 +101,13 @@
       }
     };
 
+    // Removes an extension from an extensible area
+    $scope.removeThisExtension = function(extension) {
+      if(extension && extension.group && extension.position !== undefined) {
+        $rootScope.page.extensions[extension.group].splice(extension.position, 1);
+      }
+    };
+
     // Unmap the client menu structure so that mongoose database can understand
     function updatePositionData() {
       var unmappedMenus = [];
