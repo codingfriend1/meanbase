@@ -2,7 +2,7 @@
 	include ../../components/site-menu
 	.row
 		.col-md-8
-			h1#page-title.mb-editable {{page.title}}
+			h1#page-title(edit="editMode" ng-bind-html="page.title")
 			p.lead
 				| by 
 				a(href='#') {{page.author}}
@@ -13,7 +13,7 @@
 			hr
 			div(extensions-area="extensions-1")
 			hr
-			div#content-1.mb-editable(edit="editMode" ng-bind-html="page.content['content-1']")
+			div(edit="editMode" ng-bind-html="page.content['content-1']")
 			hr
 			.well
 				h4 Leave a Comment:

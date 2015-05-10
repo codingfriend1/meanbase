@@ -8,27 +8,29 @@
 							a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
 			.col-md-9
 				h2#page-title(edit="editMode" ng-bind-html="page.title")
-				//- h2#page-title {{page.title}}
-				p#content-1(edit="editMode" ng-bind-html="page.content['content-1']")
+				p(edit="editMode" ng-bind-html="page.content['content-1']")
 		.row
-			.col-md-12#content-2(edit="editMode" ng-bind-html="page.content['content-2']")
+			.col-md-12
+				div(extensions-area="extensions-1")
+		.row
+			.col-md-12(edit="editMode" ng-bind-html="page.content['content-2']")
 		.row
 			.col-md-6
 				.panel.panel-default
 					.panel-heading
-						h3#content-3(edit="editMode" ng-bind-html="page.content['content-3']")
+						h3(edit="editMode" ng-bind-html="page.content['content-3']")
 					.panel-body
-						#content-4(edit="editMode" ng-bind-html="page.content['content-4']")
+						div(edit="editMode" ng-bind-html="page.content['content-4']")
 			.col-md-6
 				.panel.panel-default
 					.panel-heading
-						h3#content-5(edit="editMode" ng-bind-html="page.content['content-5']")
+						h3(edit="editMode" ng-bind-html="page.content['content-5']")
 					.panel-body
-						#content-6(edit="editMode" ng-bind-html="page.content['content-6']")
+						div(edit="editMode" ng-bind-html="page.content['content-6']")
 		.row
 			.col-md-12
 				hr
-				div#content-7(edit="editMode" ng-bind-html="page.content['content-7']")
+				div(edit="editMode" ng-bind-html="page.content['content-7']")
 		.row
 			.col-md-4
 				span(image-source="image-1" edit-mode="editMode" multiple="true" placehold-it="http://placehold.it/300x300" caption="false").img-responsive
@@ -37,7 +39,7 @@
 			.col-md-4
 				span(image-source="image-3" edit-mode="editMode").img-responsive
 				//- img.img-responsive(src='http://placehold.it/300x300')
-		div#content-8(edit="editMode" ng-bind-html="page.content['content-8']")
+		div(edit="editMode" ng-bind-html="page.content['content-8']")
 		hr
 
 
