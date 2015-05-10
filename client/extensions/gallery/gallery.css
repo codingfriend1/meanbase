@@ -1,3 +1,13 @@
+.gallery-container {
+	position: relative;
+}
+
+.gallery-find-images {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
 .gallery-config {
 	margin: 0 0 1em;
 	padding: 1em;

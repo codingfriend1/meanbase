@@ -1,30 +1,32 @@
-<carousel interval="interval">
-  <slide ng-repeat="image in images" active="image.active">
-    <img ng-src="{{image.modifiedurl}}" style="margin:auto;" fallback-src="http://placehold.it/900x300">
-    <div class="carousel-caption">
-      <h4>Slide {{$index}}</h4>
-      <p>{{image.alt}}</p>
-    </div>
-  </slide>
-</carousel>
-<div ng-if="editMode" class="gallery-config">
-  <div class="form-group">
-    <div class="input-group">
-      <div class="input-group-addon">
-        <span>Slug</span>
+<div class="gallery-container">
+  <carousel interval="interval">
+    <slide ng-repeat="image in images" active="image.active">
+      <img ng-src="{{image.modifiedurl}}" style="margin:auto;" fallback-src="http://placehold.it/900x300">
+      <div class="carousel-caption">
+        <h4>Slide {{$index}}</h4>
+        <p>{{image.alt}}</p>
       </div>
-      <input type="text" class="form-control" placeholder="Gallery Slug" ng-model="extension.config.slug"> 
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="input-group">
-      <div class="input-group-addon">
-        <span>Interval</span>
+    </slide>
+  </carousel>
+  <div ng-if="editMode" class="gallery-config">
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon">
+          <span>Slug</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Gallery Slug" ng-model="extension.config.slug"> 
       </div>
-      <input type="text" class="form-control" placeholder="3000" ng-model="extension.config.interval">
     </div>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon">
+          <span>Interval</span>
+        </div>
+        <input type="text" class="form-control" placeholder="3000" ng-model="extension.config.interval">
+      </div>
+    </div>
+  
+    <button class="btn btn-danger" ng-click="removeThisExtension(extension)">Remove This From Here</button>
+    <div find-images-for="{{extension.config.slug}}" multiple="true" class="gallery-find-images"></div>
   </div>
-
-  <button class="btn btn-danger" ng-click="removeThisExtension(extension)">Remove This From Here</button>
-  <div find-images-for="{{extension.config.slug}}" multiple="true" class="gallery-find-images"></div>
 </div>
