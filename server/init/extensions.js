@@ -28,9 +28,9 @@ module.exports = function() {
 	GLOBAL.meanbaseGlobals.extensions = extensionsJSONS;
 
 	// Remove all found Extensions
-	// Extension.remove(function(err) {
- // 		if(err) { return handleError(err); }
-	// });
+	Extension.remove(function(err) {
+ 		if(err) { return handleError(err); }
+	});
 
 	
 	if(extensionsJSONS.length > 0) {

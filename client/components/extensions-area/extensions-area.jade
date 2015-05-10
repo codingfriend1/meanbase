@@ -1,2 +1,3 @@
-div(ng-repeat="extension in extensions" ng-sortable="sortableExtensions" dynamic-html="extension.text" ng-class="{'mb-draggable': editMode}")
+div(ng-repeat="extension in extensionsInArea" ng-sortable="sortableExtensions")
+	div(dynamic-html="extension.text" ng-class="{'mb-draggable': editMode}")
 div(extensions-selector="{{areaName}}")

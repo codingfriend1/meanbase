@@ -67,9 +67,9 @@ function compileIndex(theme, extensionJSONS) {
 				var jsPattern = new RegExp("\.(js)$");
 
 				if(cssPattern.test(extensionJSONS[i].urls[x])) {
-					index = index.replace('<!-- extensions:css -->', '<link rel="stylesheet" href="' + extensionJSONS[i].urls[x] + '">' + '\n\t\t\t\t\t <!-- extensions:css -->');
+					index = index.replace('<!-- extensions:css -->', '<link rel="stylesheet" href="' + extensionJSONS[i].urls[x] + '">' + '\n\t\t\t\t <!-- extensions:css -->');
 				} else if(jsPattern.test(extensionJSONS[i].urls[x])) {
-					index = index.replace('<!-- extensions:js -->', '<script src="' + extensionJSONS[i].urls[x] + '"></script>' + '\n\t\t\t\t\t <!-- extensions:js -->');
+					index = index.replace('<!-- extensions:js -->', '<script src="' + extensionJSONS[i].urls[x] + '"></script>' + '\n\t\t\t\t <!-- extensions:js -->');
 				}
 			};
 		};
