@@ -3,9 +3,6 @@
 		.row
 			#leftCol.col-md-3
 				.well
-					//- ul(role="menu" data-menu="sidebar")
-					//- 	li(ng-repeat="menu in menus.sidebar").mb-draggable
-					//- 		a(href="{{menu.url}}") {{menu.title}}
 					ul#sidebar.nav.nav-stacked(ng-sortable="menusConfig")
 						li(ng-repeat="menu in menus.sidebar").mb-draggable
 							a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}

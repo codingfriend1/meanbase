@@ -24,7 +24,6 @@ angular.module('meanbaseApp')
     				return $rootScope.page.extensions[attrs.extensionsArea];
     			}, function(newValue, oldValue) {
     				scope.extensionsInArea = newValue;
-            console.log('scope.extensionsInArea', scope.extensionsInArea);
     			});
     			scope.areaName = attrs.extensionsArea;
       	}
