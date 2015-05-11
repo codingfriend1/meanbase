@@ -5,6 +5,7 @@ var Pages = require('./pages.model');
 var Comments = require('../comments/comments.model'); //Linked Document
 var Menus = require('../menus/menus.model'); //Linked Document
 var CRUD = require('../../components/CRUD');
+var helpers = require('../../components/helpers');
 var collection = new CRUD(Pages);
 
 collection.modifyBody = function(body) {
@@ -15,7 +16,11 @@ collection.modifyBody = function(body) {
     }
 
     if(body.extensions) {
-      body.extensions = unstructureExtensions(body.extensions);
+      body.extensions = helpers.objectToArray(body.extensions);
+    }
+
+    if(body.images) {
+      body.images = helpers.objectToArray(body.images);
     }
   }
   return body;
@@ -30,12 +35,12 @@ collection.modifyIdentifier = function(identifier) {
 
 // Get list of pages
 exports.findAll = function(req, res) {
-  collection.findAll(req, res, restructureExtensions);
+  collection.findAll(req, res, restructureResponse);
 };
 
 // Get some pages
 exports.find = function(req, res) {
-  collection.find(req, res, restructureExtensions);
+  collection.find(req, res, restructureResponse);
 };
 
 // Creates a new pages in the DB.
@@ -91,50 +96,17 @@ exports.deleteById = function(req, res) {
 };
 
 
-function restructureExtensions(response) {
+function restructureResponse(response) {
   if(!response) { return response; }
-
-  if(Object.prototype.toString.call( response ) === '[object Array]') {
+  if(Array.isArray(response)) {
     for (var i = 0; i < response.length; i++) {
-      var allExtensions = response[i].extensions || [];
-      // Sort the menus into groups so angular can use them easily
-      var x = 0, extensions = {};
-      while(x < allExtensions.length) {
-        if(extensions[allExtensions[x].group] == undefined) {
-          extensions[allExtensions[x].group] = [];
-        }
-        extensions[allExtensions[x].group].push(allExtensions[x]);
-        x++;
-      }
-      response[i].extensions = extensions;
+      response[i].images = helpers.arrayToObjectWithObject(response[i].images, 'location');
+      response[i].extensions = helpers.arrayToObjectWithArray(response[i].extensions, 'group');
     };
     return response;
   } else {
-    var allExtensions = response.extensions || [];
-
-    // Sort the menus into groups so angular can use them easily
-    var i = 0, extensions = {};
-    while(i < allExtensions.length) {
-      if(extensions[allExtensions[i].group] == undefined) {
-        extensions[allExtensions[i].group] = [];
-      }
-      extensions[allExtensions[i].group].push(allExtensions[i]);
-      i++;
-    }
-
-    response.extensions = extensions;
+    response.images = helpers.arrayToObjectWithObject(response.images, 'location');
+    response.extensions = helpers.arrayToObjectWithArray(response.extensions, 'group');
     return response;
   }
 };
-
-
-function unstructureExtensions(extensions) {
-
-  var formattedExtensions = [];
-  for (var property in extensions) {
-      if (extensions.hasOwnProperty(property)) {
-          formattedExtensions = formattedExtensions.concat(extensions[property]);
-      }
-  }
-  return formattedExtensions;
-}

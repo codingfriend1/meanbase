@@ -1,5 +1,4 @@
-div.meanbase-image-wrapper.img-responsive
-	div(find-images-for="{{imageSource}}" multiple="{{multiple}}" save-as="page" ng-if="editMode")
-	span(ng-repeat="image in images")
-		img(ng-src="{{image.modifiedurl}}" alt="{{image.alt}}" title="{{image.attribute}}" ng-show="image").img-responsive
-		div.caption(ng-if="caption") {{image.alt}}
+div.img-responsive
+	img(ng-src="{{image.modifiedurl}}" alt="{{image.alt}}" title="{{image.attribute}}" ng-show="image").img-responsive
+	div.caption(ng-if="caption") {{image.alt}}
+div(ng-if="editMode" find-images-for="{{imageSource}}" multiple="false" class="gallery-find-images")

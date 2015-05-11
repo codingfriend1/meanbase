@@ -43,10 +43,25 @@ var PagesSchema = new Schema({
 		type: Object,
 		default: {}
 	},
-	images: {
-		type: Object,
-		default: {}
-	},
+	images: [{
+	  url: {
+			type: String,
+			required: true
+		},
+		alt: {
+			type: String,
+			trim: true,
+			default: ''
+		},
+		attribute: {
+			type: String,
+			trim: true,
+			default: ''
+		},
+		location: {
+			type: String
+		}
+	}],
 	extensions: [
 		{
 			name: String,
