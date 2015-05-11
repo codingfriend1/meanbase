@@ -28,24 +28,30 @@ module.exports = function() {
 	GLOBAL.meanbaseGlobals.extensions = extensionsJSONS;
 
 	// Remove all found Extensions
-	Extension.remove(function(err) {
- 		if(err) { return handleError(err); }
-	});
-
-	
 	if(extensionsJSONS.length > 0) {
-		// Find all extensions in database
-		Extension.find(function (err, extensions) {
-		  if(err) { return handleError(err); }
-		  if(extensions.length > 0) { return false; }
-
-		  // If no extensions exist create them
+		Extension.remove(function(err) {
+	 		if(err) { return handleError(err); }
 	  	Extension.create(extensionsJSONS, function(err, extensions) {
 			  if(err) { return handleError(err); }
 			  console.log('Extensions initialized');
 			});
 		});
 	}
+
+	
+	// if(extensionsJSONS.length > 0) {
+	// 	// Find all extensions in database
+	// 	Extension.find(function (err, extensions) {
+	// 	  if(err) { return handleError(err); }
+	// 	  if(extensions.length > 0) { return false; }
+
+	// 	  // If no extensions exist create them
+	//   	Extension.create(extensionsJSONS, function(err, extensions) {
+	// 		  if(err) { return handleError(err); }
+	// 		  console.log('Extensions initialized');
+	// 		});
+	// 	});
+	// }
 	
 
 	function handleError(err) {
