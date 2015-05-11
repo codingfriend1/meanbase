@@ -95,9 +95,10 @@ angular.module('meanbaseApp')
 
           scrollFn();
           
-          var el = document.querySelector( '.morph-button' );
+          // var el = document.querySelector( '.morph-button' );
+          var el = element[0];
           
-          new UIMorphingButton( el, {
+          new UIMorphingButton( element[0], {
             closeEl : '.icon-close',
             onBeforeOpen : function() {
               // don't allow to scroll
@@ -106,21 +107,13 @@ angular.module('meanbaseApp')
             onAfterOpen : function() {
               // can scroll again
               canScroll();
-              // add class "noscroll" to body
-              // classie.addClass( document.body, 'noscroll' );
               document.body.classList.add('noscroll');
-              // add scroll class to main el
-              // classie.addClass( el, 'scroll' );
-              el.classList.add('scroll');
+              element[0].classList.add('scroll');
             },
             onBeforeClose : function() {
               // remove class "noscroll" to body
-              // classie.removeClass( document.body, 'noscroll' );
-              // remove scroll class from main el
-              // classie.removeClass( el, 'scroll' );
-
               document.body.classList.remove('noscroll');
-              el.classList.remove('scroll');
+              element[0].classList.remove('scroll');
 
               // don't allow to scroll
               noScroll();
