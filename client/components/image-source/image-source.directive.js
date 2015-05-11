@@ -13,52 +13,41 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
 
+        // Safety check in case attributes are missing
         scope.imageSource = scope.imageSource || 'image-1';
         scope.caption = (scope.caption === true || scope.caption === 'true');
-        $rootScope.page.images = $rootScope.page.images || [];
-
-        function findImageForSource() {
-          for (var i = 0; i < $rootScope.page.images.length; i++) {
-            if($rootScope.page.images[i].location === scope.imageSource) {
-              scope.image = $rootScope.page.images[i];
-              scope.image.modifiedurl = scope.image.url + 'origional.jpg';
-            }
-          };
+        $rootScope.page.images = $rootScope.page.images || {};
+        var defaultImage = {
+          modifiedurl: scope.placeholdIt || 'http://placehold.it/300x300',
+          alt: "Placeholder Image displaying recommended size",
+          attribute: "placehold.it"
+        };
+        if(!$rootScope.page.images[scope.imageSource]) {
+          $rootScope.page.images[scope.imageSource] = defaultImage;
         }
 
-        findImageForSource();
-        
+        // Watch for changes on the page.images object (in case "discard" changed it)
+        scope.$watch(function() {
+          return $rootScope.page.images[scope.imageSource];
+        }, function(newValue) {
+          scope.image = newValue;
+          if(!scope.image.modifiedurl) {
+            scope.image.modifiedurl = scope.image.url + 'origional.jpg';
+          }
+        });
 
-        // Use a placeholder image if no images are found
-        if(!scope.image) {
-          scope.image = {
-            modifiedurl: scope.placeholdIt || 'http://placehold.it/300x300',
-            alt: "Placeholder Image displaying recommended size",
-            attribute: "placehold.it"
-          };
-        }
-
-    	  // Take the chosen image(s) and add them into this img
+    	  // Choose and set the image
     		scope.$onRootScope('cms.choseImages', function(e, gallery) {
     	    if(scope.imageSource === gallery.gallerySlug) {
-    	    		scope.image = gallery.images;
+            scope.image = (Array.isArray(gallery.images))? gallery.images[0]: gallery.images;
             if(scope.image) {
               scope.image.location = scope.imageSource;
-              $rootScope.page.images.push(scope.image);
+              $rootScope.page.images[scope.imageSource] = scope.image;
             } else {
-    	    		scope.image = [{
-			      		modifiedurl: scope.placeholdIt || 'http://placehold.it/300x300',
-			      		alt: "Placeholder Image displaying recommended size",
-			      		attribute: "placehold.it"
-			      	}];
+    	    		scope.image = defaultImage;
     	    	}
     	    }
     		});
-
-        scope.$onRootScope('cms.discardEdits', function() {
-          findImageForSource();
-        });
-
       }
     };
   });
