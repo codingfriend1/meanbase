@@ -46,16 +46,16 @@
       var sharedSources = [];
       var extensions = [];
       for (var property in $rootScope.page.extensions) {
-          if ($rootScope.page.extensions.hasOwnProperty(property)) {
-            for(var idx = 0; idx < $rootScope.page.extensions[property].length; idx++) {
-              var currentExtension = $rootScope.page.extensions[property][idx];
-              if(!currentExtension.data) { currentExtension.data = {}; }
-              if(currentExtension.useShared && currentExtension.sharedSource) {
-                sharedSources.push(currentExtension.sharedSource);
-                extensions.push(currentExtension);
-              }
+        if ($rootScope.page.extensions.hasOwnProperty(property)) {
+          for(var idx = 0; idx < $rootScope.page.extensions[property].length; idx++) {
+            var currentExtension = $rootScope.page.extensions[property][idx];
+            if(!currentExtension.data) { currentExtension.data = {}; }
+            if(currentExtension.useShared && currentExtension.sharedSource) {
+              sharedSources.push(currentExtension.sharedSource);
+              extensions.push(currentExtension);
             }
           }
+        }
       }
 
       endpoints.extensiondata.find({query: {name: {'$in': sharedSources} }}).success(function(data, statusCode) {

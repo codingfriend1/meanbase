@@ -1,4 +1,6 @@
 div(ng-repeat="extension in extensionsInArea" ng-sortable="sortableExtensions")
 	div(dynamic-html="extension.text" ng-class="{'mb-draggable': editMode}")
-	button.btn.btn-danger.remove-extension-button(ng-click='removeThisExtension(extension)' ng-if="editMode") Remove This From Here
+	div.universal-extension-edit-buttons
+		button.btn.btn-danger.remove-extension-button(ng-click='removeThisExtension(extension)' ng-if="editMode") Remove This From Here
+		extensiondata-selector
 div(extensions-selector="{{areaName}}")
