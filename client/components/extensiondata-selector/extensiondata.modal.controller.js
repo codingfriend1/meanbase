@@ -1,4 +1,4 @@
-angular.module('meanbaseApp').controller('extensiondata.modal.controller', function($scope, endpoints, $modalInstance, extension) {
+angular.module('meanbaseApp').controller('extensiondata.modal.controller', function($scope, endpoints, $modalInstance, extension, $rootScope) {
 	$scope.chosenSource;
 	var extensiondata = new endpoints('extensiondata');
 
@@ -11,6 +11,15 @@ angular.module('meanbaseApp').controller('extensiondata.modal.controller', funct
 			}
 		}
 	});
+
+	$scope.newSourceName = '';
+
+	$scope.newSource = function() {
+		$scope.dataSources.push({
+			name: angular.copy($scope.newSourceName),
+			data: null
+		});
+	};
 
 	$scope.sourceFilter = '';
 	$scope.filterSource = function(dataSource) {
@@ -27,6 +36,22 @@ angular.module('meanbaseApp').controller('extensiondata.modal.controller', funct
 			$scope.chosenSource = null;
 		} else {
 			$scope.chosenSource = source;
+		}
+	};
+
+	$scope.deleteSource = function(source) {
+		var confirm = window.confirm('Are you sure you want to delete ' + source.name + '?');
+
+		if(confirm) {
+			if(extension.sharedSource === source.name) {
+				extension.sharedSource = null;
+				extension.useShared = false;
+			}
+			delete $rootScope.extensiondata[source.name];
+			var sourcePosition = $scope.dataSources.indexOf(source);
+			if(sourcePosition > -1) {
+				$scope.dataSources.splice(sourcePosition, 1);
+			}
 		}
 	};
 

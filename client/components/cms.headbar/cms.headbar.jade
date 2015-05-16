@@ -133,10 +133,17 @@ script(type="text/ng-template" id="extensiondata.modal.html")
 						.input-group-addon 
 							i.fa.fa-search
 						input.form-control(type="text" placeholder="search sources" ng-model="sourceFilter")
+				.form-group
+					.input-group
+						.input-group-addon 
+							i.fa.fa-plus Add a Source
+						input.form-control(type="text" placeholder="Create new data to share" ng-model="newSourceName")
+					button.btn.btn-success(ng-click="newSource()") Create New Source
 				.extensiondata-list
 					div(ng-repeat="source in dataSources | filter:filterSource").list-item
 						h3.list-title {{source.name}}
 						i.fa.pull-right.checkbox(ng-click="toggleChecked(source)" ng-class="{'fa-check': chosenSource == source, 'fa-square-o': chosenSource != source}")
+						button.btn.btn-danger.delete-source-btn.pull-right(ng-click="deleteSource(source)") Delete
 		.modal-footer
 			button.btn.btn-success(type='button' ng-click="chooseSource()") Choose
 			button.btn.btn-default(type='button' ng-click="$dismiss()") Close
