@@ -26,6 +26,9 @@ angular.module('meanbaseApp')
 	      			scope.extension.sharedSource = chosenSource.name;
 	      			scope.extension.data = chosenSource.data;
 	      			$rootScope.extensiondata[chosenSource.name] = chosenSource;
+	      		} else {
+	      			scope.extension.useShared = false;
+	      			scope.extension.sharedSource = '';
 	      		}
 
 	          modalInstance = null;

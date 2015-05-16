@@ -15,6 +15,13 @@ angular.module('meanbaseApp').controller('extensiondata.modal.controller', funct
 	$scope.newSourceName = '';
 
 	$scope.newSource = function() {
+		var pattern = new RegExp("[a-z0-9_-]");
+		if(!pattern.test($scope.newSourceName)) { return false; }
+		for(var idx = 0; idx < $scope.dataSources.length; idx++) {
+			if($scope.dataSources[idx].name === $scope.newSourceName) {
+				return false;
+			}
+		}
 		$scope.dataSources.push({
 			name: angular.copy($scope.newSourceName),
 			data: null
@@ -47,6 +54,10 @@ angular.module('meanbaseApp').controller('extensiondata.modal.controller', funct
 				extension.sharedSource = null;
 				extension.useShared = false;
 			}
+			if($scope.chosenSource === source) {
+				$scope.chosenSource = undefined;
+			}
+			
 			delete $rootScope.extensiondata[source.name];
 			var sourcePosition = $scope.dataSources.indexOf(source);
 			if(sourcePosition > -1) {

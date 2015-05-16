@@ -135,10 +135,9 @@ script(type="text/ng-template" id="extensiondata.modal.html")
 						input.form-control(type="text" placeholder="search sources" ng-model="sourceFilter")
 				.form-group
 					.input-group
-						.input-group-addon 
-							i.fa.fa-plus Add a Source
+						.input-group-addon.add-source(ng-click="newSource()" title="click to create source")
+							i.fa.fa-plus
 						input.form-control(type="text" placeholder="Create new data to share" ng-model="newSourceName")
-					button.btn.btn-success(ng-click="newSource()") Create New Source
 				.extensiondata-list
 					div(ng-repeat="source in dataSources | filter:filterSource").list-item
 						h3.list-title {{source.name}}
