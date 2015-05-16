@@ -68,6 +68,13 @@ var PagesSchema = new Schema({
 		  group: String,
 		  position: Number,
 		  text: String,
+		  useShared: {
+		  	type: Boolean,
+		  	default: false
+		  },
+		  sharedSource: {
+		  	type: String
+		  },
 		  config: Schema.Types.Mixed,
 		  data: Schema.Types.Mixed
 		}

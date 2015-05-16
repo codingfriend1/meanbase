@@ -4,7 +4,7 @@
 
   // MainCtrl.$inject = ['$rootScope', '$scope', '$http', 'Auth', '$location', 'endpoints'];
   // @ngInject
-  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize) {
+  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers) {
     $rootScope.isLoggedIn = Auth.isLoggedIn();
     
     $scope.logout = function() {
@@ -13,7 +13,8 @@
     };
 
     var endpoints = {
-      menus: new endpoints('menus')
+      menus: new endpoints('menus'),
+      extensiondata: new endpoints("extensiondata")
     };
 
     // Get the current logged in user
@@ -36,7 +37,40 @@
       if($rootScope.page && !$rootScope.page.extensions) {
         $rootScope.page.extensions = {};
       }
+
+      getSharedExtensionSources();
+      
     });
+
+    function getSharedExtensionSources() {
+      var sharedSources = [];
+      var extensions = [];
+      for (var property in $rootScope.page.extensions) {
+          if ($rootScope.page.extensions.hasOwnProperty(property)) {
+            for(var idx = 0; idx < $rootScope.page.extensions[property].length; idx++) {
+              var currentExtension = $rootScope.page.extensions[property][idx];
+              if(currentExtension.useShared && currentExtension.sharedSource) {
+                sharedSources.push(currentExtension.sharedSource);
+                extensions.push(currentExtension);
+              }
+            }
+          }
+      }
+
+      endpoints.extensiondata.find({query: {name: {'$in': sharedSources} }}).success(function(data, statusCode) {
+        $rootScope.extensiondata = helpers.arrayToObjectWithObject(data, 'name');
+
+        // If sharedData source is missing then create a new one from the extension that requested it
+        for(var idx = 0; idx < extensions.length; idx++) {
+          if(!$rootScope.extensiondata[extensions[idx].sharedSource]) {
+            $rootScope.extensiondata[extensions[idx].sharedSource] = {
+              name: extensions[idx].sharedSource,
+              data: extensions[idx].data
+            };
+          }
+        }
+      });
+    }
 
     // Set up config for sortable menus
     $rootScope.menusConfig = { 
@@ -75,6 +109,8 @@
 
       // Update positions and locations of the menu items
       var unmappedMenus = updatePositionData();
+
+      $rootScope.extensiondata = helpers.objectToArray($rootScope.extensiondata);
 
       // Delete all the menus in the database, 
       // recreate all of them based off the client copy,

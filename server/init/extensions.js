@@ -4,6 +4,7 @@ var config = require('../config/environment');
 module.exports = function() {
 	console.log('checking for extensions...');
 	var Extension = require('../api/extension/extension.model');
+	var ExtensionData = require('../api/extensiondata/extensiondata.model');
 	var extensionsFolderUrl = 'client/extensions/';
 
 	// Loop through themes in extensionsFolderUrl and get the extension.json file out of the root of each one
@@ -52,6 +53,13 @@ module.exports = function() {
 	// 		});
 	// 	});
 	// }
+
+
+	// ExtensionData.remove({}, function (err, data) {
+	//   if(err) { return handleError(err); }
+	//   if(!data) { return false; }
+	//   console.log('removed extension data');
+	// });
 	
 
 	function handleError(err) {

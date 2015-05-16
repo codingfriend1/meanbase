@@ -6,7 +6,8 @@
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 		var endpoints = {
 			menus: new endpoints('menus'),
-			page: new endpoints('pages')
+			page: new endpoints('pages'),
+			extensiondata: new endpoints("extensiondata")
 		};
 
 		this.toggleEdit = function() {
@@ -46,6 +47,9 @@
 			$timeout(function(){
 				modifyPage($rootScope.page);		
 				endpoints.page.update({_id: $rootScope.page._id}, $rootScope.page);
+				for(var idx = 0; idx < $rootScope.extensiondata.length; idx++) {
+					endpoints.extensiondata.update({name: $rootScope.extensiondata[idx].name}, {data: $rootScope.extensiondata[idx].data});
+				}
 			});
 		};
 

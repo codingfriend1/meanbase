@@ -166,6 +166,18 @@ CRUD.prototype.update = function(req, res, callback) {
   });
 };
 
+// Updates or Upserts existing items in the collection.
+CRUD.prototype.upsert = function(req, res, callback) {
+  var identifier = this.getIdentifer(req);
+  this.collection.update(identifier, req.body, {multi: true, upsert: true}, function(err, found) {
+    if (err) { return handleError(res, err); }
+    if(!found) { return res.send(404); }
+    var allFound = getArguments(arguments);
+    if(callback) callback(req.body);
+    return res.json(200, allFound);
+  });
+};
+
 // Updates one existing item in the collection.
 CRUD.prototype.updateById = function(req, res, callback) {
   if(req.body._id) { delete req.body._id; }

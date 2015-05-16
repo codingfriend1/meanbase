@@ -10,6 +10,10 @@ collection.modifyBody = function(body) {
 };
 
 collection.modifyIdentifier = function(identifier) {
+  if(identifier.query) {
+    identifier = identifier.query;
+  }
+
   return identifier;
 };
 
@@ -30,7 +34,7 @@ exports.create = function(req, res) {
 
 // Updates pages in the database
 exports.update = function(req, res) {
-  collection.update(req, res);
+  collection.upsert(req, res);
 };
 
 // Deletes a pages from the DB.
