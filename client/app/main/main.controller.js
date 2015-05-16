@@ -49,6 +49,7 @@
           if ($rootScope.page.extensions.hasOwnProperty(property)) {
             for(var idx = 0; idx < $rootScope.page.extensions[property].length; idx++) {
               var currentExtension = $rootScope.page.extensions[property][idx];
+              if(!currentExtension.data) { currentExtension.data = {}; }
               if(currentExtension.useShared && currentExtension.sharedSource) {
                 sharedSources.push(currentExtension.sharedSource);
                 extensions.push(currentExtension);
@@ -61,12 +62,15 @@
         $rootScope.extensiondata = helpers.arrayToObjectWithObject(data, 'name');
 
         // If sharedData source is missing then create a new one from the extension that requested it
+        // Otherwise set the data of that extension to the sharedExtension data
         for(var idx = 0; idx < extensions.length; idx++) {
           if(!$rootScope.extensiondata[extensions[idx].sharedSource]) {
             $rootScope.extensiondata[extensions[idx].sharedSource] = {
               name: extensions[idx].sharedSource,
               data: extensions[idx].data
             };
+          } else {
+            extensions[idx].data = $rootScope.extensiondata[extensions[idx].sharedSource].data;
           }
         }
       });
