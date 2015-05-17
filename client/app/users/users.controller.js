@@ -14,7 +14,7 @@
 
 	  // Get all roles and their permissions and set the roles panel selected role to the first one
 	  endpoints.roles.find({}).success(function(roles) {
-	  	$scope.roles = roles
+	  	$scope.roles = roles;
 	  	$scope.selectedRole = $scope.roles[0];
 	  });
 
@@ -33,8 +33,11 @@
 	  	}
 	  	if(!pass) { return false; } 
 
-  		endpoints.roles.create({role: roleName, permissions: $scope.selectedRole.permissions}).then(function(response) {
-  			console.log(response);
+	  	var newRole = {role: roleName, permissions: $scope.selectedRole.permissions};
+
+  		endpoints.roles.create(newRole).success(function(response) {
+  			$scope.roles.push({role: roleName, permissions: $scope.selectedRole.permissions});
+  			$scope.selectedRole = newRole;
   		});
 	  };
 
@@ -56,7 +59,8 @@
   			console.log('Moved users with ' + $scope.selectedRole.role + ' over to basic');
   		}).finally(function(response) {
   			endpoints.roles.delete({_id: $scope.selectedRole._id}).then(function(response) {
-					console.log(response);
+  				$scope.roles.splice($scope.roles.indexOf($scope.selectedRole), 1);
+  				$scope.selectedRole = $scope.roles[0];
 				});
   		});
 	  };

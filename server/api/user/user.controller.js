@@ -4,6 +4,7 @@ var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 var User = require('./user.model');
+var Roles = require('../roles/roles.model');
 var CRUD = require('../../components/CRUD');
 var collection = new CRUD(User);
 
@@ -131,9 +132,19 @@ exports.me = function(req, res, next) {
     if (err) return next(err);
     if (!user) return res.json(401);
     var user = user.toJSON();
-    var permissions = GLOBAL.meanbaseGlobals.roles[user.role];
-    if(permissions) { user.permissions = permissions; }
-    res.json(user);
+    Roles.findOne({role: user.role}, function(error, found) {
+      if(!found) { res.send(401); return false; }
+      var permissions = [];
+      for (var permission in found.permissions) {
+        if (found.permissions.hasOwnProperty(permission)) {
+          if(found.permissions[permission] === true) {
+            permissions.push(permission);
+          }
+        }
+      }
+      user.permissions = permissions;
+      res.json(user);
+    });
   });
 };
 

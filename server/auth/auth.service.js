@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
 var User = require('../api/user/user.model');
+var Roles = require('../api/roles/roles.model');
 var validateJwt = expressJwt({ secret: config.secrets.session });
 
 /**
@@ -62,14 +63,14 @@ function hasPermission(permissionName) {
   return compose()
     .use(isAuthenticated())
     .use(function roleHasPermission(req, res, next) {
-      if(!req.user.role in GLOBAL.meanbaseGlobals.roles) { res.send(403); return false; }
-
-      var matchingRole = GLOBAL.meanbaseGlobals.roles[req.user.role]
-      if(matchingRole && (matchingRole.indexOf(permissionName) > -1 || matchingRole.indexOf('allPrivilages') > -1)) {
-        next();
-      } else {
-        res.send(403);
-      }
+      Roles.findOne({role: req.user.role}, function(error, found) {
+        if(!found) { res.send(403); return false; }
+        if(found.permissions[permissionName] || found.permissions['allPrivilages']) {
+          next();
+        } else {
+          res.send(403);
+        }
+      });
     });
 }
 

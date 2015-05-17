@@ -20,7 +20,8 @@
     "cropper": "~0.9.2",
     "ng-cropper": "~0.2.2",
     "modernizr": "~2.8.3",
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "validator-js": "~3.39.0"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
