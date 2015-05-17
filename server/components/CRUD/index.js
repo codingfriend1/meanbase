@@ -169,7 +169,7 @@ CRUD.prototype.update = function(req, res, callback) {
 // Updates or Upserts existing items in the collection.
 CRUD.prototype.upsert = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
-  this.collection.update(identifier, req.body, {multi: true, upsert: true}, function(err, found) {
+  this.collection.update(identifier, req.body, {multi: true, upsert: true, setDefaultsOnInsert: true}, function(err, found, upserted) {
     if (err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
     var allFound = getArguments(arguments);

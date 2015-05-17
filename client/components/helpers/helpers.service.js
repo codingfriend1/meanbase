@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .service('helpers', function () {
+  .service('helpers', function ($rootScope) {
     this.arrayToObjectWithArray = function(array, itemToBecomeProperty) {
       if(!array || !itemToBecomeProperty) { return array; }
       if(!Array.isArray(array)) { array = [array]; }
@@ -44,6 +44,17 @@ angular.module('meanbaseApp')
         }
       }
       return returnArray;
+    };
+
+    this.loopThroughPageExtensions = function(fn) {
+      for (var property in $rootScope.page.extensions) {
+        if ($rootScope.page.extensions.hasOwnProperty(property)) {
+          for(var idx = 0; idx < $rootScope.page.extensions[property].length; idx++) {
+            var currentExtension = $rootScope.page.extensions[property][idx];
+            fn(currentExtension);
+          }
+        }
+      }
     };
 
 

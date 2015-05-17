@@ -1,31 +1,34 @@
-angular.module('meanbaseApp').controller('extensiondata.modal.controller', function($scope, endpoints, $modalInstance, extension, $rootScope) {
+angular.module('meanbaseApp').controller('extensiondata.modal.controller', function($scope, endpoints, $modalInstance, extension, $rootScope, helpers) {
 	$scope.chosenSource;
 	var extensiondata = new endpoints('extensiondata');
 
-	extensiondata.find({}).success(function(res) {
-		$scope.dataSources = res;
-		// If extension already is using a sharedSource check it if available
-		for(var idx = 0; idx < $scope.dataSources.length; idx++) {
-			if(extension.sharedSource === $scope.dataSources[idx].name) {
-				$scope.chosenSource = $scope.dataSources[idx];
-			}
+	
+
+	// If extension already is using a sharedSource check it if available
+	for(var idx = 0; idx < $rootScope.dataSources.length; idx++) {
+		if(extension.sharedSource === $rootScope.dataSources[idx].name) {
+			$scope.chosenSource = $rootScope.dataSources[idx];
 		}
-	});
+	}
 
 	$scope.newSourceName = '';
 
 	$scope.newSource = function() {
 		var pattern = new RegExp("[a-z0-9_-]");
 		if(!pattern.test($scope.newSourceName)) { return false; }
-		for(var idx = 0; idx < $scope.dataSources.length; idx++) {
-			if($scope.dataSources[idx].name === $scope.newSourceName) {
+		for(var idx = 0; idx < $rootScope.dataSources.length; idx++) {
+			if($rootScope.dataSources[idx].name === $scope.newSourceName) {
 				return false;
 			}
 		}
-		$scope.dataSources.push({
+		var newSource = {
 			name: angular.copy($scope.newSourceName),
 			data: null
-		});
+		};
+
+		$rootScope.dataSources.push(newSource);
+		$rootScope.extensiondata[$scope.newSourceName] = newSource;
+		$scope.chosenSource = newSource;
 	};
 
 	$scope.sourceFilter = '';
@@ -50,18 +53,24 @@ angular.module('meanbaseApp').controller('extensiondata.modal.controller', funct
 		var confirm = window.confirm('Are you sure you want to delete ' + source.name + '?');
 
 		if(confirm) {
-			if(extension.sharedSource === source.name) {
-				extension.sharedSource = null;
-				extension.useShared = false;
-			}
+
+			helpers.loopThroughPageExtensions(function(currentExtension) {
+				if(currentExtension.sharedSource === source.name) {
+				  currentExtension.sharedSource = null;
+				  currentExtension.useShared = false;
+				}
+			});
+
 			if($scope.chosenSource === source) {
 				$scope.chosenSource = undefined;
 			}
-			
+
 			delete $rootScope.extensiondata[source.name];
-			var sourcePosition = $scope.dataSources.indexOf(source);
+
+			$rootScope.extensiondataToDelete.push(source.name);
+			var sourcePosition = $rootScope.dataSources.indexOf(source);
 			if(sourcePosition > -1) {
-				$scope.dataSources.splice(sourcePosition, 1);
+				$rootScope.dataSources.splice(sourcePosition, 1);
 			}
 		}
 	};

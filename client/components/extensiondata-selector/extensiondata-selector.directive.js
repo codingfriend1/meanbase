@@ -8,7 +8,6 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
       	var modalInstance;
       	scope.openModal = function (extension) {
-      		console.log('extension', extension);
 	    	  modalInstance = $modal.open({
 	          templateUrl: 'extensiondata.modal.html',
 	    	    controller: 'extensiondata.modal.controller',
@@ -24,11 +23,20 @@ angular.module('meanbaseApp')
 	      		if(chosenSource) {
 	      			scope.extension.useShared = true;
 	      			scope.extension.sharedSource = chosenSource.name;
-	      			scope.extension.data = chosenSource.data;
-	      			$rootScope.extensiondata[chosenSource.name] = chosenSource;
+	      			scope.extension.data = chosenSource.data = $rootScope.extensiondata[chosenSource.name].data;
+	      			
+	      			if(!scope.extension.data) {
+	      				scope.extension.data = {
+	      					heading: '',
+	      					body: ''
+	      				};
+	      			}
+
+	      			// chosenSource.data = scope.extension.data = $rootScope.extensiondata[chosenSource.name].data;
 	      		} else {
 	      			scope.extension.useShared = false;
 	      			scope.extension.sharedSource = '';
+	      			scope.extension.data = angular.copy(scope.extension.data);
 	      		}
 
 	          modalInstance = null;

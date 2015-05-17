@@ -45,18 +45,13 @@
     function getSharedExtensionSources() {
       var sharedSources = [];
       var extensions = [];
-      for (var property in $rootScope.page.extensions) {
-        if ($rootScope.page.extensions.hasOwnProperty(property)) {
-          for(var idx = 0; idx < $rootScope.page.extensions[property].length; idx++) {
-            var currentExtension = $rootScope.page.extensions[property][idx];
-            if(!currentExtension.data) { currentExtension.data = {}; }
-            if(currentExtension.useShared && currentExtension.sharedSource) {
-              sharedSources.push(currentExtension.sharedSource);
-              extensions.push(currentExtension);
-            }
-          }
+      helpers.loopThroughPageExtensions(function(currentExtension) {
+        if(!currentExtension.data) { currentExtension.data = {}; }
+        if(currentExtension.useShared && currentExtension.sharedSource) {
+          sharedSources.push(currentExtension.sharedSource);
+          extensions.push(currentExtension);
         }
-      }
+      });
 
       endpoints.extensiondata.find({query: {name: {'$in': sharedSources} }}).success(function(data, statusCode) {
         $rootScope.extensiondata = helpers.arrayToObjectWithObject(data, 'name');
@@ -101,10 +96,17 @@
 
     // Store snapshot of menu for when discardEdits is called
     // If edit mode changes we want to enable or disable draggable menus
-    var menusSnapshot, pageSnapshot;
+    var menusSnapshot, pageSnapshot, extensiondataSnapshot;
     $scope.$watch('editMode', function() {
       menusSnapshot = angular.copy($rootScope.menus);
       pageSnapshot = angular.copy($rootScope.page);
+      extensiondataSnapshot = angular.copy($rootScope.extensiondata);
+      $rootScope.extensiondataToDelete = [];
+
+      endpoints.extensiondata.find({}).success(function(res) {
+        $rootScope.dataSources = res;
+      });
+
       $rootScope.menusConfig.disabled = !$scope.editMode;
     });
 
@@ -133,6 +135,8 @@
     $scope.$onRootScope('cms.discardEdits', function() {
       $rootScope.menus = menusSnapshot;
       $rootScope.page = pageSnapshot;
+      $rootScope.extensiondata = extensiondataSnapshot;
+      $rootScope.extensiondataToDelete = [];
     });
 
     // Prevent menu links from working while in edit mode

@@ -137,7 +137,7 @@ script(type="text/ng-template" id="extensiondata.modal.html")
 					.input-group
 						.input-group-addon.add-source(ng-click="newSource()" title="click to create source")
 							i.fa.fa-plus
-						input.form-control(type="text" placeholder="Create new data to share" ng-model="newSourceName")
+						input.form-control(type="text" placeholder="Create new data to share" ng-model="newSourceName" ng-keyup="$event.keyCode == 13 ? newSource() : null")
 				.extensiondata-list
 					div(ng-repeat="source in dataSources | filter:filterSource").list-item
 						h3.list-title {{source.name}}

@@ -2,7 +2,7 @@
 	angular.module('meanbaseApp').controller('cms.headbar.controller', HeadbarController);
 
 	// @ngInject
-	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout) {
+	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers) {
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 		var endpoints = {
 			menus: new endpoints('menus'),
@@ -43,13 +43,23 @@
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
 			$rootScope.$emit('cms.saveEdits', $rootScope.page);
 
+			var extensionsWithSources = [];
+			helpers.loopThroughPageExtensions(function(currentExtension) {
+				if(currentExtension.useShared && currentExtension.sharedSource) {
+				  extensionsWithSources.push(currentExtension);
+				}
+			});
+
 			//We need to wait for the "edit" directive to store changes in page.content
 			$timeout(function(){
 				modifyPage($rootScope.page);		
 				endpoints.page.update({_id: $rootScope.page._id}, $rootScope.page);
-				for(var idx = 0; idx < $rootScope.extensiondata.length; idx++) {
-					endpoints.extensiondata.update({name: $rootScope.extensiondata[idx].name}, {data: $rootScope.extensiondata[idx].data});
-				}
+
+				endpoints.extensiondata.delete({query: { name: {$in: $rootScope.extensiondataToDelete} }}).finally(function() {
+					for(var idx = 0; idx < extensionsWithSources.length; idx++) {
+						endpoints.extensiondata.update({name: extensionsWithSources[idx].sharedSource}, {data: extensionsWithSources[idx].data});	
+					}
+				});
 			});
 		};
 
