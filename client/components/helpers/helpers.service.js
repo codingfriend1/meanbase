@@ -57,5 +57,15 @@ angular.module('meanbaseApp')
       }
     };
 
+    this.isEmpty = function (obj) {
+      if(!obj) return true;
+      if(Array.isArray(obj)) {
+        return obj.length < 1;
+      } else if(Object.prototype.toString.call(obj) === "[object Object]") {
+        console.log('Object.prototype.toString.call(obj)', Object.prototype.toString.call(obj));
+        return Object.keys(obj).length === 0;
+      }
+    };
+
 
   });
