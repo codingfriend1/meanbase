@@ -6,17 +6,3 @@
 		<div edit="editMode" ng-bind-html="extension.data.body"></div>
 	</div>
 </div>
-<div ng-if="editMode" class="panel-config">
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="extension.useShared">Use Shared Data?</label>
-  </div>
-  <div class="form-group">
-  	<div class="input-group">
-  		<div class="input-group-addon">
-  			<span>Shared Source</span>
-  		</div>
-  		<input type="text" class="form-control" placeholder="shared source" ng-model="extension.sharedSource">
-  	</div>
-    
-  </div>
-</div>

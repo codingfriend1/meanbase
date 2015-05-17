@@ -22,6 +22,8 @@
 
     $rootScope.editMode = false;
 
+    $rootScope.extensiondataToDelete = [];
+
     // Get all the menus
     endpoints.menus.find({}).then(function(response) {
       $rootScope.menus = response.data;
@@ -101,7 +103,6 @@
       menusSnapshot = angular.copy($rootScope.menus);
       pageSnapshot = angular.copy($rootScope.page);
       extensiondataSnapshot = angular.copy($rootScope.extensiondata);
-      $rootScope.extensiondataToDelete = [];
 
       endpoints.extensiondata.find({}).success(function(res) {
         $rootScope.dataSources = res;
@@ -160,6 +161,9 @@
     $scope.removeThisExtension = function(extension) {
       if(extension && extension.group && extension.position !== undefined) {
         $rootScope.page.extensions[extension.group].splice(extension.position, 1);
+        if($rootScope.page.extensions[extension.group].length < 1) {
+          delete $rootScope.page.extensions[extension.group];
+        }
       }
     };
 

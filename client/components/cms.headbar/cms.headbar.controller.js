@@ -38,8 +38,6 @@
 			this.toggleEdit();
 			if(!$rootScope.page._id) { return false; }
 
-			console.log('$rootScope.page', $rootScope.page);
-
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
 			$rootScope.$emit('cms.saveEdits', $rootScope.page);
 
@@ -54,14 +52,22 @@
 			$timeout(function(){
 				modifyPage($rootScope.page);		
 				endpoints.page.update({_id: $rootScope.page._id}, $rootScope.page);
-
-				endpoints.extensiondata.delete({query: { name: {$in: $rootScope.extensiondataToDelete} }}).finally(function() {
-					for(var idx = 0; idx < extensionsWithSources.length; idx++) {
-						endpoints.extensiondata.update({name: extensionsWithSources[idx].sharedSource}, {data: extensionsWithSources[idx].data});	
-					}
-				});
+				if($rootScope.extensiondataToDelete.length < 1) {
+					updateExtensionData(extensionsWithSources);
+				} else {
+					endpoints.extensiondata.delete({query: { name: {$in: $rootScope.extensiondataToDelete} }}).finally(function() {
+						updateExtensionData(extensionsWithSources);
+					});
+				}
+				$rootScope.extensiondataToDelete = [];
 			});
 		};
+
+		function updateExtensionData(extensionsWithSources) {
+			for(var idx = 0; idx < extensionsWithSources.length; idx++) {
+				endpoints.extensiondata.update({name: extensionsWithSources[idx].sharedSource}, {data: extensionsWithSources[idx].data});	
+			}
+		}
 
 		this.discardChanges = function() {
 			this.toggleEdit();
