@@ -4,13 +4,24 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
 var authTypes = ['github', 'twitter', 'facebook', 'google'];
+var validators = require('mongoose-validators');
 
 var UserSchema = new Schema({
-  name: String,
-  email: { type: String, lowercase: true },
+  name: {
+    type: String,
+    trim: true,
+    validate: validators.matches({skipEmpty: true}, "^([1-zA-Z0-1@.-_ \s]{0,255})$")
+  },
+  email: { 
+    type: String, 
+    lowercase: true,
+    validate: validators.isEmail(),
+    trim: true
+  },
   role: {
     type: String,
-    default: 'basic'
+    default: 'basic',
+    validate: validators.matches("^([1-zA-Z0-1@.-_ \s]{0,255})$")
   },
   enabled: {
     type: Boolean,
