@@ -10,7 +10,7 @@ var UserSchema = new Schema({
   name: {
     type: String,
     trim: true,
-    validate: validators.matches({skipEmpty: true}, "^([1-zA-Z0-1@.-_ \s]{0,255})$")
+    validate: validators.isTitle({skipEmpty: true})
   },
   email: { 
     type: String, 
@@ -21,7 +21,7 @@ var UserSchema = new Schema({
   role: {
     type: String,
     default: 'basic',
-    validate: validators.matches("^([1-zA-Z0-1@.-_ \s]{0,255})$")
+    validate: validators.isTitle()
   },
   enabled: {
     type: Boolean,

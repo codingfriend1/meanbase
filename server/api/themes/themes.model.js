@@ -8,7 +8,7 @@ var ThemesSchema = new Schema({
   author: {
     type: String,
     trim: true,
-    validate: validators.matches({skipEmpty: true}, "^([1-zA-Z0-1@.-_ \s]{0,255})$")
+    validate: validators.isTitle({skipEmpty: true})
   },
   email: {
     type:String,
@@ -19,27 +19,33 @@ var ThemesSchema = new Schema({
   website: {
     type: String,
     trim: true,
+    lowercase: true,
     validate: validators.isURL({skipEmpty: true})
   },
   title: {
     type: String,
     trim: true,
-    validate: validators.matches({skipEmpty: true}, "^([1-zA-Z0-1@.-_ \s]{0,255})$"),
+    validate: validators.isTitle({skipEmpty: true}),
     required: true
   },
   description: {
     type: String,
     trim: true,
-    validate: validators.matches({skipEmpty: true}, "^([1-zA-Z0-1@.-_ \s]{1,255})$")
+    required: false,
+    validate: validators.isText({skipEmpty: true})
   },
   url: {
   	type: String,
   	unique: true,
     required: true,
     trim: true,
-    validate: validators.isURL({allow_protocol_relative_urls: true, require_tld: false, allow_underscores: true})
+    validate: validators.isFilePath()
   },
-  preview: String,
+  preview: {
+    type: String,
+    required: false,
+    validate: validators.isURI({skipEmpty: true})
+  },
   active: {
   	type: Boolean,
   	required: true,

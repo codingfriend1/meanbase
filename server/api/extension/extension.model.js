@@ -9,9 +9,13 @@ var ExtensionSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    validate: validators.matches("^([1-zA-Z0-1@.-_ \s]{0,255})$")
+    validate: validators.isTitle()
   },
-  urls: [],
+  urls: [{
+    type: String,
+    required: false,
+    validate: validators.isURI({skipEmpty: true})
+  }],
   config: Schema.Types.Mixed,
   data: Schema.Types.Mixed,
   active: {
@@ -21,7 +25,8 @@ var ExtensionSchema = new Schema({
   text: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    validate: validators.isHTML()
   }
 });
 

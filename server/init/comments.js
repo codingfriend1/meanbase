@@ -7,7 +7,7 @@ module.exports = function() {
 	  "url": "/why-cms",
 	  "content": "Comments can be added to articles.",
 	  "email": "admin@admin.com",
-	  "ip": "153.513.333.153",
+	  "ip": "172.31.255.255",
 	  "approved": true,
 	  "likes": 2
 	};
@@ -17,7 +17,7 @@ module.exports = function() {
 	  "url": "/why-cms",
 	  "content": "I can approve or reject comments",
 	  "email": "test@test.com",
-	  "ip": "113.153.735.195",
+	  "ip": "172.97.114.255",
 	  "approved": false,
 	  "likes": 0
 	};
@@ -40,6 +40,6 @@ module.exports = function() {
 	});
 
 	function handleError(err) {
-	  return console.log('Initializing data error: ', err);
+	  return console.log('Initializing comments error: ', err);
 	}
 };

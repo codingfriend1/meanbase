@@ -5,6 +5,11 @@
 
 module.exports = function() {
 	console.log('Initializing data in mongoDB');
+	// require('./delete_all')(initializeAllData());
+	initializeAllData();
+};
+
+function initializeAllData() {
 	require('./menus')();
 	require('./pages')();
 	require('./comments')();
@@ -12,4 +17,4 @@ module.exports = function() {
 	require('./roles')();
 	require('./themes')();
 	require('./extensions')();
-};
+}

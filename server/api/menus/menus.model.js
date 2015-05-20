@@ -1,23 +1,28 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    validators = require('mongoose-validators');
 
 var MenusSchema = new Schema({
   title: {
     type: String,
     trim: true,
-    require: true
+    required: true,
+    validate: validators.isTitle()
   },
   url: {
   	type: String,
   	trim: true,
-    require: true
+    required: true,
+    validate: validators.isURI()
   },
   group: {
   	type: String,
   	trim: true,
-  	default: 'main'
+    required: true,
+  	default: 'main',
+    validate: validators.isTitle()
   },
   position: {
   	type: Number,
@@ -25,11 +30,13 @@ var MenusSchema = new Schema({
   },
   classes: {
   	type: String,
-  	default: ''
+  	default: '',
+    validate: validators.isCSSClass({skipEmpty: true})
   },
   target: {
   	type: String,
-  	default: ''
+  	default: '',
+    validate: validators.isAnchorTarget({skipEmpty: true})
   }
 });
 

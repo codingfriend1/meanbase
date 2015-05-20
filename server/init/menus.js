@@ -54,6 +54,6 @@ module.exports = function() {
 	});
 
 	function handleError(err) {
-	  return console.log('Initializing data error: ', err);
+	  return console.log('Initializing menus error: ', err);
 	}
 };

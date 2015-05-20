@@ -10,7 +10,7 @@ var RolesSchema = new Schema({
   	required: true,
   	unique: true,
   	trim: true,
-    validate: validators.matches("^([1-zA-Z0-1@.-_\s]{1,255})$")
+    validate: validators.isTitle()
   },
   permissions: {
   	editContent: {
