@@ -1,54 +1,69 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    validators = require('mongoose-validators');
 
 var RolesSchema = new Schema({
   role: {
   	type: String,
   	required: true,
   	unique: true,
-  	trim: true
+  	trim: true,
+    validate: validators.isTitle()
   },
   permissions: {
   	editContent: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	publishContent: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	deleteContent: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	manageMedia: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	restrictAccess: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	manageExtensions: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	moderateComments: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	manageUsers: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	manageRoles: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	changeSiteSettings: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	importExportData: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	deleteSite: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	},
   	allPrivilages: {
-  		type: Boolean
+  		type: Boolean,
+      default: false
   	}
   }
 });

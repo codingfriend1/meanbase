@@ -1,12 +1,15 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    validators = require('mongoose-validators');
 
 var ExtensiondataSchema = new Schema({
   name: {
   	type: String,
-  	unique: true
+  	unique: true,
+  	required: true,
+    validate: validators.isTitle()
   },
   data: Schema.Types.Mixed,
 });

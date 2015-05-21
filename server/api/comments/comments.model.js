@@ -1,30 +1,43 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    validators = require('mongoose-validators');
 
 var CommentsSchema = new Schema({
-  author: String,
+  author: {
+    type: String,
+    trim: true,
+    default: 'anonymous',
+    validate: validators.isTitle()
+  },
   content: {
 		type: String,
-		required: true
+    trim: true,
+		required: true,
+    validate: validators.isText()
   },
   url: {
     type: String,
-    required: true
+    validate: validators.isURI({skipEmpty: true})
   },
   date: {
   	type: Date, 
   	default: Date.now
   },
   email: {
-  	type: String
+  	type: String,
+    lowercase: true,
+    validate: validators.isEmail({skipEmpty: true})
   },
   ip: {
-  	type: String
+  	type: String,
+    trim: true,
+    validate: validators.isIP({skipEmpty: true})
   },
   gravatar: {
-  	type: String
+  	type: String,
+    validate: validators.isURI({skipEmpty: true})
   },
   approved: {
   	type: Boolean,

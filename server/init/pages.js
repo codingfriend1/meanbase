@@ -63,6 +63,6 @@ module.exports = function() {
 	});
 
 	function handleError(err) {
-	  return console.log('Initializing data error: ', err);
+	  return console.log('Initializing pages error: ', err);
 	}
 };
