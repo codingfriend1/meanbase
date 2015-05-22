@@ -162,6 +162,7 @@
 
     // Removes an extension from an extensible area
     $scope.removeThisExtension = function(extension) {
+      updateExtensionPositionData();
       if(extension && extension.group && extension.position !== undefined) {
         $rootScope.page.extensions[extension.group].splice(extension.position, 1);
         if($rootScope.page.extensions[extension.group].length < 1) {
@@ -188,7 +189,6 @@
     function updateExtensionPositionData() {
       for(var extension in $rootScope.page.extensions) {
         if ($rootScope.page.extensions.hasOwnProperty(extension)) {
-          console.log('$rootScope.page.extensions[extension][0].data.heading', $rootScope.page.extensions[extension][0].data.heading);
           for(var i = 0; i < $rootScope.page.extensions[extension].length; i++) {
             $rootScope.page.extensions[extension][i].group = extension;
             $rootScope.page.extensions[extension][i].position = i;

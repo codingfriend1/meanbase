@@ -1,10 +1,9 @@
 div(ng-sortable="$root.sortableExtensions")
-	div(ng-repeat="extension in $root.page.extensions[areaName]" dynamic-html="extension.text" ng-class="{'mb-draggable': editMode}")
-		//- div()
-	//- div.universal-extension-edit-buttons(ng-if="editMode")
-	//- 	button.btn.btn-danger.remove-extension-button(ng-click='removeThisExtension(extension)') Remove This From Here
-	//- 	extensiondata-selector
-	//- 	span(ng-show="extension.sharedSource")
-	//- 		strong Shared Source: 
-	//- 		{{extension.sharedSource}}
+	div(ng-repeat="extension in $root.page.extensions[areaName]" dynamic-html="extension.text" ng-class="{'mb-draggable': $root.editMode}")
+		div.universal-extension-edit-buttons(ng-if="$root.editMode")
+			button.btn.btn-danger.remove-extension-button(ng-click='removeThisExtension(extension)') Remove This From Here
+			extensiondata-selector
+			span(ng-show="extension.sharedSource")
+				strong Shared Source: 
+				{{extension.sharedSource}}
 div(extensions-selector="{{areaName}}")
