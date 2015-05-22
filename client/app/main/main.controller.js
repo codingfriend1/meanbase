@@ -109,6 +109,7 @@
       });
 
       $rootScope.menusConfig.disabled = !$scope.editMode;
+      $rootScope.sortableExtensions.disabled = !$scope.editMode;
     });
 
     // Save menu ordering when saveEdits event is emitted
@@ -116,6 +117,8 @@
 
       // Update positions and locations of the menu items
       var unmappedMenus = updatePositionData();
+
+      updateExtensionPositionData();
 
       $rootScope.extensiondata = helpers.objectToArray($rootScope.extensiondata);
 
@@ -180,6 +183,18 @@
         } 
       }
       return unmappedMenus;
+    }
+
+    function updateExtensionPositionData() {
+      for(var extension in $rootScope.page.extensions) {
+        if ($rootScope.page.extensions.hasOwnProperty(extension)) {
+          console.log('$rootScope.page.extensions[extension][0].data.heading', $rootScope.page.extensions[extension][0].data.heading);
+          for(var i = 0; i < $rootScope.page.extensions[extension].length; i++) {
+            $rootScope.page.extensions[extension][i].group = extension;
+            $rootScope.page.extensions[extension][i].position = i;
+          }
+        } 
+      }
     }
 
     // @ngInject

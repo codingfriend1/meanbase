@@ -31,6 +31,7 @@ angular.module('meanbaseApp')
           return $rootScope.page.images[scope.imageSource];
         }, function(newValue) {
           scope.image = newValue;
+          if(!scope.image) { return false; }
           if(!scope.image.modifiedurl) {
             scope.image.modifiedurl = scope.image.url + 'origional.jpg';
           }
