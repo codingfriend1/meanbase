@@ -39,7 +39,7 @@ angular.module('extensions')
               }];
             } else {
               for(var i = 0; i < scope.images.length; i++) {
-                scope.images[i].modifiedurl = scope.images[i].url + 'origional.jpg';
+                scope.images[i].modifiedurl = scope.images[i].url + 'large.jpg';
               };
             }
       		  
@@ -50,7 +50,7 @@ angular.module('extensions')
       	scope.$onRootScope('cms.choseImages', function(e, gallery) {
           if(scope.extension.config.slug === gallery.gallerySlug) {
             for (var i = 0; i < gallery.images.length; i++) {
-              gallery.images[i].modifiedurl = gallery.images[i].origional;
+              gallery.images[i].modifiedurl = gallery.images[i].large;
             };
             scope.images = gallery.images;
           }
