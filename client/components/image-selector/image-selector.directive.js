@@ -159,6 +159,9 @@ angular.module('meanbaseApp')
             // Take the image path from the server and choose the appropriate image to display
             for (var i = 0; i < scope.media.length; i++) {
               scope.media[i].thumbnail = scope.media[i].url + 'thumbnail.jpg';
+              scope.media[i].small = scope.media[i].url + 'small.jpg';
+              scope.media[i].medium = scope.media[i].url + 'medium.jpg';
+              scope.media[i].large = scope.media[i].url + 'large.jpg';
               scope.media[i].origional = scope.media[i].url + 'origional.jpg';
             };
 
@@ -206,7 +209,7 @@ angular.module('meanbaseApp')
           // Set the fullscreen image to the image that was clicked on
           scope.fullscreenImage = angular.element($event.target).scope().item;
 
-          scope.firstImageUrl = scope.fullscreenImage.origional;
+          scope.firstImageUrl = scope.fullscreenImage.small;
 
           $compile(dom.mainFullsizeBox)(scope);
           globals._fullscreenImage = angular.copy(scope.fullscreenImage);
@@ -245,7 +248,7 @@ angular.module('meanbaseApp')
           scope.fullscreenImage = findNext(globals.fullsizeImageIndex);
 
           // Create a new image element to the right of the current fullscreen image
-          dom.nextImageTag = angular.element('<div class="fullsize-box right"><img ng-src="' + scope.fullscreenImage.origional + '" class="fullscreen-image"></div>');
+          dom.nextImageTag = angular.element('<div class="fullsize-box right"><img ng-src="' + scope.fullscreenImage.small + '" class="fullscreen-image"></div>');
           dom.fullscreenContainer.append(dom.nextImageTag);
           $compile(dom.nextImageTag)(scope);
 
@@ -271,7 +274,7 @@ angular.module('meanbaseApp')
           saveImageEdits();
 
           scope.fullscreenImage = findPrevious(globals.fullsizeImageIndex);
-          dom.previousImageTag = angular.element('<div class="fullsize-box left"><img ng-src="' + scope.fullscreenImage.origional + '" class="fullscreen-image"></div>');
+          dom.previousImageTag = angular.element('<div class="fullsize-box left"><img ng-src="' + scope.fullscreenImage.small + '" class="fullscreen-image"></div>');
           dom.fullscreenContainer.append(dom.previousImageTag);
           $compile(dom.previousImageTag)(scope);
 
