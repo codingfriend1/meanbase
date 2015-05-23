@@ -185,7 +185,7 @@ angular.module('meanbaseApp')
         scope.longTermSelection = [];
         scope.shortTermSelection = [];
 
-        scope.multiple = (scope.multiple === "true" || scope.multiple === true);
+        scope.multiple = (attrs.multiple === "true" || attrs.multiple === true);
 
         // Sets up fields to search by
         scope.mediaFilter = '';

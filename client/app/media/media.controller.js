@@ -72,7 +72,7 @@ angular.module('meanbaseApp')
     };
 
     $scope.deleteSelected = function() {
-      var selectedImages = angular.element('image-selector').isolateScope().getSelectedImages();
+      var selectedImages = angular.element('image-selector').scope().getSelectedImages();
       var urlArray = [];
 
       if(!angular.isArray(selectedImages)) {
@@ -100,7 +100,7 @@ angular.module('meanbaseApp')
 
       if(!prompt || !re.test(prompt)) return false;
 
-      var imageSelector = angular.element('image-selector').isolateScope()
+      var imageSelector = angular.element('image-selector').scope()
 
       var selectedImages = imageSelector.getSelectedImages();
 
