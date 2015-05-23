@@ -44,14 +44,16 @@ script(type="text/ng-template" id="editmodal.modal.html")
 			span.sr-only Close
 		h4.modal-title Page Settings
 	.modal-body
-		.form-group
+		.form-group(validate="{{errorMessages.isTitle}}").has-feedback
 			label Google Search Title
-			input.form-control(type='text' ng-model="page.tabTitle")
-		.form-group
+			input.form-control(type='text' ng-model="page.tabTitle" ng-pattern="validators.isTitle")
+			span.glyphicon.glyphicon-ok.form-control-feedback
+		.form-group(validate="{{errorMessages.URI}}").has-feedback
 			label URL address
 			.input-group
 				span.input-group-addon /
-				input.form-control(type='text' ng-model="page.url")
+				input.form-control(type='text' ng-model="page.url"  ng-pattern="validators.isURI")
+				span.glyphicon.glyphicon-ok.form-control-feedback
 		.form-group
 			label Facebook and Google Page Description
 			textarea.form-control(rows="5" ng-model="page.description")
@@ -136,11 +138,11 @@ script(type="text/ng-template" id="extensiondata.modal.html")
 						.input-group-addon 
 							i.fa.fa-search
 						input.form-control(type="text" placeholder="search sources" ng-model="sourceFilter")
-				.form-group
+				.form-group(validate="{{errorMessages.isTitle}}").has-feedback
 					.input-group
 						.input-group-addon.add-source(ng-click="newSource()" title="click to create source")
 							i.fa.fa-plus
-						input.form-control(type="text" placeholder="Create new data to share" ng-model="newSourceName" ng-keyup="$event.keyCode == 13 ? newSource() : null")
+						input.form-control(type="text" placeholder="Create new data to share" ng-model="newSourceName" ng-keyup="$event.keyCode == 13 ? newSource() : null" ng-pattern="validators.isTitle")
 				.extensiondata-list
 					div(ng-repeat="source in dataSources | filter:filterSource").list-item
 						h3.list-title {{source.name}}

@@ -102,6 +102,7 @@
       isFilePath: /^[0-9A-Za-z\/*_.\\\-]*$/,
       isCSSClass: /^[A-Za-z0-9_\-*]*$/,
       isAnchorTarget: /^[_blank|_self|_parent|_top]*$/,
+      isEmail: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
       isText: /^$/,
       isHTML: /^$/
     };
@@ -109,11 +110,12 @@
     $rootScope.errorMessages = {
       isTitle: 'Many only contain letters, numbers, and these symbols ( @ : ? & = . _ - ).',
       isURI: "Must be a valid path, either a full address ('http://path.com') or a relative one '/path'",
-      isFilePath: 'Must contain only letters, numbers, /, *, _, ., \\, and -.',
+      isFilePath: 'Must contain only letters, numbers, /, *, _, ., \\, and -',
       isCSSClass: 'May only contain letters, numbers, _, -, and *',
       isAnchorTarget: 'Must be either _blank, _self, _parent, or _top',
+      isEmail: 'Must be a valid email format',
       isText: 'Must be safe text',
-      isHTML: 'Must be safe html.'
+      isHTML: 'Must be safe html'
     };
 
     // Store snapshot of menu for when discardEdits is called

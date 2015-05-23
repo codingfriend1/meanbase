@@ -34,16 +34,18 @@ div.image-selector
 	.image-details(ng-show="fullscreen")
 		.row
 			.col-sm-12
-				.form-group
+				.form-group(validate="{{errorMessages.isTitle}}").has-feedback
 					.input-group
 						.input-group-addon Caption
-						input.form-control(placeholder="Alt or Caption" ng-model="fullscreenImage.alt")
+						input.form-control(placeholder="Alt or Caption" ng-model="fullscreenImage.alt" ng-pattern="validators.isTitle")
+						span.glyphicon.glyphicon-ok.form-control-feedback
 		.row
 			.col-sm-4
-				.form-group
+				.form-group(validate="{{errorMessages.isTitle}}").has-feedback
 					.input-group
 						.input-group-addon(title="Attribute information of the image owner") Owner
-						input.form-control(placeholder="Attribute information of the image owner" ng-model="fullscreenImage.attribute")
+						input.form-control(placeholder="Attribute information of the image owner" ng-model="fullscreenImage.attribute" ng-pattern="validators.isTitle")
+						span.glyphicon.glyphicon-ok.form-control-feedback
 			.col-sm-8.text-left
 				label.set-albums Albums
 				taglist(ng-model="fullscreenImage.groups")

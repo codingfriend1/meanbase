@@ -6,15 +6,18 @@ script(type="text/ng-template" id="theme.modal.html")
 		h4(id="theme-{{$index}}").modal-title {{theme.title}}
 	.modal-body
 		.mb-theme-controls.a-left
-			.form-group
+			.form-group(validate="{{errorMessages.isTitle}}").has-feedback
 				label Author
-				input(type="text" ng-model="theme.author").form-control
-			.form-group
+				input(type="text" ng-model="theme.author" ng-pattern="validators.isTitle" required).form-control
+				span.glyphicon.glyphicon-ok.form-control-feedback
+			.form-group(validate="{{errorMessages.isEmail}}").has-feedback
 				label Email
-				input(type="text" ng-model="theme.email").form-control
-			.form-group
+				input(type="text" ng-model="theme.email" ng-pattern="validators.isEmail" required).form-control
+				span.glyphicon.glyphicon-ok.form-control-feedback
+			.form-group(validate="{{errorMessages.isURI}}").has-feedback
 				label Website
-				input(type="text" ng-model="theme.website").form-control
+				input(type="text" ng-model="theme.website" ng-pattern="validators.isURI").form-control
+				span.glyphicon.glyphicon-ok.form-control-feedback
 			.form-group
 				label Description
 				textarea.form-control {{theme.description}}

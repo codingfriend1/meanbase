@@ -6,9 +6,7 @@ angular.module('meanbaseApp')
       templateUrl: 'components/validate/validate.html',
       restrict: 'EA',
       replace: true,
-      scope: {
-
-      },
+      scope: {},
       transclude: true,
       link: function (scope, element, attrs) {
       	var inputEl = angular.element(element[0].querySelector("input"));
