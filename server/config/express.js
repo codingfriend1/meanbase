@@ -23,6 +23,15 @@ var fs = require('fs');
 var gm = require('gm');
 var folderName;
 
+var hasGM = false;
+var exec = require('child_process').exec;
+exec("gm -help", function (error, stdout, stderr) {
+  if(!error) { hasGM = true; } else {
+    console.log('!!!!! Graphics Magick is not installed, image thumbnails cannot be created !!!!!');
+  }
+
+});
+
 module.exports = function(app) {
   var env = app.get('env');
 
@@ -40,15 +49,22 @@ module.exports = function(app) {
       var mediumPath = file.path.replace('origional', 'medium');
       var largePath = file.path.replace('origional', 'large');
       
-      gm(imagePath).autoOrient().setFormat("jpg").resize(992, 744).quality(90).noProfile().write(largePath, function() {
-        gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function() {
-          gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function() {
-            gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function() {
-              process.emit("thumbnails created");
+      if(hasGM) {
+        try {
+          gm(imagePath).autoOrient().setFormat("jpg").resize(992, 744).quality(90).noProfile().write(largePath, function() {
+            gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function() {
+              gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function() {
+                gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function() {
+                  process.emit("thumbnails created");
+                });
+              });
             });
           });
-        });
-      });
+        } catch(e) {
+          console.log('could not create thumbnails');
+          process.emit("thumbnails created");
+        }
+      }
     },
     rename: function (fieldname, filename) {
       folderName = filename.replace(/\W+/g, '-').toLowerCase() + '_' + Date.now();
