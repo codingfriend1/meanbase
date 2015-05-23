@@ -49,6 +49,9 @@ angular.module('extensions')
         // If images where chosen that share the name of this gallery slug then retrieve those selected images
       	scope.$onRootScope('cms.choseImages', function(e, gallery) {
           if(scope.extension.config.slug === gallery.gallerySlug) {
+            for (var i = 0; i < gallery.images.length; i++) {
+              gallery.images[i].modifiedurl = gallery.images[i].origional;
+            };
             scope.images = gallery.images;
           }
       	});

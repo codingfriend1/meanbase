@@ -43,6 +43,7 @@ angular.module('meanbaseApp')
             scope.image = (Array.isArray(gallery.images))? gallery.images[0]: gallery.images;
             if(scope.image) {
               scope.image.location = scope.imageSource;
+              scope.image.modifiedurl = scope.image.origional;
               $rootScope.page.images[scope.imageSource] = scope.image;
             } else {
     	    		scope.image = defaultImage;
