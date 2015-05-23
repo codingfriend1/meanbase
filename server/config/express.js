@@ -36,9 +36,7 @@ module.exports = function(app) {
     onFileUploadStart: function(file) {
       var imagePath = file.path;
       var thumbnailPath = file.path.replace('origional', 'thumbnail');
-      gm(imagePath).autoOrient().resize(100, 100).quality(30).noProfile().write(thumbnailPath, function (err) {
-        if (!err) {} else { console.log('Error with GM making thumbnails: '+ err);}
-      });
+      gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 70, function() {});
     },
     rename: function (fieldname, filename) {
       folderName = filename.replace(/\W+/g, '-').toLowerCase() + '_' + Date.now();

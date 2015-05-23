@@ -158,7 +158,7 @@ angular.module('meanbaseApp')
 
             // Take the image path from the server and choose the appropriate image to display
             for (var i = 0; i < scope.media.length; i++) {
-              scope.media[i].modifiedurl = scope.media[i].url + 'origional.jpg';
+              scope.media[i].modifiedurl = scope.media[i].url + 'thumbnail.jpg';
             };
 
             getGroups();
