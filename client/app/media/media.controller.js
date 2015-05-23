@@ -21,7 +21,10 @@ angular.module('meanbaseApp')
     }
 
     uploader.onCompleteAll = function() {
-      $scope.uploader.progress = 0;
+      uploader.clearQueue()
+    };
+
+    uploader.onCompleteItem = function() {
       $rootScope.$emit('cms.imagesUploaded');
     };
 
