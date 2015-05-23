@@ -20,6 +20,7 @@ var mongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
 var multer  = require('multer');
 var fs = require('fs');
+var gm = require('gm');
 var folderName;
 
 module.exports = function(app) {
@@ -32,6 +33,13 @@ module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(multer({ 
     dest: './client/assets/images/',
+    onFileUploadStart: function(file) {
+      var imagePath = file.path;
+      var thumbnailPath = file.path.replace('origional', 'thumbnail');
+      gm(imagePath).autoOrient().resize(100, 100).quality(30).noProfile().write(thumbnailPath, function (err) {
+        if (!err) {} else { console.log('Error with GM making thumbnails: '+ err);}
+      });
+    },
     rename: function (fieldname, filename) {
       folderName = filename.replace(/\W+/g, '-').toLowerCase() + '_' + Date.now();
       return 'origional';
@@ -42,7 +50,7 @@ module.exports = function(app) {
         fs.mkdirSync(destination, "0766", function(err){
           if(err){ 
             console.log(err);
-            response.send("ERROR! Can't make the directory! \n");    // echo the result back
+            res.send("ERROR! Can't make the directory! \n");    // echo the result back
           }
         });   
       }
