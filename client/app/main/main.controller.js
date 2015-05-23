@@ -96,6 +96,26 @@
       scrollSpeed: 10 // px
     };
 
+    $rootScope.validators = {
+      isTitle: /^[A-Za-z0-9@:?&=. _\-]*$/,
+      isURI: /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}(\/[\w~,;\-\.\/?%&+#=]*))/,
+      isFilePath: /^[0-9A-Za-z\/*_.\\\-]*$/,
+      isCSSClass: /^[A-Za-z0-9_\-*]*$/,
+      isAnchorTarget: /^[_blank|_self|_parent|_top]*$/,
+      isText: /^$/,
+      isHTML: /^$/
+    };
+
+    $rootScope.errorMessages = {
+      isTitle: 'Many only contain letters, numbers, and these symbols ( @ : ? & = . _ - ).',
+      isURI: "Must be a valid path, either a full address ('http://path.com') or a relative one '/path'",
+      isFilePath: 'Must contain only letters, numbers, /, *, _, ., \\, and -.',
+      isCSSClass: 'May only contain letters, numbers, _, -, and *',
+      isAnchorTarget: 'Must be either _blank, _self, _parent, or _top',
+      isText: 'Must be safe text',
+      isHTML: 'Must be safe html.'
+    };
+
     // Store snapshot of menu for when discardEdits is called
     // If edit mode changes we want to enable or disable draggable menus
     var menusSnapshot, pageSnapshot, extensiondataSnapshot;

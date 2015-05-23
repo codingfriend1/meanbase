@@ -76,17 +76,20 @@ script(type="text/ng-template" id="editmenu.modal.html")
 			span.sr-only Close
 		h4#editMenuItemLabel.modal-title Edit Menu Item
 	.modal-body
+		.form-group(validate="{{errorMessages.isURI}}").has-feedback
+			label Url
+			input.form-control(ng-model="menuItem.url" ng-pattern="validators.isURI" required)
+			span.glyphicon.glyphicon-ok.form-control-feedback
+		.form-group(validate="{{errorMessages.isTitle}}").has-feedback
+			label Title
+			input.form-control(ng-model="menuItem.title" ng-pattern="validators.isTitle" required)
+			span.glyphicon.glyphicon-ok.form-control-feedback
+		.form-group(validate="{{errorMessages.isCSSClass}}").has-feedback
+			label CSS Classes
+			input.form-control(ng-model="menuItem.classes" ng-pattern="validators.isCSSClass")
+			span.glyphicon.glyphicon-ok.form-control-feedback
 		.form-group
-			label(for="menu-url") Url
-			input.form-control(ng-model="menuItem.url")
-		.form-group
-			label(for="menu-title") Title
-			input.form-control(ng-model="menuItem.title")
-		.form-group
-			label(for="menu-classes") CSS Classes
-			input.form-control(ng-model="menuItem.classes")
-		.form-group
-			label(for="menu-target") Target
+			label Target
 			select(ng-model="menuItem.target").form-control
 				option(value="") none (good for angular)
 				option(value="_self") _self
