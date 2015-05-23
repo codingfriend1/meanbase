@@ -18,7 +18,15 @@ exports.find = function(req, res) {
 
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
-	collection.create(req, res);
+	Media.create(req.body, function(err, found) {
+    if(err) { return handleError(res, err); }
+    if(!found) { return res.send(404); }
+
+    process.on("thumbnails created", function () {
+      console.log('thumbs event finished');
+      res.json(201, found);
+    });
+  });
 };
 
 // Updates pages in the database
