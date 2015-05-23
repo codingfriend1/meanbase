@@ -14,6 +14,7 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         // Safety check in case attributes are missing
+        if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/300x300'; }
         scope.imageSource = scope.imageSource || 'image-1';
         scope.caption = (scope.caption === true || scope.caption === 'true');
         $rootScope.page.images = $rootScope.page.images || {};

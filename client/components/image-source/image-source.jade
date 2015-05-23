@@ -1,4 +1,4 @@
 div.img-responsive
-	img(ng-src="{{image.modifiedurl}}" alt="{{image.alt}}" title="{{image.attribute}}" ng-show="image").img-responsive
+	img(ng-src="{{image.modifiedurl}}" alt="{{image.alt}}" title="{{image.attribute}}" ng-show="image" fallback-src="{{placeholdIt}}").img-responsive
 	div.caption(ng-if="caption") {{image.alt}}
 div(ng-if="editMode" find-images-for="{{imageSource}}" multiple="false" class="gallery-find-images")
