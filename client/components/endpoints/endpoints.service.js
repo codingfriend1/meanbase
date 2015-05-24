@@ -66,16 +66,22 @@
 		};
 
 		endpoints.prototype.errorHandler = function(error) {
+			console.log('error.message', error.message);
 			var category = this.endpoint;
 			if(category.substring(category.length-1) !== "s") {
 				category = category + 's';
 			}
 			if(!/<[a-z][\s\S]*>/i.test(error)) {
-				toastr.error('Hmmmm, there server is having trouble with the ' + category + '. ' + error, 'Error');
 				console.log('api request error: ', error);
+				if(error.message && error.message === 'Validation failed') {
+					toastr.warning("Some of the form information was invalid. Trying typing in safe characters such as letters and numbers.");
+				} else {
+					toastr.error('Hmmmm, there server is having trouble with the ' + category + '. ' + error, 'Error');
+				}
 			} else {
-				toastr.error('Hmmmm, there server is having trouble with the ' + category + '.', 'Error');
 				console.log('api request error.');
+				toastr.error('Hmmmm, there server is having trouble with the ' + category + '.');
+				
 			}
 		};
 
