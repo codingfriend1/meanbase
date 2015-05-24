@@ -1,25 +1,25 @@
 {
-  "author": "Jon Paul Miles",
+  "author": "Jon Paul Miles 2",
   "email": "codingfriend1@gmail.com",
   "website": "www.codingfriend.com",
   "title": "Test Theme",
   "description": "A second theme for testing theme switching",
   "url": "test-theme",
+  "__v": 0,
   "templates": {
-    "article": [
-      "article",
-      "404"
-    ],
-    "page": [
-      "page"
+    "home": [
+      "home"
     ],
     "archive": [
       "archive"
     ],
-    "home": [
-      "home"
+    "page": [
+      "page"
+    ],
+    "article": [
+      "article",
+      "404"
     ]
   },
-  "active": false,
-  "__v": 0
+  "active": false
 }

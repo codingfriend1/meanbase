@@ -43,5 +43,11 @@ angular.module('meanbaseApp')
           }
         }
       });
+
+      modalInstance.result.then(function (action) {
+        if(action === 'deleted') {
+          $scope.themes.splice($scope.themes.indexOf(theme), 1);
+        }
+      });
     };
   });

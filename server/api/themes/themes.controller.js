@@ -50,15 +50,15 @@ exports.upload = function(req, res) {
     	var tempFilePath = files.file['path'];
     	var userFileName  = files.file['name'];
     	var contentType   = files.file['type'];
-    	// fs.readFile( tempFilePath
-    	// fs.createReadStream(tempFilePath)
-    	console.log('files', files);
+
   		var readStream = fs.createReadStream(tempFilePath);
   		readStream.pipe(unzip.Extract({ path: './client/themes/' })).on('close', function (error, event) {
+
   			initThemes(function(error) {
   				if(error) { return uploadingThemeError(error); }
   				res.status(200).send();
   			});
+  			
   		});
 	  });
 	} catch(e) {
@@ -76,7 +76,13 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
   collection.delete(req, res, function(identifier) {
   	if(identifier && identifier.url) {
-  		fse.remove('./client/themes/' + req.query.url);
+  		try {
+  			fse.remove('./client/themes/' + req.query.url);
+  			return res.status(204).send();
+  		} catch(e) {
+  			console.log('Could not delete theme', e);
+  			return res.status(500).send();
+  		}
   	}
   });
 };

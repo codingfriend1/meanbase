@@ -222,7 +222,7 @@ CRUD.prototype.delete = function(req, res, callback) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
     if(callback) callback(identifier);
-    return res.send(204);
+    return res.status(204).send();
   });
 };
 

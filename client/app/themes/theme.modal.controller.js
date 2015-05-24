@@ -39,11 +39,10 @@ angular.module('meanbaseApp')
         var sure = window.confirm('Are you sure you want to delete this theme?');
         if(sure) {
           themes.delete({url: $scope.theme.url}).then(function(response) {
-
             console.log('response', response);
           });
         }
-        $modalInstance.close($scope.theme);
+        $modalInstance.close('deleted');
       }
     };
 
