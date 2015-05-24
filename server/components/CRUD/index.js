@@ -77,7 +77,7 @@ CRUD.prototype.find = function(req, res, callback) {
     if(callback) var modified = callback(found);
     if(modified) { found = modified; }
     
-    return res.json(200, found);
+    return res.status(200).json(found);
   });
 };
 
@@ -91,7 +91,7 @@ CRUD.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
     // If the function has a callback use it and if it returns a value send that value instead
     if(callback) var modified = callback(found);
     if(modified) { found = modified; }  
-    return res.json(200, found);
+    return res.status(200).json(found);
   });
 };
 
@@ -106,7 +106,7 @@ CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
     if(callback) var modified = callback(found);
     if(modified) { found = modified; }
     
-    return res.json(200, found);
+    return res.status(200).json(found);
   });
 };
 
@@ -120,7 +120,7 @@ CRUD.prototype.findAll = function(req, res, callback) {
     if(callback) var modified = callback(found);
     if(modified) { found = modified; }
     
-    return res.json(200, found);
+    return res.status(200).json(found);
   });
 };
 
@@ -134,7 +134,7 @@ CRUD.prototype.create = function(req, res, callback) {
     // Since mongoose returns created items as list of params we must iterate through them
     var allFound = getArguments(arguments);
     if(callback) callback(allFound);
-    return res.json(201, allFound);
+    return res.status(200).json(allFound);
   });
 };
 
@@ -149,7 +149,7 @@ CRUD.prototype.createAndLink = function(req, res, callback, linkModel, linkField
       if(err) { return handleError(res, err); }
       if(!found) { return res.send(404); }
       if(callback) callback();
-      return res.json(201, updatedFind);
+      return res.status(200).json(allFound);
     });
   });
 };
@@ -162,7 +162,7 @@ CRUD.prototype.update = function(req, res, callback) {
     if(!found) { return res.send(404); }
     var allFound = getArguments(arguments);
     if(callback) callback(req.body);
-    return res.json(200, allFound);
+    return res.status(200).json(allFound);
   });
 };
 
@@ -174,7 +174,7 @@ CRUD.prototype.upsert = function(req, res, callback) {
     if(!found) { return res.send(404); }
     var allFound = getArguments(arguments);
     if(callback) callback(req.body);
-    return res.json(200, allFound);
+    return res.status(200).json(allFound);
   });
 };
 
@@ -188,7 +188,7 @@ CRUD.prototype.updateById = function(req, res, callback) {
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       if(callback) callback(req.body);
-      return res.json(200, found);
+      return res.status(200).json(found);
     });
   });
 };
@@ -206,7 +206,7 @@ CRUD.prototype.updateOneAndUpdate = function(req, res, callback) {
         found = found.toJSON();
         if(callback) { callback(found, req.body); }
       }
-      return res.json(200, updated);
+      return res.status(200).json(updated);
     });
   });
 };
@@ -250,7 +250,7 @@ CRUD.prototype.deleteOneAndUpdate = function(req, res, callback) {
       if (err) { return handleError(res, err); }
       if(!deleted) { return res.send(404); }
       if(callback) { callback(found); }
-      return res.json(200);
+      return res.status(200).json();
     });
   });
 };
