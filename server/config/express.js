@@ -40,7 +40,7 @@ module.exports = function(app) {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  app.use(multer({ 
+  app.use('/api/media', multer({ 
     dest: './client/assets/images/',
     onFileUploadStart: function(file) {
       var imagePath = file.path;

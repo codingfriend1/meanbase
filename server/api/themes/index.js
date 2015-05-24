@@ -12,6 +12,7 @@ router.post('/activate', auth.hasPermission('changeSiteSettings'), controller.ac
 // Affecting multiple or all items.
 router.get('/', controller.find);
 router.post('/', controller.create);
+router.post('/upload', controller.upload);
 router.put('/', auth.hasPermission('changeSiteSettings'), controller.update); 
 router.patch('/', auth.hasPermission('changeSiteSettings'), controller.update);
 router.delete('/', auth.hasPermission('changeSiteSettings'), controller.delete);

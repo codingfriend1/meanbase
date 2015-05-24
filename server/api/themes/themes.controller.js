@@ -8,6 +8,8 @@ var compileIndex = require('../../components/index');
 var collection = new CRUD(Themes);
 var fs = require('fs');
 var config = require('../../config/environment');
+var unzip = require('unzip');
+var formidable = require('formidable');
 
 // Get list of pages
 exports.findAll = function(req, res) {
@@ -36,6 +38,30 @@ exports.find = function(req, res) {
 exports.create = function(req, res) {
   collection.create(req, res);
 };
+
+// Extracts a new theme to the database.
+exports.upload = function(req, res) {
+	try {
+		var form = new formidable.IncomingForm();
+		form.keepExtensions = true;
+		form.parse(req, function(err, fields, files) { 
+    	var tempFilePath = files.file['path'];
+    	var userFileName  = files.file['name'];
+    	var contentType   = files.file['type'];
+    	// fs.readFile( tempFilePath
+    	// fs.createReadStream(tempFilePath)
+    	console.log('files', files);
+  		var readStream = fs.createReadStream(tempFilePath);
+  		readStream.pipe(unzip.Extract({ path: './client/themes/' })).on('close', function (event) {
+  			console.log('streamed theme, event', event);
+  		});
+	  });
+	} catch(e) {
+		console.log('Could not upload theme.', e);
+		res.status(500).send();
+	}
+};
+
 
 // Updates pages in the database
 exports.update = function(req, res) {

@@ -1,11 +1,31 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ThemesCtrl', function ($scope, endpoints, $modal) {
+  .controller('ThemesCtrl', function ($scope, endpoints, $modal, FileUploader, $cookieStore, $rootScope) {
 
     $scope.$parent.pageTitle = 'Themes';
 
     var endpoint = new endpoints('themes');
+
+    if ($cookieStore.get('token')) {
+      var uploader = $scope.uploader = new FileUploader({
+          url: '/api/themes/upload',
+          headers: {
+            'Authorization': 'Bearer ' + $cookieStore.get('token')
+          },
+          autoUpload: true
+      });
+    }
+
+    uploader.onCompleteAll = function() {
+      uploader.clearQueue()
+    };
+
+    uploader.onCompleteItem = function() {
+      $rootScope.$emit('cms.themeUploaded');
+    };
+
+
 
     endpoint.find({}).success(function(themes) {
     	$scope.themes = themes;

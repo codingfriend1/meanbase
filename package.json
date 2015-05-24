@@ -12,6 +12,7 @@
     "express": "~4.0.0",
     "express-jwt": "^0.1.3",
     "express-session": "~1.0.2",
+    "formidable": "^1.0.17",
     "fs-extra": "^0.18.2",
     "gm": "^1.18.1",
     "jade": "~1.2.0",
@@ -27,7 +28,8 @@
     "passport-google-oauth": "latest",
     "passport-local": "~0.1.6",
     "passport-twitter": "latest",
-    "serve-favicon": "~2.0.1"
+    "serve-favicon": "~2.0.1",
+    "unzip": "^0.1.11"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",

@@ -1,3 +1,10 @@
+p Choose the look and feel of your site
+div.drop-zone(nv-file-drop="uploader" multiple uploader="uploader").text-center.form-inline
+	p Drop theme #[strong .zip] file here to upload or
+	.form-group.text-center
+		input.form-control(type='file' nv-file-select multiple uploader="uploader")
+	.progress
+			.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
 .row
 	.col-md-4.col-sm-6(ng-repeat="theme in themes")
 			h4 {{theme.title}} 

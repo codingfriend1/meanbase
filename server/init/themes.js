@@ -36,16 +36,19 @@ module.exports = function() {
  // 		if(err) { return handleError(err); }
 	// });
 
-
+	// console.log('themeJSONS', themeJSONS);
 	// Find all themes in database
-	Themes.find(function (err, themes) {
-	  if(err) { return handleError(err); }
-	  if(themes.length > 0) { return false; }
-  	Themes.create(themeJSONS, function(err, theme) {
+	if(themeJSONS) {
+		Themes.find(function (err, themes) {
 		  if(err) { return handleError(err); }
-		  console.log('themes initialized');
+		  if(themes.length > 0) { return false; }
+	  	Themes.create(themeJSONS, function(err, theme) {
+			  if(err) { return handleError(err); }
+			  console.log('themes initialized');
+			});
 		});
-	});
+	}
+	
 
 	function handleError(err) {
 	  return console.log('Initializing themes error: ', err);
