@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ThemesCtrl', function ($scope, endpoints, $modal, FileUploader, $cookieStore, $rootScope) {
+  .controller('ThemesCtrl', function ($scope, endpoints, $modal, FileUploader, $cookieStore, $rootScope, toastr) {
 
     $scope.$parent.pageTitle = 'Themes';
 
@@ -17,15 +17,20 @@ angular.module('meanbaseApp')
       });
     }
 
-    uploader.onCompleteAll = function() {
-      uploader.clearQueue()
+    uploader.onCompleteAll = function(e) {
+      uploader.clearQueue();
     };
 
-    uploader.onCompleteItem = function() {
+    uploader.onSuccessItem = function() {
       $rootScope.$emit('cms.themeUploaded');
+      toastr.success('Theme successfully uploaded! Refreshing page to compile code.');
       endpoint.find({}).success(function(themes) {
         $scope.themes = themes;
       });
+    };
+
+    uploader.onErrorItem = function(e) {
+      toastr.error("Hmmmm, it seems the theme could not be uploaded. Try checking the theme.json file to see if it's valid.", e);
     };
 
     endpoint.find({}).success(function(themes) {

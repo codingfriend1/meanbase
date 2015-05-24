@@ -104,10 +104,9 @@ exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
 
-function uploadingThemeError(e, res, folderName) {
-	console.log('Could not upload theme.', e);
+function uploadingThemeError(err, res, folderName) {
+	console.log('Could not upload theme.', err);
   if(folderName && folderName !== '') {
-    console.log('folderName', folderName);
     try {
       fse.remove('./client/themes/' + folderName);
     } catch(e) {
@@ -115,7 +114,7 @@ function uploadingThemeError(e, res, folderName) {
     }
     
   }
-	res.status(500).send();
+	res.status(500).send(err);
 }
 
 function updateFile(theme) {

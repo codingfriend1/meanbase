@@ -11,7 +11,8 @@ angular.module('meanbaseApp', [
   'angularFileUpload',
   'ngTouch',
   'extensions',
-  'ng-sortable'
+  'ng-sortable',
+  'toastr'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider
