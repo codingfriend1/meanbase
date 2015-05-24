@@ -23,9 +23,10 @@ angular.module('meanbaseApp')
 
     uploader.onCompleteItem = function() {
       $rootScope.$emit('cms.themeUploaded');
+      endpoint.find({}).success(function(themes) {
+        $scope.themes = themes;
+      });
     };
-
-
 
     endpoint.find({}).success(function(themes) {
     	$scope.themes = themes;

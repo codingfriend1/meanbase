@@ -10,8 +10,9 @@ var fs = require('fs');
 var config = require('../../config/environment');
 var unzip = require('unzip');
 var formidable = require('formidable');
+var initThemes = require('../../init/themes.js');
 
-// Get list of pages
+// Get list of themes
 exports.findAll = function(req, res) {
   collection.findAll(req, res);
 };
@@ -52,28 +53,30 @@ exports.upload = function(req, res) {
     	// fs.createReadStream(tempFilePath)
     	console.log('files', files);
   		var readStream = fs.createReadStream(tempFilePath);
-  		readStream.pipe(unzip.Extract({ path: './client/themes/' })).on('close', function (event) {
-  			console.log('streamed theme, event', event);
+  		readStream.pipe(unzip.Extract({ path: './client/themes/' })).on('close', function (error, event) {
+  			initThemes(function(error) {
+  				if(error) { return uploadingThemeError(error); }
+  				res.status(200).send();
+  			});
   		});
 	  });
 	} catch(e) {
-		console.log('Could not upload theme.', e);
-		res.status(500).send();
+		uploadingThemeError(e);
 	}
 };
 
 
-// Updates pages in the database
+// Updates themes in the database
 exports.update = function(req, res) {
   collection.update(req, res, updateFile);
 };
 
-// Deletes a pages from the DB.
+// Deletes a themes from the DB.
 exports.delete = function(req, res) {
   collection.delete(req, res);
 };
 
-// Get a single pages
+// Get a single themes
 exports.findById = function(req, res) {
   collection.findById(req, res);
 };
@@ -83,10 +86,15 @@ exports.updateById = function(req, res) {
   collection.updateById(req, res);
 };
 
-// Deletes a pages from the DB.
+// Deletes a themes from the DB.
 exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
+
+function uploadingThemeError(e) {
+	console.log('Could not upload theme.', e);
+	res.status(500).send();
+}
 
 function updateFile(theme) {
 	if(theme._id) { delete theme._id; }
