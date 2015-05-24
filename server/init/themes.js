@@ -32,7 +32,7 @@ module.exports = function(callback) {
 							themeJSONS.push(themeJSON);
 						}
 					} catch(error) {
-						if(callback) { callback(error, 'Could not find theme.json in root of theme'); }
+						if(callback) { return callback(error, 'Could not find theme.json in root of theme'); }
 						console.log('Could not find theme.json in root of theme', error);
 					}
 				}
@@ -50,7 +50,7 @@ module.exports = function(callback) {
 		  	Themes.create(themeJSONS, function(err, theme) {
 				  if(err) { return handleError(err); }
 				  if(callback) {
-				  	callback(null, theme);
+				  	return callback(null, theme);
 				  }
 				  console.log('themes initialized');
 				});

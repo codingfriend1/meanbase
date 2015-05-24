@@ -43,26 +43,28 @@ exports.create = function(req, res) {
 
 // Extracts a new theme to the database.
 exports.upload = function(req, res) {
+  var createdFolderName = '125098dsflkj1324';
 	try {
 		var form = new formidable.IncomingForm();
 		form.keepExtensions = true;
 		form.parse(req, function(err, fields, files) { 
+      if(err) { uploadingThemeError(e, res, createdFolderName); }
     	var tempFilePath = files.file['path'];
     	var userFileName  = files.file['name'];
     	var contentType   = files.file['type'];
 
+      var createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
+
   		var readStream = fs.createReadStream(tempFilePath);
   		readStream.pipe(unzip.Extract({ path: './client/themes/' })).on('close', function (error, event) {
-
   			initThemes(function(error) {
-  				if(error) { return uploadingThemeError(error); }
+  				if(error) { return uploadingThemeError(error, res, createdFolderName); }
   				res.status(200).send();
   			});
-  			
   		});
 	  });
 	} catch(e) {
-		uploadingThemeError(e);
+		uploadingThemeError(e, res, createdFolderName);
 	}
 };
 
@@ -102,8 +104,17 @@ exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
 
-function uploadingThemeError(e) {
+function uploadingThemeError(e, res, folderName) {
 	console.log('Could not upload theme.', e);
+  if(folderName && folderName !== '') {
+    console.log('folderName', folderName);
+    try {
+      fse.remove('./client/themes/' + folderName);
+    } catch(e) {
+      console.log('could not delete theme from themes folder', e);
+    }
+    
+  }
 	res.status(500).send();
 }
 
