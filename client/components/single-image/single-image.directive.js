@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('imageSource', function ($rootScope) {
+  .directive('singleImage', function ($rootScope) {
     return {
-      templateUrl: 'components/image-source/image-source.html',
+      templateUrl: 'components/single-image/single-image.html',
       restrict: 'EA',
       scope: {
-      	imageSource: "@",
+      	singleImage: "@",
       	caption:"@",
       	placeholdIt:"@",
       	editMode: "="
@@ -15,7 +15,7 @@ angular.module('meanbaseApp')
 
         // Safety check in case attributes are missing
         if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/300x300'; }
-        scope.imageSource = scope.imageSource || 'image-1';
+        scope.singleImage = scope.singleImage || 'image-1';
         scope.caption = (scope.caption === true || scope.caption === 'true');
         $rootScope.page.images = $rootScope.page.images || {};
         var defaultImage = {
@@ -23,13 +23,13 @@ angular.module('meanbaseApp')
           alt: "Placeholder Image displaying recommended size",
           attribute: "placehold.it"
         };
-        if(!$rootScope.page.images[scope.imageSource]) {
-          $rootScope.page.images[scope.imageSource] = defaultImage;
+        if(!$rootScope.page.images[scope.singleImage]) {
+          $rootScope.page.images[scope.singleImage] = defaultImage;
         }
 
         // Watch for changes on the page.images object (in case "discard" changed it)
         scope.$watch(function() {
-          return $rootScope.page.images[scope.imageSource];
+          return $rootScope.page.images[scope.singleImage];
         }, function(newValue) {
           scope.image = newValue;
           if(!scope.image) { return false; }
@@ -40,12 +40,12 @@ angular.module('meanbaseApp')
 
     	  // Choose and set the image
     		scope.$onRootScope('cms.choseImages', function(e, gallery) {
-    	    if(scope.imageSource === gallery.gallerySlug) {
+    	    if(scope.singleImage === gallery.gallerySlug) {
             scope.image = (Array.isArray(gallery.images))? gallery.images[0]: gallery.images;
             if(scope.image) {
-              scope.image.location = scope.imageSource;
+              scope.image.location = scope.singleImage;
               scope.image.modifiedurl = scope.image.origional;
-              $rootScope.page.images[scope.imageSource] = scope.image;
+              $rootScope.page.images[scope.singleImage] = scope.image;
             } else {
     	    		scope.image = defaultImage;
     	    	}

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: imageSource', function () {
+describe('Directive: singleImage', function () {
 
   // load the directive's module and view
   beforeEach(module('meanbaseApp'));
@@ -16,6 +16,6 @@ describe('Directive: imageSource', function () {
     element = angular.element('<image-source></image-source>');
     element = $compile(element)(scope);
     scope.$apply();
-    expect(element.text()).toBe('this is the imageSource directive');
+    expect(element.text()).toBe('this is the singleImage directive');
   }));
 });
