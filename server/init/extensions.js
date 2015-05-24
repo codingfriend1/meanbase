@@ -24,9 +24,6 @@ module.exports = function(callback) {
 		});
 	}
 
-	// Insert the new links and scripts into the index.html page
-	compileIndex(null, GLOBAL.meanbaseGlobals.extensions);
-
 	function handleError(err) {
 		if(callback) { callback(err); }
 	  return console.log('Initializing extensions error: ', err);

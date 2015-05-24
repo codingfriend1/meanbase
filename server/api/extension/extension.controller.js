@@ -51,6 +51,8 @@ exports.upload = function(req, res) {
       readStream.pipe(unzip.Extract({ path: './client/extensions/' })).on('close', function (error, event) {
         initExtensions(function(error) {
           if(error) { return uploadingExtensionError(error, res, createdFolderName); }
+          // Insert the new links and scripts into the index.html page
+          compileIndex(null, GLOBAL.meanbaseGlobals.extensions);
           res.status(200).send();
         });
       });

@@ -83,7 +83,7 @@
 					}
 					toastr.warning("Some of the form information was invalid. " + response);
 				} else {
-					toastr.error('Hmmmm, there server is having trouble with the ' + category + '. ' + error, 'Error');
+					toastr.error('Hmmmm, the server is having trouble with the ' + category + '. ' + error, 'Error');
 				}
 			} else {
 				console.log('api request error.');
