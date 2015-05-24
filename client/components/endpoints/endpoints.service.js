@@ -1,5 +1,5 @@
 (function(){
-	angular.module('meanbaseApp').factory('endpoints', ['$http', function($http) {
+	angular.module('meanbaseApp').factory('endpoints', function($http, toastr) {
 
 		function endpoints(endpoint) {
 			this.endpoint = endpoint || '';
@@ -66,9 +66,19 @@
 		};
 
 		endpoints.prototype.errorHandler = function(error) {
-			console.log('api request error: ', error);
+			var category = this.endpoint;
+			if(category.substring(category.length-1) !== "s") {
+				category = category + 's';
+			}
+			if(!/<[a-z][\s\S]*>/i.test(error)) {
+				toastr.error('Hmmmm, there server is having trouble with the ' + category + '. ' + error, 'Error');
+				console.log('api request error: ', error);
+			} else {
+				toastr.error('Hmmmm, there server is having trouble with the ' + category + '.', 'Error');
+				console.log('api request error.');
+			}
 		};
 
 		return endpoints;
-	}]);
+	});
 })();
