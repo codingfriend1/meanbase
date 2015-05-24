@@ -221,7 +221,7 @@ CRUD.prototype.delete = function(req, res, callback) {
   this.collection.remove(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
-    if(callback) callback();
+    if(callback) callback(identifier);
     return res.send(204);
   });
 };

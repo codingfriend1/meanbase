@@ -11,6 +11,7 @@ var config = require('../../config/environment');
 var unzip = require('unzip');
 var formidable = require('formidable');
 var initThemes = require('../../init/themes.js');
+var fse = require('fs-extra');
 
 // Get list of themes
 exports.findAll = function(req, res) {
@@ -73,7 +74,11 @@ exports.update = function(req, res) {
 
 // Deletes a themes from the DB.
 exports.delete = function(req, res) {
-  collection.delete(req, res);
+  collection.delete(req, res, function(identifier) {
+  	if(identifier && identifier.url) {
+  		fse.remove('./client/themes/' + req.query.url);
+  	}
+  });
 };
 
 // Get a single themes
