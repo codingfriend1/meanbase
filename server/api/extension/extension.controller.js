@@ -4,6 +4,11 @@ var _ = require('lodash');
 var Extension = require('./extension.model');
 var CRUD = require('../../components/CRUD');
 var collection = new CRUD(Extension);
+var unzip = require('unzip');
+var formidable = require('formidable');
+var initExtensions = require('../../init/extensions.js');
+var fse = require('fs-extra');
+var fs = require('fs');
 
 collection.modifyBody = function(body) {
   return body;
@@ -26,6 +31,33 @@ exports.find = function(req, res) {
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
   collection.create(req, res);
+};
+
+// Extracts a new theme to the database.
+exports.upload = function(req, res) {
+  var createdFolderName = '125098dsflkj1324';
+  try {
+    var form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, function(err, fields, files) { 
+      if(err) { uploadingExtensionError(e, res, createdFolderName); }
+      var tempFilePath = files.file['path'];
+      var userFileName  = files.file['name'];
+      var contentType   = files.file['type'];
+
+      var createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
+
+      var readStream = fs.createReadStream(tempFilePath);
+      readStream.pipe(unzip.Extract({ path: './client/extensions/' })).on('close', function (error, event) {
+        initExtensions(function(error) {
+          if(error) { return uploadingExtensionError(error, res, createdFolderName); }
+          res.status(200).send();
+        });
+      });
+    });
+  } catch(e) {
+    uploadingExtensionError(e, res, createdFolderName);
+  }
 };
 
 // Updates pages in the database
@@ -52,3 +84,17 @@ exports.updateById = function(req, res) {
 exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
+
+
+function uploadingExtensionError(err, res, folderName) {
+  console.log('Could not upload extension.', err);
+  if(folderName && folderName !== '') {
+    try {
+      fse.remove('./client/extensions/' + folderName);
+    } catch(e) {
+      console.log('Could not delete extension from extensions folder', e);
+    }
+    
+  }
+  res.status(500).send(err);
+}

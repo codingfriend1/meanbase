@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 exports.arrayToObjectWithArray = function(array, itemToBecomeProperty) {
   if(!array || !itemToBecomeProperty) { return array; }
   if(!Array.isArray(array)) { array = [array]; }
@@ -42,8 +44,6 @@ exports.objectToArray = function(data) {
   return returnArray;
 };
 
-var fs = require('fs');
-
 exports.retrieveThemes = function(activeURL, callback) {
   var themesFolderUrl = 'client/themes/';
   // Loop through themes in themesFolderUrl and get the theme.json file out of the root of each one
@@ -66,8 +66,9 @@ exports.retrieveThemes = function(activeURL, callback) {
             themeJSONS.push(themeJSON);
           }
         } catch(error) {
-          if(callback) { return callback('Could not find theme.json in root of theme'); }
+          if(callback) { callback('Could not find theme.json in root of theme'); }
           console.log('Could not find theme.json in root of theme: ' + error);
+          return themeJSONS;
         }
       }
     }
@@ -77,4 +78,28 @@ exports.retrieveThemes = function(activeURL, callback) {
   if(!anyActive) { themeJSONS[0].active = true; }
 
   return themeJSONS;
+};
+
+exports.retrieveExtensions = function(callback) {
+  var extensionsFolderUrl = './client/extensions/';
+  // Loop through themes in extensionsFolderUrl and get the extension.json file out of the root of each one
+  var extensionsFolder = fs.readdirSync(extensionsFolderUrl);
+  var extensionsJSONS = [];
+  for(var ii = 0; ii < extensionsFolder.length; ii++) {
+    if(extensionsFolder[ii][0] !== '.' && extensionsFolder[ii][0] !== '_') {
+      var stat = fs.statSync(extensionsFolderUrl + extensionsFolder[ii]);
+      if(stat.isDirectory()) {
+        try {
+          var extensionJSON = JSON.parse(fs.readFileSync(extensionsFolderUrl + extensionsFolder[ii] + '/extension.json', 'utf8'));
+          extensionJSON.text = fs.readFileSync(extensionsFolderUrl + extensionsFolder[ii] + '/index.html', 'utf8');
+          extensionsJSONS.push(extensionJSON);
+        } catch(error) {
+          console.log('Could not parse extension.json in root of extension', error);
+          if(callback) { callback(error); return extensionsJSONS; }
+        }
+      }
+    }
+  } //for
+
+  return extensionsJSONS;
 };

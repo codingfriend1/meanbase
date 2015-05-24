@@ -3,7 +3,7 @@ var Themes = require('../api/themes/themes.model');
 var helpers = require('../components/helpers');
 
 module.exports = function(callback) {
-	console.log('Checking themes...');
+	console.log('Checking for themes...');
 
 	// Loop through themes in themesFolderUrl and get the theme.json file out of the root of each one
 	Themes.find({active: true}).lean().exec(function (err, activeTheme) {
@@ -12,7 +12,7 @@ module.exports = function(callback) {
 	  var themeJSONS = helpers.retrieveThemes(activeTheme[0].url, callback);
 
 		// Remove all found themes
-		if(themeJSONS) {
+		if(themeJSONS.length > 0) {
 			Themes.remove(function(err) {
 		 		if(err) { return handleError(err); }
 		  	Themes.create(themeJSONS, function(err, theme) {
