@@ -11,7 +11,7 @@
 			a.navbar-brand(href='/') Home
 		#navbar.navbar-collapse(collapse="navbarClosed")
 			ul.nav.navbar-nav(ng-sortable="menusConfig")
-				li(ng-repeat="menu in menus.main" ng-class="{'mb-draggable': editMode}")
+				li(ng-repeat="menu in menus.main" sortable)
 					a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
 			//- ul.nav.navbar-nav
 			//- 	li.drop-down.mb-dropdown-toggle
