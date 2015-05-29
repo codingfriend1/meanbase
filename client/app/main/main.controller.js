@@ -137,6 +137,8 @@
     // Save menu ordering when saveEdits event is emitted
     $scope.$onRootScope('cms.saveEdits', function() {
 
+      $scope.pageAnimation = 'pulse';
+
       // Update positions and locations of the menu items
       var unmappedMenus = updatePositionData();
 
@@ -159,6 +161,7 @@
 
     // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when you first clicked edit
     $scope.$onRootScope('cms.discardEdits', function() {
+      $scope.pageAnimation = 'shake';
       $rootScope.menus = menusSnapshot;
       $rootScope.page = pageSnapshot;
       $rootScope.extensiondata = extensiondataSnapshot;

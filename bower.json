@@ -22,7 +22,8 @@
     "modernizr": "~2.8.3",
     "bootstrap": "~3.3.4",
     "validator-js": "~3.39.0",
-    "angular-toastr": "~1.4.1"
+    "angular-toastr": "~1.4.1",
+    "animate.css": "~3.3.0"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
