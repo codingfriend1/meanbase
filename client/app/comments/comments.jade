@@ -24,7 +24,7 @@
         accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, title: whichPage}))" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
             accordion-heading.panel-heading(ng-click="status.open=!status.open")
                 i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
-                 span.commment-author {{comment.author}}
+                 span.commment-author #[strong: {{comment.author}} ]: {{comment.date | relativeDate}}
                 i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron 
                 span.pull-right| {{comment.url | removeSlash}} 
             .panel-body.equal

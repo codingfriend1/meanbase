@@ -12,7 +12,8 @@ angular.module('meanbaseApp', [
   'ngTouch',
   'extensions',
   'ng-sortable',
-  'toastr'
+  'toastr',
+  'relativeDate'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider
