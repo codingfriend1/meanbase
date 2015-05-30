@@ -32,6 +32,7 @@
 				button.btn.btn-primary(ng-click="submitComment()") Comment
 				.help-block(ng-show="sucessfulSend") Comment sent!
 			hr
+			h3 Comments
 			.well.media(ng-repeat="comment in comments")
 				a.pull-left(href='#')
 					img.media-object(src='http://placehold.it/64x64', alt='')
