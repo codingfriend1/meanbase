@@ -329,12 +329,12 @@ angular.module('meanbaseApp')
         scope.allSelected = false;
 
         scope.selectAllVisible = function($event) {
-          if(scope.selectedImages.length >= scope.media.length) {
+          if(scope.selectedImages.length >= scope.filteredMedia.length) {
             scope.selectedImages = [];
             scope.allSelected = false;
           } else {
             scope.selectedImages = [];
-            scope.selectedImages = scope.selectedImages.concat(scope.media);
+            scope.selectedImages = scope.selectedImages.concat(scope.filteredMedia);
             scope.allSelected = true;
           }
         };
