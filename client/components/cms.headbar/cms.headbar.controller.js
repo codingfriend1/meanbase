@@ -2,7 +2,7 @@
 	angular.module('meanbaseApp').controller('cms.headbar.controller', HeadbarController);
 
 	// @ngInject
-	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers) {
+	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr) {
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 		var endpoints = {
 			menus: new endpoints('menus'),
@@ -52,6 +52,7 @@
 			$timeout(function(){
 				modifyPage($rootScope.page);		
 				endpoints.page.update({_id: $rootScope.page._id}, $rootScope.page);
+				toastr.success('Changes saved');
 				if($rootScope.extensiondataToDelete.length < 1) {
 					updateExtensionData(extensionsWithSources);
 				} else {

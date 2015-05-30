@@ -83,6 +83,7 @@ module.exports = function(app) {
 
       req.body = {
         url: 'assets/images/' + folderName + '/',
+        galleries: req.body.galleries? [req.body.galleries]: []
       };
 
       return destination; 
