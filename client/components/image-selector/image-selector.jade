@@ -20,16 +20,15 @@ div.image-selector
 		.row
 			.col-sm-12(ng-show="!fullscreen")
 				.image-grid-4(ng-repeat="item in ($parent.filteredMedia = (media | filter:filterMedia| filter:filterByAlbum))")
-					div.image-thumbnail
-						i.fa.fa-frown-o.select-button(ng-click="selectImage($event, item)" ng-class="{selected: selectedImages.indexOf(item) !== -1}")
-						img(ng-src="{{item.thumbnail}}" ng-click="expand($event, item, $index)" ng-swipe-right="prev()" ng-swipe-left="next()")
-						//- i.fa.fa-expand(ng-click="select($event, item)")
+					div.image-thumbnail(ng-click="selectImage($event, item)")
+						i.fa.fa-frown-o.select-button(ng-class="{selected: selectedImages.indexOf(item) !== -1}")
+						img(ng-src="{{item.thumbnail}}" ng-swipe-right="prev()" ng-swipe-left="next()" double-click="expand($event, item, $index)")
 			.col-sm-12(ng-show="fullscreen" ng-swipe-right="prev()" ng-swipe-left="next()")
-				.fullscreen-master-container
-					i.fa.fa-frown-o.select-button(ng-click="selectImage($event, fullscreenImage)" ng-class="{selected: selectedImages.indexOf(fullscreenImage) !== -1}")
-					i.previous-image-button.fa.fa-chevron-left(ng-click="prev()")
-					i.fa.fa-chevron-right.next-image-button(ng-click="next()")
-					.fullsize-box.main
+				.fullscreen-master-container(ng-click="selectImage($event, fullscreenImage)")
+					i.fa.fa-frown-o.select-button(ng-class="{selected: selectedImages.indexOf(fullscreenImage) !== -1}")
+					i.previous-image-button.fa.fa-chevron-left(ng-click="prev();")
+					i.fa.fa-chevron-right.next-image-button(ng-click="next();")
+					.fullsize-box.main(double-click="expand($event, item, $index)")
 						img(ng-src="{{firstImageUrl}}").fullscreen-image
 	.image-details(ng-show="fullscreen")
 		.row

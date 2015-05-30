@@ -201,23 +201,19 @@ angular.module('meanbaseApp')
 
         // Makes the clicked image fullsize
         scope.expand = function($event, image, $index) {
-
+          if(scope.fullscreen) { return scope.exitFullscreen(); }
           // Store the index position of the fullscreen image
           globals.fullsizeImageIndex = $index;
 
           // Set the fullscreen image to the image that was clicked on
-          scope.fullscreenImage = angular.element($event.target).scope().item;
+          scope.fullscreenImage = image;
 
           scope.firstImageUrl = scope.fullscreenImage.small;
 
           $compile(dom.mainFullsizeBox)(scope);
           globals._fullscreenImage = angular.copy(scope.fullscreenImage);
 
-          if(scope.fullscreen === false) {
-            scope.fullscreen = true;
-          } else {
-            // To Do: Have clicking the image select it
-          }
+          scope.fullscreen = true;
         };
 
         // Exits fullsize image
