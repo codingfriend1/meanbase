@@ -30,12 +30,12 @@ div.image-selector
 					div.image-thumbnail(double-click="expand($event, item, $index)")
 						i.fa.fa-circle-o.select-button(ng-class="{selected: selectedImages.indexOf(item) !== -1}")
 						img(ng-src="{{item.thumbnail}}" ng-swipe-right="prev()" ng-swipe-left="next()")
-			.col-sm-12(ng-show="fullscreen" ng-swipe-right="prev()" ng-swipe-left="next()")
-				.fullscreen-master-container(ng-click="selectImage($event, fullscreenImage)")
+			.col-sm-12(ng-show="fullscreen" ng-swipe-right="prev()" ng-swipe-left="next()" ng-click="selectImage($event, fullscreenImage)")
+				.fullscreen-master-container(double-click="expand($event, item, $index)")
 					i.fa.fa-circle-o.select-button(ng-class="{selected: selectedImages.indexOf(fullscreenImage) !== -1}")
 					i.previous-image-button.fa.fa-chevron-left(ng-click="prev(); $event.stopPropagation();")
 					i.fa.fa-chevron-right.next-image-button(ng-click="next(); $event.stopPropagation();")
-					.fullsize-box.main(double-click="expand($event, item, $index)")
+					.fullsize-box.main
 						img(ng-src="{{firstImageUrl}}").fullscreen-image
 	.image-details(ng-show="fullscreen")
 		.row
