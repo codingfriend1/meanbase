@@ -8,6 +8,9 @@ module.exports = function(callback) {
 	// Loop through themes in themesFolderUrl and get the theme.json file out of the root of each one
 	Themes.find({active: true}).lean().exec(function (err, activeTheme) {
 	  if(err) { return handleError(err); }
+	  if(!Array.isArray(activeTheme)) {
+	  	activeTheme = [activeTheme];
+	  }
 	  if(!activeTheme[0] || !activeTheme[0].url) { activeTheme[0].url = ''; }
 	  var themeJSONS = helpers.retrieveThemes(activeTheme[0].url, callback);
 
