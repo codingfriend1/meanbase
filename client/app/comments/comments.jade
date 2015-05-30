@@ -1,10 +1,10 @@
 #moderate-comments
     p An approved comment will show up on your site so everyone can see. Unless a comment is approved only privilaged users can see it
-    h4 Show only...
+    h3 Only show comments with...
     .row
         .col-xs-4
             .form-group
-                label Approved/Unapproved: 
+                label Approval: 
                 select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates").form-control
         .col-xs-4
             .form-group
@@ -16,7 +16,7 @@
                             i.glyphicon.glyphicon-calendar
         .col-xs-4
             .form-group
-                label Comments for page: 
+                label Page: 
                 select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
         
     .form-group

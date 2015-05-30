@@ -7,7 +7,8 @@ angular.module('meanbaseApp')
     
   	var comments = new endpoints('comments');
 
-    $scope.pagesWithComments = ['all'];
+    $scope.pagesWithComments = [{label:'all', value: ''}];
+    $scope.filterByThisPage = '';
     $scope.commentDate = null;
   	comments.find({}).then(function(response) {
   		$scope.comments = response.data;
@@ -17,11 +18,9 @@ angular.module('meanbaseApp')
           $scope.pagesWithComments.push($scope.comments[i].url);
         }
       };
-
       $scope.pagesWithComments = helpers.generateSelectOptions($scope.pagesWithComments, function(page){
         return page.substring(1);
       });
-      $scope.filterByThisPage = '';
   	});
 
     $scope.approvalStates = [

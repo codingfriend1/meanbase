@@ -71,7 +71,7 @@ angular.module('meanbaseApp')
       var modifiedModel = [];
       for (var i = 0; i < model.length; i++) {
         modifiedModel[i] = {};
-        if(model[i] === 'all') {
+        if(model[i] === 'all' || model[i].label === 'all') {
           modifiedModel[i] = {label: 'all', value: ''};
         } else {
           modifiedModel[i] = {label: model[i], value: model[i]};
