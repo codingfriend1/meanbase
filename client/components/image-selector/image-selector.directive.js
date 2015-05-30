@@ -457,38 +457,16 @@ angular.module('meanbaseApp')
             // Update those images
             media.update({ url: {$in: urlArray } }, { $push: {groups: prompt} }).then(function() {
               for (var i = 0; i < scope.selectedImages.length; i++) {
-                scope.selectedImages[i].groups.push(prompt);
-                getGroups();
-                scope.selectedGroup = prompt;
+                if(scope.selectedImages[i].groups.indexOf(prompt) === -1) {
+                  scope.selectedImages[i].groups.push(prompt);
+                }
               }
+              scope.selectedGroup = prompt;
+              getGroups();
             });
 
           };
           getMedia();
-
-        // Add the gallery slug to the selected images and send updates to server database
-        // scope.saveSelectedToGallery = function() {
-        //   if(scope.gallerySlug) {
-        //     var urlArray = [];
-
-        //     // Get the visibile images' urls
-        //     for (var i = 0; i < scope.selectedImages.length; i++) {
-        //       scope.selectedImages[i].galleries.push(scope.gallerySlug);
-        //       urlArray.push(scope.selectedImages[i].url);
-        //     };
-
-        //     saveSelection('longTermSelection');
-        //     saveSelection('shortTermSelection');
-
-        //     if(urlArray.length < 1) return false;
-
-        //     // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
-        //     // This strategy is quicker than checking which ones were added and removed
-        //     media.update({galleries: scope.gallerySlug}, { $pull: {galleries: scope.gallerySlug} }).then(function() {
-        //       media.update({ url: {$in: urlArray } }, { $push: {galleries: scope.gallerySlug} });
-        //     });
-        //   }
-        // };
 
         // Clean up our event listeners when we leave this page
         scope.$on('$destroy', function() {
