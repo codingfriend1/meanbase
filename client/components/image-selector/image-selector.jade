@@ -2,6 +2,10 @@ div.image-selector
 	.headbar
 		p.double-tap-instructions Double tap to enlarge photos
 		div(ng-show="!fullscreen")
+			.mass-edit-buttons
+				button.btn.delete-visible(ng-click="deleteAllVisible()") Delete All Visible
+				button.btn.delete-selected(ng-click="deleteSelected()") Delete Selected
+				button.btn.group-selected(ng-click="groupSelected()") Group Selected
 			.select-all.pull-left(ng-click="selectAllVisible()")
 				i.fa(ng-class="{'fa-circle-o': !allSelected, 'fa-check': allSelected}")
 			.album-left.pull-left
@@ -22,7 +26,7 @@ div.image-selector
 	.body
 		.row
 			.col-sm-12(ng-show="!fullscreen")
-				.image-grid-4(ng-repeat="item in ($parent.filteredMedia = (media | filter:filterMedia| filter:filterByAlbum))" ng-click="selectImage($event, item)")
+				.image-grid-4(ng-repeat="item in (filteredMedia = (media | filter:filterMedia| filter:filterByAlbum))" ng-click="selectImage($event, item)")
 					div.image-thumbnail(double-click="expand($event, item, $index)")
 						i.fa.fa-circle-o.select-button(ng-class="{selected: selectedImages.indexOf(item) !== -1}")
 						img(ng-src="{{item.thumbnail}}" ng-swipe-right="prev()" ng-swipe-left="next()")
