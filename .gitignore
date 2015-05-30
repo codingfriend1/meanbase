@@ -7,3 +7,4 @@ documentation
 dist
 /server/config/local.env.js
 /client/assets/images/
+__MACOSX
