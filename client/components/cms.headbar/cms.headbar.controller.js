@@ -132,13 +132,12 @@
 				target: ''
 			};
 
-			// Save new menu to database
-			endpoints.menus.create(newMenu).then(function(response) {
-				$scope.menus.main.push(newMenu);
-			});
-
 			// Save new page to database and reroute to it's new url
 			endpoints.page.create(newPage).then(function(response) {
+				// Save new menu to database
+				endpoints.menus.create(newMenu).then(function(response) {
+					$scope.menus.main.push(newMenu);
+				});
 				$location.url(url);
 			});
 		}
