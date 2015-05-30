@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('singleImage', function ($rootScope) {
+  .directive('singleImage', function ($rootScope, FileUploader) {
     return {
       templateUrl: 'components/single-image/single-image.html',
       restrict: 'EA',
@@ -12,6 +12,29 @@ angular.module('meanbaseApp')
       	editMode: "="
       },
       link: function (scope, element, attrs) {
+
+        var endpoint = new endpoints('media');
+        $scope.groups = ['all', 'selected'];
+        $scope.media = [];
+
+        if ($cookieStore.get('token')) {
+          var uploader = $scope.uploader = new FileUploader({
+              url: '/api/media',
+              headers: {
+                'Authorization': 'Bearer ' + $cookieStore.get('token')
+              },
+              autoUpload: true
+          });
+        }
+
+        uploader.onCompleteAll = function() {
+          uploader.clearQueue()
+        };
+
+        uploader.onCompleteItem = function() {
+          $rootScope.$emit('cms.imagesUploaded');
+        };
+
 
         // Safety check in case attributes are missing
         if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/300x300'; }
