@@ -1,15 +1,46 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('CommentsCtrl', function ($scope, endpoints) {
+  .controller('CommentsCtrl', function ($scope, endpoints, helpers) {
 
     $scope.$parent.pageTitle = 'Moderate Comments';
     
   	var comments = new endpoints('comments');
 
+    $scope.pagesWithComments = ['all'];
+    $scope.commentDate = null;
   	comments.find({}).then(function(response) {
   		$scope.comments = response.data;
+
+      for (var i = 0; i < $scope.comments.length; i++) {
+        if($scope.pagesWithComments.indexOf($scope.comments[i].url) === -1) {
+          $scope.pagesWithComments.push($scope.comments[i].url);
+        }
+      };
+
+      $scope.pagesWithComments = helpers.generateSelectOptions($scope.pagesWithComments, function(page){
+        return page.substring(1);
+      });
+      $scope.filterByThisPage = '';
   	});
+
+    $scope.approvalStates = [
+      {label: 'both', value: ''},
+      {label: 'approved', value: 'true'}, 
+      {label: 'unapproved', value: 'false'}
+    ];
+
+    $scope.approval = '';
+
+    $scope.today = new Date();
+
+    $scope.dateOpened = false;
+
+    $scope.open = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.dateOpened = true;
+    };
 
 
   	$scope.commentFilter = '';
@@ -81,5 +112,21 @@ angular.module('meanbaseApp')
 angular.module('meanbaseApp').filter('removeSlash', function() {
   return function(input) {
     return input.substring(1);
+  };
+});
+
+angular.module('meanbaseApp').filter('dateRange', function(){
+  return function(items, field, date, days){
+    if(!date || date === '') { return items; }
+    if(!items) { return items; }
+    
+    var timeStart = new Date(date);
+    timeStart = Date.parse(timeStart);
+    var timeEnd = timeStart + (days * 86400000); // 1 day in ms
+    return items.filter(function(item){
+      var itemDate = Date.parse(item[field]);
+      return (itemDate > timeStart && itemDate < timeEnd);
+      
+    });
   };
 });

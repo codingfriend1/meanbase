@@ -3,17 +3,22 @@
     h4 Show only...
     .row
         .col-xs-4
-            .radio-inline
-                input(type="radio" ng-model="approval" ng-value="true")#approval-true
-                label(for="approval-true") approved
+            .form-group
+                label Approved/Unapproved: 
+                select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates").form-control
         .col-xs-4
-            .radio-inline
-                input(type="radio" ng-model="approval" ng-value="false")#approval-false
-                label(for="approval-false") ignored
+            .form-group
+                label Date:
+                .input-group
+                    input(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="commentDate" is-open="dateOpened").form-control
+                    span.input-group-btn
+                        button(type="button" ng-click="open($event)").btn.btn-default
+                            i.glyphicon.glyphicon-calendar
         .col-xs-4
-            .radio-inline
-                input(type="radio" ng-model="approval" ng-value="")#approval-both
-                label(for="approval-both") both
+            .form-group
+                label Comments for page: 
+                select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
+        
     .form-group
         input(type="text" placeholder="filter comments by text" ng-model="commentFilter").form-control
     .form-group
@@ -21,7 +26,7 @@
         button.btn.btn-warning(ng-click="unapproveAllVisible()") Unapprove All Visibile
         button.btn.btn-danger(ng-click="deleteAllVisible()") Delete All Visibile
     accordion(close-others="true")
-        accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, title: whichPage}))" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
+        accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'-date' | dateRange: 'date':commentDate:1" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
             accordion-heading.panel-heading(ng-click="status.open=!status.open")
                 i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
                  span.commment-author #[strong: {{comment.author}} ]: {{comment.date | relativeDate}}
@@ -30,19 +35,17 @@
             .panel-body.equal
                 .row
                     .col-sm-4.col-xs-12
-                        .a-9.m-9
-                            p.h4 email
-                            p {{comment.email}}
+                        .h4 email
+                        p {{comment.email}}
                     .col-sm-4.col-xs-6
-                        .a-9.m-9
-                            p.h4 ip
-                            p {{comment.ip}}
+                        .h4 ip
+                        p {{comment.ip}}
                     .col-sm-4.col-xs-6
-                        p.h4 Date
+                        .h4 Date
                         p {{comment.date | date: 'MMM d, y h:mm a'}}
                 .row
                     .col-sm-12
-                        p.h4 content
+                        .h4 content
                         p {{comment.content}}
                 .row
                     .col-sm-12.text-right

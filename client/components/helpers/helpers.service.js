@@ -67,5 +67,25 @@ angular.module('meanbaseApp')
       }
     };
 
+    this.generateSelectOptions = function(model, labelFilter, valueFilter) {
+      var modifiedModel = [];
+      for (var i = 0; i < model.length; i++) {
+        modifiedModel[i] = {};
+        if(model[i] === 'all') {
+          modifiedModel[i] = {label: 'all', value: ''};
+        } else {
+          modifiedModel[i] = {label: model[i], value: model[i]};
+          if(labelFilter) {
+            modifiedModel[i].label = labelFilter(model[i]);
+          }
+          if(valueFilter) {
+            modifiedModel[i].value = valueFilter(model[i]);
+          }
+        }
+      };
+
+      return modifiedModel;
+    };
+
 
   });
