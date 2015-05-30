@@ -4,7 +4,7 @@
 
   // MainCtrl.$inject = ['$rootScope', '$scope', '$http', 'Auth', '$location', 'endpoints'];
   // @ngInject
-  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout) {
+  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr) {
     $rootScope.isLoggedIn = Auth.isLoggedIn();
     
     $scope.logout = function() {
@@ -19,6 +19,8 @@
 
     // Get the current logged in user
     $scope.currentUser = Auth.getCurrentUser();
+
+    $scope.ableToNavigate = true;
 
     $rootScope.editMode = false;
 
@@ -121,7 +123,7 @@
     // Store snapshot of menu for when discardEdits is called
     // If edit mode changes we want to enable or disable draggable menus
     var menusSnapshot, pageSnapshot, extensiondataSnapshot;
-    $scope.$watch('editMode', function() {
+    $scope.$watch('editMode', function(nv, ov) {
       menusSnapshot = angular.copy($rootScope.menus);
       pageSnapshot = angular.copy($rootScope.page);
       extensiondataSnapshot = angular.copy($rootScope.extensiondata);
@@ -132,6 +134,20 @@
 
       $rootScope.menusConfig.disabled = !$scope.editMode;
       $rootScope.sortableExtensions.disabled = !$scope.editMode;
+
+      if(!nv) {
+        $scope.ableToNavigate = false;
+      } else {
+        $scope.ableToNavigate = true;
+      }
+      
+    });
+
+    $scope.$onRootScope('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      if ($scope.ableToNavigate) {
+        event.preventDefault();
+        toastr.info('Please save or discard your changes before navigating');
+      }
     });
 
     // Save menu ordering when saveEdits event is emitted
