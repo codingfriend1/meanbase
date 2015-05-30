@@ -131,7 +131,7 @@ exports.me = function(req, res, next) {
   }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
     if (err) return next(err);
     if (!user) return res.json(401);
-    var user = user.toJSON();
+    user = user.toJSON();
     Roles.findOne({role: user.role}, function(error, found) {
       if(!found) { res.send(401); return false; }
       var permissions = [];

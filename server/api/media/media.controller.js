@@ -50,9 +50,9 @@ exports.delete = function(req, res) {
 	// After deleting the image data from the database we need to delete the image folders
   collection.delete(req, res, function() {
     if(req.query.url) {
-      if(req.query.url['$in']) {
-        for(var i = 0; i < req.query.url['$in'].length; i++) {
-          fse.remove('./client/' + req.query.url['$in'][i]);
+      if(req.query.url.$in) {
+        for(var i = 0; i < req.query.url.$in.length; i++) {
+          fse.remove('./client/' + req.query.url.$in[i]);
         }
       } else {
         fse.remove('./client/' + req.query.url);
@@ -75,3 +75,8 @@ exports.updateById = function(req, res) {
 exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
+
+// Handles the response to database errors
+function handleError(res, err) {
+  return res.send(500, err);
+}

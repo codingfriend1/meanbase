@@ -11,7 +11,7 @@ var collection = new CRUD(Pages);
 collection.modifyBody = function(body) {
   if(body) {
 
-    if(body.url && body.url.charAt(0) != '/') {
+    if(body.url && body.url.charAt(0) !== '/') {
       body.url = '/' + body.url;
     }
 
@@ -27,7 +27,7 @@ collection.modifyBody = function(body) {
 };
 
 collection.modifyIdentifier = function(identifier) {
-  if(identifier && identifier.url && identifier.url.charAt(0) != '/') {
+  if(identifier && identifier.url && identifier.url.charAt(0) !== '/') {
     identifier.url = '/' + identifier.url;
   }
   return identifier;
@@ -102,11 +102,11 @@ function restructureResponse(response) {
     for (var i = 0; i < response.length; i++) {
       response[i].images = helpers.arrayToObjectWithObject(response[i].images, 'location');
       response[i].extensions = helpers.arrayToObjectWithArray(response[i].extensions, 'group');
-    };
+    }
     return response;
   } else {
     response.images = helpers.arrayToObjectWithObject(response.images, 'location');
     response.extensions = helpers.arrayToObjectWithArray(response.extensions, 'group');
     return response;
   }
-};
+}

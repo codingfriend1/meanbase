@@ -59,7 +59,8 @@ CRUD.prototype.findById = function(req, res, callback) {
     if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
-    if(callback) var modified = callback(found);
+    var modified;
+    if(callback) { modified = callback(found); }
     if(modified) { found = modified; }
     
     return res.json(found);
@@ -74,7 +75,8 @@ CRUD.prototype.find = function(req, res, callback) {
     if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
-    if(callback) var modified = callback(found);
+    var modified;
+    if(callback) { modified = callback(found); }
     if(modified) { found = modified; }
     
     return res.status(200).json(found);
@@ -89,7 +91,8 @@ CRUD.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
     if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
-    if(callback) var modified = callback(found);
+    var modified;
+    if(callback) { modified = callback(found); }
     if(modified) { found = modified; }  
     return res.status(200).json(found);
   });
@@ -103,7 +106,8 @@ CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
     if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
-    if(callback) var modified = callback(found);
+    var modified;
+    if(callback) { modified = callback(found); }
     if(modified) { found = modified; }
     
     return res.status(200).json(found);
@@ -117,7 +121,8 @@ CRUD.prototype.findAll = function(req, res, callback) {
     if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
-    if(callback) var modified = callback(found);
+    var modified;
+    if(callback) { modified = callback(found); }
     if(modified) { found = modified; }
     
     return res.status(200).json(found);
@@ -139,20 +144,20 @@ CRUD.prototype.create = function(req, res, callback) {
 };
 
 // Creates a new item in this collection and links it to another collection.
-CRUD.prototype.createAndLink = function(req, res, callback, linkModel, linkField) {
-  this.collection.create(req.body, function(err, found) {
-    if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
-    var linkObject = {};
-    linkObject[linkField] = newDocument._id;
-    linkModel.update(linkIdentifier, {$push: linkObject}, function(err, updatedFind) {
-      if(err) { return handleError(res, err); }
-      if(!found) { return res.send(404); }
-      if(callback) callback();
-      return res.status(200).json(allFound);
-    });
-  });
-};
+// CRUD.prototype.createAndLink = function(req, res, callback, linkModel, linkField) {
+//   this.collection.create(req.body, function(err, found) {
+//     if(err) { return handleError(res, err); }
+//     if(!found) { return res.send(404); }
+//     var linkObject = {};
+//     linkObject[linkField] = found._id;
+//     linkModel.update(linkObject, {$push: linkObject}, function(err, updatedFind) {
+//       if(err) { return handleError(res, err); }
+//       if(!found) { return res.send(404); }
+//       if(callback) callback();
+//       return res.status(200).json(allFound);
+//     });
+//   });
+// };
 
 // Updates existing items in the collection.
 CRUD.prototype.update = function(req, res, callback) {

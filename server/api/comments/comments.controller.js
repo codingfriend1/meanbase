@@ -9,7 +9,7 @@ var onlyApproved = false;
 var creatingComment = false;
 
 collection.modifyBody = function(body) {
-  if(body && body.url && body.url.charAt(0) != '/') {
+  if(body && body.url && body.url.charAt(0) !== '/') {
     body.url = '/' + body.url;
   }
   if(body && creatingComment) {
@@ -19,7 +19,7 @@ collection.modifyBody = function(body) {
 };
 
 collection.modifyIdentifier = function(identifier) {
-  if(identifier && identifier.url && identifier.url.charAt(0) != '/') {
+  if(identifier && identifier.url && identifier.url.charAt(0) !== '/') {
     identifier.url = '/' + identifier.url;
   }
   if(identifier && onlyApproved) {

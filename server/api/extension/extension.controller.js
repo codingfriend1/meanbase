@@ -9,6 +9,7 @@ var formidable = require('formidable');
 var initExtensions = require('../../init/extensions.js');
 var fse = require('fs-extra');
 var fs = require('fs');
+var compileIndex = require('../../components/index/index.js')
 
 collection.modifyBody = function(body) {
   return body;
@@ -40,12 +41,12 @@ exports.upload = function(req, res) {
     var form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, function(err, fields, files) { 
-      if(err) { uploadingExtensionError(e, res, createdFolderName); }
-      var tempFilePath = files.file['path'];
-      var userFileName  = files.file['name'];
-      var contentType   = files.file['type'];
+      if(err) { uploadingExtensionError(err, res, createdFolderName); }
+      var tempFilePath = files.file.path;
+      var userFileName  = files.file.name;
+      var contentType   = files.file.type;
 
-      var createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
+      createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
 
       var readStream = fs.createReadStream(tempFilePath);
       readStream.pipe(unzip.Extract({ path: './client/extensions/' })).on('close', function (error, event) {

@@ -48,12 +48,12 @@ exports.upload = function(req, res) {
 		var form = new formidable.IncomingForm();
 		form.keepExtensions = true;
 		form.parse(req, function(err, fields, files) { 
-      if(err) { uploadingThemeError(e, res, createdFolderName); }
-    	var tempFilePath = files.file['path'];
-    	var userFileName  = files.file['name'];
-    	var contentType   = files.file['type'];
+      if(err) { uploadingThemeError(err, res, createdFolderName); }
+    	var tempFilePath = files.file.path;
+    	var userFileName  = files.file.name;
+    	var contentType   = files.file.type;
 
-      var createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
+      createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
 
   		var readStream = fs.createReadStream(tempFilePath);
   		readStream.pipe(unzip.Extract({ path: './client/themes/' })).on('close', function (error, event) {

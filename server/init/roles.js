@@ -1,7 +1,7 @@
 module.exports = function() {
 	console.log('creating roles...');
 	var Roles = require('../api/roles/roles.model');
-	var populateGlobalRoles = require('../components/roles');
+	// var populateGlobalRoles = require('../components/roles');
 
 	var basicRoles = [];
 
@@ -150,12 +150,12 @@ module.exports = function() {
 	  if(roles.length === 0) {
 	  	Roles.create(basicRoles, function(err, roles) {
   		  if(err) { return handleError(err); }
-  		  var roles = getArguments(arguments);
+  		  roles = getArguments(arguments);
   		  populateGlobalRoles(roles);
   		  console.log('roles initialized');
   		});
 	  } else {
-	  	populateGlobalRoles(roles);
+	  	// populateGlobalRoles(roles);
 	  }
 	});
 

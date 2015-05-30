@@ -65,7 +65,7 @@ function hasPermission(permissionName) {
     .use(function roleHasPermission(req, res, next) {
       Roles.findOne({role: req.user.role}, function(error, found) {
         if(!found) { res.send(403); return false; }
-        if(found.permissions[permissionName] || found.permissions['allPrivilages']) {
+        if(found.permissions[permissionName] || found.permissions.allPrivilages) {
           next();
         } else {
           res.send(403);

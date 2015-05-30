@@ -6,14 +6,14 @@ var CRUD = require('../../components/CRUD');
 var collection = new CRUD(Menus);
 
 collection.modifyBody = function(body) {
-  if(body && body.url && body.url.charAt(0) != '/') {
+  if(body && body.url && body.url.charAt(0) !== '/') {
     body.url = '/' + body.url;
   }
   return body;
 };
 
 collection.modifyIdentifier = function(identifier) {
-  if(identifier && identifier.url && identifier.url.charAt(0) != '/') {
+  if(identifier && identifier.url && identifier.url.charAt(0) !== '/') {
     identifier.url = '/' + identifier.url;
   }
   return identifier;
@@ -65,7 +65,7 @@ function restructureMenus(response) {
 	// Sort the menus into groups so angular can use them easily
 	var i = 0, menus = {};
 	while(i < allMenus.length) {
-	  if(menus[allMenus[i].group] == undefined) {
+	  if(menus[allMenus[i].group] === undefined) {
 	    menus[allMenus[i].group] = [];
 	  }
 	  menus[allMenus[i].group].push(allMenus[i]);
@@ -73,4 +73,4 @@ function restructureMenus(response) {
 	}
 
 	return menus;
-};
+}

@@ -15,7 +15,7 @@ module.exports = function(theme) {
 		compileIndex(theme, GLOBAL.meanbaseGlobals.extensions);
 	} else {
 		Themes.find({active: true}, function(err, found) {
-			if(err) { return handleError(res, err); }
+			if(err) { return console.log('Getting active theme error', err); }
 			if(found < 1) { 
 				getFirstTheme(function(found) {
 					compileIndex(found, GLOBAL.meanbaseGlobals.extensions);
@@ -44,10 +44,11 @@ function compileIndex(theme, extensionJSONS) {
 		themeCSSPath = config.root + themesFolder + theme.url + '/assets/styles.html';
 
 	// Try to read the file contents
+	var index, themeJS, themeCSS;
 	try {
-		var themeJS = fs.readFileSync(themeJSPath,'utf8'),
-			themeCSS = fs.readFileSync(themeCSSPath,'utf8'),
-			index = fs.readFileSync(viewFilePath,'utf8');
+		themeJS = fs.readFileSync(themeJSPath,'utf8');
+		themeCSS = fs.readFileSync(themeCSSPath,'utf8');
+		index = fs.readFileSync(viewFilePath,'utf8');
 	} catch(error) {
 		// If meanbase had trouble finding the theme or some other difficulty just use the current index.html
 		console.log('Error compiling the index.html with the chosen theme: ', error);
@@ -71,8 +72,8 @@ function compileIndex(theme, extensionJSONS) {
 				} else if(jsPattern.test(extensionJSONS[i].urls[x])) {
 					index = index.replace('<!-- extensions:js -->', '<script src="' + extensionJSONS[i].urls[x] + '"></script>' + '\n\t\t\t\t <!-- extensions:js -->');
 				}
-			};
-		};
+			}
+		}
 	}
 
 	GLOBAL.meanbaseGlobals.extensions = null;

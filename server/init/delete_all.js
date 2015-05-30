@@ -51,3 +51,7 @@ module.exports = function(cb) {
 	  console.log('deleted users');
 	});
 };
+
+function handleError(err) {
+	console.log('Deleting All Data Error', err);
+}
