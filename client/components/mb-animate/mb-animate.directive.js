@@ -1,35 +1,35 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('animate', function () {
+  .directive('mbAnimate', function () {
     return {
       template: '<div></div>',
       restrict: 'EA',
       link: function (scope, element, attrs) {
         element.addClass('animated');
-      	if(attrs.animationTrigger) {
+      	if(attrs.mbAnimationTrigger) {
       		scope.$watch(function() {
-      			return attrs.animationTrigger;
+      			return attrs.mbAnimationTrigger;
       		}, function(nv, ov) {
             if(nv === ov) { return false; }
       			if(nv === 'true' || nv === true) {
-      				if(attrs.animate) {
-      					element.addClass(attrs.animate);
+      				if(attrs.mbAnimate) {
+      					element.addClass(attrs.mbAnimate);
       					setTimeout(function() {
-      						element.removeClass(attrs.animate);
+      						element.removeClass(attrs.mbAnimate);
       					}, 2000);
       				}
-              if(attrs.deAnimate) {
-                element.removeClass(attrs.deAnimate);
+              if(attrs.mbDeAnimate) {
+                element.removeClass(attrs.mbDeAnimate);
               }
       			} else {
-              if(attrs.deAnimate) {
-                element.addClass(attrs.deAnimate);
+              if(attrs.mbDeAnimate) {
+                element.addClass(attrs.mbDeAnimate);
                 setTimeout(function() {
-                  element.removeClass(attrs.deAnimate);
+                  element.removeClass(attrs.mbDeAnimate);
                 }, 2000);
               }
-      				element.removeClass(attrs.animate);
+      				element.removeClass(attrs.mbAnimate);
       			}
       		});
       	}

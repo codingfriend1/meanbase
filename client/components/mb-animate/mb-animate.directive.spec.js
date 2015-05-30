@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: animate', function () {
+describe('Directive: mb-animate', function () {
 
   // load the directive's module
   beforeEach(module('meanbaseApp'));
@@ -13,8 +13,8 @@ describe('Directive: animate', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<animate></animate>');
+    element = angular.element('<mb-animate></mb-animate>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the animate directive');
+    expect(element.text()).toBe('this is the mb-animate directive');
   }));
 });
