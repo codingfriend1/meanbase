@@ -34,7 +34,6 @@ angular.module('meanbaseApp')
             
             scope.mediaUploader.onCompleteAll = function() {
               scope.mediaUploader.clearQueue();
-              console.log('completed');
             };
 
             scope.mediaUploader.onCompleteItem = function() {

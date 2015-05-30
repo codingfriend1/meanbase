@@ -50,6 +50,7 @@ angular.module('meanbaseApp')
           if(!scope.gallerySlug) return false;
           for (var i = 0; i < scope.media.length; i++) { //Loop through each media
             if(scope.media[i].galleries.indexOf(scope.gallerySlug) > -1) {
+              if(!!scope.multiple && scope.selectedImages.length > 0) { return false; }
               scope.selectedImages.push(scope.media[i]);
             }
           }          
@@ -185,8 +186,6 @@ angular.module('meanbaseApp')
         scope.longTermSelection = [];
         scope.shortTermSelection = [];
 
-        scope.multiple = (attrs.multiple === "true" || attrs.multiple === true);
-
         // Sets up fields to search by
         scope.mediaFilter = '';
         scope.filterMedia = function(media) {
@@ -314,7 +313,7 @@ angular.module('meanbaseApp')
 
         scope.selectImage = function(e, item) {
           // If image is not selected
-          if(scope.multiple === false || scope.multiple === 'false') { scope.selectedImages = []; };
+          if(!!scope.multiple) { scope.selectedImages = []; };
           if(scope.selectedImages.indexOf(item) === -1) {
             scope.selectedImages.push(item);
           } else {
@@ -323,7 +322,7 @@ angular.module('meanbaseApp')
         };
 
         scope.getSelectedImages = function() {
-          if(scope.multiple === false || scope.multiple === 'false') {
+          if(!!scope.multiple) {
             return scope.selectedImages[0];
           } else {
             return scope.selectedImages;

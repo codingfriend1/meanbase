@@ -18,6 +18,8 @@ angular.module('meanbaseApp')
         var imageSelector = element.find('image-selector').scope(); //Get properties on image-selector
         var areChanges = false; //Used to detect if different images were selected and loaded into the gallery
         scope.titleDirections = 'Select Image';
+        scope.multiple = (scope.multiple === "true" || scope.multiple === true);
+
         if(attrs.multiple === "true" || attrs.multiple === true) {
           scope.titleDirections = 'Select Images';
         }
