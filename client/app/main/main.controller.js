@@ -177,7 +177,7 @@
 
     // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when you first clicked edit
     $scope.$onRootScope('cms.discardEdits', function() {
-      $scope.pageAnimation = 'wobble';
+      $scope.pageAnimation = 'shake';
       $rootScope.menus = menusSnapshot;
       $rootScope.page = pageSnapshot;
       $rootScope.extensiondata = extensiondataSnapshot;

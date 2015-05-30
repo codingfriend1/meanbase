@@ -1,6 +1,9 @@
 div.image-selector
 	.headbar
+		p.double-tap-instructions Double tap to enlarge photos
 		div(ng-show="!fullscreen")
+			.select-all.pull-left(ng-click="selectAllVisible()")
+				i.fa(ng-class="{'fa-circle-o': !allSelected, 'fa-check': allSelected}")
 			.album-left.pull-left
 				select(ng-options="group for group in groups" ng-model="selectedGroup").form-control
 			.right-leftover
@@ -19,13 +22,13 @@ div.image-selector
 	.body
 		.row
 			.col-sm-12(ng-show="!fullscreen")
-				.image-grid-4(ng-repeat="item in ($parent.filteredMedia = (media | filter:filterMedia| filter:filterByAlbum))")
-					div.image-thumbnail(ng-click="selectImage($event, item)")
-						i.fa.fa-frown-o.select-button(ng-class="{selected: selectedImages.indexOf(item) !== -1}")
-						img(ng-src="{{item.thumbnail}}" ng-swipe-right="prev()" ng-swipe-left="next()" double-click="expand($event, item, $index)")
+				.image-grid-4(ng-repeat="item in ($parent.filteredMedia = (media | filter:filterMedia| filter:filterByAlbum))" ng-click="selectImage($event, item)")
+					div.image-thumbnail(double-click="expand($event, item, $index)")
+						i.fa.fa-circle-o.select-button(ng-class="{selected: selectedImages.indexOf(item) !== -1}")
+						img(ng-src="{{item.thumbnail}}" ng-swipe-right="prev()" ng-swipe-left="next()")
 			.col-sm-12(ng-show="fullscreen" ng-swipe-right="prev()" ng-swipe-left="next()")
 				.fullscreen-master-container(ng-click="selectImage($event, fullscreenImage)")
-					i.fa.fa-frown-o.select-button(ng-class="{selected: selectedImages.indexOf(fullscreenImage) !== -1}")
+					i.fa.fa-circle-o.select-button(ng-class="{selected: selectedImages.indexOf(fullscreenImage) !== -1}")
 					i.previous-image-button.fa.fa-chevron-left(ng-click="prev();")
 					i.fa.fa-chevron-right.next-image-button(ng-click="next();")
 					.fullsize-box.main(double-click="expand($event, item, $index)")
@@ -42,8 +45,8 @@ div.image-selector
 			.col-sm-4
 				.form-group(validate="{{errorMessages.isTitle}}").has-feedback
 					.input-group
-						.input-group-addon(title="Attribute information of the image owner") Owner
-						input.form-control(placeholder="Attribute information of the image owner" ng-model="fullscreenImage.attribute" ng-pattern="validators.isTitle")
+						.input-group-addon(title="Credit the author") Citation
+						input.form-control(placeholder="Credit to author" ng-model="fullscreenImage.attribute" ng-pattern="validators.isTitle")
 						span.glyphicon.glyphicon-ok.form-control-feedback
 			.col-sm-8.text-left
 				label.set-albums Albums

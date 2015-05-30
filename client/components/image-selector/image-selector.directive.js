@@ -311,9 +311,31 @@ angular.module('meanbaseApp')
           // If image is not selected
           if(!!scope.multiple) { scope.selectedImages = []; };
           if(scope.selectedImages.indexOf(item) === -1) {
+            if(e.shiftKey || e.metaKey) {
+              var startingPosition = scope.media.indexOf(scope.selectedImages[scope.selectedImages.length-1]);
+              var endingPosition = scope.media.indexOf(item);
+              if(startingPosition > -1 && endingPosition > -1) {
+                scope.selectedImages = scope.selectedImages.concat(scope.media.slice(startingPosition, endingPosition));
+              } else {
+                scope.selectedImages.push(item);
+              }
+            }
             scope.selectedImages.push(item);
           } else {
             scope.selectedImages.splice(scope.selectedImages.indexOf(item), 1);
+          }
+        };
+
+        scope.allSelected = false;
+
+        scope.selectAllVisible = function($event) {
+          if(scope.selectedImages.length >= scope.media.length) {
+            scope.selectedImages = [];
+            scope.allSelected = false;
+          } else {
+            scope.selectedImages = [];
+            scope.selectedImages = scope.selectedImages.concat(scope.media);
+            scope.allSelected = true;
           }
         };
 
