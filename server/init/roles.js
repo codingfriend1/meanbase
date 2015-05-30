@@ -151,7 +151,7 @@ module.exports = function() {
 	  	Roles.create(basicRoles, function(err, roles) {
   		  if(err) { return handleError(err); }
   		  roles = getArguments(arguments);
-  		  populateGlobalRoles(roles);
+  		  // populateGlobalRoles(roles);
   		  console.log('roles initialized');
   		});
 	  } else {
