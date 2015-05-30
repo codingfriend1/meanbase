@@ -1,5 +1,5 @@
 //meanbase Head Tool Bar 
-nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation" ng-show="isLoggedIn" ng-controller="cms.headbar.controller as headbar")
+nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation" ng-if="isLoggedIn" ng-controller="cms.headbar.controller as headbar")
 	.container
 		div.navbar-header 
 			button.navbar-toggle.collapsed(ng-init="cmsHeabarClosed = true" ng-click="cmsHeabarClosed = !cmsHeabarClosed")

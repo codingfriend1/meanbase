@@ -16,6 +16,7 @@ angular.module('meanbaseApp')
         .then( function() {
           // Logged in, redirect to home
           $timeout(function() {
+            $rootScope.isLoggedIn = Auth.isLoggedIn();
             $location.path('/');
           });
         })

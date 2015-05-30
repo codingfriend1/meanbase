@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('SignupCtrl', function ($scope, Auth, $location, $window, $timeout) {
+  .controller('SignupCtrl', function ($scope, Auth, $location, $window, $timeout, $rootScope) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -17,6 +17,7 @@ angular.module('meanbaseApp')
         .then( function() {
           // Account created, redirect to home
           $timeout(function() {
+            $rootScope.isLoggedIn = Auth.isLoggedIn();
             $location.path('/');
           });
         })
