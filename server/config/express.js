@@ -40,8 +40,40 @@ module.exports = function(app) {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(methodOverride());
+  app.use(cookieParser());
+  app.use(passport.initialize());
+
+  // Persist sessions with mongoStore
+  // We need to enable sessions for passport twitter because its an oauth 1.0 strategy
+  app.use(session({
+    secret: config.secrets.session,
+    resave: true,
+    saveUninitialized: true,
+    store: new mongoStore({ mongoose_connection: mongoose.connection })
+  }));
+  
+  if ('production' === env) {
+    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
+    app.use(express.static(path.join(config.root, 'public')));
+    app.set('appPath', config.root + '/public');
+    app.set('frontEnd', 'public');
+    app.use(morgan('dev'));
+  }
+
+  if ('development' === env || 'test' === env) {
+    app.use(require('connect-livereload')());
+    app.use(express.static(path.join(config.root, '.tmp')));
+    app.use(express.static(path.join(config.root, 'client')));
+    app.set('appPath', 'client');
+    app.set('frontEnd', 'client');
+    app.use(morgan('dev'));
+    app.use(errorHandler()); // Error handler - has to be last
+  }
+
+
   app.use('/api/media', multer({ 
-    dest: './client/assets/images/',
+    dest: './' + app.get('frontEnd') + '/assets/images/',
     onFileUploadStart: function(file) {
       var imagePath = file.path;
       var thumbnailPath = file.path.replace('origional', 'thumbnail');
@@ -89,32 +121,4 @@ module.exports = function(app) {
       return destination; 
     }
   }));
-  app.use(methodOverride());
-  app.use(cookieParser());
-  app.use(passport.initialize());
-
-  // Persist sessions with mongoStore
-  // We need to enable sessions for passport twitter because its an oauth 1.0 strategy
-  app.use(session({
-    secret: config.secrets.session,
-    resave: true,
-    saveUninitialized: true,
-    store: new mongoStore({ mongoose_connection: mongoose.connection })
-  }));
-  
-  if ('production' === env) {
-    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
-    app.use(express.static(path.join(config.root, 'public')));
-    app.set('appPath', config.root + '/public');
-    app.use(morgan('dev'));
-  }
-
-  if ('development' === env || 'test' === env) {
-    app.use(require('connect-livereload')());
-    app.use(express.static(path.join(config.root, '.tmp')));
-    app.use(express.static(path.join(config.root, 'client')));
-    app.set('appPath', 'client');
-    app.use(morgan('dev'));
-    app.use(errorHandler()); // Error handler - has to be last
-  }
 };

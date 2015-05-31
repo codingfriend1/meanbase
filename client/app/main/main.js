@@ -56,7 +56,7 @@
 
             // - Construct a url string from the theme name and template name to pass into $templateFactory
             // - meanbaseGlobals.siteTheme is set inline on the index.html page and is compiled through server string manipulation
-            var templatePath = 'themes/' + meanbaseGlobals.siteTheme + '/templates/' + response[0].template + '/' + response[0].template + '.html';
+            var templatePath = 'themes/' + meanbaseGlobals.siteTheme + '/templates/' + response[0].template + '/' + response[0].template;
 
             // - Save the rest of the page data on the meanbaseGlobals object for use in the rest of the app
             meanbaseGlobals.page = response[0];
