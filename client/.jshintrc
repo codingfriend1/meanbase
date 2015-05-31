@@ -37,6 +37,7 @@
     "describe": true,
     "meanbaseGlobals": true,
     "beforeEach": true,
+    "UIMorphingButton": true,
     "module": true,
     "inject": true,
     "it": true,
