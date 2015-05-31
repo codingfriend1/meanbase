@@ -73,7 +73,7 @@ module.exports = function(app) {
 
 
   app.use('/api/media', multer({ 
-    dest: './' + app.get('frontEnd') + '/assets/images/',
+    dest: config.root + '/' + app.get('frontEnd') + '/assets/images/',
     onFileUploadStart: function(file) {
       var imagePath = file.path;
       var thumbnailPath = file.path.replace('origional', 'thumbnail');
