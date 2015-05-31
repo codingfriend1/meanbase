@@ -6,11 +6,14 @@
  */
 
  var config = require('../../config/environment');
- var themesFolder = '/client/themes/';
+ var themesFolder;
  var fs = require('fs');
+ var root;
  var Themes = require('../../api/themes/themes.model');
 
-module.exports = function(theme) {
+module.exports = function(theme, app) {
+	root = app.get('appPath');
+	themesFolder =  root + '/themes/';
 	if(theme) {
 		compileIndex(theme, GLOBAL.meanbaseGlobals.extensions);
 	} else {
@@ -40,8 +43,8 @@ function getFirstTheme(callback) {
 function compileIndex(theme, extensionJSONS) {
 	// Get file paths for the server/views/index and the chosen theme's scripts and styles templates
 	var viewFilePath = config.root + '/server/views/index.html',
-		themeJSPath = config.root + themesFolder + theme.url + '/assets/scripts.html',
-		themeCSSPath = config.root + themesFolder + theme.url + '/assets/styles.html';
+		themeJSPath = themesFolder + theme.url + '/assets/scripts.html',
+		themeCSSPath = themesFolder + theme.url + '/assets/styles.html';
 
 	// Try to read the file contents
 	var index, themeJS, themeCSS;
@@ -80,7 +83,7 @@ function compileIndex(theme, extensionJSONS) {
 
 	try {
 		// Write the results back to index.html in client/ folder
-		fs.writeFileSync(config.root + '/client/index.html', index, 'utf8');
+		fs.writeFileSync(root + '/index.html', index, 'utf8');
 		console.log('writing to index from index');
 	} catch(error) {
 		console.log('error: ', error);

@@ -23,8 +23,8 @@ var app = express();
 var server = require('http').createServer(app);
 require('./components/validators');
 require('./init')(); //Create dummy data on startup
-require('./components/index')(); //Set our default theme
 require('./config/express')(app);
+require('./components/index')(null, app); //Set our default theme
 require('./routes')(app);
 
 // Start server
