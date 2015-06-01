@@ -15,10 +15,12 @@ angular.module('meanbaseApp', [
   'toastr',
   'relativeDate'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
+  .config(function ($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider
       .otherwise('/');
     $urlMatcherFactoryProvider.strictMode(false);
+
+    $compileProvider.debugInfoEnabled(false);
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
