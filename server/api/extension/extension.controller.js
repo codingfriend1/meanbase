@@ -9,7 +9,9 @@ var formidable = require('formidable');
 var initExtensions = require('../../init/extensions.js');
 var fse = require('fs-extra');
 var fs = require('fs');
-var compileIndex = require('../../components/index/index.js')
+var compileIndex = require('../../components/index/index.js');
+var config = require('../../config/environment');
+var app = config.app;
 
 collection.modifyBody = function(body) {
   return body;
@@ -49,7 +51,7 @@ exports.upload = function(req, res) {
       createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
 
       var readStream = fs.createReadStream(tempFilePath);
-      readStream.pipe(unzip.Extract({ path: './client/extensions/' })).on('close', function (error, event) {
+      readStream.pipe(unzip.Extract({ path: './' + app.get('frontEnd') + '/extensions/' })).on('close', function (error, event) {
         initExtensions(function(error) {
           if(error) { return uploadingExtensionError(error, res, createdFolderName); }
           // Insert the new links and scripts into the index.html page
@@ -93,7 +95,7 @@ function uploadingExtensionError(err, res, folderName) {
   console.log('Could not upload extension.', err);
   if(folderName && folderName !== '') {
     try {
-      fse.remove('./client/extensions/' + folderName);
+      fse.remove('./' + app.get('frontEnd') + '/extensions/' + folderName);
     } catch(e) {
       console.log('Could not delete extension from extensions folder', e);
     }

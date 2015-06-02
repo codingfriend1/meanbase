@@ -12,6 +12,8 @@ var unzip = require('unzip');
 var formidable = require('formidable');
 var initThemes = require('../../init/themes.js');
 var fse = require('fs-extra');
+var config = require('../../config/environment');
+var app = config.app;
 
 // Get list of themes
 exports.findAll = function(req, res) {
@@ -56,7 +58,7 @@ exports.upload = function(req, res) {
       createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
 
   		var readStream = fs.createReadStream(tempFilePath);
-  		readStream.pipe(unzip.Extract({ path: './client/themes/' })).on('close', function (error, event) {
+  		readStream.pipe(unzip.Extract({ path: './' + app.get('frontEnd') + '/themes/' })).on('close', function (error, event) {
   			initThemes(function(error) {
   				if(error) { return uploadingThemeError(error, res, createdFolderName); }
   				res.status(200).send();
@@ -79,7 +81,7 @@ exports.delete = function(req, res) {
   collection.delete(req, res, function(identifier) {
   	if(identifier && identifier.url) {
   		try {
-  			fse.remove('./client/themes/' + req.query.url);
+  			fse.remove('./' + app.get('frontEnd') + '/themes/' + req.query.url);
   			return res.status(204).send();
   		} catch(e) {
   			console.log('Could not delete theme', e);
@@ -108,7 +110,7 @@ function uploadingThemeError(err, res, folderName) {
 	console.log('Could not upload theme.', err);
   if(folderName && folderName !== '') {
     try {
-      fse.remove('./client/themes/' + folderName);
+      fse.remove('./' + app.get('frontEnd') + '/themes/' + folderName);
     } catch(e) {
       console.log('could not delete theme from themes folder', e);
     }
@@ -122,5 +124,5 @@ function updateFile(theme) {
 	if(theme.__v) { delete theme.__v; }
 	if(theme.active) { delete theme.active; }
 	var themeJSON = JSON.stringify(theme, null, 2);
-	fs.writeFileSync(config.root + '/client/themes/' + theme.url + '/theme.json', themeJSON);
+	fs.writeFileSync(config.root + '/' + app.get('frontEnd') + '/themes/' + theme.url + '/theme.json', themeJSON);
 }

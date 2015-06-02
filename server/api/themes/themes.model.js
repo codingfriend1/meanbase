@@ -62,6 +62,9 @@ var ThemesSchema = new Schema({
 			"404": ["404"]
   	}
   },
+  templatePaths: {
+    type: Object
+  },
   meta: Object
 });
 

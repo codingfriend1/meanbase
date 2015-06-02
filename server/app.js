@@ -20,6 +20,7 @@ if(config.seedDB) { require('./config/seed'); }
 
 // Setup server
 var app = express();
+config.app = app;
 var server = require('http').createServer(app);
 require('./components/validators');
 require('./init')(); //Create dummy data on startup

@@ -10,6 +10,11 @@ function requiredProcessEnv(name) {
   return process.env[name];
 }
 
+var sharedVariables = {
+  // shared Express App variable
+  app: null
+};
+
 // All configurations will extend these options
 // ============================================
 var all = {
@@ -17,7 +22,7 @@ var all = {
 
   // Root path of server
   root: path.normalize(__dirname + '/../../..'),
-
+  
   // Server port
   port: process.env.PORT || 9000,
 
@@ -64,4 +69,5 @@ var all = {
 // ==============================================
 module.exports = _.merge(
   all,
+  sharedVariables,
   require('./' + process.env.NODE_ENV + '.js') || {});

@@ -54,6 +54,8 @@
               }
             }
 
+            // var templatePath = window.templatePaths['mappedTemplate'];
+
             // - Construct a url string from the theme name and template name to pass into $templateFactory
             // - meanbaseGlobals.siteTheme is set inline on the index.html page and is compiled through server string manipulation
             var templatePath = 'themes/' + meanbaseGlobals.siteTheme + '/templates/' + response[0].template + '/' + response[0].template;
