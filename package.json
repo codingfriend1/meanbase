@@ -14,6 +14,7 @@
     "express-session": "~1.0.2",
     "formidable": "^1.0.17",
     "fs-extra": "^0.18.2",
+    "fs-finder": "^1.8.0",
     "gm": "^1.18.1",
     "jade": "~1.2.0",
     "jade-browser-middleware": "^0.3.3",

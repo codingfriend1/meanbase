@@ -63,7 +63,24 @@ var ThemesSchema = new Schema({
   	}
   },
   templatePaths: {
-    type: Object
+    type: Object,
+    required: true,
+  },
+  scriptsPath: {
+    type: String,
+    trim: true,
+    validate: validators.isFilePath()
+  },
+  stylesPath: {
+    type: String,
+    trim: true,
+    validate: validators.isFilePath()
+  },
+  themeJSONPath: {
+    type: String,
+    trim: true,
+    required: true,
+    validate: validators.isFilePath()
   },
   meta: Object
 });

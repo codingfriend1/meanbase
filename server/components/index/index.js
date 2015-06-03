@@ -6,13 +6,14 @@
  */
 
  var config = require('../../config/environment');
+ var app = config.app;
  var themesFolder;
  var fs = require('fs');
  var root;
  var Themes = require('../../api/themes/themes.model');
 
 module.exports = function(theme, app) {
-	root = app.get('appPath');
+	root = app.get('frontEnd');
 	themesFolder =  root + '/themes/';
 	if(theme) {
 		compileIndex(theme, GLOBAL.meanbaseGlobals.extensions);
@@ -43,8 +44,8 @@ function getFirstTheme(callback) {
 function compileIndex(theme, extensionJSONS) {
 	// Get file paths for the server/views/index and the chosen theme's scripts and styles templates
 	var viewFilePath = config.root + '/server/views/index.html',
-		themeJSPath = themesFolder + theme.url + '/assets/scripts.html',
-		themeCSSPath = themesFolder + theme.url + '/assets/styles.html';
+		themeJSPath = app.get('frontEnd') + '/' + theme.scriptsPath, //themesFolder + theme.url + '/assets/scripts.html',
+		themeCSSPath = app.get('frontEnd') + '/' + theme.stylesPath; //themesFolder + theme.url + '/assets/styles.html';
 
 	// Try to read the file contents
 	var index, themeJS, themeCSS;
@@ -61,6 +62,7 @@ function compileIndex(theme, extensionJSONS) {
 	// If the file reads were successful then insert given theme's assets into index.html
 	index = index.replace('theme-name', theme.url);
 	index = index.replace("'theme-templates'", JSON.stringify(theme.templates));
+	index = index.replace("'themeTemplatePaths'", JSON.stringify(theme.templatePaths));
 	index = index.replace('<!-- Theme Styles -->', themeCSS);
 	index = index.replace('<!-- Theme Scripts -->', themeJS);
 

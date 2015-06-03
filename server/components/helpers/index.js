@@ -1,4 +1,7 @@
+var config = require('../../config/environment');
+var app = config.app;
 var fs = require('fs');
+var Finder = require('fs-finder');
 
 exports.arrayToObjectWithArray = function(array, itemToBecomeProperty) {
   if(!array || !itemToBecomeProperty) { return array; }
@@ -45,7 +48,8 @@ exports.objectToArray = function(data) {
 };
 
 exports.retrieveThemes = function(activeURL, callback) {
-  var themesFolderUrl = 'client/themes/';
+  var themesFolderUrl = '' + app.get('frontEnd') + '/themes/';
+  var applicationFontEndRoute = config.root + '/' + app.get('frontEnd') + '/';
   // Loop through themes in themesFolderUrl and get the theme.json file out of the root of each one
   var themesFolder = fs.readdirSync(themesFolderUrl);
   var themeJSONS = [];
@@ -56,13 +60,53 @@ exports.retrieveThemes = function(activeURL, callback) {
       var stat = fs.statSync(themesFolderUrl + themesFolder[file]);
       if(stat.isDirectory()) {
         try {
-          var themeJSON = JSON.parse(fs.readFileSync(themesFolderUrl + themesFolder[file] + '/theme.json', 'utf8'));
+          var templateFilePaths = Finder.from(themesFolderUrl + themesFolder[file]).findFiles('<-template\.jade|-template\.html|(scripts|styles)\.html|theme\.json>');
+          var templates = {};
+          var themeJSONPath, stylesHTML, scriptsHTML;
+          // console.log('templateFilePaths', templateFilePaths);
+          for (var i = 0; i < templateFilePaths.length; i++) {
+            templateFilePaths[i] = templateFilePaths[i].replace(applicationFontEndRoute, '');
+            if(templateFilePaths[i].indexOf('theme.json') > -1) {
+              themeJSONPath = templateFilePaths[i];
+            } else if(templateFilePaths[i].indexOf('styles.html') > -1) {
+              stylesHTML = templateFilePaths[i];
+            } else if(templateFilePaths[i].indexOf('scripts.html') > -1) {
+              scriptsHTML = templateFilePaths[i];
+            } else {
+              // We want to remove the super long absolute path and replace with a relative one
+              templateFilePaths[i] = templateFilePaths[i];
+
+              // We want to extract the template name from the file name without the file extension or the -template
+              var templateName = templateFilePaths[i].match(/[^\/]*(?=-template.[^.]+($|\?))/);
+              // Since the client makes jade requests without the extension we remove it.
+              templateFilePaths[i] = templateFilePaths[i].replace('.jade', '');
+              if(templateName && templateName[0]) {
+                templates[templateName[0]] = templateFilePaths[i];
+              }
+            }
+          };
+          var themeJSON = JSON.parse(fs.readFileSync(app.get('frontEnd') + '/' + themeJSONPath, 'utf8'));          
           if(themeJSON && Object.prototype.toString.call(themeJSON) === "[object Object]") {
             themeJSON.url = themesFolder[file];
             if(themeJSON.url === activeURL) {
               anyActive = true;
               themeJSON.active = true;
             }
+
+            themeJSON.themeJSONPath = themeJSONPath;
+
+            if(templates) {
+              themeJSON.templatePaths = templates;
+            }
+
+            if(stylesHTML) {
+              themeJSON.stylesPath = stylesHTML;
+            }
+
+            if(scriptsHTML) {
+              themeJSON.scriptsPath = scriptsHTML;
+            }
+            
             themeJSONS.push(themeJSON);
           }
         } catch(error) {
@@ -81,7 +125,7 @@ exports.retrieveThemes = function(activeURL, callback) {
 };
 
 exports.retrieveExtensions = function(callback) {
-  var extensionsFolderUrl = './client/extensions/';
+  var extensionsFolderUrl = './' + app.get('frontEnd') + '/extensions/';
   // Loop through themes in extensionsFolderUrl and get the extension.json file out of the root of each one
   var extensionsFolder = fs.readdirSync(extensionsFolderUrl);
   var extensionsJSONS = [];

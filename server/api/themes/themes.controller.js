@@ -121,8 +121,12 @@ function uploadingThemeError(err, res, folderName) {
 
 function updateFile(theme) {
 	if(theme._id) { delete theme._id; }
-	if(theme.__v) { delete theme.__v; }
-	if(theme.active) { delete theme.active; }
+	if(theme['__v']) { delete theme['__v']; }
+  if(theme.active) { delete theme.active; }
+  if(theme.templatePaths) { delete theme.templatePaths; }
+  if(theme.scriptsPath) { delete theme.scriptsPath; }
+  if(theme.stylesPath) { delete theme.stylesPath; }
+	if(theme.themeJSONPath) { var themeJSONPath = theme.themeJSONPath; delete theme.themeJSONPath; }
 	var themeJSON = JSON.stringify(theme, null, 2);
-	fs.writeFileSync(config.root + '/' + app.get('frontEnd') + '/themes/' + theme.url + '/theme.json', themeJSON);
+	fs.writeFileSync(config.root + '/' + app.get('frontEnd') + '/' + themeJSONPath, themeJSON);
 }

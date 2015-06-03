@@ -23,7 +23,12 @@ module.exports = function(app) {
   app.use('/auth', require('./auth'));
 
   app.route('/themes/*').get(function(req, res) {
-    res.render('../../' + app.get('frontEnd') + '/themes/' + req.params[0]);
+    try {
+      res.render('../../' + app.get('frontEnd') + '/themes/' + req.params[0]);
+    } catch(e) {
+      res.status(500).send(e);
+    }
+    
   });
   
   // All undefined asset or api routes should return a 404
