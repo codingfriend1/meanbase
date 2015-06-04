@@ -126,6 +126,8 @@ function updateFile(theme) {
   if(theme.templatePaths) { delete theme.templatePaths; }
   if(theme.scriptsPath) { delete theme.scriptsPath; }
   if(theme.stylesPath) { delete theme.stylesPath; }
+  if(theme.templates) { delete theme.templates; }
+  if(theme.url) { delete theme.url; }
 	if(theme.themeJSONPath) { var themeJSONPath = theme.themeJSONPath; delete theme.themeJSONPath; }
 	var themeJSON = JSON.stringify(theme, null, 2);
 	fs.writeFileSync(app.get('appPath') + themeJSONPath, themeJSON);

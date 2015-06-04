@@ -15,19 +15,21 @@ module.exports = function(callback) {
 	  }
 	  if(!activeTheme[0] || !activeTheme[0].url) { activeTheme[0] = {url: ''}; }
 	  
-	  var themeJSONS = helpers.retrieveThemes(activeTheme[0].url, callback);
+	  var themeJSONSPromise = helpers.retrieveThemes(activeTheme[0].url, callback);
 
-		// Remove all found themes
-		if(themeJSONS.length > 0) {
-			Themes.remove(function(err) {
-		 		if(err) { return handleError(err); }
-		  	Themes.create(themeJSONS, function(err, theme) {
-				  if(err) { return handleError(err); }
-				  console.log('themes initialized');
-				  if(callback) { return callback(null); }
-				});
-			});
-		}
+	  themeJSONSPromise.then(function(themeJSONS) {
+	  	if(themeJSONS.length > 0) {
+	  		Themes.remove(function(err) {
+	  	 		if(err) { return handleError(err); }
+	  	  	Themes.create(themeJSONS, function(err, theme) {
+	  			  if(err) { return handleError(err); }
+	  			  console.log('themes initialized');
+	  			  if(callback) { return callback(null); }
+	  			});
+	  		});
+	  	}
+	  });
+		
 
 
 	}); //themes find

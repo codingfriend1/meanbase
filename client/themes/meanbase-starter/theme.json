@@ -2,22 +2,5 @@
   "author": "Jon Paul",
   "email": "codingfriend1@gmail.com",
   "title": "Meanbase Starter",
-  "description": "The starter theme for meanbase",
-  "url": "meanbase-starter",
-  "__v": 0,
-  "templates": {
-    "home": [
-      "home",
-      "404"
-    ],
-    "archive": [
-      "archive"
-    ],
-    "page": [
-      "page"
-    ],
-    "article": [
-      "article"
-    ]
-  }
+  "description": "The starter theme for meanbase"
 }

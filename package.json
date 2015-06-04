@@ -30,6 +30,7 @@
     "passport-google-oauth": "latest",
     "passport-local": "~0.1.6",
     "passport-twitter": "latest",
+    "promise": "^7.0.1",
     "serve-favicon": "~2.0.1",
     "unzip": "^0.1.11"
   },
