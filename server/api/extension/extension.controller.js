@@ -4,7 +4,8 @@ var _ = require('lodash');
 var Extension = require('./extension.model');
 var CRUD = require('../../components/CRUD');
 var collection = new CRUD(Extension);
-var unzip = require('unzip');
+var Decompress = require('decompress');
+var zip = require('decompress-unzip');
 var formidable = require('formidable');
 var initExtensions = require('../../init/extensions.js');
 var fse = require('fs-extra');
@@ -50,8 +51,12 @@ exports.upload = function(req, res) {
 
       createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
 
-      var readStream = fs.createReadStream(tempFilePath);
-      readStream.pipe(unzip.Extract({ path: app.get('appPath') + 'extensions/' })).on('close', function (error, event) {
+      var decompress = new Decompress()
+        .src(tempFilePath)
+        .dest(app.get('appPath') + 'extensions/' + createdFolderName)
+        .use(zip({strip: 1}));
+      decompress.run(function (err, files) {
+        if (err) { throw err; }
         initExtensions(function(error) {
           if(error) { return uploadingExtensionError(error, res, createdFolderName); }
           // Insert the new links and scripts into the index.html page
@@ -59,6 +64,7 @@ exports.upload = function(req, res) {
           res.status(200).send();
         });
       });
+      
     });
   } catch(e) {
     uploadingExtensionError(e, res, createdFolderName);

@@ -8,7 +8,8 @@ var compileIndex = require('../../components/index');
 var collection = new CRUD(Themes);
 var fs = require('fs');
 var config = require('../../config/environment');
-var unzip = require('unzip');
+var Decompress = require('decompress');
+var zip = require('decompress-unzip');
 var formidable = require('formidable');
 var initThemes = require('../../init/themes.js');
 var fse = require('fs-extra');
@@ -57,13 +58,17 @@ exports.upload = function(req, res) {
 
       createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
 
-  		var readStream = fs.createReadStream(tempFilePath);
-  		readStream.pipe(unzip.Extract({ path: './' + app.get('frontEnd') + '/themes/' })).on('close', function (error, event) {
-  			initThemes(function(error) {
-  				if(error) { return uploadingThemeError(error, res, createdFolderName); }
-  				res.status(200).send();
-  			});
-  		});
+      var decompress = new Decompress()
+        .src(tempFilePath)
+        .dest(app.get('appPath') + 'themes/' + createdFolderName)
+        .use(zip({strip: 1}));
+      decompress.run(function (err, files) {
+        if (err) { throw err; }
+        initThemes(function(error) {
+          if(error) { return uploadingThemeError(error, res, createdFolderName); }
+          res.status(200).send();
+        });
+      });
 	  });
 	} catch(e) {
 		uploadingThemeError(e, res, createdFolderName);

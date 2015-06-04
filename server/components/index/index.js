@@ -11,8 +11,8 @@
  var fs = require('fs');
  var Themes = require('../../api/themes/themes.model');
 
-module.exports = function(theme, app) {
-	themesFolder =  app.get('appPath') + 'themes/';
+module.exports = function(theme) {
+	themesFolder = app.get('appPath') + 'themes/';
 	if(theme) {
 		compileIndex(theme, GLOBAL.meanbaseGlobals.extensions);
 	} else {
