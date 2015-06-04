@@ -44,7 +44,7 @@ var ThemesSchema = new Schema({
   preview: {
     type: String,
     required: false,
-    validate: validators.isURI({skipEmpty: true})
+    validate: validators.isFilePath({skipEmpty: true})
   },
   active: {
   	type: Boolean,
@@ -69,12 +69,12 @@ var ThemesSchema = new Schema({
   scriptsPath: {
     type: String,
     trim: true,
-    validate: validators.isFilePath()
+    validate: validators.isFilePath({skipEmpty: true})
   },
   stylesPath: {
     type: String,
     trim: true,
-    validate: validators.isFilePath()
+    validate: validators.isFilePath({skipEmpty: true})
   },
   themeJSONPath: {
     type: String,

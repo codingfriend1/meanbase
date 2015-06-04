@@ -38,7 +38,7 @@
       window.meanbaseGlobals = {};
       window.meanbaseGlobals.siteTheme = 'meanbase-starter'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
       window.meanbaseGlobals.themeTemplates = {"article":["article"],"page":["page"],"archive":["archive"],"home":["home","404"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
-      window.meanbaseGlobals.themeTemplatePaths = {"page":"themes/meanbase-starter/templates/page/page-template","home":"themes/meanbase-starter/templates/home/home-template","article":"themes/meanbase-starter/templates/article/article-template","archive":"themes/meanbase-starter/templates/archive/archive-template"}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.themeTemplatePaths = {"page":{"template":"themes/meanbase-starter/templates/page/page-template"},"home":{"template":"themes/meanbase-starter/templates/home/home-template"},"article":{"template":"themes/meanbase-starter/templates/article/article-template"},"archive":{"template":"themes/meanbase-starter/templates/archive/archive-template"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
     </script>
   </head>
   <body ng-app="meanbaseApp">

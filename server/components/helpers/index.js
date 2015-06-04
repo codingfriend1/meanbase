@@ -59,18 +59,32 @@ exports.retrieveThemes = function(activeURL, callback) {
       var stat = fs.statSync(themesFolderUrl + themesFolder[file]);
       if(stat.isDirectory()) {
         try {
-          var templateFilePaths = Finder.from(themesFolderUrl + themesFolder[file]).findFiles('<-template\.jade|-template\.html|(scripts|styles)\.html|theme\.json>');
+          var templateFilePaths = Finder.from(themesFolderUrl + themesFolder[file]).findFiles('<-template\.jade|-template\.html|(scripts|styles)\.html|theme\.json|screenshot>');
           var templates = {};
-          var themeJSONPath, stylesHTML, scriptsHTML;
+          var themeJSONPath, stylesHTML, scriptsHTML, preview;
           for (var i = 0; i < templateFilePaths.length; i++) {
             templateFilePaths[i] = templateFilePaths[i].replace(app.get('appPath'), '');
             if(templateFilePaths[i].indexOf('theme.json') > -1) {
+              // Get the theme.json
               themeJSONPath = templateFilePaths[i];
             } else if(templateFilePaths[i].indexOf('styles.html') > -1) {
+              // Get the theme styles.html
               stylesHTML = templateFilePaths[i];
             } else if(templateFilePaths[i].indexOf('scripts.html') > -1) {
+              // Get the theme scripts.html
               scriptsHTML = templateFilePaths[i];
+            } else if(templateFilePaths[i].indexOf('screenshot') > -1 && templateFilePaths[i].indexOf('-screenshot') === -1) {
+              // If we are looking at the theme screenshot
+              preview = templateFilePaths[i];      
+            } else if(templateFilePaths[i].indexOf('-screenshot') > -1) { 
+              // If a template has a screenshot store it's url
+              var templateName = templateFilePaths[i].match(/[^\/]*(?=-screenshot.[^.]+($|\?))/);
+              if(templateName && templateName[0]) {
+                if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
+                templates[templateName[0]].screenshot = templateFilePaths[i];
+              }
             } else {
+              // If we are looking at an actual template
               // We want to remove the super long absolute path and replace with a relative one
               templateFilePaths[i] = templateFilePaths[i];
 
@@ -79,7 +93,8 @@ exports.retrieveThemes = function(activeURL, callback) {
               // Since the client makes jade requests without the extension we remove it.
               templateFilePaths[i] = templateFilePaths[i].replace('.jade', '');
               if(templateName && templateName[0]) {
-                templates[templateName[0]] = templateFilePaths[i];
+                if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
+                templates[templateName[0]].template = templateFilePaths[i];
               }
             }
           };
@@ -95,6 +110,7 @@ exports.retrieveThemes = function(activeURL, callback) {
 
             if(templates) {
               themeJSON.templatePaths = templates;
+              console.log('themeJSON.templatePaths', themeJSON.templatePaths);
             }
 
             if(stylesHTML) {
@@ -103,6 +119,10 @@ exports.retrieveThemes = function(activeURL, callback) {
 
             if(scriptsHTML) {
               themeJSON.scriptsPath = scriptsHTML;
+            }
+
+            if(preview) {
+              themeJSON.preview = preview;
             }
             
             themeJSONS.push(themeJSON);
