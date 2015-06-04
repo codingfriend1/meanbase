@@ -10,6 +10,8 @@
 			extensiondata: new endpoints("extensiondata")
 		};
 
+		var self = this;
+
 		this.toggleEdit = function() {
 			$rootScope.editMode = !$rootScope.editMode;
 		};
@@ -106,6 +108,9 @@
 				this.currentScreenshot.classList.add('template-screenshot-backdrop');
 				var image = new Image();
 				image.src = screenshot;
+				image.onerror = function() {
+					self.hideScreenshot(template);
+				};
 				image.alt = template + ' screenshot';
 				image.classList.add('template-screenshot');
 				this.currentScreenshot.appendChild(image);
