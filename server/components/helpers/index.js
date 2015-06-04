@@ -110,7 +110,6 @@ exports.retrieveThemes = function(activeURL, callback) {
 
             if(templates) {
               themeJSON.templatePaths = templates;
-              console.log('themeJSON.templatePaths', themeJSON.templatePaths);
             }
 
             if(stylesHTML) {
