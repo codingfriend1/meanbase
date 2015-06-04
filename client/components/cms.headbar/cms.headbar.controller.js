@@ -96,6 +96,27 @@
 			});
 		};
 
+		this.currentScreenshot;
+
+		this.showScreenshot = function(template) {
+			if(!window.meanbaseGlobals.themeTemplatePaths[template]) { return false; }
+			var screenshot = window.meanbaseGlobals.themeTemplatePaths[template].screenshot;
+			if(screenshot) {
+				this.currentScreenshot = document.createElement("div");
+				this.currentScreenshot.classList.add('template-screenshot-backdrop');
+				var image = new Image();
+				image.src = screenshot;
+				image.alt = template + ' screenshot';
+				image.classList.add('template-screenshot');
+				this.currentScreenshot.appendChild(image);
+				document.body.appendChild(this.currentScreenshot);
+			}
+		};
+
+		this.hideScreenshot = function(template) {
+			document.body.removeChild(this.currentScreenshot);
+		};
+
 		function prepareDefaultPage(url, e) {
 			// Prepare page default text based on url
 			url = url.replace(/[ ]/g, "-");

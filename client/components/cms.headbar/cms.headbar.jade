@@ -19,7 +19,7 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 								| Template 
 						li.divider
 						li(ng-repeat="template in themeTemplates")
-							a(href="#" ng-click="headbar.createPage($event)") {{template}}
+							a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template}}
 				li(ng-show="currentUser.permissions.indexOf('editContent') > -1")
 					a(ng-hide="editMode" ng-click="headbar.toggleEdit()") Edit
 					button.btn.btn-success(ng-show="editMode" ng-click="headbar.saveChanges()") Save
