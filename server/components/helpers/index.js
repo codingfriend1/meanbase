@@ -48,9 +48,7 @@ exports.objectToArray = function(data) {
 };
 
 exports.retrieveThemes = function(activeURL, callback) {
-  var themesFolderUrl = config.root + '/' + app.get('frontEnd') + '/themes/';
-  console.log('themesFolderUrl', themesFolderUrl);
-  var applicationFontEndRoute = config.root + '/' + app.get('frontEnd') + '/';
+  var themesFolderUrl = app.get('appPath') + 'themes/';
   // Loop through themes in themesFolderUrl and get the theme.json file out of the root of each one
   var themesFolder = fs.readdirSync(themesFolderUrl);
   var themeJSONS = [];
@@ -64,9 +62,8 @@ exports.retrieveThemes = function(activeURL, callback) {
           var templateFilePaths = Finder.from(themesFolderUrl + themesFolder[file]).findFiles('<-template\.jade|-template\.html|(scripts|styles)\.html|theme\.json>');
           var templates = {};
           var themeJSONPath, stylesHTML, scriptsHTML;
-          // console.log('templateFilePaths', templateFilePaths);
           for (var i = 0; i < templateFilePaths.length; i++) {
-            templateFilePaths[i] = templateFilePaths[i].replace(applicationFontEndRoute, '');
+            templateFilePaths[i] = templateFilePaths[i].replace(app.get('appPath'), '');
             if(templateFilePaths[i].indexOf('theme.json') > -1) {
               themeJSONPath = templateFilePaths[i];
             } else if(templateFilePaths[i].indexOf('styles.html') > -1) {
@@ -86,7 +83,7 @@ exports.retrieveThemes = function(activeURL, callback) {
               }
             }
           };
-          var themeJSON = JSON.parse(fs.readFileSync(config.root + '/' + app.get('frontEnd') + '/' + themeJSONPath, 'utf8'));          
+          var themeJSON = JSON.parse(fs.readFileSync(app.get('appPath') + themeJSONPath, 'utf8'));          
           if(themeJSON && Object.prototype.toString.call(themeJSON) === "[object Object]") {
             themeJSON.url = themesFolder[file];
             if(themeJSON.url === activeURL) {
@@ -126,8 +123,7 @@ exports.retrieveThemes = function(activeURL, callback) {
 };
 
 exports.retrieveExtensions = function(callback) {
-  var extensionsFolderUrl = config.root + '/' + app.get('frontEnd') + '/extensions/';
-  console.log('extensionsFolderUrl', extensionsFolderUrl);
+  var extensionsFolderUrl = app.get('appPath') + 'extensions/';
   // Loop through themes in extensionsFolderUrl and get the extension.json file out of the root of each one
   var extensionsFolder = fs.readdirSync(extensionsFolderUrl);
   var extensionsJSONS = [];

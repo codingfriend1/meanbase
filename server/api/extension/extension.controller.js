@@ -51,7 +51,7 @@ exports.upload = function(req, res) {
       createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
 
       var readStream = fs.createReadStream(tempFilePath);
-      readStream.pipe(unzip.Extract({ path: config.root + '/' + app.get('frontEnd') + '/extensions/' })).on('close', function (error, event) {
+      readStream.pipe(unzip.Extract({ path: app.get('appPath') + 'extensions/' })).on('close', function (error, event) {
         initExtensions(function(error) {
           if(error) { return uploadingExtensionError(error, res, createdFolderName); }
           // Insert the new links and scripts into the index.html page
@@ -95,7 +95,7 @@ function uploadingExtensionError(err, res, folderName) {
   console.log('Could not upload extension.', err);
   if(folderName && folderName !== '') {
     try {
-      fse.remove(config.root + '/' + app.get('frontEnd') + '/extensions/' + folderName);
+      fse.remove(app.get('appPath') + 'extensions/' + folderName);
     } catch(e) {
       console.log('Could not delete extension from extensions folder', e);
     }

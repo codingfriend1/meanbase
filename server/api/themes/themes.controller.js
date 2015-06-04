@@ -81,7 +81,7 @@ exports.delete = function(req, res) {
   collection.delete(req, res, function(identifier) {
   	if(identifier && identifier.url) {
   		try {
-  			fse.remove('./' + app.get('frontEnd') + '/themes/' + req.query.url);
+  			fse.remove(app.get('appPath') + 'themes/' + req.query.url);
   			return res.status(204).send();
   		} catch(e) {
   			console.log('Could not delete theme', e);
@@ -110,7 +110,7 @@ function uploadingThemeError(err, res, folderName) {
 	console.log('Could not upload theme.', err);
   if(folderName && folderName !== '') {
     try {
-      fse.remove('./' + app.get('frontEnd') + '/themes/' + folderName);
+      fse.remove(app.get('appPath') + 'themes/' + folderName);
     } catch(e) {
       console.log('could not delete theme from themes folder', e);
     }
@@ -128,5 +128,5 @@ function updateFile(theme) {
   if(theme.stylesPath) { delete theme.stylesPath; }
 	if(theme.themeJSONPath) { var themeJSONPath = theme.themeJSONPath; delete theme.themeJSONPath; }
 	var themeJSON = JSON.stringify(theme, null, 2);
-	fs.writeFileSync(config.root + '/' + app.get('frontEnd') + '/' + themeJSONPath, themeJSON);
+	fs.writeFileSync(app.get('appPath') + themeJSONPath, themeJSON);
 }

@@ -12,7 +12,7 @@
  var Themes = require('../../api/themes/themes.model');
 
 module.exports = function(theme, app) {
-	themesFolder =  config.root + '/' + app.get('frontEnd') + '/themes/';
+	themesFolder =  app.get('appPath') + 'themes/';
 	if(theme) {
 		compileIndex(theme, GLOBAL.meanbaseGlobals.extensions);
 	} else {
@@ -42,9 +42,8 @@ function getFirstTheme(callback) {
 function compileIndex(theme, extensionJSONS) {
 	// Get file paths for the server/views/index and the chosen theme's scripts and styles templates
 	var viewFilePath = config.root + '/server/views/index.html',
-		themeJSPath = config.root + '/' + app.get('frontEnd') + '/' + theme.scriptsPath, //themesFolder + theme.url + '/assets/scripts.html',
-		themeCSSPath = config.root + '/' + app.get('frontEnd') + '/' + theme.stylesPath; //themesFolder + theme.url + '/assets/styles.html';
-		console.log('viewFilePath', viewFilePath, 'themeJSPath', themeJSPath, 'themeCSSPath', themeCSSPath);
+		themeJSPath = app.get('appPath') + theme.scriptsPath, //themesFolder + theme.url + '/assets/scripts.html',
+		themeCSSPath = app.get('appPath') + theme.stylesPath; //themesFolder + theme.url + '/assets/styles.html';
 
 	// Try to read the file contents
 	var index, themeJS, themeCSS;
@@ -84,7 +83,7 @@ function compileIndex(theme, extensionJSONS) {
 
 	try {
 		// Write the results back to index.html in client/ folder
-		fs.writeFileSync(config.root + '/' + app.get('frontEnd') + '/index.html', index, 'utf8');
+		fs.writeFileSync(app.get('appPath') + 'index.html', index, 'utf8');
 		console.log('writing to index from index');
 	} catch(error) {
 		console.log('error: ', error);
