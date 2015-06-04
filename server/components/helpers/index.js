@@ -129,8 +129,11 @@ exports.retrieveThemes = function(activeURL, callback) {
                 themeJSON.preview = preview;
               }
 
-              Themes.find({url: themeJSON.url}).lean().exec(function (err, theme) {
-                if(theme && theme.templates) { return false; }
+              Themes.find({url: themeJSON.url}).lean().exec(function(err, theme) {
+                if(theme[0] && theme[0].templates) { 
+                  themeJSON.templates = theme[0].templates; 
+                  return false; 
+                }
                 var templateMaps = {};
                 if(!themeJSON.templates) {
                   for (var template in templates) {
