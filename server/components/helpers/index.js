@@ -55,7 +55,7 @@ exports.retrieveThemes = function(activeURL, callback) {
   var anyActive = false;
 
   for(var file = 0; file < themesFolder.length; file++) {
-    if(themesFolder[file][0] !== '.') {
+    if(themesFolder[file][0] !== '.' && themesFolder[file][0] !== '_') {
       var stat = fs.statSync(themesFolderUrl + themesFolder[file]);
       if(stat.isDirectory()) {
         try {
@@ -151,8 +151,34 @@ exports.retrieveExtensions = function(callback) {
       var stat = fs.statSync(extensionsFolderUrl + extensionsFolder[ii]);
       if(stat.isDirectory()) {
         try {
-          var extensionJSON = JSON.parse(fs.readFileSync(extensionsFolderUrl + extensionsFolder[ii] + '/extension.json', 'utf8'));
-          extensionJSON.text = fs.readFileSync(extensionsFolderUrl + extensionsFolder[ii] + '/index.html', 'utf8');
+          var extensionFilePaths = Finder.from(extensionsFolderUrl + extensionsFolder[ii]).findFiles('*');
+          var index, json, files = [], screenshot;
+          for (var i = 0; i < extensionFilePaths.length; i++) {
+            extensionFilePaths[i] = extensionFilePaths[i].replace(app.get('appPath'), '');
+            if(extensionFilePaths[i].indexOf('index.html') > -1) {
+              index = extensionFilePaths[i];
+            } else if(extensionFilePaths[i].indexOf('extension.json') > -1) {
+              json = extensionFilePaths[i];
+            } else if(extensionFilePaths[i].indexOf('screenshot') > -1) {
+              screenshot = extensionFilePaths[i];
+            } else if(extensionFilePaths[i].indexOf('.jade') > -1) {
+              files.push(extensionFilePaths[i].replace('.jade', ''));
+            } else {
+              files.push(extensionFilePaths[i]);
+            }
+          };
+
+          var extensionJSON = JSON.parse(fs.readFileSync(app.get('appPath') + json, 'utf8'));
+          extensionJSON.text = fs.readFileSync(app.get('appPath') + index, 'utf8');
+          
+          if(files) {
+            extensionJSON.urls = files;
+          }
+
+          if(screenshot) {
+            extensionJSON.screenshot = screenshot;
+          }
+          
           extensionsJSONS.push(extensionJSON);
         } catch(error) {
           console.log('Could not parse extension.json in root of extension', error);

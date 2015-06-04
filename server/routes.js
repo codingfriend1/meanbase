@@ -28,7 +28,14 @@ module.exports = function(app) {
     } catch(e) {
       res.status(500).send(e);
     }
-    
+  });
+
+  app.route('/extensions/*').get(function(req, res) {
+    try {
+      res.render('../../' + app.get('frontEnd') + '/extensions/' + req.params[0]);
+    } catch(e) {
+      res.status(500).send(e);
+    }
   });
   
   // All undefined asset or api routes should return a 404

@@ -16,6 +16,11 @@ var ExtensionSchema = new Schema({
     required: false,
     validate: validators.isURI({skipEmpty: true})
   }],
+  screenshot: {
+    type: String,
+    required: false,
+    validate: validators.isFilePath({skipEmpty: true})
+  },
   config: Schema.Types.Mixed,
   data: Schema.Types.Mixed,
   active: {
