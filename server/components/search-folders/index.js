@@ -11,7 +11,7 @@ function isMyPath(item, searchString) {
   if(item.indexOf(searchString) > -1) {
     return item;
   }
-};
+}
 
 exports.retrieveThemes = function(activeURL, callback) {
   var themesFolderUrl = app.get('appPath') + 'themes/';
@@ -20,7 +20,7 @@ exports.retrieveThemes = function(activeURL, callback) {
   var themeJSONS = [];
   var anyActive = false;
 
-  var promise = new Promise(function (resolve, reject) {
+  var retrievalPromise = new Promise(function (resolve, reject) {
     helpers.asyncLoop(themesFolder.length, function(loop) {
       if(themesFolder[loop.iteration()][0] !== '.' && themesFolder[loop.iteration()][0] !== '_') {
         try {
@@ -39,7 +39,7 @@ exports.retrieveThemes = function(activeURL, callback) {
             var templates = {};
             var themeJSONPath, stylesHTML, scriptsHTML, preview;
             for (var i = 0; i < templateFilePaths.length; i++) {
-
+              var templateName;
 
               templateFilePaths[i] = templateFilePaths[i].replace(app.get('appPath'), '');
 
@@ -58,7 +58,7 @@ exports.retrieveThemes = function(activeURL, callback) {
                 preview = templateFilePaths[i];      
               } else if(templateFilePaths[i].indexOf('-screenshot') > -1) { 
                 // If a template has a screenshot store it's url
-                var templateName = templateFilePaths[i].match(/[^\/]*(?=-screenshot.[^.]+($|\?))/);
+                templateName = templateFilePaths[i].match(/[^\/]*(?=-screenshot.[^.]+($|\?))/);
                 if(templateName && templateName[0] && /^[0-9A-Za-z\/*_.\\\-]*$/.test(templateFilePaths[i])) {
                   if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
                   templates[templateName[0]].screenshot = templateFilePaths[i];
@@ -69,7 +69,7 @@ exports.retrieveThemes = function(activeURL, callback) {
                 templateFilePaths[i] = templateFilePaths[i];
 
                 // We want to extract the template name from the file name without the file extension or the -template
-                var templateName = templateFilePaths[i].match(/[^\/]*(?=-template.[^.]+($|\?))/);
+                templateName = templateFilePaths[i].match(/[^\/]*(?=-template.[^.]+($|\?))/);
                 // Since the client makes jade requests without the extension we remove it.
                 templateFilePaths[i] = templateFilePaths[i].replace('.jade', '');
                 if(templateName && templateName[0] && /^[0-9A-Za-z\/*_.\\\-]*$/.test(templateFilePaths[i])) {
@@ -200,7 +200,7 @@ exports.retrieveThemes = function(activeURL, callback) {
     });
   });
 
-  return promise;
+  return retrievalPromise;
 };
 
 
@@ -229,7 +229,7 @@ exports.retrieveExtensions = function(callback) {
             } else {
               files.push(extensionFilePaths[i]);
             }
-          };
+          }
 
           var extensionJSON = JSON.parse(fs.readFileSync(app.get('appPath') + json, 'utf8'));
           extensionJSON.text = fs.readFileSync(app.get('appPath') + index, 'utf8');

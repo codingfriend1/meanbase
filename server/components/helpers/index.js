@@ -50,7 +50,7 @@ exports.objectToArray = function(data) {
 };
 
 exports.asyncLoop = this.asyncLoop = function(iterations, func) {
-  var promise = new Promise(function (resolve, reject) {
+  var loopPromise = new Promise(function (resolve, reject) {
     var index = 0;
     var done = false;
     var reason;
@@ -82,5 +82,5 @@ exports.asyncLoop = this.asyncLoop = function(iterations, func) {
     loop.next();
   });
   
-  return promise;
+  return loopPromise;
 };

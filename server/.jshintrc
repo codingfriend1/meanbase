@@ -5,11 +5,17 @@
   "eqeqeq": true,
   "immed": true,
   "latedef": "nofunc",
-  "newcap": true,
+  "newcap": false,
+  "loopfunc": true,
+  "-W032": false,
+  "-W038": false,
+  "quotmark": false,
+  "-W079": false,
   "noarg": true,
   "regexp": true,
   "undef": true,
   "smarttabs": true,
   "asi": true,
-  "debug": true
+  "debug": true,
+  "-W038": false
 }
