@@ -1,0 +1,13 @@
+.container(ng-controller="HomeCtrl as controller")
+	include ../../components/site-menu
+	.jumbotron
+		h1#page-title(edit="editMode" ng-bind-html="page.title")
+		p#content-1(edit="editMode" ng-bind-html="page.content['content-1']")
+		p
+			a.btn.btn-lg.btn-primary(href='/', role='button') View navbar docs »
+	.col-sm-4
+		div#content-2(edit="editMode" ng-bind-html="page.content['content-2']")
+	.col-sm-4
+		div#content-3(edit="editMode" ng-bind-html="page.content['content-3']")
+	.col-sm-4
+		div#content-4(edit="editMode" ng-bind-html="page.content['content-4']")

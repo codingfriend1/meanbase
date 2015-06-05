@@ -1,0 +1,41 @@
+.container(ng-controller="ArchiveCtrl as controller")
+	include ../../components/site-menu
+	.row
+		.col-lg-12
+			h1.page-header#page-title.mb-editable {{page.title}}
+	div(ng-repeat="post in posts")
+		.row
+			.col-md-7
+				a(href='#')
+					img.img-responsive(src='http://placehold.it/700x300', alt='')
+			.col-md-5
+				h3 {{post.title}}
+				h4 Subheading
+				p(ng-bind-html="post.content['content-1'] ? post.content['content-1'] : 'content-1 prefiller' | limitTo:350")|...
+				a.btn.btn-primary(href='{{post.url}}')
+					| View Entry
+					span.glyphicon.glyphicon-chevron-right
+		hr
+	//Pagination 
+	.row.text-center
+		.col-lg-12
+			ul.pagination
+				li
+					a(href='#') «
+				li.active
+					a(href='#') 1
+				li
+					a(href='#') 2
+				li
+					a(href='#') 3
+				li
+					a(href='#') 4
+				li
+					a(href='#') 5
+				li
+					a(href='#') »
+	hr
+	footer
+		.row
+			.col-lg-12
+				p Copyright © Your Website 2014

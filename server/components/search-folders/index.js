@@ -133,7 +133,9 @@ exports.retrieveThemes = function(activeURL, callback) {
                       themeJSON.templates = templateMaps;
                     }
                   }
-
+                  if(Object.keys(themeJSON.templates).length === 0) {
+                    return loop.break('Theme had no templates. At least one file must have a -template.html or -template.jade ending');
+                  }
                   themeJSONS.push(themeJSON);
                   templates = {};
                   themeJSONPath = null;
@@ -159,6 +161,9 @@ exports.retrieveThemes = function(activeURL, callback) {
                     }
                   }
                   themeJSON.templates = templateMaps;
+                  if(Object.keys(themeJSON.templates).length === 0) {
+                    return loop.break('Theme had no templates. At least one file must have a -template.html or -template.jade ending');
+                  }
                 }
 
                 themeJSONS.push(themeJSON);
@@ -193,9 +198,6 @@ exports.retrieveThemes = function(activeURL, callback) {
       if(callback) { callback(reason); }
       reject(themeJSONS);
     });
-    // for(var file = 0; file < themesFolder.length; file++) {
-      
-    // } //for
   });
 
   return promise;

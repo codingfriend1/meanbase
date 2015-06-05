@@ -1,0 +1,23 @@
+//Static navbar 
+.nav.navbar.navbar-default(role='navigation')
+	.container-fluid
+		a.navbar-right.navbar-brand(ng-href="{{menus.rightHand[0].url}}") {{menus.rightHand[0].title}}
+		.navbar-header
+			button.navbar-toggle.collapsed(ng-init="navbarClosed = true" ng-click="navbarClosed = !navbarClosed")
+				span.sr-only Toggle navigation
+				span.icon-bar
+				span.icon-bar
+				span.icon-bar
+			a.navbar-brand(href='/') Home
+		#navbar.navbar-collapse(collapse="navbarClosed")
+			ul.nav.navbar-nav(ng-sortable="menusConfig")
+				li(ng-repeat="menu in menus.main" sortable)
+					a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
+			//- ul.nav.navbar-nav
+			//- 	li.drop-down.mb-dropdown-toggle
+			//- 		a(data-toggle="dropdown" href="#").dropdown-toggle
+			//- 			| Blog
+			//- 			span.caret
+			//- 		ul#sortable-footer.dropdown-menu(role="menu" data-menu="footer" ng-sortable="mb.sortableMenus").mb-dropdown-menu
+			//- 			li(ng-repeat="menu in menus.footer track by menu.id" mb-menu="menu" ng-class="active(menu.url, 'active')")
+			//- 				a(href="{{menu.url}}" target="{{menu.target}}") {{menu.title}}

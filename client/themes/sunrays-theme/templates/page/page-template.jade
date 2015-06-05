@@ -1,0 +1,46 @@
+.container(ng-controller="PageCtrl as controller")
+		include ../../components/site-menu
+		.row
+			#leftCol.col-md-3
+				.well
+					ul#sidebar.nav.nav-stacked(ng-sortable="menusConfig")
+						li(ng-repeat="menu in menus.sidebar").mb-draggable
+							a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
+			.col-md-9
+				h2#page-title(edit="editMode" ng-bind-html="page.title")
+				p(edit="editMode" ng-bind-html="page.content['content-1']")
+		.row
+			.col-md-12
+				div(extensions-area="extensions-1")
+		.row
+			.col-md-12(edit="editMode" ng-bind-html="page.content['content-2']")
+		.row
+			.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3(edit="editMode" ng-bind-html="page.content['content-3']")
+					.panel-body
+						div(edit="editMode" ng-bind-html="page.content['content-4']")
+			.col-md-6
+				.panel.panel-default
+					.panel-heading
+						h3(edit="editMode" ng-bind-html="page.content['content-5']")
+					.panel-body
+						div(edit="editMode" ng-bind-html="page.content['content-6']")
+		.row
+			.col-md-12
+				hr
+				div(edit="editMode" ng-bind-html="page.content['content-7']")
+		.row
+			.col-sm-4
+				span(single-image="image-1" edit-mode="editMode" placehold-it="http://placehold.it/300x300" caption="false").img-responsive
+			.col-sm-4
+				span(single-image="image-2" edit-mode="editMode").img-responsive
+			.col-sm-4
+				span(single-image="image-3" edit-mode="editMode").img-responsive
+				//- img.img-responsive(src='http://placehold.it/300x300')
+		div(edit="editMode" ng-bind-html="page.content['content-8']")
+		hr
+
+
+
