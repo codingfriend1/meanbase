@@ -29,8 +29,8 @@ angular.module('meanbaseApp')
       });
     };
 
-    uploader.onErrorItem = function(e) {
-      toastr.error("Hmmmm, it seems the theme could not be uploaded. Try checking the theme.json file to see if it's valid.", e);
+    uploader.onErrorItem = function(item, response, status, headers) {
+      toastr.error("Could not upload theme. " + status + ": " + response);
     };
 
     endpoint.find({}).success(function(themes) {

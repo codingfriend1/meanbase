@@ -56,14 +56,44 @@ exports.upload = function(req, res) {
     	var userFileName  = files.file.name;
     	var contentType   = files.file.type;
 
-      createdFolderName = userFileName.replace(/\.[^/.]+$/, "");
+      createdFolderName = userFileName.substring(userFileName.lastIndexOf('/'), userFileName.indexOf('.', userFileName.lastIndexOf('/')) );
 
-      var decompress = new Decompress()
-        .src(tempFilePath)
-        .dest(app.get('appPath') + 'themes/' + createdFolderName)
-        .use(zip({strip: 1}));
+      if(!createdFolderName || !/^[a-zA-Z0-9_-\s]+$/.test(createdFolderName)) {
+        return res.status(501).send('Theme folder name was invalid: "' + createdFolderName + '". It should only contain letters, numbers, -, _, and and spaces');
+      }
+
+      var compressType;
+      var decompress = new Decompress();
+      switch(contentType) {
+        case 'application/x-gzip':
+          compressType = Decompress.targz;
+          break;
+        case 'application/zip':
+          compressType = Decompress.zip;
+          break;
+        case 'application/x-tar':
+          compressType = Decompress.tar;
+          break;
+        case 'application/x-bzip2':
+          compressType = Decompress.tar;
+          break;
+        default:
+          compressType = null;;
+      }
+
+      if(!compressType) {
+        return res.status(501).send('Please send a zip, gz, bz2, or tar file type.');
+      }
+
+      decompress.src(tempFilePath)
+      .dest(app.get('appPath') + 'themes/' + createdFolderName)
+      .use(compressType({strip: 1}));
+
       decompress.run(function (err, files) {
-        if (err) { throw err; }
+        if (err) { 
+          console.log("unzipping theme error: ", err);  
+          return res.status(501).send(err);
+        }
         initThemes(function(error) {
           if(error) { return uploadingThemeError(error, res, createdFolderName); }
           res.status(200).send();
