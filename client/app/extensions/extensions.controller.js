@@ -25,7 +25,7 @@ angular.module('meanbaseApp')
       toastr.success('Extension successfully uploaded! Refreshing page to compile code.');
     };
 
-    uploader.onErrorItem = function(e) {
-      toastr.error("Hmmmm, it seems the extension could not be uploaded. Try checking the extension.json file to see if it's valid.", e);
+    uploader.onErrorItem = function(item, response, status, headers) {
+      toastr.error("Could not upload extension. " + status + ": " + response);
     };
   });

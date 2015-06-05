@@ -51,7 +51,10 @@ exports.upload = function(req, res) {
 		var form = new formidable.IncomingForm();
 		form.keepExtensions = true;
 		form.parse(req, function(err, fields, files) { 
-      if(err) { uploadingThemeError(err, res, createdFolderName); }
+      if(err) { return uploadingError('The theme folder must be compressed in the correct format.', res, createdFolderName); }
+      if(!files || !files.file) {
+        return res.status(501).send('The theme folder must be compressed.');
+      }
     	var tempFilePath = files.file.path;
     	var userFileName  = files.file.name;
     	var contentType   = files.file.type;
@@ -78,7 +81,7 @@ exports.upload = function(req, res) {
           compressType = Decompress.tar;
           break;
         default:
-          compressType = null;;
+          compressType = null;
       }
 
       if(!compressType) {
@@ -95,13 +98,13 @@ exports.upload = function(req, res) {
           return res.status(501).send(err);
         }
         initThemes(function(error) {
-          if(error) { return uploadingThemeError(error, res, createdFolderName); }
+          if(error) { return uploadingError(error, res, createdFolderName); }
           res.status(200).send();
         });
       });
 	  });
 	} catch(e) {
-		uploadingThemeError(e, res, createdFolderName);
+		uploadingError(e, res, createdFolderName);
 	}
 };
 
@@ -141,7 +144,7 @@ exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
 
-function uploadingThemeError(err, res, folderName) {
+function uploadingError(err, res, folderName) {
 	console.log('Could not upload theme.', err);
   if(folderName && folderName !== '') {
     try {
@@ -149,9 +152,9 @@ function uploadingThemeError(err, res, folderName) {
     } catch(e) {
       console.log('could not delete theme from themes folder', e);
     }
-    
   }
-	res.status(500).send(err);
+  console.log('sending reponse now', res.status);
+	return res.status(500).send(err);
 }
 
 function updateFile(theme) {

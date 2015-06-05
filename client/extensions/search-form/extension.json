@@ -1,0 +1,10 @@
+{
+  "name": "search-form",
+  "urls": [
+  	"extensions/search-form/search-form.directive.js",
+  	"extensions/search-form/search-form.css"
+  ],
+  "config": {
+  	
+  }
+}
