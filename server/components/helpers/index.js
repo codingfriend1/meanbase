@@ -167,6 +167,7 @@ exports.retrieveThemes = function(activeURL, callback) {
               stylesHTML = null;
               scriptsHTML = null;
               preview = null;
+              templateFilePaths = null;
               themeJSON = {};
             }
           } catch(error) {
@@ -227,6 +228,13 @@ exports.retrieveExtensions = function(callback) {
           }
           
           extensionsJSONS.push(extensionJSON);
+
+          extensionFilePaths = null;
+          index = null;
+          json = null;
+          files = [];
+          screenshot = null;
+          extensionJSON = {};
         } catch(error) {
           console.log('Could not parse extension.json in root of extension', error);
           if(callback) { callback(error); return extensionsJSONS; }
