@@ -54,8 +54,8 @@ exports.upload = function(req, res) {
 
       createdFolderName = userFileName.substring(userFileName.lastIndexOf('/'), userFileName.indexOf('.', userFileName.lastIndexOf('/')) );
 
-      if(!createdFolderName || !/^[a-zA-Z0-9_-\s]+$/.test(createdFolderName)) {
-        return res.status(501).send('Theme folder name was invalid: "' + createdFolderName + '". It should only contain letters, numbers, -, _, and and spaces');
+      if(!createdFolderName || !/^[a-zA-Z0-9_-]+$/.test(createdFolderName)) {
+        return res.status(501).send('Extension folder name was invalid: "' + createdFolderName + '". It should only contain letters, numbers, and - or _');
       }
 
       var compressType;

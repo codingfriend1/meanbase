@@ -113,7 +113,7 @@ exports.retrieveThemes = function(activeURL, callback) {
             try {
               var themeJSON = JSON.parse(fs.readFileSync(app.get('appPath') + themeJSONPath, 'utf8'));
             } catch(e) {
-              return callback("Could not find a valid theme.json file in theme. Make sure it doesn't have any errors.")
+              return callback("Could not find a valid theme.json file in the theme. If it's there, make sure it doesn't have any errors.")
             }
                       
             if(themeJSON && Object.prototype.toString.call(themeJSON) === "[object Object]") {
@@ -162,10 +162,16 @@ exports.retrieveThemes = function(activeURL, callback) {
               });
               
               themeJSONS.push(themeJSON);
+              templates = {};
+              themeJSONPath = null;
+              stylesHTML = null;
+              scriptsHTML = null;
+              preview = null;
+              themeJSON = {};
             }
           } catch(error) {
-            if(callback) { callback('Could not find theme.json in root of theme'); }
-            console.log('Could not find theme.json in root of theme: ' + error);
+            if(callback) { callback('The theme was invalid and could not be saved'); }
+            console.log('The theme was invalid and could not be saved. ' + error);
             reject(themeJSONS);
             return promise;
           }
@@ -175,6 +181,7 @@ exports.retrieveThemes = function(activeURL, callback) {
 
     // If no themes were already active make the first one retrieved active
     if(!anyActive) { themeJSONS[0].active = true; }
+    console.log('themeJSONS', themeJSONS);
     resolve(themeJSONS);
   });
 

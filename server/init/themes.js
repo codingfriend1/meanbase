@@ -20,9 +20,9 @@ module.exports = function(callback) {
 	  themeJSONSPromise.then(function(themeJSONS) {
 	  	if(themeJSONS.length > 0) {
 	  		Themes.remove(function(err) {
-	  	 		if(err) { return handleError(err); }
+	  	 		if(err) { return handleError('Error removing themes: ' + err); }
 	  	  	Themes.create(themeJSONS, function(err, theme) {
-	  			  if(err) { return handleError(err); }
+	  			  if(err) { return handleError('Error creating themes: ' + err); }
 	  			  console.log('themes initialized');
 	  			  if(callback) { return callback(null); }
 	  			});
