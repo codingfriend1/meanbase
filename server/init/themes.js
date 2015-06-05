@@ -1,6 +1,6 @@
 var fs = require('fs');
 var Themes = require('../api/themes/themes.model');
-var helpers = require('../components/helpers');
+var searchFolders = require('../components/search-folders');
 
 module.exports = function(callback) {
 	console.log('Checking for themes...');
@@ -15,7 +15,7 @@ module.exports = function(callback) {
 	  }
 	  if(!activeTheme[0] || !activeTheme[0].url) { activeTheme[0] = {url: ''}; }
 	  
-	  var themeJSONSPromise = helpers.retrieveThemes(activeTheme[0].url, callback);
+	  var themeJSONSPromise = searchFolders.retrieveThemes(activeTheme[0].url, callback);
 
 	  themeJSONSPromise.then(function(themeJSONS) {
 	  	if(themeJSONS.length > 0) {
