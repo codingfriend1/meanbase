@@ -59,10 +59,19 @@ exports.retrieveThemes = function(activeURL, callback) {
   var promise = new Promise(function (resolve, reject) {
     for(var file = 0; file < themesFolder.length; file++) {
       if(themesFolder[file][0] !== '.' && themesFolder[file][0] !== '_') {
-        var stat = fs.statSync(themesFolderUrl + themesFolder[file]);
+        try {
+          var stat = fs.statSync(themesFolderUrl + themesFolder[file]);
+        } catch(e) {
+          return callback('Could not find theme folder');
+        }
         if(stat.isDirectory()) {
           try {
-            var templateFilePaths = Finder.from(themesFolderUrl + themesFolder[file]).findFiles('<-template\.jade|-template\.html|(scripts|styles)\.html|theme\.json|screenshot>');
+            try {
+              var templateFilePaths = Finder.from(themesFolderUrl + themesFolder[file]).findFiles('<-template\.jade|-template\.html|(scripts|styles)\.html|theme\.json|screenshot>');
+            } catch(e) {
+              return callback('Could not navigate theme folder structure.');
+            }
+            
             var templates = {};
             var themeJSONPath, stylesHTML, scriptsHTML, preview;
             for (var i = 0; i < templateFilePaths.length; i++) {
@@ -82,7 +91,7 @@ exports.retrieveThemes = function(activeURL, callback) {
               } else if(templateFilePaths[i].indexOf('-screenshot') > -1) { 
                 // If a template has a screenshot store it's url
                 var templateName = templateFilePaths[i].match(/[^\/]*(?=-screenshot.[^.]+($|\?))/);
-                if(templateName && templateName[0]) {
+                if(templateName && templateName[0] && /^[0-9A-Za-z\/*_.\\\-]*$/.test(templateFilePaths[i])) {
                   if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
                   templates[templateName[0]].screenshot = templateFilePaths[i];
                 }
@@ -95,13 +104,18 @@ exports.retrieveThemes = function(activeURL, callback) {
                 var templateName = templateFilePaths[i].match(/[^\/]*(?=-template.[^.]+($|\?))/);
                 // Since the client makes jade requests without the extension we remove it.
                 templateFilePaths[i] = templateFilePaths[i].replace('.jade', '');
-                if(templateName && templateName[0]) {
+                if(templateName && templateName[0] && /^[0-9A-Za-z\/*_.\\\-]*$/.test(templateFilePaths[i])) {
                   if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
                   templates[templateName[0]].template = templateFilePaths[i];
                 }
               }
             };
-            var themeJSON = JSON.parse(fs.readFileSync(app.get('appPath') + themeJSONPath, 'utf8'));          
+            try {
+              var themeJSON = JSON.parse(fs.readFileSync(app.get('appPath') + themeJSONPath, 'utf8'));
+            } catch(e) {
+              return callback("Could not find a valid theme.json file in theme. Make sure it doesn't have any errors.")
+            }
+                      
             if(themeJSON && Object.prototype.toString.call(themeJSON) === "[object Object]") {
 
               themeJSON.url = themesFolder[file];
@@ -117,15 +131,15 @@ exports.retrieveThemes = function(activeURL, callback) {
                 themeJSON.templatePaths = templates;
               }
 
-              if(stylesHTML) {
+              if(stylesHTML && /^[0-9A-Za-z\/*_.\\\-]*$/.test(stylesHTML)) {
                 themeJSON.stylesPath = stylesHTML;
               }
 
-              if(scriptsHTML) {
+              if(scriptsHTML && /^[0-9A-Za-z\/*_.\\\-]*$/.test(scriptsHTML)) {
                 themeJSON.scriptsPath = scriptsHTML;
               }
 
-              if(preview) {
+              if(preview && /^[0-9A-Za-z\/*_.\\\-]*$/.test(preview)) {
                 themeJSON.preview = preview;
               }
 
