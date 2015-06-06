@@ -556,6 +556,7 @@ module.exports = function (grunt) {
         files: {
           'server/views/index.html': [
               ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
+               '!{.tmp,<%= yeoman.client %>}/components/ckeditor/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
@@ -596,7 +597,8 @@ module.exports = function (grunt) {
         },
         files: {
           'server/views/index.html': [
-            '<%= yeoman.client %>/{app,components}/**/*.css'
+            '<%= yeoman.client %>/{app,components}/**/*.css',
+            '!<%= yeoman.client %>/components/ckeditor/**/*.css'
           ]
         }
       }

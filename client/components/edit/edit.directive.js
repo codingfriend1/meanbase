@@ -17,8 +17,9 @@ angular.module('meanbaseApp')
 			    allowedContent: true,
 			    entities: false,
 			    fullPage: true,
-			    filebrowserBrowseUrl: '/api/images/ckeditor',
-			    filebrowserImageUploadUrl: '/client/assets/images'
+          simpleImageBrowserURL: 'test',
+			    filebrowserBrowseUrl: '/ckeditor-browser',
+			    filebrowserImageUploadUrl: '/api/media'
 			  };
 
         var ck = {}, snapshot;

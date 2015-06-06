@@ -37,6 +37,11 @@ module.exports = function(app) {
       res.status(500).send(e);
     }
   });
+
+  app.route('/ckeditor-browser*').get(function(req, res) {
+    console.log('req.query.CKEditorFuncNum', req.query.CKEditorFuncNum);
+    res.sendfile(app.get('appPath') + 'components/ckeditor/FileBrowser/index.html');
+  });
   
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets|404)/*')

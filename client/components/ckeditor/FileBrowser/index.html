@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test</title>
+    <base href="/">
+    <link rel="stylesheet" href="bower_components/cropper/dist/cropper.css">
+    <link rel="stylesheet" href="bower_components/ng-cropper/dist/ngCropper.all.css">
+    <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css">
+    <link rel="stylesheet" href="app/app.css">
+  </head>
+  <body ng-app="meanbaseApp" ng-controller="fileBrowserCtrl">
+    <image-selector multiple="false" api="imageSelectorApi"></image-selector>
+    <button ng-click="choose()" class="btn btn-success btn-block btn-lg">Choose Image</button>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/ng-cropper/dist/ngCropper.all.js"></script>
+    <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <script src="components/ckeditor/FileBrowser/FileBrowser.js"></script>
+    <script src="components/endpoints/endpoints.service.js"></script>
+    <script src="components/image-selector/image-selector.directive.js"></script>
+  </body>
+</html>
