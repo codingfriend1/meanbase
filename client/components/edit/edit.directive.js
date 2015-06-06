@@ -17,7 +17,10 @@ angular.module('meanbaseApp')
 			    allowedContent: true,
 			    entities: false,
 			    fullPage: true,
-          simpleImageBrowserURL: 'test',
+          allowedContent:
+          'h1 h2 h3 p blockquote strong em;' +
+          'a[!href];' +
+          'img(left,right)[!src,alt,width,height];',
 			    filebrowserBrowseUrl: '/ckeditor-browser',
 			    filebrowserImageUploadUrl: '/api/media'
 			  };

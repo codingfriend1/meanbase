@@ -8,18 +8,18 @@ CKEDITOR.editorConfig = function( config ) {
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-	config.extraPlugins='htmlbuttons'; 
+	// config.extraPlugins='htmlbuttons'; 
 
-	config.htmlbuttons = [
-		{
-			name:'button1',
-			icon:'icon1.png',
-			html:'<span single-image="image-1" edit-mode="editMode" placehold-it="http://placehold.it/300x300" caption="false" class="image-responsive"></span>',
-			title:'Add an image'
-		}
-	];
+	// config.htmlbuttons = [
+	// 	{
+	// 		name:'button1',
+	// 		icon:'icon1.png',
+	// 		html:'<span single-image="image-1" edit-mode="editMode" placehold-it="http://placehold.it/300x300" caption="false" class="image-responsive"></span>',
+	// 		title:'Add an image'
+	// 	}
+	// ];
 
-	config.toolbar_Basic = [['button1']];
+	// config.toolbar_Basic = [['button1']];
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
