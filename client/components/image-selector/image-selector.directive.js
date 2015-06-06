@@ -13,7 +13,9 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         $timeout(function(){
-          scope.api = scope.API;
+          if(scope.api) {
+            scope.api = scope.API;
+          }
         }, 0, false);
 
         scope.API = {};
