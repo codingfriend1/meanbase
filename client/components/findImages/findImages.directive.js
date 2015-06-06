@@ -20,11 +20,17 @@ angular.module('meanbaseApp')
 
         var areChanges = false; //Used to detect if different images were selected and loaded into the gallery
         scope.titleDirections = 'Select Image';
-        scope.multiple = (attrs.multiple === "true" || attrs.multiple === true);
 
-        if(scope.multiple) {
-          scope.titleDirections = 'Select Images';
-        }
+        attrs.$observe('multiple', function() {
+          scope.multiple = scope.$eval(attrs.multiple);
+          if (scope.multiple === undefined) {
+            delete scope.multiple;
+          } else if(scope.multiple === true) {
+            scope.titleDirections = 'Select Images';
+          }
+        });
+
+        
 
         // If a gallery slug was passed into find-images-for="" then use it when emitting events else use meanbase-gallery
         scope.gallerySlug = attrs.findImagesFor || 'meanbase-gallery';

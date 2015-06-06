@@ -317,8 +317,8 @@ angular.module('meanbaseApp')
 
         scope.selectImage = function(e, item) {
           // If image is not selected
-          if(!scope.multiple) { scope.selectedImages = []; };
           if(scope.selectedImages.indexOf(item) === -1) { //Image is not selected
+            if(!scope.multiple) { scope.selectedImages = []; };
             if(e.shiftKey || e.metaKey) {
               var startingPosition = scope.media.indexOf(scope.selectedImages[scope.selectedImages.length-1]);
               var endingPosition = scope.media.indexOf(item);
@@ -390,11 +390,11 @@ angular.module('meanbaseApp')
           saveSelection('longTermSelection');
           saveSelection('shortTermSelection');
 
-          if(imageArray.length < 1) return false;
 
           // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
           // This strategy is quicker than checking which ones were added and removed
           media.update({galleries: scope.gallerySlug}, { $pull: {galleries: scope.gallerySlug} }).finally(function() {
+            if(imageArray.length < 1) return false;
             media.update({ url: {$in: imageArray } }, { $push: {galleries: scope.gallerySlug} });
           });
         };

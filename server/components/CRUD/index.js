@@ -139,7 +139,7 @@ CRUD.prototype.create = function(req, res, callback) {
     // Since mongoose returns created items as list of params we must iterate through them
     var allFound = getArguments(arguments);
     if(callback) callback(allFound);
-    return res.status(200).json(allFound);
+    return res.status(201).json(allFound);
   });
 };
 
@@ -164,7 +164,7 @@ CRUD.prototype.update = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.update(identifier, req.body, {multi: true}, function(err, found) {
     if (err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.status(204).send(); }
     var allFound = getArguments(arguments);
     if(callback) callback(req.body);
     return res.status(200).json(allFound);
@@ -176,10 +176,10 @@ CRUD.prototype.upsert = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.update(identifier, req.body, {multi: true, upsert: true, setDefaultsOnInsert: true}, function(err, found, upserted) {
     if (err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.status(204).send(); }
     var allFound = getArguments(arguments);
     if(callback) callback(req.body);
-    return res.status(200).json(allFound);
+    return res.status(201).json(allFound);
   });
 };
 

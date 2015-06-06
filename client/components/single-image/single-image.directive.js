@@ -101,6 +101,7 @@ angular.module('meanbaseApp')
                   $rootScope.page.images[scope.singleImage] = scope.image;
                 } else {
                   scope.image = defaultImage;
+                  $rootScope.page.images[scope.singleImage] = scope.image;
                 }
               }
             });
