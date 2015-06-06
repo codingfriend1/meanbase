@@ -27,6 +27,7 @@ angular.module('meanbaseApp')
           direction: '',
           nextImage: null,
           previousImage: null,
+          multiple: false,
           fullsizeImageIndex: null,
           _fullscreenImage: null
         };
@@ -50,7 +51,7 @@ angular.module('meanbaseApp')
           if(!scope.gallerySlug) return false;
           for (var i = 0; i < scope.media.length; i++) { //Loop through each media
             if(scope.media[i].galleries.indexOf(scope.gallerySlug) > -1) {
-              if(!!scope.multiple && scope.selectedImages.length > 0) { return false; }
+              if(!globals.multiple && scope.selectedImages.length > 0) { return false; }
               scope.selectedImages.push(scope.media[i]);
             }
           }          
@@ -186,6 +187,12 @@ angular.module('meanbaseApp')
         scope.longTermSelection = [];
         scope.shortTermSelection = [];
 
+        attrs.$observe('multiple', function() {
+          if (attrs.multiple !== undefined) {
+            globals.multiple = scope.$eval(attrs.multiple);
+          }
+        });
+
         // Sets up fields to search by
         scope.mediaFilter = '';
         scope.filterMedia = function(media) {
@@ -309,7 +316,7 @@ angular.module('meanbaseApp')
 
         scope.selectImage = function(e, item) {
           // If image is not selected
-          if(!!scope.multiple) { scope.selectedImages = []; };
+          if(!globals.multiple) { scope.selectedImages = []; };
           if(scope.selectedImages.indexOf(item) === -1) {
             if(e.shiftKey || e.metaKey) {
               var startingPosition = scope.media.indexOf(scope.selectedImages[scope.selectedImages.length-1]);
@@ -340,7 +347,7 @@ angular.module('meanbaseApp')
         };
 
         scope.getSelectedImages = function() {
-          if(!!scope.multiple) {
+          if(!globals.multiple) {
             return scope.selectedImages[0];
           } else {
             return scope.selectedImages;

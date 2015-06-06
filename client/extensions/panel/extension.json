@@ -1,9 +1,5 @@
 {
-  "name": "panel",
-  "urls": [
-  	"extensions/panel/panel.directive.js",
-  	"extensions/panel/panel.css"
-  ],
+  "name": "panel"
   "config": {
   	
   }
