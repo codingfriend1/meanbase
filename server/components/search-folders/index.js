@@ -210,7 +210,7 @@ exports.retrieveExtensions = function(callback) {
       try {
         var stat = fs.statSync(extensionsFolderUrl + extensionsFolder[ii]);
       } catch(e) {
-        return loop.break('Could not find extension folder'); 
+        return callback('Could not find extension folder'); 
       }
       if(stat.isDirectory()) {
         try {
