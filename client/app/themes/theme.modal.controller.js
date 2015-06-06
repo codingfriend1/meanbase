@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('theme.modal.controller', function ($scope, theme, $modalInstance, $http, endpoints) {
+  .controller('theme.modal.controller', function ($scope, theme, $modalInstance, $http, endpoints, toastr) {
 
     $scope.theme = theme;
 
@@ -30,7 +30,7 @@ angular.module('meanbaseApp')
       $modalInstance.close($scope.theme);
       if(!$scope.theme._id) { return false; }
       themes.update({_id: $scope.theme._id}, $scope.theme).then(function(response) {
-        console.log('response', response);
+        toastr.success('Updated theme.');
       });
     };
 
