@@ -7,6 +7,8 @@ angular.module('meanbaseApp')
     
   	var comments = new endpoints('comments');
 
+    $scope.autoAccept = false;
+    $scope.autoReject = false;
     $scope.pagesWithComments = [{label:'all', value: ''}];
     $scope.filterByThisPage = '';
     $scope.commentDate = null;

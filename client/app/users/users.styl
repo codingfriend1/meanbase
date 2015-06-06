@@ -112,69 +112,69 @@
 		.form-group
 			display block
 	
-
-	input[type=email] + label,
-	input[type=text] + label,
-	input[type=url] + label,
-	input[type=tel] + label,
-	input[type=search] + label,
-	input[type=number] + label,
-	input[type=password] + label,
-	input[type=hidden] + label 
-		position: absolute
-		font-size: 19px
-		top: 4px
-		color: #ddd
-		left: 12px
-	
-
-	input[type=radio],
-	input[type=checkbox]
-		display: none
-	
-
-	input[type=radio] + label,
-	input[type=checkbox] + label 
-		font-size: 1.3em
-		font-family: 'Montserrat', sans-serif
-		width: 250px
-	
-
-	input[type=radio] + label:before
-	input[type=checkbox] + label:before 
-		display: inline-block 
-		vertical-align: middle 
-		font-family: 'FontAwesome'
-		font-size: 1.5em
-		color: #2C3E50
-		margin-right: 0.5em
+	#users
+		input[type=email] + label,
+		input[type=text] + label,
+		input[type=url] + label,
+		input[type=tel] + label,
+		input[type=search] + label,
+		input[type=number] + label,
+		input[type=password] + label,
+		input[type=hidden] + label 
+			position: absolute
+			font-size: 19px
+			top: 4px
+			color: #ddd
+			left: 12px
 		
 
-	input[type=radio] + label:before 
-		content: "\f10c"  
-
-	input[type=checkbox] + label:before 
-		content: "\f0c8"  
-
-	input[type=radio]:checked + label:before 
-		content: "\f05d"
-
-	input[type=checkbox]:checked + label:before 
-		content:"\f14a"
+		input[type=radio],
+		input[type=checkbox]
+			display: none
 		
+
+		input[type=radio] + label,
+		input[type=checkbox] + label 
+			font-size: 1.3em
+			font-family: 'Montserrat', sans-serif
+			width: 250px
+		
+
+		input[type=radio] + label:before
+		input[type=checkbox] + label:before 
+			display: inline-block 
+			vertical-align: middle 
+			font-family: 'FontAwesome'
+			font-size: 1.5em
+			color: #2C3E50
+			margin-right: 0.5em
+			
+
+		input[type=radio] + label:before 
+			content: "\f10c"  
+
+		input[type=checkbox] + label:before 
+			content: "\f0c8"  
+
+		input[type=radio]:checked + label:before 
+			content: "\f05d"
+
+		input[type=checkbox]:checked + label:before 
+			content:"\f14a"
+			
 	.mb-toggle-switch
 		margin-top -1em
 
-		input
+		& input
 			display none
 
-		input + span.mb-switch:before
+		& input + span.mb-switch:before
 			font-family 'FontAwesome'
 			font-size 2.75em
 			content "\f204" /* off */
 			color #2C3E50
 
-		input:checked + span.mb-switch:before
+		& input:checked + span.mb-switch:before
 			content "\f205" /* on */
 			color #27AE60
 	

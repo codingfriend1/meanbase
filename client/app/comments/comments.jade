@@ -1,6 +1,16 @@
 #moderate-comments
     p Only approved comments can be seen by site visitors
-    h3 Only show comments with...
+    .row
+        .col-xs-12
+            .checkbox-inline
+                label
+                    input(type="checkbox" ng-model="autoAccept")
+                    | Automatically accept all new comments
+            .checkbox-inline
+                label
+                    input(type="checkbox" ng-model="autoReject")
+                    | Automatically reject all new comments
+    h3 Only show comments with...          
     .row
         .col-xs-4
             .form-group
