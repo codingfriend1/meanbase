@@ -15,7 +15,7 @@ angular.module('meanbaseApp')
         $timeout(function(){
           scope.api = scope.API;
         }, 0, false);
-        
+
         scope.API = {};
 
         var media = new endpoints('media');
@@ -54,6 +54,7 @@ angular.module('meanbaseApp')
         // Selects the appropriate images already used by the gallery
         // Only runs on initial load
         function getSelectionFromSlug() {
+          scope.selectedImages = [];
           if(!scope.gallerySlug) return false;
           for (var i = 0; i < scope.media.length; i++) { //Loop through each media
             if(scope.media[i].galleries.indexOf(scope.gallerySlug) > -1) {

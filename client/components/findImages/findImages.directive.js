@@ -15,7 +15,6 @@ angular.module('meanbaseApp')
         multiple: "@"
       },
       link: function (scope, element, attrs) {
-        // var imageSelector = element.find('image-selector').scope(); //Get properties on image-selector
 
         scope.imageSelectorApi = {};
 
