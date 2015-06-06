@@ -15,7 +15,10 @@ angular.module('meanbaseApp')
         multiple: "@"
       },
       link: function (scope, element, attrs) {
-        var imageSelector = element.find('image-selector').scope(); //Get properties on image-selector
+        // var imageSelector = element.find('image-selector').scope(); //Get properties on image-selector
+
+        scope.imageSelectorApi = {};
+
         var areChanges = false; //Used to detect if different images were selected and loaded into the gallery
         scope.titleDirections = 'Select Image';
         scope.multiple = (attrs.multiple === "true" || attrs.multiple === true);
@@ -29,22 +32,22 @@ angular.module('meanbaseApp')
 
         // If the overlay was closed while saving then send the chosen images back to the requester and remember the selection that was just made
         scope.chooseImages = function() {
-          var selectedImages = imageSelector.getSelectedImages();
+          var selectedImages = scope.imageSelectorApi.getSelectedImages();
           $rootScope.$emit('cms.choseImages', {gallerySlug:  scope.gallerySlug, images: selectedImages});
-          imageSelector.rememberSelection();
+          scope.imageSelectorApi.rememberSelection();
           areChanges = true;
         };
 
         // If the overlay is closed without saving selection resort back to selection before overlay was opened
         scope.close = function() {
-          imageSelector.forgetSelection();
+          scope.imageSelectorApi.forgetSelection();
           // areChanges should stay as it is because we forget the selection and no change to the gallery is made
         };
 
         // When the save button is hit on the cms headbar have image-selector add the gallery slug to the selected images
         scope.$onRootScope('cms.saveEdits', function() {
           if(areChanges) {
-            imageSelector.publishSelected();
+            scope.imageSelectorApi.publishSelected();
             areChanges = false;
           }
         });
@@ -52,7 +55,7 @@ angular.module('meanbaseApp')
         // If the discard button is hit on the cms headbar have image-selector reset the gallery images and 
         scope.$onRootScope('cms.discardEdits', function() {
           if(areChanges) {
-            var selectedImages = imageSelector.getInitialImages();
+            var selectedImages = scope.imageSelectorApi.getInitialImages();
               $rootScope.$emit('cms.choseImages', {gallerySlug:  scope.gallerySlug, images: selectedImages});
             areChanges = false;
           }

@@ -52,7 +52,7 @@ angular.module('extensions')
             for (var i = 0; i < gallery.images.length; i++) {
               gallery.images[i].modifiedurl = gallery.images[i].large;
             };
-            scope.images = gallery.images;
+            scope.images = angular.copy(gallery.images);
           }
       	});
       }

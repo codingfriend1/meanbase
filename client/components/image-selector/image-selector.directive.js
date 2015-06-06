@@ -5,12 +5,18 @@ angular.module('meanbaseApp')
     return {
       templateUrl: 'components/image-selector/image-selector.html',
       restrict: 'EA',
-      // scope: {
-      //   multiple:"@",
-      //   gallerySlug:"@",
-      //   saveAs:"@"
-      // },
+      scope: {
+        multiple:"=",
+        gallerySlug:"=",
+        api: "="
+      },
       link: function (scope, element, attrs) {
+
+        $timeout(function(){
+          scope.api = scope.API;
+        }, 0, false);
+        
+        scope.API = {};
 
         var media = new endpoints('media');
     
@@ -51,7 +57,7 @@ angular.module('meanbaseApp')
           if(!scope.gallerySlug) return false;
           for (var i = 0; i < scope.media.length; i++) { //Loop through each media
             if(scope.media[i].galleries.indexOf(scope.gallerySlug) > -1) {
-              if(!globals.multiple && scope.selectedImages.length > 0) { return false; }
+              if(!scope.multiple && scope.selectedImages.length > 0) { return false; }
               scope.selectedImages.push(scope.media[i]);
             }
           }          
@@ -187,12 +193,6 @@ angular.module('meanbaseApp')
         scope.longTermSelection = [];
         scope.shortTermSelection = [];
 
-        attrs.$observe('multiple', function() {
-          if (attrs.multiple !== undefined) {
-            globals.multiple = scope.$eval(attrs.multiple);
-          }
-        });
-
         // Sets up fields to search by
         scope.mediaFilter = '';
         scope.filterMedia = function(media) {
@@ -316,8 +316,8 @@ angular.module('meanbaseApp')
 
         scope.selectImage = function(e, item) {
           // If image is not selected
-          if(!globals.multiple) { scope.selectedImages = []; };
-          if(scope.selectedImages.indexOf(item) === -1) {
+          if(!scope.multiple) { scope.selectedImages = []; };
+          if(scope.selectedImages.indexOf(item) === -1) { //Image is not selected
             if(e.shiftKey || e.metaKey) {
               var startingPosition = scope.media.indexOf(scope.selectedImages[scope.selectedImages.length-1]);
               var endingPosition = scope.media.indexOf(item);
@@ -346,8 +346,8 @@ angular.module('meanbaseApp')
           }
         };
 
-        scope.getSelectedImages = function() {
-          if(!globals.multiple) {
+        scope.API.getSelectedImages = function() {
+          if(!scope.multiple) {
             return scope.selectedImages[0];
           } else {
             return scope.selectedImages;
@@ -355,7 +355,7 @@ angular.module('meanbaseApp')
         };
 
         // Gets images that were selected when the directive was created or was updated by cms.saveEdits
-        scope.getInitialImages = function() {
+        scope.API.getInitialImages = function() {
           var gettingInitialImages = [];
           for (var i = 0; i < scope.media.length; i++) {
             if(scope.longTermSelection.indexOf(scope.media[i].url) > -1) {
@@ -366,18 +366,18 @@ angular.module('meanbaseApp')
         };
 
         // If "choose images" was clicked then we want to remember that selection next time the overlay opens
-        scope.rememberSelection = function() {
+        scope.API.rememberSelection = function() {
           saveSelection('shortTermSelection');
           return scope.shortTermSelection;
         };
 
         // Unless "close" was clicked then we should forget any selection changes that were made
-        scope.forgetSelection = function() {
+        scope.API.forgetSelection = function() {
           resetToSelection('shortTermSelection');
           return scope.shortTermSelection;
         };
 
-        scope.publishSelected = function() {
+        scope.API.publishSelected = function() {
           var imageArray = [];
 
           // Get the visibile images' urls
