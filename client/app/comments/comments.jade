@@ -1,6 +1,6 @@
-#moderate-comments
+div#moderate-comments
     p Only approved comments can be seen by site visitors
-    h4 Only show comments with...          
+    h4 Only show comments with...
     .row
         .col-xs-4
             .form-group
@@ -18,7 +18,6 @@
             .form-group
                 label Page: 
                 select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
-        
     .form-group
         .input-group
             .input-group-addon 
@@ -32,7 +31,7 @@
         accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'-date' | dateRange: 'date':commentDate:1" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
             accordion-heading.panel-heading(ng-click="status.open=!status.open")
                 i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
-                 span.commment-author #[strong: {{comment.author}} ]: {{comment.date | relativeDate}}
+                span.commment-author #[strong {{comment.author}} ]: {{comment.date | relativeDate}}
                 i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron 
                 span.pull-right| {{comment.url | removeSlash}} 
             .panel-body.equal
@@ -67,4 +66,3 @@
                 label
                     input(type="checkbox" ng-model="autoReject")
                     | Automatically reject all new comments
-                    

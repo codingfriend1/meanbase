@@ -112,16 +112,20 @@ script(type="text/ng-template" id="extensions.modal.html")
 				i.fa.fa-plus.fa-lg|  
 				|  Choose Content
 		.modal-body
-			div.extensions-selector
-				.form-group
-					.input-group
-						.input-group-addon 
-							i.fa.fa-search
-						input.form-control(type="text" placeholder="search extensions" ng-model="extensionsFilter")
-				.extensions-list
-					div(ng-repeat="ext in extensions | filter:filterExtensions").list-item
-						h3.list-title {{ext.name}}
-						i.fa.pull-right.checkbox(ng-click="toggleChecked(ext)" ng-class="{'fa-check': chosenExtensions.indexOf(ext) > -1, 'fa-square-o': chosenExtensions.indexOf(ext) == -1}")
+			tabset(justified="true")
+				tab(heading="Choose new content")
+					div.extensions-selector
+						.form-group
+							.input-group
+								.input-group-addon 
+									i.fa.fa-search
+								input.form-control(type="text" placeholder="search extensions" ng-model="extensionsFilter")
+						.extensions-list
+							div(ng-repeat="ext in extensions | filter:filterExtensions").list-item
+								h3.list-title {{ext.name}}
+								i.fa.pull-right.checkbox(ng-click="toggleChecked(ext)" ng-class="{'fa-check': chosenExtensions.indexOf(ext) > -1, 'fa-square-o': chosenExtensions.indexOf(ext) == -1}")
+				tab(heading="Choose from existing content on site")
+			
 		.modal-footer
 			button.btn.btn-success(type='button' ng-click="chooseExtensions()") Choose
 			button.btn.btn-default(type='button' ng-click="$dismiss()") Close
