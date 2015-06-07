@@ -17,9 +17,9 @@ angular.module('meanbaseApp')
 
         var config = {
           autogrow: true,
-          closable: true,
-          fullscreen: true,
-          fixedBtnPane: true,
+          // closable: true,
+          fullscreenable: false,
+          // fixedBtnPane: true,
           btnsDef: {
               // Customizables dropdowns
               align: {
@@ -29,6 +29,10 @@ angular.module('meanbaseApp')
               image: {
                   dropdown: ['insertImage', 'chooseImage'],
                   ico: 'insertImage'
+              },
+              lists: {
+                dropdown: ['unorderedList', 'orderedList'],
+                ico:'unorderedList'
               },
               chooseImage: {
                 func: function(params, tbw) {
@@ -48,9 +52,8 @@ angular.module('meanbaseApp')
           },
           btns: ['viewHTML',
               '|', 'formatting',
-              '|', 'btnGrp-test',
               '|', 'align',
-              '|', 'btnGrp-lists',
+              '|', 'lists',
               '|', 'chooseImage']
         };
 

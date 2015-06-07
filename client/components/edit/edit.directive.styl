@@ -60,13 +60,35 @@
 // .trumbowyg-box:hover .trumbowyg-button-pane
 //   display block
 
-.trumbowyg-box.hasFocus .trumbowyg-button-pane
+.trumbowyg-box.hasFocus .trumbowyg-button-pane,
+.trumbowyg-box.trumbowyg-fullscreen .trumbowyg-button-pane
   display block
+  
+.trumbowyg-button-pane {
+  position relative;
+  background-color white
+  border 2px solid #d7e0e2
+  border-radius 4px
+  max-width 264px
+}
+
+.trumbowyg-button-pane::after{
+  content: '';
+  position: absolute;
+  left: 10%;
+  top: 100%;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #ecf0f1;
+  clear: both;
+}
 
 .trumbowyg-button-pane {
   position: relative;
   position absolute
-  bottom 100%
+  bottom 105%
   width: 100%;
   min-width 200px
   background: #ecf0f1;
@@ -111,7 +133,8 @@
       float: left; }
 
 .trumbowyg-dropdown {
-  z-index 8
+  top 0 !important
+  z-index 9
   width: 200px;
   border: 1px solid #ecf0f1;
   padding: 5px 0;
@@ -284,13 +307,17 @@
  */
 .trumbowyg-fullscreen {
   position: fixed;
-  top: 0;
+  top: 90px;
   left: 0;
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   z-index: 99999; }
+  
+  .trumbowyg-fullscreen .trumbowyg-button-pane {
+    display block
+  }
   .trumbowyg-fullscreen.trumbowyg-box, .trumbowyg-fullscreen .trumbowyg-editor {
     border: none; }
   .trumbowyg-fullscreen .trumbowyg-overlay {
