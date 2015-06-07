@@ -14,7 +14,8 @@
 
     var endpoints = {
       menus: new endpoints('menus'),
-      extensiondata: new endpoints("extensiondata")
+      extensiondata: new endpoints("extensiondata"),
+      extensions: new endpoints('extension')
     };
 
     // Get the current logged in user
@@ -130,6 +131,10 @@
 
       endpoints.extensiondata.find({}).success(function(res) {
         $rootScope.dataSources = res;
+      });
+
+      endpoints.extensions.find({}).success(function(res) {
+        $rootScope.extensions = res;
       });
 
       $rootScope.menusConfig.disabled = !$scope.editMode;

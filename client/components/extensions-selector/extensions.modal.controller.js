@@ -1,10 +1,5 @@
 angular.module('meanbaseApp').controller('extensions.modal.controller', function($scope, endpoints, $modalInstance) {
 	$scope.chosenExtensions = [];
-	var extensions = new endpoints('extension');
-
-	extensions.find({}).success(function(res) {
-		$scope.extensions = res;
-	});
 
 	$scope.extensionsFilter = '';
 	$scope.filterExtensions = function(extension) {
