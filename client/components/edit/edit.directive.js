@@ -31,7 +31,11 @@ angular.module('meanbaseApp')
         	// Create ck instance
           element.trumbowyg({
             autogrow: true
-          });
+          })
+          .on('tbwfocus', function(){ trumbowygBox.addClass('hasFocus'); }) // Listen for `tbwfocus` event
+          .on('tbwblur', function(){ trumbowygBox.removeClass('hasFocus'); })
+
+          var trumbowygBox = element.parent('.trumbowyg-box');
           // element.trumbowyg('html', scope.html);
          //  element.Editor();
         	// element.Editor('setText', scope.html);
