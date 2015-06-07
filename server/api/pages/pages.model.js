@@ -99,11 +99,7 @@ var PagesSchema = new Schema({
 		  	required: true,
 		  	validate: validators.isHTML()
 		  },
-		  useShared: {
-		  	type: Boolean,
-		  	default: false
-		  },
-		  sharedSource: {
+		  contentName: {
 		  	type: String,
 				validate: validators.isTitle({skipEmpty: true})
 		  },

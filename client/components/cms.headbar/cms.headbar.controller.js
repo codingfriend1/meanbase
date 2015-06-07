@@ -7,7 +7,7 @@
 		var endpoints = {
 			menus: new endpoints('menus'),
 			page: new endpoints('pages'),
-			extensiondata: new endpoints("extensiondata")
+			sharedContent: new endpoints("shared-content")
 		};
 
 		var self = this;
@@ -43,10 +43,10 @@
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
 			$rootScope.$emit('cms.saveEdits', $rootScope.page);
 
-			var extensionsWithSources = [];
+			var extensionsWithShared = [];
 			helpers.loopThroughPageExtensions(function(currentExtension) {
-				if(currentExtension.useShared && currentExtension.sharedSource) {
-				  extensionsWithSources.push(currentExtension);
+				if(currentExtension.contentName && currentExtension.contentName !== '') {
+				  extensionsWithShared.push(currentExtension);
 				}
 			});
 
@@ -55,20 +55,20 @@
 				modifyPage($rootScope.page);		
 				endpoints.page.update({_id: $rootScope.page._id}, $rootScope.page);
 				toastr.success('Changes saved');
-				if($rootScope.extensiondataToDelete.length < 1) {
-					updateExtensionData(extensionsWithSources);
+				if($rootScope.sharedContentToDelete.length < 1) {
+					updateSharedContent(extensionsWithShared);
 				} else {
-					endpoints.extensiondata.delete({query: { name: {$in: $rootScope.extensiondataToDelete} }}).finally(function() {
-						updateExtensionData(extensionsWithSources);
+					endpoints.sharedContent.delete({query: { name: {$in: $rootScope.sharedContentToDelete} }}).finally(function() {
+						updateSharedContent(extensionsWithShared);
 					});
 				}
-				$rootScope.extensiondataToDelete = [];
+				$rootScope.sharedContentToDelete = [];
 			});
 		};
 
-		function updateExtensionData(extensionsWithSources) {
-			for(var idx = 0; idx < extensionsWithSources.length; idx++) {
-				endpoints.extensiondata.update({name: extensionsWithSources[idx].sharedSource}, {data: extensionsWithSources[idx].data});	
+		function updateSharedContent(extensionsWithShared) {
+			for(var idx = 0; idx < extensionsWithShared.length; idx++) {
+				endpoints.sharedContent.update({name: extensionsWithShared[idx].contentName}, {data: extensionsWithShared[idx].data, config: extensionsWithShared[idx].config, type: extensionsWithShared[idx].name});	
 			}
 		}
 

@@ -14,7 +14,7 @@
 
     var endpoints = {
       menus: new endpoints('menus'),
-      extensiondata: new endpoints("extensiondata"),
+      sharedContent: new endpoints("shared-content"),
       extensions: new endpoints('extension')
     };
 
@@ -25,7 +25,7 @@
 
     $rootScope.editMode = false;
 
-    $rootScope.extensiondataToDelete = [];
+    $rootScope.sharedContentToDelete = [];
 
     // Get all the menus
     endpoints.menus.find({}).then(function(response) {
@@ -43,34 +43,38 @@
         $rootScope.page.extensions = {};
       }
 
-      getSharedExtensionSources();
+      getSharedContent();
       
     });
 
-    function getSharedExtensionSources() {
-      var sharedSources = [];
+    function getSharedContent() {
+      var sharedContent = [];
       var extensions = [];
       helpers.loopThroughPageExtensions(function(currentExtension) {
         if(!currentExtension.data) { currentExtension.data = {}; }
-        if(currentExtension.useShared && currentExtension.sharedSource) {
-          sharedSources.push(currentExtension.sharedSource);
+        if(currentExtension.contentName && currentExtension.contentName !== '') {
+          sharedContent.push(currentExtension.contentName);
           extensions.push(currentExtension);
         }
       });
 
-      endpoints.extensiondata.find({query: {name: {'$in': sharedSources} }}).success(function(data, statusCode) {
-        $rootScope.extensiondata = helpers.arrayToObjectWithObject(data, 'name');
+      endpoints.sharedContent.find({query: {name: {'$in': sharedContent} }}).success(function(data, statusCode) {
+        $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'name');
+        // $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'name');
 
         // If sharedData source is missing then create a new one from the extension that requested it
         // Otherwise set the data of that extension to the sharedExtension data
         for(var idx = 0; idx < extensions.length; idx++) {
-          if(!$rootScope.extensiondata[extensions[idx].sharedSource]) {
-            $rootScope.extensiondata[extensions[idx].sharedSource] = {
-              name: extensions[idx].sharedSource,
-              data: extensions[idx].data
+          if(!$rootScope.sharedContent[extensions[idx].contentName]) {
+            $rootScope.sharedContent[extensions[idx].contentName] = {
+              name: extensions[idx].contentName,
+              data: extensions[idx].data,
+              config: extensions[idx].config,
+              type: extensions[idx].name,
             };
           } else {
-            extensions[idx].data = $rootScope.extensiondata[extensions[idx].sharedSource].data;
+            extensions[idx].data = $rootScope.sharedContent[extensions[idx].contentName].data;
+            extensions[idx].config = $rootScope.sharedContent[extensions[idx].contentName].config;
           }
         }
       });
@@ -123,13 +127,13 @@
 
     // Store snapshot of menu for when discardEdits is called
     // If edit mode changes we want to enable or disable draggable menus
-    var menusSnapshot, pageSnapshot, extensiondataSnapshot;
+    var menusSnapshot, pageSnapshot, sharedContentSnapshot;
     $scope.$watch('editMode', function(nv, ov) {
       menusSnapshot = angular.copy($rootScope.menus);
       pageSnapshot = angular.copy($rootScope.page);
-      extensiondataSnapshot = angular.copy($rootScope.extensiondata);
+      sharedContentSnapshot = angular.copy($rootScope.sharedContent);
 
-      endpoints.extensiondata.find({}).success(function(res) {
+      endpoints.sharedContent.find({}).success(function(res) {
         $rootScope.dataSources = res;
       });
 
@@ -165,7 +169,7 @@
 
       updateExtensionPositionData();
 
-      $rootScope.extensiondata = helpers.objectToArray($rootScope.extensiondata);
+      $rootScope.sharedContent = helpers.objectToArray($rootScope.sharedContent);
 
       // Delete all the menus in the database, 
       // recreate all of them based off the client copy,
@@ -185,8 +189,8 @@
       $scope.pageAnimation = 'shake';
       $rootScope.menus = menusSnapshot;
       $rootScope.page = pageSnapshot;
-      $rootScope.extensiondata = extensiondataSnapshot;
-      $rootScope.extensiondataToDelete = [];
+      $rootScope.sharedContent = sharedContentSnapshot;
+      $rootScope.sharedContentToDelete = [];
     });
 
     $scope.openImageModal = function(callback) {
