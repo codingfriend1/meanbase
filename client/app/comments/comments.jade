@@ -1,16 +1,6 @@
 #moderate-comments
     p Only approved comments can be seen by site visitors
-    .row
-        .col-xs-12
-            .checkbox-inline
-                label
-                    input(type="checkbox" ng-model="autoAccept")
-                    | Automatically accept all new comments
-            .checkbox-inline
-                label
-                    input(type="checkbox" ng-model="autoReject")
-                    | Automatically reject all new comments
-    h3 Only show comments with...          
+    h4 Only show comments with...          
     .row
         .col-xs-4
             .form-group
@@ -67,4 +57,14 @@
                         button.btn.btn-warning(ng-click="editComment(comment, $index)") Edit
                         button.btn.btn-success(ng-hide="comment.approved" ng-click="approveComment(comment, $index)") Approve
                         button.btn.btn-warning(ng-show="comment.approved" ng-click="unapproveComment(comment, $index)") Unapprove
+    .row
+        .col-xs-12
+            .checkbox-inline
+                label
+                    input(type="checkbox" ng-model="autoAccept")
+                    | Automatically accept all new comments
+            .checkbox-inline
+                label
+                    input(type="checkbox" ng-model="autoReject")
+                    | Automatically reject all new comments
                     
