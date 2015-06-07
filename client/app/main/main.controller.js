@@ -184,6 +184,27 @@
       $rootScope.extensiondataToDelete = [];
     });
 
+    $scope.openImageModal = function(callback) {
+      console.log('choosing image');
+      var modalInstance = $modal.open({
+        templateUrl: 'findImage.modal.html',
+        controller: function($scope, $modalInstance) {
+          $scope.imageSelectorApi = {};
+
+          $scope.chooseImages = function() {
+            var selectedImages = $scope.imageSelectorApi.getSelectedImages();
+            $modalInstance.close(selectedImages);
+          };
+        },
+        size: 'lg'
+      });
+      modalInstance.result.then(function (selectedImages) {
+        if(callback) {
+          callback(selectedImages)
+        }
+      });
+    };
+
     // Prevent menu links from working while in edit mode
     $scope.handleClick = function($event, menuItem) {
       if($scope.editMode) {

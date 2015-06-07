@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('edit', function ($sanitize) {
+  .directive('edit', function ($sanitize, $timeout, $compile, $modal) {
     return {
       restrict: 'EA',
       scope: {
@@ -13,10 +13,45 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
 
+        scope.imageSelectorApi = {};
+
         var config = {
           autogrow: true,
           closable: true,
-          fullscreen: true
+          fullscreen: true,
+          fixedBtnPane: true,
+          btnsDef: {
+              // Customizables dropdowns
+              align: {
+                  dropdown: ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+                  ico: 'justifyLeft'
+              },
+              image: {
+                  dropdown: ['insertImage', 'chooseImage'],
+                  ico: 'insertImage'
+              },
+              chooseImage: {
+                func: function(params, tbw) {
+                  console.log("params, tbw", params, tbw);
+                  element.trumbowyg('saveSelection');
+                  scope.$parent.openImageModal(function(image) {
+                    element.trumbowyg('restoreSelection');
+                    var imageToInsert = new Image();
+                    imageToInsert.src = image.small;
+                    imageToInsert.alt = image.alt;
+                    var sel = element.trumbowyg('getSelection');
+                    sel.insertNode(imageToInsert);
+                  });
+                },
+                ico: 'insertImage'
+              }
+          },
+          btns: ['viewHTML',
+              '|', 'formatting',
+              '|', 'btnGrp-test',
+              '|', 'align',
+              '|', 'btnGrp-lists',
+              '|', 'chooseImage']
         };
 
         var ck = {}, snapshot;
@@ -29,13 +64,30 @@ angular.module('meanbaseApp')
           
         	element.attr('contenteditable', true);
         	// Create ck instance
-          element.trumbowyg({
-            autogrow: true
-          })
+          element.trumbowyg(config)
           .on('tbwfocus', function(){ trumbowygBox.addClass('hasFocus'); }) // Listen for `tbwfocus` event
           .on('tbwblur', function(){ trumbowygBox.removeClass('hasFocus'); })
 
           var trumbowygBox = element.parent('.trumbowyg-box');
+
+
+          // var $modal = element.trumbowyg("openModal", {
+          //     title: "A title for modal box",
+          //     content: "<p>Content in HTML which you want include in created modal box</p>"
+          // });
+
+          // // Listen clicks on modal box buttons
+          // $modal.on('trumbowyg-confirm', function(e){
+          //     // Save datas
+          //     console.log('Trumbowyg', $.Trumbowyg);
+          //     console.log(Trumbowyg.execCmd('insertImage', 'http://placehold.it/300x400'));
+          //     $("#editor").trumbowyg("closeModal");
+          // });
+          // $modal.on('trumbowyg-cancel', function(e){
+          //     $("#editor").trumbowyg("closeModal");
+          // });
+
+
           // element.trumbowyg('html', scope.html);
          //  element.Editor();
         	// element.Editor('setText', scope.html);
