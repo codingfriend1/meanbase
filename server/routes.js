@@ -9,6 +9,7 @@ var errors = require('./components/errors');
 module.exports = function(app) {
 
   // Insert routes below
+  app.use('/api/shared-content', require('./api/shared-content'));
   app.use('/api/extensiondata', require('./api/extensiondata'));
   app.use('/api/extension', require('./api/extension'));
   app.use('/api/media', require('./api/media'));
