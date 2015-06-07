@@ -51,9 +51,17 @@
 .trumbowyg-editor[contenteditable=true]:empty:before {
   content: attr(placeholder);
   color: #999; }
+  
+.trumbowyg-button-pane
+  display none
+  
+.trumbowyg-box:hover .trumbowyg-button-pane
+  display block
 
 .trumbowyg-button-pane {
   position: relative;
+  position absolute
+  bottom 100%
   width: 100%;
   background: #ecf0f1;
   border-bottom: 1px solid #d7e0e2;

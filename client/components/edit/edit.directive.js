@@ -14,7 +14,9 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         var config = {
-          autogrow: true
+          autogrow: true,
+          closable: true,
+          fullscreen: true
         };
 
         var ck = {}, snapshot;
@@ -30,7 +32,7 @@ angular.module('meanbaseApp')
           element.trumbowyg({
             autogrow: true
           });
-          element.trumbowyg('html', scope.html);
+          // element.trumbowyg('html', scope.html);
          //  element.Editor();
         	// element.Editor('setText', scope.html);
 
