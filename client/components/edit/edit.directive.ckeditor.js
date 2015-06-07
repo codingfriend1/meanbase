@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('edit', function ($sanitize) {
+  .directive('editCKEditor', function ($sanitize) {
     return {
       restrict: 'EA',
       scope: {
@@ -12,10 +12,18 @@ angular.module('meanbaseApp')
       	config:'=config'
       },
       link: function (scope, element, attrs) {
-
-        var config = {
-          autogrow: true
-        };
+        var config = scope.config || {
+			    language: 'en',
+			    allowedContent: true,
+			    entities: false,
+			    fullPage: true,
+          allowedContent:
+          'h1 h2 h3 p blockquote strong em;' +
+          'a[!href];' +
+          'img(left,right)[!src,alt,width,height];',
+			    filebrowserBrowseUrl: '/ckeditor-browser',
+			    filebrowserImageUploadUrl: '/api/media'
+			  };
 
         var ck = {}, snapshot;
 
@@ -27,25 +35,38 @@ angular.module('meanbaseApp')
           
         	element.attr('contenteditable', true);
         	// Create ck instance
-          element.trumbowyg({
-            autogrow: true
-          });
-          element.trumbowyg('html', scope.html);
-         //  element.Editor();
-        	// element.Editor('setText', scope.html);
+        	ck = CKEDITOR.inline(element[0], config);
 
         	// Set the ck instances value to the value of ng-bind-html
-        	// ck.setData(scope.html);
+        	ck.setData(scope.html);
 
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
-        	snapshot = angular.copy(scope.html);
+        	snapshot = ck.getData();
 
+          ck.on('blur', function() {
+            console.log('blur');
+          });
+
+          CKEDITOR.on( "currentInstance", function() {
+            console.log('change instance');
+          });
+
+          // Save images that are inserted in
+          ck.on('insertElement', function( evt ) {
+            console.log('inserted element', ck);
+            ck.focusManager.blur();
+            ck.focusManager.blur();
+            ck.focusManager.blur();
+            // ck.getData();
+            // ck.updateElement();
+            // ck.setData(ck.getData());
+            // ck.focusManager.blur(true);
+          });
 
         } //startUpCKEditor
 
         function shutdownCkEditor() {
-          element.trumbowyg('destroy');
-        	element.attr('contenteditable', false);
+        	if(ck.destroy) { ck.destroy(); element.attr('contenteditable', false); }
         }
 
         // Watch editMode to know when to start up and shut down ckeditor
@@ -64,13 +85,14 @@ angular.module('meanbaseApp')
 
         // When cms.headbar or any other script releases the event to discard edits, reset to snapshot
         scope.$onRootScope('cms.discardEdits', function() {
-          element.trumbowyg('html', snapshot);
-          scope.html = snapshot;
+          ck.setData(scope.html);
+          // scope.html = snapshot;
         });
 
         // When the save edits event is fired on rootscope listen and save ckeditor data to html
         scope.$onRootScope('cms.saveEdits', function() {
-          scope.html = element.trumbowyg('html');
+          console.log('getting data');
+          scope.html = ck.getData();
         });
 
       } //link
