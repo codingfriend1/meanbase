@@ -88,6 +88,15 @@ exports.upload = function(req, res) {
         return res.status(501).send('Please send a zip, gz, bz2, or tar file type.');
       }
 
+      try {
+        // Query the entry
+        var stats = fs.lstatSync(app.get('appPath') + 'themes/' + createdFolderName);
+        // Is it a directory?
+        if (stats.isDirectory()) {
+          return res.status(501).send('A theme with that name has already been uploaded. Please choose a different folder name for your theme.');
+        }
+      } catch (e) {}
+
       decompress.src(tempFilePath)
       .dest(app.get('appPath') + 'themes/' + createdFolderName)
       .use(compressType({strip: 1}));
