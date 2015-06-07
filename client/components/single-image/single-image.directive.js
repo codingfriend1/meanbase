@@ -19,7 +19,6 @@ angular.module('meanbaseApp')
 
             // If the user is authorized
             if ($cookieStore.get('token')) {
-
               // Make this area uploadable
               scope.mediaUploader = new FileUploader({
                 url: '/api/media',
@@ -30,35 +29,39 @@ angular.module('meanbaseApp')
                   {galleries: scope.singleImage}
                 ]
               });
-            }
             
-            scope.mediaUploader.onCompleteAll = function() {
-              scope.mediaUploader.clearQueue();
-            };
+              scope.mediaUploader.onCompleteAll = function() {
+                scope.mediaUploader.clearQueue();
+              };
 
-            scope.mediaUploader.onCompleteItem = function() {
-              $rootScope.$emit('cms.imagesUploaded');
-            };
+              scope.mediaUploader.onCompleteItem = function() {
+                $rootScope.$emit('cms.imagesUploaded');
+              };
 
-            scope.mediaUploader.onSuccessItem = function(item, response, status, headers) {
-              scope.image = response;
-              scope.image.location = scope.singleImage;
-              scope.image.modifiedurl = response.url + 'medium.jpg';
-              $rootScope.page.images[scope.singleImage] = scope.image;
-            };
+              scope.mediaUploader.onSuccessItem = function(item, response, status, headers) {
+                scope.image = response;
+                scope.image.location = scope.singleImage;
+                scope.image.modifiedurl = response.url + 'medium.jpg';
+                $rootScope.page.images[scope.singleImage] = scope.image;
+              };
+            }
 
             scope.$watch('editMode', function(newValue, oldValue) {
               if(newValue === oldValue) { return false; }
               if(newValue) {
-                // If in edit mode upload the images passed in.
-                scope.mediaUploader.onAfterAddingAll = function() {
-                  scope.mediaUploader.uploadAll();
-                };
+                if(scope.mediaUploader) {
+                  // If in edit mode upload the images passed in.
+                  scope.mediaUploader.onAfterAddingAll = function() {
+                    scope.mediaUploader.uploadAll();
+                  };
+                }
               } else {
-                // Otherwise discard them
-                scope.mediaUploader.onAfterAddingAll = function() {
-                  scope.mediaUploader.clearQueue();
-                };
+                if(scope.mediaUploader) {
+                  // Otherwise discard them
+                  scope.mediaUploader.onAfterAddingAll = function() {
+                    scope.mediaUploader.clearQueue();
+                  };
+                }
               }
             });
           },

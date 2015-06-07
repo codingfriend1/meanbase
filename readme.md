@@ -11,6 +11,7 @@ reach a couple more checkpoints. [Youtube Meanbase Demo](http://youtu.be/tteztXr
 ####Install
 Run
 - mongod
+- Install GraphicsMagick (If you have homebrew: brew install graphicsmagick)
 - npm install
 - bower install
 - grunt serve
