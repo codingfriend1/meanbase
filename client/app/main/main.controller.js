@@ -129,6 +129,7 @@
     // If edit mode changes we want to enable or disable draggable menus
     var menusSnapshot, pageSnapshot, sharedContentSnapshot;
     $scope.$watch('editMode', function(nv, ov) {
+      if(nv === ov) { return false; }
       menusSnapshot = angular.copy($rootScope.menus);
       pageSnapshot = angular.copy($rootScope.page);
       sharedContentSnapshot = angular.copy($rootScope.sharedContent);
