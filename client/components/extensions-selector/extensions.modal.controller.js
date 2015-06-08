@@ -1,4 +1,4 @@
-angular.module('meanbaseApp').controller('extensions.modal.controller', function($scope, endpoints, $modalInstance) {
+angular.module('meanbaseApp').controller('extensions.modal.controller', function($scope, endpoints, $modalInstance, $timeout) {
 	$scope.chosenContent = [];
 
 	$scope.extensionsFilter = '';
@@ -14,7 +14,12 @@ angular.module('meanbaseApp').controller('extensions.modal.controller', function
 	$scope.toggleChecked = function(content) {
 		if(!content) { return false; }
 		if(content.type) {
-			content = angular.merge($scope.extensions[content.type], content);
+			for (var i = 0; i < $scope.extensions.length; i++) {
+				if($scope.extensions[i].name === content.type) {
+					var extension = $scope.extensions[i];
+					content = angular.extend(extension, content);
+				}
+			};
 		}
 		if($scope.chosenContent.indexOf(content) > -1) {
 			$scope.chosenContent.splice($scope.chosenContent.indexOf(content), 1);

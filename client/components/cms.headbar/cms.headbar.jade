@@ -161,7 +161,7 @@ script(type="text/ng-template" id="extensions.modal.html")
 								input.form-control(type="text" placeholder="search site content" ng-model="sourceFilter")
 						.extensiondata-list
 							div(ng-repeat="content in sharedContent | filter:filterSource").list-item
-								h3.list-title {{content.type}}
+								h3.list-title {{content.type}}: {{content.name}}
 								i.fa.pull-right.checkbox(ng-click="toggleChecked(content)" ng-class="{'fa-check': chosenContent == content, 'fa-square-o': chosenContent != content}")
 		.modal-footer
 			button.btn.btn-success(type='button' ng-click="chooseExtensions()") Choose
