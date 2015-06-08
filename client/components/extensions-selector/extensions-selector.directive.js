@@ -21,11 +21,12 @@ angular.module('meanbaseApp')
             }
             var extensionsResponse = [];
             for (var i = 0; i < chosenExtensions.length; i++) {
+              console.log("chosenExtensions[i]", chosenExtensions[i]);
               var extension = {
                 group: attrs.extensionsSelector,
                 position: ($rootScope.page.extensions[attrs.extensionsSelector].length - 1 < 0)? 0: $rootScope.page.extensions[attrs.extensionsSelector].length - 1,
                 text: chosenExtensions[i].text,
-                name: chosenExtensions[i].name,
+                contentName: chosenExtensions[i].name,
                 config: chosenExtensions[i].config,
                 data: chosenExtensions[i].data,
               };

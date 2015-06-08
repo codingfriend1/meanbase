@@ -133,7 +133,7 @@ script(type="text/ng-template" id="findImage.modal.html")
 script(type="text/ng-template" id="extensions.modal.html")
 	#extensions-modal.extensions-selector
 		.modal-header
-			button.close(ng-click="$dismiss()")
+			button.close(ng-click="closeModal()")
 				span(aria-hidden="true") ×
 				span.sr-only Close
 			h4.modal-title 
@@ -151,7 +151,7 @@ script(type="text/ng-template" id="extensions.modal.html")
 						.extensions-list
 							div(ng-repeat="ext in extensions | filter:filterExtensions").list-item
 								h3.list-title {{ext.name}}
-								i.fa.pull-right.checkbox(ng-click="toggleChecked(ext)" ng-class="{'fa-check': chosenContent.indexOf(ext) > -1, 'fa-square-o': chosenContent.indexOf(ext) == -1}")
+								i.fa.pull-right.checkbox(ng-click="toggleChecked(ext, $event)" ng-class="{'fa-check': chosenContent.indexOf(ext) > -1, 'fa-square-o': chosenContent.indexOf(ext) == -1}")
 				tab(heading="Choose from existing content")
 					div
 						.form-group
@@ -162,35 +162,7 @@ script(type="text/ng-template" id="extensions.modal.html")
 						.extensiondata-list
 							div(ng-repeat="content in sharedContent | filter:filterSource").list-item
 								h3.list-title {{content.type}}: {{content.name}}
-								i.fa.pull-right.checkbox(ng-click="toggleChecked(content)" ng-class="{'fa-check': chosenContent == content, 'fa-square-o': chosenContent != content}")
+								i.fa.pull-right.checkbox.fa-square-o(ng-click="toggleChecked(content, $event)")
 		.modal-footer
 			button.btn.btn-success(type='button' ng-click="chooseExtensions()") Choose
-			button.btn.btn-default(type='button' ng-click="$dismiss()") Close
-
-script(type="text/ng-template" id="extensiondata.modal.html")
-	#extensiondata-modal.extensiondata-selector
-		.modal-header
-			button.close(ng-click="$dismiss()")
-				span(aria-hidden="true") ×
-				span.sr-only Close
-			h4.modal-title Choose Extension Data Source
-		.modal-body
-			div
-				.form-group
-					.input-group
-						.input-group-addon 
-							i.fa.fa-search
-						input.form-control(type="text" placeholder="search sources" ng-model="sourceFilter")
-				.form-group(validate="{{errorMessages.isTitle}}").has-feedback
-					.input-group
-						.input-group-addon.add-source(ng-click="newSource()" title="click to create source")
-							i.fa.fa-plus
-						input.form-control(type="text" placeholder="Create new data to share" ng-model="newSourceName" ng-keyup="$event.keyCode == 13 ? newSource() : null" ng-pattern="validators.isTitle")
-				.extensiondata-list
-					div(ng-repeat="source in dataSources | filter:filterSource").list-item
-						h3.list-title {{source.name}}
-						i.fa.pull-right.checkbox(ng-click="toggleChecked(source)" ng-class="{'fa-check': chosenSource == source, 'fa-square-o': chosenSource != source}")
-						button.btn.btn-danger.delete-source-btn.pull-right(ng-click="deleteSource(source)") Delete
-		.modal-footer
-			button.btn.btn-success(type='button' ng-click="chooseSource()") Choose
-			button.btn.btn-default(type='button' ng-click="$dismiss()") Close
+			button.btn.btn-default(type='button' ng-click="closeModal()") Close
