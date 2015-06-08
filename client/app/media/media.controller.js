@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('MediaCtrl', function ($scope, endpoints, $modal, FileUploader, $timeout, $cookieStore, $rootScope) {
+  .controller('MediaCtrl', function ($scope, endpoints, $modal, FileUploader, $timeout, $cookieStore, $rootScope, toastr) {
 
     $scope.$parent.pageTitle = 'Upload and edit media';
 
@@ -21,6 +21,7 @@ angular.module('meanbaseApp')
     }
 
     uploader.onCompleteAll = function() {
+      toastr.success('Images successfully uploaded');
       uploader.clearQueue()
     };
 
