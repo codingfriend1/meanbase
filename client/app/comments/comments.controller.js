@@ -9,6 +9,7 @@ angular.module('meanbaseApp')
 
     $scope.autoAccept = false;
     $scope.autoReject = false;
+    $scope.dateDirection = 'after';
     $scope.pagesWithComments = [{label:'all', value: ''}];
     $scope.filterByThisPage = '';
     $scope.commentDate = null;
@@ -117,17 +118,36 @@ angular.module('meanbaseApp').filter('removeSlash', function() {
 });
 
 angular.module('meanbaseApp').filter('dateRange', function(){
-  return function(items, field, date, days){
+  return function(items, field, date, days, dateDirection){
     if(!date || date === '') { return items; }
     if(!items) { return items; }
+    var timeEnd, timeStart;
+    if(dateDirection === 'during') {
+      var timeStart = new Date(date);
+      timeStart = Date.parse(timeStart);
+      timeEnd = timeStart + (days * 86400000); // 1 day in ms
+
+      return items.filter(function(item){
+        var itemDate = Date.parse(item[field]);
+        return (itemDate > timeStart && itemDate < timeEnd);
+      });
+    } else if(dateDirection === 'before') {
+      var timeStart = new Date(date);
+      timeStart = Date.parse(timeStart);
+
+      return items.filter(function(item){
+        var itemDate = Date.parse(item[field]);
+        return (itemDate < timeStart);
+      });
+    } else if(dateDirection === 'after') {
+      var timeStart = new Date(date);
+      timeStart = Date.parse(timeStart);
+
+      return items.filter(function(item){
+        var itemDate = Date.parse(item[field]);
+        return (itemDate > timeStart);
+      });
+    }
     
-    var timeStart = new Date(date);
-    timeStart = Date.parse(timeStart);
-    var timeEnd = timeStart + (days * 86400000); // 1 day in ms
-    return items.filter(function(item){
-      var itemDate = Date.parse(item[field]);
-      return (itemDate > timeStart && itemDate < timeEnd);
-      
-    });
   };
 });
