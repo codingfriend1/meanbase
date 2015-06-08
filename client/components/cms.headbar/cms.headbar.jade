@@ -133,7 +133,7 @@ script(type="text/ng-template" id="findImage.modal.html")
 script(type="text/ng-template" id="extensions.modal.html")
 	#extensions-modal.extensions-selector
 		.modal-header
-			button.close(ng-click="closeModal()")
+			button.close(ng-click="$dismiss()")
 				span(aria-hidden="true") ×
 				span.sr-only Close
 			h4.modal-title 
@@ -165,4 +165,4 @@ script(type="text/ng-template" id="extensions.modal.html")
 								i.fa.pull-right.checkbox.fa-square-o(ng-click="toggleChecked(content, $event)")
 		.modal-footer
 			button.btn.btn-success(type='button' ng-click="chooseExtensions()") Choose
-			button.btn.btn-default(type='button' ng-click="closeModal()") Close
+			button.btn.btn-default(type='button' ng-click="$dismiss()") Close
