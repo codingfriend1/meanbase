@@ -144,8 +144,7 @@
 
       $rootScope.menusConfig.disabled = !$scope.editMode;
       $rootScope.sortableExtensions.disabled = !$scope.editMode;
-
-      if(!nv) {
+      if(nv) {
         $scope.ableToNavigate = false;
       } else {
         $scope.ableToNavigate = true;
@@ -154,7 +153,8 @@
     });
 
     $scope.$onRootScope('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      if ($scope.ableToNavigate) {
+      if (!$scope.ableToNavigate) {
+      
         event.preventDefault();
         toastr.info('Please save or discard your changes before navigating');
       }
