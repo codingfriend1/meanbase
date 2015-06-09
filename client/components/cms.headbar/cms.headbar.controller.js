@@ -68,6 +68,8 @@
 
 		function updateSharedContent(extensionsWithShared) {
 			for(var idx = 0; idx < extensionsWithShared.length; idx++) {
+				// $rootScope.sharedContent[extensionsWithShared[idx].contentName].data = extensionsWithShared[idx].data;
+				// $rootScope.sharedContent[extensionsWithShared[idx].contentName].config = extensionsWithShared[idx].config;
 				endpoints.sharedContent.update({name: extensionsWithShared[idx].contentName}, {data: extensionsWithShared[idx].data, config: extensionsWithShared[idx].config, type: extensionsWithShared[idx].name});	
 			}
 		}

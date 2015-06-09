@@ -58,26 +58,33 @@
         }
       });
 
-      endpoints.sharedContent.find({query: {name: {'$in': sharedContent} }}).success(function(data, statusCode) {
+      endpoints.sharedContent.find({}).success(function(data) {
         $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'name');
-        // $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'name');
-
-        // If sharedData source is missing then create a new one from the extension that requested it
-        // Otherwise set the data of that extension to the sharedExtension data
-        for(var idx = 0; idx < extensions.length; idx++) {
-          if(!$rootScope.sharedContent[extensions[idx].contentName]) {
-            $rootScope.sharedContent[extensions[idx].contentName] = {
-              name: extensions[idx].contentName,
-              data: extensions[idx].data,
-              config: extensions[idx].config,
-              type: extensions[idx].name,
-            };
-          } else {
-            extensions[idx].data = $rootScope.sharedContent[extensions[idx].contentName].data;
-            extensions[idx].config = $rootScope.sharedContent[extensions[idx].contentName].config;
+        helpers.loopThroughPageExtensions(function(currentExtension) {
+          if(currentExtension.contentName && currentExtension.contentName !== '') {
+            currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
+            currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
           }
-        }
+        });
       });
+
+      // endpoints.sharedContent.find({query: {name: {'$in': sharedContent} }}).success(function(data, statusCode) {
+      //   // If sharedData source is missing then create a new one from the extension that requested it
+      //   // Otherwise set the data of that extension to the sharedExtension data
+      //   for(var idx = 0; idx < extensions.length; idx++) {
+      //     if(!$rootScope.sharedContent[extensions[idx].contentName]) {
+      //       $rootScope.sharedContent[extensions[idx].contentName] = {
+      //         name: extensions[idx].contentName,
+      //         data: extensions[idx].data,
+      //         config: extensions[idx].config,
+      //         type: extensions[idx].name,
+      //       };
+      //     } else {
+      //       extensions[idx].data = $rootScope.sharedContent[extensions[idx].contentName].data;
+      //       extensions[idx].config = $rootScope.sharedContent[extensions[idx].contentName].config;
+      //     }
+      //   }
+      // });
     }
 
     // Set up config for sortable menus
@@ -171,7 +178,12 @@
 
       updateExtensionPositionData();
 
-      $rootScope.sharedContent = helpers.objectToArray($rootScope.sharedContent);
+      helpers.loopThroughPageExtensions(function(currentExtension) {
+        if(currentExtension.contentName && currentExtension.contentName !== '') {
+          currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
+          currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
+        }
+      });
 
       // Delete all the menus in the database, 
       // recreate all of them based off the client copy,
