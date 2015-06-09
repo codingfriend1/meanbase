@@ -122,7 +122,8 @@
       isAnchorTarget: 'Must be either _blank, _self, _parent, or _top',
       isEmail: 'Must be a valid email format',
       isText: 'Must be safe text',
-      isHTML: 'Must be safe html'
+      isHTML: 'Must be safe html',
+      isRequired: "This field is required."
     };
 
     // Store snapshot of menu for when discardEdits is called

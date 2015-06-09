@@ -1,7 +1,7 @@
 div(ng-sortable="$root.sortableExtensions" ng-class="{'mb-drag-to-room': $root.editMode && (!$root.page.extensions[areaName] || $root.page.extensions[areaName].length === 0)}")
 	div(ng-repeat="extension in $root.page.extensions[areaName]" dynamic-html="extension.text" ng-class="{'mb-draggable': $root.editMode}")
 		div.universal-extension-edit-buttons(ng-if="$root.editMode")
-			.form-group(validate="{{errorMessages.isTitle}}").has-feedback
+			.form-group
 				.input-group
 					.input-group-addon Name
 					input.form-control(type="text" placeholder="What is the shared name for this content?" ng-model="extension.contentName" ng-pattern="validators.isTitle")
