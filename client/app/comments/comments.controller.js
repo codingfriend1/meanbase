@@ -52,13 +52,13 @@ angular.module('meanbaseApp')
 
   	$scope.approveComment = function(comment, index) {
   		comments.update({_id: comment._id}, {approved: true}).then(function(response) {
-  			$scope.comments[index].approved = true;
+  			$scope.comments[$scope.comments.indexOf(comment)].approved = true;
   		});
   	};
 
   	$scope.unapproveComment = function(comment, index) {
   		comments.update({_id: comment._id}, {approved: false}).then(function(response) {
-  			$scope.comments[index].approved = false;
+  			$scope.comments[$scope.comments.indexOf(comment)].approved = false;
   		});
   	};
 
@@ -66,9 +66,9 @@ angular.module('meanbaseApp')
 
   	};
 
-  	$scope.deleteComment = function(comment, index) {
+  	$scope.deleteComment = function(comment) {
   		comments.delete({_id: comment._id}).then(function(response) {
-  			$scope.comments.splice(index, 1);
+  			$scope.comments.splice($scope.comments.indexOf(comment), 1);
   		});
   	};
 

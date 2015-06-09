@@ -164,5 +164,6 @@ script(type="text/ng-template" id="extensions.modal.html")
 								h3.list-title {{content.type}}: {{content.name}}
 								i.fa.pull-right.checkbox.fa-square-o(ng-click="toggleChecked(content, $event)")
 		.modal-footer
+			//- button.btn.btn-danger(type='button' ng-click="deleteContent()") Choose
 			button.btn.btn-success(type='button' ng-click="chooseExtensions()") Choose
 			button.btn.btn-default(type='button' ng-click="$dismiss()") Close
