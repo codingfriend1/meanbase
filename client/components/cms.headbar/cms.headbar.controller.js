@@ -55,6 +55,22 @@
 				modifyPage($rootScope.page);		
 				endpoints.page.update({_id: $rootScope.page._id}, $rootScope.page);
 				toastr.success('Changes saved');
+
+				helpers.loopThroughPageExtensions(function(currentExtension) {
+				  if(currentExtension.contentName && currentExtension.contentName !== '') {
+				    if($rootScope.sharedContent[currentExtension.contentName]) {
+				      currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
+				      currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
+				    } else {
+				      $rootScope.sharedContent[currentExtension.contentName] = {
+				        data: currentExtension.data,
+				        config: currentExtension.config,
+				        type: currentExtension.name
+				      };
+				    }
+				  }
+				});
+
 				if($rootScope.sharedContentToDelete.length < 1) {
 					updateSharedContent(extensionsWithShared);
 				} else {

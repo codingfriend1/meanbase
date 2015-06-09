@@ -178,21 +178,6 @@
 
       updateExtensionPositionData();
 
-      helpers.loopThroughPageExtensions(function(currentExtension) {
-        if(currentExtension.contentName && currentExtension.contentName !== '') {
-          if($rootScope.sharedContent[currentExtension.contentName]) {
-            currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
-            currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
-          } else {
-            $rootScope.sharedContent[currentExtension.contentName] = {
-              data: currentExtension.data,
-              config: currentExtension.config,
-              type: currentExtension.name
-            };
-          }
-        }
-      });
-
       // Delete all the menus in the database, 
       // recreate all of them based off the client copy,
       // Get the newly updated menus with their server-generated ids
