@@ -56,7 +56,7 @@ CRUD.prototype.setCollection = function(collection) {
 CRUD.prototype.findById = function(req, res, callback) {
   this.collection.findById(req.params.id).lean().exec(function (err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -72,7 +72,7 @@ CRUD.prototype.find = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.find(identifier).lean().exec(function (err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -88,7 +88,7 @@ CRUD.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.find(identifier).populate(populateQuery).lean().exec(function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -103,7 +103,7 @@ CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
   var identifier = this.getIdentifer(req);
   this.collection.find(identifier).sort(sortFilter).lean().exec(function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -118,7 +118,7 @@ CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
 CRUD.prototype.findAll = function(req, res, callback) {
   this.collection.find({}).lean().exec(function (err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -134,7 +134,7 @@ CRUD.prototype.findAll = function(req, res, callback) {
 CRUD.prototype.create = function(req, res, callback) {
   this.collection.create(req.body, function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
 
     // Since mongoose returns created items as list of params we must iterate through them
     var allFound = getArguments(arguments);
@@ -147,12 +147,12 @@ CRUD.prototype.create = function(req, res, callback) {
 // CRUD.prototype.createAndLink = function(req, res, callback, linkModel, linkField) {
 //   this.collection.create(req.body, function(err, found) {
 //     if(err) { return handleError(res, err); }
-//     if(!found) { return res.send(404); }
+//     if(!found) { return res.send(204); }
 //     var linkObject = {};
 //     linkObject[linkField] = found._id;
 //     linkModel.update(linkObject, {$push: linkObject}, function(err, updatedFind) {
 //       if(err) { return handleError(res, err); }
-//       if(!found) { return res.send(404); }
+//       if(!found) { return res.send(204); }
 //       if(callback) callback();
 //       return res.status(200).json(allFound);
 //     });
@@ -206,7 +206,7 @@ CRUD.prototype.updateOneAndUpdate = function(req, res, callback) {
     if(!found) { return res.send(204); }
     self.collection.update(identifier, req.body).lean().exec(function(err, updated) {
       if (err) { return handleError(res, err); }
-      if(!updated) { return res.send(404); }
+      if(!updated) { return res.send(204); }
       if(found) {
         found = found.toJSON();
         if(callback) { callback(found, req.body); }
