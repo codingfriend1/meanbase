@@ -16,21 +16,21 @@
 		endpoints.prototype.create = function(data) {
 			var self = this;
 			return $http.post(this.url, data).error(function(error) {
-				self.errorHandler(error);
+				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.find = function(identifier) {
 			var self = this;
 			return $http.get(this.url, {params: identifier}).error(function(error) {
-				self.errorHandler(error);
+				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.update = function(identifier, replacement) {
 			var self = this;
 			return $http.put(this.url, {identifier: identifier, replacement: replacement}).error(function(error) {
-				self.errorHandler(error);
+				self.errorHandler(data, status, headers, config);
 			});
 		};
 
@@ -40,32 +40,32 @@
 			    params: identifier,
 			    headers: {"Content-Type": "application/json;charset=utf-8"}
   			}).error(function(error) {
-				self.errorHandler(error);
+				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.findOne = function(id) {
 			var self = this;
 			return $http.get(this.url + '/' + id).error(function(error) {
-				self.errorHandler(error);
+				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.updateOne = function(id, replacement) {
 			var self = this;
 			return $http.put(this.url + '/' + id, replacement).error(function(error) {
-				self.errorHandler(error);
+				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.deleteOne = function(id) {
 			var self = this;
 			return $http.delete(this.url + '/' + id).error(function(error) {
-				self.errorHandler(error);
+				self.errorHandler(data, status, headers, config);
 			});
 		};
 
-		endpoints.prototype.errorHandler = function(error) {
+		endpoints.prototype.errorHandler = function(data, status, headers, config) {
 			var category = this.endpoint;
 			// if(category.substring(category.length-1) !== "s") {
 			// 	category = category + 's';
@@ -87,8 +87,9 @@
 				}
 			} else {
 				console.log('api request error.');
-				toastr.error('Hmmmm, there server is having trouble with the ' + category + '.');
-				
+				if(!status === 404) {
+					toastr.error('Hmmmm, there server is having trouble with the ' + category + '.');
+				}
 			}
 		};
 

@@ -56,7 +56,7 @@ CRUD.prototype.setCollection = function(collection) {
 CRUD.prototype.findById = function(req, res, callback) {
   this.collection.findById(req.params.id).lean().exec(function (err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -72,7 +72,7 @@ CRUD.prototype.find = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.find(identifier).lean().exec(function (err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -88,7 +88,7 @@ CRUD.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.find(identifier).populate(populateQuery).lean().exec(function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -103,7 +103,7 @@ CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
   var identifier = this.getIdentifer(req);
   this.collection.find(identifier).sort(sortFilter).lean().exec(function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -118,7 +118,7 @@ CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
 CRUD.prototype.findAll = function(req, res, callback) {
   this.collection.find({}).lean().exec(function (err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
 
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
@@ -134,7 +134,7 @@ CRUD.prototype.findAll = function(req, res, callback) {
 CRUD.prototype.create = function(req, res, callback) {
   this.collection.create(req.body, function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
 
     // Since mongoose returns created items as list of params we must iterate through them
     var allFound = getArguments(arguments);
@@ -147,12 +147,12 @@ CRUD.prototype.create = function(req, res, callback) {
 // CRUD.prototype.createAndLink = function(req, res, callback, linkModel, linkField) {
 //   this.collection.create(req.body, function(err, found) {
 //     if(err) { return handleError(res, err); }
-//     if(!found) { return res.send(204); }
+//     if(!found) { return res.send(404); }
 //     var linkObject = {};
 //     linkObject[linkField] = found._id;
 //     linkModel.update(linkObject, {$push: linkObject}, function(err, updatedFind) {
 //       if(err) { return handleError(res, err); }
-//       if(!found) { return res.send(204); }
+//       if(!found) { return res.send(404); }
 //       if(callback) callback();
 //       return res.status(200).json(allFound);
 //     });
@@ -188,7 +188,7 @@ CRUD.prototype.updateById = function(req, res, callback) {
   if(req.body._id) { delete req.body._id; }
   this.collection.findById(req.params.id, function (err, found) {
     if (err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
     var updated = _.merge(found, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
@@ -203,10 +203,10 @@ CRUD.prototype.updateOneAndUpdate = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.findOne(identifier, function(err, found) {
     if (err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
     self.collection.update(identifier, req.body).lean().exec(function(err, updated) {
       if (err) { return handleError(res, err); }
-      if(!updated) { return res.send(204); }
+      if(!updated) { return res.send(404); }
       if(found) {
         found = found.toJSON();
         if(callback) { callback(found, req.body); }
@@ -225,7 +225,7 @@ CRUD.prototype.delete = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.remove(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
     if(callback) callback(identifier);
     return res.status(204).send();
   });
@@ -236,7 +236,7 @@ CRUD.prototype.deleteById = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.findById(identifier.id, function (err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
     found.remove(function(err) {
       if(err) { return handleError(res, err); }
       if(callback) callback();
@@ -250,10 +250,10 @@ CRUD.prototype.deleteOneAndUpdate = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.findOne(identifier, function(err, found) {
     if (err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
     self.collection.remove(identifier, function(err, deleted) {
       if (err) { return handleError(res, err); }
-      if(!deleted) { return res.send(204); }
+      if(!deleted) { return res.send(404); }
       if(callback) { callback(found); }
       return res.status(200).json();
     });
@@ -271,7 +271,7 @@ CRUD.prototype.deleteAndDependancies = function(req, res, callback, dependantFie
   var self = this;
   this.collection.find(identifier, function(err, foundOrigional) {
     if(err) { return handleError(res, err); }
-    if(!foundOrigional) { return res.send(204); }
+    if(!foundOrigional) { return res.send(404); }
     var i = 0, ids = [];
     while(i < foundOrigional.length) {
       ids = ids.concat(foundOrigional[i][dependantField]);
@@ -280,7 +280,7 @@ CRUD.prototype.deleteAndDependancies = function(req, res, callback, dependantFie
     // Delete document dependancies
     dependantModel.remove({_id: {$in: ids}}, function(err, foundDependancies) {
       if(err) { return handleError(res, err); }
-      if(!foundDependancies) { return res.send(204); }
+      if(!foundDependancies) { return res.send(404); }
       // Delete the document itself
       self.model.remove(identifier, function(err, found) {
         if(err) { return handleError(res, err); }
@@ -297,7 +297,7 @@ CRUD.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkMod
   var identifier = this.getIdentifer(req);
   self.model.find(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(204); }
+    if(!found) { return res.send(404); }
 
     var ids = [], i = 0;
     while(i < found.length) {
