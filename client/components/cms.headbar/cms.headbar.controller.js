@@ -4,7 +4,7 @@
 	// @ngInject
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr) {
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
-		var endpoints = {
+		var server = {
 			menus: new endpoints('menus'),
 			page: new endpoints('pages'),
 			sharedContent: new endpoints("shared-content")
@@ -53,7 +53,7 @@
 			//We need to wait for the "edit" directive to store changes in page.content
 			$timeout(function(){
 				modifyPage($rootScope.page);		
-				endpoints.page.update({_id: $rootScope.page._id}, $rootScope.page);
+				server.page.update({_id: $rootScope.page._id}, $rootScope.page);
 				toastr.success('Changes saved');
 
 				helpers.loopThroughPageExtensions(function(currentExtension) {
@@ -74,7 +74,7 @@
 				if($rootScope.sharedContentToDelete.length < 1) {
 					updateSharedContent(extensionsWithShared);
 				} else {
-					endpoints.sharedContent.delete({query: { name: {$in: $rootScope.sharedContentToDelete} }}).finally(function() {
+					server.sharedContent.delete({query: { name: {$in: $rootScope.sharedContentToDelete} }}).finally(function() {
 						updateSharedContent(extensionsWithShared);
 					});
 				}
@@ -84,7 +84,7 @@
 
 		function updateSharedContent(extensionsWithShared) {
 			for(var idx = 0; idx < extensionsWithShared.length; idx++) {
-				endpoints.sharedContent.update({name: extensionsWithShared[idx].contentName}, {data: extensionsWithShared[idx].data, config: extensionsWithShared[idx].config, type: extensionsWithShared[idx].name});	
+				server.sharedContent.update({name: extensionsWithShared[idx].contentName}, {data: extensionsWithShared[idx].data, config: extensionsWithShared[idx].config, type: extensionsWithShared[idx].name});	
 			}
 		}
 
@@ -100,21 +100,21 @@
 			if(!$rootScope.page._id) { return false; }
 
 			// Delete page
-			endpoints.page.delete({_id: $rootScope.page._id}).then(function() {
+			server.page.delete({_id: $rootScope.page._id}).then(function() {
 				$location.url('/');
 
 				// Delete menu with the same url
-				endpoints.menus.delete({url: $rootScope.page.url}).then(function() {
+				server.menus.delete({url: $rootScope.page.url}).then(function() {
 
 					// Replenish menus
-					endpoints.menus.find({}).then(function(response) {
+					server.menus.find({}).then(function(response) {
 						$rootScope.menus = response.data;
 					});
 				});
 			});
 		};
 
-		this.currentScreenshot;
+		this.currentScreenshot = null;
 
 		this.showScreenshot = function(template) {
 			if(!window.meanbaseGlobals.themeTemplatePaths[template]) { return false; }
@@ -175,9 +175,9 @@
 			};
 
 			// Save new page to database and reroute to it's new url
-			endpoints.page.create(newPage).then(function(response) {
+			server.page.create(newPage).then(function(response) {
 				// Save new menu to database
-				endpoints.menus.create(newMenu).then(function(response) {
+				server.menus.create(newMenu).then(function(response) {
 					$scope.menus.main.push(newMenu);
 				});
 				$location.url(url);

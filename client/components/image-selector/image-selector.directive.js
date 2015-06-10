@@ -401,18 +401,6 @@ angular.module('meanbaseApp')
           });
         };
 
-
-        function getGroups() {
-          // Get media groups
-          for (var i = 0; i < scope.media.length; i++) { //Loop through each media
-            for (var x = 0; x < scope.media[i].groups.length; x++) { //Loop through each group in media
-              if(scope.groups.indexOf(scope.media[i].groups[x]) === -1) { //Already exists?
-                scope.groups.push(scope.media[i].groups[x]); //else add to groups array
-              }
-            }
-          }
-        }
-
         scope.deleteAllVisible = function() {
           var urlArray = [];
 

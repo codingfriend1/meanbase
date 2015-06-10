@@ -27,7 +27,7 @@ angular.module('meanbaseApp').controller('extensions.modal.controller', function
 		} else {
 			var content2;
 			if(content.type) {
-				for (var i = 0; i < $scope.extensions.length; i++) {
+				for (i = 0; i < $scope.extensions.length; i++) {
 					if($scope.extensions[i].name === content.type) {
 						var extension = angular.copy($scope.extensions[i]);
 						content = angular.copy(content);

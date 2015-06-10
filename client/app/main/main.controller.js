@@ -12,7 +12,7 @@
       $location.path('/login');
     };
 
-    var endpoints = {
+    var server = {
       menus: new endpoints('menus'),
       sharedContent: new endpoints("shared-content"),
       extensions: new endpoints('extension')
@@ -28,7 +28,7 @@
     $rootScope.sharedContentToDelete = [];
 
     // Get all the menus
-    endpoints.menus.find({}).then(function(response) {
+    server.menus.find({}).then(function(response) {
       $rootScope.menus = response.data;
     });
 
@@ -58,7 +58,7 @@
         }
       });
 
-      endpoints.sharedContent.find({}).success(function(data) {
+      server.sharedContent.find({}).success(function(data) {
         $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'name');
         helpers.loopThroughPageExtensions(function(currentExtension) {
           if(currentExtension.contentName && currentExtension.contentName !== '') {
@@ -68,7 +68,7 @@
         });
       });
 
-      // endpoints.sharedContent.find({query: {name: {'$in': sharedContent} }}).success(function(data, statusCode) {
+      // server.sharedContent.find({query: {name: {'$in': sharedContent} }}).success(function(data, statusCode) {
       //   // If sharedData source is missing then create a new one from the extension that requested it
       //   // Otherwise set the data of that extension to the sharedExtension data
       //   for(var idx = 0; idx < extensions.length; idx++) {
@@ -142,11 +142,11 @@
       pageSnapshot = angular.copy($rootScope.page);
       sharedContentSnapshot = angular.copy($rootScope.sharedContent);
 
-      endpoints.sharedContent.find({}).success(function(res) {
+      server.sharedContent.find({}).success(function(res) {
         $rootScope.dataSources = res;
       });
 
-      endpoints.extensions.find({}).success(function(res) {
+      server.extensions.find({}).success(function(res) {
         $rootScope.extensions = res;
       });
 
@@ -181,9 +181,9 @@
       // Delete all the menus in the database, 
       // recreate all of them based off the client copy,
       // Get the newly updated menus with their server-generated ids
-      endpoints.menus.delete({}).then(function(deleteResponse) {
-        endpoints.menus.create(unmappedMenus).then(function(createResponse) {
-          endpoints.menus.find({}).then(function(response) {
+      server.menus.delete({}).then(function(deleteResponse) {
+        server.menus.create(unmappedMenus).then(function(createResponse) {
+          server.menus.find({}).then(function(response) {
             $rootScope.menus = response.data;
           });
         });

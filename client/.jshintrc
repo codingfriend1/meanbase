@@ -13,6 +13,8 @@
   "loopfunc": true,
   "-W032": false,
   "-W038": false,
+  "-W117": false,
+  "latedef": false,
   "noarg": true,
   "quotmark": false,
   "asi": true,

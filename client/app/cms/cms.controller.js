@@ -1,7 +1,5 @@
 'use strict';
 (function(){
-	angular.module('meanbaseApp').controller('cmsCtrl', CMSCtrl);
-
 	function CMSCtrl($scope, Auth, $rootScope) {
 		$scope.$parent.pageTitle = 'Manage Site';
 
@@ -13,4 +11,6 @@
 
 		$scope.pageTitle = 'Site Preferences';
   }
+	  
+	angular.module('meanbaseApp').controller('cmsCtrl', CMSCtrl);
 })();

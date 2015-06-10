@@ -123,7 +123,7 @@ angular.module('meanbaseApp').filter('dateRange', function(){
     if(!items) { return items; }
     var timeEnd, timeStart;
     if(dateDirection === 'during') {
-      var timeStart = new Date(date);
+      timeStart = new Date(date);
       timeStart = Date.parse(timeStart);
       timeEnd = timeStart + (days * 86400000); // 1 day in ms
 
@@ -132,7 +132,7 @@ angular.module('meanbaseApp').filter('dateRange', function(){
         return (itemDate > timeStart && itemDate < timeEnd);
       });
     } else if(dateDirection === 'before') {
-      var timeStart = new Date(date);
+      timeStart = new Date(date);
       timeStart = Date.parse(timeStart);
 
       return items.filter(function(item){
@@ -140,7 +140,7 @@ angular.module('meanbaseApp').filter('dateRange', function(){
         return (itemDate < timeStart);
       });
     } else if(dateDirection === 'after') {
-      var timeStart = new Date(date);
+      timeStart = new Date(date);
       timeStart = Date.parse(timeStart);
 
       return items.filter(function(item){

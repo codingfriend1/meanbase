@@ -10,7 +10,7 @@ angular.module('meanbaseApp')
       for (var ii = 0; ii < array.length; ii++) {
         var specialProperty = array[ii][itemToBecomeProperty];
         if(specialProperty) {
-          if(returnObject[specialProperty] == undefined) {
+          if(returnObject[specialProperty] === undefined) {
             returnObject[specialProperty] = [];
           }
           returnObject[specialProperty].push(array[ii]);

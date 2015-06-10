@@ -7,19 +7,19 @@
 
 		$scope.$parent.pageTitle = "Users and Permissions";
 
-	  var endpoints = {
+	  var server = {
 	  	roles: new endpoints('roles'),
 	  	users: new endpoints('users')
 	  };
 
 	  // Get all roles and their permissions and set the roles panel selected role to the first one
-	  endpoints.roles.find({}).success(function(roles) {
+	  server.roles.find({}).success(function(roles) {
 	  	$scope.roles = roles;
 	  	$scope.selectedRole = $scope.roles[0];
 	  });
 
 	  // Get all users
-	  endpoints.users.find({}).success(function(users) {
+	  server.users.find({}).success(function(users) {
 	  	$scope.users = users;
 	  });
 
@@ -35,7 +35,7 @@
 
 	  	var newRole = {role: roleName, permissions: $scope.selectedRole.permissions};
 
-  		endpoints.roles.create(newRole).success(function(response) {
+  		server.roles.create(newRole).success(function(response) {
   			$scope.roles.push({role: roleName, permissions: $scope.selectedRole.permissions});
   			$scope.selectedRole = newRole;
   		});
@@ -44,7 +44,7 @@
 	  // Update a role
 	  $scope.updateRole = function(roleForm) {
 	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'admin') { return false; }
-  		endpoints.roles.update({_id: $scope.selectedRole._id}, {permissions: $scope.selectedRole.permissions}).then(function(response) {
+  		server.roles.update({_id: $scope.selectedRole._id}, {permissions: $scope.selectedRole.permissions}).then(function(response) {
   			console.log(response);
   		});
 	  };
@@ -55,10 +55,10 @@
 	  	if(!confirmed) return false;
 	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'basic' || $scope.selectedRole.role === 'admin') { return false; }
 
-  		endpoints.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
+  		server.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
   			console.log('Moved users with ' + $scope.selectedRole.role + ' over to basic');
   		}).finally(function(response) {
-  			endpoints.roles.delete({_id: $scope.selectedRole._id}).then(function(response) {
+  			server.roles.delete({_id: $scope.selectedRole._id}).then(function(response) {
   				$scope.roles.splice($scope.roles.indexOf($scope.selectedRole), 1);
   				$scope.selectedRole = $scope.roles[0];
 				});
@@ -70,7 +70,7 @@
 	  	var newInfo = {};
 	  	angular.copy(user, newInfo);
 	  	if(!user) return false;
-	  	endpoints.users.update({_id: user._id}, newInfo).then(function(response) {
+	  	server.users.update({_id: user._id}, newInfo).then(function(response) {
 	  		console.log(response);
 	  	});
 	  };
@@ -78,7 +78,7 @@
 	  // Delete a user
 	  $scope.deleteUser = function(user, index) {
 	  	if(!user) return false;
-	  	endpoints.users.deleteOne(user._id).then(function(response) {
+	  	server.users.deleteOne(user._id).then(function(response) {
 	  		$scope.users.splice(index, 1);
 	  	});
 	  };

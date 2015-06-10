@@ -14,7 +14,6 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
         var config = scope.config || {
 			    language: 'en',
-			    allowedContent: true,
 			    entities: false,
 			    fullPage: true,
           allowedContent:
