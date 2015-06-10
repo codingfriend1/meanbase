@@ -188,7 +188,7 @@ CRUD.prototype.updateById = function(req, res, callback) {
   if(req.body._id) { delete req.body._id; }
   this.collection.findById(req.params.id, function (err, found) {
     if (err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
     var updated = _.merge(found, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
@@ -203,7 +203,7 @@ CRUD.prototype.updateOneAndUpdate = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.findOne(identifier, function(err, found) {
     if (err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
     self.collection.update(identifier, req.body).lean().exec(function(err, updated) {
       if (err) { return handleError(res, err); }
       if(!updated) { return res.send(404); }
@@ -225,7 +225,7 @@ CRUD.prototype.delete = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.remove(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
     if(callback) callback(identifier);
     return res.status(204).send();
   });
@@ -236,7 +236,7 @@ CRUD.prototype.deleteById = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.findById(identifier.id, function (err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
     found.remove(function(err) {
       if(err) { return handleError(res, err); }
       if(callback) callback();
@@ -250,10 +250,10 @@ CRUD.prototype.deleteOneAndUpdate = function(req, res, callback) {
   var identifier = this.getIdentifer(req);
   this.collection.findOne(identifier, function(err, found) {
     if (err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
     self.collection.remove(identifier, function(err, deleted) {
       if (err) { return handleError(res, err); }
-      if(!deleted) { return res.send(404); }
+      if(!deleted) { return res.send(204); }
       if(callback) { callback(found); }
       return res.status(200).json();
     });
@@ -271,7 +271,7 @@ CRUD.prototype.deleteAndDependancies = function(req, res, callback, dependantFie
   var self = this;
   this.collection.find(identifier, function(err, foundOrigional) {
     if(err) { return handleError(res, err); }
-    if(!foundOrigional) { return res.send(404); }
+    if(!foundOrigional) { return res.send(204); }
     var i = 0, ids = [];
     while(i < foundOrigional.length) {
       ids = ids.concat(foundOrigional[i][dependantField]);
@@ -280,7 +280,7 @@ CRUD.prototype.deleteAndDependancies = function(req, res, callback, dependantFie
     // Delete document dependancies
     dependantModel.remove({_id: {$in: ids}}, function(err, foundDependancies) {
       if(err) { return handleError(res, err); }
-      if(!foundDependancies) { return res.send(404); }
+      if(!foundDependancies) { return res.send(204); }
       // Delete the document itself
       self.model.remove(identifier, function(err, found) {
         if(err) { return handleError(res, err); }
@@ -297,7 +297,7 @@ CRUD.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkMod
   var identifier = this.getIdentifer(req);
   self.model.find(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
 
     var ids = [], i = 0;
     while(i < found.length) {
