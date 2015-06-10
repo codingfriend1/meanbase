@@ -43,6 +43,7 @@ angular.module('meanbaseApp')
                     var imageToInsert = new Image();
                     imageToInsert.src = image.small;
                     imageToInsert.alt = image.alt;
+                    imageToInsert.class = 'img-responsive';
                     var sel = element.trumbowyg('getSelection');
                     sel.insertNode(imageToInsert);
                   });
