@@ -42,6 +42,7 @@ module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(cookieParser());
+  app.use(require('prerender-node'));
   app.use(passport.initialize());
 
   // Persist sessions with mongoStore

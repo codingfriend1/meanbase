@@ -19,7 +19,8 @@ angular.module('meanbaseApp', [
     $urlRouterProvider
       .otherwise('/');
     $urlMatcherFactoryProvider.strictMode(false);
-    
+
+    $locationProvider.hashPrefix('!');
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
 
