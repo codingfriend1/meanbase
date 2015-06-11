@@ -52,5 +52,5 @@ exports.deleteById = function(req, res) {
 };
 
 function callback(found) {
-	populateGlobalRoles(found);
+	// populateGlobalRoles(found);
 }

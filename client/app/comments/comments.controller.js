@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('CommentsCtrl', function ($scope, endpoints, helpers) {
+  .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr) {
 
     $scope.$parent.pageTitle = 'Moderate Comments';
     
@@ -53,12 +53,16 @@ angular.module('meanbaseApp')
   	$scope.approveComment = function(comment, index) {
   		comments.update({_id: comment._id}, {approved: true}).then(function(response) {
   			$scope.comments[$scope.comments.indexOf(comment)].approved = true;
+        toastr.clear();
+        toastr.success('Comment approved.');
   		});
   	};
 
   	$scope.unapproveComment = function(comment, index) {
   		comments.update({_id: comment._id}, {approved: false}).then(function(response) {
   			$scope.comments[$scope.comments.indexOf(comment)].approved = false;
+        toastr.clear();
+        toastr.success('Comment unapproved.');
   		});
   	};
 
@@ -69,6 +73,8 @@ angular.module('meanbaseApp')
   	$scope.deleteComment = function(comment) {
   		comments.delete({_id: comment._id}).then(function(response) {
   			$scope.comments.splice($scope.comments.indexOf(comment), 1);
+        toastr.clear();
+        toastr.success('Comment deleted.');
   		});
   	};
 
@@ -84,6 +90,8 @@ angular.module('meanbaseApp')
         // Sync the database with the comments
         comments.delete({}).then(function() {
           comments.create($scope.comments);
+          toastr.clear();
+          toastr.success('Deleted all comments.');
         });
       }
     }
@@ -96,6 +104,8 @@ angular.module('meanbaseApp')
       // Sync the database with the comments
       comments.delete({}).then(function() {
         comments.create($scope.comments);
+        toastr.clear();
+        toastr.success('Approved all visible comments.');
       });
     }
 
@@ -107,6 +117,8 @@ angular.module('meanbaseApp')
       // Sync the database with the comments
       comments.delete({}).then(function() {
         comments.create($scope.comments);
+        toastr.clear();
+        toastr.success('Unapproved all visible comments.');
       });
     }
   });

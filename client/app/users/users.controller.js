@@ -2,8 +2,8 @@
 (function(){
 	angular.module('meanbaseApp').controller('UsersCtrl', UsersCtrl);
 
-	UsersCtrl.$inject = ['$scope', 'endpoints'];
-	function UsersCtrl($scope, endpoints) {
+	UsersCtrl.$inject = ['$scope', 'endpoints', 'toastr'];
+	function UsersCtrl($scope, endpoints, toastr) {
 
 		$scope.$parent.pageTitle = "Users and Permissions";
 
@@ -38,6 +38,8 @@
   		server.roles.create(newRole).success(function(response) {
   			$scope.roles.push({role: roleName, permissions: $scope.selectedRole.permissions});
   			$scope.selectedRole = newRole;
+  			toastr.clear();
+  			toastr.success('Created new role: ' + roleName);
   		});
 	  };
 
@@ -45,7 +47,8 @@
 	  $scope.updateRole = function(roleForm) {
 	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'admin') { return false; }
   		server.roles.update({_id: $scope.selectedRole._id}, {permissions: $scope.selectedRole.permissions}).then(function(response) {
-  			console.log(response);
+  			toastr.clear();
+  			toastr.success('Updated ' + $scope.selectedRole.role + ' role.');
   		});
 	  };
 
@@ -57,8 +60,11 @@
 
   		server.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
   			console.log('Moved users with ' + $scope.selectedRole.role + ' over to basic');
+  			toastr.warning('Moved users with ' + $scope.selectedRole.role + ' over to basic');
   		}).finally(function(response) {
   			server.roles.delete({_id: $scope.selectedRole._id}).then(function(response) {
+  				toastr.clear();
+  				toastr.success('Deleted ' + $scope.selectedRole.role + ' role.');
   				$scope.roles.splice($scope.roles.indexOf($scope.selectedRole), 1);
   				$scope.selectedRole = $scope.roles[0];
 				});
@@ -71,7 +77,8 @@
 	  	angular.copy(user, newInfo);
 	  	if(!user) return false;
 	  	server.users.update({_id: user._id}, newInfo).then(function(response) {
-	  		console.log(response);
+	  		toastr.clear();
+	  		toastr.success('Updated user: ' + user.name);
 	  	});
 	  };
 
@@ -79,6 +86,8 @@
 	  $scope.deleteUser = function(user, index) {
 	  	if(!user) return false;
 	  	server.users.deleteOne(user._id).then(function(response) {
+	  		toastr.clear();
+	  		toastr.success('Deleted user: ' + user.name);
 	  		$scope.users.splice(index, 1);
 	  	});
 	  };
