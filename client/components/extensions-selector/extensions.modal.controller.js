@@ -23,7 +23,7 @@ angular.module('meanbaseApp').controller('extensions.modal.controller', function
 		};
 		if(alreadySelected > -1) {
 			$scope.chosenContent.splice(alreadySelected, 1);
-			angular.element($event.currentTarget).removeClass('fa-check').addClass('fa-square-o');
+			angular.element($event.currentTarget).find('.checkbox').removeClass('fa-check').addClass('fa-square-o');
 		} else {
 			var content2;
 			if(content.type) {
@@ -41,7 +41,7 @@ angular.module('meanbaseApp').controller('extensions.modal.controller', function
 			if(content2) {
 				content = content2;
 				$scope.chosenContent.push(content);
-				angular.element($event.currentTarget).addClass('fa-check').removeClass('fa-square-o');
+				angular.element($event.currentTarget).find('.checkbox').addClass('fa-check').removeClass('fa-square-o');
 			}
 		}
 	};
