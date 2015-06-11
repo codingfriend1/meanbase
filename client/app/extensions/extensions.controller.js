@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ExtensionsCtrl', function ($scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope) {
+  .controller('ExtensionsCtrl', function ($modal, $scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope) {
     $scope.$parent.pageTitle = 'Extensions';
 
-    var extension = new endpoints('extension');
+    var extensions = new endpoints('extension');
 
     if ($cookieStore.get('token')) {
       var uploader = $scope.uploader = new FileUploader({
@@ -15,6 +15,11 @@ angular.module('meanbaseApp')
           autoUpload: true
       });
     }
+
+    extensions.find({}).success(function(response) {
+      $scope.extensions = response;
+    });
+
 
     uploader.onCompleteAll = function(e) {
       uploader.clearQueue();
@@ -28,4 +33,17 @@ angular.module('meanbaseApp')
     uploader.onErrorItem = function(item, response, status, headers) {
       toastr.error("Could not upload extension. " + status + ": " + response);
     };
+
+    $scope.deleteExtension = function(extension) {
+      if(extension._id) {
+        var sure = window.confirm('Are you sure you want to delete this extension?');
+        if(sure) {
+          extension.delete({_id: extension._id}).then(function(response) {
+            toastr.success('Deleted ' + extension.name + ' extension.');
+            $scope.extensions.splice($scope.extensions.indexOf(extension), 1);
+          });
+        }
+      }
+    };
+
   });
