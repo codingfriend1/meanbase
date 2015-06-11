@@ -17,10 +17,10 @@ var RolesSchema = new Schema({
   		type: Boolean,
       default: false
   	},
-  	publishContent: {
-  		type: Boolean,
-      default: false
-  	},
+  	// publishContent: {
+  	// 	type: Boolean,
+   //    default: false
+  	// },
   	deleteContent: {
   		type: Boolean,
       default: false
@@ -29,10 +29,10 @@ var RolesSchema = new Schema({
   		type: Boolean,
       default: false
   	},
-  	restrictAccess: {
-  		type: Boolean,
-      default: false
-  	},
+  	// restrictAccess: {
+  	// 	type: Boolean,
+   //    default: false
+  	// },
   	manageExtensions: {
   		type: Boolean,
       default: false
@@ -53,14 +53,14 @@ var RolesSchema = new Schema({
   		type: Boolean,
       default: false
   	},
-  	importExportData: {
-  		type: Boolean,
-      default: false
-  	},
-  	deleteSite: {
-  		type: Boolean,
-      default: false
-  	},
+  	// importExportData: {
+  	// 	type: Boolean,
+   //    default: false
+  	// },
+  	// deleteSite: {
+  	// 	type: Boolean,
+   //    default: false
+  	// },
   	allPrivilages: {
   		type: Boolean,
       default: false
