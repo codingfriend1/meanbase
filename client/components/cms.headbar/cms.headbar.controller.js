@@ -6,8 +6,7 @@
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 		var server = {
 			menus: new endpoints('menus'),
-			page: new endpoints('pages'),
-			sharedContent: new endpoints("shared-content")
+			page: new endpoints('pages')
 		};
 
 		var self = this;
@@ -38,55 +37,9 @@
 
 		this.saveChanges = function() {
 			this.toggleEdit();
-			if(!$rootScope.page._id) { return false; }
-
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
 			$rootScope.$emit('cms.saveEdits', $rootScope.page);
-
-			var extensionsWithShared = [];
-			helpers.loopThroughPageExtensions(function(currentExtension) {
-				if(currentExtension.contentName && currentExtension.contentName !== '') {
-				  extensionsWithShared.push(currentExtension);
-				}
-			});
-
-			//We need to wait for the "edit" directive to store changes in page.content
-			$timeout(function(){
-				modifyPage($rootScope.page);		
-				server.page.update({_id: $rootScope.page._id}, $rootScope.page);
-				toastr.success('Changes saved');
-
-				helpers.loopThroughPageExtensions(function(currentExtension) {
-				  if(currentExtension.contentName && currentExtension.contentName !== '') {
-				    if($rootScope.sharedContent[currentExtension.contentName]) {
-				      currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
-				      currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
-				    } else {
-				      $rootScope.sharedContent[currentExtension.contentName] = {
-				        data: currentExtension.data,
-				        config: currentExtension.config,
-				        type: currentExtension.name
-				      };
-				    }
-				  }
-				});
-
-				if($rootScope.sharedContentToDelete.length < 1) {
-					updateSharedContent(extensionsWithShared);
-				} else {
-					server.sharedContent.delete({query: { name: {$in: $rootScope.sharedContentToDelete} }}).finally(function() {
-						updateSharedContent(extensionsWithShared);
-					});
-				}
-				$rootScope.sharedContentToDelete = [];
-			});
 		};
-
-		function updateSharedContent(extensionsWithShared) {
-			for(var idx = 0; idx < extensionsWithShared.length; idx++) {
-				server.sharedContent.update({name: extensionsWithShared[idx].contentName}, {data: extensionsWithShared[idx].data, config: extensionsWithShared[idx].config, type: extensionsWithShared[idx].name});	
-			}
-		}
 
 		this.discardChanges = function() {
 			this.toggleEdit();
@@ -182,11 +135,6 @@
 				});
 				$location.url(url);
 			});
-		}
-
-		function modifyPage(page) {
-			if(page.url.charAt(0) !== '/') { page.url = '/' + page.url; }
-			// updateExtensionPositionData();
 		}
 
 		// function updateExtensionPositionData() {

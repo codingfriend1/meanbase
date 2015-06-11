@@ -15,7 +15,8 @@
     var server = {
       menus: new endpoints('menus'),
       sharedContent: new endpoints("shared-content"),
-      extensions: new endpoints('extension')
+      extensions: new endpoints('extension'),
+      page: new endpoints('pages')
     };
 
     // Get the current logged in user
@@ -26,6 +27,7 @@
     $rootScope.editMode = false;
 
     $rootScope.sharedContentToDelete = [];
+    $scope.sharedContentToCheckDelete = [];
 
     // Get all the menus
     server.menus.find({}).then(function(response) {
@@ -156,9 +158,14 @@
         $scope.ableToNavigate = false;
       } else {
         $scope.ableToNavigate = true;
-      }
-      
+      } 
     });
+
+    function updateSharedContent(extensionsWithShared) {
+      for(var idx = 0; idx < extensionsWithShared.length; idx++) {
+        server.sharedContent.update({name: extensionsWithShared[idx].contentName}, {data: extensionsWithShared[idx].data, config: extensionsWithShared[idx].config, type: extensionsWithShared[idx].name}); 
+      }
+    }
 
     $scope.$onRootScope('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if (!$scope.ableToNavigate) {
@@ -189,6 +196,48 @@
         });
       });
 
+      //We need to wait for the "edit" directive to store changes in page.content
+      $timeout(function(){
+        if(!$rootScope.page._id) { return false; }
+        if($rootScope.page.url.charAt(0) !== '/') { $rootScope.page.url = '/' + $rootScope.page.url; }
+          // updateExtensionPositionData();
+        server.page.update({_id: $rootScope.page._id}, $rootScope.page).finally(function() {
+          if($scope.sharedContentToCheckDelete.length > 0) {
+            server.sharedContent.delete({checkDelete: $scope.sharedContentToCheckDelete});
+            $scope.sharedContentToCheckDelete = [];
+          }
+          toastr.success('Changes saved');
+        });
+
+        var extensionsWithShared = [];
+        helpers.loopThroughPageExtensions(function(currentExtension) {
+          if(currentExtension.contentName && currentExtension.contentName !== '') {
+            extensionsWithShared.push(currentExtension);
+          }
+
+          if(currentExtension.contentName && currentExtension.contentName !== '') {
+            if($rootScope.sharedContent[currentExtension.contentName]) {
+              currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
+              currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
+            } else {
+              $rootScope.sharedContent[currentExtension.contentName] = {
+                data: currentExtension.data,
+                config: currentExtension.config,
+                type: currentExtension.name
+              };
+            }
+          }
+        });
+
+        if($rootScope.sharedContentToDelete.length < 1) {
+          updateSharedContent(extensionsWithShared);
+        } else {
+          server.sharedContent.delete({query: { name: {$in: $rootScope.sharedContentToDelete} }}).finally(function() {
+            updateSharedContent(extensionsWithShared);
+          });
+        }
+        $rootScope.sharedContentToDelete = [];
+      });
     }); //onRootScope()
 
     // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when you first clicked edit
@@ -201,7 +250,6 @@
     });
 
     $scope.openImageModal = function(callback) {
-      console.log('choosing image');
       var modalInstance = $modal.open({
         templateUrl: 'findImage.modal.html',
         controller: function($scope, $modalInstance) {
@@ -240,6 +288,9 @@
 
     // Removes an extension from an extensible area
     $scope.removeThisExtension = function(extension) {
+      if(extension.contentName && $scope.sharedContentToCheckDelete.indexOf(extension.contentName) === -1) {
+        $scope.sharedContentToCheckDelete.push(extension.contentName);
+      }
       updateExtensionPositionData();
       if(extension && extension.group && extension.position !== undefined) {
         $rootScope.page.extensions[extension.group].splice(extension.position, 1);

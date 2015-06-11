@@ -12,6 +12,7 @@ var SharedContentSchema = new Schema({
     validate: validators.isTitle()
   },
   data: Schema.Types.Mixed,
+  config: Schema.Types.Mixed,
   type: {
   	type: String,
   	required: true,

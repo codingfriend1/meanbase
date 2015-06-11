@@ -5,6 +5,8 @@ var SharedContent = require('./shared-content.model');
 var CRUD = require('../../components/CRUD');
 var collection = new CRUD(SharedContent);
 
+var Pages = require('../pages/pages.model');
+
 collection.modifyBody = function(body) {
   return body;
 };
@@ -39,7 +41,19 @@ exports.update = function(req, res) {
 
 // Deletes a pages from the DB.
 exports.delete = function(req, res) {
-  collection.delete(req, res);
+  if(req.query && req.query.checkDelete) {
+    if(!Array.isArray(req.query.checkDelete)) { req.query.checkDelete = [req.query.checkDelete]; }
+    Pages.count({'extensions.contentName': { $in : req.query.checkDelete  }}, function(error, number) {
+      if(number === 0) {
+        req.query = {name:{ $in : req.query.checkDelete }};
+        collection.delete(req, res);
+      } else {
+        return res.status(204).send();
+      }
+    });
+  } else {
+    collection.delete(req, res);
+  }
 };
 
 // Get a single pages

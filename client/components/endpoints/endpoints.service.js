@@ -15,21 +15,21 @@
 
 		endpoints.prototype.create = function(data) {
 			var self = this;
-			return $http.post(this.url, data).error(function(error) {
+			return $http.post(this.url, data).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.find = function(identifier) {
 			var self = this;
-			return $http.get(this.url, {params: identifier}).error(function(error) {
+			return $http.get(this.url, {params: identifier}).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.update = function(identifier, replacement) {
 			var self = this;
-			return $http.put(this.url, {identifier: identifier, replacement: replacement}).error(function(error) {
+			return $http.put(this.url, {identifier: identifier, replacement: replacement}).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -39,28 +39,28 @@
 			return $http.delete(this.url, {
 			    params: identifier,
 			    headers: {"Content-Type": "application/json;charset=utf-8"}
-  			}).error(function(error) {
+  			}).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.findOne = function(id) {
 			var self = this;
-			return $http.get(this.url + '/' + id).error(function(error) {
+			return $http.get(this.url + '/' + id).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.updateOne = function(id, replacement) {
 			var self = this;
-			return $http.put(this.url + '/' + id, replacement).error(function(error) {
+			return $http.put(this.url + '/' + id, replacement).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.deleteOne = function(id) {
 			var self = this;
-			return $http.delete(this.url + '/' + id).error(function(error) {
+			return $http.delete(this.url + '/' + id).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -70,14 +70,14 @@
 			// if(category.substring(category.length-1) !== "s") {
 			// 	category = category + 's';
 			// }
-			if(!/<[a-z][\s\S]*>/i.test(error)) {
-				console.log('Server API call to "' + category + '" failed. ', error);
+			if(!/<[a-z][\s\S]*>/i.test(data)) {
+				console.log('Server API call to "' + category + '" failed. ', data);
 				var response = '';
-				if(error.message && error.message === 'Validation failed') {
-					for (var field in error.errors) {
-					  if (error.errors.hasOwnProperty(field)) {
-					  	if(error.errors[field].value.length < 50) {
-						  	response += error.errors[field].value + ' is invalid.';
+				if(data.message && data.message === 'Validation failed') {
+					for (var field in data.errors) {
+					  if (data.errors.hasOwnProperty(field)) {
+					  	if(data.errors[field].value.length < 50) {
+						  	response += data.errors[field].value + ' is invalid.';
 						  }
 					  }
 					}
