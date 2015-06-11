@@ -37,8 +37,12 @@ div#moderate-comments
         button.btn.btn-success(ng-click="approveAllVisible()") Approve All Visibile
         button.btn.btn-warning(ng-click="unapproveAllVisible()") Unapprove All Visibile
         button.btn.btn-danger(ng-click="deleteAllVisible()") Delete All Visibile
+    .form-group.checkbox
+        label
+            input(type="checkbox" ng-model="sortDirection") 
+            | Show oldest comments first?
     accordion(close-others="true")
-        accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'-date' | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
+        accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'-date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
             accordion-heading.panel-heading(ng-click="status.open=!status.open")
                 i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
                 span.commment-author #[strong {{comment.author}} ]: {{comment.date | relativeDate}}
