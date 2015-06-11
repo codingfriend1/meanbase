@@ -121,7 +121,18 @@ exports.update = function(req, res) {
 
 // Deletes a pages from the DB.
 exports.delete = function(req, res) {
-  collection.delete(req, res);
+  collection.delete(req, res, function(identifier) {
+    if(identifier && identifier.folderName && identifier.folderName !== '') {
+      try {
+        fse.remove(app.get('appPath') + 'extensions/' + req.query.folderName);
+        return res.status(204).send();
+      } catch(e) {
+        console.log('Could not delete extension', e);
+        return res.status(500).send();
+      }
+    }
+  });
+  // collection.delete(req, res);
 };
 
 // Get a single pages

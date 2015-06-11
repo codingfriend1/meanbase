@@ -242,7 +242,8 @@ exports.retrieveExtensions = function(callback) {
           } catch(e) {
             return callback("Could not find an index.html in the extension. An extension needs this file to know what to compile.");
           }
-          
+
+          extensionJSON.folderName = extensionsFolder[ii];
           
           if(files) {
             extensionJSON.urls = files;
@@ -259,6 +260,7 @@ exports.retrieveExtensions = function(callback) {
           json = null;
           files = [];
           screenshot = null;
+          folderName = null;
           extensionJSON = {};
         } catch(error) {
           console.log('Could not parse extension.json in root of extension', error);

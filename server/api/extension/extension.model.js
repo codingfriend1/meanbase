@@ -11,6 +11,11 @@ var ExtensionSchema = new Schema({
     trim: true,
     validate: validators.isTitle()
   },
+  folderName: {
+    type: String,
+    required: true,
+    validate: validators.isFilePath()
+  },
   urls: [{
     type: String,
     required: false,

@@ -126,7 +126,7 @@ exports.update = function(req, res) {
 // Deletes a themes from the DB.
 exports.delete = function(req, res) {
   collection.delete(req, res, function(identifier) {
-  	if(identifier && identifier.url) {
+  	if(identifier && identifier.url && identifier.url !== '') {
   		try {
   			fse.remove(app.get('appPath') + 'themes/' + req.query.url);
   			return res.status(204).send();

@@ -18,6 +18,7 @@ angular.module('meanbaseApp')
 
     extensions.find({}).success(function(response) {
       $scope.extensions = response;
+      console.log("response", response);
     });
 
 
@@ -38,7 +39,7 @@ angular.module('meanbaseApp')
       if(extension._id) {
         var sure = window.confirm('Are you sure you want to delete this extension?');
         if(sure) {
-          extension.delete({_id: extension._id}).then(function(response) {
+          extensions.delete({folderName: extension.folderName}).then(function(response) {
             toastr.success('Deleted ' + extension.name + ' extension.');
             $scope.extensions.splice($scope.extensions.indexOf(extension), 1);
           });
