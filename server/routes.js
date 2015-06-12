@@ -11,7 +11,6 @@ module.exports = function(app) {
   // Insert routes below
   app.use('/api/extensions/', require('./api/extensions'));
   app.use('/api/shared-content', require('./api/shared-content'));
-  app.use('/api/extensiondata', require('./api/extensiondata'));
   app.use('/api/extension', require('./api/extension'));
   app.use('/api/media', require('./api/media'));
   app.use('/api/comments', require('./api/comments'));

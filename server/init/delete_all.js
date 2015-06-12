@@ -1,7 +1,7 @@
 var Comments = require('../api/comments/comments.model');
-var ExtensionData = require('../api/extensiondata/extensiondata.model');
 var Menus = require('../api/menus/menus.model');
 var Pages = require('../api/pages/pages.model');
+var Shared = require('../api/shared-content/shared-content.model');
 var Roles = require('../api/roles/roles.model');
 var Themes = require('../api/themes/themes.model');
 var User = require('../api/user/user.model');
@@ -13,10 +13,10 @@ module.exports = function(cb) {
 	  console.log('deleted comments');
 	});
 
-	ExtensionData.remove({}, function (err, data) {
+	Shared.remove({}, function (err, data) {
 	  if(err) { return handleError(err); }
 	  if(!data) { return false; }
-	  console.log('deleted extension data');
+	  console.log('deleted shared content');
 	});
 
 	Menus.remove({}, function (err, menus) {

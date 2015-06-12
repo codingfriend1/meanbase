@@ -335,14 +335,21 @@ function isEmpty(obj) {
 // Handles the request object to determine how data was sent to the server
 CRUD.prototype.getIdentifer = function(req) {
   var identifier = {};
-  if(req.body && req.body.identifier && req.body.replacement) {
+  if(req.query && req.query.where) { //If a raw mongodb query came in
+    try {
+      identifier = JSON.parse(req.query.where);
+    } catch(e) {
+      console.log('could not parse req.query.where', req.query.where);
+      identifier = req.query.where;
+    }
+  } else if(req.body && req.body.identifier && req.body.replacement) { //If an update request came in
     identifier = req.body.identifier; 
     req.body = req.body.replacement;
-  } else if (!isEmpty(req.body) && !req.body.replacement) {
+  } else if (!isEmpty(req.body) && !req.body.replacement) { //if an identifier came in through the body
     identifier = req.body; 
-  } else if (!isEmpty(req.query)) {
+  } else if (!isEmpty(req.query)) { //If the query is not empty use it directly
     identifier = req.query;
-  } else if (req.params) {
+  } else if (req.params) { //Otherwise use params
     identifier = req.params;
   }
 

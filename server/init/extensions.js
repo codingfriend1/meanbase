@@ -1,7 +1,6 @@
 var fs = require('fs');
 var config = require('../config/environment');
 var Extension = require('../api/extension/extension.model');
-var ExtensionData = require('../api/extensiondata/extensiondata.model');
 var searchFolders = require('../components/search-folders');
 var compileIndex = require('../components/index');
 

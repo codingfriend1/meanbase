@@ -13,16 +13,16 @@
 			}
 		}
 
-		endpoints.prototype.create = function(data) {
+		endpoints.prototype.create = function(content) {
 			var self = this;
-			return $http.post(this.url, data).error(function(data, status, headers, config) {
+			return $http.post(this.url, content).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
 
 		endpoints.prototype.find = function(identifier) {
 			var self = this;
-			return $http.get(this.url, {params: identifier}).error(function(data, status, headers, config) {
+			return $http.get(this.url, {params: {where: identifier} }).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -37,7 +37,7 @@
 		endpoints.prototype.delete = function(identifier) {
 			var self = this;
 			return $http.delete(this.url, {
-			    params: identifier,
+			    params: {where: identifier},
 			    headers: {"Content-Type": "application/json;charset=utf-8"}
   			}).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);

@@ -143,7 +143,7 @@
         $rootScope.dataSources = res;
       });
 
-      server.extensions.find({}).success(function(res) {
+      server.extensions.find({active: true}).success(function(res) {
         $rootScope.extensions = res;
       });
 
@@ -229,7 +229,7 @@
         if($rootScope.sharedContentToDelete.length < 1) {
           updateSharedContent(extensionsWithShared);
         } else {
-          server.sharedContent.delete({query: { name: {$in: $rootScope.sharedContentToDelete} }}).finally(function() {
+          server.sharedContent.delete({ name: {$in: $rootScope.sharedContentToDelete} }).finally(function() {
             updateSharedContent(extensionsWithShared);
           });
         }

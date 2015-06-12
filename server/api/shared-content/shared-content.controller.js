@@ -12,9 +12,9 @@ collection.modifyBody = function(body) {
 };
 
 collection.modifyIdentifier = function(identifier) {
-  if(identifier.query) {
-    identifier = identifier.query;
-  }
+  // if(identifier.query) {
+  //   identifier = identifier.query;
+  // }
 
   return identifier;
 };
