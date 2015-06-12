@@ -135,7 +135,7 @@ exports.delete = function(req, res) {
   			return res.status(500).send();
   		}
   	}
-  });
+  }, true);
 };
 
 // Get a single themes

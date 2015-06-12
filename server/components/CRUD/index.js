@@ -256,9 +256,13 @@ CRUD.prototype.updateRaw = function(identifier, content) {
 };
 
 // Deletes multiple items from the collection.
-CRUD.prototype.delete = function(req, res, callback) {
+CRUD.prototype.delete = function(req, res, callback, preventDeleteAll) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  if(preventDeleteAll && helpers.isEmpty(identifier)) {
+    console.log("preventDeleteAll", preventDeleteAll);
+    return mongoErrorHandler(res, 'You cannot delete all items in this collection');
+  }
   try {
     this.collection.remove(identifier, function(err, found) {
       if(err) { return handleError(res, err); }

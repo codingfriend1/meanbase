@@ -23,17 +23,7 @@ exports.update = function(req, res) {
 
 // Deletes a pages from the DB.
 exports.delete = function(req, res) {
-	collection.modifyIdentifier = function(identifier) {
-		if(helpers.isEmpty(identifier)) {
-			res.status(409).send('You should not delete all roles in the system.');
-			return false;
-		} else {
-			return identifier;
-		}
-	};
-
-  collection.delete(req, res);
-  collection.modifyIdentifier = null;
+  collection.delete(req, res, null, true); //Last paramater prevent ability to delete all records at once
 };
 
 // Get a single pages
