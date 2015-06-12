@@ -34,20 +34,15 @@
       $rootScope.menus = response.data;
     });
 
-    // $rootScope.page = {};
-    // Get the current page by watching for changes on meanbaseGlobals.page
-    $scope.$watch(function() {
-      return window.meanbaseGlobals.page;
-    }, function(page) {
-      $rootScope.page = page;
-      if($rootScope.page && $rootScope.page.url.charAt(0) === '/') { $rootScope.page.url = $rootScope.page.url.substr(1); }
-      if($rootScope.page && !$rootScope.page.extensions) {
-        $rootScope.page.extensions = {};
-      }
+    if($rootScope.page && $rootScope.page.url.charAt(0) === '/') { $rootScope.page.url = $rootScope.page.url.substr(1); }
+    if($rootScope.page && !$rootScope.page.extensions) {
+      $rootScope.page.extensions = {};
+    }
 
-      getSharedContent();
-      
-    });
+    document.title = $rootScope.page.tabTitle;
+    jQuery('meta[name=description]').attr('content', $rootScope.page.description);
+
+    getSharedContent();
 
     function getSharedContent() {
       var sharedContent = [];
@@ -202,6 +197,8 @@
         if($rootScope.page.url.charAt(0) !== '/') { $rootScope.page.url = '/' + $rootScope.page.url; }
           // updateExtensionPositionData();
         server.page.update({_id: $rootScope.page._id}, $rootScope.page).finally(function() {
+          document.title = $rootScope.page.tabTitle;
+          jQuery('meta[name=description]').attr('content', $rootScope.page.description);
           if($scope.sharedContentToCheckDelete.length > 0) {
             server.sharedContent.delete({checkDelete: $scope.sharedContentToCheckDelete});
             $scope.sharedContentToCheckDelete = [];

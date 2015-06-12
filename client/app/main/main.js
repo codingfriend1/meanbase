@@ -26,7 +26,7 @@
     $stateProvider
       .state('main.page', {
         url: '^/{page:(?!cms).*}',
-        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', function(endpoints, $templateFactory, $stateParams, $q, $state) {
+        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope) {
           // - Instantiate a new endpoints service to communite with server database
           var endpoint = new endpoints('pages');
 
@@ -58,7 +58,8 @@
             var templatePath = window.meanbaseGlobals.themeTemplatePaths[mappedTemplate].template;            
 
             // - Save the rest of the page data on the meanbaseGlobals object for use in the rest of the app
-            meanbaseGlobals.page = response[0];
+            // meanbaseGlobals.page = 
+            $rootScope.page = response[0];
 
             // - **The promise must return a html string instead of a url**
             $templateFactory.fromUrl(templatePath).then(function(html) {

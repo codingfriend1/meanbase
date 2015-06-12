@@ -47,4 +47,18 @@ angular.module('meanbaseApp')
       }
     };
 
+    $scope.toggleEnabled = function(extension) {
+      extension.active = !extension.active;
+      if(extension._id) {
+        extensions.update({_id: extension._id}, {active: extension.active}).then(function(response) {
+          toastr.clear();
+          if(!extension.active) {
+            toastr.warning('"' + extension.name + '" will not longer be useable in your site.')
+          } else {
+            toastr.success('"' + extension.name + '" can now be used across your site.');
+          }
+        });
+      }
+    };
+
   });

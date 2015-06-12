@@ -9,4 +9,6 @@ div.drop-zone(nv-file-drop="uploader" uploader="uploader").text-center.form-inli
 	.col-md-4.col-sm-6(ng-repeat="extension in extensions")
 		h4 {{extension.name}} 
 		img(ng-src="{{extension.screenshot}}" ng-click="openModal(extension)").img-responsive.img-thumbnail
-		button.btn.btn-danger(ng-click="deleteExtension(extension)") Delete
+		button.btn.btn-danger.delete-extension-button(ng-click="deleteExtension(extension)") Delete
+		button.btn.btn-success.enable-extension-button(ng-click="toggleEnabled(extension)" ng-show="!extension.active") Enable Use
+		button.btn.btn-warning.enable-extension-button(ng-click="toggleEnabled(extension)" ng-show="extension.active") Disable Use
