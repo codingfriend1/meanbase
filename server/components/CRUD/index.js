@@ -34,6 +34,7 @@
 
 
 var _ = require('lodash');
+var helpers = require('../helpers');
 
 function CRUD(collection) {
   this.collection = collection || {}; //Set up the name of the collection we will be interacting with
@@ -54,247 +55,274 @@ CRUD.prototype.setCollection = function(collection) {
 
 // Get a single item
 CRUD.prototype.findById = function(req, res, callback) {
-  this.collection.findById(req.params.id).lean().exec(function (err, found) {
-    if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+  try {
+    this.collection.findById(req.params.id).lean().exec(function (err, found) {
+      if(err) { return handleError(res, err); }
+      if(!found) { return res.send(404); }
 
-    // If the function has a callback use it and if it returns a value send that value instead
-    var modified;
-    if(callback) { modified = callback(found); }
-    if(modified) { found = modified; }
-    
-    return res.json(found);
-  });
+      // If the function has a callback use it and if it returns a value send that value instead
+      var modified;
+      if(callback) { modified = callback(found); }
+      if(modified) { found = modified; }
+      
+      return res.json(found);
+    });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
 
 // Get some items
 CRUD.prototype.find = function(req, res, callback) {
-  var identifier = this.getIdentifer(req);
-  this.collection.find(identifier).lean().exec(function (err, found) {
-    if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  try {
+    this.collection.find(identifier).lean().exec(function (err, found) {
+      if(err) { return handleError(res, err); }
+      if(!found) { return res.send(404); }
 
-    // If the function has a callback use it and if it returns a value send that value instead
-    var modified;
-    if(callback) { modified = callback(found); }
-    if(modified) { found = modified; }
-    
-    return res.status(200).json(found);
-  });
+      // If the function has a callback use it and if it returns a value send that value instead
+      var modified;
+      if(callback) { modified = callback(found); }
+      if(modified) { found = modified; }
+      
+      return res.status(200).json(found);
+    });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
 
 // Gets some items and populates their linked documents
 CRUD.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
-  var identifier = this.getIdentifer(req);
-  this.collection.find(identifier).populate(populateQuery).lean().exec(function(err, found) {
-    if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  try {
+    this.collection.find(identifier).populate(populateQuery).lean().exec(function(err, found) {
+      if(err) { return handleError(res, err); }
+      if(!found) { return res.send(404); }
 
-    // If the function has a callback use it and if it returns a value send that value instead
-    var modified;
-    if(callback) { modified = callback(found); }
-    if(modified) { found = modified; }  
-    return res.status(200).json(found);
-  });
+      // If the function has a callback use it and if it returns a value send that value instead
+      var modified;
+      if(callback) { modified = callback(found); }
+      if(modified) { found = modified; }  
+      return res.status(200).json(found);
+    });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
 
 // Find items and sort by a filter
 CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
-  var identifier = this.getIdentifer(req);
-  this.collection.find(identifier).sort(sortFilter).lean().exec(function(err, found) {
-    if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  try {
+    this.collection.find(identifier).sort(sortFilter).lean().exec(function(err, found) {
+      if(err) { return handleError(res, err); }
+      if(!found) { return res.send(404); }
 
-    // If the function has a callback use it and if it returns a value send that value instead
-    var modified;
-    if(callback) { modified = callback(found); }
-    if(modified) { found = modified; }
-    
-    return res.status(200).json(found);
-  });
+      // If the function has a callback use it and if it returns a value send that value instead
+      var modified;
+      if(callback) { modified = callback(found); }
+      if(modified) { found = modified; }
+      
+      return res.status(200).json(found);
+    });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
 
 // Get All items
 CRUD.prototype.findAll = function(req, res, callback) {
-  this.collection.find({}).lean().exec(function (err, found) {
-    if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+  try {
+    this.collection.find({}).lean().exec(function (err, found) {
+      if(err) { return handleError(res, err); }
+      if(!found) { return res.send(404); }
 
-    // If the function has a callback use it and if it returns a value send that value instead
-    var modified;
-    if(callback) { modified = callback(found); }
-    if(modified) { found = modified; }
-    
-    return res.status(200).json(found);
-  });
+      // If the function has a callback use it and if it returns a value send that value instead
+      var modified;
+      if(callback) { modified = callback(found); }
+      if(modified) { found = modified; }
+      
+      return res.status(200).json(found);
+    });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
 
 // Creates new items in the collection.
 // Accepts an array of items or just one item object
 CRUD.prototype.create = function(req, res, callback) {
-  this.collection.create(req.body, function(err, found) {
-    if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+  try {
+    this.collection.create(req.body, function(err, found) {
+      if(err) { return handleError(res, err); }
+      if(!found) { return res.send(404); }
 
-    // Since mongoose returns created items as list of params we must iterate through them
-    var allFound = getArguments(arguments);
-    if(callback) callback(allFound);
-    return res.status(201).json(allFound);
-  });
+      // Since mongoose returns created items as list of params we must iterate through them
+      var allFound = getArguments(arguments);
+      if(callback) callback(allFound);
+      return res.status(201).json(allFound);
+    });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
-
-// Creates a new item in this collection and links it to another collection.
-// CRUD.prototype.createAndLink = function(req, res, callback, linkModel, linkField) {
-//   this.collection.create(req.body, function(err, found) {
-//     if(err) { return handleError(res, err); }
-//     if(!found) { return res.send(404); }
-//     var linkObject = {};
-//     linkObject[linkField] = found._id;
-//     linkModel.update(linkObject, {$push: linkObject}, function(err, updatedFind) {
-//       if(err) { return handleError(res, err); }
-//       if(!found) { return res.send(404); }
-//       if(callback) callback();
-//       return res.status(200).json(allFound);
-//     });
-//   });
-// };
 
 // Updates existing items in the collection.
 CRUD.prototype.update = function(req, res, callback) {
-  var identifier = this.getIdentifer(req);
-  this.collection.update(identifier, req.body, {multi: true}, function(err, found) {
-    if (err) { return handleError(res, err); }
-    if(!found) { return res.status(204).send(); }
-    var allFound = getArguments(arguments);
-    if(callback) callback(req.body);
-    return res.status(200).json(allFound);
-  });
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  try {
+    this.collection.update(identifier, req.body, {multi: true}, function(err, found) {
+      if (err) { return handleError(res, err); }
+      if(!found) { return res.status(204).send(); }
+      var allFound = getArguments(arguments);
+      if(callback) callback(req.body);
+      return res.status(200).json(allFound);
+    });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
 
 // Updates or Upserts existing items in the collection.
 CRUD.prototype.upsert = function(req, res, callback) {
-  var identifier = this.getIdentifer(req);
-  this.collection.update(identifier, req.body, {multi: true, upsert: true, setDefaultsOnInsert: true}, function(err, found, upserted) {
-    if (err) { return handleError(res, err); }
-    if(!found) { return res.status(204).send(); }
-    var allFound = getArguments(arguments);
-    if(callback) callback(req.body);
-    return res.status(201).json(allFound);
-  });
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  try {
+    this.collection.update(identifier, req.body, {multi: true, upsert: true, setDefaultsOnInsert: true}, function(err, found, upserted) {
+      if (err) { return handleError(res, err); }
+      if(!found) { return res.status(204).send(); }
+      var allFound = getArguments(arguments);
+      if(callback) callback(req.body);
+      return res.status(201).json(allFound);
+    });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
 
 // Updates one existing item in the collection.
 CRUD.prototype.updateById = function(req, res, callback) {
   if(req.body._id) { delete req.body._id; }
-  this.collection.findById(req.params.id, function (err, found) {
-    if (err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
-    var updated = _.merge(found, req.body);
-    updated.save(function (err) {
+  try {
+    this.collection.findById(req.params.id, function (err, found) {
       if (err) { return handleError(res, err); }
-      if(callback) callback(req.body);
-      return res.status(200).json(found);
+      if(!found) { return res.send(404); }
+      var updated = _.merge(found, req.body);
+      updated.save(function (err) {
+        if (err) { return handleError(res, err); }
+        if(callback) callback(req.body);
+        return res.status(200).json(found);
+      });
     });
-  });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
 
 CRUD.prototype.updateOneAndUpdate = function(req, res, callback) {
   var self = this;
-  var identifier = this.getIdentifer(req);
-  this.collection.findOne(identifier, function(err, found) {
-    if (err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
-    self.collection.update(identifier, req.body).lean().exec(function(err, updated) {
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  try {
+    this.collection.findOne(identifier, function(err, found) {
       if (err) { return handleError(res, err); }
-      if(!updated) { return res.send(404); }
-      if(found) {
-        found = found.toJSON();
-        if(callback) { callback(found, req.body); }
-      }
-      return res.status(200).json(updated);
+      if(!found) { return res.send(404); }
+      self.collection.update(identifier, req.body).lean().exec(function(err, updated) {
+        if (err) { return handleError(res, err); }
+        if(!updated) { return res.send(404); }
+        if(found) {
+          found = found.toJSON();
+          if(callback) { callback(found, req.body); }
+        }
+        return res.status(200).json(updated);
+      });
     });
-  });
+  } catch(e) {
+    mongoErrorHandler(res, e);
+  }
 };
 
 CRUD.prototype.updateRaw = function(identifier, content) {
-  this.collection.update(identifier, content, {multi: true}, function(err, updated) {});
+  try {
+    this.collection.update(identifier, content, {multi: true}, function(err, updated) {});
+  } catch(e) {
+    console.log("updateRaw failed e", e);
+  }
 };
 
 // Deletes multiple items from the collection.
 CRUD.prototype.delete = function(req, res, callback) {
-  var identifier = this.getIdentifer(req);
-  this.collection.remove(identifier, function(err, found) {
-    if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
-    if(callback) callback(identifier);
-    return res.status(204).send();
-  });
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  try {
+    this.collection.remove(identifier, function(err, found) {
+      if(err) { return handleError(res, err); }
+      if(!found) { return res.send(404); }
+      if(callback) callback(identifier);
+      return res.status(204).send();
+    });
+  } catch(e) {
+    handleError(res, e);
+  }
 };
 
 // Deletes a single item from the collection.
 CRUD.prototype.deleteById = function(req, res, callback) {
-  var identifier = this.getIdentifer(req);
-  this.collection.findById(identifier.id, function (err, found) {
-    if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
-    found.remove(function(err) {
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  try {
+    this.collection.findById(identifier.id, function (err, found) {
       if(err) { return handleError(res, err); }
-      if(callback) callback();
-      return res.send(204);
-    });
-  });
-};
-
-CRUD.prototype.deleteOneAndUpdate = function(req, res, callback) {
-  var self = this;
-  var identifier = this.getIdentifer(req);
-  this.collection.findOne(identifier, function(err, found) {
-    if (err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
-    self.collection.remove(identifier, function(err, deleted) {
-      if (err) { return handleError(res, err); }
-      if(!deleted) { return res.send(404); }
-      if(callback) { callback(found); }
-      return res.status(200).json();
-    });
-  });
-};
-
-CRUD.prototype.deleteRaw = function(identifier) {
-  this.collection.remove(identifier, function(err, response) {});
-};
-
-// Deletes some items from this collection 
-// and any linked documents that depended on it from another collection
-CRUD.prototype.deleteAndDependancies = function(req, res, callback, dependantField, dependantModel) {
-  var identifier = this.getIdentifer(req);
-  var self = this;
-  this.collection.find(identifier, function(err, foundOrigional) {
-    if(err) { return handleError(res, err); }
-    if(!foundOrigional) { return res.send(404); }
-    var i = 0, ids = [];
-    while(i < foundOrigional.length) {
-      ids = ids.concat(foundOrigional[i][dependantField]);
-      i++;
-    }
-    // Delete document dependancies
-    dependantModel.remove({_id: {$in: ids}}, function(err, foundDependancies) {
-      if(err) { return handleError(res, err); }
-      if(!foundDependancies) { return res.send(404); }
-      // Delete the document itself
-      self.model.remove(identifier, function(err, found) {
+      if(!found) { return res.send(404); }
+      found.remove(function(err) {
         if(err) { return handleError(res, err); }
         if(callback) callback();
         return res.send(204);
       });
     });
-  }); //this.collection.find
+  } catch(e) {
+    handleError(res, e);
+  }
+};
+
+CRUD.prototype.deleteOneAndUpdate = function(req, res, callback) {
+  var self = this;
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  try {
+    this.collection.findOne(identifier, function(err, found) {
+      if (err) { return handleError(res, err); }
+      if(!found) { return res.send(404); }
+      self.collection.remove(identifier, function(err, deleted) {
+        if (err) { return handleError(res, err); }
+        if(!deleted) { return res.send(404); }
+        if(callback) { callback(found); }
+        return res.status(200).json();
+      });
+    });
+  } catch(e) {
+    handleError(res, e);
+  }
+};
+
+CRUD.prototype.deleteRaw = function(identifier) {
+  try {
+    this.collection.remove(identifier, function(err, response) {});
+  } catch(e) {
+    console.log("deleteRaw failed", e);
+  }
 };
 
 // Deletes items from this collections and destories their links in another collection
 CRUD.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkModel) {
   var self = this;
-  var identifier = this.getIdentifer(req);
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
   self.model.find(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -333,7 +361,7 @@ function isEmpty(obj) {
 }
 
 // Handles the request object to determine how data was sent to the server
-CRUD.prototype.getIdentifer = function(req) {
+CRUD.prototype.getIdentifer = function(req, res) {
   var identifier = {};
   if(req.query && req.query.where) { //If a raw mongodb query came in
     try {
@@ -353,17 +381,29 @@ CRUD.prototype.getIdentifer = function(req) {
     identifier = req.params;
   }
 
+  if(helpers.containsUndefined(identifier)) {
+    return mongoErrorHandler(res, err);
+  }
+
   // Modify the req.body before it interacts with the database
   if(this.modifyBody) { req.body = this.modifyBody(req.body) }
 
   // Modify the identifier before it interacts with the database
   if(this.modifyIdentifier) { identifier = this.modifyIdentifier(identifier) }
-  return identifier;
+  if(identifier) {
+    return identifier;
+  } else {
+    return false;
+  }
 }
 
 // Handles the response to database errors
 function handleError(res, err) {
-  return res.send(500, err);
+  return res.status(500).send(err);
+}
+
+function mongoErrorHandler(res, err) {
+  return res.status(409).send(err);
 }
 
 function getArguments(args) {

@@ -49,6 +49,19 @@ exports.objectToArray = function(data) {
   return returnArray;
 };
 
+exports.isEmpty = function (obj) {
+  if(!obj) return true;
+  if(Array.isArray(obj)) {
+    return obj.length < 1;
+  } else if(Object.prototype.toString.call(obj) === "[object Object]") {
+    return Object.keys(obj).length === 0;
+  }
+};
+
+exports.containsUndefined = function(data) {
+  return /(?!\B"[^"]*)undefined(?![^"]*"\B)/.test(data);
+};
+
 exports.asyncLoop = this.asyncLoop = function(iterations, func) {
   var loopPromise = new Promise(function (resolve, reject) {
     var index = 0;

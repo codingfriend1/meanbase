@@ -29,7 +29,11 @@
 	  	var roleName = prompt('Role Name?');
 	  	if(!roleName || !$scope.selectedRole) { return false; }
 	  	for(var i = 0; i < $scope.roles.length; i++) {
-	  		if($scope.roles[i].role === roleName) { console.log('That role already exists just modify it.'); pass = false; return false; }
+	  		if($scope.roles[i].role === roleName) { 
+	  			toastr.warning('That role already exists just modify it.'); 
+	  			pass = false; 
+	  			return false; 
+	  		}
 	  	}
 	  	if(!pass) { return false; } 
 
@@ -54,16 +58,15 @@
 
 	  // Delete a role and move the users of that role to 'basic'
 	  $scope.deleteRole = function() {
-	  	var confirmed = confirm('Are you sure you want to delete this role? All users currently using this role will be switched to basic.');
+	  	var confirmed = confirm('Are you sure you want to delete ' + $scope.selectedRole.role + '? All users currently using this role will be switched to basic.');
 	  	if(!confirmed) return false;
 	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'basic' || $scope.selectedRole.role === 'admin') { return false; }
 
   		server.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
-  			console.log('Moved users with ' + $scope.selectedRole.role + ' over to basic');
+  			toastr.clear();
   			toastr.warning('Moved users with ' + $scope.selectedRole.role + ' over to basic');
   		}).finally(function(response) {
-  			server.roles.delete({_id: $scope.selectedRole._id}).then(function(response) {
-  				toastr.clear();
+  			server.roles.delete({role: $scope.selectedRole.role}).then(function(response) {
   				toastr.success('Deleted ' + $scope.selectedRole.role + ' role.');
   				$scope.roles.splice($scope.roles.indexOf($scope.selectedRole), 1);
   				$scope.selectedRole = $scope.roles[0];
