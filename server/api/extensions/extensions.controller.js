@@ -2,8 +2,8 @@
 
 var _ = require('lodash');
 var Extensions = require('./extensions.model');
-var CRUD = require('../../components/CRUD');
-var collection = new CRUD(Extensions);
+var DAO = require('../../components/DAO');
+var collection = new DAO(Extensions);
 var Decompress = require('decompress');
 var zip = require('decompress-unzip');
 var formidable = require('formidable');

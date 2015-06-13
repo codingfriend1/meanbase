@@ -11,8 +11,8 @@
 
 var _ = require('lodash');
 var Thing = require('./thing.model');
-var CRUD = require('../../components/CRUD');
-var collection = new CRUD(Thing);
+var DAO = require('../../components/DAO');
+var collection = new DAO(Thing);
 
 // Get list of things
 exports.index = function(req, res) {

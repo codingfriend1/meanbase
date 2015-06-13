@@ -140,7 +140,7 @@ module.exports = function (grunt) {
           'client/app/**/*.js',
           'client/components/endpoints/*.js',
           'client/components/cms.headbar/*.js',
-          'server/components/CRUD/index.js',
+          'server/components/DAO/index.js',
           'server/components/index/index.js',
           '!**/*spec.js'
         ],

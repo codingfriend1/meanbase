@@ -2,10 +2,10 @@
 
 var _ = require('lodash');
 var Themes = require('./themes.model');
-var CRUD = require('../../components/CRUD');
+var DAO = require('../../components/DAO');
 var setGlobalTheme = require('../../components/themes');
 var compileIndex = require('../../components/index');
-var collection = new CRUD(Themes);
+var collection = new DAO(Themes);
 var fs = require('fs');
 var config = require('../../config/environment');
 var Decompress = require('decompress');

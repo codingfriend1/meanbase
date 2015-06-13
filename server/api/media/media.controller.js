@@ -2,8 +2,8 @@
 
 var _ = require('lodash');
 var Media = require('./media.model');
-var CRUD = require('../../components/CRUD');
-var collection = new CRUD(Media);
+var DAO = require('../../components/DAO');
+var collection = new DAO(Media);
 var fse = require('fs-extra');
 
 // Get list of pages

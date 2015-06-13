@@ -2,8 +2,8 @@
 
 var _ = require('lodash');
 var Comments = require('./comments.model');
-var CRUD = require('../../components/CRUD');
-var collection = new CRUD(Comments);
+var DAO = require('../../components/DAO');
+var collection = new DAO(Comments);
 
 var onlyApproved = false;
 var creatingComment = false;

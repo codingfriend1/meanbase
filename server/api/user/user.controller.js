@@ -5,8 +5,8 @@ var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 var User = require('./user.model');
 var Roles = require('../roles/roles.model');
-var CRUD = require('../../components/CRUD');
-var collection = new CRUD(User);
+var DAO = require('../../components/DAO');
+var collection = new DAO(User);
 
 var validationError = function(res, err) {
   return res.json(422, err);

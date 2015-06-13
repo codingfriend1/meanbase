@@ -2,8 +2,8 @@
 
 var _ = require('lodash');
 var Roles = require('./roles.model');
-var CRUD = require('../../components/CRUD');
-var collection = new CRUD(Roles);
+var DAO = require('../../components/DAO');
+var collection = new DAO(Roles);
 var helpers = require('../../components/helpers');
 
 // Get some pages

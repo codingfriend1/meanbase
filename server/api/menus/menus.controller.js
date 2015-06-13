@@ -2,8 +2,8 @@
 
 var _ = require('lodash');
 var Menus = require('./menus.model');
-var CRUD = require('../../components/CRUD');
-var collection = new CRUD(Menus);
+var DAO = require('../../components/DAO');
+var collection = new DAO(Menus);
 
 collection.modifyBody = function(body) {
   if(body && body.url && body.url.charAt(0) !== '/') {

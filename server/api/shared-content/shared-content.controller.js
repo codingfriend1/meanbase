@@ -2,8 +2,8 @@
 
 var _ = require('lodash');
 var SharedContent = require('./shared-content.model');
-var CRUD = require('../../components/CRUD');
-var collection = new CRUD(SharedContent);
+var DAO = require('../../components/DAO');
+var collection = new DAO(SharedContent);
 
 var Pages = require('../pages/pages.model');
 

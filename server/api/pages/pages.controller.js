@@ -4,9 +4,9 @@ var _ = require('lodash');
 var Pages = require('./pages.model');
 var Comments = require('../comments/comments.model'); //Linked Document
 var Menus = require('../menus/menus.model'); //Linked Document
-var CRUD = require('../../components/CRUD');
+var DAO = require('../../components/DAO');
 var helpers = require('../../components/helpers');
-var collection = new CRUD(Pages);
+var collection = new DAO(Pages);
 
 collection.modifyBody = function(body) {
   if(body) {
