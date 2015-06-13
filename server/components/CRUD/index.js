@@ -77,7 +77,7 @@ CRUD.prototype.findById = function(req, res, callback) {
 CRUD.prototype.find = function(req, res, callback) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
-  logger.info('DAO.find() identifier', identifier);
+  logger.info('%s mongodb.find()', req.originalUrl, identifier);
   try {
     this.collection.find(identifier).lean().exec(function (err, found) {
       if(err) { return handleError(res, err); }

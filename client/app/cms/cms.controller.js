@@ -10,6 +10,10 @@
 		};
 
 		$scope.pageTitle = 'Site Preferences';
+
+		if($scope.$parent.pageTitle) {
+		  document.title = $scope.$parent.pageTitle;
+		}
   }
 	  
 	angular.module('meanbaseApp').controller('cmsCtrl', CMSCtrl);
