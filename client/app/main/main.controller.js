@@ -22,66 +22,33 @@
     // Get the current logged in user
     $scope.currentUser = Auth.getCurrentUser();
 
+    // Used to disable navigation while in edit mode
     $scope.ableToNavigate = true;
 
     $rootScope.editMode = false;
 
-    $rootScope.sharedContentToDelete = [];
+    // Keeps a record of shared content that was deleted so later it can check if that content is used anywhere else and if not delete it
     $scope.sharedContentToCheckDelete = [];
 
-    // Get all the menus
+    // Get all the menus for the site
     server.menus.find({}).then(function(response) {
       $rootScope.menus = response.data;
     });
 
-    if($rootScope.page && $rootScope.page.url.charAt(0) === '/') { $rootScope.page.url = $rootScope.page.url.substr(1); }
-    if($rootScope.page && !$rootScope.page.extensions) {
-      $rootScope.page.extensions = {};
-    }
-
-    getSharedContent();
-
-    function getSharedContent() {
-      var sharedContent = [];
-      var extensions = [];
+    // Gets all existing content (extensions) for when the user wants to add existing content
+    server.sharedContent.find({}).success(function(data) {
+      if(helpers.isEmpty(data)) { return false; }
+      $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'name');
       helpers.loopThroughPageExtensions(function(currentExtension) {
-        if(!currentExtension.data) { currentExtension.data = {}; }
         if(currentExtension.contentName && currentExtension.contentName !== '') {
-          sharedContent.push(currentExtension.contentName);
-          extensions.push(currentExtension);
+          // Any extensions using that content have their values updated here 
+          currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
+          currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
         }
       });
+    });
 
-      server.sharedContent.find({}).success(function(data) {
-        $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'name');
-        helpers.loopThroughPageExtensions(function(currentExtension) {
-          if(currentExtension.contentName && currentExtension.contentName !== '') {
-            currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
-            currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
-          }
-        });
-      });
-
-      // server.sharedContent.find({query: {name: {'$in': sharedContent} }}).success(function(data, statusCode) {
-      //   // If sharedData source is missing then create a new one from the extension that requested it
-      //   // Otherwise set the data of that extension to the sharedExtension data
-      //   for(var idx = 0; idx < extensions.length; idx++) {
-      //     if(!$rootScope.sharedContent[extensions[idx].contentName]) {
-      //       $rootScope.sharedContent[extensions[idx].contentName] = {
-      //         name: extensions[idx].contentName,
-      //         data: extensions[idx].data,
-      //         config: extensions[idx].config,
-      //         type: extensions[idx].name,
-      //       };
-      //     } else {
-      //       extensions[idx].data = $rootScope.sharedContent[extensions[idx].contentName].data;
-      //       extensions[idx].config = $rootScope.sharedContent[extensions[idx].contentName].config;
-      //     }
-      //   }
-      // });
-    }
-
-    // Set up config for sortable menus
+    // Set up config for draggable menus
     $rootScope.menusConfig = { 
       group: 'menus',
       ghostClass: "mb-draggable-ghost",
@@ -93,6 +60,7 @@
       scrollSpeed: 10 // px
     };
 
+    // Set up config for draggable extensions
     $rootScope.sortableExtensions = { 
       group: 'extensions',
       ghostClass: "mb-draggable-ghost",
@@ -104,6 +72,7 @@
       scrollSpeed: 10 // px
     };
 
+    // Sets up regex for validating user input site-wide
     $rootScope.validators = {
       isTitle: /^[A-Za-z0-9@:?&=. _\-]*$/,
       isURI: /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}(\/[\w~,;\-\.\/?%&+#=]*))/,
@@ -115,6 +84,7 @@
       isHTML: /^$/
     };
 
+    // Error messages to explain regexes to users
     $rootScope.errorMessages = {
       isTitle: 'Many only contain letters, numbers, and these symbols ( @ : ? & = . _ - ).',
       isURI: "Must be a valid path, either a full address ('http://path.com') or a relative one '/path'",
@@ -127,53 +97,44 @@
       isRequired: "This field is required."
     };
 
-    // Store snapshot of menu for when discardEdits is called
-    // If edit mode changes we want to enable or disable draggable menus
-    var menusSnapshot, pageSnapshot, sharedContentSnapshot;
+    // Store snapshots of the current page's data in case we want to discard our edits
+    var snapshots = {};
     $scope.$watch('editMode', function(nv, ov) {
       if(nv === ov) { return false; }
-      menusSnapshot = angular.copy($rootScope.menus);
-      pageSnapshot = angular.copy($rootScope.page);
-      sharedContentSnapshot = angular.copy($rootScope.sharedContent);
+      snapshots.menus = angular.copy($rootScope.menus);
+      snapshots.page = angular.copy($rootScope.page);
+      snapshots.sharedContent = angular.copy($rootScope.sharedContent);
 
-      server.sharedContent.find({}).success(function(res) {
-        $rootScope.dataSources = res;
-      });
-
-      server.extensions.find({active: true}).success(function(res) {
-        $rootScope.extensions = res;
-      });
-
+      // We only want draggable elements while in edit mode
       $rootScope.menusConfig.disabled = !$scope.editMode;
       $rootScope.sortableExtensions.disabled = !$scope.editMode;
+
+      // We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
+      $scope.ableToNavigate = !$scope.editMode;
       if(nv) {
-        $scope.ableToNavigate = false;
-      } else {
-        $scope.ableToNavigate = true;
-      } 
+        // Get the active extensions so the admin can select extensions to add 
+        server.extensions.find({active: true}).success(function(res) {
+          $rootScope.extensions = res;
+        });
+      }
     });
 
-    function updateSharedContent(extensionsWithShared) {
-      for(var idx = 0; idx < extensionsWithShared.length; idx++) {
-        server.sharedContent.update({name: extensionsWithShared[idx].contentName}, {data: extensionsWithShared[idx].data, config: extensionsWithShared[idx].config, type: extensionsWithShared[idx].name}); 
-      }
-    }
-
+    // Prevent the user from navigating while in edit mode.
     $scope.$onRootScope('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if (!$scope.ableToNavigate) {
-      
         event.preventDefault();
-        toastr.info('Please save or discard your changes before navigating');
+        toastr.info('Please save or discard your changes before navigating.');
       }
     });
 
     // Save menu ordering when saveEdits event is emitted
     $scope.$onRootScope('cms.saveEdits', function() {
 
+      // Add a pulse animation to the page
       $scope.pageAnimation = 'pulse';
 
       // Update positions and locations of the menu items
-      var unmappedMenus = updatePositionData();
+      $rootScope.menus = helpers.updatePositionData($rootScope.menus);
 
       updateExtensionPositionData();
 
@@ -181,7 +142,7 @@
       // recreate all of them based off the client copy,
       // Get the newly updated menus with their server-generated ids
       server.menus.delete({}).then(function(deleteResponse) {
-        server.menus.create(unmappedMenus).then(function(createResponse) {
+        server.menus.create($rootScope.menus).then(function(createResponse) {
           server.menus.find({}).then(function(response) {
             $rootScope.menus = response.data;
           });
@@ -207,13 +168,16 @@
           toastr.success('Changes saved');
         });
 
-        var extensionsWithShared = [];
         helpers.loopThroughPageExtensions(function(currentExtension) {
           if(currentExtension.contentName && currentExtension.contentName !== '') {
-            extensionsWithShared.push(currentExtension);
+            // Send the shared content back to the server
+            server.sharedContent.update({name: currentExtension.contentName}, {data: currentExtension.data, config: currentExtension.config, type: currentExtension.name}); 
           }
 
+          // If the extension uses shared content and that shared content has any values, update the extension with the latest shared content data.
+          // If the extension uses shared content but the shared content data is empty, (meaning we just created it) then set the shared content data to the extension's data
           if(currentExtension.contentName && currentExtension.contentName !== '') {
+            if(helpers.isEmpty($rootScope.sharedContent)) { return false; }
             if($rootScope.sharedContent[currentExtension.contentName]) {
               currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
               currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
@@ -225,34 +189,26 @@
               };
             }
           }
-        });
+        }); //helpers.loopThroughPageExtensions
+      }); //$timeout
+    }); //saveEdits()
 
-        if($rootScope.sharedContentToDelete.length < 1) {
-          updateSharedContent(extensionsWithShared);
-        } else {
-          server.sharedContent.delete({ name: {$in: $rootScope.sharedContentToDelete} }).finally(function() {
-            updateSharedContent(extensionsWithShared);
-          });
-        }
-        $rootScope.sharedContentToDelete = [];
-      });
-    }); //onRootScope()
-
-    // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when you first clicked edit
+    // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when the user first clicked edit
     $scope.$onRootScope('cms.discardEdits', function() {
       $scope.pageAnimation = 'shake';
-      $rootScope.menus = menusSnapshot;
-      $rootScope.page = pageSnapshot;
-      $rootScope.sharedContent = sharedContentSnapshot;
-      $rootScope.sharedContentToDelete = [];
+      $rootScope.menus = snapshots.menus;
+      $rootScope.page = snapshots.page;
+      $rootScope.sharedContent = snapshots.sharedContent;
+      $rootScope.sharedContentToCheckDelete = [];
     });
 
+    // This controls the image selector modal that opens with the inline text editor
     $scope.openImageModal = function(callback) {
       var modalInstance = $modal.open({
         templateUrl: 'findImage.modal.html',
         controller: function($scope, $modalInstance) {
           $scope.imageSelectorApi = {};
-
+          $scope.allOperations = false;
           $scope.chooseImages = function() {
             var selectedImages = $scope.imageSelectorApi.getSelectedImages();
             $modalInstance.close(selectedImages);
@@ -268,6 +224,7 @@
     };
 
     // Prevent menu links from working while in edit mode
+    // Instead opens the edit menu modal
     $scope.handleClick = function($event, menuItem) {
       if($scope.editMode) {
         $event.preventDefault();
@@ -298,21 +255,6 @@
       }
     };
 
-    // Unmap the client menu structure so that mongoose database can understand
-    function updatePositionData() {
-      var unmappedMenus = [];
-      for(var menu in $rootScope.menus) {
-        if ($rootScope.menus.hasOwnProperty(menu)) {
-          for(var i = 0; i < $rootScope.menus[menu].length; i++) {
-            $rootScope.menus[menu][i].group = menu;
-            $rootScope.menus[menu][i].position = i;
-            unmappedMenus.push($rootScope.menus[menu][i]);
-          }
-        } 
-      }
-      return unmappedMenus;
-    }
-
     function updateExtensionPositionData() {
       for(var extension in $rootScope.page.extensions) {
         if ($rootScope.page.extensions.hasOwnProperty(extension)) {
@@ -324,6 +266,8 @@
       }
     }
 
+
+    // The controller for the menu modal
     // @ngInject
     function menuModal($scope, $modalInstance, menuItem) {
 
@@ -345,7 +289,7 @@
       };
 
       $scope.removeMenuItem = function() {
-        updatePositionData();
+        $rootScope.menus = helpers.updatePositionData($rootScope.menus);
         $rootScope.menus[menuItem.group].splice(menuItem.position, 1);
         $modalInstance.dismiss();
       };

@@ -86,5 +86,24 @@ angular.module('meanbaseApp')
       return modifiedModel;
     };
 
+    // Draggable elements have group and position properties to identify location on the page,
+    // when they are dragged around this function updates those properties
+    // so when a new user requests the page, they see everything in it's correct place.
+    // draggableGroups is an object with properties representing the group name and having an array of elements that are in that group
+    // They are in that format because we ran helpers.arrayToObjectWithArray so they would be easier to work with
+    this.updatePositionData = function(draggableGroupsObject) {
+      var updatedDraggableObject = [];
+      for(var group in draggableGroupsObject) {
+        if (draggableGroupsObject.hasOwnProperty(group)) {
+          for(var i = 0; i < draggableGroupsObject[group].length; i++) {
+            draggableGroupsObject[group][i].group = group;
+            draggableGroupsObject[group][i].position = i;
+            updatedDraggableObject.push(draggableGroupsObject[group][i]);
+          }
+        } 
+      }
+      return updatedDraggableObject;
+    };
+
 
   });

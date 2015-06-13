@@ -4,7 +4,7 @@ var config = require('../../config/environment');
 
 var logger = new (winston.Logger)({
   transports: [
-    new (winston.transports.Console)({ json: false, timestamp: true, colorize : true, showLevel: false}),
+    new (winston.transports.Console)({ json: false, timestamp: false, colorize : true, showLevel: false}),
     new winston.transports.DailyRotateFile({
 		  datePattern: '.yyyy-MM-ddTHH',
 		  filename: path.join(config.root, 'server', 'logs', 'debug.log'),

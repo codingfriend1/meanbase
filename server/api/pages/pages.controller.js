@@ -98,15 +98,15 @@ exports.deleteById = function(req, res) {
 
 function restructureResponse(response) {
   if(!response) { return response; }
-  if(Array.isArray(response)) {
-    for (var i = 0; i < response.length; i++) {
-      response[i].images = helpers.arrayToObjectWithObject(response[i].images, 'location');
-      response[i].extensions = helpers.arrayToObjectWithArray(response[i].extensions, 'group');
+  if(!Array.isArray(response)) { response = [response]; }
+  
+  for (var i = 0; i < response.length; i++) {
+    response[i].images = helpers.arrayToObjectWithObject(response[i].images, 'location');
+    response[i].extensions = helpers.arrayToObjectWithArray(response[i].extensions, 'group');
+    if(response[i] && response[i].url.charAt(0) === '/') { response[i].url = response[i].url.substr(1); }
+    if(response[i] && !response[i].extensions) {
+      response[i].extensions = {};
     }
-    return response;
-  } else {
-    response.images = helpers.arrayToObjectWithObject(response.images, 'location');
-    response.extensions = helpers.arrayToObjectWithArray(response.extensions, 'group');
-    return response;
   }
+  return response;
 }

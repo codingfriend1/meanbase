@@ -7,18 +7,6 @@ var collection = new DAO(SharedContent);
 
 var Pages = require('../pages/pages.model');
 
-collection.modifyBody = function(body) {
-  return body;
-};
-
-collection.modifyIdentifier = function(identifier) {
-  // if(identifier.query) {
-  //   identifier = identifier.query;
-  // }
-
-  return identifier;
-};
-
 // Get list of pages
 exports.findAll = function(req, res) {
   collection.findAll(req, res);

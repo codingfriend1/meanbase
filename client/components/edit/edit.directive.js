@@ -36,7 +36,6 @@ angular.module('meanbaseApp')
               },
               chooseImage: {
                 func: function(params, tbw) {
-                  console.log("params, tbw", params, tbw);
                   element.trumbowyg('saveSelection');
                   scope.$parent.openImageModal(function(image) {
                     element.trumbowyg('restoreSelection');

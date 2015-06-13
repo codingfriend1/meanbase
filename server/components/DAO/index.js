@@ -1,7 +1,7 @@
 'use strict';
 
 /*
-  * CRUD
+  * DAO
   * controls operations with a collection in the database from server requests
   
   * getIdentifer()
@@ -37,7 +37,7 @@ var _ = require('lodash');
 var helpers = require('../helpers');
 var logger = require('../logger');
 
-function CRUD(collection) {
+function DAO(collection) {
   this.collection = collection || {}; //Set up the name of the collection we will be interacting with
 
   // Modify the body before it interacts with the database
@@ -50,12 +50,12 @@ function CRUD(collection) {
 }
 
 // If not set in the constructor you may set the collection here
-CRUD.prototype.setCollection = function(collection) {
+DAO.prototype.setCollection = function(collection) {
   this.collection = collection;
 };
 
 // Get a single item
-CRUD.prototype.findById = function(req, res, callback) {
+DAO.prototype.findById = function(req, res, callback) {
   try {
     this.collection.findById(req.params.id).lean().exec(function (err, found) {
       if(err) { return handleError(res, err); }
@@ -74,10 +74,10 @@ CRUD.prototype.findById = function(req, res, callback) {
 };
 
 // Get some items
-CRUD.prototype.find = function(req, res, callback) {
+DAO.prototype.find = function(req, res, callback) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
-  logger.info('%s mongodb.find()', req.originalUrl, identifier);
+  logger.info('DAO.find() %s ', req.originalUrl, identifier);
   try {
     this.collection.find(identifier).lean().exec(function (err, found) {
       if(err) { return handleError(res, err); }
@@ -96,9 +96,10 @@ CRUD.prototype.find = function(req, res, callback) {
 };
 
 // Gets some items and populates their linked documents
-CRUD.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
+DAO.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  logger.info('DAO.findAndPopulate() %s ', req.originalUrl, identifier);
   try {
     this.collection.find(identifier).populate(populateQuery).lean().exec(function(err, found) {
       if(err) { return handleError(res, err); }
@@ -116,9 +117,10 @@ CRUD.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
 };
 
 // Find items and sort by a filter
-CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
+DAO.prototype.findAndSort = function(req, res, callback, sortFilter) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  logger.info('DAO.findAndSort() %s ', req.originalUrl, identifier);
   try {
     this.collection.find(identifier).sort(sortFilter).lean().exec(function(err, found) {
       if(err) { return handleError(res, err); }
@@ -137,7 +139,7 @@ CRUD.prototype.findAndSort = function(req, res, callback, sortFilter) {
 };
 
 // Get All items
-CRUD.prototype.findAll = function(req, res, callback) {
+DAO.prototype.findAll = function(req, res, callback) {
   try {
     this.collection.find({}).lean().exec(function (err, found) {
       if(err) { return handleError(res, err); }
@@ -157,7 +159,7 @@ CRUD.prototype.findAll = function(req, res, callback) {
 
 // Creates new items in the collection.
 // Accepts an array of items or just one item object
-CRUD.prototype.create = function(req, res, callback) {
+DAO.prototype.create = function(req, res, callback) {
   try {
     this.collection.create(req.body, function(err, found) {
       if(err) { return handleError(res, err); }
@@ -174,11 +176,10 @@ CRUD.prototype.create = function(req, res, callback) {
 };
 
 // Updates existing items in the collection.
-CRUD.prototype.update = function(req, res, callback) {
+DAO.prototype.update = function(req, res, callback) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
-
-  logger.info('DAO.find() identifier', identifier, 'req.body: ', req.body);
+  logger.info('DAO.update() identifier', identifier, 'req.body: ', req.body);
   try {
     this.collection.update(identifier, req.body, {multi: true}, function(err, found) {
       if (err) { return handleError(res, err); }
@@ -193,9 +194,10 @@ CRUD.prototype.update = function(req, res, callback) {
 };
 
 // Updates or Upserts existing items in the collection.
-CRUD.prototype.upsert = function(req, res, callback) {
+DAO.prototype.upsert = function(req, res, callback) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  logger.info('DAO.upsert() %s ', req.originalUrl, identifier);
   try {
     this.collection.update(identifier, req.body, {multi: true, upsert: true, setDefaultsOnInsert: true}, function(err, found, upserted) {
       if (err) { return handleError(res, err); }
@@ -210,7 +212,7 @@ CRUD.prototype.upsert = function(req, res, callback) {
 };
 
 // Updates one existing item in the collection.
-CRUD.prototype.updateById = function(req, res, callback) {
+DAO.prototype.updateById = function(req, res, callback) {
   if(req.body._id) { delete req.body._id; }
   try {
     this.collection.findById(req.params.id, function (err, found) {
@@ -228,10 +230,11 @@ CRUD.prototype.updateById = function(req, res, callback) {
   }
 };
 
-CRUD.prototype.updateOneAndUpdate = function(req, res, callback) {
+DAO.prototype.updateOneAndUpdate = function(req, res, callback) {
   var self = this;
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  logger.info('DAO.updateOneAndUpdate() %s ', req.originalUrl, identifier);
   try {
     this.collection.findOne(identifier, function(err, found) {
       if (err) { return handleError(res, err); }
@@ -251,7 +254,7 @@ CRUD.prototype.updateOneAndUpdate = function(req, res, callback) {
   }
 };
 
-CRUD.prototype.updateRaw = function(identifier, content) {
+DAO.prototype.updateRaw = function(identifier, content) {
   try {
     this.collection.update(identifier, content, {multi: true}, function(err, updated) {});
   } catch(e) {
@@ -260,9 +263,10 @@ CRUD.prototype.updateRaw = function(identifier, content) {
 };
 
 // Deletes multiple items from the collection.
-CRUD.prototype.delete = function(req, res, callback, preventDeleteAll) {
+DAO.prototype.delete = function(req, res, callback, preventDeleteAll) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  logger.info('DAO.delete() %s ', req.originalUrl, identifier);
   if(preventDeleteAll && helpers.isEmpty(identifier)) {
     return mongoErrorHandler(res, 'You cannot delete all items in this collection');
   }
@@ -279,9 +283,10 @@ CRUD.prototype.delete = function(req, res, callback, preventDeleteAll) {
 };
 
 // Deletes a single item from the collection.
-CRUD.prototype.deleteById = function(req, res, callback) {
+DAO.prototype.deleteById = function(req, res, callback) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  logger.info('DAO.deleteById() %s ', req.originalUrl, identifier);
   try {
     this.collection.findById(identifier.id, function (err, found) {
       if(err) { return handleError(res, err); }
@@ -297,10 +302,11 @@ CRUD.prototype.deleteById = function(req, res, callback) {
   }
 };
 
-CRUD.prototype.deleteOneAndUpdate = function(req, res, callback) {
+DAO.prototype.deleteOneAndUpdate = function(req, res, callback) {
   var self = this;
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  logger.info('DAO.deleteOneAndUpdate() %s ', req.originalUrl, identifier);
   try {
     this.collection.findOne(identifier, function(err, found) {
       if (err) { return handleError(res, err); }
@@ -317,7 +323,7 @@ CRUD.prototype.deleteOneAndUpdate = function(req, res, callback) {
   }
 };
 
-CRUD.prototype.deleteRaw = function(identifier) {
+DAO.prototype.deleteRaw = function(identifier) {
   try {
     this.collection.remove(identifier, function(err, response) {});
   } catch(e) {
@@ -326,10 +332,11 @@ CRUD.prototype.deleteRaw = function(identifier) {
 };
 
 // Deletes items from this collections and destories their links in another collection
-CRUD.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkModel) {
+DAO.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkModel) {
   var self = this;
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  logger.info('DAO.deleteAndUnlink() %s ', req.originalUrl, identifier);
   self.model.find(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
     if(!found) { return res.send(404); }
@@ -360,7 +367,7 @@ CRUD.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkMod
   });
 };
 
-module.exports = CRUD;
+module.exports = DAO;
 
 
 function isEmpty(obj) {
@@ -368,9 +375,9 @@ function isEmpty(obj) {
 }
 
 // Handles the request object to determine how data was sent to the server
-CRUD.prototype.getIdentifer = function(req, res) {
+DAO.prototype.getIdentifer = function(req, res) {
   var identifier = {};
-  if(req.query && req.query.where) { //If a raw mongodb query came in
+  if(req.query && req.query.where) { //If a raw DAO query came in
     try {
       identifier = JSON.parse(req.query.where);
     } catch(e) {

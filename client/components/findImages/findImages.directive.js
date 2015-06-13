@@ -18,6 +18,8 @@ angular.module('meanbaseApp')
 
         scope.imageSelectorApi = {};
 
+        scope.allOperations = true;
+
         var areChanges = false; //Used to detect if different images were selected and loaded into the gallery
         scope.titleDirections = 'Select Image';
 

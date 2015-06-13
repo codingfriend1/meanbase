@@ -8,7 +8,8 @@ angular.module('meanbaseApp')
       scope: {
         multiple:"=",
         gallerySlug:"=",
-        api: "="
+        api: "=",
+        allOperations: "="
       },
       link: function (scope, element, attrs) {
 
