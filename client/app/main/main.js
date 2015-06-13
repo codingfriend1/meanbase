@@ -35,10 +35,15 @@
 
           // - Find a page in the database with a url that matches the current url
           endpoint.find({url: '/' + $stateParams.page}).success(function(response) {
-
+            $rootScope.page = {
+              tabTitle: 404,
+              description: 'Could not find page',
+              extensions: {},
+              content: {},
+              url: 'missing'
+            };
             // - If no page was found then redirect to a 404 page.
             if(!response[0]) { $state.go('main.missing'); return false; }
-
 
             // Loop through the template mapping stored in themeTemplates. 
             // That variable came from the theme's theme.json file. 
@@ -60,6 +65,13 @@
             // - Save the rest of the page data on the meanbaseGlobals object for use in the rest of the app
             // meanbaseGlobals.page = 
             $rootScope.page = response[0];
+            if($rootScope.page.tabTitle) {
+              document.title = $rootScope.page.tabTitle;
+            }
+
+            if($rootScope.page.description) {
+              jQuery('meta[name=description]').attr('content', $rootScope.page.description);
+            }
 
             // - **The promise must return a html string instead of a url**
             $templateFactory.fromUrl(templatePath).then(function(html) {

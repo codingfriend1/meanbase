@@ -1,0 +1,66 @@
+true - DAO.find() identifier:
+true - DAO.find() identifier:
+true - DAO.find() identifier:
+true - DAO.find() identifier:
+true - DAO.find() identifier:
+true - DAO.find() identifier:
+true - DAO.find() identifier:
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+2015-06-13T01:03:48.232Z - : DAO.find() identifier: test=4
+2015-06-13T01:03:48.600Z - : DAO.find() identifier: test=4
+2015-06-13T01:03:48.601Z - : DAO.find() identifier: test=4
+true - DAO.find() identifier:
+true - DAO.find() identifier:
+true - DAO.find() identifier:
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:[object Object]
+true - DAO.find() identifier:
+true - DAO.find() identifier:
+2015-06-13T01:07:40.649Z - : DAO.find() identifier: test=4
+2015-06-13T01:07:41.074Z - : DAO.find() identifier: test=4
+2015-06-13T01:07:41.075Z - : DAO.find() identifier: test=4
+2015-06-13T01:07:42.055Z - : DAO.find() identifier: test=4
+2015-06-13T01:08:16.411Z - : DAO.find() identifier test=4
+2015-06-13T01:08:16.802Z - : DAO.find() identifier test=4
+2015-06-13T01:08:16.804Z - : DAO.find() identifier test=4
+2015-06-13T01:08:17.069Z - : DAO.find() identifier test=4
+2015-06-13T01:09:12.440Z - : DAO.find() identifier test=4
+2015-06-13T01:09:12.799Z - : DAO.find() identifier test=4
+2015-06-13T01:09:12.801Z - : DAO.find() identifier test=4
+2015-06-13T01:09:13.061Z - : DAO.find() identifier test=4
+2015-06-13T01:09:38.772Z - : DAO.find() identifier test=4
+2015-06-13T01:09:39.239Z - : DAO.find() identifier test=4
+2015-06-13T01:09:39.240Z - : DAO.find() identifier test=4
+2015-06-13T01:09:40.218Z - : DAO.find() identifier test=4
+{"test":4,"level":"info","message":"DAO.find() identifier","timestamp":"2015-06-13T01:10:04.325Z"}
+{"test":4,"level":"info","message":"DAO.find() identifier","timestamp":"2015-06-13T01:10:04.746Z"}
+{"test":4,"level":"info","message":"DAO.find() identifier","timestamp":"2015-06-13T01:10:04.747Z"}
+{"test":4,"level":"info","message":"DAO.find() identifier","timestamp":"2015-06-13T01:10:05.062Z"}
+2015-06-13T01:10:19.687Z - : DAO.find() identifier test=4
+2015-06-13T01:10:20.141Z - : DAO.find() identifier test=4
+2015-06-13T01:10:20.142Z - : DAO.find() identifier test=4
+2015-06-13T01:10:21.091Z - : DAO.find() identifier test=4
+2015-06-13T01:11:11.337Z - : DAO.find() identifier url=/why-cms
+2015-06-13T01:11:11.746Z - : DAO.find() identifier
+2015-06-13T01:11:11.747Z - : DAO.find() identifier
+2015-06-13T01:11:12.063Z - : DAO.find() identifier url=/why-cms, approved=true
+2015-06-13T01:11:47.150Z - : DAO.find() identifier url=/why-cms
+2015-06-13T01:11:47.531Z - : DAO.find() identifier
+2015-06-13T01:11:47.532Z - : DAO.find() identifier
+2015-06-13T01:11:47.560Z - : DAO.find() identifier url=/why-cms, approved=true
+2015-06-13T01:11:49.866Z - : DAO.find() identifier
+2015-06-13T01:11:55.117Z - : DAO.find() identifier { _id: '557a57f837320f87006c170a' } req.body:  allPrivilages=false, changeSiteSettings=false, manageRoles=false, manageUsers=true, moderateComments=false, manageExtensions=false, manageMedia=true, deleteContent=false, editContent=true
+2015-06-13T01:13:02.568Z - : DAO.find() identifier
+2015-06-13T01:13:36.708Z - : DAO.find() identifier

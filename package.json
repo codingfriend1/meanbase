@@ -34,7 +34,8 @@
     "passport-twitter": "latest",
     "prerender-node": "^1.2.1",
     "promise": "^7.0.1",
-    "serve-favicon": "~2.0.1"
+    "serve-favicon": "~2.0.1",
+    "winston": "^1.0.0"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",

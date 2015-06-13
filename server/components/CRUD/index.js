@@ -35,6 +35,7 @@
 
 var _ = require('lodash');
 var helpers = require('../helpers');
+var logger = require('../logger');
 
 function CRUD(collection) {
   this.collection = collection || {}; //Set up the name of the collection we will be interacting with
@@ -76,6 +77,7 @@ CRUD.prototype.findById = function(req, res, callback) {
 CRUD.prototype.find = function(req, res, callback) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+  logger.info('DAO.find() identifier', identifier);
   try {
     this.collection.find(identifier).lean().exec(function (err, found) {
       if(err) { return handleError(res, err); }
@@ -175,6 +177,8 @@ CRUD.prototype.create = function(req, res, callback) {
 CRUD.prototype.update = function(req, res, callback) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
+
+  logger.info('DAO.find() identifier', identifier, 'req.body: ', req.body);
   try {
     this.collection.update(identifier, req.body, {multi: true}, function(err, found) {
       if (err) { return handleError(res, err); }
@@ -260,7 +264,6 @@ CRUD.prototype.delete = function(req, res, callback, preventDeleteAll) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
   if(preventDeleteAll && helpers.isEmpty(identifier)) {
-    console.log("preventDeleteAll", preventDeleteAll);
     return mongoErrorHandler(res, 'You cannot delete all items in this collection');
   }
   try {
