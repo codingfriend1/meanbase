@@ -161,7 +161,7 @@ script(type="text/ng-template" id="extensions.modal.html")
 								input.form-control(type="text" placeholder="search site content" ng-model="sourceFilter")
 						.scrollable-body
 							div(ng-repeat="content in sharedContent | filter:filterSource" ng-click="toggleChecked(content, $event)").list-item
-								h3.list-title {{content.type}}: {{content.name}}
+								h3.list-title {{content.type}}: {{content.contentName}}
 								i.fa.pull-right.checkbox.fa-square-o
 		.modal-footer
 			//- button.btn.btn-danger(type='button' ng-click="deleteContent()") Choose

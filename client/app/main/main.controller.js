@@ -38,7 +38,7 @@
     // Gets all existing content (extensions) for when the user wants to add existing content
     server.sharedContent.find({}).success(function(data) {
       if(helpers.isEmpty(data)) { return false; }
-      $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'name');
+      $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'contentName');
       helpers.loopThroughPageExtensions(function(currentExtension) {
         if(currentExtension.contentName && currentExtension.contentName !== '') {
           // Any extensions using that content have their values updated here 
@@ -162,7 +162,7 @@
             jQuery('meta[name=description]').attr('content', $rootScope.page.description);
           }
           if($scope.sharedContentToCheckDelete.length > 0) {
-            server.sharedContent.delete({checkDelete: $scope.sharedContentToCheckDelete});
+            server.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } });
             $scope.sharedContentToCheckDelete = [];
           }
           toastr.success('Changes saved');
@@ -171,23 +171,28 @@
         helpers.loopThroughPageExtensions(function(currentExtension) {
           if(currentExtension.contentName && currentExtension.contentName !== '') {
             // Send the shared content back to the server
-            server.sharedContent.update({name: currentExtension.contentName}, {data: currentExtension.data, config: currentExtension.config, type: currentExtension.name}); 
+            server.sharedContent.update({contentName: currentExtension.contentName}, {data: currentExtension.data, config: currentExtension.config, type: currentExtension.name}); 
           }
 
           // If the extension uses shared content and that shared content has any values, update the extension with the latest shared content data.
           // If the extension uses shared content but the shared content data is empty, (meaning we just created it) then set the shared content data to the extension's data
           if(currentExtension.contentName && currentExtension.contentName !== '') {
-            if(helpers.isEmpty($rootScope.sharedContent)) { return false; }
-            if($rootScope.sharedContent[currentExtension.contentName]) {
-              currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
-              currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
-            } else {
-              $rootScope.sharedContent[currentExtension.contentName] = {
-                data: currentExtension.data,
-                config: currentExtension.config,
-                type: currentExtension.name
-              };
-            }
+            // if(helpers.isEmpty($rootScope.sharedContent)) { return false; }
+            $rootScope.sharedContent[currentExtension.contentName] = {
+              data: currentExtension.data,
+              config: currentExtension.config,
+              type: currentExtension.name
+            };
+            // if($rootScope.sharedContent[currentExtension.contentName]) {
+            //   currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
+            //   currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
+            // } else {
+            //   $rootScope.sharedContent[currentExtension.contentName] = {
+            //     data: currentExtension.data,
+            //     config: currentExtension.config,
+            //     type: currentExtension.name
+            //   };
+            // }
           }
         }); //helpers.loopThroughPageExtensions
       }); //$timeout

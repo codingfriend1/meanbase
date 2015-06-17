@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     validators = require('mongoose-validators');
 
 var SharedContentSchema = new Schema({
-  name: {
+  contentName: {
   	type: String,
   	unique: true,
   	required: true,

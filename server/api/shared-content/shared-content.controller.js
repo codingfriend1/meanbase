@@ -29,16 +29,22 @@ exports.update = function(req, res) {
 
 // Deletes a pages from the DB.
 exports.delete = function(req, res) {
-  if(req.query && req.query.checkDelete) {
-    if(!Array.isArray(req.query.checkDelete)) { req.query.checkDelete = [req.query.checkDelete]; }
-    Pages.count({'extensions.contentName': { $in : req.query.checkDelete  }}, function(error, number) {
-      if(number === 0) {
-        req.query = {name:{ $in : req.query.checkDelete }};
-        collection.delete(req, res);
-      } else {
-        return res.status(204).send();
-      }
-    });
+  if(req.query && req.query.where) {
+    var existing;
+    try {
+      existing = JSON.parse(req.query.where);
+    } catch(e) {}
+    if(existing.contentName.$in) {
+      Pages.count({'extensions.contentName': { $in : existing.contentName.$in }}, function(error, number) {
+        if(number === 0) {
+          collection.delete(req, res);
+        } else {
+          return res.status(204).send();
+        }
+      });
+    } else {
+      collection.delete(req, res);
+    }
   } else {
     collection.delete(req, res);
   }
