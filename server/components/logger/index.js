@@ -4,13 +4,21 @@ var config = require('../../config/environment');
 
 var logger = new (winston.Logger)({
   transports: [
-    new (winston.transports.Console)({ json: false, timestamp: false, colorize : true, showLevel: false}),
+    new (winston.transports.Console)({ 
+    	json: false, 
+    	timestamp: false, 
+    	colorize : true, 
+    	showLevel: false,
+    	prettyPrint: true,
+    	// silent: false,
+    }),
     new winston.transports.DailyRotateFile({
 		  datePattern: '.yyyy-MM-ddTHH',
 		  filename: path.join(config.root, 'server', 'logs', 'debug.log'),
 		  json: false, 
 		  showLevel: false, 
-		  maxFiles: 5
+		  maxFiles: 5,
+		  prettyPrint: true
 		})
   ],
   // exceptionHandlers: [
