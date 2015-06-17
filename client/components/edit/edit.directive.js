@@ -83,6 +83,10 @@ angular.module('meanbaseApp')
           element.trumbowyg('destroy');
         	element.attr('contenteditable', false);
         }
+
+        if(scope.editMode) {
+          startUpCKEditor();
+        }
   
         // Watch editMode to know when to start up and shut down ckeditor
         scope.$onRootScope('cms.editMode', function(value) {

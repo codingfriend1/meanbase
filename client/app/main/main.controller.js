@@ -37,11 +37,18 @@
 
     // Gets all existing content (extensions) for when the user wants to add existing content
     server.sharedContent.find({}).success(function(data) {
+      $rootScope.sharedContent = {};
       if(helpers.isEmpty(data)) { return false; }
       $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'contentName');
       helpers.loopThroughPageExtensions(function(currentExtension) {
         if(currentExtension.contentName && currentExtension.contentName !== '') {
           // Any extensions using that content have their values updated here 
+          if(!$rootScope.sharedContent[currentExtension.contentName]) {
+            $rootScope.sharedContent[currentExtension.contentName] = {
+              data: undefined,
+              config: undefined
+            };
+          }
           currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
           currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
         }
@@ -176,11 +183,22 @@
 
           // Updated the shared content across all content instances
           if(currentExtension.contentName && currentExtension.contentName !== '') {
+            if(!$rootScope.sharedContent[currentExtension.contentName]) {
+              $rootScope.sharedContent[currentExtension.contentName] = {};
+            }
             $rootScope.sharedContent[currentExtension.contentName].type = currentExtension.name;
             $rootScope.sharedContent[currentExtension.contentName].data = currentExtension.data;
             $rootScope.sharedContent[currentExtension.contentName].config = currentExtension.config;
           }
         }); //helpers.loopThroughPageExtensions       
+
+        helpers.loopThroughPageExtensions(function(currentExtension) {
+          if(currentExtension.contentName && currentExtension.contentName !== '') {
+            currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
+            currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
+          }
+        });
+
       }); //$timeout
     }); //saveEdits()
 

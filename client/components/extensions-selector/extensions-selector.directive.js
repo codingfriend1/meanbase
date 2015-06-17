@@ -30,6 +30,9 @@ angular.module('meanbaseApp')
                 config: chosenExtensions[i].config,
                 data: chosenExtensions[i].data,
               };
+              $rootScope.sharedContent[chosenExtensions[i].contentName].data = chosenExtensions[i].data;
+              $rootScope.sharedContent[chosenExtensions[i].contentName].config = chosenExtensions[i].config;
+
               extensionsResponse.push(extension);
             };
 
