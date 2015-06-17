@@ -169,8 +169,14 @@
             jQuery('meta[name=description]').attr('content', $rootScope.page.description);
           }
           if($scope.sharedContentToCheckDelete.length > 0) {
-            server.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } });
-            $scope.sharedContentToCheckDelete = [];
+            server.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } }).success(function() {
+              server.sharedContent.find({}).success(function(data) {
+                $rootScope.sharedContent = {};
+                if(helpers.isEmpty(data)) { return false; }
+                $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'contentName');
+              });
+              $scope.sharedContentToCheckDelete = [];
+            });
           }
           toastr.success('Changes saved');
         });
