@@ -12,6 +12,7 @@
 		var self = this;
 
 		this.toggleEdit = function() {
+			$rootScope.$emit('cms.editMode', true);
 			$rootScope.editMode = !$rootScope.editMode;
 		};
 

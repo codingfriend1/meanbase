@@ -73,31 +73,6 @@ angular.module('meanbaseApp')
 
           var trumbowygBox = element.parent('.trumbowyg-box');
 
-
-          // var $modal = element.trumbowyg("openModal", {
-          //     title: "A title for modal box",
-          //     content: "<p>Content in HTML which you want include in created modal box</p>"
-          // });
-
-          // // Listen clicks on modal box buttons
-          // $modal.on('trumbowyg-confirm', function(e){
-          //     // Save datas
-          //     console.log('Trumbowyg', $.Trumbowyg);
-          //     console.log(Trumbowyg.execCmd('insertImage', 'http://placehold.it/300x400'));
-          //     $("#editor").trumbowyg("closeModal");
-          // });
-          // $modal.on('trumbowyg-cancel', function(e){
-          //     $("#editor").trumbowyg("closeModal");
-          // });
-
-
-          // element.trumbowyg('html', scope.html);
-         //  element.Editor();
-        	// element.Editor('setText', scope.html);
-
-        	// Set the ck instances value to the value of ng-bind-html
-        	// ck.setData(scope.html);
-
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
         	snapshot = angular.copy(scope.html);
 
@@ -108,30 +83,27 @@ angular.module('meanbaseApp')
           element.trumbowyg('destroy');
         	element.attr('contenteditable', false);
         }
-
+  
         // Watch editMode to know when to start up and shut down ckeditor
-        scope.$watch('editMode', function(newValue, oldValue) {
-        	if(newValue) {
-        		startUpCKEditor();
-        	} else {
-        		shutdownCkEditor();
-        	}
+        scope.$onRootScope('cms.editMode', function(value) {
+          if(value) {
+            startUpCKEditor();
+          } else {
+            shutdownCkEditor();
+          }
         });
-
-        // scope.$onRootScope('blurEditors', function() {
-        //   ck.focusManager.forceBlur();
-        //   console.log('bluring editors');
-        // });
 
         // When cms.headbar or any other script releases the event to discard edits, reset to snapshot
         scope.$onRootScope('cms.discardEdits', function() {
           element.trumbowyg('html', snapshot);
           scope.html = snapshot;
+          shutdownCkEditor();
         });
 
         // When the save edits event is fired on rootscope listen and save ckeditor data to html
         scope.$onRootScope('cms.saveEdits', function() {
           scope.html = element.trumbowyg('html');
+          shutdownCkEditor();
         });
 
       } //link

@@ -174,27 +174,13 @@
             server.sharedContent.update({contentName: currentExtension.contentName}, {data: currentExtension.data, config: currentExtension.config, type: currentExtension.name}); 
           }
 
-          // If the extension uses shared content and that shared content has any values, update the extension with the latest shared content data.
-          // If the extension uses shared content but the shared content data is empty, (meaning we just created it) then set the shared content data to the extension's data
+          // Updated the shared content across all content instances
           if(currentExtension.contentName && currentExtension.contentName !== '') {
-            // if(helpers.isEmpty($rootScope.sharedContent)) { return false; }
-            $rootScope.sharedContent[currentExtension.contentName] = {
-              data: currentExtension.data,
-              config: currentExtension.config,
-              type: currentExtension.name
-            };
-            // if($rootScope.sharedContent[currentExtension.contentName]) {
-            //   currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
-            //   currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
-            // } else {
-            //   $rootScope.sharedContent[currentExtension.contentName] = {
-            //     data: currentExtension.data,
-            //     config: currentExtension.config,
-            //     type: currentExtension.name
-            //   };
-            // }
+            $rootScope.sharedContent[currentExtension.contentName].type = currentExtension.name;
+            $rootScope.sharedContent[currentExtension.contentName].data = currentExtension.data;
+            $rootScope.sharedContent[currentExtension.contentName].config = currentExtension.config;
           }
-        }); //helpers.loopThroughPageExtensions
+        }); //helpers.loopThroughPageExtensions       
       }); //$timeout
     }); //saveEdits()
 
