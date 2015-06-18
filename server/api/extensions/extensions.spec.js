@@ -6,14 +6,13 @@ var request = require('supertest');
 
 describe('GET /api/extensions/', function() {
 
-  it('should respond with JSON array', function(done) {
+  it('should not return anything to unauthorized users', function(done) {
     request(app)
-      .get('/api/extensions/')
-      .expect(200)
-      .expect('Content-Type', /json/)
+      .get('/api/extensions')
+      .expect(401)
+      .expect('Content-Type', /html/)
       .end(function(err, res) {
         if (err) return done(err);
-        res.body.should.be.instanceof(Array);
         done();
       });
   });

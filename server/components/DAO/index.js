@@ -77,7 +77,7 @@ DAO.prototype.findById = function(req, res, callback) {
 DAO.prototype.find = function(req, res, callback) {
   var identifier = this.getIdentifer(req, res);
   if(!identifier) { return false; }
-  logInfo('find', identifier, req);
+  // logInfo('find', identifier, req);
   try {
     this.collection.find(identifier).lean().exec(function (err, found) {
       if(err) { return handleError(res, err); }
@@ -396,7 +396,7 @@ DAO.prototype.getIdentifer = function(req, res) {
   }
 
   if(helpers.containsUndefined(identifier)) {
-    return mongoErrorHandler(res, err);
+    return mongoErrorHandler(res, 'Identifier is undefined');
   }
 
   // Modify the req.body before it interacts with the database

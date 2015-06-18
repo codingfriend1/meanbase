@@ -87,7 +87,7 @@
 				}
 			} else {
 				console.log('api request error.');
-				if(!status === 404) {
+				if(status !== 404) {
 					toastr.error('Hmmmm, there server is having trouble with the ' + category + '.');
 				}
 			}

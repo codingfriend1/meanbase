@@ -260,7 +260,6 @@ exports.retrieveExtensions = function(callback) {
           json = null;
           files = [];
           screenshot = null;
-          folderName = null;
           extensionJSON = {};
         } catch(error) {
           console.log('Could not parse extension.json in root of extension', error);
