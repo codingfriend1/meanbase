@@ -35,25 +35,31 @@
       $rootScope.menus = response.data;
     });
 
-    // Gets all existing content (extensions) for when the user wants to add existing content
-    server.sharedContent.find({}).success(function(data) {
-      $rootScope.sharedContent = {};
-      if(helpers.isEmpty(data)) { return false; }
-      $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'contentName');
-      helpers.loopThroughPageExtensions(function(currentExtension) {
-        if(currentExtension.contentName && currentExtension.contentName !== '') {
-          // Any extensions using that content have their values updated here 
-          if(!$rootScope.sharedContent[currentExtension.contentName]) {
-            $rootScope.sharedContent[currentExtension.contentName] = {
-              data: undefined,
-              config: undefined
-            };
+
+    function getSharedContentFromServer() {
+      // Gets all existing content (extensions) for when the user wants to add existing content
+      server.sharedContent.find({}).success(function(data) {
+        $rootScope.sharedContent = {};
+        if(helpers.isEmpty(data)) { return false; }
+        $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'contentName');
+        helpers.loopThroughPageExtensions(function(currentExtension) {
+          if(currentExtension.contentName && currentExtension.contentName !== '') {
+            // Any extensions using that content have their values updated here 
+            if(!$rootScope.sharedContent[currentExtension.contentName]) {
+              $rootScope.sharedContent[currentExtension.contentName] = {
+                data: undefined,
+                config: undefined
+              };
+            }
+            currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
+            currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
           }
-          currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
-          currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
-        }
+        });
       });
-    });
+    }
+
+    getSharedContentFromServer();
+    
 
     // Set up config for draggable menus
     $rootScope.menusConfig = { 
@@ -134,6 +140,10 @@
       }
     });
 
+    $scope.$onRootScope('$stateChangeSuccess', function() {
+      getSharedContentFromServer();
+    });
+
     // Save menu ordering when saveEdits event is emitted
     $scope.$onRootScope('cms.saveEdits', function() {
 
@@ -169,12 +179,8 @@
             jQuery('meta[name=description]').attr('content', $rootScope.page.description);
           }
           if($scope.sharedContentToCheckDelete.length > 0) {
-            server.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } }).success(function() {
-              server.sharedContent.find({}).success(function(data) {
-                $rootScope.sharedContent = {};
-                if(helpers.isEmpty(data)) { return false; }
-                $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'contentName');
-              });
+            server.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } }).finally(function() {
+              getSharedContentFromServer();
               $scope.sharedContentToCheckDelete = [];
             });
           }
