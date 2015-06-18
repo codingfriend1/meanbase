@@ -192,6 +192,7 @@
             if(!$rootScope.sharedContent[currentExtension.contentName]) {
               $rootScope.sharedContent[currentExtension.contentName] = {};
             }
+            $rootScope.sharedContent[currentExtension.contentName].contentName = currentExtension.contentName;
             $rootScope.sharedContent[currentExtension.contentName].type = currentExtension.name;
             $rootScope.sharedContent[currentExtension.contentName].data = currentExtension.data;
             $rootScope.sharedContent[currentExtension.contentName].config = currentExtension.config;
