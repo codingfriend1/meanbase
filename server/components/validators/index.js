@@ -5,7 +5,7 @@ validator.extend('isTitle', function(str) {
 });
 
 validator.extend('isURI', function(str) {
-	return /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}(\/[\w~,;\-\.\/?%&+#=]*))/.test(str);
+	return /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}((\/|#)[\w~,;\-\.\/?%&+#=]*))/.test(str);
 });
 
 validator.extend('isFilePath', function(str) {

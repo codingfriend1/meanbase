@@ -88,7 +88,7 @@
     // Sets up regex for validating user input site-wide
     $rootScope.validators = {
       isTitle: /^[A-Za-z0-9@:?&=. _\-]*$/,
-      isURI: /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}(\/[\w~,;\-\.\/?%&+#=]*))/,
+      isURI: /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}((\/|#)[\w~,;\-\.\/?%&+#=]*))/,
       isFilePath: /^[0-9A-Za-z\/*_.\\\-]*$/,
       isCSSClass: /^[A-Za-z0-9_\-*]*$/,
       isAnchorTarget: /^[_blank|_self|_parent|_top]*$/,
@@ -288,6 +288,26 @@
       }
     }
 
+    $scope.createMenuItem = function(group) {
+      var modalInstance = $modal.open({
+        templateUrl: 'editmenu.modal.html',
+        controller: menuModal,
+        size: 'md',
+        resolve: {
+          menuItem: function() {
+            return {
+              position: ($rootScope.menus[group])? $rootScope.menus[group].length: 0,
+              group: group,
+              title: '',
+              classes: '',
+              target: '',
+              url: ''
+            };
+          }
+        }
+      });
+    };
+
 
     // The controller for the menu modal
     // @ngInject
@@ -297,6 +317,9 @@
 
       $scope.newMenuItem = function() {
         if($scope.menuItem._id) { delete $scope.menuItem._id; }
+        if(!$rootScope.menus[$scope.menuItem.group]) { 
+          $rootScope.menus[$scope.menuItem.group] = []; 
+        }
         $scope.menuItem.position = $rootScope.menus[$scope.menuItem.group].length;
         $rootScope.menus[$scope.menuItem.group].push($scope.menuItem);
         $modalInstance.dismiss();

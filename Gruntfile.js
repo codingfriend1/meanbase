@@ -376,6 +376,7 @@ module.exports = function (grunt) {
 
     // Copies remaining files to places other tasks can use
     copy: {
+      noProcess: ['woff', 'woff2', 'ttf'],
       dist: {
         files: [{
           expand: true,
@@ -653,7 +654,7 @@ module.exports = function (grunt) {
       // Combine all theme stylus files into theme.css
       stylus.theme.files[dir + '/assets/theme.css'] = [
         dir + '/**/*.styl',
-        dir + '/**/*.css',
+        // dir + '/**/*.css',
         '!' + dir + '/assets/theme.css',
         '!' + dir + '/assets/theme.styl'
       ];
