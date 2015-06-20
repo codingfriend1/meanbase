@@ -17,5 +17,8 @@
   <div class="form-group">
     <label>Extension Area Name: </label>
     <input type="text" class="form-control" ng-model="extension.config.extensionArea">
+    <div class="help-block error">
+      Please don't name this extensible area the same name as one of the extensible areas it's in or it will create an infinite loop destroying your page. If you type in one of those names we will erase what you wrote.
+    </div>
   </div>
 </div>
