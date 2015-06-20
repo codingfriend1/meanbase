@@ -1,0 +1,21 @@
+<div ng-sortable="sortableExtensions" ng-class="{'mb-drag-to-room': editMode &amp;&amp; (!page.extensions[extension.config.extensionArea] || page.extensions[extension.config.extensionArea].length === 0)}">
+  <div ng-repeat="extension in page.extensions[extension.config.extensionArea]" dynamic-html="extension.text" ng-class="{'mb-draggable': editMode}">
+    <div ng-if="editMode" class="universal-extension-edit-buttons">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">Name</div>
+          <input type="text" placeholder="What is the shared name for this content?" ng-model="extension.contentName" ng-pattern="validators.isTitle" class="form-control"/>
+        </div>
+      </div>
+      <button ng-click="removeThisExtension(extension)" class="btn btn-danger remove-extension-button"><i class="fa fa-trash fa-lg"> </i> Delete</button>
+    </div>
+  </div>
+</div>
+<div extensions-selector="{{extension.config.extensionArea}}"></div>
+
+<div ng-if="editMode" class="gallery-config">
+  <div class="form-group">
+    <label>Extension Area Name: </label>
+    <input type="text" class="form-control" ng-model="extension.config.extensionArea">
+  </div>
+</div>
