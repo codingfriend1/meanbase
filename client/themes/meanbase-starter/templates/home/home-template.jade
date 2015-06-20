@@ -1,11 +1,11 @@
 .container(ng-controller="HomeCtrl as controller")
 	include ../../components/site-menu
 	.jumbotron
-		h1#page-title(edit="editMode" ng-bind-html="page.title")
-		p#content-1(edit="editMode" ng-bind-html="page.content['content-1']")
+		h1#page-title(meanbase-editable ng-bind-html="page.title")
+		p#content-1(meanbase-editable ng-bind-html="page.content['content-1']")
 	.col-sm-4
-		div#content-2(edit="editMode" ng-bind-html="page.content['content-2']")
+		div#content-2(meanbase-editable ng-bind-html="page.content['content-2']")
 	.col-sm-4
-		div#content-3(edit="editMode" ng-bind-html="page.content['content-3']")
+		div#content-3(meanbase-editable ng-bind-html="page.content['content-3']")
 	.col-sm-4
-		div#content-4(edit="editMode" ng-bind-html="page.content['content-4']")
+		div#content-4(meanbase-editable ng-bind-html="page.content['content-4']")

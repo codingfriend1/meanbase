@@ -37,9 +37,9 @@ header
 			.col-lg-12
 				img.img-responsive(src='themes/Tutorial/img/profile.png', alt='')
 				.intro-text
-					span.name(edit="editMode" ng-bind-html="page.title")
+					span.name(meanbase-editable ng-bind-html="page.title")
 					hr.star-light
-					span.skills(edit="editMode" ng-bind-html="page.content['content-1']")
+					span.skills(meanbase-editable ng-bind-html="page.content['content-1']")
 // Portfolio Grid Section
 section#portfolio
 	.container
@@ -93,9 +93,9 @@ section#about.success
 				hr.star-light
 		.row
 			.col-lg-4.col-lg-offset-2
-				p(edit="editMode" ng-bind-html="page.content['paragraph-1']")
+				p(meanbase-editable ng-bind-html="page.content['paragraph-1']")
 			.col-lg-4
-				p(edit="editMode" ng-bind-html="page.content['paragraph-2']")
+				p(meanbase-editable ng-bind-html="page.content['paragraph-2']")
 			.col-lg-8.col-lg-offset-2.text-center
 				a.btn.btn-lg.btn-outline(href='#')
 					i.fa.fa-download
@@ -168,7 +168,7 @@ footer.text-center
 								i.fa.fa-fw.fa-dribbble
 				.footer-col.col-md-4
 					h3 About Freelancer
-					p(edit="editMode" ng-bind-html="page.content['paragraph-3']")
+					p(meanbase-editable ng-bind-html="page.content['paragraph-3']")
 						//- | Freelance is a free to use, open source Bootstrap theme created by 
 						a(href='http://startbootstrap.com') Start Bootstrap
 						//- | .

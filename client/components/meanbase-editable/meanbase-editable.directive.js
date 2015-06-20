@@ -1,18 +1,15 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('edit', function ($sanitize, $timeout, $compile, $modal) {
+  .directive('meanbaseEditable', function ($sanitize, $rootScope) {
     return {
       restrict: 'EA',
       scope: {
       	html:'=ngBindHtml',
-      	editMode:'=edit',
-
         // should contain discard() to undo edits
       	config:'=config'
       },
       link: function (scope, element, attrs) {
-
         scope.imageSelectorApi = {};
 
         var config = {
@@ -84,7 +81,7 @@ angular.module('meanbaseApp')
         	element.attr('contenteditable', false);
         }
 
-        if(scope.editMode) {
+        if($rootScope.editMode) {
           startUpCKEditor();
         }
   

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: edit', function () {
+describe('Directive: meanbase-editable', function () {
 
   // load the directive's module
   beforeEach(module('meanbaseApp'));
@@ -13,8 +13,8 @@ describe('Directive: edit', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<edit></edit>');
+    element = angular.element('<meanbase-editable></meanbase-editable>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the edit directive');
+    expect(element.text()).toBe('this is the meanbase-editable directive');
   }));
 });
