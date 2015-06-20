@@ -5,7 +5,7 @@ angular.module('meanbaseApp')
     return {
       templateUrl: 'components/extensions-area/extensions-area.html',
       restrict: 'A',
-      scope: {},
+      scope: true,
       link: function (scope, element, attrs) {
       	if(attrs.extensionsArea) {
           scope.removeThisExtension = scope.$parent.removeThisExtension;

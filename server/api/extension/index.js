@@ -7,6 +7,7 @@ var router = express.Router();
 
 // Affecting multiple or all items.
 router.get('/', auth.hasPermission('editContent'), controller.find);
+// router.get('/', controller.find);
 router.post('/', auth.hasPermission('manageExtensions'), controller.create);
 router.post('/upload', controller.upload);
 router.put('/', auth.hasPermission('manageExtensions'), controller.update);
