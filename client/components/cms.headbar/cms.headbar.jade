@@ -78,7 +78,9 @@ script(type="text/ng-template" id="editmenu.modal.html")
 			span.sr-only Close
 		h4#editMenuItemLabel.modal-title Edit Menu Item
 	.modal-body
-		form(novalidate name="editingMenuForm")
+		//- form(novalidate name="editingMenuForm" ng-submit="isNewMenu? newMenuItem(): editMenuItem()")
+		form(novalidate name="editingMenuForm" ng-submit="isNewMenu? newMenuItem(): editMenuItem()")
+			input(type="submit").hidden
 			.form-group
 				label Url
 				input.form-control(ng-model="menuItem.url" name="url" ng-pattern="validators.isURI" required)
