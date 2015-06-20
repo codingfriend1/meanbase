@@ -78,28 +78,32 @@ script(type="text/ng-template" id="editmenu.modal.html")
 			span.sr-only Close
 		h4#editMenuItemLabel.modal-title Edit Menu Item
 	.modal-body
-		.form-group(validate="{{errorMessages.isURI}}").has-feedback
-			label Url
-			input.form-control(ng-model="menuItem.url" ng-pattern="validators.isURI" required)
-			span.glyphicon.glyphicon-ok.form-control-feedback
-		.form-group(validate="{{errorMessages.isTitle}}").has-feedback
-			label Title
-			input.form-control(ng-model="menuItem.title" ng-pattern="validators.isTitle" required)
-			span.glyphicon.glyphicon-ok.form-control-feedback
-		.form-group(validate="{{errorMessages.isCSSClass}}").has-feedback
-			label CSS Classes
-			input.form-control(ng-model="menuItem.classes" ng-pattern="validators.isCSSClass")
-			span.glyphicon.glyphicon-ok.form-control-feedback
-		.form-group
-			label Target
-			select(ng-model="menuItem.target").form-control
-				option(value="") none (good for angular)
-				option(value="_self") _self
-				option(value="_blank") _blank
+		form(novalidate name="editingMenuForm")
+			.form-group
+				label Url
+				input.form-control(ng-model="menuItem.url" name="url" ng-pattern="validators.isURI" required)
+				div.help-block.required(ng-show="editingMenuForm.url.$error.required && editingMenuForm.url.$dirty") {{errorMessages.requiredMessage}}
+				div.help-block.error(ng-show="editingMenuForm.url.$invalid && editingMenuForm.url.$dirty") {{errorMessages.isURI}}
+			.form-group
+				label Title
+				input.form-control(ng-model="menuItem.title" name="title" ng-pattern="validators.isTitle" required)
+				div.help-block.required(ng-show="editingMenuForm.title.$error.required && editingMenuForm.title.$dirty") {{errorMessages.requiredMessage}}
+				div.help-block.error(ng-show="editingMenuForm.title.$invalid && editingMenuForm.title.$dirty") {{errorMessages.isTitle}}
+			.form-group
+				label CSS Classes
+				input.form-control(ng-model="menuItem.classes" name="classes" ng-pattern="validators.isCSSClass")
+				div.help-block.required(ng-show="editingMenuForm.classes.$error.required && editingMenuForm.classes.$dirty") {{errorMessages.requiredMessage}}
+				div.help-block.error(ng-show="editingMenuForm.classes.$invalid && editingMenuForm.classes.$dirty") {{errorMessages.isCSSClass}}
+			.form-group
+				label Target
+				select(ng-model="menuItem.target").form-control
+					option(value="") none (good for angular)
+					option(value="_self") _self
+					option(value="_blank") _blank
 	.modal-footer
 		button.btn.btn-danger(ng-click="removeMenuItem()" ng-hide="isNewMenu") Delete
-		button.btn.btn-success(ng-click="editMenuItem()" ng-hide="isNewMenu") Save
-		button.btn.btn-primary(ng-click="newMenuItem()") Save As New
+		button.btn.btn-success(type="submit" ng-click="editMenuItem()" ng-hide="isNewMenu" ng-class="{disabled: editingMenuForm.$invalid}") Save
+		button.btn.btn-primary(type="submit" ng-click="newMenuItem()" ng-class="{disabled: editingMenuForm.$invalid}") Save As New
 		button.btn.btn-default(type='button' ng-click="$dismiss()") Close
 
 script(type="text/ng-template" id="extensions.modal.html")

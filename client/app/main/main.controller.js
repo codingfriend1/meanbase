@@ -327,21 +327,25 @@
       $scope.menuItem = angular.copy(menuItem);
 
       $scope.newMenuItem = function() {
-        if($scope.menuItem._id) { delete $scope.menuItem._id; }
-        if(!$rootScope.menus[$scope.menuItem.group]) { 
-          $rootScope.menus[$scope.menuItem.group] = []; 
+        if($scope.editingMenuForm.$valid) {
+          if($scope.menuItem._id) { delete $scope.menuItem._id; }
+          if(!$rootScope.menus[$scope.menuItem.group]) { 
+            $rootScope.menus[$scope.menuItem.group] = []; 
+          }
+          $scope.menuItem.position = $rootScope.menus[$scope.menuItem.group].length;
+          $rootScope.menus[$scope.menuItem.group].push($scope.menuItem);
+          $modalInstance.dismiss();
         }
-        $scope.menuItem.position = $rootScope.menus[$scope.menuItem.group].length;
-        $rootScope.menus[$scope.menuItem.group].push($scope.menuItem);
-        $modalInstance.dismiss();
       };
 
       $scope.editMenuItem = function() {
-        menuItem.title = $scope.menuItem.title || menuItem.title;
-        menuItem.url = $scope.menuItem.url || menuItem.url;
-        menuItem.classes = $scope.menuItem.classes || menuItem.classes;
-        menuItem.target = $scope.menuItem.target || menuItem.target;
-        $modalInstance.dismiss();
+        if($scope.editingMenuForm.$valid) {
+          menuItem.title = $scope.menuItem.title || menuItem.title;
+          menuItem.url = $scope.menuItem.url || menuItem.url;
+          menuItem.classes = $scope.menuItem.classes || menuItem.classes;
+          menuItem.target = $scope.menuItem.target || menuItem.target;
+          $modalInstance.dismiss();
+        }
       };
 
       $scope.removeMenuItem = function() {
