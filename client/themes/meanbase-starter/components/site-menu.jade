@@ -13,6 +13,9 @@
 			ul.nav.navbar-nav(ng-sortable="menusConfig")
 				li(ng-repeat="menu in menus.main" sortable)
 					a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
+				li.new-menu-item-button(ng-click="createMenuItem('main')" ng-if="editMode")
+					a
+						i.fa.fa-plus
 			//- ul.nav.navbar-nav
 			//- 	li.drop-down.mb-dropdown-toggle
 			//- 		a(data-toggle="dropdown" href="#").dropdown-toggle

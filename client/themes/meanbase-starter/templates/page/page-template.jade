@@ -6,6 +6,9 @@
 					ul#sidebar.nav.nav-stacked(ng-sortable="menusConfig")
 						li(ng-repeat="menu in menus.sidebar").mb-draggable
 							a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
+						li.new-menu-item-button(ng-click="createMenuItem('sidebar')" ng-if="editMode")
+							a
+								i.fa.fa-plus
 			.col-md-9
 				h2#page-title(edit="editMode" ng-bind-html="page.title")
 				p(edit="editMode" ng-bind-html="page.content['content-1']")

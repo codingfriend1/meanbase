@@ -7,11 +7,6 @@ var collection = new DAO(Menus);
 var helpers = require('../../components/helpers');
 
 collection.modifyBody = function(body) {
-  console.log('modify body for menus');
-  if(body) {
-    console.log("body", body);
-    body = helpers.objectToArray(body);
-  }
   // if(body && body.url && body.url.charAt(0) !== '/') {
   //   body.url = '/' + body.url;
   // }
@@ -38,7 +33,6 @@ exports.find = function(req, res) {
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
   if(req.body && req.body.main && Array.isArray(req.body.main)) {
-    console.log("converting to array", req.body);
     req.body = helpers.objectToArray(req.body);
   }
   collection.create(req, res);
