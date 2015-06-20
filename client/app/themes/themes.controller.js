@@ -71,4 +71,12 @@ angular.module('meanbaseApp')
         }
       });
     };
+
+    $scope.$onRootScope('deleted theme', function(theme) {
+      $scope.themeDevelopmentMode = false;
+    });
+
+    $scope.$onRootScope('activated theme', function(theme) {
+      $scope.themeDevelopmentMode = false;
+    });
   });

@@ -7,6 +7,7 @@ var setGlobalTheme = require('../../components/themes');
 var compileIndex = require('../../components/index');
 var collection = new DAO(Themes);
 var fs = require('fs');
+var chokidar = require('chokidar');
 var config = require('../../config/environment');
 var Decompress = require('decompress');
 var zip = require('decompress-unzip');
@@ -23,6 +24,13 @@ exports.findAll = function(req, res) {
 
 exports.activate = function(req, res) {
 	if(!req.body.id) { return res.send(500); }
+  if(config.scriptsWather) {
+    config.scriptsWatcher.close();
+  }
+  if(config.stylesWatcher) {
+    config.stylesWatcher.close();
+  }
+  config.inThemeDevelopmentMode = false;
 	Themes.update({}, {active: false}, {multi: true}, function(err, found) {
 	  if (err) { return res.send(500, err); }
 	  Themes.update({_id: req.body.id}, {active: true}, function(error, found) {
@@ -125,6 +133,13 @@ exports.update = function(req, res) {
 
 // Deletes a themes from the DB.
 exports.delete = function(req, res) {
+  if(config.scriptsWather) {
+    config.scriptsWatcher.close();
+  }
+  if(config.stylesWatcher) {
+    config.stylesWatcher.close();
+  }
+  config.inThemeDevelopmentMode = false;
   collection.delete(req, res, function(identifier) {
   	if(identifier && identifier.url && identifier.url !== '') {
   		try {
@@ -150,6 +165,13 @@ exports.updateById = function(req, res) {
 
 // Deletes a themes from the DB.
 exports.deleteById = function(req, res) {
+  if(config.scriptsWather) {
+    config.scriptsWatcher.close();
+  }
+  if(config.stylesWatcher) {
+    config.stylesWatcher.close();
+  }
+  config.inThemeDevelopmentMode = false;
   collection.deleteById(req, res);
 };
 

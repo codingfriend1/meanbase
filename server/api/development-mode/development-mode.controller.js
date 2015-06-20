@@ -6,16 +6,17 @@ var _ = require('lodash');
 // var DAO = require('../../components/DAO');
 // var collection = new DAO(DevelopmentMode);
 // var fse = require('fs-extra');
-var inThemeDevelopmentMode = false;
 var fs = require('fs');
+var chokidar = require('chokidar');
 var compileIndex = require('../../components/index/index.js');
 var config = require('../../config/environment');
 var Themes = require('../themes/themes.model');
 var app = config.app;
+config.inThemeDevelopmentMode = false;
 
 // Get some pages
 exports.find = function(req, res) {
-  res.status(200).send(inThemeDevelopmentMode);
+  res.status(200).send(config.inThemeDevelopmentMode);
 };
 
 // Creates a new pages in the DB.
@@ -28,7 +29,12 @@ exports.upsert = function(req, res) {
       if(req.body && req.body.theme === true) {
         if(theme.scriptsPath) {
           try {
-            fs.watchFile(app.get('appPath') + theme.scriptsPath, function (curr, prev) {
+            config.scriptsWatcher = chokidar.watch(app.get('appPath') + theme.scriptsPath, {
+              ignored: /[\/\\]\./,
+              persistent: true
+            });
+
+            config.scriptsWatcher.on('change', function(path, stats) {
               console.log('Detected change in scripts.html');
               compileIndex();
             });
@@ -41,7 +47,13 @@ exports.upsert = function(req, res) {
 
         if(theme.stylesPath) {
           try {
-            fs.watchFile(app.get('appPath') + theme.stylesPath, function (curr, prev) {
+
+            config.stylesWatcher = chokidar.watch(app.get('appPath') + theme.stylesPath, {
+              ignored: /[\/\\]\./,
+              persistent: true
+            });
+
+            config.stylesWatcher.on('change', function(path, stats) {
               console.log('Detected change in styles.html');
               compileIndex();
             });
@@ -50,29 +62,14 @@ exports.upsert = function(req, res) {
             return res.status(500).send('Could not watch the styles html file.', e);
           }
         }
-        inThemeDevelopmentMode = true;
+        config.inThemeDevelopmentMode = true;
         compileIndex();
-        res.status(200).send(inThemeDevelopmentMode);
+        res.status(200).send(config.inThemeDevelopmentMode);
       } else {
-        if(theme.scriptsPath) {
-          try {
-            fs.unwatchFile(app.get('appPath') + theme.scriptsPath);
-          } catch(e) {
-            console.log('Could not unwatch the scripts.html file', e);
-            return res.status(500).send('Could not unwatch the scripts.html file', e);
-          }
-        }
-
-        if(theme.stylesPath) {
-          try {
-            fs.unwatchFile(app.get('appPath') + theme.stylesPath);
-          } catch(e) {
-            console.log('Could not unwatch the styles.html file', e);
-            return res.status(500).send('Could not unwatch the styles.html file', e);
-          }
-        }
-        inThemeDevelopmentMode = false;
-        res.status(200).send(inThemeDevelopmentMode);
+        config.scriptsWatcher.close();
+        config.stylesWatcher.close();
+        config.inThemeDevelopmentMode = false;
+        res.status(200).send(config.inThemeDevelopmentMode);
       }
     });
 };
