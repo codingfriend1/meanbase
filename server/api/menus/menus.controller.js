@@ -4,18 +4,24 @@ var _ = require('lodash');
 var Menus = require('./menus.model');
 var DAO = require('../../components/DAO');
 var collection = new DAO(Menus);
+var helpers = require('../../components/helpers');
 
 collection.modifyBody = function(body) {
-  if(body && body.url && body.url.charAt(0) !== '/') {
-    body.url = '/' + body.url;
+  console.log('modify body for menus');
+  if(body) {
+    console.log("body", body);
+    body = helpers.objectToArray(body);
   }
+  // if(body && body.url && body.url.charAt(0) !== '/') {
+  //   body.url = '/' + body.url;
+  // }
   return body;
 };
 
 collection.modifyIdentifier = function(identifier) {
-  if(identifier && identifier.url && identifier.url.charAt(0) !== '/') {
-    identifier.url = '/' + identifier.url;
-  }
+  // if(identifier && identifier.url && identifier.url.charAt(0) !== '/') {
+  //   identifier.url = '/' + identifier.url;
+  // }
   return identifier;
 };
 
@@ -31,6 +37,10 @@ exports.find = function(req, res) {
 
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
+  if(req.body && req.body.main && Array.isArray(req.body.main)) {
+    console.log("converting to array", req.body);
+    req.body = helpers.objectToArray(req.body);
+  }
   collection.create(req, res);
 };
 

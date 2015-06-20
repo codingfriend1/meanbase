@@ -151,20 +151,21 @@
       $scope.pageAnimation = 'pulse';
 
       // Update positions and locations of the menu items
-      $rootScope.menus = helpers.updatePositionData($rootScope.menus);
+      $rootScope.menus = helpers.updatePositionDataAsObject($rootScope.menus);
 
       updateExtensionPositionData();
 
       // Delete all the menus in the database, 
       // recreate all of them based off the client copy,
       // Get the newly updated menus with their server-generated ids
-      server.menus.delete({}).then(function(deleteResponse) {
-        server.menus.create($rootScope.menus).then(function(createResponse) {
+      server.menus.delete({}).finally(function(deleteResponse) {
+        server.menus.create($rootScope.menus).success(function(createResponse) {
           server.menus.find({}).then(function(response) {
             $rootScope.menus = response.data;
           });
         });
       });
+      
 
       //We need to wait for the "edit" directive to store changes in page.content
       $timeout(function(){
@@ -257,6 +258,9 @@
           resolve: {
             menuItem: function() {
               return menuItem;
+            },
+            isNewMenu: function() {
+              return false;
             }
           }
         });
@@ -289,6 +293,9 @@
     }
 
     $scope.createMenuItem = function(group) {
+      if(!$rootScope.menus[group]) {
+        $rootScope.menus[group] = [];
+      }
       var modalInstance = $modal.open({
         templateUrl: 'editmenu.modal.html',
         controller: menuModal,
@@ -296,13 +303,16 @@
         resolve: {
           menuItem: function() {
             return {
-              position: ($rootScope.menus[group])? $rootScope.menus[group].length: 0,
+              position: $rootScope.menus[group].length,
               group: group,
               title: '',
               classes: '',
               target: '',
               url: ''
             };
+          },
+          isNewMenu: function() {
+            return true;
           }
         }
       });
@@ -311,7 +321,8 @@
 
     // The controller for the menu modal
     // @ngInject
-    function menuModal($scope, $modalInstance, menuItem) {
+    function menuModal($scope, $modalInstance, menuItem, isNewMenu) {
+      $scope.isNewMenu = isNewMenu;
 
       $scope.menuItem = angular.copy(menuItem);
 
@@ -334,7 +345,7 @@
       };
 
       $scope.removeMenuItem = function() {
-        $rootScope.menus = helpers.updatePositionData($rootScope.menus);
+        $rootScope.menus = helpers.updatePositionDataAsObject($rootScope.menus);
         $rootScope.menus[menuItem.group].splice(menuItem.position, 1);
         $modalInstance.dismiss();
       };

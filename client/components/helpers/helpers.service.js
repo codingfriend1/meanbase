@@ -102,8 +102,20 @@ angular.module('meanbaseApp')
           }
         } 
       }
+      console.log("updatedDraggableObject", updatedDraggableObject);
       return updatedDraggableObject;
     };
 
+    this.updatePositionDataAsObject = function(draggableGroupsObject) {
+      for(var group in draggableGroupsObject) {
+        if (draggableGroupsObject.hasOwnProperty(group)) {
+          for(var i = 0; i < draggableGroupsObject[group].length; i++) {
+            draggableGroupsObject[group][i].group = group;
+            draggableGroupsObject[group][i].position = i;
+          }
+        } 
+      }
+      return draggableGroupsObject;
+    };
 
   });

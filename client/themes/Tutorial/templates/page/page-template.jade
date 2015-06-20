@@ -13,8 +13,11 @@ nav.navbar.navbar-default.navbar-fixed-top(ng-controller="pageTemplateCtrl")
 			ul.nav.navbar-nav.navbar-right(ng-sortable="menusConfig")
 				li.page-scroll(ng-repeat="menu in menus.hashPoints" sortable)
 					a(href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
-				button.btn.btn-success(ng-click="createMenuItem('hashPoints')" ng-if="editMode")
-					i.fa.fa-plus Add Menu
+				li.page-scroll.new-menu-item(ng-click="createMenuItem('hashPoints')" ng-if="editMode")
+					a
+						i.fa.fa-plus
+						|  Add Menu
+				//- button.btn.btn-success
 				//- li.hidden(sortable)
 				//- 	a(href='#page-top')
 				//- li.page-scroll(sortable)

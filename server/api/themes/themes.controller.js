@@ -178,4 +178,5 @@ function updateFile(theme) {
 	if(theme.themeJSONPath) { var themeJSONPath = theme.themeJSONPath; delete theme.themeJSONPath; }
 	var themeJSON = JSON.stringify(postTheme, null, 2);
 	fs.writeFileSync(app.get('appPath') + themeJSONPath, themeJSON);
+  compileIndex();
 }

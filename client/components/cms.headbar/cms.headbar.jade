@@ -73,7 +73,7 @@ script(type="text/ng-template" id="editmodal.modal.html")
 
 script(type="text/ng-template" id="editmenu.modal.html")
 	.modal-header
-		button.close(type='button' ng-click="cancel()")
+		button.close(type='button' ng-click="$dismiss()")
 			span(aria-hidden='true') ×
 			span.sr-only Close
 		h4#editMenuItemLabel.modal-title Edit Menu Item
@@ -97,10 +97,10 @@ script(type="text/ng-template" id="editmenu.modal.html")
 				option(value="_self") _self
 				option(value="_blank") _blank
 	.modal-footer
-		button.btn.btn-danger(ng-click="removeMenuItem()") Delete
-		button.btn.btn-success(ng-click="editMenuItem()") Save
+		button.btn.btn-danger(ng-click="removeMenuItem()" ng-hide="isNewMenu") Delete
+		button.btn.btn-success(ng-click="editMenuItem()" ng-hide="isNewMenu") Save
 		button.btn.btn-primary(ng-click="newMenuItem()") Save As New
-		button.btn.btn-default(type='button' ng-click="cancel()") Close
+		button.btn.btn-default(type='button' ng-click="$dismiss()") Close
 
 script(type="text/ng-template" id="extensions.modal.html")
 	#extensions-modal.extensions-selector

@@ -76,7 +76,7 @@
 				if(data.message && data.message === 'Validation failed') {
 					for (var field in data.errors) {
 					  if (data.errors.hasOwnProperty(field)) {
-					  	if(data.errors[field].value.length < 50) {
+					  	if(data.errors[field].value && data.errors[field].value.length < 50) {
 						  	response += data.errors[field].value + ' is invalid.';
 						  }
 					  }

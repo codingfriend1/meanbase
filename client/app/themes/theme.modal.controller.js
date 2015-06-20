@@ -31,6 +31,7 @@ angular.module('meanbaseApp')
       if(!$scope.theme._id) { return false; }
       themes.update({_id: $scope.theme._id}, $scope.theme).then(function(response) {
         toastr.success('Updated theme.');
+        window.meanbaseGlobals.themeTemplates = $scope.theme.templates;
       });
     };
 

@@ -58,9 +58,18 @@
                 }
               }
             }
-
             // - Construct a url string from the theme name and template name to pass into $templateFactory
-            var templatePath = window.meanbaseGlobals.themeTemplatePaths[mappedTemplate].template;            
+            if(!window.meanbaseGlobals.themeTemplatePaths[mappedTemplate]) {
+              console.log('Could not find page template: ');
+              return $state.go('main.missing');
+            }
+
+            var templatePath = window.meanbaseGlobals.themeTemplatePaths[mappedTemplate].template;
+
+            if(!templatePath) {
+              console.log('Could not find page template: ');
+              return $state.go('main.missing');
+            }            
 
             // - Save the rest of the page data on the meanbaseGlobals object for use in the rest of the app
             // meanbaseGlobals.page = 
