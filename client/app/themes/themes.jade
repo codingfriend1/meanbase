@@ -13,3 +13,8 @@ div.drop-zone(nv-file-drop="uploader" multiple uploader="uploader").text-center.
 			.text-center
 				p(ng-if="theme.active").mb-active-theme.bg-success Currently in use
 				p(ng-if="!theme.active").mb-active-theme.bg-warning Not being used
+.form-group.checkbox
+	label
+		input(type="checkbox" ng-model="themeDevelopmentMode" ng-click='switchModes()') 
+		| Enable Theme Development Mode
+	p.help-block This mode will watch the scripts.html and styles.html of the active theme for changes and will recompile the main index page with the new scripts and styles that were added in. You must still refresh the browser in between changes.

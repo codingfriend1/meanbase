@@ -6,6 +6,12 @@ angular.module('meanbaseApp')
     $scope.$parent.pageTitle = 'Themes';
 
     var endpoint = new endpoints('themes');
+    var developmentMode = new endpoints('development-mode');
+    $scope.themeDevelopmentMode = false;
+    developmentMode.find({}).success(function(response) {
+      $scope.themeDevelopmentMode = response;
+    });
+    
 
     if ($cookieStore.get('token')) {
       var uploader = $scope.uploader = new FileUploader({
@@ -52,6 +58,16 @@ angular.module('meanbaseApp')
       modalInstance.result.then(function (action) {
         if(action === 'deleted') {
           $scope.themes.splice($scope.themes.indexOf(theme), 1);
+        }
+      });
+    };
+
+    $scope.switchModes = function() {
+      developmentMode.create({theme: $scope.themeDevelopmentMode}).then(function() {
+        if($scope.themeDevelopmentMode) {
+          toastr.success("Meanbase is now watching the active theme's scripts.html and styles.html for changes.")
+        } else {
+          toastr.warning('Meanbase is no longer watching for changes in scripts and styles html.');
         }
       });
     };
