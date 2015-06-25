@@ -184,8 +184,11 @@
               getSharedContentFromServer();
               $scope.sharedContentToCheckDelete = [];
             });
+          } else {
+            getSharedContentFromServer();
           }
           toastr.success('Changes saved');
+          
         });
 
         helpers.loopThroughPageExtensions(function(currentExtension) {
