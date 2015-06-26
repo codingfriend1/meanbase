@@ -9,6 +9,14 @@ angular.module('meanbaseApp').controller('extensions.modal.controller', function
 		$modalInstance.close($scope.chosenContent);
 	};
 
+	// Declaring event listeners is generally bad practice in controllers, but in this case the listener needs to be created and deleted with the controller and must be applied to the document
+	document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    if (evt.keyCode === 13) { //13 === enter key
+        $scope.chooseExtensions();
+    }
+	};
+
 	$scope.toggleChecked = function(content, $event) {
 		if(!content) { return false; }
 
@@ -44,4 +52,9 @@ angular.module('meanbaseApp').controller('extensions.modal.controller', function
 			}
 		}
 	};
+
+	// Cleans up document enter listener
+	$scope.$on('$destroy', function() {
+		document.onkeydown = null;
+	});
 });
