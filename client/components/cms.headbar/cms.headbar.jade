@@ -153,22 +153,22 @@ script(type="text/ng-template" id="extensions.modal.html")
 							.input-group
 								.input-group-addon 
 									i.fa.fa-search
-								input.form-control(type="text" placeholder="search extensions" ng-model="extensionsFilter")
+								input.form-control(type="text" placeholder="search content" ng-model="searchExtensions.name")
 						.extensions-list.scrollable-body
-							div(ng-repeat="ext in extensions | filter:filterExtensions" ng-click="toggleChecked(ext, $event)").list-item
-								h3.list-title {{ext.name}}
+							div(ng-repeat="ext in extensions | filter:searchExtensions" ng-click="toggleChecked(ext, $event)").list-item
+								h4.list-title {{ext.name}}
 								i.fa.pull-right.checkbox(ng-class="{'fa-check': chosenContent.indexOf(ext) > -1, 'fa-square-o': chosenContent.indexOf(ext) == -1}")
 				tab(heading="Choose from existing content")
-					div
+					div.extensions-selector
 						.form-group
 							.input-group
 								.input-group-addon 
 									i.fa.fa-search
-								input.form-control(type="text" placeholder="search site content" ng-model="sourceFilter")
+								input.form-control(type="text" placeholder="search existing content" ng-model="findShared")
 						.scrollable-body
-							div(ng-repeat="content in sharedContent | filter:filterSource" ng-click="toggleChecked(content, $event)").list-item
-								h3.list-title {{content.type}}: {{content.contentName}}
-								i.fa.pull-right.checkbox.fa-square-o
+							div(ng-repeat="(key, content) in sharedContent" ng-click="toggleChecked(content, $event)" ng-hide="content.contentName.indexOf(findShared) && content.type.indexOf(findShared)").list-item
+									h4.list-title {{content.type}}: {{content.contentName}}
+									i.fa.pull-right.checkbox.fa-square-o
 		.modal-footer
 			//- button.btn.btn-danger(type='button' ng-click="deleteContent()") Choose
 			button.btn.btn-success(type='button' ng-click="chooseExtensions()") Choose

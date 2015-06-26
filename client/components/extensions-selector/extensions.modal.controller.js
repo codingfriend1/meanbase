@@ -1,10 +1,8 @@
 angular.module('meanbaseApp').controller('extensions.modal.controller', function($scope, endpoints, $modalInstance, $timeout) {
 	$scope.chosenContent = [];
 
-	$scope.extensionsFilter = '';
-	$scope.filterExtensions = function(extension) {
-		return (extension.name + extension.html).toLowerCase().indexOf($scope.extensionsFilter.toLowerCase()) >= 0;
-	};
+	$scope.searchExtensions = {};
+	$scope.findShared = '';
 
 	$scope.chooseExtensions = function() {
 		if($scope.chosenContent.length < 1) { return false; }
