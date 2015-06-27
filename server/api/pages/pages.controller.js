@@ -11,7 +11,7 @@ var collection = new DAO(Pages);
 collection.modifyBody = function(body) {
   if(body) {
 
-    if(body.url && body.url.charAt(0) !== '/') {
+    if(typeof body.url === 'string' && body.url.charAt(0) !== '/') {
       body.url = '/' + body.url;
     }
 

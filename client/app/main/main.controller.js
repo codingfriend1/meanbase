@@ -208,13 +208,9 @@
       // We want to update the extension position data as well
       $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions);
       
-
-      //We need to wait for the "edit" directive to store changes in page.content
+      // We use a timeout so that the meanbase-editable html changes have time to update their models before we save the page.
       $timeout(function(){
         if(!$rootScope.page._id) { return false; }
-        if($rootScope.page.url.charAt(0) !== '/') { $rootScope.page.url = '/' + $rootScope.page.url; }
-          
-          $rootScope.menus = helpers.updatePositionData($rootScope.menus);
         server.page.update({_id: $rootScope.page._id}, $rootScope.page).finally(function() {
           if($rootScope.page.tabTitle) {
             document.title = $rootScope.page.tabTitle;
