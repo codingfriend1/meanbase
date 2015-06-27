@@ -184,9 +184,6 @@
           });
         });
       });
-
-      // We want to update the extension position data as well
-      $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions);
       
       // We use a timeout so that the meanbase-editable html changes have time to update their models before we save the page.
       $timeout(function(){
@@ -222,6 +219,9 @@
           toastr.success('Changes saved');
           
         }); //server.page.update()
+        
+        // We want to update the extension position data as well
+        $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions);
         
         // **In this first loop, we update the shared content with the data from the extensions**
         helpers.loopThroughPageExtensions(function(currentExtension) {

@@ -62,7 +62,7 @@ angular.module('meanbaseApp')
 
         function startUpCKEditor() {
           
-        	element.attr('contenteditable', true);
+        	// element.attr('contenteditable', true);
         	// Create ck instance
           element.trumbowyg(config)
           .on('tbwfocus', function(){ trumbowygBox.addClass('hasFocus'); }) // Listen for `tbwfocus` event
@@ -73,12 +73,14 @@ angular.module('meanbaseApp')
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
         	snapshot = angular.copy(scope.html);
 
-
+          // We want to set the trumbowyg html to a copy of the inital value so if the extension drags around we retain it's html
+          element.trumbowyg('html', snapshot);
         } //startUpCKEditor
 
         function shutdownCkEditor() {
+          console.log('shutdown');
           element.trumbowyg('destroy');
-        	element.attr('contenteditable', false);
+        	// element.attr('contenteditable', false);
         }
 
         if($rootScope.editMode) {
@@ -86,11 +88,9 @@ angular.module('meanbaseApp')
         }
   
         // Watch editMode to know when to start up and shut down ckeditor
-        scope.$onRootScope('cms.editMode', function(value) {
+        scope.$onRootScope('cms.editMode', function(event, value) {
           if(value) {
             startUpCKEditor();
-          } else {
-            shutdownCkEditor();
           }
         });
 
