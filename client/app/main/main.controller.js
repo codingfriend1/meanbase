@@ -242,14 +242,9 @@
           toastr.success('Changes saved');
           
         }); //server.page.update()
-
+        
+        // **In this first loop, we update the shared content with the data from the extensions**
         helpers.loopThroughPageExtensions(function(currentExtension) {
-          if(currentExtension.contentName && currentExtension.contentName !== '') {
-            // Send the shared content back to the server
-            server.sharedContent.update({contentName: currentExtension.contentName}, {data: currentExtension.data, config: currentExtension.config, type: currentExtension.name}); 
-          }
-
-          // Updated the shared content across all content instances
           if(currentExtension.contentName && currentExtension.contentName !== '') {
             if(!$rootScope.sharedContent[currentExtension.contentName]) {
               $rootScope.sharedContent[currentExtension.contentName] = {};
@@ -258,9 +253,14 @@
             $rootScope.sharedContent[currentExtension.contentName].type = currentExtension.name;
             $rootScope.sharedContent[currentExtension.contentName].data = currentExtension.data;
             $rootScope.sharedContent[currentExtension.contentName].config = currentExtension.config;
+
+            // Send the shared content back to the server
+            server.sharedContent.update({contentName: currentExtension.contentName}, $rootScope.sharedContent[currentExtension.contentName]);
           }
         }); //helpers.loopThroughPageExtensions       
-
+        
+        // **In this second loop, we update the extensions with the data from shared content**
+        // This is so that extensions using the same data on the same page all stay in sync
         helpers.loopThroughPageExtensions(function(currentExtension) {
           if(currentExtension.contentName && currentExtension.contentName !== '') {
             currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
