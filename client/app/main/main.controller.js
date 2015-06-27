@@ -1,17 +1,21 @@
+// #Main Controller
+// #### This controller contains major components of the front end CMS.
+
 'use strict';
 (function(){
   angular.module('meanbaseApp').controller('MainCtrl', MainCtrl);
 
-  // MainCtrl.$inject = ['$rootScope', '$scope', '$http', 'Auth', '$location', 'endpoints'];
   // @ngInject
   function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr) {
     $rootScope.isLoggedIn = Auth.isLoggedIn();
     
+    // A method that logs the user out
     $scope.logout = function() {
       Auth.logout();
-      $location.path('/login');
+      // $location.path('/login');
     };
 
+    // Prepare the api endpoints this controller will hit
     var server = {
       menus: new endpoints('menus'),
       sharedContent: new endpoints("shared-content"),
