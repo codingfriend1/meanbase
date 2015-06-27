@@ -9,7 +9,7 @@
 			hr
 			p
 				span.glyphicon.glyphicon-time 
-				| {{page.created | date: 'MMM d, y h:mm a'}} 
+				| {{page.created | date}} 
 			hr
 			div(extensions-area="extensions-1")
 			hr
@@ -38,7 +38,7 @@
 					img.media-object(src='http://placehold.it/64x64', alt='')
 				.media-body
 					h4.media-heading {{comment.author}}
-					small {{comment.date | date: 'MMM d, y h:mm a'}} 
+					small {{comment.date | date}} 
 					p {{comment.content}}
 		.col-md-4
 			.well

@@ -60,10 +60,10 @@ script(type="text/ng-template" id="editmodal.modal.html")
 		.row
 			.col-sm-6
 				p.h5 Created
-				p {{page.created | date: 'MMM d, y h:mm a'}}
+				p {{page.created | date}}
 			.col-sm-6
 				p.h5 Updated
-				p {{page.updated | date: 'MMM d, y h:mm a'}}
+				p {{page.updated | date}}
 	.modal-footer
 		.col-sm-9
 			p.h6.text-left (The headbar save and discard buttons will store changes)
