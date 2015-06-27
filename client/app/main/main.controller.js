@@ -270,16 +270,23 @@
 
       }); //$timeout
     }); //saveEdits()
-
+  
+    // ### Discard Edits
     // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when the user first clicked edit
     $scope.$onRootScope('cms.discardEdits', function() {
       $scope.pageAnimation = 'shake';
+
+      // We want to set the data to it's old initial snapshot
       $rootScope.menus = snapshots.menus;
       $rootScope.page = snapshots.page;
       $rootScope.sharedContent = snapshots.sharedContent;
+
+      // We also want to reset the shared content to delete check
       $rootScope.sharedContentToCheckDelete = [];
     });
 
+    // ### Image selector
+    // This is not the best place for this modal controller, but it handles opening and getting the images for the inline-text editor.
     // This controls the image selector modal that opens with the inline text editor
     $scope.openImageModal = function(callback) {
       var modalInstance = $modal.open({
@@ -301,8 +308,8 @@
       });
     };
 
-    // Prevent menu links from working while in edit mode
-    // Instead opens the edit menu modal
+    // ###handleClick
+    // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
     $scope.handleClick = function($event, menuItem) {
       if($scope.editMode) {
         $event.preventDefault();
@@ -322,13 +329,20 @@
       }
     };
 
+    // ### Removing extensions
+    // This may not be the best location for this function, but it handles removing extensions when the user clicks the delete **delete** button on an extension
     // Removes an extension from an extensible area
     $scope.removeThisExtension = function(extension) {
+
+      // If `sharedContentToCheckDelete` does not already contain this extension `contentName` we want to add it to the array.
       if(extension.contentName && $scope.sharedContentToCheckDelete.indexOf(extension.contentName) === -1) {
         $scope.sharedContentToCheckDelete.push(extension.contentName);
       }
       
+      // Since we are deleting an extension we want to make sure they are in the correct order in the array so we don't delete the wrong extension
       $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions);
+
+      // Make sure we are deleting an existing extension and then remove it from $rootScope.page.extensions
       if(extension && extension.group && extension.position !== undefined) {
         $rootScope.page.extensions[extension.group].splice(extension.position, 1);
         if($rootScope.page.extensions[extension.group].length < 1) {
@@ -337,6 +351,8 @@
       }
     };
 
+    // ### Create new menu item
+    // This may not be the best location for this controller, but it handles opening the modal to create a new menu item
     $scope.createMenuItem = function(group) {
       if(!$rootScope.menus[group]) {
         $rootScope.menus[group] = [];
@@ -364,19 +380,27 @@
     };
 
 
-    // The controller for the menu modal
+    // ### The Menu Modal Controller
     // @ngInject
     function menuModal($scope, $modalInstance, menuItem, isNewMenu) {
+
+      // This is a little distinguishing check to see if this modal was opened from an existing menu item (to edit it) or was opened from the createMenuItem function to create a new menu from scratch
       $scope.isNewMenu = isNewMenu;
 
+      // Since we don't want to be affecting our actual menu until we hit save we must make a copy of it.
       $scope.menuItem = angular.copy(menuItem);
 
       $scope.newMenuItem = function() {
+        // We want to make sure the data is valid before submitting it
         if($scope.editingMenuForm.$valid) {
           if($scope.menuItem._id) { delete $scope.menuItem._id; }
+
+          // If this menu group doesn't exist create it
           if(!$rootScope.menus[$scope.menuItem.group]) { 
             $rootScope.menus[$scope.menuItem.group] = []; 
           }
+
+          // Add the menu item to the end of it's group's list
           $scope.menuItem.position = $rootScope.menus[$scope.menuItem.group].length;
           $rootScope.menus[$scope.menuItem.group].push($scope.menuItem);
           $modalInstance.dismiss();
@@ -384,23 +408,23 @@
       };
 
       $scope.editMenuItem = function() {
+        // We want to make sure the changes are valid before submitting it
         if($scope.editingMenuForm.$valid) {
+          // menuItem is the menu that was passed in (the actual menu we want to modify). $scope.menuItem is the object that's being edited in the modal.
           menuItem.title = $scope.menuItem.title || menuItem.title;
           menuItem.url = $scope.menuItem.url || menuItem.url;
-          menuItem.classes = $scope.menuItem.classes || menuItem.classes;
-          menuItem.target = $scope.menuItem.target || menuItem.target;
+          menuItem.classes = $scope.menuItem.classes;
+          menuItem.target = $scope.menuItem.target;
           $modalInstance.dismiss();
         }
       };
 
       $scope.removeMenuItem = function() {
+        // Update the position data so that we are sure we are deleting the correct menu item
         $rootScope.menus = helpers.updatePositionData($rootScope.menus);
+
         $rootScope.menus[menuItem.group].splice(menuItem.position, 1);
         $modalInstance.dismiss();
-      };
-
-      $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
       };
     }
 
