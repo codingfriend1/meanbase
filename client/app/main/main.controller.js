@@ -145,22 +145,21 @@
 
     // We need some way of reseting the content back to what it was before. That's what snapshots do. We do an angular.copy() on all major pieces of data when the user hits edit and if the user then hits discard, we set that data to the initial copied value.
     var snapshots = {};
-    $scope.$watch('editMode', function(nv, ov) {
-      if(nv === ov) { return false; }
-      snapshots.menus = angular.copy($rootScope.menus);
-      snapshots.page = angular.copy($rootScope.page);
-      snapshots.sharedContent = angular.copy($rootScope.sharedContent);
-
+    $scope.$onRootScope('cms.editMode', function(event, editMode) {
       // Rubaxa's library has the ability to be disabled.
       // We only want draggable elements while in edit mode
-      $rootScope.menusConfig.disabled = !$scope.editMode;
-      $rootScope.sortableExtensions.disabled = !$scope.editMode;
+      $rootScope.menusConfig.disabled = !editMode;
+      $rootScope.sortableExtensions.disabled = !editMode;
 
       // We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
-      $scope.ableToNavigate = !$scope.editMode;
+      $scope.ableToNavigate = !editMode;
 
 
-      if(nv) {
+      if(editMode) {
+        snapshots.menus = angular.copy($rootScope.menus);
+        snapshots.page = angular.copy($rootScope.page);
+        snapshots.sharedContent = angular.copy($rootScope.sharedContent);
+
         // In the admin pages, extensions may be disabled so they cannot be added to the page.
         // Here we get only the active extensions so the admin can select extensions to add 
         server.extensions.find({active: true}).success(function(res) {
