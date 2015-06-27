@@ -32,7 +32,6 @@
 
 			// We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
 			$scope.ableToNavigate = !$rootScope.editMode;
-			console.log("toggleEdit $scope.ableToNavigate", $scope.ableToNavigate);
 		};
 
 		// Creates a new page and prompts the user for a url
