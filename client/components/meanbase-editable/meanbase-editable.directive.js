@@ -1,3 +1,5 @@
+// Handles starting up and shutting down the inline text editors and syncing up changes with the model when edits are saved
+
 'use strict';
 
 angular.module('meanbaseApp')
@@ -6,17 +8,14 @@ angular.module('meanbaseApp')
       restrict: 'EA',
       scope: {
       	html:'=ngBindHtml',
-        // should contain discard() to undo edits
       	config:'=config'
       },
       link: function (scope, element, attrs) {
-        scope.imageSelectorApi = {};
 
+        // Sets up default configuration for our text editors
         var config = {
           autogrow: true,
-          // closable: true,
           fullscreenable: false,
-          // fixedBtnPane: true,
           btnsDef: {
               // Customizables dropdowns
               align: {
@@ -54,57 +53,46 @@ angular.module('meanbaseApp')
               '|', 'chooseImage']
         };
 
-        var ck = {}, snapshot;
+        var _snapshot;
 
-        if(!scope.html) {
-        	scope.html = attrs.id? attrs.id + ' editable area': 'editable area';
-        }
+        function enableTextEditor() {
 
-        function startUpCKEditor() {
-          
-        	// element.attr('contenteditable', true);
-        	// Create ck instance
-          element.trumbowyg(config)
-          .on('tbwfocus', function(){ trumbowygBox.addClass('hasFocus'); }) // Listen for `tbwfocus` event
-          .on('tbwblur', function(){ trumbowygBox.removeClass('hasFocus'); })
-
+          // Get the element we want to add the hasFocus class to
           var trumbowygBox = element.parent('.trumbowyg-box');
 
+          // Create the text editor instance. These events enable us to wrap the text in green outlines
+          element.trumbowyg(config)
+          .on('tbwfocus', function(){ trumbowygBox.addClass('hasFocus'); })
+          .on('tbwblur', function(){ trumbowygBox.removeClass('hasFocus'); });
+
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
-        	snapshot = angular.copy(scope.html);
+        	_snapshot = angular.copy(scope.html);
 
           // We want to set the trumbowyg html to a copy of the inital value so if the extension drags around we retain it's html
-          element.trumbowyg('html', snapshot);
-        } //startUpCKEditor
+          element.trumbowyg('html', _snapshot);
+        } //enableTextEditor
 
-        function shutdownCkEditor() {
-          console.log('shutdown');
-          element.trumbowyg('destroy');
-        	// element.attr('contenteditable', false);
-        }
 
+        // Start up the text editors when editMode is activated
         if($rootScope.editMode) {
-          startUpCKEditor();
+          enableTextEditor();
         }
-  
-        // Watch editMode to know when to start up and shut down ckeditor
+        
         scope.$onRootScope('cms.editMode', function(event, value) {
-          if(value) {
-            startUpCKEditor();
-          }
+          if(value) { enableTextEditor(); }
         });
 
-        // When cms.headbar or any other script releases the event to discard edits, reset to snapshot
+        // When the user discards their edits, reset trumbowyg and ng-bind-html to the snapshot
         scope.$onRootScope('cms.discardEdits', function() {
-          element.trumbowyg('html', snapshot);
-          scope.html = snapshot;
-          shutdownCkEditor();
+          element.trumbowyg('html', _snapshot);
+          scope.html = _snapshot;
+          element.trumbowyg('destroy');
         });
 
-        // When the save edits event is fired on rootscope listen and save ckeditor data to html
+        // When the user saves their changes, update the ng-bind-html with the trymbowyg html
         scope.$onRootScope('cms.saveEdits', function() {
           scope.html = element.trumbowyg('html');
-          shutdownCkEditor();
+          element.trumbowyg('destroy');
         });
 
       } //link

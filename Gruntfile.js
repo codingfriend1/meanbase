@@ -138,6 +138,7 @@ module.exports = function (grunt) {
       debug: {
         src: [
           'client/app/**/*.js',
+          'client/components/meanbase-editable/*.js',
           'client/components/endpoints/*.js',
           'client/components/helpers/*.js',
           'client/components/cms.headbar/*.js',
