@@ -1,4 +1,4 @@
-div(ng-sortable="sortableExtensions" ng-class="{'mb-drag-to-room': editMode && (!page.extensions[areaName] || page.extensions[areaName].length === 0)}")
+div(ng-sortable="sortableExtensions" ng-class="{'mb-drag-to-room': editMode && page.extensions[areaName].length === 0}")
 	div(ng-repeat="extension in page.extensions[areaName]" dynamic-html="extension.text" ng-class="{'mb-draggable': editMode}")
 		//- div.universal-extension-edit-buttons(ng-if="editMode")
 		div.universal-extension-edit-buttons(ng-show="editMode")
