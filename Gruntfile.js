@@ -139,6 +139,7 @@ module.exports = function (grunt) {
         src: [
           'client/app/**/*.js',
           'client/components/endpoints/*.js',
+          'client/components/helpers/*.js',
           'client/components/cms.headbar/*.js',
           'server/components/DAO/index.js',
           'server/components/index/index.js',

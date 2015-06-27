@@ -21,6 +21,27 @@ angular.module('meanbaseApp')
       return returnObject;
     };
 
+
+    // arrayToObjectWithObject() receives an array of objects and converts it into an object containing objects using the property name itemToBecomeProperty. For example let say we pass in this array and the itemToBecomeProperty is `contentName`: 
+
+    // **Before**
+    // ```javascript
+    // [
+    //    {"contentName":"shared","type":"panel"},
+    //    {"contentName":"yes","type":"panel"},
+    //    {"contentName":"yepper","type":"search-form"}
+    // ]```
+
+    // **After**
+    // ```javascript
+    // {
+    //    "shared":{"contentName":"shared","type":"panel"},
+    //    "yes":{"contentName":"yes","type":"panel"},
+    //    "yepper":{"contentName":"yepper","type":"search-form"}
+    //}```
+
+    // We want to use this for speed increases throughout the app so we can refer to an object by a property name instead of having to do a loop anytime we need acceess to these objects
+
     this.arrayToObjectWithObject = function(array, itemToBecomeProperty) {
       if(!array || !itemToBecomeProperty) { return array; }
       if( !Array.isArray(array) ) { array = [array]; }
@@ -86,27 +107,13 @@ angular.module('meanbaseApp')
       return modifiedModel;
     };
 
-    // Draggable elements have group and position properties to identify location on the page,
-    // when they are dragged around this function updates those properties
-    // so when a new user requests the page, they see everything in it's correct place.
-    // draggableGroups is an object with properties representing the group name and having an array of elements that are in that group
-    // They are in that format because we ran helpers.arrayToObjectWithArray so they would be easier to work with
-    this.updatePositionData = function(draggableGroupsObject) {
-      var updatedDraggableObject = [];
-      for(var group in draggableGroupsObject) {
-        if (draggableGroupsObject.hasOwnProperty(group)) {
-          for(var i = 0; i < draggableGroupsObject[group].length; i++) {
-            draggableGroupsObject[group][i].group = group;
-            draggableGroupsObject[group][i].position = i;
-            updatedDraggableObject.push(draggableGroupsObject[group][i]);
-          }
-        } 
-      }
-      console.log("updatedDraggableObject", updatedDraggableObject);
-      return updatedDraggableObject;
-    };
+    // ###Update Position Data
+    // Draggable elements have group and position properties that identify their location on the page so the server knows which places to load the content when the page first loads. Before the page is saved or items are deleted or added we need to update those position properties.
 
-    this.updatePositionDataAsObject = function(draggableGroupsObject) {
+    // `draggableGroups` is an object with properties representing the group name and having an array of objects that are in that group
+    // They are in that format because we ran helpers.arrayToObjectWithArray so they would be easier to work with
+
+    this.updatePositionData = function(draggableGroupsObject) {
       for(var group in draggableGroupsObject) {
         if (draggableGroupsObject.hasOwnProperty(group)) {
           for(var i = 0; i < draggableGroupsObject[group].length; i++) {

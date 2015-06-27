@@ -1,5 +1,5 @@
 // #Main Controller
-// #### This controller contains major components of the front end CMS.
+// This controller is kind of a conglomeration of functionality needed for the CMS. Anything that needs to be accessable by every part of the front end goes here. By front end I mean everything the user sees but not the CMS admin pages.
 
 'use strict';
 (function(){
@@ -7,15 +7,12 @@
 
   // @ngInject
   function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr) {
-    $rootScope.isLoggedIn = Auth.isLoggedIn();
-    
-    // A method that logs the user out
-    $scope.logout = function() {
-      Auth.logout();
-      // $location.path('/login');
-    };
 
-    // Prepare the api endpoints this controller will hit
+    // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
+
+    // Endpoints will be called like 
+
+    // `server.menus.find({mongo query}).then();`
     var server = {
       menus: new endpoints('menus'),
       sharedContent: new endpoints("shared-content"),
@@ -23,32 +20,57 @@
       page: new endpoints('pages')
     };
 
+    // Let's check if the user is logged in
+    $rootScope.isLoggedIn = Auth.isLoggedIn();
+
     // Get the current logged in user
     $scope.currentUser = Auth.getCurrentUser();
+
+    // A method that logs the user out
+    $scope.logout = function() {
+      Auth.logout();
+    };
 
     // Used to disable navigation while in edit mode
     $scope.ableToNavigate = true;
 
+    //  ###editMode
+    // The big daddy power house **editMode**! This variable is used all throughout the app to enable edits to be made on the content. We don't want this to be true until we hit the edit button in the admin top menu.
     $rootScope.editMode = false;
 
-    // Keeps a record of shared content that was deleted so later it can check if that content is used anywhere else and if not delete it
+    // ###Shared Content
+    // What is shared content? Let's say you have an extension|plugin|widget|component|content, whatever you want to call it, on your page. By default it will only exist on that page. If you create another page, even when using the same template you won't see that extension. Shared data is a concept that let's you have the same extension on multiple pages just by naming the extension. The best part? All extensions with that name and type stay in sync, so when you make changes to an extension on one page all other instances of that extension are updated. It means you don't have to recreate the same information over and over again on every page you want that extension. 
+
+    // ####Deleting Shared Content
+    // However, we need some way of knowing when to delete shared content, say when it's no longer being used? Upon every save, if an extension was removed from the page, we send it's shared content name to the server which will perform a check. If no other pages are using that shared content, it deletes it all together, however if some other page is still using that content, we do nothing. This variable keeps a record of extensions with names that were deleted for sending to the server.
     $scope.sharedContentToCheckDelete = [];
 
-    // Get all the menus for the site
-    server.menus.find({}).then(function(response) {
-      $rootScope.menus = response.data;
+    // Get all the menus on the server.
+    server.menus.find({}).success(function(response) {
+      $rootScope.menus = response;
     });
 
 
     function getSharedContentFromServer() {
-      // Gets all existing content (extensions) for when the user wants to add existing content
+      // Gets all existing shared content. Why not just content that's used by the page we are on? Because if the user is in edit mode and they want to add existing content they will need the full list of shared content to choose from.
       server.sharedContent.find({}).success(function(data) {
+
+        // We need to define this for use even if no data was returned so it doesn't break code when we add properties to this object
         $rootScope.sharedContent = {};
+
+        // We avoid running this code unnecessarily if no data was returned
         if(helpers.isEmpty(data)) { return false; }
+
+        // The data from the server comes in as an array. We want to convert it to an object for speed increases throughout the app so we can refer to a sharedContent object by it's contentName directly instead of having to do a loop anytime we need acceess to it
         $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'contentName');
+
+        // See helpers.service.js. This is basically a for loop that goes through the extensions only on the current page
         helpers.loopThroughPageExtensions(function(currentExtension) {
+
+          // If the extension has a name (uses shared content), then we want to update it's data with the shared content data
           if(currentExtension.contentName && currentExtension.contentName !== '') {
-            // Any extensions using that content have their values updated here 
+            
+            // If the sharedContent for this extension is blank, we want to at least define the correct structure so it doesn't break code
             if(!$rootScope.sharedContent[currentExtension.contentName]) {
               $rootScope.sharedContent[currentExtension.contentName] = {
                 data: undefined,
@@ -65,7 +87,8 @@
     getSharedContentFromServer();
     
 
-    // Set up config for draggable menus
+    // Rubaxa's library "sortable" and "ng-sortable" (the drag and drop capabilities) need a configuration to be passed in. Here we define it. Inside the ng-repeat, any item with a class of `.mb-draggable` will be able to be dragged.
+    //
     $rootScope.menusConfig = { 
       group: 'menus',
       ghostClass: "mb-draggable-ghost",
@@ -77,7 +100,7 @@
       scrollSpeed: 10 // px
     };
 
-    // Set up config for draggable extensions
+    // Since extensions are draggable we need to define those here too.
     $rootScope.sortableExtensions = { 
       group: 'extensions',
       ghostClass: "mb-draggable-ghost",
@@ -89,7 +112,10 @@
       scrollSpeed: 10 // px
     };
 
-    // Sets up regex for validating user input site-wide
+    // ###Client Side Validation
+    // We want to validate client side data before sending it to the server so the user can know what to correct. The server also validates the data.
+
+    // These regexes may we used throughout forms on the site
     $rootScope.validators = {
       isTitle: /^[A-Za-z0-9@:?&=. _\-]*$/,
       isURI: /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}((\/|#)[\w~,;\-\.\/?%&+#=]*))/,
@@ -101,10 +127,10 @@
       isHTML: /^$/
     };
 
-    // Error messages to explain regexes to users
+    // These error messages may be used to explain to the user why their input was invalid and match their corresponding regexes above
     $rootScope.errorMessages = {
       isTitle: 'Many only contain letters, numbers, and these symbols ( @ : ? & = . _ - ).',
-      isURI: "Must be a valid path, either a full address ('http://path.com') or a relative one '/path'",
+      isURI: "Must be a valid path, either a full address ('http://path.com') or a relative one '/path', '#hashPath'",
       isFilePath: 'Must contain only letters, numbers, /, *, _, ., \\, and -',
       isCSSClass: 'May only contain letters, numbers, _, -, and *',
       isAnchorTarget: 'Must be either _blank, _self, _parent, or _top',
@@ -114,7 +140,10 @@
       isRequired: "This field is required."
     };
 
-    // Store snapshots of the current page's data in case we want to discard our edits
+    // ###Snapshots
+    // What if the user hits edit, makes many changes and then decides they don't like those changes?
+
+    // We need some way of reseting the content back to what it was before. That's what snapshots do. We do an angular.copy() on all major pieces of data when the user hits edit and if the user then hits discard, we set that data to the initial copied value.
     var snapshots = {};
     $scope.$watch('editMode', function(nv, ov) {
       if(nv === ov) { return false; }
@@ -122,21 +151,25 @@
       snapshots.page = angular.copy($rootScope.page);
       snapshots.sharedContent = angular.copy($rootScope.sharedContent);
 
+      // Rubaxa's library has the ability to be disabled.
       // We only want draggable elements while in edit mode
       $rootScope.menusConfig.disabled = !$scope.editMode;
       $rootScope.sortableExtensions.disabled = !$scope.editMode;
 
       // We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
       $scope.ableToNavigate = !$scope.editMode;
+
+
       if(nv) {
-        // Get the active extensions so the admin can select extensions to add 
+        // In the admin pages, extensions may be disabled so they cannot be added to the page.
+        // Here we get only the active extensions so the admin can select extensions to add 
         server.extensions.find({active: true}).success(function(res) {
           $rootScope.extensions = res;
         });
       }
     });
 
-    // Prevent the user from navigating while in edit mode.
+    // Prevent the user from navigating away while in edit mode until they save or discard their changes.
     $scope.$onRootScope('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if (!$scope.ableToNavigate) {
         event.preventDefault();
@@ -144,38 +177,44 @@
       }
     });
 
+    // Every time we load a new page, we need to get the shared content all over again so we can sync any content on that page with changes that were made on a different page
     $scope.$onRootScope('$stateChangeSuccess', function() {
       getSharedContentFromServer();
     });
 
-    // Save menu ordering when saveEdits event is emitted
+    // ####Save Edits!
+    // This is the event that listens for when the user clicks the save button after being in edit mode.
     $scope.$onRootScope('cms.saveEdits', function() {
 
-      // Add a pulse animation to the page
+      // We play a pulse animation on the page. We are using [daneden/animate.css](https://github.com/daneden/animate.css) so we could pass any of those values here
       $scope.pageAnimation = 'pulse';
 
-      // Update positions and locations of the menu items
-      $rootScope.menus = helpers.updatePositionDataAsObject($rootScope.menus);
+      // ### Update the menus
 
-      updateExtensionPositionData();
+      // Update positions and locations of the menu items
+      $rootScope.menus = helpers.updatePositionData($rootScope.menus);
 
       // Delete all the menus in the database, 
-      // recreate all of them based off the client copy,
+      // recreate all of them based off the client data stored in $rootScope.menus,
       // Get the newly updated menus with their server-generated ids
       server.menus.delete({}).finally(function(deleteResponse) {
         server.menus.create($rootScope.menus).success(function(createResponse) {
-          server.menus.find({}).then(function(response) {
-            $rootScope.menus = response.data;
+          server.menus.find({}).success(function(response) {
+            $rootScope.menus = response;
           });
         });
       });
+
+      // We want to update the extension position data as well
+      $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions);
       
 
       //We need to wait for the "edit" directive to store changes in page.content
       $timeout(function(){
         if(!$rootScope.page._id) { return false; }
         if($rootScope.page.url.charAt(0) !== '/') { $rootScope.page.url = '/' + $rootScope.page.url; }
-          // updateExtensionPositionData();
+          
+          $rootScope.menus = helpers.updatePositionData($rootScope.menus);
         server.page.update({_id: $rootScope.page._id}, $rootScope.page).finally(function() {
           if($rootScope.page.tabTitle) {
             document.title = $rootScope.page.tabTitle;
@@ -279,7 +318,8 @@
       if(extension.contentName && $scope.sharedContentToCheckDelete.indexOf(extension.contentName) === -1) {
         $scope.sharedContentToCheckDelete.push(extension.contentName);
       }
-      updateExtensionPositionData();
+      
+      $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions);
       if(extension && extension.group && extension.position !== undefined) {
         $rootScope.page.extensions[extension.group].splice(extension.position, 1);
         if($rootScope.page.extensions[extension.group].length < 1) {
@@ -287,17 +327,6 @@
         }
       }
     };
-
-    function updateExtensionPositionData() {
-      for(var extension in $rootScope.page.extensions) {
-        if ($rootScope.page.extensions.hasOwnProperty(extension)) {
-          for(var i = 0; i < $rootScope.page.extensions[extension].length; i++) {
-            $rootScope.page.extensions[extension][i].group = extension;
-            $rootScope.page.extensions[extension][i].position = i;
-          }
-        } 
-      }
-    }
 
     $scope.createMenuItem = function(group) {
       if(!$rootScope.menus[group]) {
@@ -356,7 +385,7 @@
       };
 
       $scope.removeMenuItem = function() {
-        $rootScope.menus = helpers.updatePositionDataAsObject($rootScope.menus);
+        $rootScope.menus = helpers.updatePositionData($rootScope.menus);
         $rootScope.menus[menuItem.group].splice(menuItem.position, 1);
         $modalInstance.dismiss();
       };
