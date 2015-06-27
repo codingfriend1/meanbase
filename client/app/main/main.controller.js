@@ -31,13 +31,6 @@
       Auth.logout();
     };
 
-    // Used to disable navigation while in edit mode
-    $scope.ableToNavigate = true;
-
-    //  ###editMode
-    // The big daddy power house **editMode**! This variable is used all throughout the app to enable edits to be made on the content. We don't want this to be true until we hit the edit button in the admin top menu.
-    $rootScope.editMode = false;
-
     // ###Shared Content
     // What is shared content? Let's say you have an extension|plugin|widget|component|content, whatever you want to call it, on your page. By default it will only exist on that page. If you create another page, even when using the same template you won't see that extension. Shared data is a concept that let's you have the same extension on multiple pages just by naming the extension. The best part? All extensions with that name and type stay in sync, so when you make changes to an extension on one page all other instances of that extension are updated. It means you don't have to recreate the same information over and over again on every page you want that extension. 
 
@@ -151,10 +144,6 @@
       $rootScope.menusConfig.disabled = !editMode;
       $rootScope.sortableExtensions.disabled = !editMode;
 
-      // We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
-      $scope.ableToNavigate = !editMode;
-
-
       if(editMode) {
         snapshots.menus = angular.copy($rootScope.menus);
         snapshots.page = angular.copy($rootScope.page);
@@ -165,14 +154,6 @@
         server.extensions.find({active: true}).success(function(res) {
           $rootScope.extensions = res;
         });
-      }
-    });
-
-    // Prevent the user from navigating away while in edit mode until they save or discard their changes.
-    $scope.$onRootScope('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      if (!$scope.ableToNavigate) {
-        event.preventDefault();
-        toastr.info('Please save or discard your changes before navigating.');
       }
     });
 

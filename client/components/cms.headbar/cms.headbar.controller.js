@@ -4,26 +4,48 @@
 	// @ngInject
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr) {
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
+		var self = this;
 		var server = {
 			menus: new endpoints('menus'),
 			page: new endpoints('pages')
 		};
 
-		var self = this;
+		//  ###editMode
+		// The big daddy power house **editMode**! This variable is used all throughout the app to enable edits to be made on the content. We don't want this to be true until we hit the edit button in the admin top menu.
+		$rootScope.editMode = false;
 
-		this.toggleEdit = function() {
-			$rootScope.editMode = !$rootScope.editMode;
+		// Used to disable navigation while in edit mode
+		$scope.ableToNavigate = true;
+
+		// Prevent the user from navigating away while in edit mode until they save or discard their changes.
+		$scope.$onRootScope('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+		  if (!$scope.ableToNavigate) {
+		    event.preventDefault();
+		    toastr.info('Please save or discard your changes before navigating.');
+		  }
+		});
+
+		// Toggles the all powerful editMode, emits an event so the rest of the app can make changes
+		this.toggleEdit = function(boole) {
+			if(boole !== undefined) { $rootScope.editMode = boole; } else { $rootScope.editMode = !$rootScope.editMode; }
 			$rootScope.$emit('cms.editMode', $rootScope.editMode);
+
+			// We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
+			$scope.ableToNavigate = !$rootScope.editMode;
+			console.log("toggleEdit $scope.ableToNavigate", $scope.ableToNavigate);
 		};
 
+		// Creates a new page and prompts the user for a url
 		this.createPage = function(e) {
 			// Prepare new page default text based on url
 			var url = prompt('url');
 			if(url === null) { return false; }
-			$rootScope.editMode = false;
+			this.toggleEdit(false);
+			// Prepares some default values for the page
 			prepareDefaultPage(url, e);
 		};
 
+		// This opens the modal for changing page properties such as tabTitle and page description.
 		this.editPageModal = function() {
 		  var modalInstance = $modal.open({
 		    templateUrl: 'editmodal.modal.html',
@@ -135,22 +157,10 @@
 				server.menus.create(newMenu).then(function(response) {
 					$scope.menus.main.push(newMenu);
 				});
-				$location.url(url);
+				$timeout(function() {
+					$location.url(url);
+				}, 0, false);
 			});
 		}
-
-		// function updateExtensionPositionData() {
-		// 	var updatedExtensions = [];
-		//   for(var property in $rootScope.page.extensions) {
-		//     if ($rootScope.page.extensions.hasOwnProperty(property)) {
-		//       for(var i = 0; i < $rootScope.page.extensions[property].length; i++) {
-		//         $rootScope.page.extensions[property][i].group = property;
-		//         $rootScope.page.extensions[property][i].position = i;
-		//         updatedExtensions.push($rootScope.page.extensions[property][i]);
-		//       }
-		//     } 
-		//   }
-		// }
-
 	}
 })();
