@@ -55,16 +55,17 @@
 
 			// Delete page
 			server.page.delete({_id: $rootScope.page._id}).then(function() {
-				$location.url('/');
-
 				// Delete menu with the same url
-				server.menus.delete({url: $rootScope.page.url}).then(function() {
-
+				var url;
+				if($rootScope.page.url.charAt(0) !== '/') { url = '/' + $rootScope.page.url; } else { url = $rootScope.page.url; }
+				server.menus.delete({url: url}).finally(function() {
 					// Replenish menus
-					server.menus.find({}).then(function(response) {
-						$rootScope.menus = response.data;
+					server.menus.find({}).success(function(response) {
+						$rootScope.menus = response;
 					});
 				});
+
+				$location.url('/');
 			});
 		};
 

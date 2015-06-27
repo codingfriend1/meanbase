@@ -273,7 +273,7 @@ DAO.prototype.delete = function(req, res, callback, preventDeleteAll) {
   try {
     this.collection.remove(identifier, function(err, found) {
       if(err) { return handleError(res, err); }
-      if(!found) { return res.send(404); }
+      if(!found) { return res.send(204); }
       if(callback) callback(identifier);
       return res.status(204).send();
     });
@@ -290,7 +290,7 @@ DAO.prototype.deleteById = function(req, res, callback) {
   try {
     this.collection.findById(identifier.id, function (err, found) {
       if(err) { return handleError(res, err); }
-      if(!found) { return res.send(404); }
+      if(!found) { return res.send(204); }
       found.remove(function(err) {
         if(err) { return handleError(res, err); }
         if(callback) callback();
@@ -310,7 +310,7 @@ DAO.prototype.deleteOneAndUpdate = function(req, res, callback) {
   try {
     this.collection.findOne(identifier, function(err, found) {
       if (err) { return handleError(res, err); }
-      if(!found) { return res.send(404); }
+      if(!found) { return res.send(204); }
       self.collection.remove(identifier, function(err, deleted) {
         if (err) { return handleError(res, err); }
         if(!deleted) { return res.send(404); }
@@ -339,7 +339,7 @@ DAO.prototype.deleteAndUnlink = function(req, res, callback, linkField, linkMode
   logInfo('deleteAndUnlink', identifier, req);
   self.model.find(identifier, function(err, found) {
     if(err) { return handleError(res, err); }
-    if(!found) { return res.send(404); }
+    if(!found) { return res.send(204); }
 
     var ids = [], i = 0;
     while(i < found.length) {

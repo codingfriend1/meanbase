@@ -182,14 +182,14 @@
       getSharedContentFromServer();
     });
 
-    // ####Save Edits!
+    // ###Save Edits!
     // This is the event that listens for when the user clicks the save button after being in edit mode.
     $scope.$onRootScope('cms.saveEdits', function() {
 
       // We play a pulse animation on the page. We are using [daneden/animate.css](https://github.com/daneden/animate.css) so we could pass any of those values here
       $scope.pageAnimation = 'pulse';
 
-      // ### Update the menus
+      // #### Update the menus
 
       // Update positions and locations of the menu items
       $rootScope.menus = helpers.updatePositionData($rootScope.menus);
@@ -211,24 +211,37 @@
       // We use a timeout so that the meanbase-editable html changes have time to update their models before we save the page.
       $timeout(function(){
         if(!$rootScope.page._id) { return false; }
+
         server.page.update({_id: $rootScope.page._id}, $rootScope.page).finally(function() {
+
+          // Since we have angular setting the browser tab title we want to update it in case it changed. Normally this is bad practice, but we have prerender in node pre-compiling these pages for search engine bots
           if($rootScope.page.tabTitle) {
             document.title = $rootScope.page.tabTitle;
           }
+
+          // Same with description
           if($rootScope.page.description) {
             jQuery('meta[name=description]').attr('content', $rootScope.page.description);
           }
+
+          // Here's where we try to delete shared content that was removed from this page.
           if($scope.sharedContentToCheckDelete.length > 0) {
             server.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } }).finally(function() {
+
+              // Get the latest content for the list next time the user want to add existing content
               getSharedContentFromServer();
+
+              // Reset the array
               $scope.sharedContentToCheckDelete = [];
             });
           } else {
             getSharedContentFromServer();
           }
+
+          // Let the user know their changes were saved
           toastr.success('Changes saved');
           
-        });
+        }); //server.page.update()
 
         helpers.loopThroughPageExtensions(function(currentExtension) {
           if(currentExtension.contentName && currentExtension.contentName !== '') {
