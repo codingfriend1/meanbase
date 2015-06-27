@@ -35,12 +35,12 @@ exports.findAll = function(req, res) {
 
 // Get some pages
 exports.find = function(req, res) {
-  collection.find(req, res);
+  collection.find(req, res, restructureResponse);
 };
 
 exports.findApproved = function(req, res) {
   onlyApproved = true;
-  collection.find(req, res);
+  collection.find(req, res, restructureResponse);
   onlyApproved = false;
 };
 
@@ -77,3 +77,17 @@ exports.updateById = function(req, res) {
 exports.deleteById = function(req, res) {
   collection.deleteById(req, res);
 };
+
+function restructureResponse(response) {
+  if(!response) { return response; }
+  if(!Array.isArray(response)) { response = [response]; }
+  
+  for (var i = 0; i < response.length; i++) {
+    if(response[i]) {
+      if(response[i].date) {
+        response[i].date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+      }
+    }
+  }
+  return response;
+}

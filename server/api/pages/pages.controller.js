@@ -101,11 +101,19 @@ function restructureResponse(response) {
   if(!Array.isArray(response)) { response = [response]; }
   
   for (var i = 0; i < response.length; i++) {
-    response[i].images = helpers.arrayToObjectWithObject(response[i].images, 'location');
-    response[i].extensions = helpers.arrayToObjectWithArray(response[i].extensions, 'group');
-    if(response[i] && response[i].url.charAt(0) === '/') { response[i].url = response[i].url.substr(1); }
-    if(response[i] && !response[i].extensions) {
-      response[i].extensions = {};
+    if(response[i]) {
+      response[i].images = helpers.arrayToObjectWithObject(response[i].images, 'location');
+      response[i].extensions = helpers.arrayToObjectWithArray(response[i].extensions, 'group');
+      if(response[i].url.charAt(0) === '/') { response[i].url = response[i].url.substr(1); }
+      if(!response[i].extensions) {
+        response[i].extensions = {};
+      }
+      if(response[i].created) {
+        response[i].created = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+      }
+      if(response[i].updated) {
+        response[i].updated = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+      }
     }
   }
   return response;
