@@ -148,9 +148,7 @@ angular.module('meanbaseApp')
             };
 
             getGroups();
-            // getSelectionFromSlug();
             scope.API.getAlreadySelected(scope.config.alreadySelected);
-
           });
         }
 

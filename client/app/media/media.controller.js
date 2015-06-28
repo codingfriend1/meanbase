@@ -9,7 +9,12 @@ angular.module('meanbaseApp')
     var endpoint = new endpoints('media');
     $scope.groups = ['all', 'selected'];
     $scope.media = [];
-    $scope.allOperations = true;
+    // $scope.allOperations = true;
+
+    $scope.imageSelectorConfig = {
+      multiple: true,
+      allOperations: true
+    };
 
     if ($cookieStore.get('token')) {
       var uploader = $scope.uploader = new FileUploader({

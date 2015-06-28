@@ -5,18 +5,6 @@ div.drop-zone(nv-file-drop="uploader" nv-file-over multiple uploader="uploader")
 		input.form-control(type='file' nv-file-select multiple uploader="uploader")
 	.progress
 			.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
-//- .form-group
-//- 	button.btn.btn-danger(ng-click="deleteAllVisible()") Delete All Visibile
-//- .btn-group.btn-group-justified
-//- 	a.btn.btn-danger Delete All Visible
-//- 	a.btn.btn-primary Attribute All Visible
 hr
 h3 Edit Images
-//- .mass-edit-buttons
-//- 	button.btn.delete-visible(ng-click="deleteAllVisible()") Delete All Visible
-//- 	button.btn.delete-selected(ng-click="deleteSelected()") Delete Selected
-//- 	button.btn.group-selected(ng-click="groupSelected()") Group Selected
-image-selector(multiple="true" all-operations="allOperations")
-//- .a-4.m-6.c-12(ng-repeat="image in images")
-	//- .mb-media-item.a-center
-	//- 	img.img-responsive(ng-src="../../{{image.url}}" alt='{{image.alt}}' data-toggle='modal' data-target='#editMedia' ng-click="editMedia(image)")
+image-selector(image-selector-config="imageSelectorConfig")
