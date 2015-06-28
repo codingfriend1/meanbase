@@ -129,7 +129,7 @@ script(type="text/ng-template" id="findImage.modal.html")
 			button.close(ng-click="$dismiss()")
 				span(aria-hidden="true") ×
 				span.sr-only Close
-			h4.modal-title Choose Image
+			h4.modal-title {{instructions}}
 		.modal-body
 			image-selector(api="imageSelectorApi" image-selector-config="config")
 		.modal-footer

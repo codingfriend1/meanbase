@@ -5,4 +5,4 @@ div.img-responsive
 		.progress-bar(role="progressbar" ng-style="{ 'width': mediaUploader.progress + '%' }")
 	div.caption(ng-if="caption") {{image.alt}}
 //- div(ng-if="editMode" find-images-for="{{singleImage}}" multiple="false" class="gallery-find-images")
-button.btn.btn-block.btn-primary(find-images-modal find-images-config="findImagesConfig" ng-if="editMode") Select Image
+button.btn.btn-block.btn-primary.select-images-button(find-images-modal find-images-config="findImagesConfig" ng-if="editMode") Select Image

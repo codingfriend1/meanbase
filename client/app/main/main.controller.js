@@ -277,6 +277,13 @@
           $scope.imageSelectorApi = {};
           var areChanges;
 
+          if($scope.config.multiple) {
+            $scope.instructions = 'Choose Images';
+          } else {
+            $scope.instructions = 'Choose Image';
+          }
+          
+
           $modalInstance.opened.then(function() {
             $timeout(function() {
               $scope.imageSelectorApi.getAlreadySelected($scope.config.alreadySelected);

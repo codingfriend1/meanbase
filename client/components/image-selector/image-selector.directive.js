@@ -51,9 +51,11 @@ angular.module('meanbaseApp')
             if(alreadySelected) {
               if(!Array.isArray(alreadySelected)) { alreadySelected = [alreadySelected]; }
               for(var idx = 0; idx < alreadySelected.length; idx++) {
-                for(var idx2 = 0; idx2 < scope.media.length; idx2++) {
-                  if(scope.media[idx2]._id === alreadySelected[idx]._id) {
-                    scope.selectedImages.push(scope.media[idx2]);
+                if(scope.media.length > 0) {
+                  for(var idx2 = 0; idx2 < scope.media.length; idx2++) {
+                    if(scope.media[idx2]._id === alreadySelected[idx]._id) {
+                      scope.selectedImages.push(scope.media[idx2]);
+                    }
                   }
                 }
               }
