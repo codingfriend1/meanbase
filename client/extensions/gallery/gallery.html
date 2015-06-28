@@ -8,7 +8,8 @@
       </div>
     </slide>
   </carousel>
-  <div ng-if="$root.editMode" class="gallery-config">
+  <div ng-if="editMode" class="gallery-config">
+    <button class="btn btn-block btn-primary gallery-find-images-button" find-images-modal find-images-config="findImagesConfig" ng-if="editMode">Select Images</button>
     <div class="form-group">
       <div class="input-group">
         <div class="input-group-addon">
@@ -26,7 +27,6 @@
       </div>
     </div>
     <!-- <div find-images-for="{{extension.config.slug}}" multiple="true" class="gallery-find-images"></div> -->
-    <div find-images-modal find-images-config="config" multiple="true" class="gallery-find-images"></div>
-    <button class="btn btn-block btn-primary" find-images-modal find-images-config="findImagesConfig" ng-if="editMode">Select Images</button>
+    <!-- <div find-images-modal find-images-config="config" multiple="true" class="gallery-find-images"></div> -->
   </div>
 </div>
