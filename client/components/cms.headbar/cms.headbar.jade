@@ -133,8 +133,10 @@ script(type="text/ng-template" id="findImage.modal.html")
 		.modal-body
 			image-selector(api="imageSelectorApi" image-selector-config="config")
 		.modal-footer
-			button.btn.btn-success(type='button' ng-click="chooseImages()") Choose
-			button.btn.btn-default(type='button' ng-click="$dismiss()") Close
+			p.double-tap-instructions Double tap to enlarge photos
+			div.choose-close-buttons
+				button.btn.btn-success(type='button' ng-click="chooseImages()") Choose
+				button.btn.btn-default(type='button' ng-click="$dismiss()") Close
 
 script(type="text/ng-template" id="extensions.modal.html")
 	#extensions-modal.extensions-selector
