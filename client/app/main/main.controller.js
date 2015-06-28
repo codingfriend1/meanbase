@@ -323,6 +323,8 @@
       });
     };
 
+    // ### Publish Gallery Selection
+    // In meanbase, a gallery is simply a group of images. When images a selected with the image-selector and chosen, we need a way of saving that selection when the user hits save. This takes the images that were selected and the name of the slug (collection) and saves that slug to those images on the server.
     $rootScope.publishGallerySelection = function(slug, gallerySelection) {
       var imageArray = [];
 

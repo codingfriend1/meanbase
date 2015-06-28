@@ -7,11 +7,7 @@ angular.module('meanbaseApp')
       restrict: 'EA',
       scope: {
         config: "=imageSelectorConfig",
-        // multiple:"=",
-        // gallerySlug:"=",
         api: "="
-        // allOperations: "=",
-        // alreadySelected: "="
       },
       link: function (scope, element, attrs) {
         scope.API = {};
@@ -49,23 +45,6 @@ angular.module('meanbaseApp')
           }
         }
 
-        // Selects the appropriate images already used by the gallery
-        // Only runs on initial load
-        function getSelectionFromSlug() {
-          scope.selectedImages = [];
-          if(!scope.config.gallerySlug) return false;
-          for (var i = 0; i < scope.media.length; i++) { //Loop through each media
-            if(scope.media[i].galleries.indexOf(scope.config.gallerySlug) > -1) {
-              if(!scope.config.multiple && scope.selectedImages.length > 0) { return false; }
-              scope.selectedImages.push(scope.media[i]);
-            }
-          }          
-
-          // Saves the current selection
-          saveSelection('longTermSelection');
-          saveSelection('shortTermSelection');
-        }
-
         scope.API.getAlreadySelected = function(alreadySelected) {
           $timeout(function() {
             scope.selectedImages = [];
@@ -81,26 +60,6 @@ angular.module('meanbaseApp')
             }
           });
         }
-
-        // Stores the currently selected images in the property name passed in
-        // function saveSelection(property) {
-        //   if(!scope[property]) { return false; }
-        //   scope[property] = [];
-        //   for (var i = 0; i < scope.selectedImages.length; i++) {
-        //     scope[property].push(scope.selectedImages[i].url);
-        //   };
-        // };
-
-        // Reverts selection back to a saved state in the property
-        // function resetToSelection(property) {
-        //   if(!scope[property]) { return false; }
-        //   scope.selectedImages = [];
-        //   for (var i = 0; i < scope.media.length; i++) {
-        //     if(scope[property].indexOf(scope.media[i].url) > -1) {
-        //       scope.selectedImages.push(scope.media[i]);
-        //     }
-        //   };
-        // };
 
         // Saves changes caption, albums, and owner to the database
         function saveImageEdits() {
@@ -368,50 +327,6 @@ angular.module('meanbaseApp')
           } else {
             return scope.selectedImages;
           }
-        };
-
-        // Gets images that were selected when the directive was created or was updated by cms.saveEdits
-        // scope.API.getInitialImages = function() {
-        //   var gettingInitialImages = [];
-        //   for (var i = 0; i < scope.media.length; i++) {
-        //     if(scope.longTermSelection.indexOf(scope.media[i].url) > -1) {
-        //       gettingInitialImages.push(scope.media[i]);
-        //     }
-        //   };
-        //   return gettingInitialImages;
-        // };
-
-        // If "choose images" was clicked then we want to remember that selection next time the overlay opens
-        // scope.API.rememberSelection = function() {
-        //   saveSelection('shortTermSelection');
-        //   return scope.shortTermSelection;
-        // };
-
-        // Unless "close" was clicked then we should forget any selection changes that were made
-        // scope.API.forgetSelection = function() {
-        //   resetToSelection('shortTermSelection');
-        //   return scope.shortTermSelection;
-        // };
-
-        scope.API.publishSelected = function() {
-          var imageArray = [];
-
-          // Get the visibile images' urls
-          for (var i = 0; i < scope.selectedImages.length; i++) {
-            scope.selectedImages[i].galleries.push(scope.config.gallerySlug);
-            imageArray.push(scope.selectedImages[i].url);
-          };
-
-          saveSelection('longTermSelection');
-          saveSelection('shortTermSelection');
-
-
-          // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
-          // This strategy is quicker than checking which ones were added and removed
-          media.update({galleries: scope.config.gallerySlug}, { $pull: {galleries: scope.config.gallerySlug} }).finally(function() {
-            if(imageArray.length < 1) return false;
-            media.update({ url: {$in: imageArray } }, { $push: {galleries: scope.config.gallerySlug} });
-          });
         };
 
         scope.deleteAllVisible = function() {

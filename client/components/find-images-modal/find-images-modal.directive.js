@@ -9,6 +9,7 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
       	var config = scope.findImagesConfig;
       	element.bind('click', function() {
+      		// openImageModal is defined in main.controller
       		$rootScope.openImageModal(config, function(selectedImages) {
       			$rootScope.$emit('cms.choseImages', {gallerySlug:  config.gallerySlug, images: selectedImages});
       		});
