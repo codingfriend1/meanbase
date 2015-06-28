@@ -6,19 +6,14 @@ angular.module('meanbaseApp')
       templateUrl: 'components/image-selector/image-selector.html',
       restrict: 'EA',
       scope: {
-        multiple:"=",
-        gallerySlug:"=",
-        api: "=",
-        allOperations: "="
+        config: "=imageSelectorConfig",
+        // multiple:"=",
+        // gallerySlug:"=",
+        api: "="
+        // allOperations: "=",
+        // alreadySelected: "="
       },
       link: function (scope, element, attrs) {
-
-        $timeout(function(){
-          if(scope.api) {
-            scope.api = scope.API;
-          }
-        }, 0, false);
-
         scope.API = {};
 
         var media = new endpoints('media');
@@ -58,10 +53,10 @@ angular.module('meanbaseApp')
         // Only runs on initial load
         function getSelectionFromSlug() {
           scope.selectedImages = [];
-          if(!scope.gallerySlug) return false;
+          if(!scope.config.gallerySlug) return false;
           for (var i = 0; i < scope.media.length; i++) { //Loop through each media
-            if(scope.media[i].galleries.indexOf(scope.gallerySlug) > -1) {
-              if(!scope.multiple && scope.selectedImages.length > 0) { return false; }
+            if(scope.media[i].galleries.indexOf(scope.config.gallerySlug) > -1) {
+              if(!scope.config.multiple && scope.selectedImages.length > 0) { return false; }
               scope.selectedImages.push(scope.media[i]);
             }
           }          
@@ -71,25 +66,41 @@ angular.module('meanbaseApp')
           saveSelection('shortTermSelection');
         }
 
+        scope.API.getAlreadySelected = function(alreadySelected) {
+          $timeout(function() {
+            scope.selectedImages = [];
+            if(alreadySelected) {
+              if(!Array.isArray(alreadySelected)) { alreadySelected = [alreadySelected]; }
+              for(var idx = 0; idx < alreadySelected.length; idx++) {
+                for(var idx2 = 0; idx2 < scope.media.length; idx2++) {
+                  if(scope.media[idx2]._id === alreadySelected[idx]._id) {
+                    scope.selectedImages.push(scope.media[idx2]);
+                  }
+                }
+              }
+            }
+          });
+        }
+
         // Stores the currently selected images in the property name passed in
-        function saveSelection(property) {
-          if(!scope[property]) { return false; }
-          scope[property] = [];
-          for (var i = 0; i < scope.selectedImages.length; i++) {
-            scope[property].push(scope.selectedImages[i].url);
-          };
-        };
+        // function saveSelection(property) {
+        //   if(!scope[property]) { return false; }
+        //   scope[property] = [];
+        //   for (var i = 0; i < scope.selectedImages.length; i++) {
+        //     scope[property].push(scope.selectedImages[i].url);
+        //   };
+        // };
 
         // Reverts selection back to a saved state in the property
-        function resetToSelection(property) {
-          if(!scope[property]) { return false; }
-          scope.selectedImages = [];
-          for (var i = 0; i < scope.media.length; i++) {
-            if(scope[property].indexOf(scope.media[i].url) > -1) {
-              scope.selectedImages.push(scope.media[i]);
-            }
-          };
-        };
+        // function resetToSelection(property) {
+        //   if(!scope[property]) { return false; }
+        //   scope.selectedImages = [];
+        //   for (var i = 0; i < scope.media.length; i++) {
+        //     if(scope[property].indexOf(scope.media[i].url) > -1) {
+        //       scope.selectedImages.push(scope.media[i]);
+        //     }
+        //   };
+        // };
 
         // Saves changes caption, albums, and owner to the database
         function saveImageEdits() {
@@ -178,7 +189,8 @@ angular.module('meanbaseApp')
             };
 
             getGroups();
-            getSelectionFromSlug();
+            // getSelectionFromSlug();
+            scope.API.getAlreadySelected(scope.config.alreadySelected);
 
           });
         }
@@ -321,7 +333,7 @@ angular.module('meanbaseApp')
         scope.selectImage = function(e, item) {
           // If image is not selected
           if(scope.selectedImages.indexOf(item) === -1) { //Image is not selected
-            if(!scope.multiple) { scope.selectedImages = []; };
+            if(!scope.config.multiple) { scope.selectedImages = []; };
             if(e.shiftKey || e.metaKey) {
               var startingPosition = scope.media.indexOf(scope.selectedImages[scope.selectedImages.length-1]);
               var endingPosition = scope.media.indexOf(item);
@@ -351,7 +363,7 @@ angular.module('meanbaseApp')
         };
 
         scope.API.getSelectedImages = function() {
-          if(!scope.multiple) {
+          if(!scope.config.multiple) {
             return scope.selectedImages[0];
           } else {
             return scope.selectedImages;
@@ -359,34 +371,34 @@ angular.module('meanbaseApp')
         };
 
         // Gets images that were selected when the directive was created or was updated by cms.saveEdits
-        scope.API.getInitialImages = function() {
-          var gettingInitialImages = [];
-          for (var i = 0; i < scope.media.length; i++) {
-            if(scope.longTermSelection.indexOf(scope.media[i].url) > -1) {
-              gettingInitialImages.push(scope.media[i]);
-            }
-          };
-          return gettingInitialImages;
-        };
+        // scope.API.getInitialImages = function() {
+        //   var gettingInitialImages = [];
+        //   for (var i = 0; i < scope.media.length; i++) {
+        //     if(scope.longTermSelection.indexOf(scope.media[i].url) > -1) {
+        //       gettingInitialImages.push(scope.media[i]);
+        //     }
+        //   };
+        //   return gettingInitialImages;
+        // };
 
         // If "choose images" was clicked then we want to remember that selection next time the overlay opens
-        scope.API.rememberSelection = function() {
-          saveSelection('shortTermSelection');
-          return scope.shortTermSelection;
-        };
+        // scope.API.rememberSelection = function() {
+        //   saveSelection('shortTermSelection');
+        //   return scope.shortTermSelection;
+        // };
 
         // Unless "close" was clicked then we should forget any selection changes that were made
-        scope.API.forgetSelection = function() {
-          resetToSelection('shortTermSelection');
-          return scope.shortTermSelection;
-        };
+        // scope.API.forgetSelection = function() {
+        //   resetToSelection('shortTermSelection');
+        //   return scope.shortTermSelection;
+        // };
 
         scope.API.publishSelected = function() {
           var imageArray = [];
 
           // Get the visibile images' urls
           for (var i = 0; i < scope.selectedImages.length; i++) {
-            scope.selectedImages[i].galleries.push(scope.gallerySlug);
+            scope.selectedImages[i].galleries.push(scope.config.gallerySlug);
             imageArray.push(scope.selectedImages[i].url);
           };
 
@@ -396,9 +408,9 @@ angular.module('meanbaseApp')
 
           // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
           // This strategy is quicker than checking which ones were added and removed
-          media.update({galleries: scope.gallerySlug}, { $pull: {galleries: scope.gallerySlug} }).finally(function() {
+          media.update({galleries: scope.config.gallerySlug}, { $pull: {galleries: scope.config.gallerySlug} }).finally(function() {
             if(imageArray.length < 1) return false;
-            media.update({ url: {$in: imageArray } }, { $push: {galleries: scope.gallerySlug} });
+            media.update({ url: {$in: imageArray } }, { $push: {galleries: scope.config.gallerySlug} });
           });
         };
 
@@ -438,39 +450,43 @@ angular.module('meanbaseApp')
           });
         };
 
-          scope.groupSelected = function() {
-            var prompt = window.prompt('Album Name?');
-            var re = new RegExp("[_a-zA-Z0-9\\-\\.]+");
+        scope.groupSelected = function() {
+          var prompt = window.prompt('Album Name?');
+          var re = new RegExp("[_a-zA-Z0-9\\-\\.]+");
 
-            if(!prompt || !re.test(prompt)) return false;
+          if(!prompt || !re.test(prompt)) return false;
 
-            var urlArray = [];
+          var urlArray = [];
 
-            // Get the visibile images' urls
-            for (var i = 0; i < scope.selectedImages.length; i++) {
-              urlArray.push(scope.selectedImages[i].url);
-            };
-
-            if(urlArray.length < 1) return false;
-
-            // Update those images
-            media.update({ url: {$in: urlArray } }, { $push: {groups: prompt} }).then(function() {
-              for (var i = 0; i < scope.selectedImages.length; i++) {
-                if(scope.selectedImages[i].groups.indexOf(prompt) === -1) {
-                  scope.selectedImages[i].groups.push(prompt);
-                }
-              }
-              scope.selectedGroup = prompt;
-              getGroups();
-            });
-
+          // Get the visibile images' urls
+          for (var i = 0; i < scope.selectedImages.length; i++) {
+            urlArray.push(scope.selectedImages[i].url);
           };
-          getMedia();
+
+          if(urlArray.length < 1) return false;
+
+          // Update those images
+          media.update({ url: {$in: urlArray } }, { $push: {groups: prompt} }).then(function() {
+            for (var i = 0; i < scope.selectedImages.length; i++) {
+              if(scope.selectedImages[i].groups.indexOf(prompt) === -1) {
+                scope.selectedImages[i].groups.push(prompt);
+              }
+            }
+            scope.selectedGroup = prompt;
+            getGroups();
+          });
+
+        };
+        getMedia();
 
         // Clean up our event listeners when we leave this page
         scope.$on('$destroy', function() {
           dom.mainFullsizeBox.unbind('transitionend', switchImages);
         });
+
+        if(scope.api) {
+          scope.api = scope.API;
+        }
       }
     };
   });

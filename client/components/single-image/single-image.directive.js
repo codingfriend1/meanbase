@@ -68,7 +68,8 @@ angular.module('meanbaseApp')
           post: function(scope, element, attributes, controller, transcludeFn){
             scope.groups = ['all', 'selected'];
             scope.media = [];
-
+            var imageSnapshot;
+            var areChanges = false;
 
             // Safety check in case attributes are missing
             if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/300x300'; }
@@ -92,7 +93,17 @@ angular.module('meanbaseApp')
               if(!scope.image.modifiedurl) {
                 scope.image.modifiedurl = scope.image.url + 'origional.jpg';
               }
+              scope.findImagesConfig.alreadySelected = newValue;
             });
+
+            scope.findImagesConfig = {
+              multiple: false,
+              allOperations: false,
+              gallerySlug: scope.singleImage,
+              alreadySelected: $rootScope.page.images[scope.singleImage]
+            };
+
+            imageSnapshot = angular.copy($rootScope.page.images[scope.singleImage]);
 
             // Choose and set the image
             scope.$onRootScope('cms.choseImages', function(e, gallery) {
@@ -106,7 +117,22 @@ angular.module('meanbaseApp')
                   scope.image = defaultImage;
                   $rootScope.page.images[scope.singleImage] = scope.image;
                 }
+                areChanges = true;
               }
+            });
+
+            // When the user saves their changes, set the new snapshot
+            scope.$onRootScope('cms.saveEdits', function() {
+              if(areChanges) {
+                imageSnapshot = angular.copy($rootScope.page.images[scope.singleImage]);
+                areChanges = false;
+              }
+            });
+
+            // If the user discards their changes reset to the snapshot
+            scope.$onRootScope('cms.discardEdits', function() {
+              scope.image = imageSnapshot;
+              $rootScope.page.images[scope.singleImage] = scope.image;
             });
           }
         } //return 

@@ -15,6 +15,7 @@
     // `server.menus.find({mongo query}).then();`
     var server = {
       menus: new endpoints('menus'),
+      media: new endpoints('media'),
       sharedContent: new endpoints("shared-content"),
       extensions: new endpoints('extension'),
       page: new endpoints('pages')
@@ -268,23 +269,74 @@
     // ### Image selector
     // This is not the best place for this modal controller, but it handles opening and getting the images for the inline-text editor.
     // This controls the image selector modal that opens with the inline text editor
-    $scope.openImageModal = function(callback) {
+    $rootScope.openImageModal = function(config, callback) {
       var modalInstance = $modal.open({
         templateUrl: 'findImage.modal.html',
-        controller: function($scope, $modalInstance) {
+        controller: function($scope, $modalInstance, config) {
+          $scope.config = config;
           $scope.imageSelectorApi = {};
-          $scope.allOperations = false;
+          var areChanges;
+
+          $modalInstance.opened.then(function() {
+            $timeout(function() {
+              $scope.imageSelectorApi.getAlreadySelected($scope.config.alreadySelected);
+            }, 0, false);
+            
+          });
+          // $scope.allOperations = false;
           $scope.chooseImages = function() {
+            areChanges = true;
             var selectedImages = $scope.imageSelectorApi.getSelectedImages();
             $modalInstance.close(selectedImages);
           };
+
+          // When the save button is hit on the cms headbar have image-selector add the gallery slug to the selected images
+          $scope.$onRootScope('cms.saveEdits', function() {
+            if(areChanges) {
+              $scope.imageSelectorApi.publishSelected();
+              areChanges = false;
+            }
+          });
+
+          // If the discard button is hit on the cms headbar have image-selector reset the gallery images and 
+          $scope.$onRootScope('cms.discardEdits', function() {
+            console.log('running dicard from main');
+            if(areChanges) {
+              var selectedImages = scope.imageSelectorApi.getInitialImages();
+                $rootScope.$emit('cms.choseImages', {gallerySlug:  $scope.config.gallerySlug, images: selectedImages});
+              areChanges = false;
+            }
+          });
         },
-        size: 'lg'
+        size: 'lg',
+        resolve: {
+          config: function() {
+            return config || {};
+          }
+        }
       });
+
       modalInstance.result.then(function (selectedImages) {
         if(callback) {
           callback(selectedImages)
         }
+      });
+    };
+
+    $rootScope.publishGallerySelection = function(slug, gallerySelection) {
+      var imageArray = [];
+
+      // Get the visibile images' urls
+      for (var i = 0; i < gallerySelection.length; i++) {
+        gallerySelection[i].galleries.push(slug);
+        imageArray.push(gallerySelection[i].url);
+      };
+
+      // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
+      // This strategy is quicker than checking which ones were added and removed
+      server.media.update({galleries: slug}, { $pull: {galleries: slug} }).finally(function() {
+        if(imageArray.length < 1) return false;
+        server.media.update({ url: {$in: imageArray } }, { $push: {galleries: slug} });
       });
     };
 

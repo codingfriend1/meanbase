@@ -25,6 +25,8 @@
         <input type="text" class="form-control" placeholder="3000" ng-model="extension.config.interval">
       </div>
     </div>
-    <div find-images-for="{{extension.config.slug}}" multiple="true" class="gallery-find-images"></div>
+    <!-- <div find-images-for="{{extension.config.slug}}" multiple="true" class="gallery-find-images"></div> -->
+    <div find-images-modal find-images-config="config" multiple="true" class="gallery-find-images"></div>
+    <button class="btn btn-block btn-primary" find-images-modal find-images-config="findImagesConfig" ng-if="editMode">Select Images</button>
   </div>
 </div>

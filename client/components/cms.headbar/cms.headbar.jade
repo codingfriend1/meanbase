@@ -131,7 +131,7 @@ script(type="text/ng-template" id="findImage.modal.html")
 				span.sr-only Close
 			h4.modal-title Choose Image
 		.modal-body
-			image-selector(multiple="multiple" api="imageSelectorApi" gallery-slug="gallerySlug" all-operations="allOperations")
+			image-selector(api="imageSelectorApi" image-selector-config="config")
 		.modal-footer
 			button.btn.btn-success(type='button' ng-click="chooseImages()") Choose
 			button.btn.btn-default(type='button' ng-click="$dismiss()") Close

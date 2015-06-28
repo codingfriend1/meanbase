@@ -10,6 +10,8 @@ angular.module('extensions')
       replace: true,
       link: function (scope, element, attrs) {
       	var media = new endpoints('media');
+        var areChanges;
+        var imagesSnapshot;
 
         if(!scope.extension.config.slug) { scope.extension.config.slug = 'gallery-1'; }
         if(!scope.extension.config.interval) { scope.extension.config.interval = 3000; }
@@ -42,9 +44,19 @@ angular.module('extensions')
                 scope.images[i].modifiedurl = scope.images[i].url + 'large.jpg';
               };
             }
-      		  
+
+            scope.findImagesConfig.alreadySelected = scope.images;
+      		  imagesSnapshot = angular.copy(scope.images);
       		});
       	}
+
+        scope.findImagesConfig = {
+          multiple: true,
+          allOperations: false,
+          gallerySlug: scope.extension.config.slug,
+          alreadySelected: scope.images
+        };
+        imagesSnapshot = angular.copy(scope.images);
 
         // If images where chosen that share the name of this gallery slug then retrieve those selected images
       	scope.$onRootScope('cms.choseImages', function(e, gallery) {
@@ -53,8 +65,26 @@ angular.module('extensions')
               gallery.images[i].modifiedurl = gallery.images[i].large;
             };
             scope.images = angular.copy(gallery.images);
+            scope.findImagesConfig.alreadySelected = scope.images;
+            areChanges = true;
           }
       	});
+
+        // When the save button is hit on the cms headbar have the main.controller publishGallerySelection save the slugs to the appropriate images
+        scope.$onRootScope('cms.saveEdits', function() {
+          if(areChanges) {
+            imagesSnapshot = angular.copy(scope.images);
+            $rootScope.publishGallerySelection(scope.extension.config.slug, scope.images);
+            areChanges = false;
+          }
+        });
+
+        // If the discard button is hit on the cms headbar have reset the gallery images to the snapshot
+        scope.$onRootScope('cms.discardEdits', function() { 
+          scope.images = imagesSnapshot;
+          scope.findImagesConfig.alreadySelected = imagesSnapshot; 
+          areChanges = false;
+        });
       }
     };
   });
