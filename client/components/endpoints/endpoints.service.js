@@ -4,8 +4,13 @@
  * @version 1.0.0
  * @license MIT
  * @example `var menus = new endpoints('menus');  
+ * var replaceMenu = {
+ * 	url: '/new-url', 
+ * 	classes: 'another-class', 
+ * 	target:'_self'
+ * };
  * //Pass in raw mongoDB queries
- * menus.update({url: '/about'}, {url: '/new-url'}).success(cb);`
+ * menus.update({url: '/about'}, replaceMenu).success(cb);`
  */
 
 (function(){
@@ -46,9 +51,7 @@
 		 */
 		endpoints.prototype.find = function(identifier) {
 			var self = this;
-			return $http.get(this.url, {params: {where: identifier} }).success(function(data, status, headers, config) {
-				
-			}).error(function(data, status, headers, config) {
+			return $http.get(this.url, {params: {where: identifier} }).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -56,7 +59,7 @@
 		/**
 		 * Updates data in the server database identified with a mongoDB query with the replacement data passed in. Calls generic error handler `errorHandler()` if error.
 		 * @param  {object} identifier  Raw mongoDB query
-		 * @param  {object} replacement Whatever data you want to replace the old data with
+		 * @param  {object} replacement Whatever data you want to replace the found data with
 		 * @return {promise}             Number of items that were updated
 		 */
 		endpoints.prototype.update = function(identifier, replacement) {
@@ -96,7 +99,7 @@
 		/**
 		 * Updates one item in the database that has the _id passed in with the information in replacement. Calls generic error handler `errorHandler()` if error.
 		 * @param  {string} id          The `_id` of the mongoDB object
-		 * @param  {object} replacement The content to replace the object with
+		 * @param  {object} replacement The content to replace the found object with
 		 * @return {promise}             Number of items replaced
 		 */
 		endpoints.prototype.updateOne = function(id, replacement) {
