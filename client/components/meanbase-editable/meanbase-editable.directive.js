@@ -57,13 +57,13 @@ angular.module('meanbaseApp')
 
         function enableTextEditor() {
 
-          // Get the element we want to add the hasFocus class to
-          var trumbowygBox = element.parent('.trumbowyg-box');
-
           // Create the text editor instance. These events enable us to wrap the text in green outlines
           element.trumbowyg(config)
           .on('tbwfocus', function(){ trumbowygBox.addClass('hasFocus'); })
           .on('tbwblur', function(){ trumbowygBox.removeClass('hasFocus'); });
+
+          // Get the element we want to add the hasFocus class to
+          var trumbowygBox = element.parent('.trumbowyg-box');
 
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
         	_snapshot = angular.copy(scope.html);
