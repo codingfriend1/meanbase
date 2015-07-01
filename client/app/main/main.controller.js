@@ -296,24 +296,6 @@
             var selectedImages = $scope.imageSelectorApi.getSelectedImages();
             $modalInstance.close(selectedImages);
           };
-
-          // When the save button is hit on the cms headbar have image-selector add the gallery slug to the selected images
-          $scope.$onRootScope('cms.saveEdits', function() {
-            if(areChanges) {
-              $scope.imageSelectorApi.publishSelected();
-              areChanges = false;
-            }
-          });
-
-          // If the discard button is hit on the cms headbar have image-selector reset the gallery images and 
-          $scope.$onRootScope('cms.discardEdits', function() {
-            console.log('running dicard from main');
-            if(areChanges) {
-              var selectedImages = scope.imageSelectorApi.getInitialImages();
-                $rootScope.$emit('cms.choseImages', {gallerySlug:  $scope.config.gallerySlug, images: selectedImages});
-              areChanges = false;
-            }
-          });
         },
         size: 'lg',
         resolve: {

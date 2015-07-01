@@ -33,7 +33,7 @@ angular.module('meanbaseApp')
               chooseImage: {
                 func: function(params, tbw) {
                   element.trumbowyg('saveSelection');
-                  scope.$parent.openImageModal(function(image) {
+                  scope.$parent.openImageModal({multiple: false}, function(image) {
                     element.trumbowyg('restoreSelection');
                     var imageToInsert = new Image();
                     imageToInsert.src = image.small;
