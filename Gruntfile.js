@@ -149,7 +149,10 @@ module.exports = function (grunt) {
           'server/components/index/index.js',
           '!**/*spec.js'
         ],
-        dest: 'code-documentation/'
+        dest: 'code-documentation/',
+        options: {
+          onlyUpdated: true
+        }
       }
     },
 

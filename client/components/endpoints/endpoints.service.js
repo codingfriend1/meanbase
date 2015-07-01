@@ -34,7 +34,7 @@
 
 		/**
 		 * Adds content in the server database for the endpoint passed into the constructor function. Calls generic error handler `errorHandler()` if error.
-		 * @param  {content} content the item to be added to the database
+		 * @param  {object} content the item to be added to the database
 		 * @return {promise}         An object or array of items that were created
 		 */	
 		endpoints.prototype.create = function(content) {
