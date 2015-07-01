@@ -9,3 +9,4 @@ dist
 /client/assets/images/
 __MACOSX
 **/logs/*
+code-documentation

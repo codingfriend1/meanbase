@@ -133,6 +133,26 @@ module.exports = function (grunt) {
       }
     },
 
+    docker: {
+      options: {
+        // These options are applied to all tasks 
+      },
+      app: {
+        // Specify `src` and `dest` directly on the task object 
+        src: [
+          'client/app/**/*.js',
+          'client/components/meanbase-editable/*.js',
+          'client/components/endpoints/*.js',
+          'client/components/helpers/*.js',
+          'client/components/cms.headbar/*.js',
+          'server/components/DAO/index.js',
+          'server/components/index/index.js',
+          '!**/*spec.js'
+        ],
+        dest: 'code-documentation/'
+      }
+    },
+
     // Docco
     docco: {
       debug: {
