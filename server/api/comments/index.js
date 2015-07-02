@@ -1,10 +1,10 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./comments.controller');
-
 var auth = require('../../auth/auth.service');
 var router = express.Router();
+
+var controller = require('./comments.controller');
 
 // Affecting multiple or all items.
 router.get('/approved', controller.findApproved);
