@@ -1,0 +1,7 @@
+p Import data from wordpress using an xml file
+div.drop-zone(nv-file-drop="uploader" uploader="uploader").text-center.form-inline
+	p Drop #[strong xml] file here to upload or
+	.form-group.text-center
+		input.form-control(type='file' nv-file-select multiple uploader="uploader")
+	.progress
+			.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")

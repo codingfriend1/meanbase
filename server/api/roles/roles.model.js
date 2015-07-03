@@ -53,10 +53,10 @@ var RolesSchema = new Schema({
   		type: Boolean,
       default: false
   	},
-  	// importExportData: {
-  	// 	type: Boolean,
-   //    default: false
-  	// },
+  	importExportData: {
+  		type: Boolean,
+      default: false
+  	},
   	// deleteSite: {
   	// 	type: Boolean,
    //    default: false

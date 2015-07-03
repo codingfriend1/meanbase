@@ -21,6 +21,9 @@
 			li(ui-sref='cms.analytics')
 				i.fa.fa-bar-chart
 				a Analytics
+			li(ui-sref='cms.import' ng-show="user.permissions.indexOf('importExportData') > -1" ng-click="toggleMenu()")
+				i.fa.fa-upload
+				a Import Data
 	#meanbase-cms
 		//- #menu-toggle.btn.btn-default.fa.fa-bars()|  Menu
 		nav.navbar-default.navbar-inverse
