@@ -44,6 +44,12 @@ exports.findApproved = function(req, res) {
   onlyApproved = false;
 };
 
+exports.search = function(req, res) {
+  onlyApproved = true;
+  collection.search(req, res, restructureResponse);
+  onlyApproved = false;
+};
+
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
   // For security purposes we want to modify the comment in modifyBody 

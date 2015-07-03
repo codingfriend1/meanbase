@@ -67,6 +67,20 @@ angular.module('meanbaseApp')
       return returnObject;
     };
 
+    this.arrayToObjectWithValue = function(array, itemToBecomeProperty, itemToBecomeValue) {
+      if(!array || !itemToBecomeProperty) { return array; }
+      if( !Array.isArray(array) ) { array = [array]; }
+
+      var returnObject = {};
+      for (var ii = 0; ii < array.length; ii++) {
+        var specialProperty = array[ii][itemToBecomeProperty];
+        if(specialProperty) {
+          returnObject[specialProperty] = array[ii].itemToBecomeValue;
+        }
+      } //for
+      return returnObject;
+    };
+
     // ### Convert Object to Array
     // helpers.objectToArray() accepts an object and loops through it's properties and pushes their values into an array which is returned
     this.objectToArray = function(data) {

@@ -8,6 +8,7 @@ var controller = require('./comments.controller');
 
 // Affecting multiple or all items.
 router.get('/approved', controller.findApproved);
+router.get('/search', controller.search);
 
 router.get('/', auth.hasPermission('moderateComments'), controller.find);
 router.post('/', auth.isAuthenticated(), controller.create);

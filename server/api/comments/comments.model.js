@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    validators = require('mongoose-validators');
+    validators = require('mongoose-validators'),
+    textSearch = require('mongoose-text-search');
 
 var CommentsSchema = new Schema({
   author: {
@@ -47,5 +48,11 @@ var CommentsSchema = new Schema({
   likes: Number,
   meta: Object
 });
+
+// give our schema text search capabilities 
+CommentsSchema.plugin(textSearch);
+ 
+// add a text index to the tags array 
+CommentsSchema.index({ content: 'text', author: 'text', url: 'text', email: 'text', date: 'text' });
 
 module.exports = mongoose.model('Comments', CommentsSchema);

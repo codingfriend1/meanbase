@@ -15,6 +15,16 @@ collection.modifyBody = function(body) {
       body.url = '/' + body.url;
     }
 
+    if(body.content && !Array.isArray(body.content)) {
+      var contentAsArray = [];
+      for (var property in body.content) {
+        if (body.content.hasOwnProperty(property)) {
+          contentAsArray.push({location:property, text: body.content[property]});
+        }
+      }
+      body.content = contentAsArray;
+    }
+    
     if(body.extensions) {
       body.extensions = helpers.objectToArray(body.extensions);
     }
@@ -36,6 +46,11 @@ collection.modifyIdentifier = function(identifier) {
 // Get list of pages
 exports.findAll = function(req, res) {
   collection.findAll(req, res, restructureResponse);
+};
+
+// Search
+exports.search = function(req, res) {
+  collection.search(req, res, restructureResponse);
 };
 
 // Get some pages
@@ -107,6 +122,10 @@ function restructureResponse(response) {
       if(response[i].url.charAt(0) === '/') { response[i].url = response[i].url.substr(1); }
       if(!response[i].extensions) {
         response[i].extensions = {};
+      }
+      if(response[i].content) {
+        var object = 
+        response[i].content = helpers.arrayToObjectWithValue(response[i].content, 'location', 'text');
       }
       if(response[i].created) {
         response[i].created = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');

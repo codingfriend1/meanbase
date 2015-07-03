@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    validators = require('mongoose-validators');
+    validators = require('mongoose-validators'),
+    textSearch = require('mongoose-text-search');
 
 
 var PagesSchema = new Schema({
@@ -53,10 +54,9 @@ var PagesSchema = new Schema({
 		default: "Title",
 		validate: validators.isTitle({skipEmpty: true})
 	},
-	content: {
-		type: Object,
-		default: {}
-	},
+	content: [
+		{location: {type: String}, text: {type: String}}
+	],
 	images: [{
 	  url: {
 			type: String,
@@ -123,6 +123,14 @@ var PagesSchema = new Schema({
 		default: false
 	},
 	likes: Number
+});
+
+// give our schema text search capabilities 
+PagesSchema.plugin(textSearch);
+ 
+// add a text index to the tags array 
+PagesSchema.index({ 
+	"$**": "text"
 });
 
 module.exports = mongoose.model('Pages', PagesSchema);

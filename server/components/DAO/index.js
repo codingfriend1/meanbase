@@ -116,6 +116,26 @@ DAO.prototype.find = function(req, res, callback) {
   });
 };
 
+DAO.prototype.search = function(req, res, callback) {
+  var identifier = this.getIdentifer(req, res);
+  if(!identifier) { return false; }
+  // logInfo('find', identifier, req);
+  this.collection.find({$text: {$search: identifier} }).lean().exec(function (err, found) {
+    if(err) { return handleError(res, err); }
+    if(!found) { return res.send(404); }
+
+    // If the function has a callback use it and if it returns a value send that value instead
+    var modified, finalFound = found;
+    // for(var idx = 0; idx < found.results.length; idx++) {
+    //   finalFound = found.results[idx].obj;
+    // }
+    if(callback) { modified = callback(finalFound); }
+    if(modified) { finalFound = modified; }
+    
+    return res.status(200).json(finalFound);
+  });
+};
+
 // Gets some items and populates their linked documents
 DAO.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
   var identifier = this.getIdentifer(req, res);
@@ -399,13 +419,17 @@ function isEmpty(obj) {
 // Handles the request object to determine how data was sent to the server
 DAO.prototype.getIdentifer = function(req, res) {
   var identifier = {};
-  if(req.query && req.query.where) { //If a raw DAO query came in
+  if(req.query && req.query.where && req.query.where.searchText) {
+    identifier = req.query.where.searchText;
+  } else if(req.query && req.query.where) { //If a raw DAO query came in
     try {
       identifier = JSON.parse(req.query.where);
     } catch(e) {
       console.log('could not parse req.query.where', req.query.where);
       identifier = req.query.where;
     }
+  } else if(req.query && req.query.searchText) {
+    identifier = req.query.searchText;
   } else if(req.body && req.body.identifier && req.body.replacement) { //If an update request came in
     identifier = req.body.identifier; 
     req.body = req.body.replacement;

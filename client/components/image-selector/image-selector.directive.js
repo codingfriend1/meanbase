@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+ * @overview A gallery that allows users to select, organize, delete, and browser photos
+ * @author Jon Paul Miles <milesjonpaul@gmail.com>
+ */
 angular.module('meanbaseApp')
   .directive('imageSelector', function (Cropper, endpoints, $compile, $timeout, $rootScope) {
     return {

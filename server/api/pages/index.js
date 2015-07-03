@@ -7,6 +7,7 @@ var router = express.Router();
 
 // Affecting multiple or all items.
 router.get('/', controller.find);
+router.get('/search', controller.search);
 router.post('/', auth.hasPermission('editContent'), controller.create);
 router.put('/', auth.hasPermission('editContent'), controller.updateOneAndUpdate);
 router.patch('/', auth.hasPermission('editContent'), controller.updateOneAndUpdate);
