@@ -1,7 +1,7 @@
 var validator = require('mongoose-validators/node_modules/validator/validator');
 
 validator.extend('isTitle', function(str) {
-	return /^[A-Za-z0-9@:?&=. _\-]*$/.test(str);
+	return /^[A-Za-z0-9@:?&=.\/ _\-]*$/.test(str);
 });
 
 validator.extend('isURI', function(str) {
