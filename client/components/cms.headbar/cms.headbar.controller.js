@@ -93,6 +93,12 @@
 		this.togglePublishPage = function() {
 			if(!$rootScope.page._id) { return false; }
 			$rootScope.page.published = !$rootScope.page.published;
+			if($rootScope.page.published) {
+				toastr.clear();
+				toastr.success('Visitors can now see this page.')
+			} else {
+				toastr.warning('Only users with permission to edit pages can see this page.');
+			}
 			this.toggleEdit();
 			$rootScope.$emit('cms.saveEdits', $rootScope.page);
 		};
