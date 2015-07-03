@@ -419,14 +419,15 @@ function isEmpty(obj) {
 // Handles the request object to determine how data was sent to the server
 DAO.prototype.getIdentifer = function(req, res) {
   var identifier = {};
-  if(req.query && req.query.where && req.query.where.searchText) {
-    identifier = req.query.where.searchText;
-  } else if(req.query && req.query.where) { //If a raw DAO query came in
+  if(req.query && req.query.where) { //If a raw DAO query came in
     try {
       identifier = JSON.parse(req.query.where);
     } catch(e) {
       console.log('could not parse req.query.where', req.query.where);
       identifier = req.query.where;
+    }
+    if(identifier.searchText) {
+      identifier = identifier.searchText;
     }
   } else if(req.query && req.query.searchText) {
     identifier = req.query.searchText;
