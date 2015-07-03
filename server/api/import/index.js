@@ -7,7 +7,7 @@ var router = express.Router();
 var controller = require('./import.controller');
 
 router.get('/', auth.hasPermission('importExportData'), controller.find);
-router.post('/', auth.isAuthenticated(), controller.create);
+router.post('/', auth.hasPermission('importExportData'), controller.upload);
 router.put('/', auth.hasPermission('importExportData'), controller.update);
 router.patch('/', auth.hasPermission('importExportData'), controller.update);
 router.delete('/', auth.hasPermission('importExportData'), controller.delete);

@@ -1,5 +1,6 @@
 
-var importHelper = require('./import-helper.js')();
+var importHelper = require('./import-helper.js');
+var formidable = require('formidable');
 
 'use strict';
 
@@ -37,6 +38,29 @@ exports.search = function(req, res) {
 
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
+
+  collection.create(req, res);
+};
+
+// Creates a new pages in the DB.
+exports.upload = function(req, res) {
+    try {
+      var form = new formidable.IncomingForm();
+      form.parse(req, function(err, fields, files) { 
+        if(err) { console.log("Could not upload content."); }
+        if(!files || !files.file) {
+          return res.status(501).send('The file must exist.');
+        }
+        var tempFilePath = files.file.path;
+        var userFileName  = files.file.name;
+        var contentType   = files.file.type;
+
+        importHelper(tempFilePath);
+      });
+    } catch(err) {
+      console.log("uploading wordpress content error", err);
+    }
+  
   collection.create(req, res);
 };
 

@@ -3,31 +3,23 @@ var fs = require('fs');
 var app = config.app;
 var xml2json = require('xml-to-json');
 
-// xml2json({
-//     // input: config.root + '/server/init/oldhillsborobuildingcompany.wordpress.2015-07-03.xml',
-//     input: config.root + '/server/init/revelationsingrace.wordpress.2015-07-03.xml',
-//     output: config.root + '/server/init/revelationsingrace.import.json'
-// }, function(err, result) {
-  
-//     if(err) {
-//         console.error(err);
-//     } else {
-      
-//     }
-// });
+var CommentsModel = require('../comments/comments.model.js');
+var PagesModel = require('../pages/pages.model.js');
+var MenusModel = require('../menus/menus.model.js');
 
-
-module.exports = function() {
+module.exports = function(filePath) {
 	try {
-	  var wordpressData = JSON.parse(fs.readFileSync(config.root + '/server/init/revelationsingrace.import.json', 'utf8'));
-	  convertData(wordpressData);
+		xml2json({input: filePath}, function(err, result) {
+		    if(err) {
+		        console.error(err);
+		    } else {
+		      convertData(result);
+		    }
+		});
 	} catch(e) {
 	  console.log("Could not parse wordpress data", e); 
 	}
 };
-
-
-
 
 
 function convertData(wordpressData) {
@@ -71,51 +63,47 @@ function convertData(wordpressData) {
 			}
 		}
 
-		var menu = {};
-		menu.title = wpPage["title"];
-		menu.url = '/' + wpPage['wp:post_name'];
-		menu.group = 'main';
-		menu.position = position++;
+		if(meanbasePage.template !== "attachment") {
+			var menu = {};
+			menu.title = wpPage["title"];
+			menu.url = '/' + wpPage['wp:post_name'];
+			menu.group = 'main';
+			menu.position = position++;
+		}
 
 		menus.push(menu);
 		pages.push(meanbasePage);
 
 	}
 
-	var CommentsModel = require('../comments/comments.model.js');
-
-	CommentsModel.find(function (err, foundComments) {
+	CommentsModel.remove({}, function (err, foundComments) {
 	  if(err) { return console.log('importing data err', err); }
-	  if(foundComments.length === 0) {
+	  // if(foundComments.length === 0) {
 	  	CommentsModel.create(comments, function(err, foundComments2) {
   		  if(err) { return console.log('importing data err', err); }
   		  console.log('comments saved');
   		});
-	  }
+	  // }
 	});
 
-	var PagesModel = require('../pages/pages.model.js');
-
-	PagesModel.find(function (err, foundPages) {
+	PagesModel.remove({}, function (err, foundPages) {
 	  if(err) { return console.log('importing data err', err); }
-	  if(foundPages.length === 0) {
+	  // if(foundPages.length === 0) {
 	  	PagesModel.create(pages, function(err, foundPages2) {
   		  if(err) { return console.log('importing data err', err); }
   		  console.log('pages saved');
   		});
-	  }
+	  // }
 	});
 
-	var MenusModel = require('../menus/menus.model.js');
-
-	MenusModel.find(function (err, foundMenus) {
+	MenusModel.remove({}, function (err, foundMenus) {
 	  if(err) { return console.log('importing data err', err); }
-	  if(foundMenus.length === 0) {
+	  // if(foundMenus.length === 0) {
 	  	MenusModel.create(menus, function(err, foundMenus2) {
   		  if(err) { return console.log('importing data err', err); }
   		  console.log('menus saved');
   		});
-	  }
+	  // }
 	});
 
 	position = 0;
