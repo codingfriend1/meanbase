@@ -21,11 +21,11 @@
       page: new endpoints('pages')
     };
 
-    // Let's check if the user is logged in
-    $rootScope.isLoggedIn = Auth.isLoggedIn();
+    // // Let's check if the user is logged in
+    // $rootScope.isLoggedIn = Auth.isLoggedIn();
 
-    // Get the current logged in user
-    $scope.currentUser = Auth.getCurrentUser();
+    // // Get the current logged in user
+    // $scope.currentUser = Auth.getCurrentUser();
 
     // A method that logs the user out
     $scope.logout = function() {

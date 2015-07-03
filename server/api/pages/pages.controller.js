@@ -7,6 +7,7 @@ var Menus = require('../menus/menus.model'); //Linked Document
 var DAO = require('../../components/DAO');
 var helpers = require('../../components/helpers');
 var collection = new DAO(Pages);
+var onlyPublished = false;
 
 collection.modifyBody = function(body) {
   if(body) {
@@ -53,8 +54,30 @@ exports.search = function(req, res) {
   collection.search(req, res, restructureResponse);
 };
 
+exports.publish = function(req, res) {
+  if(req.body) {
+    req.body = {published: true};
+  }
+  collection.updateById(req, res);
+};
+
 // Get some pages
 exports.find = function(req, res) {
+  collection.find(req, res, restructureResponse);
+};
+
+exports.findPublished = function(req, res) {
+  onlyPublished = true;
+  collection.find(req, res, restructureResponse);
+};
+
+exports.searchPublished = function(req, res) {
+  onlyPublished = true;
+  collection.search(req, res, restructureResponse);
+};
+
+exports.findPublishedById = function(req, res) {
+  onlyPublished = true;
   collection.find(req, res, restructureResponse);
 };
 
@@ -117,23 +140,28 @@ function restructureResponse(response) {
   
   for (var i = 0; i < response.length; i++) {
     if(response[i]) {
-      response[i].images = helpers.arrayToObjectWithObject(response[i].images, 'location');
-      response[i].extensions = helpers.arrayToObjectWithArray(response[i].extensions, 'group');
-      if(response[i].url.charAt(0) === '/') { response[i].url = response[i].url.substr(1); }
-      if(!response[i].extensions) {
-        response[i].extensions = {};
-      }
-      if(response[i].content) {
-        var object = 
-        response[i].content = helpers.arrayToObjectWithValue(response[i].content, 'location', 'text');
-      }
-      if(response[i].created) {
-        response[i].created = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-      }
-      if(response[i].updated) {
-        response[i].updated = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+      if(onlyPublished && !response[i].published) {
+        response.splice(i, 1);
+      } else {
+        response[i].images = helpers.arrayToObjectWithObject(response[i].images, 'location');
+        response[i].extensions = helpers.arrayToObjectWithArray(response[i].extensions, 'group');
+        if(response[i].url.charAt(0) === '/') { response[i].url = response[i].url.substr(1); }
+        if(!response[i].extensions) {
+          response[i].extensions = {};
+        }
+        if(response[i].content) {
+          var object = 
+          response[i].content = helpers.arrayToObjectWithValue(response[i].content, 'location', 'text');
+        }
+        if(response[i].created) {
+          response[i].created = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        }
+        if(response[i].updated) {
+          response[i].updated = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        }
       }
     }
   }
+  onlyPublished = false;
   return response;
 }

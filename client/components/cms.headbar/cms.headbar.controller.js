@@ -90,6 +90,13 @@
 			});
 		};
 
+		this.togglePublishPage = function() {
+			if(!$rootScope.page._id) { return false; }
+			$rootScope.page.published = !$rootScope.page.published;
+			this.toggleEdit();
+			$rootScope.$emit('cms.saveEdits', $rootScope.page);
+		};
+
 		this.currentScreenshot = null;
 
 		this.showScreenshot = function(template) {

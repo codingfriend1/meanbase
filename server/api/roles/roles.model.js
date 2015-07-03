@@ -17,10 +17,10 @@ var RolesSchema = new Schema({
   		type: Boolean,
       default: false
   	},
-  	// publishContent: {
-  	// 	type: Boolean,
-   //    default: false
-  	// },
+  	publishContent: {
+  		type: Boolean,
+      default: false
+  	},
   	deleteContent: {
   		type: Boolean,
       default: false
