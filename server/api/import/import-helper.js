@@ -33,46 +33,50 @@ function convertData(wordpressData) {
 	var wordpressPages = wordpressData.rss.channel.item;
 	for(var idx = 0; idx < wordpressPages.length; idx++) {
 		var wpPage = wordpressPages[idx];
-		var meanbasePage = {};
 
-		meanbasePage.url = '/' + wpPage['wp:post_name'];
-		meanbasePage.template = wpPage["wp:post_type"];
-		meanbasePage.created = wpPage["wp:post_date"];
-		meanbasePage.updated = wpPage["wp:post_date"];
-		meanbasePage.author = wpPage["dc:creator"];
-		meanbasePage.tabTitle = wpPage["title"];
-		meanbasePage.published = (wpPage["pubDate"] !== "Mon, 30 Nov -0001 00:00:00 +0000")? true: false;
-		meanbasePage.title = wpPage["title"];
-		meanbasePage.content = [];
-		meanbasePage.content.push({location: 'content-1', text: wpPage["content:encoded"]});
-		meanbasePage.description = wpPage["description"];
-		meanbasePage.summary = wpPage["excerpt:encoded"];
+		if(wpPage["wp:post_type"] === "post" || wpPage["wp:post_type"] === "page") {
 
-		if(wpPage["wp:comment"]) {
-			for(var x = 0; x < wpPage["wp:comment"].length; x++) {
-				var wpComment = wpPage["wp:comment"][x];
-				var comment = {};
-				comment.author = wpComment['wp:comment_author'];
-				comment.content = wpComment['wp:comment_content'];
-				comment.url = '/' + wpPage['wp:post_name'];
-				comment.date = wpComment['wp:comment_date'];
-				comment.email = wpComment['wp:comment_author_email'];
-				comment.ip = wpComment['wp:comment_author_IP'];
-				comment.approved = (wpComment['wp:comment_approved'] === "1")? true: false;
-				comments.push(comment);
+
+			var meanbasePage = {};
+
+			meanbasePage.url = '/' + wpPage['wp:post_name'];
+			meanbasePage.template = wpPage["wp:post_type"];
+			meanbasePage.created = wpPage["wp:post_date"];
+			meanbasePage.updated = wpPage["wp:post_date"];
+			meanbasePage.author = wpPage["dc:creator"];
+			meanbasePage.tabTitle = wpPage["title"];
+			meanbasePage.published = (wpPage["pubDate"] !== "Mon, 30 Nov -0001 00:00:00 +0000")? true: false;
+			meanbasePage.title = wpPage["title"];
+			meanbasePage.content = [];
+			meanbasePage.content.push({location: 'content-1', text: wpPage["content:encoded"]});
+			meanbasePage.description = wpPage["description"];
+			meanbasePage.summary = wpPage["excerpt:encoded"];
+
+			if(wpPage["wp:comment"]) {
+				for(var x = 0; x < wpPage["wp:comment"].length; x++) {
+					var wpComment = wpPage["wp:comment"][x];
+					var comment = {};
+					comment.author = wpComment['wp:comment_author'];
+					comment.content = wpComment['wp:comment_content'];
+					comment.url = '/' + wpPage['wp:post_name'];
+					comment.date = wpComment['wp:comment_date'];
+					comment.email = wpComment['wp:comment_author_email'];
+					comment.ip = wpComment['wp:comment_author_IP'];
+					comment.approved = (wpComment['wp:comment_approved'] === "1")? true: false;
+					comments.push(comment);
+				}
 			}
-		}
 
-		if(meanbasePage.template !== "attachment") {
 			var menu = {};
 			menu.title = wpPage["title"];
 			menu.url = '/' + wpPage['wp:post_name'];
 			menu.group = 'main';
 			menu.position = position++;
-		}
 
-		menus.push(menu);
-		pages.push(meanbasePage);
+			menus.push(menu);
+			pages.push(meanbasePage);
+
+		} //=== post or === page
 
 	}
 
