@@ -24,9 +24,9 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 					a(ng-hide="editMode" ng-click="headbar.toggleEdit()") Edit
 					button.btn.btn-success(ng-show="editMode" ng-click="headbar.saveChanges()") Save
 				li(ng-show="editMode")
-					button.btn.btn-warning(ng-click="headbar.discardChanges()") Discard
-				li(ng-show="editMode")
 					button.btn.btn-primary(ng-click="headbar.editPageModal()") Settings
+				li(ng-show="editMode")
+					button.btn.btn-warning(ng-click="headbar.discardChanges()") Discard Changes
 				li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
 					button.btn.btn-danger(ng-click="headbar.deletePage()") Delete page
 				li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && editMode")

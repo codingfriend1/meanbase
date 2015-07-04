@@ -4,7 +4,7 @@
  * @author Jon Paul Miles <milesjonpaul@gmail.com>
  */
 angular.module('meanbaseApp')
-  .directive('imageSelector', function (Cropper, endpoints, $compile, $timeout, $rootScope) {
+  .directive('imageSelector', function ($cookieStore, Cropper, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr) {
     return {
       templateUrl: 'components/image-selector/image-selector.html',
       restrict: 'EA',
@@ -366,6 +366,26 @@ angular.module('meanbaseApp')
               scope.media.splice(scope.media.indexOf(scope.selectedImages[i]), 1);
             }
           });
+        };
+
+        scope.hasToken = $cookieStore.get('token');
+        if (scope.hasToken) {
+          var uploader = scope.mediaUploader = new FileUploader({
+              url: '/api/media',
+              headers: {
+                'Authorization': 'Bearer ' + $cookieStore.get('token')
+              },
+              autoUpload: true
+          });
+        }
+
+        uploader.onCompleteAll = function() {
+          toastr.success('Images successfully saved');
+          uploader.clearQueue()
+        };
+
+        uploader.onCompleteItem = function() {
+          $rootScope.$emit('cms.imagesUploaded');
         };
 
         scope.groupSelected = function() {

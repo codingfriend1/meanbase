@@ -10,9 +10,9 @@ module.exports = function() {
 };
 
 function initializeAllData() {
-	// require('./menus')();
-	// require('./pages')();
-	// require('./comments')();
+	require('./menus')();
+	require('./pages')();
+	require('./comments')();
 	require('./users')();
 	require('./roles')();
 	require('./themes')();
