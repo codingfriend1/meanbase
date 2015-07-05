@@ -13,10 +13,6 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 					//- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
 					a.dropdown-toggle(data-toggle="dropdown" role="button") Create Page
 					ul.dropdown-menu(role="menu")
-						li.disabled
-							a(href="#")
-								| Template 
-						li.divider
 						li(ng-repeat="template in themeTemplates")
 							a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template}}
 				li(ng-show="currentUser.permissions.indexOf('editContent') > -1")
