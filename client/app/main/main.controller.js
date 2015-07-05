@@ -178,13 +178,17 @@
       // Delete all the menus in the database, 
       // recreate all of them based off the client data stored in $rootScope.menus,
       // Get the newly updated menus with their server-generated ids
-      server.menus.delete({}).finally(function(deleteResponse) {
-        server.menus.create($rootScope.menus).success(function(createResponse) {
-          server.menus.find({}).success(function(response) {
-            $rootScope.menus = response;
+      if(!helpers.isEmpty($rootScope.menus)) {
+        server.menus.delete({}).finally(function(deleteResponse) {
+          console.log("$rootScope.menus", $rootScope.menus);
+          server.menus.create($rootScope.menus).success(function(createResponse) {
+            server.menus.find({}).success(function(response) {
+              $rootScope.menus = response;
+            });
           });
         });
-      });
+      }
+      
       
       // We use a timeout so that the meanbase-editable html changes have time to update their models before we save the page.
       $timeout(function(){
