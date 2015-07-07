@@ -118,6 +118,14 @@ angular.module('meanbaseApp')
       }
     };
 
+    this.removeEmptyProperties = function(map) {
+       for(var key in map) {
+          if (map.hasOwnProperty(key)) {
+             map[key] = null;
+          }
+       }
+    }
+
     // ### Generate Select Drop Down Options
     // helpers.generateSelectOptions() receives an array of strings which it converts into an array of objects, each containing a label and value property. It also allows you to add functions to filter what the values of those labels and values will be. This is currently only used on the CMS comments controller to help generate the list of pages that currently have comments on them.
     this.generateSelectOptions = function(model, labelFilter, valueFilter) {

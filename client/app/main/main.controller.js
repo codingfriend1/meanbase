@@ -178,9 +178,9 @@
       // Delete all the menus in the database, 
       // recreate all of them based off the client data stored in $rootScope.menus,
       // Get the newly updated menus with their server-generated ids
+      helpers.removeEmptyProperties($rootScope.menus)
       if(!helpers.isEmpty($rootScope.menus)) {
         server.menus.delete({}).finally(function(deleteResponse) {
-          console.log("$rootScope.menus", $rootScope.menus);
           server.menus.create($rootScope.menus).success(function(createResponse) {
             server.menus.find({}).success(function(response) {
               $rootScope.menus = response;
