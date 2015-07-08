@@ -179,16 +179,16 @@
       // recreate all of them based off the client data stored in $rootScope.menus,
       // Get the newly updated menus with their server-generated ids
       helpers.removeEmptyProperties($rootScope.menus)
-      if(!helpers.isEmpty($rootScope.menus)) {
-        server.menus.delete({}).finally(function(deleteResponse) {
+      
+      server.menus.delete({}).finally(function(deleteResponse) {
+        if(!helpers.isEmpty($rootScope.menus)) {
           server.menus.create($rootScope.menus).success(function(createResponse) {
             server.menus.find({}).success(function(response) {
               $rootScope.menus = response;
             });
           });
-        });
-      }
-      
+        }
+      });
       
       // We use a timeout so that the meanbase-editable html changes have time to update their models before we save the page.
       $timeout(function(){
@@ -414,6 +414,19 @@
     // ### The Menu Modal Controller
     // @ngInject
     function menuModal($scope, $modalInstance, menuItem, isNewMenu) {
+
+      server.page.find({}).success(function(response) {
+        if(response) {
+          if(Array.isArray(response)) {
+            for(var idx = 0; idx < response.length; idx++) {
+              response[idx].url = '/' + response[idx].url;
+            }
+          } else {
+            response.url = '/' + response.url;
+          }
+        }
+        $scope.pages = response;
+      });
 
       // This is a little distinguishing check to see if this modal was opened from an existing menu item (to edit it) or was opened from the createMenuItem function to create a new menu from scratch
       $scope.isNewMenu = isNewMenu;

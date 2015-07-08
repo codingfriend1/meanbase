@@ -4,6 +4,7 @@
 angular.module('meanbaseApp')
   .service('helpers', function ($rootScope) {
 
+    var self = this;
     // ### Convert Array to Object with Array
     // helpers.arrayToObjectWithArray() receives an array of objects and converts them into and object of arrays with the property name being the value of the string property that was passed into `itemToBecomeProperty`
     this.arrayToObjectWithArray = function(array, itemToBecomeProperty) {
@@ -121,7 +122,9 @@ angular.module('meanbaseApp')
     this.removeEmptyProperties = function(map) {
        for(var key in map) {
           if (map.hasOwnProperty(key)) {
-             map[key] = null;
+            if(self.isEmpty(map[key])) {
+             delete map[key];
+            }
           }
        }
     }

@@ -86,6 +86,9 @@ script(type="text/ng-template" id="editmenu.modal.html")
 				div.help-block.required(ng-show="editingMenuForm.url.$error.required && editingMenuForm.url.$dirty") {{errorMessages.requiredMessage}}
 				div.help-block.error(ng-show="editingMenuForm.url.$invalid && editingMenuForm.url.$dirty") {{errorMessages.isURI}}
 			.form-group
+				label Get url from existing pages: 
+				select(ng-options="page.url as page.url for page in pages" ng-model="menuItem.url").form-control
+			.form-group
 				label Title
 				input.form-control(ng-model="menuItem.title" name="title" ng-pattern="validators.isTitle" required)
 				div.help-block.required(ng-show="editingMenuForm.title.$error.required && editingMenuForm.title.$dirty") {{errorMessages.requiredMessage}}
@@ -96,11 +99,11 @@ script(type="text/ng-template" id="editmenu.modal.html")
 				div.help-block.required(ng-show="editingMenuForm.classes.$error.required && editingMenuForm.classes.$dirty") {{errorMessages.requiredMessage}}
 				div.help-block.error(ng-show="editingMenuForm.classes.$invalid && editingMenuForm.classes.$dirty") {{errorMessages.isCSSClass}}
 			.form-group
-				label Target
+				label How should the link navigate?
 				select(ng-model="menuItem.target").form-control
-					option(value="") none (good for angular)
-					option(value="_self") _self
-					option(value="_blank") _blank
+					option(value="") Update the current page without a refresh
+					option(value="_self") Reload the whole web page
+					option(value="_blank") Open link in a new browser tab
 	.modal-footer
 		button.btn.btn-danger(ng-click="removeMenuItem()" ng-hide="isNewMenu") Delete
 		button.btn.btn-success(type="submit" ng-click="editMenuItem()" ng-hide="isNewMenu" ng-class="{disabled: editingMenuForm.$invalid}") Save
