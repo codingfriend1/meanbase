@@ -37,6 +37,10 @@ var MenusSchema = new Schema({
   	type: String,
   	default: '',
     validate: validators.isAnchorTarget({skipEmpty: true})
+  },
+  published: {
+    type: Boolean,
+    default: true
   }
 });
 

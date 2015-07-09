@@ -108,6 +108,17 @@ angular.module('meanbaseApp')
       }
     };
 
+    // ### Loop through site menus
+    this.loopThroughMenus = function(fn) {
+      for(var group in $rootScope.menus) {
+        if ($rootScope.menus.hasOwnProperty(group)) {
+          for(var i = 0; i < $rootScope.menus[group].length; i++) {
+            fn($rootScope.menus[group][i]);
+          }
+        } 
+      }
+    };
+
     // ### Check if object or array is empty
     // helpers.isEmpty receives an object or array and returns true if it doesn't exist or has zero length or properties
     this.isEmpty = function (obj) {

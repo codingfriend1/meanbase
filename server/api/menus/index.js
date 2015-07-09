@@ -5,8 +5,11 @@ var controller = require('./menus.controller');
 var auth = require('../../auth/auth.service');
 var router = express.Router();
 
+router.get('/published', controller.findPublished);
+router.get('/published/:id', controller.findPublishedById);
+
 // Affecting multiple or all items.
-router.get('/', controller.find);
+router.get('/', auth.hasPermission('editContent'), controller.find);
 router.post('/', auth.hasPermission('editContent'), controller.create);
 router.put('/', auth.hasPermission('editContent'), controller.update);
 router.patch('/', auth.hasPermission('editContent'), controller.update);

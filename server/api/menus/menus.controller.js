@@ -6,6 +6,8 @@ var DAO = require('../../components/DAO');
 var collection = new DAO(Menus);
 var helpers = require('../../components/helpers');
 
+var onlyPublished = false;
+
 collection.modifyBody = function(body) {
   // if(body && body.url && body.url.charAt(0) !== '/') {
   //   body.url = '/' + body.url;
@@ -14,9 +16,10 @@ collection.modifyBody = function(body) {
 };
 
 collection.modifyIdentifier = function(identifier) {
-  // if(identifier && identifier.url && identifier.url.charAt(0) !== '/') {
-  //   identifier.url = '/' + identifier.url;
-  // }
+  if(identifier && onlyPublished) {
+    identifier.published = true; //Make all mongoDB queries search for content that has published as true
+    onlyPublished = false;
+  }
   return identifier;
 };
 
@@ -27,6 +30,21 @@ exports.findAll = function(req, res) {
 
 // Get some pages
 exports.find = function(req, res) {
+  collection.find(req, res, restructureMenus);
+};
+
+exports.findPublished = function(req, res) {
+  onlyPublished = true;
+  collection.find(req, res, restructureMenus);
+};
+
+exports.searchPublished = function(req, res) {
+  onlyPublished = true;
+  collection.search(req, res, restructureMenus);
+};
+
+exports.findPublishedById = function(req, res) {
+  onlyPublished = true;
   collection.find(req, res, restructureMenus);
 };
 
@@ -64,11 +82,16 @@ exports.deleteById = function(req, res) {
 };
 
 function restructureMenus(response) {
+  if(!response) { return response; }
+  if(!Array.isArray(response)) { response = [response]; }
 	var allMenus = response;
 
 	// Sort the menus into groups so angular can use them easily
 	var i = 0, menus = {};
 	while(i < allMenus.length) {
+    if(onlyPublished && !allMenus[i].published) {
+      allMenus.splice(i, 1);
+    }
 	  if(menus[allMenus[i].group] === undefined) {
 	    menus[allMenus[i].group] = [];
 	  }

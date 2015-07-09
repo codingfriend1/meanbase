@@ -14,12 +14,17 @@
 
     // `server.menus.find({mongo query}).then();`
     var server = {
-      menus: new endpoints('menus'),
       media: new endpoints('media'),
       sharedContent: new endpoints("shared-content"),
       extensions: new endpoints('extension'),
       page: new endpoints('pages')
     };
+
+    if($rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent') > -1) {
+      server.menus = new endpoints('menus');
+    } else {
+      server.menus = new endpoints('menus/published');
+    }
 
     // // Let's check if the user is logged in
     // $rootScope.isLoggedIn = Auth.isLoggedIn();
