@@ -13,6 +13,8 @@ angular.module('extensions')
         var areChanges;
         var imagesSnapshot;
 
+        console.log("scope.extension.config.slug", scope.extension.config.slug);
+
         if(!scope.extension.config.slug) { scope.extension.config.slug = 'gallery-1'; }
         if(!scope.extension.config.interval) { scope.extension.config.interval = 3000; }
         if(!scope.extension.data) { scope.extension.data = {}; }
@@ -56,6 +58,16 @@ angular.module('extensions')
           gallerySlug: scope.extension.config.slug,
           alreadySelected: scope.images
         };
+
+        scope.findImagesConfig.gallerySlug = scope.extension.config.slug;
+
+        scope.$watch(function () {
+          return scope.extension.config.slug;
+        }, function(nv, ov) {
+          if(nv === ov) {return false; }
+          scope.findImagesConfig.gallerySlug = nv;
+        });
+
         imagesSnapshot = angular.copy(scope.images);
 
         // If images where chosen that share the name of this gallery slug then retrieve those selected images
