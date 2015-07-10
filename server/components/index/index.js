@@ -66,11 +66,7 @@ function compileIndex(theme, extensionJSONS) {
 	index = index.replace('<!-- Theme Scripts -->', themeJS);
 
 	if(!extensionJSONS) {
-		if(!GLOBAL.meanbaseGlobals.extensions) {
-			GLOBAL.meanbaseGlobals.extensions = searchFolders.retrieveExtensions();
-		}
-		
-		// We are putting this on the global so that when the client/index.html is compiled it will include the extension links
+		GLOBAL.meanbaseGlobals.extensions = searchFolders.retrieveExtensions();
 		extensionJSONS = GLOBAL.meanbaseGlobals.extensions;
 	}
 
