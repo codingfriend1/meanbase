@@ -169,7 +169,8 @@
 				location: 'main',
 				position: $scope.menus.main.length,
 				classes: '',
-				target: ''
+				target: '',
+				published: false
 			};
 
 			// Save new page to database and reroute to it's new url
