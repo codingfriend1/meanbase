@@ -381,9 +381,6 @@
       // Make sure we are deleting an existing extension and then remove it from $rootScope.page.extensions
       if(extension && extension.group && extension.position !== undefined) {
         $rootScope.page.extensions[extension.group].splice(extension.position, 1);
-        if($rootScope.page.extensions[extension.group].length < 1) {
-          delete $rootScope.page.extensions[extension.group];
-        }
       }
     };
 
