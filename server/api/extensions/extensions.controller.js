@@ -37,7 +37,7 @@ exports.create = function(req, res) {
   collection.create(req, res);
 };
 
-// Extracts a new theme to the database.
+// Extracts a new extension to the database.
 exports.upload = function(req, res) {
   var createdFolderName = '125098dsflkj1324';
   try {
@@ -121,7 +121,17 @@ exports.update = function(req, res) {
 
 // Deletes a pages from the DB.
 exports.delete = function(req, res) {
-  collection.delete(req, res);
+  collection.delete(req, res, function(identifier) {
+    if(identifier && identifier.folderName && identifier.folderName !== '') {
+      try {
+        fse.remove(app.get('appPath') + 'extensions/' + identifier.folderName);
+        return res.status(204).send();
+      } catch(e) {
+        console.log('Could not delete extension', e);
+        return res.status(500).send();
+      }
+    }
+  });
 };
 
 // Get a single pages

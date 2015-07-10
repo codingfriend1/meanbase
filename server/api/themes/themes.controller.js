@@ -143,7 +143,7 @@ exports.delete = function(req, res) {
   collection.delete(req, res, function(identifier) {
   	if(identifier && identifier.url && identifier.url !== '') {
   		try {
-  			fse.remove(app.get('appPath') + 'themes/' + req.query.url);
+  			fse.remove(app.get('appPath') + 'themes/' + identifier.url);
   			return res.status(204).send();
   		} catch(e) {
   			console.log('Could not delete theme', e);
