@@ -10,6 +10,7 @@
  var themesFolder;
  var fs = require('fs');
  var Themes = require('../../api/themes/themes.model');
+ var searchFolders = require('../search-folders');
 
 module.exports = function(theme) {
 	themesFolder = app.get('appPath') + 'themes/';
@@ -63,6 +64,15 @@ function compileIndex(theme, extensionJSONS) {
 	index = index.replace("'themeTemplatePaths'", JSON.stringify(theme.templatePaths));
 	index = index.replace('<!-- Theme Styles -->', themeCSS);
 	index = index.replace('<!-- Theme Scripts -->', themeJS);
+
+	if(!extensionJSONS) {
+		if(!GLOBAL.meanbaseGlobals.extensions) {
+			GLOBAL.meanbaseGlobals.extensions = searchFolders.retrieveExtensions();
+		}
+		
+		// We are putting this on the global so that when the client/index.html is compiled it will include the extension links
+		extensionJSONS = GLOBAL.meanbaseGlobals.extensions;
+	}
 
 	if(extensionJSONS) {
 		for (var i = 0; i < extensionJSONS.length; i++) {
