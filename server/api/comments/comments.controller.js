@@ -95,7 +95,8 @@ function restructureResponse(response) {
   for (var i = 0; i < response.length; i++) {
     if(response[i]) {
       if(response[i].date) {
-        response[i].date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        response[i].date = response[i].date + '';
+        // response[i].date = response[i].date.replace(/T/, ' ').replace(/\..+/, '');
       }
     }
   }
