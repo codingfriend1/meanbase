@@ -15,6 +15,7 @@ collection.modifyBody = function(body) {
   if(body && creatingComment) {
     if(body.approved) { body.approved = false; }
   }
+
   return body;
 };
 
@@ -55,6 +56,9 @@ exports.create = function(req, res) {
   // For security purposes we want to modify the comment in modifyBody 
   // to not have approved already set to true
   creatingComment = true;
+  if(req.body && req.body.url) {
+    req.body.ip = req.ip;
+  }
   collection.create(req, res);
   creatingComment = false;
 };
