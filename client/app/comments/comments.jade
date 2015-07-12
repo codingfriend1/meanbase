@@ -65,7 +65,7 @@ div#moderate-comments
                         p {{comment.content}}
                 .row
                     .col-sm-12.text-right
-                        button.btn.btn-danger() Ban commentor
+                        button.btn.btn-danger(ng-click="ban(comment)") Ban commentor
                         button.btn.btn-danger(ng-click="deleteComment(comment)") Delete
                         button.btn.btn-warning(ng-click="editComment(comment)") Edit
                         button.btn.btn-success(ng-hide="comment.approved" ng-click="approveComment(comment)") Approve

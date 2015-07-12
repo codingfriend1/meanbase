@@ -6,6 +6,10 @@ var router = express.Router();
 
 var controller = require('./comments.controller');
 
+router.get('/ban', controller.ban);
+router.post('/ban', controller.ban);
+router.delete('/ban', controller.unban);
+
 // Affecting multiple or all items.
 router.get('/approved', controller.findApproved);
 router.get('/search', controller.search);

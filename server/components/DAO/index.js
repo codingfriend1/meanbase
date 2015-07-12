@@ -316,6 +316,15 @@ DAO.prototype.updateRaw = function(identifier, content) {
   this.collection.update(identifier, content, {multi: true}, function(err, updated) {});
 };
 
+DAO.prototype.findRaw = function(identifier, callback) {
+  this.collection.find(identifier, function(err, found) {
+    if(err) { return console.log('createRaw error', error); }
+    // Since mongoose returns created items as list of params we must iterate through them
+    var allFound = getArguments(arguments);
+    if(callback) { callback(allFound[0]); }
+  });
+};
+
 // ### collection.delete(req, res, cb, preventDeleteAll)
 /**
  * Deletes items from the collection
