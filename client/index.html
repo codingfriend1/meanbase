@@ -25,8 +25,12 @@
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
-    <!-- injector:css -->
-<link rel="stylesheet" href="themes/meanbase-starter/assets/theme.css">
+    <!-- List all style sheets used by your theme here. This file automatically gets injected in the head of the master index.html page for meanbase. -->
+<!-- CDNs may also be used.  -->
+<!-- Anything within injector:css will be overriden if placed in the assets folder since grunt will try to automatically insert new stylesheets. Best to place your stylesheets outside those comments. -->
+
+<!-- injector:css -->
+<link rel="stylesheet" href="themes/small-business-portfolio/assets/theme.css">
 <!-- endinjector -->
     <!-- Extensions CSS -->
       <link rel="stylesheet" href="extensions/extensible-areas-extension/extensible-areas-extension.css">
@@ -39,9 +43,9 @@
     <script>
       // This theme name gets dynamically created on the server when it compiles this file so it can be used throughout the application especially ui-router
       window.meanbaseGlobals = {};
-      window.meanbaseGlobals.siteTheme = 'meanbase-starter'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
-      window.meanbaseGlobals.themeTemplates = {"page":["page"],"home":["home"],"article":["article"],"archive":["archive"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
-      window.meanbaseGlobals.themeTemplatePaths = {"page":{"template":"themes/meanbase-starter/templates/page/page-template","screenshot":"themes/meanbase-starter/screenshots/page-screenshot.png"},"home":{"template":"themes/meanbase-starter/templates/home/home-template","screenshot":"themes/meanbase-starter/screenshots/home-screenshot.png"},"article":{"template":"themes/meanbase-starter/templates/article/article-template","screenshot":"themes/meanbase-starter/screenshots/article-screenshot.png"},"archive":{"template":"themes/meanbase-starter/templates/archive/archive-template","screenshot":"themes/meanbase-starter/screenshots/archive-screenshot.png"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.siteTheme = 'small-business-portfolio'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
+      window.meanbaseGlobals.themeTemplates = {"about":["about","page"],"font-page":["font-page","home"],"portfolio":["portfolio","article"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.themeTemplatePaths = {"portfolio":{"template":"themes/small-business-portfolio/templates/portfolio-item/portfolio-template.html"},"font-page":{"template":"themes/small-business-portfolio/templates/front-page/font-page-template.html"},"about":{"template":"themes/small-business-portfolio/templates/about/about-template.html"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
     </script>
   </head>
   <body ng-app="meanbaseApp">
@@ -152,11 +156,11 @@
           <script src="components/validate/validate.directive.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
-        <!-- injector:js -->
-<script src="themes/meanbase-starter/templates/archive/archive.controller.js"></script>
-<script src="themes/meanbase-starter/templates/article/article.controller.js"></script>
-<script src="themes/meanbase-starter/templates/home/home.controller.js"></script>
-<script src="themes/meanbase-starter/templates/page/page.controller.js"></script>
+        <!-- Scripts for the theme. This template is automatically injected into the footer of the master meanbase index.html page. -->
+<!-- Scripts written within injector:js comment block are overridden by grunt if this file is in the assets folder. It's recommended to write scripts outside of this block -->
+
+<!-- injector:js -->
+<script src="themes/small-business-portfolio/assets/js/small-business-portfolio.js"></script>
 <!-- endinjector -->
         <!-- Extensions JS -->
           <script src="extensions/extensible-areas-extension/extensible-areas-extension.directive.js"></script>
