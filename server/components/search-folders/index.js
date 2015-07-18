@@ -67,22 +67,27 @@ exports.retrieveThemes = function(activeURL, callback) {
               } else if(templateFilePaths[i].indexOf('-screenshot') > -1) { 
                 // If a template has a screenshot store it's url
                 templateName = templateFilePaths[i].match(/[^\/]*(?=-screenshot.[^.]+($|\?))/);
-                if(templateName && templateName[0] && /^[0-9A-Za-z\/*_.\\\-]*$/.test(templateFilePaths[i])) {
+                if(templateName && templateName[0] && /^[0-9A-Za-z\/\*_.\\\-]*$/.test(templateFilePaths[i])) {
                   if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
                   templates[templateName[0]].screenshot = templateFilePaths[i];
                 }
               } else {
+                console.log('getting templates templateFilePaths[i]', templateFilePaths[i]);
                 // If we are looking at an actual template
                 // We want to remove the super long absolute path and replace with a relative one
                 templateFilePaths[i] = templateFilePaths[i];
 
                 // We want to extract the template name from the file name without the file extension or the -template
                 templateName = templateFilePaths[i].match(/[^\/]*(?=-template.[^.]+($|\?))/);
+                console.log('templateName', templateName);
                 // Since the client makes jade requests without the extension we remove it.
                 templateFilePaths[i] = templateFilePaths[i].replace('.jade', '');
-                if(templateName && templateName[0] && /^[0-9A-Za-z\/*_.\\\-]*$/.test(templateFilePaths[i])) {
+                console.log('templateFilePaths[i]', templateFilePaths[i]);
+                console.log("templateName[0]", templateName[0]);
+                if(templateName && templateName[0] && /^[0-9A-Za-z\/\*_.\\\-]*$/.test(templateFilePaths[i])) {
                   if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
                   templates[templateName[0]].template = templateFilePaths[i];
+                  console.log('templates[].template', templates[templateName[0]].template);
                 }
               }
 
