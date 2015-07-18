@@ -66,28 +66,23 @@ exports.retrieveThemes = function(activeURL, callback) {
                 themeData.preview = templateFilePaths[i];      
               } else if(templateFilePaths[i].indexOf('-screenshot') > -1) { 
                 // If a template has a screenshot store it's url
-                templateName = templateFilePaths[i].match(/[^\/]*(?=-screenshot.[^.]+($|\?))/);
+                templateName = templateFilePaths[i].match(/[^(\/|\\)]*(?=-screenshot.[^.]+($|\?))/);
                 if(templateName && templateName[0] && /^[0-9A-Za-z\/\*_.\\\-]*$/.test(templateFilePaths[i])) {
                   if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
                   templates[templateName[0]].screenshot = templateFilePaths[i];
                 }
               } else {
-                console.log('getting templates templateFilePaths[i]', templateFilePaths[i]);
                 // If we are looking at an actual template
                 // We want to remove the super long absolute path and replace with a relative one
                 templateFilePaths[i] = templateFilePaths[i];
 
                 // We want to extract the template name from the file name without the file extension or the -template
-                templateName = templateFilePaths[i].match(/[^\/]*(?=-template.[^.]+($|\?))/);
-                console.log('templateName', templateName);
+                templateName = templateFilePaths[i].match(/[^(\/|\\)]*(?=-template.[^.]+($|\?))/);
                 // Since the client makes jade requests without the extension we remove it.
                 templateFilePaths[i] = templateFilePaths[i].replace('.jade', '');
-                console.log('templateFilePaths[i]', templateFilePaths[i]);
-                console.log("templateName[0]", templateName[0]);
                 if(templateName && templateName[0] && /^[0-9A-Za-z\/\*_.\\\-]*$/.test(templateFilePaths[i])) {
                   if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
                   templates[templateName[0]].template = templateFilePaths[i];
-                  console.log('templates[].template', templates[templateName[0]].template);
                 }
               }
 
@@ -116,15 +111,15 @@ exports.retrieveThemes = function(activeURL, callback) {
                 themeData.themeJSON.templatePaths = templates;
               }
 
-              if(themeData.stylesHTML && /^[0-9A-Za-z\/*_.\\\-]*$/.test(themeData.stylesHTML)) {
+              if(themeData.stylesHTML && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(themeData.stylesHTML)) {
                 themeData.themeJSON.stylesPath = themeData.stylesHTML;
               }
 
-              if(themeData.scriptsHTML && /^[0-9A-Za-z\/*_.\\\-]*$/.test(themeData.scriptsHTML)) {
+              if(themeData.scriptsHTML && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(themeData.scriptsHTML)) {
                 themeData.themeJSON.scriptsPath = themeData.scriptsHTML;
               }
 
-              if(themeData.preview && /^[0-9A-Za-z\/*_.\\\-]*$/.test(themeData.preview)) {
+              if(themeData.preview && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(themeData.preview)) {
                 themeData.themeJSON.preview = themeData.preview;
               }
 
@@ -229,9 +224,9 @@ exports.retrieveExtensions = function(callback) {
               json = extensionFilePaths[i];
             } else if(extensionFilePaths[i].indexOf('screenshot') > -1) {
               screenshot = extensionFilePaths[i];
-            } else if(extensionFilePaths[i].indexOf('.jade') > -1 && /^[0-9A-Za-z\/*_.\\\-]*$/.test(extensionFilePaths[i])) {
+            } else if(extensionFilePaths[i].indexOf('.jade') > -1 && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(extensionFilePaths[i])) {
               files.push(extensionFilePaths[i].replace('.jade', ''));
-            } else if(/^[0-9A-Za-z\/*_.\\\-]*$/.test(extensionFilePaths[i])) {
+            } else if(/^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(extensionFilePaths[i])) {
               files.push(extensionFilePaths[i]);
             }
           }
@@ -254,7 +249,7 @@ exports.retrieveExtensions = function(callback) {
             extensionJSON.urls = files;
           }
 
-          if(screenshot && /^[0-9A-Za-z\/*_.\\\-]*$/.test(screenshot)) {
+          if(screenshot && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(screenshot)) {
             extensionJSON.screenshot = screenshot;
           }
           
