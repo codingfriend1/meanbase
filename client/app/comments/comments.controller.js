@@ -79,6 +79,7 @@ angular.module('meanbaseApp')
   	};
 
     $scope.deleteAllVisible = function() {
+      if(!$scope.filteredComments || $scope.filteredComments.length === 0) { return false; }
       var confirm = window.confirm('Are you sure you want to delete so many?');
       if(confirm) {
         for(var i = 0; i < $scope.filteredComments.length; i++) {
@@ -89,7 +90,6 @@ angular.module('meanbaseApp')
 
         // Sync the database with the comments
         comments.delete({}).then(function() {
-          comments.create($scope.comments);
           toastr.clear();
           toastr.success('Deleted all comments.');
         });
