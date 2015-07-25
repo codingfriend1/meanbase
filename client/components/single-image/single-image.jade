@@ -1,8 +1,8 @@
 div.img-responsive
-	img(ng-if="!editMode" ng-src="{{image.modifiedurl}}" alt="{{image.alt}}" title="{{image.attribute}}" ng-show="image" fallback-src="{{placeholdIt}}" ng-class="imageClasses").img-responsive
-	img(ng-if="editMode" ng-src="{{image.modifiedurl}}" alt="{{image.alt}}" title="{{image.attribute}}" ng-show="image" fallback-src="{{placeholdIt}}" nv-file-drop="mediaUploader" nv-file-over uploader="mediaUploader" ng-class="imageClasses").img-responsive
+	img(ng-if="!$root.editMode" ng-src="{{image.modifiedurl}}" alt="{{image.alt}}" title="{{image.attribute}}" ng-show="image" fallback-src="{{placeholdIt}}" ng-class="imageClasses").img-responsive
+	img(ng-if="$root.editMode" ng-src="{{image.modifiedurl}}" alt="{{image.alt}}" title="{{image.attribute}}" ng-show="image" fallback-src="{{placeholdIt}}" nv-file-drop="mediaUploader" nv-file-over uploader="mediaUploader" ng-class="imageClasses").img-responsive
 	.progress(ng-if="mediaUploader.isUploading").image-upload-progress-bar
 		.progress-bar(role="progressbar" ng-style="{ 'width': mediaUploader.progress + '%' }")
 	div.caption(ng-if="caption") {{image.alt}}
-//- div(ng-if="editMode" find-images-for="{{singleImage}}" multiple="false" class="gallery-find-images")
-button.btn.btn-block.btn-primary.select-images-button(find-images-modal find-images-config="findImagesConfig" ng-if="editMode") Select Image
+//- div(ng-if="$root.editMode" find-images-for="{{singleImage}}" multiple="false" class="gallery-find-images")
+button.btn.btn-block.btn-primary.select-images-button(find-images-modal find-images-config="findImagesConfig" ng-if="$root.editMode") Select Image

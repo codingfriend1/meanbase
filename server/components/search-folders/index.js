@@ -6,6 +6,8 @@ var Themes = require('../../api/themes/themes.model');
 var Promise = require('promise');
 var helpers = require('../helpers');
 
+var extractFileNameRegex = /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/;
+
 
 function isMyPath(item, searchString) {
   if(item.indexOf(searchString) > -1) {
@@ -111,15 +113,15 @@ exports.retrieveThemes = function(activeURL, callback) {
                 themeData.themeJSON.templatePaths = templates;
               }
 
-              if(themeData.stylesHTML && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(themeData.stylesHTML)) {
+              if(themeData.stylesHTML && extractFileNameRegex.test(themeData.stylesHTML)) {
                 themeData.themeJSON.stylesPath = themeData.stylesHTML;
               }
 
-              if(themeData.scriptsHTML && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(themeData.scriptsHTML)) {
+              if(themeData.scriptsHTML && extractFileNameRegex.test(themeData.scriptsHTML)) {
                 themeData.themeJSON.scriptsPath = themeData.scriptsHTML;
               }
 
-              if(themeData.preview && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(themeData.preview)) {
+              if(themeData.preview && extractFileNameRegex.test(themeData.preview)) {
                 themeData.themeJSON.preview = themeData.preview;
               }
 
@@ -224,9 +226,9 @@ exports.retrieveExtensions = function(callback) {
               json = extensionFilePaths[i];
             } else if(extensionFilePaths[i].indexOf('screenshot') > -1) {
               screenshot = extensionFilePaths[i];
-            } else if(extensionFilePaths[i].indexOf('.jade') > -1 && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(extensionFilePaths[i])) {
+            } else if(extensionFilePaths[i].indexOf('.jade') > -1 && extractFileNameRegex.test(extensionFilePaths[i])) {
               files.push(extensionFilePaths[i].replace('.jade', ''));
-            } else if(/^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(extensionFilePaths[i])) {
+            } else if(extractFileNameRegex.test(extensionFilePaths[i])) {
               files.push(extensionFilePaths[i]);
             }
           }
@@ -249,7 +251,7 @@ exports.retrieveExtensions = function(callback) {
             extensionJSON.urls = files;
           }
 
-          if(screenshot && /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/.test(screenshot)) {
+          if(screenshot && extractFileNameRegex.test(screenshot)) {
             extensionJSON.screenshot = screenshot;
           }
           
