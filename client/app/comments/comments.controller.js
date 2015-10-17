@@ -5,7 +5,8 @@ angular.module('meanbaseApp')
 
     $scope.$parent.pageTitle = 'Moderate Comments';
     
-  	var comments = new endpoints('comments');
+    var comments = new endpoints('comments');
+  	var settings = new endpoints('settings');
 
     $scope.autoAccept = false;
     $scope.autoReject = false;
@@ -25,6 +26,11 @@ angular.module('meanbaseApp')
         return page.substring(1);
       });
   	});
+
+    // Get the auto accept comments status
+    settings.find({name: 'auto-accept-comments'}).then(function(response) {
+      $scope.autoAccept = response.data[0].value === "true";
+    });
 
     $scope.approvalStates = [
       {label: 'both', value: ''},
@@ -121,6 +127,14 @@ angular.module('meanbaseApp')
         toastr.success('Unapproved all visible comments.');
       });
     }
+
+    $scope.toggleAutoAccept = function(boole) {
+      settings.update({name: 'auto-accept-comments'}, {name: 'auto-accept-comments', value: boole}).then(function(response) {
+        boole = boole;
+      }, function() {
+        boole = !boole;
+      });
+    };
   });
 
 angular.module('meanbaseApp').filter('removeSlash', function() {

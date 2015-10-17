@@ -42,7 +42,7 @@ div#moderate-comments
             input(type="checkbox" ng-model="sortDirection") 
             | Show oldest comments first?
     accordion(close-others="true")
-        accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'-date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
+        accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
             accordion-heading.panel-heading(ng-click="status.open=!status.open")
                 i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
                 span.commment-author #[strong {{comment.author}} ]: {{comment.date | relativeDate}}
@@ -74,7 +74,7 @@ div#moderate-comments
         .col-xs-12
             .checkbox-inline
                 label
-                    input(type="checkbox" ng-model="autoAccept")
+                    input(type="checkbox" ng-model="autoAccept" ng-change="toggleAutoAccept(autoAccept)")
                     | Automatically accept all new comments
             .checkbox-inline
                 label

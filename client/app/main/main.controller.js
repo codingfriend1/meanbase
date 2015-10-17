@@ -271,7 +271,7 @@
       $rootScope.page = snapshots.page;
       $rootScope.sharedContent = snapshots.sharedContent;
 
-      toastr.warning('Recent changes have been discarded');
+      toastr.warning('Changes have been discarded');
 
       // We also want to reset the shared content to delete check
       $rootScope.sharedContentToCheckDelete = [];
