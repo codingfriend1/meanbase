@@ -2,11 +2,13 @@
 
 var _ = require('lodash');
 var Comments = require('./comments.model');
+var Settings = require('../settings/settings.model');
 var DAO = require('../../components/DAO');
 var collection = new DAO(Comments);
 
 var onlyApproved = false;
 var creatingComment = false;
+var autoApprove = false;
 
 collection.modifyBody = function(body) {
   if(body && body.url && body.url.charAt(0) !== '/') {
@@ -56,11 +58,19 @@ exports.create = function(req, res) {
   // For security purposes we want to modify the comment in modifyBody 
   // to not have approved already set to true
   creatingComment = true;
-  if(req.body && req.body.url) {
-    req.body.ip = req.ip;
-  }
-  collection.create(req, res);
-  creatingComment = false;
+
+  Settings.findOne({name: 'auto-accept-comments'}, function(err, found) {
+      if(err || !found) { autoApprove = false; }
+      else { autoApprove = found.value === 'true'; }
+
+      if(req.body && req.body.url) {
+        req.body.ip = req.ip;
+        req.body.approved = autoApprove;
+      }
+
+      collection.create(req, res);
+      creatingComment = false;
+  });
 };
 
 // Updates pages in the database
