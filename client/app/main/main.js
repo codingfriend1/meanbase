@@ -36,15 +36,16 @@
             // Get the current logged in user
             $rootScope.currentUser = Auth.getCurrentUser();
 
+            var pages;
             // - Instantiate a new endpoints service to communite with server database
             if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent')) {
-              var endpoint = new endpoints('pages');
+              pages = new endpoints('pages');
             } else {
-              var endpoint = new endpoints('pages/published');
+              pages = new endpoints('pages/published');
             }
 
             // - Find a page in the database with a url that matches the current url
-            endpoint.find({url: '/' + $stateParams.page}).success(function(response) {
+            pages.find({url: '/' + $stateParams.page}).success(function(response) {
               $rootScope.page = {
                 tabTitle: 404,
                 description: 'Could not find page',

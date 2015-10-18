@@ -306,7 +306,7 @@ DAO.prototype.updateOneAndUpdate = function(req, res, callback) {
 
 DAO.prototype.createRaw = function(content) {
   this.collection.create(content, function(err, found) {
-    if(err) { return console.log('createRaw error', error); }
+    if(err) { return console.log('createRaw error', err); }
     // Since mongoose returns created items as list of params we must iterate through them
     var allFound = getArguments(arguments);
   });
