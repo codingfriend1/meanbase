@@ -9,6 +9,7 @@ var collection = new DAO(Comments);
 var onlyApproved = false;
 var creatingComment = false;
 var autoApprove = false;
+var disableComments = false;
 
 collection.modifyBody = function(body) {
   if(body && body.url && body.url.charAt(0) !== '/') {
@@ -59,17 +60,27 @@ exports.create = function(req, res) {
   // to not have approved already set to true
   creatingComment = true;
 
-  Settings.findOne({name: 'auto-accept-comments'}, function(err, found) {
-      if(err || !found) { autoApprove = false; }
-      else { autoApprove = found.value === 'true'; }
+  Settings.findOne({name: 'disable-comments'}, function(err, found) {
+    if(err || !found) { disableComments = false; }
+    else { disableComments = found.value === 'true'; }
 
-      if(req.body && req.body.url) {
-        req.body.ip = req.ip;
-        req.body.approved = autoApprove;
-      }
+    if(!disableComments) {
+      Settings.findOne({name: 'auto-accept-comments'}, function(err, found) {
+          if(err || !found) { autoApprove = false; }
+          else { autoApprove = found.value === 'true'; }
 
-      collection.create(req, res);
-      creatingComment = false;
+          if(req.body && req.body.url) {
+            req.body.ip = req.ip;
+            req.body.approved = autoApprove;
+          }
+
+          collection.create(req, res);
+          creatingComment = false;
+      });
+    } else {
+      res.send(204);
+    }
+    
   });
 };
 

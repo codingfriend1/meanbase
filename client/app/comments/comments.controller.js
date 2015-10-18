@@ -29,7 +29,13 @@ angular.module('meanbaseApp')
 
     // Get the auto accept comments status
     settings.find({name: 'auto-accept-comments'}).then(function(response) {
+      if(!response.data[0]) { return $scope.autoAccept = false; }
       $scope.autoAccept = response.data[0].value === "true";
+    });
+
+    settings.find({name: 'disable-comments'}).then(function(response) {
+      if(!response.data[0]) { return $scope.disableComments = false; }
+      $scope.disableComments = response.data[0].value === "true";
     });
 
     $scope.approvalStates = [
@@ -135,6 +141,16 @@ angular.module('meanbaseApp')
         boole = !boole;
       });
     };
+
+    $scope.toggleDisableComments = function(boole) {
+      console.log('hi');
+      settings.update({name: 'disable-comments'}, {name: 'disable-comments', value: boole}).then(function(response) {
+        boole = boole;
+      }, function() {
+        boole = !boole;
+      });
+    };
+
   });
 
 angular.module('meanbaseApp').filter('removeSlash', function() {

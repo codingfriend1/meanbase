@@ -78,5 +78,5 @@ div#moderate-comments
                     | Automatically accept all new comments
             .checkbox-inline
                 label
-                    input(type="checkbox" ng-model="autoReject")
-                    | Automatically reject all new comments
+                    input(type="checkbox" ng-model="disableComments" ng-change="toggleDisableComments(disableComments)")
+                    | Disable Comments
