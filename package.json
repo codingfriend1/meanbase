@@ -49,6 +49,7 @@
     "grunt-build-control": "DaftMonk/grunt-build-control",
     "grunt-concurrent": "~0.5.0",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-cssmin": "~0.9.0",
     "grunt-contrib-htmlmin": "~0.2.0",
