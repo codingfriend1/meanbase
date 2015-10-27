@@ -418,15 +418,15 @@
     function menuModal($scope, $modalInstance, menuItem, isNewMenu) {
 
       server.page.find({}).success(function(response) {
-        if(response) {
-          if(Array.isArray(response)) {
-            for(var idx = 0; idx < response.length; idx++) {
-              response[idx].url = '/' + response[idx].url;
-            }
-          } else {
-            response.url = '/' + response.url;
-          }
-        }
+        // if(response) {
+        //   if(Array.isArray(response)) {
+        //     for(var idx = 0; idx < response.length; idx++) {
+        //       response[idx].url = '/' + response[idx].url;
+        //     }
+        //   } else {
+        //     response.url = '/' + response.url;
+        //   }
+        // }
         $scope.pages = response;
       });
 
