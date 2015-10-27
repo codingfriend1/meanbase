@@ -25,7 +25,7 @@ script(type="text/ng-template" id="theme.modal.html")
 			p(ng-if="!theme.active").mb-active-theme.bg-warning Not being used
 			hr
 			h4 Template Mapping
-			p This section allows you to map templates that your data may be using to the templates that your theme supports. So if your page uses the "willy-wonka" template but your new "Boring" theme doesn't support that, then just add "willy-wonka" as a tag to a template your theme does support
+			p.help-text Different themes support different templates. So what happens if you save a page using the "Awesome" theme's super duper template but then you switch to a boring theme that only has the "boring-template". This allows you to connect those templates so you can choose how the content from the previous theme gets displayed in the new theme. Just add the template names from the old theme as tags to the new theme templates.
 			label.your-templates-label Supported Templates
 			label.template-field-label Incoming Templates
 
