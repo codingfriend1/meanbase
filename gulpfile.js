@@ -24,8 +24,6 @@ var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 
-var jade = require('gulp-jade');
-
 var jasmine = require('gulp-jasmine');
 var run = require('gulp-run');
 var server = require('gulp-express');
@@ -33,46 +31,103 @@ var server = require('gulp-express');
 var jade = require('jade');
 var gulpJade = require('gulp-jade');
 
+var filenames = require("gulp-filenames");
+var injectString = require('gulp-inject-string');
+
+
+
 gulp.task('default', function() {
 	
 });
 
-gulp.task('jade', function() {
-	return gulp.src('client/{app, components}/**/*.jade')
-    .pipe(gulpJade({
-      jade: jade,
-      pretty: true
-    }))
-    .pipe(gulp.dest('client/'));
+
+
+// Serve
+gulp.task('clean:tmp', function () {  
+	return del('.tmp/**');
 });
 
-gulp.task('stylus', function() {
-	gulp.src('client/app/app.styl')
+gulp.task('jade', function() {
+	return gulp.src('client/{app,components,themes,extensions}/**/*.jade')
+    .pipe(gulpJade({
+      jade: jade,
+      pretty: false
+    }))
+    .pipe(gulp.dest('.tmp/'));
+});
+
+gulp.task('compileAppCSS', function() {
+	return gulp.src('client/app/app.styl')
     .pipe(stylus())
+    .pipe(gulp.dest('.tmp/app/'));
+});
+
+gulp.task('injectBowerComponents', function() {
+	return gulp.src('server/views/index.html')
+	  .pipe(inject(gulp.src(mainBowerFiles(), {read: false}), {
+	  	name: 'vendor',
+	  	relative: true
+	  }))
+	  .pipe(gulp.dest('server/views/'));
+});
+
+gulp.task('injectComponents', function() {
+	return gulp.src('server/views/index.html')
+	  .pipe(inject(gulp.src(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'], 
+	  	{read: false}), {
+	  	name: 'app',
+	  	relative: true
+	  }))
+	  .pipe(gulp.dest('server/views/'));
+});
+
+gulp.task('injectStylus', function() {
+	return gulp.src('client/app/app.styl')
+	  .pipe(inject(gulp.src([
+	  	'client/{app,components}/**/*.styl',
+	  	'!client/app/app.styl'
+	  ], {read: false}), {
+	  	relative: true,
+      starttag: '// testInject',
+      endtag: '// endtestInject',
+      transform: function (filepath, file, i, length) {
+      	return "@import '" + filepath + "';";
+      }
+    }))
     .pipe(gulp.dest('client/app/'));
 });
 
-gulp.task('serve', function() {
+gulp.task('serve', ['clean:tmp'], function() {
 	
+	runSequence('jade', 'injectStylus', 'compileAppCSS', 'injectBowerComponents', 'injectComponents', function() {
 
-  server.run(['server/app.js']);
+		gulp.watch(['client/**/*.styl'], ['injectStylus', 'compileAppCSS']);
+		gulp.watch(['client/**/*.jade'], ['jade']);
 
-  gulp.watch(['client/**/*.styl'], ['stylus']);
+		gulp.watch(mainBowerFiles(), {read: false}, ['injectBowerComponents']);
+		gulp.watch(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'], {read: false}, ['injectComponents']);
 
-  gulp.watch([
-  	'client/{app,components}/**/*.html',
-  	'client/{app,components}/**/*.js',
-  	'client/{app,components}/**/*.css',
-  	'server/**'
-  ], server.notify);
+		gulp.watch([
+			'.tmp/**/*.html',
+			'client/{app,components}/**/*.js',
+			'client/{app,components}/**/*.css',
+			'.tmp/**/*app.css',
+			'server/**'
+		], server.notify);
+
+		server.run(['server/app.js'], {livereload: true});
+	});
 });
 
+// Setup
 gulp.task('install', function() {
 	run('npm install').exec('', function() {
 		run('bower install').exec();
 	});
 });
 
+
+// Build automation
 gulp.task('clean', function () {  
 	return del('build/**');
 });
@@ -123,16 +178,9 @@ gulp.task('build', function(done) {
   });
 });
 
+
+// Unit Tests
 gulp.task('test', function () {
   return gulp.src(['**/*spec.js', '**/*mock.js'])
   	.pipe(jasmine());
-});
-
-gulp.task('watch', function() {
-
-	// gulp.src([
-	// 	'client/{app,components}/**/*.css',
-	// 	'client/{app,components}/**/*.html',
-	// 	'client/{app,components}/**/*.js'
-	// ])
 });
