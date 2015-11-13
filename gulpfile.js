@@ -74,12 +74,18 @@ gulp.task('injectBowerComponents', function() {
 
 gulp.task('injectComponents', function() {
 	return gulp.src('server/views/index.html')
-	  .pipe(inject(gulp.src(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'], 
-	  	{read: false}), {
-	  	name: 'app',
-	  	ignorePath: 'client',
-	  	addRootSlash: false
-	  }))
+	  .pipe(
+	  	inject(gulp.src(['client/{app,components}/**/*.js', 
+	  			'!**/*spec.js', 
+	  			'!**/*mock.js',
+	  			'!client/components/ckeditor/FileBrowser/fileBrowser.js'
+	  		]).pipe(angularFilesort()),
+			  {
+			  	name: 'app',
+			  	ignorePath: 'client',
+			  	addRootSlash: false
+			  }
+	  	))
 	  .pipe(gulp.dest('server/views/'));
 });
 
@@ -90,8 +96,8 @@ gulp.task('injectStylus', function() {
 	  	'!client/app/app.styl'
 	  ], {read: false}), {
 	  	relative: true,
-      starttag: '// testInject',
-      endtag: '// endtestInject',
+      starttag: '// inject stylus',
+      endtag: '// end inject stylus',
       transform: function (filepath, file, i, length) {
       	return "@import '" + filepath + "';";
       }
