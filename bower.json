@@ -26,6 +26,11 @@
     "animate-css": "~3.3.0",
     "trumbowyg": "~1.1.7"
   },
+  "overrides": {
+      "modernizr": {
+        "main": ["modernizr.js"]
+      }
+  },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
     "angular-scenario": ">=1.2.*"

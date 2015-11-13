@@ -66,7 +66,8 @@ gulp.task('injectBowerComponents', function() {
 	return gulp.src('server/views/index.html')
 	  .pipe(inject(gulp.src(mainBowerFiles(), {read: false}), {
 	  	name: 'vendor',
-	  	relative: true
+	  	ignorePath: 'client',
+	  	addRootSlash: false
 	  }))
 	  .pipe(gulp.dest('server/views/'));
 });
@@ -76,7 +77,8 @@ gulp.task('injectComponents', function() {
 	  .pipe(inject(gulp.src(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'], 
 	  	{read: false}), {
 	  	name: 'app',
-	  	relative: true
+	  	ignorePath: 'client',
+	  	addRootSlash: false
 	  }))
 	  .pipe(gulp.dest('server/views/'));
 });
