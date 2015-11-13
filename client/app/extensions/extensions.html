@@ -1,0 +1,19 @@
+
+<p>Upload reusable components to add to extensible areas of your site</p>
+<div nv-file-drop="uploader" uploader="uploader" class="drop-zone text-center form-inline">
+  <p>Drop extension <strong>zip, gz, bz2,</strong> or <strong>tar</strong> file here to upload or</p>
+  <div class="form-group text-center">
+    <input type="file" nv-file-select="nv-file-select" multiple="multiple" uploader="uploader" class="form-control"/>
+  </div>
+  <div class="progress">
+    <div role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" class="progress-bar"></div>
+  </div>
+</div>
+<div class="row">
+  <div ng-repeat="extension in extensions" class="col-md-4 col-sm-6">
+    <h4>{{extension.name}} </h4><img ng-src="{{extension.screenshot}}" ng-click="openModal(extension)" class="img-responsive img-thumbnail"/>
+    <button ng-click="deleteExtension(extension)" class="btn btn-danger delete-extension-button">Delete</button>
+    <button ng-click="toggleEnabled(extension)" ng-show="!extension.active" class="btn btn-success enable-extension-button">Enable Use</button>
+    <button ng-click="toggleEnabled(extension)" ng-show="extension.active" class="btn btn-warning enable-extension-button">Disable Use</button>
+  </div>
+</div>

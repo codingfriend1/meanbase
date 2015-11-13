@@ -1,0 +1,69 @@
+
+<h3>Roles and Privilages</h3>
+<div id="users" class="panel-dark">
+  <div class="panel-head">
+    <div class="row">
+      <div class="col-sm-6 col-xs-3">
+        <select ng-options="role as role.role for role in roles track by role.role" ng-model="selectedRole" class="panel-select"></select>
+      </div>
+      <div class="col-sm-6 col-xs-9 text-right">
+        <button ng-click="deleteRole()" ng-disabled="selectedRole.role === 'basic' || selectedRole.role === 'admin'" class="btn btn-danger">Delete</button>
+        <button ng-click="createRole()" class="btn btn-primary">New Role</button>
+        <button ng-click="updateRole()" ng-disabled="selectedRole.role === 'admin'" class="btn btn-success">Save</button>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div ng-repeat="(permissionName, permissionValue) in selectedRole.permissions" class="form-group">
+      <input id="{{permissionName}}" type="checkbox" ng-model="selectedRole.permissions[permissionName]" ng-checked="permissionValue" class="checkbox"/>
+      <label for="{{permissionName}}">{{permissionName | camelToHuman}}</label>
+    </div>
+  </div>
+</div>
+<h3>Users</h3>
+<div class="form-group">
+  <input type="text" placeholder="filter users" ng-model="userFilter" class="form-control"/>
+</div>
+<accordion close-others="true">
+  <accordion-group ng-repeat="user in users | filter:filterUsers" is-open="status.open" class="panel-primary panel">
+    <accordion-heading ng-click="status.open=!status.open" class="panel-heading"><span>{{user.name}} </span><i ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}" class="pull-right glyphicon panel-chevron"></i><span class="pull-right">{{user.role}} </span></accordion-heading>
+    <div class="panel-body equal">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" ng-model="user.name" class="form-control"/>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="text" ng-model="user.email" class="form-control"/>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3 col-xs-6">
+          <div class="form-group">
+            <p class="h5">Allow User:</p>
+            <select ng-model="user.role" class="panel-select">
+              <option ng-repeat="role in roles" ng-selected="role.role == user.role">{{role.role}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4 col-xs-6">
+          <div class="form-group">
+            <p class="h5">Account Enabled</p>
+            <label class="mb-toggle-switch">
+              <input type="checkbox" ng-model="user.enabled" ng-checked="user.enabled"/><span class="mb-switch"></span>
+            </label>
+          </div>
+        </div>
+        <div class="col-sm-5 col-xs-12 text-right">
+          <button ng-click="deleteUser(user, $index)" ng-disabled="user.role === 'admin'" class="btn btn-danger">Delete</button>
+          <button ng-click="updateUser(user)" class="btn btn-success">Update</button>
+        </div>
+      </div>
+    </div>
+  </accordion-group>
+</accordion>

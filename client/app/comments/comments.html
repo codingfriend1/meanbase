@@ -1,0 +1,105 @@
+
+<div id="moderate-comments">
+  <p>Only approved comments can be seen by site visitors</p>
+  <h4>Only show comments with...</h4>
+  <div class="row">
+    <div class="col-md-4 col-xs-12">
+      <div class="form-group date-field">
+        <label>Date:</label>
+        <div class="input-group">
+          <input type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="commentDate" is-open="dateOpened" class="form-control"/><span class="input-group-btn">
+            <button type="button" ng-click="open($event)" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="radio-inline">
+          <input type="radio" value="before" ng-model="dateDirection"/>Before
+        </label>
+        <label class="radio-inline">
+          <input type="radio" value="during" ng-model="dateDirection"/>During
+        </label>
+        <label class="radio-inline">
+          <input type="radio" value="after" ng-model="dateDirection"/>After
+        </label>
+      </div>
+    </div>
+    <div class="col-md-4 col-xs-6">
+      <div class="form-group">
+        <label>Approval: </label>
+        <select ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates" class="form-control"></select>
+      </div>
+    </div>
+    <div class="col-md-4 col-xs-6">
+      <div class="form-group">
+        <label>Page: </label>
+        <select ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage" class="form-control"></select>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon"><i class="fa fa-search"></i></div>
+      <input type="text" placeholder="Search comments by text" ng-model="commentFilter" class="form-control"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <button ng-click="approveAllVisible()" class="btn btn-success">Approve All Visibile</button>
+    <button ng-click="unapproveAllVisible()" class="btn btn-warning">Unapprove All Visibile</button>
+    <button ng-click="deleteAllVisible()" class="btn btn-danger">Delete All Visibile</button>
+  </div>
+  <div class="form-group checkbox">
+    <label>
+      <input type="checkbox" ng-model="sortDirection"/>Show oldest comments first?
+    </label>
+  </div>
+  <accordion close-others="true">
+    <accordion-group ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}" class="panel">
+      <accordion-heading ng-click="status.open=!status.open" class="panel-heading"><i ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}" class="fa comment-approved-icon"></i><span class="commment-author"><strong>{{comment.author}} </strong>: {{comment.date | relativeDate}}</span><i ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}" class="pull-right glyphicon panel-chevron"></i><span class="pull-right">{{comment.url | removeSlash}} </span></accordion-heading>
+      <div class="panel-body equal">
+        <div class="row">
+          <div class="col-sm-4 col-xs-12">
+            <div class="h4">email</div>
+            <p>{{comment.email}}</p>
+          </div>
+          <div class="col-sm-4 col-xs-6">
+            <div class="h4">ip</div>
+            <p>{{comment.ip}}</p>
+          </div>
+          <div class="col-sm-4 col-xs-6">
+            <div class="h4">Date</div>
+            <p>{{comment.date}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="h4">content</div>
+            <p>{{comment.content}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 text-right">
+            <button class="btn btn-danger">Ban commentor</button>
+            <button ng-click="deleteComment(comment)" class="btn btn-danger">Delete</button>
+            <button ng-click="editComment(comment)" class="btn btn-warning">Edit</button>
+            <button ng-hide="comment.approved" ng-click="approveComment(comment)" class="btn btn-success">Approve</button>
+            <button ng-show="comment.approved" ng-click="unapproveComment(comment)" class="btn btn-warning">Unapprove</button>
+          </div>
+        </div>
+      </div>
+    </accordion-group>
+  </accordion>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="checkbox-inline">
+        <label>
+          <input type="checkbox" ng-model="autoAccept" ng-change="toggleAutoAccept(autoAccept)"/>Automatically accept all new comments
+        </label>
+      </div>
+      <div class="checkbox-inline">
+        <label>
+          <input type="checkbox" ng-model="disableComments" ng-change="toggleDisableComments(disableComments)"/>Disable Comments
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
