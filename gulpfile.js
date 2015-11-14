@@ -19,7 +19,20 @@ var gulp = require('gulp'),
 		karma = require('karma').server,
 		series = require('stream-series'),
 		fs = require('fs'),
-		path = require('path');
+		path = require('path'),
+		ngAnnotate = require('gulp-ng-annotate');
+
+
+// gulp.src(
+          	// 	inject(
+          	// 		gulp.src(['client/{app,components}/**/*.js', 
+          	// 			'!**/*spec.js', 
+          	// 			'!**/*mock.js',
+          	// 			'!client/components/ckeditor/FileBrowser/fileBrowser.js'
+          	// 		])
+          	// 		// .pipe(angularFilesort()) 
+          	// 	)
+          	// )
 
 var config = {
 	themesFolder: 'client/themes/'
@@ -84,8 +97,16 @@ gulp.task('injectComponents', function() {
 
 gulp.task('injectBuild', function() {
 	return gulp.src('dist/server/views/index.html')
-	  .pipe(inject(gulp.src(['dist/public/app/app.min.*'], {read: false}), {name: 'app'}))
-	  .pipe(inject(gulp.src(['dist/public/app/vendors.min.*'], {read: false}), {name: 'vendor'}))
+	  .pipe(inject(gulp.src(['dist/public/app/app.min.*'], {read: false}), {
+	  	name: 'app', 
+	  	ignorePath: '/dist/public/',
+	  	addRootSlash: false
+	  }))
+	  .pipe(inject(gulp.src(['dist/public/app/vendors.min.*'], {read: false}), {
+	  	name: 'vendor', 
+	  	ignorePath: '/dist/public/',
+	  	addRootSlash: false
+	  }))
 	  .pipe(gulp.dest('dist/server/views'));
 });
 
@@ -150,7 +171,7 @@ gulp.task('serve', function() {
 });
 
 
-gulp.task('serve-build', function() {
+gulp.task('serve-dist', function() {
 	server.run(['dist/server/app.js'], {
 		livereload: true,
 		env: {
@@ -176,7 +197,7 @@ gulp.task('clean', function () {
 
 gulp.task('copy', function () {
 	return merge(
-		gulp.src(['client/{themes,extensions}/**', 'client/*', '!client/components', 'client/assets/**'])
+		gulp.src(['client/{themes,extensions}/**', 'client/*', 'client/assets/**'])
 			.pipe(gulpif('*.jade', gulpJade({
 	      jade: jade,
 	      pretty: true
@@ -208,8 +229,18 @@ gulp.task('injectComponents', function() {
 	  .pipe(gulp.dest('server/views/'));
 });
 
+// Compile jade files to .tmp folder
+gulp.task('jade-dist', function() {
+	return gulp.src('client/{app,components,themes,extensions}/**/*.jade')
+    .pipe(gulpJade({
+      jade: jade,
+      pretty: false
+    }))
+    .pipe(gulp.dest('dist/public/'));
+});
+
 gulp.task('build', function(done) {
-	return runSequence('clean', 'copy', function() {
+	return runSequence('clean', 'copy', 'jade-dist', function() {
 		var vendorJS = gulp.src(mainBowerFiles('**/*.js'))
       .pipe(concat('vendors.min.js'))
       .pipe(uglify())
@@ -220,7 +251,13 @@ gulp.task('build', function(done) {
           .pipe(minifyCss())
           .pipe(gulp.dest('dist/public/app/'))
           .pipe(es.wait(function (err, body) {
-          	gulp.src(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'])
+          	gulp.src([
+          		'client/{app,components}/**/*.js', 
+          		'!**/*spec.js', 
+          		'!**/*mock.js',
+          		'!client/components/ckeditor/FileBrowser/fileBrowser.js'
+          	])
+          		.pipe(ngAnnotate())
       	      .pipe(concat('app.min.js'))
       	      .pipe(uglify())
       	      .pipe(gulp.dest('dist/public/app/'))
@@ -237,11 +274,6 @@ gulp.task('build', function(done) {
       	      }));
           }));
 	    }))
-
-    // gulp.src('server/views/index.html')
-    //   .pipe(inject(es.merge(vendorJS, vendorCSS, appJS, appCSS)))
-    //   .pipe(gulp.dest('dist/server/views/index2.html'));
-    // done();
   });
 });
 
