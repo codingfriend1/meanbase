@@ -253,9 +253,50 @@ gulp.task('templates-dist', function() {
     	removeRedundantAttributes: true,
     	removeScriptTypeAttributes: true,
     	removeStyleLinkTypeAttributes: true
-    }))
-        .pipe(ngtemplate({module: function(name) { return 'mgcrea.ngStrap.' + name.split('/')[0]; }}))
+    }));
     // .pipe(gulp.dest('dist/public/'));
+});
+
+gulp.task('build-themes', function(done) {
+	var folders = getFolders(config.themesFolder);
+	return folders.map(function(folder) {
+		// Compile theme templates
+  	var js = gulp.src([
+  		path.join(config.themesFolder, folder, '/**/*.js'),
+  		'!**/*spec.js'
+  	])
+    	.pipe(ngAnnotate());
+
+   	// Compile app templates
+  	var templates = gulp.src(path.join(config.themesFolder, folder, '/**/*.jade'))
+	    .pipe(gulpJade({
+	      jade: jade,
+	      pretty: false
+	    }))
+	    .pipe(htmlmin({
+	    	collapseBooleanAttributes: true,
+	    	collapseWhitespace: true,
+	    	removeAttributeQuotes: true,
+	    	removeEmptyAttributes: true,
+	    	removeRedundantAttributes: true,
+	    	removeScriptTypeAttributes: true,
+	    	removeStyleLinkTypeAttributes: true
+	    }))
+	    .pipe(ngtemplate({module: 'meanbaseApp'}));
+
+	  var html = gulp.src([
+	  	path.join(config.themesFolder, folder, '/**/*.html'),
+	  	'!**/*scripts.html',
+	  	'!**/*styles.html'
+	  ])
+	  	.pipe(ngtemplate({module: 'meanbaseApp'}));
+  	
+  	// Compile app.min.js from theme scripts and html templates
+		return es.merge(js, templates, html)
+    	.pipe(concat('theme.min.js'))
+    	// .pipe(uglify())
+    	.pipe(gulp.dest(path.join('dist/public/themes', folder, 'assets')));
+   });
 });
 
 gulp.task('build', function(done) {
