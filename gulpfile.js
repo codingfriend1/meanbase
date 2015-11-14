@@ -15,7 +15,9 @@ var gulp = require('gulp'),
 		server = require('gulp-express'),
 		jade = require('jade'),
 		gulpJade = require('gulp-jade'),
-		jasmine = require('gulp-jasmine');
+		jasmine = require('gulp-jasmine'),
+		karma = require('karma').server,
+		series = require('stream-series');
 
 
 gulp.task('default', function() {
@@ -93,37 +95,36 @@ gulp.task('injectStylus', function() {
 });
 
 // 
-gulp.task('serve', ['clean:tmp'], function() {
-	
-	runSequence('jade', 'injectStylus', 'compileAppCSS', 'injectBowerComponents', 'injectComponents', function() {
+gulp.task('serve', function() {
+	// When there is a change in the stylus files recompile app.css
+	gulp.watch(['client/**/*.styl'], {read: false}, ['injectStylus', 'compileAppCSS']);
 
-		// When there is a change in the stylus files recompile app.css
-		gulp.watch(['client/**/*.styl'], ['injectStylus', 'compileAppCSS']);
+	// When there is a change in jade files recompile html in .tmp
+	gulp.watch(['client/**/*.jade'], {read: false}, ['jade']);
 
-		// When there is a change in jade files recompile html in .tmp
-		gulp.watch(['client/**/*.jade'], ['jade']);
+	// Inject scripts and styles into server/views/index.html when there are changes
+	gulp.watch('bower.json', {read: false}, ['injectBowerComponents']);
+	gulp.watch(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'], {read: false}, ['injectComponents']);
 
-		// Inject scripts and styles into server/views/index.html when there are changes
-		gulp.watch(mainBowerFiles(), {read: false}, ['injectBowerComponents']);
-		gulp.watch(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'], {read: false}, ['injectComponents']);
+	gulp.watch([
+		'.tmp/**/*.html',
+		'client/{app, components, extensions, themes}/**/*.js',
+		'client/{app, components, extensions, themes}/**/*.css',
+		'client/themes/**/*.html',
+		'server/views/index.html',
+		'.tmp/**/*app.css',
+		'server/**'
+	], server.notify);
 
-		gulp.watch([
-			'.tmp/**/*.html',
-			'client/{app,components}/**/*.js',
-			'client/{app,components}/**/*.css',
-			'server/views/index.html',
-			'.tmp/**/*app.css',
-			'server/**'
-		], server.notify);
-
-		server.run(['server/app.js'], {livereload: true});
-	});
+	server.run(['server/app.js'], {livereload: true});
 });
 
 // Setup
-gulp.task('install', function() {
+gulp.task('install', ['clean:tmp'], function() {
 	run('npm install').exec('', function() {
-		run('bower install').exec();
+		run('bower install').exec('', function() {
+			runSequence('jade', 'injectStylus', 'compileAppCSS', 'injectBowerComponents', 'injectComponents');
+		});
 	});
 });
 
@@ -179,9 +180,33 @@ gulp.task('build', function(done) {
   });
 });
 
+gulp.task('karma', function() {
+	return gulp.src('karma.conf.js')
+	  .pipe(inject(gulp.src(mainBowerFiles('**/*.js'), {read: false}), {
+	    starttag: 'files: [',
+	    endtag: "'client/bower_components/angular-mocks/angular-mocks.js'",
+	    addRootSlash: false,
+	    transform: function (filepath, file, i, length) {
+	    	return '"' + filepath + '",';;
+	    }
+	  }))
+	  .pipe(gulp.dest('./'));
+});
 
 // Unit Tests
-gulp.task('test', function () {
-  return gulp.src(['**/*spec.js', '**/*mock.js'])
-  	.pipe(jasmine());
+gulp.task('test', ['karma'], function (done) {
+	// var appFiles = gulp.src([
+	// 	'client/bower_components/angular-mocks/angular-mocks.js',
+	// 	'client/app/app.js',
+	// 	'client/app/**/*.(js|jade|html)',
+	// 	'client/components/**/*.(js|jade|html)',
+	// 	'client/{components, app, themes, extensions}/**/*spec.js',
+	// 	'!**ngCropper.all.js'
+	// ]).pipe(angularFilesort())
+	var bowerFiles = gulp.src(mainBowerFiles('**/*.js'), {read: false});
+
+	karma.start({
+  	configFile: __dirname + '/karma.conf.js'
+  }, done);
+  ['client/**/*spec.js', 'client/**/*mock.js']
 });
