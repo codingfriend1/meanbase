@@ -25,7 +25,7 @@
   .config(function ($stateProvider) {
     $stateProvider
       .state('main.page', {
-        url: '^/{page:(?!cms).*}',
+        url: '^/{page:(?!cms|login|signup|settings).*}',
         templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth) {
           // - Prepare a promise to return to templateProvider
           var deferred = $q.defer();

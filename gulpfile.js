@@ -56,7 +56,7 @@ gulp.task('jade', function() {
 	return gulp.src('client/{app,components,themes,extensions}/**/*.jade')
     .pipe(gulpJade({
       jade: jade,
-      pretty: false
+      pretty: true
     }))
     .pipe(gulp.dest('.tmp/'));
 });
