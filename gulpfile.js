@@ -20,7 +20,9 @@ var gulp = require('gulp'),
 		series = require('stream-series'),
 		fs = require('fs'),
 		path = require('path'),
-		ngAnnotate = require('gulp-ng-annotate');
+		ngAnnotate = require('gulp-ng-annotate'),
+		ngtemplate = require('gulp-ngtemplate'),
+		htmlmin = require('gulp-htmlmin');
 
 
 // gulp.src(
@@ -230,17 +232,27 @@ gulp.task('injectComponents', function() {
 });
 
 // Compile jade files to .tmp folder
-gulp.task('jade-dist', function() {
+gulp.task('templates-dist', function() {
 	return gulp.src('client/{app,components,themes,extensions}/**/*.jade')
     .pipe(gulpJade({
       jade: jade,
       pretty: false
     }))
-    .pipe(gulp.dest('dist/public/'));
+    .pipe(htmlmin({
+    	collapseBooleanAttributes: true,
+    	collapseWhitespace: true,
+    	removeAttributeQuotes: true,
+    	removeEmptyAttributes: true,
+    	removeRedundantAttributes: true,
+    	removeScriptTypeAttributes: true,
+    	removeStyleLinkTypeAttributes: true
+    }))
+        .pipe(ngtemplate({module: function(name) { return 'mgcrea.ngStrap.' + name.split('/')[0]; }}))
+    // .pipe(gulp.dest('dist/public/'));
 });
 
 gulp.task('build', function(done) {
-	return runSequence('clean', 'copy', 'jade-dist', function() {
+	return runSequence('clean', 'copy', 'templates-dist', function() {
 		var vendorJS = gulp.src(mainBowerFiles('**/*.js'))
       .pipe(concat('vendors.min.js'))
       .pipe(uglify())
@@ -251,16 +263,34 @@ gulp.task('build', function(done) {
           .pipe(minifyCss())
           .pipe(gulp.dest('dist/public/app/'))
           .pipe(es.wait(function (err, body) {
-          	gulp.src([
+          	var js = gulp.src([
           		'client/{app,components}/**/*.js', 
           		'!**/*spec.js', 
           		'!**/*mock.js',
           		'!client/components/ckeditor/FileBrowser/fileBrowser.js'
           	])
-          		.pipe(ngAnnotate())
-      	      .pipe(concat('app.min.js'))
-      	      .pipe(uglify())
-      	      .pipe(gulp.dest('dist/public/app/'))
+	          	.pipe(ngAnnotate())
+
+          	var templates = gulp.src('client/{app,components,themes,extensions}/**/*.jade')
+					    .pipe(gulpJade({
+					      jade: jade,
+					      pretty: false
+					    }))
+					    .pipe(htmlmin({
+					    	collapseBooleanAttributes: true,
+					    	collapseWhitespace: true,
+					    	removeAttributeQuotes: true,
+					    	removeEmptyAttributes: true,
+					    	removeRedundantAttributes: true,
+					    	removeScriptTypeAttributes: true,
+					    	removeStyleLinkTypeAttributes: true
+					    }))
+					    .pipe(ngtemplate({module: 'meanbaseApp'}));
+          		
+	      		es.merge(js, templates)
+	      			.pipe(uglify())
+	  	      	.pipe(concat('app.min.js'))
+	  	      	.pipe(gulp.dest('dist/public/app/'))
       	      .pipe(es.wait(function (err, body) {
 	      	      gulp.src('client/app/app.styl')
     	            .pipe(stylus())
@@ -276,10 +306,6 @@ gulp.task('build', function(done) {
 	    }))
   });
 });
-
-// gulp.task('build', function(done) {
-// 	runSequence('create-dist', ['injectBuild'], done);
-// });
 
 // Unit Tests
 gulp.task('karma', function() {
