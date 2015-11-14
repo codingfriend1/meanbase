@@ -10,3 +10,4 @@ dist
 __MACOSX
 **/logs/*
 code-documentation
+build
