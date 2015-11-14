@@ -258,22 +258,26 @@ gulp.task('templates-dist', function() {
 
 gulp.task('build', function(done) {
 	return runSequence('clean', 'copy', 'templates-dist', function() {
+		// Compile vendor.min.js from bootstrap dependencies
 		var vendorJS = gulp.src(mainBowerFiles('**/*.js'))
       .pipe(concat('vendors.min.js'))
       .pipe(uglify())
       .pipe(gulp.dest('dist/public/app/'));
 
+    // Compile vendor.min.css from bootstrap dependencies
     var vendorCSS = gulp.src(mainBowerFiles('**/*.css'))
       .pipe(concat('vendors.min.css'))
       .pipe(minifyCss())
       .pipe(gulp.dest('dist/public/app/'));
 
+    // Compile app.min.css from client/app/app.styl
     var appCSS = gulp.src('client/app/app.styl')
       .pipe(stylus())
       .pipe(concat('app.min.css'))
       .pipe(minifyCss())
       .pipe(gulp.dest('dist/public/app/'));
 
+      // Annotate app scripts
     	var js = gulp.src([
     		'client/{app,components}/**/*.js', 
     		'!**/*spec.js', 
@@ -282,6 +286,7 @@ gulp.task('build', function(done) {
     	])
       	.pipe(ngAnnotate());
 
+     	// Compile app templates
     	var templates = gulp.src('client/{app,components}/**/*.jade')
 		    .pipe(gulpJade({
 		      jade: jade,
@@ -297,12 +302,13 @@ gulp.task('build', function(done) {
 		    	removeStyleLinkTypeAttributes: true
 		    }))
 		    .pipe(ngtemplate({module: 'meanbaseApp'}));
-    		
+    	
+    	// Compile app.min.js from theme scripts and html templates
   		var appJS = es.merge(js, templates)
   			.pipe(uglify())
       	.pipe(concat('app.min.js'))
       	.pipe(gulp.dest('dist/public/app/'));
-
+      	
 	    es.merge(vendorCSS, vendorJS, appCSS, appJS).pipe(es.wait(function (err, body) {
 	      runSequence('injectBuild');
 	      done();
