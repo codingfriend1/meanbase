@@ -17,8 +17,13 @@ var gulp = require('gulp'),
 		gulpJade = require('gulp-jade'),
 		jasmine = require('gulp-jasmine'),
 		karma = require('karma').server,
-		series = require('stream-series');
+		series = require('stream-series'),
+		fs = require('fs'),
+		path = require('path');
 
+var config = {
+	themesFolder: 'client/themes/'
+};
 
 gulp.task('default', function() {
 	
@@ -77,6 +82,13 @@ gulp.task('injectComponents', function() {
 	  .pipe(gulp.dest('server/views/'));
 });
 
+gulp.task('injectBuild', function() {
+	return gulp.src('dist/server/views/index.html')
+	  .pipe(inject(gulp.src(['dist/public/app/app.min.*'], {read: false}), {name: 'app'}))
+	  .pipe(inject(gulp.src(['dist/public/app/vendors.min.*'], {read: false}), {name: 'vendor'}))
+	  .pipe(gulp.dest('dist/server/views'));
+});
+
 // @import stylus scripts into client/app/app.styl at "// inject stylus"
 gulp.task('injectStylus', function() {
 	return gulp.src('client/app/app.styl')
@@ -94,12 +106,31 @@ gulp.task('injectStylus', function() {
     .pipe(gulp.dest('client/app/'));
 });
 
-// 
-gulp.task('serve', function() {
-	// When there is a change in the stylus files recompile app.css
-	gulp.watch(['client/**/*.styl'], {read: false}, ['injectStylus', 'compileAppCSS']);
+function getFolders(dir) {
+  return fs.readdirSync(dir)
+    .filter(function(file) {
+      return fs.statSync(path.join(dir, file)).isDirectory();
+    });
+}
 
-	// When there is a change in jade files recompile html in .tmp
+gulp.task('compileThemeCSS', function() {
+	var folders = getFolders(config.themesFolder);
+	return folders.map(function(folder) {
+    return gulp.src(path.join(config.themesFolder, folder, '/**/*.styl'))
+      .pipe(stylus())
+  		.pipe(concat('theme.css'))
+  		.pipe(gulp.dest(path.join(config.themesFolder, folder, 'assets')));
+   });
+});
+
+gulp.task('serve', function() {
+	// app and components stylus files update app.css
+	gulp.watch(['client/{app,components}/**/*.styl'], {read: false}, ['injectStylus', 'compileAppCSS']);
+
+	// Themes stylus files update theme.css
+	gulp.watch(['client/themes/**/*.styl'], {read: false}, ['compileThemeCSS']);
+
+	// Jade files recompile html in .tmp
 	gulp.watch(['client/**/*.jade'], {read: false}, ['jade']);
 
 	// Inject scripts and styles into server/views/index.html when there are changes
@@ -108,15 +139,24 @@ gulp.task('serve', function() {
 
 	gulp.watch([
 		'.tmp/**/*.html',
-		'client/{app, components, extensions, themes}/**/*.js',
-		'client/{app, components, extensions, themes}/**/*.css',
+		'client/{app, components, extensions, themes}/**/*.{css, js, styl}',
 		'client/themes/**/*.html',
-		'server/views/index.html',
+		'server/views/index.html', 
 		'.tmp/**/*app.css',
 		'server/**'
-	], server.notify);
+	], {read: false}, server.notify);
 
 	server.run(['server/app.js'], {livereload: true});
+});
+
+
+gulp.task('serve-build', function() {
+	server.run(['dist/server/app.js'], {
+		livereload: true,
+		env: {
+			NODE_ENV: 'production'
+		}
+	});
 });
 
 // Setup
@@ -131,55 +171,85 @@ gulp.task('install', ['clean:tmp'], function() {
 
 // Build automation
 gulp.task('clean', function () {  
-	return del('build/**');
+	return del('dist/**');
 });
 
 gulp.task('copy', function () {
 	return merge(
-		gulp.src(['client/{themes,extensions}/**', 'client/*', 'client/assets/**'])
+		gulp.src(['client/{themes,extensions}/**', 'client/*', '!client/components', 'client/assets/**'])
 			.pipe(gulpif('*.jade', gulpJade({
 	      jade: jade,
 	      pretty: true
 	    })))
-	  	.pipe(gulp.dest('build/public/')),
+	  	.pipe(gulp.dest('dist/public/')),
 
 	  gulp.src(['server/**'])
-	  	.pipe(gulp.dest('build/server/')),
+	  	.pipe(gulp.dest('dist/server/')),
 
 	  gulp.src('package.json')
-	  	.pipe(gulp.dest('build/'))
+	  	.pipe(gulp.dest('dist/'))
 	 );
 });
 
+gulp.task('injectComponents', function() {
+	return gulp.src('server/views/index.html')
+	  .pipe(
+	  	inject(gulp.src(['client/{app,components}/**/*.js', 
+	  			'!**/*spec.js', 
+	  			'!**/*mock.js',
+	  			'!client/components/ckeditor/FileBrowser/fileBrowser.js'
+	  		]).pipe(angularFilesort()),
+			  {
+			  	name: 'app',
+			  	ignorePath: 'client',
+			  	addRootSlash: false
+			  }
+	  	))
+	  .pipe(gulp.dest('server/views/'));
+});
+
 gulp.task('build', function(done) {
-	runSequence('clean', 'copy', function() {
+	return runSequence('clean', 'copy', function() {
 		var vendorJS = gulp.src(mainBowerFiles('**/*.js'))
       .pipe(concat('vendors.min.js'))
       .pipe(uglify())
-      .pipe(gulp.dest('build/public/app/'));
+      .pipe(gulp.dest('dist/public/app/'))
+	    .pipe(es.wait(function (err, body) {
+	      gulp.src(mainBowerFiles('**/*.css'))
+          .pipe(concat('vendors.min.css'))
+          .pipe(minifyCss())
+          .pipe(gulp.dest('dist/public/app/'))
+          .pipe(es.wait(function (err, body) {
+          	gulp.src(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'])
+      	      .pipe(concat('app.min.js'))
+      	      .pipe(uglify())
+      	      .pipe(gulp.dest('dist/public/app/'))
+      	      .pipe(es.wait(function (err, body) {
+	      	      gulp.src('client/app/app.styl')
+    	            .pipe(stylus())
+    	            .pipe(concat('app.min.css'))
+    	            .pipe(minifyCss())
+    	            .pipe(gulp.dest('dist/public/app/'))
+    	            .pipe(es.wait(function (err, body) {
+    	            	runSequence('injectBuild');
+    	            	done();
+    	            }));
+      	      }));
+          }));
+	    }))
 
-		var vendorCSS = gulp.src(mainBowerFiles('**/*.css'))
-      .pipe(concat('vendors.min.css'))
-      .pipe(minifyCss())
-      .pipe(gulp.dest('build/public/app/'));
-
-    var appJS = gulp.src(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'])
-      .pipe(concat('app.min.js'))
-      .pipe(uglify())
-      .pipe(gulp.dest('build/public/app/'));
-
-    var appCSS = gulp.src('client/app/app.styl')
-      .pipe(stylus())
-      .pipe(concat('app.min.css'))
-      .pipe(minifyCss())
-      .pipe(gulp.dest('build/public/app/'));
-    gulp.src('client/index.html')
-      .pipe(inject(es.merge(vendorJS, vendorCSS, appJS, appCSS)))
-      .pipe(gulp.dest('build/public'));
-    done();
+    // gulp.src('server/views/index.html')
+    //   .pipe(inject(es.merge(vendorJS, vendorCSS, appJS, appCSS)))
+    //   .pipe(gulp.dest('dist/server/views/index2.html'));
+    // done();
   });
 });
 
+// gulp.task('build', function(done) {
+// 	runSequence('create-dist', ['injectBuild'], done);
+// });
+
+// Unit Tests
 gulp.task('karma', function() {
 	return gulp.src('karma.conf.js')
 	  .pipe(inject(gulp.src(mainBowerFiles('**/*.js'), {read: false}), {
@@ -193,20 +263,8 @@ gulp.task('karma', function() {
 	  .pipe(gulp.dest('./'));
 });
 
-// Unit Tests
 gulp.task('test', ['karma'], function (done) {
-	// var appFiles = gulp.src([
-	// 	'client/bower_components/angular-mocks/angular-mocks.js',
-	// 	'client/app/app.js',
-	// 	'client/app/**/*.(js|jade|html)',
-	// 	'client/components/**/*.(js|jade|html)',
-	// 	'client/{components, app, themes, extensions}/**/*spec.js',
-	// 	'!**ngCropper.all.js'
-	// ]).pipe(angularFilesort())
-	var bowerFiles = gulp.src(mainBowerFiles('**/*.js'), {read: false});
-
 	karma.start({
   	configFile: __dirname + '/karma.conf.js'
   }, done);
-  ['client/**/*spec.js', 'client/**/*mock.js']
 });
