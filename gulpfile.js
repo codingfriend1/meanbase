@@ -147,6 +147,9 @@ gulp.task('compileThemeCSS', function() {
 });
 
 gulp.task('serve', function() {
+
+	server.run(['server/app.js'], {livereload: true});
+
 	// app and components stylus files update app.css
 	gulp.watch(['client/{app,components}/**/*.styl'], {read: false}, ['injectStylus', 'compileAppCSS']);
 
@@ -163,13 +166,12 @@ gulp.task('serve', function() {
 	gulp.watch([
 		'.tmp/**/*.html',
 		'client/{app, components, extensions, themes}/**/*.{css, js, styl}',
+		'client/themes/**/*.css',
 		'client/themes/**/*.html',
 		'server/views/index.html', 
 		'.tmp/**/*app.css',
 		'server/**'
 	], {read: false}, server.notify);
-
-	server.run(['server/app.js'], {livereload: true});
 });
 
 
@@ -308,7 +310,7 @@ gulp.task('build', function(done) {
   			.pipe(uglify())
       	.pipe(concat('app.min.js'))
       	.pipe(gulp.dest('dist/public/app/'));
-      	
+
 	    es.merge(vendorCSS, vendorJS, appCSS, appJS).pipe(es.wait(function (err, body) {
 	      runSequence('injectBuild');
 	      done();

@@ -1,4 +1,16 @@
-.new-menu-item-button{cursor:pointer}.unpublished-menu{color:#f1c40f;}.unpublished-menu a{color:#f1c40f !important}
+.new-menu-item-button {
+  cursor: pointer;
+}
+.unpublished-menu {
+  color: #f1c40f;
+}
+.unpublished-menu a {
+  color: #f1c40f !important;
+}
 
 
-.loggedIn #main-view{padding-top:70px}
+
+.loggedIn #main-view {
+  padding-top: 70px;
+}
+
