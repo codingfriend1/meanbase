@@ -210,7 +210,12 @@ gulp.task('copy', function () {
 	  	.pipe(gulp.dest('dist/server/')),
 
 	  gulp.src('package.json')
-	  	.pipe(gulp.dest('dist/'))
+	  	.pipe(gulp.dest('dist/')),
+
+	  gulp.src('client/bower_components/font-awesome/fonts/**')
+	  	.pipe(gulp.dest('dist/public/bower_components/font-awesome/fonts/')),
+	  gulp.src('client/bower_components/bootstrap/fonts/**')
+	  	.pipe(gulp.dest('dist/public/bower_components/bootstrap/fonts/'))
 	 );
 });
 
@@ -256,53 +261,51 @@ gulp.task('build', function(done) {
 		var vendorJS = gulp.src(mainBowerFiles('**/*.js'))
       .pipe(concat('vendors.min.js'))
       .pipe(uglify())
-      .pipe(gulp.dest('dist/public/app/'))
-	    .pipe(es.wait(function (err, body) {
-	      gulp.src(mainBowerFiles('**/*.css'))
-          .pipe(concat('vendors.min.css'))
-          .pipe(minifyCss())
-          .pipe(gulp.dest('dist/public/app/'))
-          .pipe(es.wait(function (err, body) {
-          	var js = gulp.src([
-          		'client/{app,components}/**/*.js', 
-          		'!**/*spec.js', 
-          		'!**/*mock.js',
-          		'!client/components/ckeditor/FileBrowser/fileBrowser.js'
-          	])
-	          	.pipe(ngAnnotate())
+      .pipe(gulp.dest('dist/public/app/'));
 
-          	var templates = gulp.src('client/{app,components,themes,extensions}/**/*.jade')
-					    .pipe(gulpJade({
-					      jade: jade,
-					      pretty: false
-					    }))
-					    .pipe(htmlmin({
-					    	collapseBooleanAttributes: true,
-					    	collapseWhitespace: true,
-					    	removeAttributeQuotes: true,
-					    	removeEmptyAttributes: true,
-					    	removeRedundantAttributes: true,
-					    	removeScriptTypeAttributes: true,
-					    	removeStyleLinkTypeAttributes: true
-					    }))
-					    .pipe(ngtemplate({module: 'meanbaseApp'}));
-          		
-	      		es.merge(js, templates)
-	      			.pipe(uglify())
-	  	      	.pipe(concat('app.min.js'))
-	  	      	.pipe(gulp.dest('dist/public/app/'))
-      	      .pipe(es.wait(function (err, body) {
-	      	      gulp.src('client/app/app.styl')
-    	            .pipe(stylus())
-    	            .pipe(concat('app.min.css'))
-    	            .pipe(minifyCss())
-    	            .pipe(gulp.dest('dist/public/app/'))
-    	            .pipe(es.wait(function (err, body) {
-    	            	runSequence('injectBuild');
-    	            	done();
-    	            }));
-      	      }));
-          }));
+    var vendorCSS = gulp.src(mainBowerFiles('**/*.css'))
+      .pipe(concat('vendors.min.css'))
+      .pipe(minifyCss())
+      .pipe(gulp.dest('dist/public/app/'));
+
+    var appCSS = gulp.src('client/app/app.styl')
+      .pipe(stylus())
+      .pipe(concat('app.min.css'))
+      .pipe(minifyCss())
+      .pipe(gulp.dest('dist/public/app/'));
+
+    	var js = gulp.src([
+    		'client/{app,components}/**/*.js', 
+    		'!**/*spec.js', 
+    		'!**/*mock.js',
+    		'!client/components/ckeditor/FileBrowser/fileBrowser.js'
+    	])
+      	.pipe(ngAnnotate());
+
+    	var templates = gulp.src('client/{app,components}/**/*.jade')
+		    .pipe(gulpJade({
+		      jade: jade,
+		      pretty: false
+		    }))
+		    .pipe(htmlmin({
+		    	collapseBooleanAttributes: true,
+		    	collapseWhitespace: true,
+		    	removeAttributeQuotes: true,
+		    	removeEmptyAttributes: true,
+		    	removeRedundantAttributes: true,
+		    	removeScriptTypeAttributes: true,
+		    	removeStyleLinkTypeAttributes: true
+		    }))
+		    .pipe(ngtemplate({module: 'meanbaseApp'}));
+    		
+  		var appJS = es.merge(js, templates)
+  			.pipe(uglify())
+      	.pipe(concat('app.min.js'))
+      	.pipe(gulp.dest('dist/public/app/'));
+
+	    es.merge(vendorCSS, vendorJS, appCSS, appJS).pipe(es.wait(function (err, body) {
+	      runSequence('injectBuild');
+	      done();
 	    }))
   });
 });
