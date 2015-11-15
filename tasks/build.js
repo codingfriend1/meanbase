@@ -66,12 +66,15 @@ gulp.task('injectBuild', function() {
 
 gulp.task('copy', function () {
 	return merge(
-		gulp.src(['client/{themes,extensions}/**', 'client/*', 'client/assets/**'])
+		gulp.src(['client/{themes,extensions}/**', 'client/*'])
 			.pipe(gulpif('*.jade', gulpJade({
 	      jade: jade,
 	      pretty: true
 	    })))
 	  	.pipe(gulp.dest('dist/public/')),
+
+	  gulp.src(['client/assets/**'])
+	  	.pipe(gulp.dest('dist/public/assets/')),
 
 	  gulp.src(['server/**'])
 	  	.pipe(gulp.dest('dist/server/')),
