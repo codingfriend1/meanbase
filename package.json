@@ -43,6 +43,7 @@
   "devDependencies": {
     "connect-livereload": "~0.4.0",
     "del": "^2.0.2",
+    "docker": "^0.2.14",
     "event-stream": "^3.3.2",
     "grunt": "~0.4.4",
     "grunt-angular-templates": "^0.5.4",
