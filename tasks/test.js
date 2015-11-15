@@ -1,3 +1,10 @@
+/**
+ * @overview Handles unit tests
+ * gulp test
+ * 	Runs jasmine karma unit tests client side
+ * @author Jon Paul Miles <milesjonpaul@gmail.com>
+ */
+
 var gulp = require('gulp'),
 		mainBowerFiles = require('main-bower-files'),
 		inject = require('gulp-inject'),
@@ -7,7 +14,7 @@ var gulp = require('gulp'),
 
 // Unit Tests
 gulp.task('karma', function() {
-	return gulp.src('karma.conf.js')
+	return gulp.src('../karma.conf.js')
 	  .pipe(inject(gulp.src(mainBowerFiles('**/*.js'), {read: false}), {
 	    starttag: 'files: [',
 	    endtag: "'client/bower_components/angular-mocks/angular-mocks.js'",
@@ -21,6 +28,6 @@ gulp.task('karma', function() {
 
 gulp.task('test', ['karma'], function (done) {
 	karma.start({
-  	configFile: __dirname + '/karma.conf.js'
+  	configFile: __dirname + '/../karma.conf.js'
   }, done);
 });
