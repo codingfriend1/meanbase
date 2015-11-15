@@ -82,6 +82,7 @@
     "gulp": "^3.9.0",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-concat": "^2.6.0",
+    "gulp-debug": "^2.1.2",
     "gulp-express": "^0.3.5",
     "gulp-htmlmin": "^1.2.0",
     "gulp-if": "^2.0.0",

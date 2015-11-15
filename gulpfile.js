@@ -22,7 +22,8 @@ var gulp = require('gulp'),
 		path = require('path'),
 		ngAnnotate = require('gulp-ng-annotate'),
 		ngtemplate = require('gulp-ngtemplate'),
-		htmlmin = require('gulp-htmlmin');
+		htmlmin = require('gulp-htmlmin'),
+		debug = require('gulp-debug');
 
 
 // gulp.src(
@@ -257,6 +258,7 @@ gulp.task('templates-dist', function() {
     // .pipe(gulp.dest('dist/public/'));
 });
 
+// Compile a theme into a theme.min.js and theme.min.css file
 gulp.task('build-themes', function(done) {
 	var folders = getFolders(config.themesFolder);
 	return folders.map(function(folder) {
@@ -292,11 +294,34 @@ gulp.task('build-themes', function(done) {
 	  	.pipe(ngtemplate({module: 'meanbaseApp'}));
   	
   	// Compile app.min.js from theme scripts and html templates
-		return es.merge(js, templates, html)
+		es.merge(js, templates, html)
     	.pipe(concat('theme.min.js'))
-    	// .pipe(uglify())
-    	.pipe(gulp.dest(path.join('dist/public/themes', folder, 'assets')));
-   });
+    	.pipe(uglify())
+    	.pipe(gulp.dest(path.join('dist/public/themes', folder)))
+    	.pipe(es.wait(function (err, body) {
+    		gulp.src( path.join(config.themesFolder, folder, '**', 'scripts.html') )
+    			.pipe(inject(gulp.src(path.join('dist/public/themes/', folder, '**', 'theme.min.js'), {read: false}), {
+    				name: 'theme',
+    				ignorePath: 'dist/public',
+    				addRootSlash: false
+    			}))
+    			.pipe(gulp.dest( path.join('dist/public/themes/', folder) ))
+				gulp.src( path.join(config.themesFolder, folder, '**', 'styles.html') )
+					.pipe(inject(gulp.src(path.join('dist/public/themes/', folder, '**', 'theme.min.css'), {read: false}), {
+						name: 'theme',
+						ignorePath: 'dist/public',
+						addRootSlash: false
+					}))
+					.pipe(gulp.dest( path.join('dist/public/themes/', folder) ));
+	    }))
+
+
+    gulp.src(path.join(config.themesFolder, folder, '/**/*.styl'))
+      .pipe(stylus())
+  		.pipe(concat('theme.min.css'))
+  		.pipe(minifyCss())
+  		.pipe(gulp.dest(path.join('dist/public/themes/', folder)));
+  });
 });
 
 gulp.task('build', function(done) {
@@ -353,7 +378,7 @@ gulp.task('build', function(done) {
       	.pipe(gulp.dest('dist/public/app/'));
 
 	    es.merge(vendorCSS, vendorJS, appCSS, appJS).pipe(es.wait(function (err, body) {
-	      runSequence('injectBuild');
+	      gulp.run(['injectBuild', 'build-themes']);
 	      done();
 	    }))
   });
