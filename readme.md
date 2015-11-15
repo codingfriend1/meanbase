@@ -3,25 +3,31 @@
 Since a good CMS for the MEAN stack was not available I decided to begin building one myself. The CMS itself will be free as my way of thanking the open source web community for making all kinds awesome libraries for free. Thank you guys! Here's me giving back.
 
 From the start it uses yeoman generator-angular-fullstack with authentication and authorization templates.
-[https://github.com/DaftMonk/generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack)
+[https://github.com/DaftMonk/generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack) However it has been modified to use gulp instead of grunt.
 
 Here is a link to a demo of the old version. A new demo will be available once I
 reach a couple more checkpoints. [Youtube Meanbase Demo](http://youtu.be/tteztXru4eA)
 
 ####Install
 Run
-- mongod
+- Install MongoDB and run mongod
 - Install GraphicsMagick (If you have homebrew: brew install graphicsmagick)
-- npm install
-- bower install
-- grunt serve
+- gulp install (runs npm and bower install and composes files)
+- gulp serve
+
+####Gulp Commands
+- gulp install
+- gulp serve
+- gulp build
+- gulp serve-dist
+- gulp test
 
 ####Meanbase has two main goals:
 - To be self-explanitory and effecient for users
 - To be fun and customizable for developers. 
 
 ####Code Design Strategy
-- Upon server startup and client-request-theme-change, the server reads the index.html file in server/views/ and adds the active theme's styles and scripts to it as well as passing in some global data for the cms to use. It then writes this concatination to client/index.html. When scripts and styles are added to the project grunt inserts them into server/views/index.html.
+- Upon server startup and client-request-theme-change, the server reads the index.html file in server/views/ and adds the active theme's styles and scripts to it as well as passing in some global data for the cms to use. It then writes this concatination to client/index.html. When scripts and styles are added to the project gulp inserts them into server/views/index.html.
 - Whenever a page is requested ui-router makes a call to the server to get the page data and the template path for the correct view to render. This allows pages to each use individual templates that your theme supports.
 - cms/* routes are ignored by this template call.
 
