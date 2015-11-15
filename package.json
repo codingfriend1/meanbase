@@ -115,6 +115,7 @@
     "main-bower-files": "^2.9.0",
     "merge-stream": "^1.0.0",
     "open": "~0.0.4",
+    "require-dir": "^0.3.0",
     "requirejs": "~2.1.11",
     "run-sequence": "^1.1.4",
     "should": "~3.3.1",
