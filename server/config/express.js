@@ -89,7 +89,6 @@ module.exports = function(app) {
             gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function() {
               gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function() {
                 gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function() {
-                  // process.emit("thumbnails created");
                   Media.create(req.body, function(err, found) {
                     if(err) { return res.send(500, err); }
                     if(!found) { return res.send(404); }
@@ -102,8 +101,6 @@ module.exports = function(app) {
         } catch(err) {
           console.log('could not create thumbnails');
           res.status(500).json(err);
-          
-          // process.emit("thumbnails not created", e);
         }
       }
     },
