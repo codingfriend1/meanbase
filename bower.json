@@ -36,7 +36,20 @@
       "main": [
         "Sortable.js",
         "ng-sortable.js"
-      ]
+      ],
+      "dependencies": {
+        "angular": ">=1.2.*"
+      }
+    },
+    "angular": {
+      "dependencies": {
+        "jquery": "~1.11.0"
+      }
+    },
+    "ng-cropper": {
+      "dependencies": {
+        "angular": ">=1.2.*"
+      }
     }
   },
   "devDependencies": {
