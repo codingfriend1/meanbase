@@ -129,7 +129,7 @@ gulp.task('serve', function() {
 		'client/themes/**/*.html',
 		'server/views/index.html', 
 		'.tmp/**/*app.css',
-		'server/**'
+		'server/**/*.{js, json}'
 	], {read: false}, server.notify);
 });
 
