@@ -21,6 +21,7 @@ var mongoose = require('mongoose');
 var multer  = require('multer');
 var fs = require('fs');
 var gm = require('gm');
+var Media = require('../api/media/media.model');
 var folderName;
 
 var hasGM = false;
@@ -75,7 +76,7 @@ module.exports = function(app) {
 
   app.use('/api/media', multer({ 
     dest: app.get('appPath') + 'assets/images/',
-    onFileUploadStart: function(file) {
+    onFileUploadStart: function(file, req, res) {
       var imagePath = file.path;
       var thumbnailPath = file.path.replace('origional', 'thumbnail');
       var smallPath = file.path.replace('origional', 'small');
@@ -88,14 +89,21 @@ module.exports = function(app) {
             gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function() {
               gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function() {
                 gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function() {
-                  process.emit("thumbnails created");
+                  // process.emit("thumbnails created");
+                  Media.create(req.body, function(err, found) {
+                    if(err) { return res.send(500, err); }
+                    if(!found) { return res.send(404); }
+                    res.status(201).json(found);
+                  });
                 });
               });
             });
           });
-        } catch(e) {
+        } catch(err) {
           console.log('could not create thumbnails');
-          process.emit("thumbnails created");
+          res.status(500).json(err);
+          
+          // process.emit("thumbnails not created", e);
         }
       }
     },
