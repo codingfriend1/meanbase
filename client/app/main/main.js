@@ -78,7 +78,7 @@
               var templatePath = window.meanbaseGlobals.themeTemplatePaths[mappedTemplate].template;
 
               if(!templatePath) {
-                console.log('Could not find page template: ');
+                console.log('Could not find page template: ', templatePath);
                 return $state.go('main.missing');
               }            
 

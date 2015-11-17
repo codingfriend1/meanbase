@@ -29,6 +29,8 @@ var gulp = require('gulp'),
 		path = require('path'),
 		ngAnnotate = require('gulp-ng-annotate'),
 		ngtemplate = require('gulp-ngtemplate'),
+		// ngtemplate = require('gulp-ng-templates'),
+		templateCache = require('gulp-angular-templatecache'),
 		htmlmin = require('gulp-htmlmin'),
 		debug = require('gulp-debug');
 
@@ -151,14 +153,24 @@ gulp.task('build-themes', function(done) {
 	    	removeScriptTypeAttributes: true,
 	    	removeStyleLinkTypeAttributes: true
 	    }))
-	    .pipe(ngtemplate({module: 'meanbaseApp'}));
+	    .pipe(templateCache({
+	    	module: 'meanbaseApp',
+	    	transformUrl: function(url) {
+	    		return path.join('themes', folder, '/', url);
+	    	}
+	    }));
 
 	  var html = gulp.src([
 	  	path.join(config.themesFolder, folder, '/**/*.html'),
 	  	'!**/*scripts.html',
 	  	'!**/*styles.html'
 	  ])
-	  	.pipe(ngtemplate({module: 'meanbaseApp'}));
+	  	.pipe(templateCache({
+	  		module: 'meanbaseApp',
+	  		transformUrl: function(url) {
+	  			return path.join('themes', folder, '/', url);
+	  		}
+	  	}));
   	
   	// Compile app.min.js from theme scripts and html templates
 		es.merge(js, templates, html)
@@ -191,6 +203,17 @@ gulp.task('build-themes', function(done) {
   		.pipe(concat('theme.min.css'))
   		.pipe(minifyCss())
   		.pipe(gulp.dest(path.join('dist/public/themes/', folder)));
+  		// .pipe(es.wait(function(err) {
+		  //   del([
+			 //  	path.join('dist/public/themes', folder, '/**/*.html'),
+			 //  	path.join('dist/public/themes', folder, '/**/*.jade'),
+			 //  	path.join('dist/public/themes', folder, '/**/*.+(html|js|css|styl|jade)'),
+			 //  	'!**/*theme.min.js',
+			 //  	'!**/*theme.min.css',
+			 //  	'!**/*scripts.html',
+			 //  	'!**/*styles.html'
+			 //  ]);
+  		// }));
   });
 });
 

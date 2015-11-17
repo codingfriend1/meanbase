@@ -34,7 +34,7 @@ var gulp = require('gulp'),
 		fs = require('fs'),
 		path = require('path'),
 		ngAnnotate = require('gulp-ng-annotate'),
-		ngtemplate = require('gulp-ngtemplate'),
+		ngtemplate = require('gulp-ng-templates'),
 		htmlmin = require('gulp-htmlmin'),
 		debug = require('gulp-debug');
 
