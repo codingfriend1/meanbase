@@ -109,7 +109,7 @@ exports.retrieveThemes = function(activeURL, callback) {
 
               themeData.themeJSON.themeJSONPath = themeData.themeJSONPath;
 
-              if(templates) {
+              if(templates && !themeData.themeJSON.templatePaths) {
                 themeData.themeJSON.templatePaths = templates;
               }
 

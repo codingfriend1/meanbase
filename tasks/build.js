@@ -32,7 +32,9 @@ var gulp = require('gulp'),
 		// ngtemplate = require('gulp-ng-templates'),
 		templateCache = require('gulp-angular-templatecache'),
 		htmlmin = require('gulp-htmlmin'),
-		debug = require('gulp-debug');
+		debug = require('gulp-debug'),
+		rename = require('gulp-rename'),
+		jeditor = require("gulp-json-editor");
 
 var config = {
 	themesFolder: 'client/themes/'
@@ -138,6 +140,9 @@ gulp.task('build-themes', function(done) {
   	])
     	.pipe(ngAnnotate());
 
+    var themeJSONTemplatePaths = {};
+    var templateMapping = {};
+
    	// Compile app templates
   	var templates = gulp.src(path.join(config.themesFolder, folder, '/**/*.jade'))
 	    .pipe(gulpJade({
@@ -156,7 +161,16 @@ gulp.task('build-themes', function(done) {
 	    .pipe(templateCache({
 	    	module: 'meanbaseApp',
 	    	transformUrl: function(url) {
-	    		return path.join('themes', folder, '/', url);
+	    		var finalUrl = path.join('themes', folder, '/', url);
+	    		var templateName = finalUrl.match(/[^(\/|\\)]*(?=-template.[^.]+($|\?))/);	    		
+	    		if(templateName) {
+	    			templateName = templateName[0].replace(',', '');
+	    			themeJSONTemplatePaths[templateName] = {
+	    				"template": finalUrl             	
+	    			};
+	    			templateMapping[templateName] = [templateName];
+	    		}
+	    		return finalUrl;
 	    	}
 	    }));
 
@@ -168,7 +182,15 @@ gulp.task('build-themes', function(done) {
 	  	.pipe(templateCache({
 	  		module: 'meanbaseApp',
 	  		transformUrl: function(url) {
-	  			return path.join('themes', folder, '/', url);
+	  			var finalUrl = path.join('themes', folder, '/', url);
+	  			var templateName = finalUrl.match(/[^(\/|\\)]*(?=-template.[^.]+($|\?))/)[0].replace(',', '');
+	  			if(templateName) {
+	  				themeJSONTemplatePaths[templateName] = {
+	  					"template": finalUrl             	
+	  				};
+	  				templateMapping[templateName] = [templateName];
+	  			}
+	  			return finalUrl;
 	  		}
 	  	}));
   	
@@ -192,7 +214,30 @@ gulp.task('build-themes', function(done) {
 						addRootSlash: false
 					}))
 					.pipe(gulp.dest( path.join('dist/public/themes/', folder) ));
-	    }))
+
+				gulp.src(path.join(config.themesFolder, folder, '/**/*-screenshot.*'))
+				.pipe(rename(function(url){
+					var url = path.join('themes', folder, url.dirname, url.basename + url.extname)
+					var screenshotName = url.match(/[^(\/|\\)]*(?=-screenshot.[^.]+($|\?))/);
+					if(screenshotName) {
+						screenshotName = screenshotName[0];
+						if(themeJSONTemplatePaths[screenshotName]) {
+							themeJSONTemplatePaths[screenshotName].screenshot = url;
+						}
+					}
+					
+			    return url;     
+			  }))
+			  .pipe(es.wait(function(err) {
+			  	gulp.src( path.join('client/themes/', folder, '**/*theme.json') )
+			  		.pipe(jeditor(function(json) {
+			  		    json.templatePaths = themeJSONTemplatePaths;
+			  		    json.templates = templateMapping;
+			  		    return json; // must return JSON object. 
+			  		}))
+			  		.pipe(gulp.dest(path.join("dist/public/themes/", folder, '/') ));
+			  }));
+	    }));
 
 
     var stylusFiles = gulp.src(path.join(config.themesFolder, folder, '/**/*.styl'))
@@ -202,18 +247,18 @@ gulp.task('build-themes', function(done) {
     es.merge(stylusFiles, css)
   		.pipe(concat('theme.min.css'))
   		.pipe(minifyCss())
-  		.pipe(gulp.dest(path.join('dist/public/themes/', folder)));
-  		// .pipe(es.wait(function(err) {
-		  //   del([
-			 //  	path.join('dist/public/themes', folder, '/**/*.html'),
-			 //  	path.join('dist/public/themes', folder, '/**/*.jade'),
-			 //  	path.join('dist/public/themes', folder, '/**/*.+(html|js|css|styl|jade)'),
-			 //  	'!**/*theme.min.js',
-			 //  	'!**/*theme.min.css',
-			 //  	'!**/*scripts.html',
-			 //  	'!**/*styles.html'
-			 //  ]);
-  		// }));
+  		.pipe(gulp.dest(path.join('dist/public/themes/', folder)))
+  		.pipe(es.wait(function(err) {
+		    del([
+			  	path.join('dist/public/themes', folder, '/**/*.html'),
+			  	path.join('dist/public/themes', folder, '/**/*.jade'),
+			  	path.join('dist/public/themes', folder, '/**/*.+(html|js|css|styl|jade)'),
+			  	'!**/*theme.min.js',
+			  	'!**/*theme.min.css',
+			  	'!**/*scripts.html',
+			  	'!**/*styles.html'
+			  ]);
+  		}));
   });
 });
 
