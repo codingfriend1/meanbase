@@ -16,7 +16,7 @@ angular.module('meanbaseApp')
 
     $scope.activateTheme = function() {
       $scope.updateTheme();
-      $modalInstance.close($scope.theme);
+      // $modalInstance.close($scope.theme);
       $http.post('api/themes/activate', {id: $scope.theme._id}).then(function(theme) {
         $rootScope.$emit('activated theme', $scope.theme);
         var reload = confirm('Themes changed please reload the page.');
