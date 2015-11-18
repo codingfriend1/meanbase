@@ -34,7 +34,8 @@ var gulp = require('gulp'),
 		htmlmin = require('gulp-htmlmin'),
 		debug = require('gulp-debug'),
 		rename = require('gulp-rename'),
-		jeditor = require("gulp-json-editor");
+		jeditor = require("gulp-json-editor"),
+		autoprefixer = require('gulp-autoprefixer');
 
 var config = {
 	themesFolder: 'client/themes/'
@@ -70,11 +71,17 @@ gulp.task('injectBuild', function() {
 
 gulp.task('copy', function () {
 	return merge(
-		gulp.src(['client/{themes,extensions}/**', 'client/*'])
+		gulp.src(['client/{extensions/**, themes/*}'])
 			.pipe(gulpif('*.jade', gulpJade({
 	      jade: jade,
 	      pretty: true
 	    })))
+			.pipe(gulp.dest('dist/public/')),
+
+		gulp.src('client/themes/**/*screenshot.*')
+			.pipe(gulp.dest('dist/public/themes/')),
+
+	  gulp.src('client/*')
 	  	.pipe(gulp.dest('dist/public/')),
 
 	  gulp.src(['client/assets/**'])
@@ -133,15 +140,16 @@ gulp.task('injectComponents', function() {
 gulp.task('build-themes', function(done) {
 	var folders = getFolders(config.themesFolder);
 	return folders.map(function(folder) {
+		var themeJSONTemplatePaths = {};
+		var templateMapping = {};
+		var themePreview;
+		var themeJSONPath;
 		// Compile theme templates
   	var js = gulp.src([
   		path.join(config.themesFolder, folder, '/**/*.js'),
   		'!**/*spec.js'
   	])
     	.pipe(ngAnnotate());
-
-    var themeJSONTemplatePaths = {};
-    var templateMapping = {};
 
    	// Compile app templates
   	var templates = gulp.src(path.join(config.themesFolder, folder, '/**/*.jade'))
@@ -200,43 +208,54 @@ gulp.task('build-themes', function(done) {
     	.pipe(uglify())
     	.pipe(gulp.dest(path.join('dist/public/themes', folder)))
     	.pipe(es.wait(function (err, body) {
-    		gulp.src( path.join(config.themesFolder, folder, '**', 'scripts.html') )
-    			.pipe(inject(gulp.src(path.join('dist/public/themes/', folder, '**', 'theme.min.js'), {read: false}), {
-    				name: 'theme',
-    				ignorePath: 'dist/public',
-    				addRootSlash: false
-    			}))
-    			.pipe(gulp.dest( path.join('dist/public/themes/', folder) ))
-				gulp.src( path.join(config.themesFolder, folder, '**', 'styles.html') )
-					.pipe(inject(gulp.src(path.join('dist/public/themes/', folder, '**', 'theme.min.css'), {read: false}), {
-						name: 'theme',
-						ignorePath: 'dist/public',
-						addRootSlash: false
-					}))
-					.pipe(gulp.dest( path.join('dist/public/themes/', folder) ));
+    // 		gulp.src( path.join(config.themesFolder, folder, '**', 'scripts.html') )
+    // 			.pipe(inject(gulp.src(path.join('dist/public/themes/', folder, '**', 'theme.min.js'), {read: false}), {
+    // 				name: 'theme',
+    // 				ignorePath: 'dist/public',
+    // 				addRootSlash: false
+    // 			}))
+    // 			.pipe(gulp.dest( path.join('dist/public/themes/', folder) ))
+				// gulp.src( path.join(config.themesFolder, folder, '**', 'styles.html') )
+				// 	.pipe(inject(gulp.src(path.join('dist/public/themes/', folder, '**', 'theme.min.css'), {read: false}), {
+				// 		name: 'theme',
+				// 		ignorePath: 'dist/public',
+				// 		addRootSlash: false
+				// 	}))
+				// 	.pipe(gulp.dest( path.join('dist/public/themes/', folder) ));
 
-				gulp.src(path.join(config.themesFolder, folder, '/**/*-screenshot.*'))
-				.pipe(rename(function(url){
-					var url = path.join('themes', folder, url.dirname, url.basename + url.extname)
-					var screenshotName = url.match(/[^(\/|\\)]*(?=-screenshot.[^.]+($|\?))/);
-					if(screenshotName) {
-						screenshotName = screenshotName[0];
-						if(themeJSONTemplatePaths[screenshotName]) {
-							themeJSONTemplatePaths[screenshotName].screenshot = url;
+				gulp.src(path.join(config.themesFolder, folder, '/**/*screenshot.*'))
+					.pipe(rename(function(url){
+						var tmpUrl = path.join('themes', folder, url.dirname, url.basename + url.extname);
+						if(url.basename === 'screenshot') {
+							themePreview = tmpUrl;
+						} else {
+							var screenshotName = tmpUrl.match(/[^(\/|\\)]*(?=-screenshot.[^.]+($|\?))/);
+							if(screenshotName) {
+								screenshotName = screenshotName[0];
+								if(themeJSONTemplatePaths[screenshotName]) {
+									themeJSONTemplatePaths[screenshotName].screenshot = tmpUrl;
+								}
+							}
 						}
-					}
-					
-			    return url;     
-			  }))
-			  .pipe(es.wait(function(err) {
-			  	gulp.src( path.join('client/themes/', folder, '**/*theme.json') )
-			  		.pipe(jeditor(function(json) {
-			  		    json.templatePaths = themeJSONTemplatePaths;
-			  		    json.templates = templateMapping;
-			  		    return json; // must return JSON object. 
-			  		}))
-			  		.pipe(gulp.dest(path.join("dist/public/themes/", folder, '/') ));
-			  }));
+						
+						
+				    return tmpUrl;     
+				  }))
+				  .pipe(es.wait(function(err) {
+				  	gulp.src( path.join('client/themes/', folder, '**/*theme.json') )
+				  		.pipe(rename(function(url) {
+				  			themeJSONPath = path.join('themes', folder, url.dirname, url.basename + url.extname)
+				  			return themeJSONPath;
+				  		}))
+				  		.pipe(jeditor(function(json) {
+				  		    json.templatePaths = themeJSONTemplatePaths;
+				  		    json.templates = templateMapping;
+				  		    json.preview = themePreview;
+				  		    json.themeJSONPath = themeJSONPath;
+				  		    return json; // must return JSON object. 
+				  		}))
+				  		.pipe(gulp.dest(path.join("dist/public/themes/", folder, '/') ));
+				  }));
 	    }));
 
 
@@ -246,6 +265,7 @@ gulp.task('build-themes', function(done) {
 
     es.merge(stylusFiles, css)
   		.pipe(concat('theme.min.css'))
+  		.pipe(autoprefixer())
   		.pipe(minifyCss())
   		.pipe(gulp.dest(path.join('dist/public/themes/', folder)))
   		.pipe(es.wait(function(err) {
@@ -279,6 +299,7 @@ gulp.task('build', function(done) {
     // Compile app.min.css from client/app/app.styl
     var appCSS = gulp.src('client/app/app.styl')
       .pipe(stylus())
+      .pipe(autoprefixer())
       .pipe(concat('app.min.css'))
       .pipe(minifyCss())
       .pipe(gulp.dest('dist/public/app/'));

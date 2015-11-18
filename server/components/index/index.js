@@ -11,9 +11,10 @@
  var fs = require('fs');
  var Themes = require('../../api/themes/themes.model');
  var searchFolders = require('../search-folders');
+ var path = require('path');
 
 module.exports = function(theme) {
-	themesFolder = app.get('appPath') + 'themes/';
+	themesFolder = path.join(app.get('appPath'), 'themes/');
 	if(theme) {
 		compileIndex(theme, GLOBAL.meanbaseGlobals.extensions);
 	} else {
@@ -42,21 +43,45 @@ function getFirstTheme(callback) {
 // Gets the scripts and styles from the chosen theme and inserts them into the index.html
 function compileIndex(theme, extensionJSONS) {
 	// Get file paths for the server/views/index and the chosen theme's scripts and styles templates
-	var viewFilePath = config.root + '/server/views/index.html',
-		themeJSPath = app.get('appPath') + theme.scriptsPath, //themesFolder + theme.url + '/assets/scripts.html',
-		themeCSSPath = app.get('appPath') + theme.stylesPath; //themesFolder + theme.url + '/assets/styles.html';
+	var viewFilePath = path.join(config.root, '/server/views/index.html'),
+		themeJSPath = path.join(app.get('appPath'), theme.scriptsPath), //themesFolder + theme.url + '/assets/scripts.html',
+		themeCSSPath = path.join(app.get('appPath'), theme.stylesPath); //themesFolder + theme.url + '/assets/styles.html';
+
+	var index, themeJS, themeCSS, statsjs, statscss, hasThemeMin = false;
+
+	index = fs.readFileSync(viewFilePath,'utf8');
+
+	try {
+	  statsjs = fs.lstatSync(path.join(themesFolder, theme.url, 'theme.min.js'));
+	  statscss = fs.lstatSync(path.join(themesFolder, theme.url, 'theme.min.css'));
+	  // Is it a directory?
+	  if (statsjs.isFile() && statscss.isFile()) {
+	  	hasThemeMin = true;
+	  	themeJS = '<script src="' + path.join('themes', theme.url, 'theme.min.js') + '"></script>';
+	  	themeCSS = '<link rel="stylesheet" href="' + path.join('themes', theme.url, 'theme.min.css') + '">';
+	  }
+	}
+	catch (err) {
+		console.log("checking for theme.min.* error", err);
+	}
+
+	if(!hasThemeMin) {
+		try {
+			console.log('read html');
+			themeJS = fs.readFileSync(themeJSPath,'utf8');
+			themeCSS = fs.readFileSync(themeCSSPath,'utf8');
+		} catch(error) {
+			// If meanbase had trouble finding the theme or some other difficulty just use the current index.html
+			console.log('Error compiling the index.html with the chosen theme: ', error);
+			return false;
+		}
+	}
+
+
 
 	// Try to read the file contents
-	var index, themeJS, themeCSS;
-	try {
-		themeJS = fs.readFileSync(themeJSPath,'utf8');
-		themeCSS = fs.readFileSync(themeCSSPath,'utf8');
-		index = fs.readFileSync(viewFilePath,'utf8');
-	} catch(error) {
-		// If meanbase had trouble finding the theme or some other difficulty just use the current index.html
-		console.log('Error compiling the index.html with the chosen theme: ', error);
-		return false;
-	}
+	
+	
 
 	// If the file reads were successful then insert given theme's assets into index.html
 	index = index.replace('theme-name', theme.url);

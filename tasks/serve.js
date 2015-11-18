@@ -14,7 +14,8 @@ var gulp = require('gulp'),
 		gulpJade = require('gulp-jade'),
 		fs = require('fs'),
 		path = require('path'),
-		debug = require('gulp-debug');
+		debug = require('gulp-debug'),
+		autoprefixer = require('gulp-autoprefixer');
 
 var config = {
 	themesFolder: 'client/themes/'
@@ -46,6 +47,7 @@ gulp.task('jade', function() {
 gulp.task('compileAppCSS', function() {
 	return gulp.src('client/app/app.styl')
     .pipe(stylus())
+    .pipe(autoprefixer())
     .pipe(gulp.dest('.tmp/app/'));
 });
 
@@ -101,6 +103,7 @@ gulp.task('compileThemeCSS', function() {
     return gulp.src(path.join(config.themesFolder, folder, '/**/*.styl'))
       .pipe(stylus())
   		.pipe(concat('theme.css'))
+  		.pipe(autoprefixer())
   		.pipe(gulp.dest(path.join(config.themesFolder, folder, 'assets')));
    });
 });
