@@ -5,29 +5,26 @@
  * @author Jon Paul Miles <milesjonpaul@gmail.com>
  */
 
-var gulp = require('gulp'),
-		mainBowerFiles = require('main-bower-files'),
-		inject = require('gulp-inject'),
-		jasmine = require('gulp-jasmine'),
-		karma = require('karma').server,
-		debug = require('gulp-debug');
+var karma = require('karma').server;
 
-// Unit Tests
-gulp.task('karma', function() {
-	return gulp.src('../karma.conf.js')
-	  .pipe(inject(gulp.src(mainBowerFiles('**/*.js'), {read: false}), {
-	    starttag: 'files: [',
-	    endtag: "'client/bower_components/angular-mocks/angular-mocks.js'",
-	    addRootSlash: false,
-	    transform: function (filepath, file, i, length) {
-	    	return '"' + filepath + '",';;
-	    }
-	  }))
-	  .pipe(gulp.dest('./'));
-});
+module.exports = function (gulp, plugins, config) {
+	// Unit Tests
+	gulp.task('karma', function() {
+		return gulp.src('../karma.conf.js')
+		  .pipe(plugins.inject(gulp.src(plugins.mainBowerFiles('**/*.js'), {read: false}), {
+		    starttag: 'files: [',
+		    endtag: "'client/bower_components/angular-mocks/angular-mocks.js'",
+		    addRootSlash: false,
+		    transform: function (filepath, file, i, length) {
+		    	return '"' + filepath + '",';;
+		    }
+		  }))
+		  .pipe(gulp.dest('./'));
+	});
 
-gulp.task('test', ['karma'], function (done) {
-	karma.start({
-  	configFile: __dirname + '/../karma.conf.js'
-  }, done);
-});
+	gulp.task('test', ['karma'], function (done) {
+		karma.start({
+	  	configFile: __dirname + '/../karma.conf.js'
+	  }, done);
+	});
+};
