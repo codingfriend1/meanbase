@@ -25,13 +25,17 @@ Install a package manager such as
 		- `choco install nodejs`
 - Install npm if using windows
 		- `choco install npm`
+- Install bower
+		- 'npm install -g bower'
 - Install my repository
 		- `git clone https://github.com/codingfriend1/meanbase-1.0.0.git`
 - Move into the cloned folder
 		- `cd meanbase-1.0.0`
 - Install npm packages
 		- `npm install`
-- Install bower and compose files 
+- Install bower packages
+		- 'bower install'
+- Compose files (compile jade and stylus)
 		- `gulp install` (runs npm and bower install and composes files)
 
 ####Run the App
