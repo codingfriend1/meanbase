@@ -1,5 +1,6 @@
 var path = require('path');
-var validator = require(path.join(config.root, 'mongoose-validators/node_modules/validator/validator'));
+var config = require('../../config/environment')
+var validator = require(path.join(config.root, 'node_modules', 'mongoose-validators/node_modules/validator/validator'));
 
 validator.extend('isTitle', function(str) {
 	return /^[A-Za-z0-9@:?&=.\/ _\-]*$/.test(str);
