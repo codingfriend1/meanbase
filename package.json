@@ -26,7 +26,7 @@
     "method-override": "~1.0.0",
     "mongoose": "~3.8.8",
     "mongoose-text-search": "0.0.2",
-    "mongoose-validators": "^0.1.0",
+    "mongoose-validators": "~0.1.0",
     "morgan": "~1.0.0",
     "multer": "^0.1.8",
     "passport": "~0.2.0",
