@@ -9,11 +9,36 @@ Here is a link to a demo of the old version. A new demo will be available once I
 reach a couple more checkpoints. [Youtube Meanbase Demo](http://youtu.be/tteztXru4eA)
 
 ####Install
-Run
-- Install MongoDB and run mongod
-- Install GraphicsMagick (If you have homebrew: brew install graphicsmagick)
-- gulp install (runs npm and bower install and composes files)
-- gulp serve
+Install a package manager such as 
+		- [homebrew](http://brew.sh/) on mac
+		- [chocolatey](https://chocolatey.org/) on windows. 
+- Install git if on Windows
+		- `choco install git`
+- Install MongoDB
+		- **Mac** - `brew install mongodb`
+		- **Windows** - `choco install mongodb`
+- Install GraphicsMagick
+		- `brew install graphicsmagick`
+		- `choco install graphicsmagick`
+- Install node
+		- `brew install node`
+		- `choco install nodejs`
+- Install npm if using windows
+		- `choco install npm`
+- Install my repository
+		- `git clone https://github.com/codingfriend1/meanbase-1.0.0.git`
+- Move into the cloned folder
+		- `cd meanbase-1.0.0`
+- Install npm packages
+		- `npm install`
+- Install bower and compose files 
+		- `gulp install` (runs npm and bower install and composes files)
+
+####Run the App
+- Start Mongodb in one terminal or cmd
+		- `mongod`
+- Run the app from the meanbase-1.0.0 folder in another terminal or cmd
+		- `gulp serve`
 
 ####Gulp Commands
 - gulp install
