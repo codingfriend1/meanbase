@@ -17,6 +17,9 @@ Install a package manager such as
 - Install MongoDB
 		- **Mac** - `brew install mongodb`
 		- **Windows** - `choco install mongodb`
+- In windows create the folder for the mongoDB databases and logs
+		- mkdir c:\data\db
+		- mkdir c:\data\log
 - Install GraphicsMagick
 		- `brew install graphicsmagick`
 		- `choco install graphicsmagick`
@@ -43,6 +46,8 @@ Install a package manager such as
 		- `mongod`
 - Run the app from the meanbase-1.0.0 folder in another terminal or cmd
 		- `gulp serve`
+- See app
+		- Open localhost:9000 in your browser
 
 ####Gulp Commands
 - gulp install
