@@ -1,9 +1,7 @@
+'use strict';
 
 var importHelper = require('./import-helper.js');
 var formidable = require('formidable');
-
-'use strict';
-
 var _ = require('lodash');
 var Import = require('./import.model');
 var DAO = require('../../components/DAO');

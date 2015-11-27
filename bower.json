@@ -9,7 +9,7 @@
     "angular-resource": ">=1.2.*",
     "angular-cookies": ">=1.2.*",
     "angular-sanitize": ">=1.2.*",
-    "angular-bootstrap": "~0.11.0",
+    "angular-bootstrap": "~0.10.0",
     "font-awesome": ">=4.1.0",
     "lodash": "~2.4.1",
     "angular-ui-router": "~0.2.10",
@@ -25,6 +25,32 @@
     "angular-relative-date": "~1.0.0",
     "animate-css": "~3.3.0",
     "trumbowyg": "~1.1.7"
+  },
+  "overrides": {
+    "modernizr": {
+      "main": [
+        "modernizr.js"
+      ]
+    },
+    "Sortable": {
+      "main": [
+        "Sortable.js",
+        "ng-sortable.js"
+      ],
+      "dependencies": {
+        "angular": ">=1.2.*"
+      }
+    },
+    "angular": {
+      "dependencies": {
+        "jquery": "~1.11.0"
+      }
+    },
+    "ng-cropper": {
+      "dependencies": {
+        "angular": ">=1.2.*"
+      }
+    }
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

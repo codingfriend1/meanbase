@@ -25,6 +25,7 @@
   "strict": false,
   "trailing": true,
   "smarttabs": true,
+  "-W069": 0,
   "globals": {
     "jQuery": true,
     "angular": true,

@@ -145,7 +145,7 @@ function restructureResponse(response) {
       } else {
         response[i].images = helpers.arrayToObjectWithObject(response[i].images, 'location');
         response[i].extensions = helpers.arrayToObjectWithArray(response[i].extensions, 'group');
-        if(response[i].url.charAt(0) === '/') { response[i].url = response[i].url.substr(1); }
+        // if(response[i].url.charAt(0) === '/') { response[i].url = response[i].url.substr(1); }
         if(!response[i].extensions) {
           response[i].extensions = {};
         }

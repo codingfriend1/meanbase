@@ -25,7 +25,7 @@
   .config(function ($stateProvider) {
     $stateProvider
       .state('main.page', {
-        url: '^/{page:(?!cms).*}',
+        url: '^/{page:(?!cms|login|signup|settings).*}',
         templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth) {
           // - Prepare a promise to return to templateProvider
           var deferred = $q.defer();
@@ -36,15 +36,16 @@
             // Get the current logged in user
             $rootScope.currentUser = Auth.getCurrentUser();
 
+            var pages;
             // - Instantiate a new endpoints service to communite with server database
             if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent')) {
-              var endpoint = new endpoints('pages');
+              pages = new endpoints('pages');
             } else {
-              var endpoint = new endpoints('pages/published');
+              pages = new endpoints('pages/published');
             }
 
             // - Find a page in the database with a url that matches the current url
-            endpoint.find({url: '/' + $stateParams.page}).success(function(response) {
+            pages.find({url: '/' + $stateParams.page}).success(function(response) {
               $rootScope.page = {
                 tabTitle: 404,
                 description: 'Could not find page',
@@ -77,7 +78,7 @@
               var templatePath = window.meanbaseGlobals.themeTemplatePaths[mappedTemplate].template;
 
               if(!templatePath) {
-                console.log('Could not find page template: ');
+                console.log('Could not find page template: ', templatePath);
                 return $state.go('main.missing');
               }            
 

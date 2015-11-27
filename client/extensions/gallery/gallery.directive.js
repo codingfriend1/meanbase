@@ -13,8 +13,6 @@ angular.module('extensions')
         var areChanges;
         var imagesSnapshot;
 
-        console.log("scope.extension.config.slug", scope.extension.config.slug);
-
         if(!scope.extension.config.slug) { scope.extension.config.slug = 'gallery-1'; }
         if(!scope.extension.config.interval) { scope.extension.config.interval = 3000; }
         if(!scope.extension.data) { scope.extension.data = {}; }

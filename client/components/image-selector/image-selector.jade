@@ -9,6 +9,7 @@ div.image-selector
 				button.btn.delete-visible(ng-click="deleteAllVisible()" ng-show="media.length > 0") Delete All Visible
 				button.btn.delete-selected(ng-click="deleteSelected()" ng-show="media.length > 0") Delete Selected
 				button.btn.group-selected(ng-click="groupSelected()" ng-show="media.length > 0") Group Selected
+				button.btn.ungroup-selected(ng-click="ungroupSelected()" ng-show="media.length > 0") Ungroup Selected
 			.select-all.pull-left(ng-click="selectAllVisible()")
 				i.fa(ng-class="{'fa-circle-o': !allSelected, 'fa-check': allSelected}")
 			.album-left.pull-left

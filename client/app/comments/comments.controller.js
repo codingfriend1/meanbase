@@ -4,8 +4,10 @@ angular.module('meanbaseApp')
   .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr) {
 
     $scope.$parent.pageTitle = 'Moderate Comments';
-    
-  	var comments = new endpoints('comments');
+
+    var comments = new endpoints('comments');
+  	var settings = new endpoints('settings');
+  	var banCommentor = new endpoints('comments/ban');
 
     $scope.autoAccept = false;
     $scope.autoReject = false;
@@ -16,19 +18,40 @@ angular.module('meanbaseApp')
   	comments.find({}).then(function(response) {
   		$scope.comments = response.data;
 
-      for (var i = 0; i < $scope.comments.length; i++) {
-        if($scope.pagesWithComments.indexOf($scope.comments[i].url) === -1) {
-          $scope.pagesWithComments.push($scope.comments[i].url);
+      banCommentor.find({}).success(function(bannedComments) {
+        for (var i = 0; i < $scope.comments.length; i++) {
+          if($scope.pagesWithComments.indexOf($scope.comments[i].url) === -1) {
+            $scope.pagesWithComments.push($scope.comments[i].url);
+          }
+          for (var j = 0; j < bannedComments.length; j++) {
+            if(bannedComments[j].email === $scope.comments[i].email || bannedComments[j].ip === $scope.comments[i].ip) {
+              $scope.comments[i].banned = true;
+            }
+          }
         }
-      };
-      $scope.pagesWithComments = helpers.generateSelectOptions($scope.pagesWithComments, function(page){
-        return page.substring(1);
+        $scope.pagesWithComments = helpers.generateSelectOptions($scope.pagesWithComments, function(page){
+          return page.substring(1);
+        });
+      }).error(function(err) {
+         toastr.warning('Could not figure out if comments are banned.')
       });
+
   	});
+
+    // Get the auto accept comments status
+    settings.find({name: 'auto-accept-comments'}).then(function(response) {
+      if(!response.data[0]) { return $scope.autoAccept = false; }
+      $scope.autoAccept = response.data[0].value === "true";
+    });
+
+    settings.find({name: 'disable-comments'}).then(function(response) {
+      if(!response.data[0]) { return $scope.disableComments = false; }
+      $scope.disableComments = response.data[0].value === "true";
+    });
 
     $scope.approvalStates = [
       {label: 'both', value: ''},
-      {label: 'approved', value: 'true'}, 
+      {label: 'approved', value: 'true'},
       {label: 'unapproved', value: 'false'}
     ];
 
@@ -70,6 +93,27 @@ angular.module('meanbaseApp')
 
   	};
 
+    $scope.ban = function(comment) {
+      if(!comment || !comment.email || !comment.ip) { return false; }
+      banCommentor.create({email: comment.email, ip: comment.ip}).then(function(response) {
+        toastr.success('Commentor banned');
+        comment.banned = true;
+      }, function(err) {
+        toastr.danger('Could not ban commentor', err);
+      });
+    };
+
+    $scope.unban = function(comment) {
+      if(!comment || !comment.email || !comment.ip) { return false; }
+      banCommentor.delete({ $or: [ {email: comment.email}, {ip: comment.ip} ] }).then(function(response) {
+        toastr.clear();
+        toastr.success('Commentor unbanned');
+        comment.banned = false;
+      }, function(err) {
+        toastr.danger('Could not unban commentor', err);
+      });
+    };
+
   	$scope.deleteComment = function(comment) {
   		comments.delete({_id: comment._id}).then(function(response) {
   			$scope.comments.splice($scope.comments.indexOf(comment), 1);
@@ -79,6 +123,7 @@ angular.module('meanbaseApp')
   	};
 
     $scope.deleteAllVisible = function() {
+      if(!$scope.filteredComments || $scope.filteredComments.length === 0) { return false; }
       var confirm = window.confirm('Are you sure you want to delete so many?');
       if(confirm) {
         for(var i = 0; i < $scope.filteredComments.length; i++) {
@@ -89,7 +134,6 @@ angular.module('meanbaseApp')
 
         // Sync the database with the comments
         comments.delete({}).then(function() {
-          comments.create($scope.comments);
           toastr.clear();
           toastr.success('Deleted all comments.');
         });
@@ -121,6 +165,23 @@ angular.module('meanbaseApp')
         toastr.success('Unapproved all visible comments.');
       });
     }
+
+    $scope.toggleAutoAccept = function(boole) {
+      settings.update({name: 'auto-accept-comments'}, {name: 'auto-accept-comments', value: boole}).then(function(response) {
+        boole = boole;
+      }, function() {
+        boole = !boole;
+      });
+    };
+
+    $scope.toggleDisableComments = function(boole) {
+      settings.update({name: 'disable-comments'}, {name: 'disable-comments', value: boole}).then(function(response) {
+        boole = boole;
+      }, function() {
+        boole = !boole;
+      });
+    };
+
   });
 
 angular.module('meanbaseApp').filter('removeSlash', function() {
@@ -160,6 +221,6 @@ angular.module('meanbaseApp').filter('dateRange', function(){
         return (itemDate > timeStart);
       });
     }
-    
+
   };
 });

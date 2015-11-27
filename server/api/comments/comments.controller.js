@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var Comments = require('./comments.model');
 var Ban = require('./ban.model');
+var Settings = require('../settings/settings.model');
 var DAO = require('../../components/DAO');
 var collection = new DAO(Comments);
 var banCollection = new DAO(Ban);
@@ -10,6 +11,8 @@ var helpers = require('../../components/helpers');
 
 var onlyApproved = false;
 var creatingComment = false;
+var autoApprove = false;
+var disableComments = false;
 
 collection.modifyBody = function(body) {
   if(body && body.url && body.url.charAt(0) !== '/') {
@@ -68,21 +71,44 @@ exports.isBanned = function(req, res) {
 
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
-  // For security purposes we want to modify the comment in modifyBody 
-  // to not have approved already set to true
-  creatingComment = true;
-  banCollection.findRaw({ip: req.body.ip}, function(allFound) {
-    console.log('all found', allFound);
+  Settings.findOne({name: 'disable-comments'}, function(err, found) {
+    if(err || !found) { disableComments = false; }
+    else { disableComments = found.value === 'true'; }
 
-    console.log("helpers.isEmpty(allFound)", helpers.isEmpty(allFound));
-    if(helpers.isEmpty(allFound)) {
-      if(req.body && req.body.url) {
-        req.body.ip = req.ip;
-      }
-      collection.create(req, res);
-      creatingComment = false;
+    if(!disableComments) {
+      // For security purposes we want to modify the comment in modifyBody
+      // to not have approved already set to true
+      creatingComment = true;
+      banCollection.findRaw({ip: req.body.ip}, function(allFound) {
+        console.log('all found', allFound);
+
+        console.log("helpers.isEmpty(allFound)", helpers.isEmpty(allFound));
+        if(helpers.isEmpty(allFound)) {
+          if(req.body && req.body.url) {
+            req.body.ip = req.ip;
+          }
+
+          Settings.findOne({name: 'auto-accept-comments'}, function(err, found) {
+              if(err || !found) { autoApprove = false; }
+              else { autoApprove = found.value === 'true'; }
+
+              if(req.body && req.body.url) {
+                req.body.ip = req.ip;
+                req.body.approved = autoApprove;
+              }
+
+              collection.create(req, res);
+              creatingComment = false;
+          });
+
+
+          creatingComment = false;
+        } else {
+          res.status(403).send('Sorry, but you cannot make comments on this site.');
+        }
+      });
     } else {
-      res.status(403).send('Sorry, but you cannot make comments on this site.');
+      res.send(204);
     }
   });
 };
@@ -115,7 +141,7 @@ exports.deleteById = function(req, res) {
 function restructureResponse(response) {
   if(!response) { return response; }
   if(!Array.isArray(response)) { response = [response]; }
-  
+
   for (var i = 0; i < response.length; i++) {
     if(response[i]) {
       if(response[i].date) {

@@ -17,5 +17,6 @@
   "smarttabs": true,
   "asi": true,
   "debug": true,
-  "-W038": false
+  "-W038": false,
+  "-W069": 0
 }

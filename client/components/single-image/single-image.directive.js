@@ -9,13 +9,15 @@ angular.module('meanbaseApp')
       	singleImage: "@",
       	caption:"@",
       	placeholdIt:"@",
-      	editMode: "="
+        imageClasses: "@"
       },
-      compile: function(element, attributes){
+      compile: function(element, attrs){
         return {
-          pre: function(scope, element, attributes, controller, transcludeFn){
+          pre: function(scope, element, attrs, controller, transcludeFn){
 
             scope.singleImage = scope.singleImage || 'image-1';
+
+            scope.editMode = $rootScope.editMode;
 
             // If the user is authorized
             if ($cookieStore.get('token')) {
@@ -65,13 +67,13 @@ angular.module('meanbaseApp')
               }
             });
           },
-          post: function(scope, element, attributes, controller, transcludeFn){
+          post: function(scope, element, attrs, controller, transcludeFn){
             scope.groups = ['all', 'selected'];
             scope.media = [];
             var imageSnapshot;
             var areChanges = false;
 
-            // Safety check in case attributes are missing
+            // Safety check in case attrs are missing
             if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/300x300'; }
             scope.caption = (scope.caption === true || scope.caption === 'true');
             $rootScope.page.images = $rootScope.page.images || {};

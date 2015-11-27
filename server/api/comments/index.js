@@ -6,9 +6,9 @@ var router = express.Router();
 
 var controller = require('./comments.controller');
 
-router.get('/ban', controller.ban);
-router.post('/ban', controller.ban);
-router.delete('/ban', controller.unban);
+router.get('/ban', auth.hasPermission('moderateComments'), controller.isBanned);
+router.post('/ban', auth.hasPermission('moderateComments'), controller.ban);
+router.delete('/ban', auth.hasPermission('moderateComments'), controller.unban);
 
 // Affecting multiple or all items.
 router.get('/approved', controller.findApproved);

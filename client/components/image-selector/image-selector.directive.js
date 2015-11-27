@@ -16,7 +16,7 @@ angular.module('meanbaseApp')
         scope.API = {};
 
         var media = new endpoints('media');
-    
+
         // Stores all interactive elements in the dom object
         var dom = {
           fullscreenContainer: angular.element('.fullscreen-master-container'),
@@ -35,16 +35,20 @@ angular.module('meanbaseApp')
           _fullscreenImage: null
         };
 
-        // Creates albums or groups from all the images returned from the server 
+        // Creates albums or groups from all the images returned from the server
         // only does this when directive is loaded
         function getGroups() {
           // Get media groups
+          scope.groups = ['all', 'selected'];
           for (var i = 0; i < scope.media.length; i++) { //Loop through each media
             for (var x = 0; x < scope.media[i].groups.length; x++) { //Loop through each group in media
               if(scope.groups.indexOf(scope.media[i].groups[x]) === -1) { //Already exists?
                 scope.groups.push(scope.media[i].groups[x]); //else add to groups array
               }
             }
+          }
+          if(scope.groups.indexOf(scope.selectedGroup) === -1) {
+            scope.selectedGroup = 'all';
           }
         }
 
@@ -109,8 +113,8 @@ angular.module('meanbaseApp')
           }
 
           // Store the image data snapshot in case we don't save our changes
-          globals._fullscreenImage = angular.copy(scope.fullscreenImage); 
-        } 
+          globals._fullscreenImage = angular.copy(scope.fullscreenImage);
+        }
 
 
         // Returns the image that comes before the current fullscreen image
@@ -135,7 +139,7 @@ angular.module('meanbaseApp')
             return globals.nextImage.scope().item;
           }
           return {};
-          
+
         }
 
         // Find all media
@@ -417,13 +421,37 @@ angular.module('meanbaseApp')
         };
         getMedia();
 
+        scope.ungroupSelected = function() {
+
+          var urlArray = [];
+
+          // Get the visibile images' urls
+          for (var i = 0; i < scope.selectedImages.length; i++) {
+            urlArray.push(scope.selectedImages[i].url);
+          }
+
+          if(!scope.selectedGroup || scope.selectedGroup === 'all' || scope.selectedGroup === 'selected') { return false; }
+          if(urlArray.length < 1) { return false };
+
+          // Update those images
+          media.update({ url: {$in: urlArray } }, { $pull: {groups: scope.selectedGroup} }).then(function() {
+            for (var i = 0; i < scope.selectedImages.length; i++) {
+              if(scope.selectedImages[i].groups.indexOf(scope.selectedGroup) !== -1) {
+                scope.selectedImages[i].groups.splice(scope.selectedGroup, 1);
+              }
+            }
+            getGroups();
+          });
+
+        };
+
         // Clean up our event listeners when we leave this page
         scope.$on('$destroy', function() {
           dom.mainFullsizeBox.unbind('transitionend', switchImages);
         });
 
         if(scope.api) {
-          scope.api = scope.API;
+          scope.api = angular.extend(scope.api, scope.API);
         }
       }
     };

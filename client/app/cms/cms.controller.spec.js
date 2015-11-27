@@ -16,6 +16,7 @@ describe('Controller: CmsCtrl', function () {
   }));
 
   it('should ...', function () {
+    expect('app').toEqual('test');
     expect(1).toEqual(1);
   });
 });
