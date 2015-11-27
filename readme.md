@@ -17,6 +17,8 @@ Install a package manager such as
 - Install MongoDB
 		- **Mac** - `brew install mongodb`
 		- **Windows** - `choco install mongodb`
+- Mongoose is a little funny on windows
+		- `npm install bson`
 - In windows create the folder for the mongoDB databases and logs
 		- mkdir c:\data\db
 		- mkdir c:\data\log
