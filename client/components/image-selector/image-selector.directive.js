@@ -16,7 +16,7 @@ angular.module('meanbaseApp')
         scope.API = {};
 
         var media = new endpoints('media');
-    
+
         // Stores all interactive elements in the dom object
         var dom = {
           fullscreenContainer: angular.element('.fullscreen-master-container'),
@@ -35,7 +35,7 @@ angular.module('meanbaseApp')
           _fullscreenImage: null
         };
 
-        // Creates albums or groups from all the images returned from the server 
+        // Creates albums or groups from all the images returned from the server
         // only does this when directive is loaded
         function getGroups() {
           // Get media groups
@@ -113,8 +113,8 @@ angular.module('meanbaseApp')
           }
 
           // Store the image data snapshot in case we don't save our changes
-          globals._fullscreenImage = angular.copy(scope.fullscreenImage); 
-        } 
+          globals._fullscreenImage = angular.copy(scope.fullscreenImage);
+        }
 
 
         // Returns the image that comes before the current fullscreen image
@@ -139,7 +139,7 @@ angular.module('meanbaseApp')
             return globals.nextImage.scope().item;
           }
           return {};
-          
+
         }
 
         // Find all media
@@ -451,7 +451,7 @@ angular.module('meanbaseApp')
         });
 
         if(scope.api) {
-          scope.api = scope.API;
+          scope.api = angular.extend(scope.api, scope.API);
         }
       }
     };

@@ -132,6 +132,7 @@ script(type="text/ng-template" id="findImage.modal.html")
 				span.sr-only Close
 			h4.modal-title {{instructions}}
 		.modal-body
+			{{imageSelectorApi | json}}
 			image-selector(api="imageSelectorApi" image-selector-config="config")
 		.modal-footer
 			p.double-tap-instructions Double tap to enlarge photos

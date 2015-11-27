@@ -10,7 +10,7 @@
 
     // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
 
-    // Endpoints will be called like 
+    // Endpoints will be called like
 
     // `server.menus.find({mongo query}).then();`
     var server = {
@@ -38,7 +38,7 @@
     };
 
     // ###Shared Content
-    // What is shared content? Let's say you have an extension|plugin|widget|component|content, whatever you want to call it, on your page. By default it will only exist on that page. If you create another page, even when using the same template you won't see that extension. Shared data is a concept that let's you have the same extension on multiple pages just by naming the extension. The best part? All extensions with that name and type stay in sync, so when you make changes to an extension on one page all other instances of that extension are updated. It means you don't have to recreate the same information over and over again on every page you want that extension. 
+    // What is shared content? Let's say you have an extension|plugin|widget|component|content, whatever you want to call it, on your page. By default it will only exist on that page. If you create another page, even when using the same template you won't see that extension. Shared data is a concept that let's you have the same extension on multiple pages just by naming the extension. The best part? All extensions with that name and type stay in sync, so when you make changes to an extension on one page all other instances of that extension are updated. It means you don't have to recreate the same information over and over again on every page you want that extension.
 
     // ####Deleting Shared Content
     // However, we need some way of knowing when to delete shared content, say when it's no longer being used? Upon every save, if an extension was removed from the page, we send it's shared content name to the server which will perform a check. If no other pages are using that shared content, it deletes it all together, however if some other page is still using that content, we do nothing. This variable keeps a record of extensions with names that were deleted for sending to the server.
@@ -68,7 +68,7 @@
 
           // If the extension has a name (uses shared content), then we want to update it's data with the shared content data
           if(currentExtension.contentName && currentExtension.contentName !== '') {
-            
+
             // If the sharedContent for this extension is blank, we want to at least define the correct structure so it doesn't break code
             if(!$rootScope.sharedContent[currentExtension.contentName]) {
               $rootScope.sharedContent[currentExtension.contentName] = {
@@ -84,11 +84,11 @@
     }
 
     getSharedContentFromServer();
-    
+
 
     // Rubaxa's library "sortable" and "ng-sortable" (the drag and drop capabilities) need a configuration to be passed in. Here we define it. Inside the ng-repeat, any item with a class of `.mb-draggable` will be able to be dragged.
     //
-    $rootScope.menusConfig = { 
+    $rootScope.menusConfig = {
       group: 'menus',
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
@@ -100,7 +100,7 @@
     };
 
     // Since extensions are draggable we need to define those here too.
-    $rootScope.sortableExtensions = { 
+    $rootScope.sortableExtensions = {
       group: 'extensions',
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
@@ -156,7 +156,7 @@
         snapshots.sharedContent = angular.copy($rootScope.sharedContent);
 
         // In the admin pages, extensions may be disabled so they cannot be added to the page.
-        // Here we get only the active extensions so the admin can select extensions to add 
+        // Here we get only the active extensions so the admin can select extensions to add
         server.extensions.find({active: true}).success(function(res) {
           $rootScope.extensions = res;
         });
@@ -180,11 +180,11 @@
       // Update positions and locations of the menu items
       $rootScope.menus = helpers.updatePositionData($rootScope.menus);
 
-      // Delete all the menus in the database, 
+      // Delete all the menus in the database,
       // recreate all of them based off the client data stored in $rootScope.menus,
       // Get the newly updated menus with their server-generated ids
       helpers.removeEmptyProperties($rootScope.menus)
-      
+
       server.menus.delete({}).finally(function(deleteResponse) {
         if(!helpers.isEmpty($rootScope.menus)) {
           server.menus.create($rootScope.menus).success(function(createResponse) {
@@ -194,7 +194,7 @@
           });
         }
       });
-      
+
       // We use a timeout so that the meanbase-editable html changes have time to update their models before we save the page.
       $timeout(function(){
         if(!$rootScope.page._id) { return false; }
@@ -227,12 +227,12 @@
 
           // Let the user know their changes were saved
           toastr.success('Changes saved');
-          
+
         }); //server.page.update()
-        
+
         // We want to update the extension position data as well
         $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions);
-        
+
         // **In this first loop, we update the shared content with the data from the extensions**
         helpers.loopThroughPageExtensions(function(currentExtension) {
           if(currentExtension.contentName && currentExtension.contentName !== '') {
@@ -247,8 +247,8 @@
             // Send the shared content back to the server
             server.sharedContent.update({contentName: currentExtension.contentName}, $rootScope.sharedContent[currentExtension.contentName]);
           }
-        }); //helpers.loopThroughPageExtensions       
-        
+        }); //helpers.loopThroughPageExtensions
+
         // **In this second loop, we update the extensions with the data from shared content**
         // This is so that extensions using the same data on the same page all stay in sync
         helpers.loopThroughPageExtensions(function(currentExtension) {
@@ -260,7 +260,7 @@
 
       }); //$timeout
     }); //saveEdits()
-  
+
     // ### Discard Edits
     // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when the user first clicked edit
     $scope.$onRootScope('cms.discardEdits', function() {
@@ -295,13 +295,13 @@
           } else {
             $scope.instructions = 'Choose Image';
           }
-          
+
 
           $modalInstance.opened.then(function() {
             $timeout(function() {
               $scope.imageSelectorApi.getAlreadySelected($scope.config.alreadySelected);
-            }, 0, false);
-            
+            }, 0, true);
+
           });
           // $scope.allOperations = false;
           $scope.chooseImages = function() {
@@ -374,7 +374,7 @@
       if(extension.contentName && $scope.sharedContentToCheckDelete.indexOf(extension.contentName) === -1) {
         $scope.sharedContentToCheckDelete.push(extension.contentName);
       }
-      
+
       // Since we are deleting an extension we want to make sure they are in the correct order in the array so we don't delete the wrong extension
       $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions);
 
@@ -442,8 +442,8 @@
           if($scope.menuItem._id) { delete $scope.menuItem._id; }
 
           // If this menu group doesn't exist create it
-          if(!$rootScope.menus[$scope.menuItem.group]) { 
-            $rootScope.menus[$scope.menuItem.group] = []; 
+          if(!$rootScope.menus[$scope.menuItem.group]) {
+            $rootScope.menus[$scope.menuItem.group] = [];
           }
 
           // Add the menu item to the end of it's group's list
