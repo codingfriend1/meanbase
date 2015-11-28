@@ -1,83 +1,111 @@
-div#moderate-comments
-    p Only approved comments can be seen by site visitors
-    h4 Only show comments with...
-    .row
-        .col-md-4.col-xs-12
-            .form-group.date-field
-                label Date:
-                .input-group
-                    input(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="commentDate" is-open="dateOpened").form-control
-                    span.input-group-btn
-                        button(type="button" ng-click="open($event)").btn.btn-default
-                            i.glyphicon.glyphicon-calendar
-            .form-group
-                label.radio-inline
-                    input(type="radio" value="before" ng-model="dateDirection") 
-                    | Before
-                label.radio-inline
-                    input(type="radio" value="during" ng-model="dateDirection") 
-                    | During
-                label.radio-inline
-                    input(type="radio" value="after" ng-model="dateDirection") 
-                    | After
-        .col-md-4.col-xs-6
-            .form-group
-                label Approval: 
-                select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates").form-control
-        .col-md-4.col-xs-6
-            .form-group
-                label Page: 
-                select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
-    .form-group
-        .input-group
-            .input-group-addon 
-                i.fa.fa-search
-            input(type="text" placeholder="Search comments by text" ng-model="commentFilter").form-control
-    .form-group
-        button.btn.btn-success(ng-click="approveAllVisible()") Approve All Visibile
-        button.btn.btn-warning(ng-click="unapproveAllVisible()") Unapprove All Visibile
-        button.btn.btn-danger(ng-click="deleteAllVisible()") Delete All Visibile
-    .form-group.checkbox
-        label
-            input(type="checkbox" ng-model="sortDirection") 
-            | Show oldest comments first?
+tabset(justified="true").margin-top
+  tab
+    tab-heading
+      | Moderate Comments 
+      span.badge {{comments.length}}
+    div#moderate-comments
+      p Only approved comments can be seen by site visitors
+      h4 Only show comments with...
+      .row
+          .col-md-4.col-xs-12
+              .form-group.date-field
+                  label Date:
+                  .input-group
+                      input(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="commentDate" is-open="dateOpened").form-control
+                      span.input-group-btn
+                          button(type="button" ng-click="open($event)").btn.btn-default
+                              i.glyphicon.glyphicon-calendar
+              .form-group
+                  label.radio-inline
+                      input(type="radio" value="before" ng-model="dateDirection") 
+                      | Before
+                  label.radio-inline
+                      input(type="radio" value="during" ng-model="dateDirection") 
+                      | During
+                  label.radio-inline
+                      input(type="radio" value="after" ng-model="dateDirection") 
+                      | After
+          .col-md-4.col-xs-6
+              .form-group
+                  label Approval: 
+                  select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates").form-control
+          .col-md-4.col-xs-6
+              .form-group
+                  label Page: 
+                  select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
+      .form-group
+          .input-group
+              .input-group-addon 
+                  i.fa.fa-search
+              input(type="text" placeholder="Search comments by text" ng-model="commentFilter").form-control
+      .form-group
+          button.btn.btn-success(ng-click="approveAllVisible()") Approve All Visibile
+          button.btn.btn-warning(ng-click="unapproveAllVisible()") Unapprove All Visibile
+          button.btn.btn-danger(ng-click="deleteAllVisible()") Delete All Visibile
+      .form-group.checkbox
+          label
+              input(type="checkbox" ng-model="sortDirection") 
+              | Show oldest comments first?
+      accordion(close-others="true")
+          accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
+              accordion-heading.panel-heading(ng-click="status.open=!status.open")
+                  i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
+                  span.commment-author #[strong {{comment.author}} ]: {{comment.date | relativeDate}}
+                  i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron 
+                  span.pull-right| {{comment.url | removeSlash}} 
+              .panel-body.equal
+                  .row
+                      .col-sm-4.col-xs-12
+                          .h4 email
+                          p {{comment.email}}
+                      .col-sm-4.col-xs-6
+                          .h4 ip
+                          p {{comment.ip}}
+                      .col-sm-4.col-xs-6
+                          .h4 Date
+                          p {{comment.date}}
+                  .row
+                      .col-sm-12
+                          .h4 content
+                          p {{comment.content}}
+                  .row
+                      .col-sm-12.text-right
+                          button.btn.btn-danger(ng-show="!comment.banned" ng-click="ban(comment)") Ban commentor
+                          button.btn.btn-warning(ng-show="comment.banned" ng-click="unban(comment)") Unban commentor
+                          button.btn.btn-danger(ng-click="deleteComment(comment)") Delete
+                          button.btn.btn-warning(ng-click="editComment(comment)") Edit
+                          button.btn.btn-success(ng-hide="comment.approved" ng-click="approveComment(comment)") Approve
+                          button.btn.btn-warning(ng-show="comment.approved" ng-click="unapproveComment(comment)") Unapprove
+      .row
+          .col-xs-12
+              .checkbox-inline
+                  label
+                      input(type="checkbox" ng-model="autoAccept" ng-change="toggleAutoAccept(autoAccept)")
+                      | Automatically accept all new comments
+              .checkbox-inline
+                  label
+                      input(type="checkbox" ng-model="disableComments" ng-change="toggleDisableComments(disableComments)")
+                      | Disable Comments
+  tab
+    tab-heading
+      | Banned Commentors 
+      span.badge  {{bannedMembers.length}}
+    h3 Banned Members
     accordion(close-others="true")
-        accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
-            accordion-heading.panel-heading(ng-click="status.open=!status.open")
-                i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
-                span.commment-author #[strong {{comment.author}} ]: {{comment.date | relativeDate}}
-                i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron 
-                span.pull-right| {{comment.url | removeSlash}} 
-            .panel-body.equal
-                .row
-                    .col-sm-4.col-xs-12
-                        .h4 email
-                        p {{comment.email}}
-                    .col-sm-4.col-xs-6
-                        .h4 ip
-                        p {{comment.ip}}
-                    .col-sm-4.col-xs-6
-                        .h4 Date
-                        p {{comment.date}}
-                .row
-                    .col-sm-12
-                        .h4 content
-                        p {{comment.content}}
-                .row
-                    .col-sm-12.text-right
-                        button.btn.btn-danger(ng-show="!comment.banned" ng-click="ban(comment)") Ban commentor
-                        button.btn.btn-warning(ng-show="comment.banned" ng-click="unban(comment)") Unban commentor
-                        button.btn.btn-danger(ng-click="deleteComment(comment)") Delete
-                        button.btn.btn-warning(ng-click="editComment(comment)") Edit
-                        button.btn.btn-success(ng-hide="comment.approved" ng-click="approveComment(comment)") Approve
-                        button.btn.btn-warning(ng-show="comment.approved" ng-click="unapproveComment(comment)") Unapprove
-    .row
-        .col-xs-12
-            .checkbox-inline
-                label
-                    input(type="checkbox" ng-model="autoAccept" ng-change="toggleAutoAccept(autoAccept)")
-                    | Automatically accept all new comments
-            .checkbox-inline
-                label
-                    input(type="checkbox" ng-model="disableComments" ng-change="toggleDisableComments(disableComments)")
-                    | Disable Comments
+      accordion-group(ng-repeat="member in bannedMembers").panel
+          accordion-heading.panel-heading(ng-click="status.open=!status.open")
+              i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
+              span.commment-author #[strong {{member.email}} ]
+              i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron 
+              span.pull-right| {{member.ip}} 
+          .panel-body.equal
+              .row
+                  .col-xs-6
+                      .h4 email
+                      p {{member.email}}
+                  .col-xs-6
+                      .h4 ip
+                      p {{member.ip}}
+              .row
+                  .col-sm-12.text-right
+                      button.btn.btn-warning(ng-click="unban(member)") Unban commentor

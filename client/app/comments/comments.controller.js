@@ -19,6 +19,7 @@ angular.module('meanbaseApp')
   		$scope.comments = response.data;
 
       banCommentor.find({}).success(function(bannedComments) {
+        $scope.bannedMembers = bannedComments;
         for (var i = 0; i < $scope.comments.length; i++) {
           if($scope.pagesWithComments.indexOf($scope.comments[i].url) === -1) {
             $scope.pagesWithComments.push($scope.comments[i].url);
@@ -95,20 +96,33 @@ angular.module('meanbaseApp')
 
     $scope.ban = function(comment) {
       if(!comment || !comment.email || !comment.ip) { return false; }
-      banCommentor.create({email: comment.email, ip: comment.ip}).then(function(response) {
+      banCommentor.create({email: comment.email, ip: comment.ip}).success(function(response) {
         toastr.success('Commentor banned');
         comment.banned = true;
-      }, function(err) {
+        $scope.bannedMembers.push(response[0]);
+      }).error(function(err) {
         toastr.danger('Could not ban commentor', err);
       });
     };
 
-    $scope.unban = function(comment) {
-      if(!comment || !comment.email || !comment.ip) { return false; }
-      banCommentor.delete({ $or: [ {email: comment.email}, {ip: comment.ip} ] }).then(function(response) {
+    $scope.unban = function(item) {
+      if(!item || !item.email || !item.ip) { return false; }
+      banCommentor.delete({ $or: [ {email: item.email}, {ip: item.ip} ] }).then(function(response) {
         toastr.clear();
         toastr.success('Commentor unbanned');
-        comment.banned = false;
+        var index = $scope.bannedMembers.indexOf(item);
+        if(index > -1) {
+          $scope.bannedMembers.splice(index, 1);
+        }
+        if(item.date) {
+          item.banned = false;
+        } else {
+          for (var i = 0; i < $scope.comments.length; i++) {
+            if($scope.comments[i].email === item.email || $scope.comments[i].ip === item.ip) {
+              $scope.comments[i].banned = false;
+            }
+          }
+        }
       }, function(err) {
         toastr.danger('Could not unban commentor', err);
       });
