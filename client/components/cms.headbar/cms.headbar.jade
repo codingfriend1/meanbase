@@ -77,7 +77,7 @@ script(type="text/ng-template" id="editmenu.modal.html")
 			span.sr-only Close
 		h4#editMenuItemLabel.modal-title Edit Menu Item
 	.modal-body
-		form(novalidate name="editingMenuForm" ng-submit="isNewMenu? newMenuItem(): editMenuItem()")
+		form(novalidate name="editingMenuForm" ng-submit="isNewMenu? newMenuItem(editingMenuForm): editMenuItem(editingMenuForm)")
 			input(type="submit").hidden
 			.form-group
 				label Url
@@ -105,8 +105,8 @@ script(type="text/ng-template" id="editmenu.modal.html")
 					option(value="_blank") Open link in a new browser tab
 	.modal-footer
 		button.btn.btn-danger(ng-click="removeMenuItem()" ng-hide="isNewMenu") Delete
-		button.btn.btn-success(type="submit" ng-click="editMenuItem()" ng-hide="isNewMenu" ng-class="{disabled: editingMenuForm.$invalid}") Save
-		button.btn.btn-primary(type="submit" ng-click="newMenuItem()" ng-class="{disabled: editingMenuForm.$invalid}") Save As New
+		button.btn.btn-success(type="submit" ng-click="editMenuItem(editingMenuForm)" ng-hide="isNewMenu" ng-class="{disabled: editingMenuForm.$invalid}") Save
+		button.btn.btn-primary(type="submit" ng-click="newMenuItem(editingMenuForm)" ng-class="{disabled: editingMenuForm.$invalid}") Save As New
 		button.btn.btn-default(type='button' ng-click="$dismiss()") Close
 
 script(type="text/ng-template" id="extensions.modal.html")

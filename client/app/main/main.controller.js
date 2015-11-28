@@ -436,9 +436,9 @@
       // Since we don't want to be affecting our actual menu until we hit save we must make a copy of it.
       $scope.menuItem = angular.copy(menuItem);
 
-      $scope.newMenuItem = function() {
+      $scope.newMenuItem = function(editingMenuForm) {
         // We want to make sure the data is valid before submitting it
-        if($scope.editingMenuForm.$valid) {
+        if(editingMenuForm.$valid) {
           if($scope.menuItem._id) { delete $scope.menuItem._id; }
 
           // If this menu group doesn't exist create it
@@ -453,9 +453,9 @@
         }
       };
 
-      $scope.editMenuItem = function() {
+      $scope.editMenuItem = function(editingMenuForm) {
         // We want to make sure the changes are valid before submitting it
-        if($scope.editingMenuForm.$valid) {
+        if(editingMenuForm.$valid) {
           // menuItem is the menu that was passed in (the actual menu we want to modify). $scope.menuItem is the object that's being edited in the modal.
           menuItem.title = $scope.menuItem.title || menuItem.title;
           menuItem.url = $scope.menuItem.url || menuItem.url;
