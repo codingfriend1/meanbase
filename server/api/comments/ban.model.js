@@ -8,6 +8,7 @@ var BanSchema = new Schema({
   email: {
   	type: String,
     lowercase: true,
+    unique: true,
     validate: validators.isEmail({skipEmpty: true})
   },
   ip: {

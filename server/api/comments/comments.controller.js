@@ -79,10 +79,13 @@ exports.create = function(req, res) {
       // For security purposes we want to modify the comment in modifyBody
       // to not have approved already set to true
       creatingComment = true;
-      banCollection.findRaw({ip: req.body.ip}, function(allFound) {
-        console.log('all found', allFound);
-
-        console.log("helpers.isEmpty(allFound)", helpers.isEmpty(allFound));
+      var find;
+      if(req.body.email) {
+        find = {$or: [ {ip: req.ip}, {email: req.body.email} ]};
+      } else {
+        find = {ip: req.ip};
+      }
+      banCollection.findRaw(find, function(allFound) {
         if(helpers.isEmpty(allFound)) {
           if(req.body && req.body.url) {
             req.body.ip = req.ip;
@@ -92,8 +95,7 @@ exports.create = function(req, res) {
               if(err || !found) { autoApprove = false; }
               else { autoApprove = found.value === 'true'; }
 
-              if(req.body && req.body.url) {
-                req.body.ip = req.ip;
+              if(req.body) {
                 req.body.approved = autoApprove;
               }
 
