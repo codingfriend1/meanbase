@@ -9,47 +9,45 @@ Here is a link to a demo of the old version. A new demo will be available once I
 reach a couple more checkpoints. [Youtube Meanbase Demo](http://youtu.be/tteztXru4eA)
 
 ####Install
-Install a package manager such as 
-		- [homebrew](http://brew.sh/) on mac
-		- [chocolatey](https://chocolatey.org/) on windows. 
+Install a package manager such as
+	- [homebrew](http://brew.sh/) on mac
+	- [chocolatey](https://chocolatey.org/) on windows.
 - Install git if on Windows
-		- `choco install git`
+	- `choco install git`
 - Install MongoDB
-		- **Mac** - `brew install mongodb`
-		- **Windows** - `choco install mongodb`
+	- **Mac** - `brew install mongodb`
+	- **Windows** - `choco install mongodb`
 - Mongoose is a little funny on windows
-		- `npm install bson`
+	- `npm install bson`
 - In windows create the folder for the mongoDB databases and logs
-		- mkdir c:\data\db
-		- mkdir c:\data\log
+	- `mkdir c:\data\db`
+	- `mkdir c:\data\log`
 - Install GraphicsMagick
-		- `brew install graphicsmagick`
-		- `choco install graphicsmagick`
+	- `brew install graphicsmagick`
+	- `choco install graphicsmagick`
 - Install node
-		- `brew install node`
-		- `choco install nodejs`
+	- `brew install node`
+	- `choco install nodejs`
 - Install npm if using windows
-		- `choco install npm`
+	- `choco install npm`
 - Install bower
-		- 'npm install -g bower'
+	- `npm install -g bower`
 - Install my repository
-		- `git clone https://github.com/codingfriend1/meanbase-1.0.0.git`
+	- `git clone https://github.com/codingfriend1/meanbase-1.0.0.git`
 - Move into the cloned folder
-		- `cd meanbase-1.0.0`
-- Install npm packages
-		- `npm install`
-- Install bower packages
-		- 'bower install'
+	- `cd meanbase-1.0.0`
+- Install npm and bower packages
+	- `npm install`
 - Compose files (compile jade and stylus)
-		- `gulp install` (runs npm and bower install and composes files)
+	- `gulp install` (runs bower install and composes files)
 
 ####Run the App
 - Start Mongodb in one terminal or cmd
-		- `mongod`
+	- `mongod`
 - Run the app from the meanbase-1.0.0 folder in another terminal or cmd
-		- `gulp serve`
+	- `gulp serve`
 - See app
-		- Open localhost:9000 in your browser
+	- Open localhost:9000 in your browser
 
 ####Gulp Commands
 - gulp install
@@ -60,7 +58,7 @@ Install a package manager such as
 
 ####Meanbase has two main goals:
 - To be self-explanitory and effecient for users
-- To be fun and customizable for developers. 
+- To be fun and customizable for developers.
 
 ####Code Design Strategy
 - Upon server startup and client-request-theme-change, the server reads the index.html file in server/views/ and adds the active theme's styles and scripts to it as well as passing in some global data for the cms to use. It then writes this concatination to client/index.html. When scripts and styles are added to the project gulp inserts them into server/views/index.html.
@@ -80,4 +78,3 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
