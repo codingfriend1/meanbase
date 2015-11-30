@@ -106,9 +106,12 @@ module.exports = function (gulp, plugins, config) {
 			'client/themes/**/*.css',
 			'client/themes/**/*.html',
 			'server/views/index.html',
-			'.tmp/**/*app.css',
-			'server/**/*.{js, json}'
+			'.tmp/**/*app.css'
 		], {read: false}, plugins.express.notify);
+
+		gulp.watch( 'server/**/*.{js, json}', {read:false}, function() {
+			plugins.express.run(['server/app.js'], {livereload: true});
+		});
 	});
 
 

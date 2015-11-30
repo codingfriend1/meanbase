@@ -43,7 +43,7 @@ var gulp = require('gulp');
 var path = require('path');
 var fs = require('fs');
 var plugins = require('gulp-load-plugins')({
-    pattern: ['gulp-*', 'gulp.*', 'del', 'run-sequence', 'merge-stream', 'main-bower-files', 'event-stream'],
+    pattern: ['gulp-*', 'gulp.*', 'del', 'run-sequence', 'merge-stream', 'main-bower-files', 'event-stream', 'browser-sync'],
     rename: {
       'event-stream': 'es'
     },

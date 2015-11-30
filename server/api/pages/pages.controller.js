@@ -25,7 +25,7 @@ collection.modifyBody = function(body) {
       }
       body.content = contentAsArray;
     }
-    
+
     if(body.extensions) {
       body.extensions = helpers.objectToArray(body.extensions);
     }
@@ -107,7 +107,7 @@ exports.deleteOneAndUpdate = function(req, res) {
       // Deletes comments with that same url
       collection.setCollection(Comments);
       collection.deleteRaw({url: found.url});
-      
+
       collection.setCollection(Pages);
     }
   });
@@ -137,7 +137,7 @@ exports.deleteById = function(req, res) {
 function restructureResponse(response) {
   if(!response) { return response; }
   if(!Array.isArray(response)) { response = [response]; }
-  
+
   for (var i = 0; i < response.length; i++) {
     if(response[i]) {
       if(onlyPublished && !response[i].published) {
@@ -150,7 +150,7 @@ function restructureResponse(response) {
           response[i].extensions = {};
         }
         if(response[i].content) {
-          var object = 
+          var object =
           response[i].content = helpers.arrayToObjectWithValue(response[i].content, 'location', 'text');
         }
         if(response[i].created) {
