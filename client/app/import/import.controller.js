@@ -4,8 +4,6 @@ angular.module('meanbaseApp')
   .controller('ImportCtrl', function($modal, $scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope) {
     $scope.$parent.pageTitle = 'Import Data from Wordpress';
 
-    var importData = new endpoints('import');
-
     if ($cookieStore.get('token')) {
       var uploader = $scope.uploader = new FileUploader({
           url: '/api/import',

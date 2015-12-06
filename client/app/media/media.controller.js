@@ -4,9 +4,6 @@ angular.module('meanbaseApp')
   .controller('MediaCtrl', function ($scope, endpoints, $modal, FileUploader, $timeout, $cookieStore, $rootScope, toastr) {
 
     $scope.$parent.pageTitle = 'Upload and edit media';
-
-    
-    var endpoint = new endpoints('media');
     $scope.media = [];
     // $scope.allOperations = true;
 

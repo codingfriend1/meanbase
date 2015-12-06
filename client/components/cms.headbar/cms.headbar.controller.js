@@ -5,10 +5,6 @@
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr) {
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 		var self = this;
-		var server = {
-			menus: new endpoints('menus'),
-			page: new endpoints('pages')
-		};
 
 		//  ###editMode
 		// The big daddy power house **editMode**! This variable is used all throughout the app to enable edits to be made on the content. We don't want this to be true until we hit the edit button in the admin top menu.
@@ -75,13 +71,13 @@
 			if(!$rootScope.page._id) { return false; }
 
 			// Delete page
-			server.page.delete({_id: $rootScope.page._id}).then(function() {
+			apiconfig.pages.delete({_id: $rootScope.page._id}).then(function() {
 				// Delete menu with the same url
 				var url;
 				if($rootScope.page.url.charAt(0) !== '/') { url = '/' + $rootScope.page.url; } else { url = $rootScope.page.url; }
-				server.menus.delete({url: url}).finally(function() {
+				apiconfig.menus.delete({url: url}).finally(function() {
 					// Replenish menus
-					server.menus.find({}).success(function(response) {
+					apiconfig.menus.find({}).success(function(response) {
 						$rootScope.menus = response;
 					});
 				});
@@ -174,9 +170,9 @@
 			};
 
 			// Save new page to database and reroute to it's new url
-			server.page.create(newPage).then(function(response) {
+			apiconfig.pages.create(newPage).then(function(response) {
 				// Save new menu to database
-				server.menus.create(newMenu).then(function(response) {
+				apiconfig.menus.create(newMenu).then(function(response) {
 					$scope.menus.main.push(newMenu);
 				});
 				$timeout(function() {

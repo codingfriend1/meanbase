@@ -4,7 +4,7 @@
   // - Defines a parent route for the front end (compared to /cms parent for backend)
   // - All other routes beginning at root and not cms go to "main" children and search for a template url from the server
 
-  // ####Parent route for front end site. 
+  // ####Parent route for front end site.
   // - **Important! Don't give this route a url** since we want the ability to have routes without a prefix (/)
 
   angular.module('extensions', []);
@@ -26,7 +26,7 @@
     $stateProvider
       .state('main.page', {
         url: '^/{page:(?!cms|login|signup|settings).*}',
-        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth) {
+        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', 'apiconfig', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth, apiconfig) {
           // - Prepare a promise to return to templateProvider
           var deferred = $q.defer();
           // Let's check if the user is logged in
@@ -39,9 +39,9 @@
             var pages;
             // - Instantiate a new endpoints service to communite with server database
             if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent')) {
-              pages = new endpoints('pages');
+              pages = apiconfig.pages;
             } else {
-              pages = new endpoints('pages/published');
+              pages = apiconfig.publishedPages;
             }
 
             // - Find a page in the database with a url that matches the current url
@@ -56,8 +56,8 @@
               // - If no page was found then redirect to a 404 page.
               if(!response[0]) { $state.go('main.missing'); return false; }
 
-              // Loop through the template mapping stored in themeTemplates. 
-              // That variable came from the theme's theme.json file. 
+              // Loop through the template mapping stored in themeTemplates.
+              // That variable came from the theme's theme.json file.
               // It finds which template to load based on the template that came back for the page
               // This is done to keep different themes' templates compatible
               var mappedTemplate = response[0].template;
@@ -80,10 +80,10 @@
               if(!templatePath) {
                 console.log('Could not find page template: ', templatePath);
                 return $state.go('main.missing');
-              }            
+              }
 
               // - Save the rest of the page data on the meanbaseGlobals object for use in the rest of the app
-              // meanbaseGlobals.page = 
+              // meanbaseGlobals.page =
               $rootScope.page = response[0];
               if($rootScope.page.tabTitle) {
                 document.title = $rootScope.page.tabTitle;
@@ -107,10 +107,10 @@
             });
 
           });
-          
-          
 
-          
+
+
+
           return deferred.promise;
         }]
       });

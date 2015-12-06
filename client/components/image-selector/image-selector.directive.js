@@ -4,7 +4,7 @@
  * @author Jon Paul Miles <milesjonpaul@gmail.com>
  */
 angular.module('meanbaseApp')
-  .directive('imageSelector', function ($cookieStore, Cropper, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr) {
+  .directive('imageSelector', function ($cookieStore, Cropper, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, apiconfig) {
     return {
       templateUrl: 'components/image-selector/image-selector.html',
       restrict: 'EA',
@@ -14,8 +14,6 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
         scope.API = {};
-
-        var media = new endpoints('media');
 
         // Stores all interactive elements in the dom object
         var dom = {
@@ -80,7 +78,7 @@ angular.module('meanbaseApp')
             if(globals._fullscreenImage.alt === scope.fullscreenImage.alt && globals._fullscreenImage.attribute === scope.fullscreenImage.attribute && groupsArraysMatch && galleriesArraysMatch) {
               return false;
             }
-          media.update({_id: scope.fullscreenImage._id}, scope.fullscreenImage);
+          apiconfig.media.update({_id: scope.fullscreenImage._id}, scope.fullscreenImage);
         }
 
 
@@ -144,7 +142,7 @@ angular.module('meanbaseApp')
 
         // Find all media
         function getMedia() {
-          media.find({}).success(function(media) {
+          apiconfig.media.find({}).success(function(media) {
             scope.media = media;
 
             // Take the image path from the server and choose the appropriate image to display
@@ -289,7 +287,7 @@ angular.module('meanbaseApp')
         scope.deleteOne = function(image) {
           // Delete image
           if(image.url) {
-            media.delete({ url: image.url}).then(function() {
+            apiconfig.media.delete({ url: image.url}).then(function() {
               scope.fullscreen = false;
               scope.media.splice(scope.media.indexOf(image), 1);
             });
@@ -347,7 +345,7 @@ angular.module('meanbaseApp')
           if(urlArray.length < 1) return false;
 
           // Delete those images
-          media.delete({ url: {$in: urlArray } }).then(function() {
+          apiconfig.media.delete({ url: {$in: urlArray } }).then(function() {
             for (var i = 0; i < scope.filteredMedia.length; i++) {
               scope.media.splice(scope.media.indexOf(scope.filteredMedia[i]), 1);
             }
@@ -365,7 +363,7 @@ angular.module('meanbaseApp')
           if(urlArray.length < 1) return false;
 
           // Delete those images
-          media.delete({ url: {$in: urlArray } }).then(function() {
+          apiconfig.media.delete({ url: {$in: urlArray } }).then(function() {
             for (var i = 0; i < scope.selectedImages.length; i++) {
               scope.media.splice(scope.media.indexOf(scope.selectedImages[i]), 1);
             }
@@ -408,7 +406,7 @@ angular.module('meanbaseApp')
           if(urlArray.length < 1) return false;
 
           // Update those images
-          media.update({ url: {$in: urlArray } }, { $push: {groups: prompt} }).then(function() {
+          apiconfig.media.update({ url: {$in: urlArray } }, { $push: {groups: prompt} }).then(function() {
             for (var i = 0; i < scope.selectedImages.length; i++) {
               if(scope.selectedImages[i].groups.indexOf(prompt) === -1) {
                 scope.selectedImages[i].groups.push(prompt);
@@ -434,7 +432,7 @@ angular.module('meanbaseApp')
           if(urlArray.length < 1) { return false };
 
           // Update those images
-          media.update({ url: {$in: urlArray } }, { $pull: {groups: scope.selectedGroup} }).then(function() {
+          apiconfig.media.update({ url: {$in: urlArray } }, { $pull: {groups: scope.selectedGroup} }).then(function() {
             for (var i = 0; i < scope.selectedImages.length; i++) {
               if(scope.selectedImages[i].groups.indexOf(scope.selectedGroup) !== -1) {
                 scope.selectedImages[i].groups.splice(scope.selectedGroup, 1);

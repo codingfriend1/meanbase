@@ -1,21 +1,19 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ArticleCtrl', function ($scope, endpoints, $rootScope, $timeout, $http) {
-  	var commentsApproved = new endpoints('comments/approved');
-    var comments = new endpoints('comments');
+  .controller('ArticleCtrl', function ($scope, endpoints, $rootScope, $timeout, $http, apiconfig) {
   	$scope.sucessfulSend = false;
   	// Everything needs to be wrapped in a timeout
   	$timeout(function() {
 
-  		commentsApproved.find({url: $rootScope.page.url}).then(function(response) {
+  		apiconfig.approvedComments.find({url: $rootScope.page.url}).then(function(response) {
   			$scope.comments = response.data;
   		});
 
   		$scope.submitComment = function() {
   			var valid = validateComment($scope.comment);
   			if(valid) {
-  				comments.create($scope.comment).then(function(response) {
+  				apiconfig.comments.create($scope.comment).then(function(response) {
   					$scope.comment = {};
   					$scope.sucessfulSend = true;
   					$timeout(function() { $scope.sucessfulSend = false; }, 2000);
