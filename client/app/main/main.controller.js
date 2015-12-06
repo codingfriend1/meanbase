@@ -6,15 +6,15 @@
   angular.module('meanbaseApp').controller('MainCtrl', MainCtrl);
 
   // @ngInject
-  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, apiconfig) {
+  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api) {
 
     // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
 
     var server = {};
     if($rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent') > -1) {
-      server.menus = apiconfig.menus;
+      server.menus = api.menus;
     } else {
-      server.menus = apiconfig.publishedMenus;
+      server.menus = api.publishedMenus;
     }
 
     // // Let's check if the user is logged in
@@ -43,7 +43,7 @@
 
     function getSharedContentFromServer() {
       // Gets all existing shared content. Why not just content that's used by the page we are on? Because if the user is in edit mode and they want to add existing content they will need the full list of shared content to choose from.
-      apiconfig.sharedContent.find({}).success(function(data) {
+      api.sharedContent.find({}).success(function(data) {
 
         // We need to define this for use even if no data was returned so it doesn't break code when we add properties to this object
         $rootScope.sharedContent = {};
@@ -148,7 +148,7 @@
 
         // In the admin pages, extensions may be disabled so they cannot be added to the page.
         // Here we get only the active extensions so the admin can select extensions to add
-        apiconfig.extensions.find({active: true}).success(function(res) {
+        api.extensions.find({active: true}).success(function(res) {
           $rootScope.extensions = res;
         });
       }
@@ -190,7 +190,7 @@
       $timeout(function(){
         if(!$rootScope.page._id) { return false; }
 
-        apiconfig.pages.update({_id: $rootScope.page._id}, $rootScope.page).finally(function() {
+        api.pages.update({_id: $rootScope.page._id}, $rootScope.page).finally(function() {
 
           // Since we have angular setting the browser tab title we want to update it in case it changed. Normally this is bad practice, but we have prerender in node pre-compiling these pages for search engine bots
           if($rootScope.page.tabTitle) {
@@ -204,7 +204,7 @@
 
           // Here's where we try to delete shared content that was removed from this page.
           if($scope.sharedContentToCheckDelete.length > 0) {
-            apiconfig.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } }).finally(function() {
+            api.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } }).finally(function() {
 
               // Get the latest content for the list next time the user want to add existing content
               getSharedContentFromServer();
@@ -219,7 +219,7 @@
           // Let the user know their changes were saved
           toastr.success('Changes saved');
 
-        }); //apiconfig.pages.update()
+        }); //api.pages.update()
 
         // We want to update the extension position data as well
         $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions);
@@ -236,7 +236,7 @@
             $rootScope.sharedContent[currentExtension.contentName].config = currentExtension.config;
 
             // Send the shared content back to the server
-            apiconfig.sharedContent.update({contentName: currentExtension.contentName}, $rootScope.sharedContent[currentExtension.contentName]);
+            api.sharedContent.update({contentName: currentExtension.contentName}, $rootScope.sharedContent[currentExtension.contentName]);
           }
         }); //helpers.loopThroughPageExtensions
 
@@ -329,9 +329,9 @@
 
       // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
       // This strategy is quicker than checking which ones were added and removed
-      apiconfig.media.update({galleries: slug}, { $pull: {galleries: slug} }).finally(function() {
+      api.media.update({galleries: slug}, { $pull: {galleries: slug} }).finally(function() {
         if(imageArray.length < 1) return false;
-        apiconfig.media.update({ url: {$in: imageArray } }, { $push: {galleries: slug} });
+        api.media.update({ url: {$in: imageArray } }, { $push: {galleries: slug} });
       });
     };
 
@@ -408,7 +408,7 @@
     // @ngInject
     function menuModal($scope, $modalInstance, menuItem, isNewMenu) {
 
-      apiconfig.pages.find({}).success(function(response) {
+      api.pages.find({}).success(function(response) {
         // if(response) {
         //   if(Array.isArray(response)) {
         //     for(var idx = 0; idx < response.length; idx++) {

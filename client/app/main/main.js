@@ -26,7 +26,7 @@
     $stateProvider
       .state('main.page', {
         url: '^/{page:(?!cms|login|signup|settings).*}',
-        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', 'apiconfig', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth, apiconfig) {
+        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', 'api', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth, api) {
           // - Prepare a promise to return to templateProvider
           var deferred = $q.defer();
           // Let's check if the user is logged in
@@ -39,9 +39,9 @@
             var pages;
             // - Instantiate a new endpoints service to communite with server database
             if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent')) {
-              pages = apiconfig.pages;
+              pages = api.pages;
             } else {
-              pages = apiconfig.publishedPages;
+              pages = api.publishedPages;
             }
 
             // - Find a page in the database with a url that matches the current url

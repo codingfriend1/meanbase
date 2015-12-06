@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ExtensionsCtrl', function ($modal, $scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope, apiconfig) {
+  .controller('ExtensionsCtrl', function ($modal, $scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope, api) {
     $scope.$parent.pageTitle = 'Extensions';
 
     if ($cookieStore.get('token')) {
@@ -14,7 +14,7 @@ angular.module('meanbaseApp')
       });
     }
 
-    apiconfig.extensions.find({}).success(function(response) {
+    api.extensions.find({}).success(function(response) {
       $scope.extensions = response;
       console.log("response", response);
     });
@@ -37,7 +37,7 @@ angular.module('meanbaseApp')
       if(extension._id) {
         var sure = window.confirm('Are you sure you want to delete this extension?');
         if(sure) {
-          apiconfig.extensions.delete({folderName: extension.folderName}).then(function(response) {
+          api.extensions.delete({folderName: extension.folderName}).then(function(response) {
             toastr.success('Deleted ' + extension.name + ' extension.');
             $scope.extensions.splice($scope.extensions.indexOf(extension), 1);
           });
@@ -48,7 +48,7 @@ angular.module('meanbaseApp')
     $scope.toggleEnabled = function(extension) {
       extension.active = !extension.active;
       if(extension._id) {
-        apiconfig.extensions.update({_id: extension._id}, {active: extension.active}).then(function(response) {
+        api.extensions.update({_id: extension._id}, {active: extension.active}).then(function(response) {
           toastr.clear();
           if(!extension.active) {
             toastr.warning('"' + extension.name + '" will not longer be useable in your site.')

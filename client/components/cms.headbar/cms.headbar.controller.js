@@ -71,13 +71,13 @@
 			if(!$rootScope.page._id) { return false; }
 
 			// Delete page
-			apiconfig.pages.delete({_id: $rootScope.page._id}).then(function() {
+			api.pages.delete({_id: $rootScope.page._id}).then(function() {
 				// Delete menu with the same url
 				var url;
 				if($rootScope.page.url.charAt(0) !== '/') { url = '/' + $rootScope.page.url; } else { url = $rootScope.page.url; }
-				apiconfig.menus.delete({url: url}).finally(function() {
+				api.menus.delete({url: url}).finally(function() {
 					// Replenish menus
-					apiconfig.menus.find({}).success(function(response) {
+					api.menus.find({}).success(function(response) {
 						$rootScope.menus = response;
 					});
 				});
@@ -170,9 +170,9 @@
 			};
 
 			// Save new page to database and reroute to it's new url
-			apiconfig.pages.create(newPage).then(function(response) {
+			api.pages.create(newPage).then(function(response) {
 				// Save new menu to database
-				apiconfig.menus.create(newMenu).then(function(response) {
+				api.menus.create(newMenu).then(function(response) {
 					$scope.menus.main.push(newMenu);
 				});
 				$timeout(function() {

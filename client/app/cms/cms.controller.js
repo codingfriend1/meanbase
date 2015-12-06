@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-	function CMSCtrl($scope, Auth, $rootScope, endpoints, apiconfig) {
+	function CMSCtrl($scope, Auth, $rootScope, endpoints, api) {
 		$scope.$parent.pageTitle = 'Manage Site';
 
 		$scope.user = Auth.getCurrentUser();
@@ -17,7 +17,7 @@
 
 		$scope.isBanned = function(identifier) {
 			if(typeof identifier === 'object' || identifier) {
-				apiconfig.bannedMembers.find(identifier).success(function(response) {
+				api.bannedMembers.find(identifier).success(function(response) {
 					console.log("response", response);
 				});
 			}
@@ -30,7 +30,7 @@
 		$scope.ban = function(comment) {
 			console.log('comment', comment);
 			if(comment && comment.ip && comment.email) {
-				apiconfig.bannedMembers.create({ip: comment.ip, email: comment.email}).success(function(response) {
+				api.bannedMembers.create({ip: comment.ip, email: comment.email}).success(function(response) {
 					console.log("response", response);
 				});
 			}

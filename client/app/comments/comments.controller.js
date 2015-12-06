@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr, apiconfig) {
+  .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr, api) {
 
     $scope.$parent.pageTitle = 'Moderate Comments';
 
@@ -11,10 +11,10 @@ angular.module('meanbaseApp')
     $scope.pagesWithComments = [{label:'all', value: ''}];
     $scope.filterByThisPage = '';
     $scope.commentDate = null;
-  	apiconfig.comments.find({}).then(function(response) {
+  	api.comments.find({}).then(function(response) {
   		$scope.comments = response.data;
 
-      apiconfig.bannedMembers.find({}).success(function(bannedComments) {
+      api.bannedMembers.find({}).success(function(bannedComments) {
         $scope.bannedMembers = bannedComments;
         for (var i = 0; i < $scope.comments.length; i++) {
           if($scope.pagesWithComments.indexOf($scope.comments[i].url) === -1) {
@@ -36,12 +36,12 @@ angular.module('meanbaseApp')
   	});
 
     // Get the auto accept comments status
-    apiconfig.settings.find({name: 'auto-accept-comments'}).then(function(response) {
+    api.settings.find({name: 'auto-accept-comments'}).then(function(response) {
       if(!response.data[0]) { return $scope.autoAccept = false; }
       $scope.autoAccept = response.data[0].value === "true";
     });
 
-    apiconfig.settings.find({name: 'disable-comments'}).then(function(response) {
+    api.settings.find({name: 'disable-comments'}).then(function(response) {
       if(!response.data[0]) { return $scope.disableComments = false; }
       $scope.disableComments = response.data[0].value === "true";
     });
@@ -71,7 +71,7 @@ angular.module('meanbaseApp')
   	};
 
   	$scope.approveComment = function(comment, index) {
-  		apiconfig.comments.update({_id: comment._id}, {approved: true}).then(function(response) {
+  		api.comments.update({_id: comment._id}, {approved: true}).then(function(response) {
   			$scope.comments[$scope.comments.indexOf(comment)].approved = true;
         toastr.clear();
         toastr.success('Comment approved.');
@@ -79,7 +79,7 @@ angular.module('meanbaseApp')
   	};
 
   	$scope.unapproveComment = function(comment, index) {
-  		apiconfig.comments.update({_id: comment._id}, {approved: false}).then(function(response) {
+  		api.comments.update({_id: comment._id}, {approved: false}).then(function(response) {
   			$scope.comments[$scope.comments.indexOf(comment)].approved = false;
         toastr.clear();
         toastr.success('Comment unapproved.');
@@ -92,7 +92,7 @@ angular.module('meanbaseApp')
 
     $scope.ban = function(comment) {
       if(!comment || !comment.email || !comment.ip) { return false; }
-      apiconfig.bannedMembers.create({email: comment.email, ip: comment.ip}).success(function(response) {
+      api.bannedMembers.create({email: comment.email, ip: comment.ip}).success(function(response) {
         toastr.success('Commentor banned');
         comment.banned = true;
         $scope.bannedMembers.push(response[0]);
@@ -103,7 +103,7 @@ angular.module('meanbaseApp')
 
     $scope.unban = function(item) {
       if(!item || !item.email || !item.ip) { return false; }
-      apiconfig.bannedMembers.delete({ $or: [ {email: item.email}, {ip: item.ip} ] }).then(function(response) {
+      api.bannedMembers.delete({ $or: [ {email: item.email}, {ip: item.ip} ] }).then(function(response) {
         toastr.clear();
         toastr.success('Commentor unbanned');
         var index = $scope.bannedMembers.indexOf(item);
@@ -125,7 +125,7 @@ angular.module('meanbaseApp')
     };
 
   	$scope.deleteComment = function(comment) {
-  		apiconfig.comments.delete({_id: comment._id}).then(function(response) {
+  		api.comments.delete({_id: comment._id}).then(function(response) {
   			$scope.comments.splice($scope.comments.indexOf(comment), 1);
         toastr.clear();
         toastr.success('Comment deleted.');
@@ -143,7 +143,7 @@ angular.module('meanbaseApp')
         }
 
         // Sync the database with the comments
-        apiconfig.comments.delete({}).then(function() {
+        api.comments.delete({}).then(function() {
           toastr.clear();
           toastr.success('Deleted all comments.');
         });
@@ -156,8 +156,8 @@ angular.module('meanbaseApp')
       }
 
       // Sync the database with the comments
-      apiconfig.comments.delete({}).then(function() {
-        apiconfig.comments.create($scope.comments);
+      api.comments.delete({}).then(function() {
+        api.comments.create($scope.comments);
         toastr.clear();
         toastr.success('Approved all visible comments.');
       });
@@ -169,15 +169,15 @@ angular.module('meanbaseApp')
       }
 
       // Sync the database with the comments
-      apiconfig.comments.delete({}).then(function() {
-        apiconfig.comments.create($scope.comments);
+      api.comments.delete({}).then(function() {
+        api.comments.create($scope.comments);
         toastr.clear();
         toastr.success('Unapproved all visible comments.');
       });
     }
 
     $scope.toggleAutoAccept = function(boole) {
-      apiconfig.settings.update({name: 'auto-accept-comments'}, {name: 'auto-accept-comments', value: boole}).then(function(response) {
+      api.settings.update({name: 'auto-accept-comments'}, {name: 'auto-accept-comments', value: boole}).then(function(response) {
         boole = boole;
       }, function() {
         boole = !boole;
@@ -185,7 +185,7 @@ angular.module('meanbaseApp')
     };
 
     $scope.toggleDisableComments = function(boole) {
-      apiconfig.settings.update({name: 'disable-comments'}, {name: 'disable-comments', value: boole}).then(function(response) {
+      api.settings.update({name: 'disable-comments'}, {name: 'disable-comments', value: boole}).then(function(response) {
         boole = boole;
       }, function() {
         boole = !boole;

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .service('apiconfig', function (endpoints) {
+  .service('api', function (endpoints) {
 
     var api = {
       publishedPages: new endpoints('pages/published'),

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('theme.modal.controller', function ($scope, theme, $modalInstance, $http, endpoints, toastr, $rootScope, apiconfig) {
+  .controller('theme.modal.controller', function ($scope, theme, $modalInstance, $http, endpoints, toastr, $rootScope, api) {
 
     $scope.theme = theme;
 
@@ -29,7 +29,7 @@ angular.module('meanbaseApp')
     $scope.updateTheme = function() {
       $modalInstance.close($scope.theme);
       if(!$scope.theme._id) { return false; }
-      apiconfig.themes.update({_id: $scope.theme._id}, $scope.theme).then(function(response) {
+      api.themes.update({_id: $scope.theme._id}, $scope.theme).then(function(response) {
         toastr.success('Updated theme.');
         window.meanbaseGlobals.themeTemplates = $scope.theme.templates;
       });
@@ -39,7 +39,7 @@ angular.module('meanbaseApp')
       if($scope.theme.url) {
         var sure = window.confirm('Are you sure you want to delete this theme?');
         if(sure) {
-          apiconfig.themes.delete({url: $scope.theme.url}).then(function(response) {
+          api.themes.delete({url: $scope.theme.url}).then(function(response) {
             $rootScope.$emit('deleted theme');
             console.log('response', response);
           });

@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ThemesCtrl', function ($scope, endpoints, $modal, FileUploader, $cookieStore, $rootScope, toastr, apiconfig) {
+  .controller('ThemesCtrl', function ($scope, endpoints, $modal, FileUploader, $cookieStore, $rootScope, toastr, api) {
 
     $scope.$parent.pageTitle = 'Themes';
 
     $scope.themeDevelopmentMode = false;
-    apiconfig.developmentMode.find({}).success(function(response) {
+    api.developmentMode.find({}).success(function(response) {
       $scope.themeDevelopmentMode = response;
     });
 
@@ -28,7 +28,7 @@ angular.module('meanbaseApp')
     uploader.onSuccessItem = function() {
       $rootScope.$emit('cms.themeUploaded');
       toastr.success('Theme successfully uploaded! Refreshing page to compile code.');
-      apiconfig.themes.find({}).success(function(themes) {
+      api.themes.find({}).success(function(themes) {
         $scope.themes = themes;
       });
     };
@@ -37,7 +37,7 @@ angular.module('meanbaseApp')
       toastr.error("Could not upload theme. " + status + ": " + response);
     };
 
-    apiconfig.themes.find({}).success(function(themes) {
+    api.themes.find({}).success(function(themes) {
     	$scope.themes = themes;
     });
 

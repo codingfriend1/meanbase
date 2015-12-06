@@ -2,19 +2,19 @@
 (function(){
 	angular.module('meanbaseApp').controller('UsersCtrl', UsersCtrl);
 
-	UsersCtrl.$inject = ['$scope', 'endpoints', 'toastr', 'apiconfig'];
-	function UsersCtrl($scope, endpoints, toastr, apiconfig) {
+	UsersCtrl.$inject = ['$scope', 'endpoints', 'toastr', 'api'];
+	function UsersCtrl($scope, endpoints, toastr, api) {
 
 		$scope.$parent.pageTitle = "Users and Permissions";
 
 	  // Get all roles and their permissions and set the roles panel selected role to the first one
-	  apiconfig.roles.find({}).success(function(roles) {
+	  api.roles.find({}).success(function(roles) {
 	  	$scope.roles = roles;
 	  	$scope.selectedRole = $scope.roles[0];
 	  });
 
 	  // Get all users
-	  apiconfig.users.find({}).success(function(users) {
+	  api.users.find({}).success(function(users) {
 	  	$scope.users = users;
 	  });
 
@@ -34,7 +34,7 @@
 
 	  	var newRole = {role: roleName, permissions: $scope.selectedRole.permissions};
 
-  		apiconfig.roles.create(newRole).success(function(response) {
+  		api.roles.create(newRole).success(function(response) {
   			$scope.roles.push({role: roleName, permissions: $scope.selectedRole.permissions});
   			$scope.selectedRole = newRole;
   			toastr.clear();
@@ -45,7 +45,7 @@
 	  // Update a role
 	  $scope.updateRole = function(roleForm) {
 	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'admin') { return false; }
-  		apiconfig.roles.update({_id: $scope.selectedRole._id}, {permissions: $scope.selectedRole.permissions}).then(function(response) {
+  		api.roles.update({_id: $scope.selectedRole._id}, {permissions: $scope.selectedRole.permissions}).then(function(response) {
   			toastr.clear();
   			toastr.success('Updated ' + $scope.selectedRole.role + ' role.');
   		});
@@ -57,11 +57,11 @@
 	  	if(!confirmed) return false;
 	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'basic' || $scope.selectedRole.role === 'admin') { return false; }
 
-  		apiconfig.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
+  		api.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
   			toastr.clear();
   			toastr.warning('Moved users with ' + $scope.selectedRole.role + ' over to basic');
   		}).finally(function(response) {
-  			apiconfig.roles.delete({role: $scope.selectedRole.role}).then(function(response) {
+  			api.roles.delete({role: $scope.selectedRole.role}).then(function(response) {
   				toastr.success('Deleted ' + $scope.selectedRole.role + ' role.');
   				$scope.roles.splice($scope.roles.indexOf($scope.selectedRole), 1);
   				$scope.selectedRole = $scope.roles[0];
@@ -74,7 +74,7 @@
 	  	var newInfo = {};
 	  	angular.copy(user, newInfo);
 	  	if(!user) return false;
-	  	apiconfig.users.update({_id: user._id}, newInfo).then(function(response) {
+	  	api.users.update({_id: user._id}, newInfo).then(function(response) {
 	  		toastr.clear();
 	  		toastr.success('Updated user: ' + user.name);
 	  	});
@@ -83,7 +83,7 @@
 	  // Delete a user
 	  $scope.deleteUser = function(user, index) {
 	  	if(!user) return false;
-	  	apiconfig.users.deleteOne(user._id).then(function(response) {
+	  	api.users.deleteOne(user._id).then(function(response) {
 	  		toastr.clear();
 	  		toastr.success('Deleted user: ' + user.name);
 	  		$scope.users.splice(index, 1);

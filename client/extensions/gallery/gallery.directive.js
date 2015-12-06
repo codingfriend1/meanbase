@@ -3,7 +3,7 @@
 // This directive uses the slug passed in to get the appropriate images and display them in a slider
 
 angular.module('extensions')
-  .directive('gallery', function (endpoints, $rootScope, apiconfig) {
+  .directive('gallery', function (endpoints, $rootScope, api) {
     return {
       templateUrl: 'extensions/gallery/gallery.html',
       restrict: 'EA',
@@ -28,7 +28,7 @@ angular.module('extensions')
 
       	// Use all images that have this gallery slug title
       	if(scope.extension.config.slug) {
-      		apiconfig.media.find({galleries: scope.extension.config.slug}).success(function(response) {
+      		api.media.find({galleries: scope.extension.config.slug}).success(function(response) {
       		  scope.images = response || {};
 
             if(scope.images.length < 1) {
