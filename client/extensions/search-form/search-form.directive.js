@@ -10,7 +10,7 @@ angular.module('extensions')
       link: function (scope, element, attrs) {
       	scope.searchString = '';
       	scope.search = function() {
-      		api.pages.find({searchText:scope.searchString}).success(function(response) {
+      		api.searchPublishedPages.find({searchText:scope.searchString}).success(function(response) {
       			scope.results = !helpers.isEmpty(response)? response: [{url: '', title: 'No results'}];
       		});
       	};
