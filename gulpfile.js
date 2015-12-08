@@ -91,9 +91,9 @@ gulp.task('compose', function() {
 // Setup
 gulp.task('install', ['clean:tmp'], function() {
 	// plugins.run('npm install').exec('', function() {
-		plugins.run('bower install').exec('', function() {
+		// plugins.run('bower install').exec('', function() {
 			plugins.runSequence('jade', 'injectStylus', 'compileAppCSS', 'injectBowerComponents', 'injectComponents');
-		});
+		// });
 	// });
 });
 
