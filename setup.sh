@@ -45,9 +45,10 @@ npm install -g nodemon
 npm link gulp
 npm install
 npm install bower -g
-bower install --force-latest
+bower install -y --force-latest
 gulp install
 gulp build
 cd dist/
 export NODE_ENV=production
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 #mongod --smallfiles
