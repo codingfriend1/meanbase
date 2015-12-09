@@ -4,14 +4,23 @@ server {
 
   listen 443 ssl;
 
-  root /usr/share/nginx/html;
+  root "/Users/jonpaul/Documents/Websites/meanbase/meanbase/dist/public//";
   index index.html;
 
   server_name localhost;
   ssl_certificate /etc/nginx/ssl/nginx.crt;
   ssl_certificate_key /etc/nginx/ssl/nginx.key;
 
+  location ~ /themes|/api|/auth {
+    proxy_pass http://localhost:8080;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
+
   location / {
-    try_files $uri $uri/ =404;
+      try_files $uri $uri/ =404;
   }
 }

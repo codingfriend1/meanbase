@@ -20,10 +20,10 @@ module.exports = function(theme) {
 	} else {
 		Themes.find({active: true}, function(err, found) {
 			if(err) { return console.log('Getting active theme error', err); }
-			if(found < 1) { 
+			if(found < 1) {
 				getFirstTheme(function(found) {
 					compileIndex(found, GLOBAL.meanbaseGlobals.extensions);
-				}); 
+				});
 			} else {
 				compileIndex(found[0], GLOBAL.meanbaseGlobals.extensions);
 			}
@@ -43,9 +43,7 @@ function getFirstTheme(callback) {
 // Gets the scripts and styles from the chosen theme and inserts them into the index.html
 function compileIndex(theme, extensionJSONS) {
 	// Get file paths for the server/views/index and the chosen theme's scripts and styles templates
-	var viewFilePath = path.join(config.root, '/server/views/index.html'),
-		themeJSPath = path.join(app.get('appPath'), theme.scriptsPath), //themesFolder + theme.url + '/assets/scripts.html',
-		themeCSSPath = path.join(app.get('appPath'), theme.stylesPath); //themesFolder + theme.url + '/assets/styles.html';
+	var viewFilePath = path.join(config.root, '/server/views/index.html');
 
 	var index, themeJS, themeCSS, statsjs, statscss, hasThemeMin = false;
 
@@ -67,7 +65,8 @@ function compileIndex(theme, extensionJSONS) {
 
 	if(!hasThemeMin) {
 		try {
-			console.log('read html');
+			var themeJSPath = path.join(app.get('appPath'), theme.scriptsPath); //themesFolder + theme.url + '/assets/scripts.html',
+			var themeCSSPath = path.join(app.get('appPath'), theme.stylesPath); //themesFolder + theme.url + '/assets/styles.html';
 			themeJS = fs.readFileSync(themeJSPath,'utf8');
 			themeCSS = fs.readFileSync(themeCSSPath,'utf8');
 		} catch(error) {
@@ -80,8 +79,8 @@ function compileIndex(theme, extensionJSONS) {
 
 
 	// Try to read the file contents
-	
-	
+
+
 
 	// If the file reads were successful then insert given theme's assets into index.html
 	index = index.replace('theme-name', theme.url);
