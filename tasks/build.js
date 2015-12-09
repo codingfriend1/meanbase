@@ -194,7 +194,6 @@ module.exports = function (gulp, plugins, config) {
 					  			return themeJSONPath;
 					  		}))
 					  		.pipe(plugins.jsonEditor(function(json) {
-									console.log("themeJSONTemplatePaths", themeJSONTemplatePaths);
 					  		    json.templatePaths = themeJSONTemplatePaths;
 					  		    json.templates = templateMapping;
 					  		    json.preview = themePreview;

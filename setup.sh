@@ -13,12 +13,18 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
   sudo apt-get install nginx
+  mkdir /etc/nginx/ssl/
+  sudo cp deployment/meanbase-config.conf /etc/nginx/
+  #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew update
   brew install mongodb
   brew install graphicsmagick
   brew install node
   brew install nginx
+  mkdir /usr/local/etc/nginx/
+  sudo cp deployment/meanbase-config.conf /usr/local/etc/nginx/
+  #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /usr/local/etc/nginx/ssl/nginx.key -out /usr/local/etc/nginx/ssl/nginx.crt
 elif [[ "$OSTYPE" == "win32" ]]; then
   choco install git
   choco install mongodb
@@ -26,18 +32,19 @@ elif [[ "$OSTYPE" == "win32" ]]; then
   choco install nodejs
   choco install npm
   choco install nginx
-  npm install bson
 else
   sudo add-apt-repository ppa:dhor/myway
   sudo apt-get update
   sudo apt-get install -y graphicsmagick
   sudo apt-get install -y nodejs
-  sudo apt-get install git-core
+  sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
+  sudo apt-get install nginx
+  mkdir /etc/nginx/ssl/
+  sudo cp deployment/meanbase-config.conf /etc/nginx/
+  #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 fi
 
-#/usr/local/lib/node_modules
-sudo mkdir /etc/nginx/ssl
 npm update -g npm
 npm install mongoose express jade lodash multer winston passport karma karma-phantomjs-launcher supertest jsonwebtoken
 npm install -g gulp
@@ -45,10 +52,9 @@ npm install -g nodemon
 npm link gulp
 npm install
 npm install bower -g
-bower install -y --force-latest
+bower install -n --force-latest
 gulp install
 gulp build
 cd dist/
 export NODE_ENV=production
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 #mongod --smallfiles
