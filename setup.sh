@@ -52,7 +52,7 @@ npm install -g nodemon
 npm link gulp
 npm install
 npm install bower -g
-bower install -n --force-latest
+bower install
 gulp install
 gulp build
 cd dist/
