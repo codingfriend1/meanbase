@@ -12,17 +12,20 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   sudo apt-get install -y nodejs
   sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
+  sudo apt-get install nginx
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew update
   brew install mongodb
   brew install graphicsmagick
   brew install node
+  brew install nginx
 elif [[ "$OSTYPE" == "win32" ]]; then
   choco install git
   choco install mongodb
   choco install graphicsmagick
   choco install nodejs
   choco install npm
+  choco install nginx
   npm install bson
 else
   sudo add-apt-repository ppa:dhor/myway
@@ -34,6 +37,7 @@ else
 fi
 
 #/usr/local/lib/node_modules
+sudo mkdir /etc/nginx/ssl
 npm update -g npm
 npm install mongoose express jade lodash multer winston passport karma karma-phantomjs-launcher supertest jsonwebtoken
 npm install -g gulp
