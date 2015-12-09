@@ -45,4 +45,5 @@ bower install --force-latest
 gulp install
 gulp build
 cd dist/
+export NODE_ENV=production
 #mongod --smallfiles

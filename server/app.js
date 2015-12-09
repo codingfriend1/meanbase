@@ -21,7 +21,10 @@ if(config.seedDB) { require('./config/seed'); }
 // Setup server
 var app = express();
 config.app = app;
-var server = require('http').createServer(app);
+var privateKey = fs.readFileSync('ssl/server.key');
+var certificate = fs.readFileSync('ssl/server.crt');
+var server = require('https').createServer({key: privateKey, cert: certificate});
+// var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./init')(); //Create dummy data on startup
 require('./components/index')(null, app); //Set our default theme
