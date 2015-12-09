@@ -36,12 +36,12 @@ fi
 #/usr/local/lib/node_modules
 npm update -g npm
 npm install mongoose express jade lodash multer winston passport karma karma-phantomjs-launcher supertest jsonwebtoken
-npm install -g bower
 npm install -g gulp
 npm install -g nodemon
 npm link gulp
 npm install
-bower install -y
+npm install bower -g
+bower install --force-latest
 gulp install
 gulp build
 cd dist/
