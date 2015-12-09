@@ -2,18 +2,19 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    patterns = require('../../components/patterns'),
     validators = require('mongoose-validators');
 
 var ThemesSchema = new Schema({
   author: {
     type: String,
     trim: true,
-    validate: validators.isTitle({skipEmpty: true})
+    validate: validators.matches(patterns.isTitle, {skipEmpty:true})
   },
   email: {
     type:String,
     lowercase: true,
-    validate: validators.isEmail({skipEmpty: true}),
+    validate: validators.isEmail({skipEmpty:true}),
     trim: true
   },
   website: {
@@ -25,26 +26,26 @@ var ThemesSchema = new Schema({
   title: {
     type: String,
     trim: true,
-    validate: validators.isTitle({skipEmpty: true}),
+    validate: validators.matches(patterns.isTitle, {skipEmpty:true}),
     required: true
   },
   description: {
     type: String,
     trim: true,
     required: false,
-    validate: validators.isText({skipEmpty: true})
+    validate: validators.matches(patterns.isText, {skipEmpty: true})
   },
   url: {
   	type: String,
   	unique: true,
     required: true,
     trim: true,
-    validate: validators.isFilePath()
+    validate: validators.matches(patterns.isFilePath)
   },
   preview: {
     type: String,
     required: false,
-    validate: validators.isFilePath({skipEmpty: true})
+    validate: validators.matches(patterns.isFilePath, {skipEmpty: true})
   },
   active: {
   	type: Boolean,
@@ -69,18 +70,18 @@ var ThemesSchema = new Schema({
   scriptsPath: {
     type: String,
     trim: true,
-    validate: validators.isFilePath({skipEmpty: true})
+    validate: validators.matches(patterns.isFilePath, {skipEmpty: true})
   },
   stylesPath: {
     type: String,
     trim: true,
-    validate: validators.isFilePath({skipEmpty: true})
+    validate: validators.matches(patterns.isFilePath, {skipEmpty: true})
   },
   themeJSONPath: {
     type: String,
     trim: true,
     required: true,
-    validate: validators.isFilePath()
+    validate: validators.matches(patterns.isFilePath)
   },
   meta: Object
 });

@@ -2,7 +2,7 @@
 	angular.module('meanbaseApp').controller('cms.headbar.controller', HeadbarController);
 
 	// @ngInject
-	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr) {
+	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr, api) {
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 		var self = this;
 

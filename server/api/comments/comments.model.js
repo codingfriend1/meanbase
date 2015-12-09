@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    patterns = require('../../components/patterns'),
     validators = require('mongoose-validators'),
     textSearch = require('mongoose-text-search');
 
@@ -10,26 +11,26 @@ var CommentsSchema = new Schema({
     type: String,
     trim: true,
     default: 'anonymous',
-    validate: validators.isTitle()
+    validate: validators.matches(patterns.isTitle)
   },
   content: {
 		type: String,
     trim: true,
 		required: true,
-    validate: validators.isText()
+    validate: validators.matches(patterns.isText)
   },
   url: {
     type: String,
-    validate: validators.isURI({skipEmpty: true})
+    validate: validators.matches(patterns.isURI, {skipEmpty: true})
   },
   date: {
-  	type: Date, 
+  	type: Date,
   	default: Date.now
   },
   email: {
   	type: String,
     lowercase: true,
-    validate: validators.isEmail({skipEmpty: true})
+    validate: validators.isEmail({skipEmpty:true})
   },
   ip: {
   	type: String,
@@ -38,7 +39,7 @@ var CommentsSchema = new Schema({
   },
   gravatar: {
   	type: String,
-    validate: validators.isURI({skipEmpty: true})
+    validate: validators.matches(patterns.isURI, {skipEmpty: true})
   },
   approved: {
   	type: Boolean,
@@ -49,10 +50,10 @@ var CommentsSchema = new Schema({
   meta: Object
 });
 
-// give our schema text search capabilities 
+// give our schema text search capabilities
 CommentsSchema.plugin(textSearch);
- 
-// add a text index to the tags array 
+
+// add a text index to the tags array
 CommentsSchema.index({ content: 'text', author: 'text', url: 'text', email: 'text', date: 'text' });
 
 module.exports = mongoose.model('Comments', CommentsSchema);

@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    patterns = require('../../components/patterns'),
     validators = require('mongoose-validators');
 
 var MenusSchema = new Schema({
@@ -9,20 +10,20 @@ var MenusSchema = new Schema({
     type: String,
     trim: true,
     required: true,
-    validate: validators.isTitle()
+    validate: validators.matches(patterns.isTitle)
   },
   url: {
   	type: String,
   	trim: true,
     required: true,
-    validate: validators.isURI()
+    validate: validators.matches(patterns.isURI)
   },
   group: {
   	type: String,
   	trim: true,
     required: true,
   	default: 'main',
-    validate: validators.isTitle()
+    validate: validators.matches(patterns.isTitle)
   },
   position: {
   	type: Number,
@@ -31,12 +32,12 @@ var MenusSchema = new Schema({
   classes: {
   	type: String,
   	default: '',
-    validate: validators.isCSSClass({skipEmpty: true})
+    validate: validators.matches(patterns.isCSSClass, {skipEmpty: true})
   },
   target: {
   	type: String,
   	default: '',
-    validate: validators.isAnchorTarget({skipEmpty: true})
+    validate: validators.matches(patterns.isAnchorTarget, {skipEmpty: true})
   },
   published: {
     type: Boolean,

@@ -2,6 +2,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   sudo apt-get update
   sudo apt-get install -y graphicsmagick
   sudo apt-get install -y nodejs
+  sudo apt-get install git-core
   sudo apt-get install -y mongodb-org
   #git clone https://github.com/codingfriend1/meanbase-1.0.0.git
   #cd meanbase-1.0.0
@@ -25,6 +26,7 @@ else
   sudo apt-get update
   sudo apt-get install -y graphicsmagick
   sudo apt-get install -y nodejs
+  sudo apt-get install git-core
   sudo apt-get install -y mongodb-org
 fi
 
@@ -36,4 +38,5 @@ npm install -g bower
 npm install -g gulp
 npm link gulp
 npm install
+bower install -y
 gulp install

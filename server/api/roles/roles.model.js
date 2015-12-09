@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    patterns = require('../../components/patterns'),
     validators = require('mongoose-validators');
 
 var RolesSchema = new Schema({
@@ -10,7 +11,7 @@ var RolesSchema = new Schema({
   	required: true,
   	unique: true,
   	trim: true,
-    validate: validators.isTitle()
+    validate: validators.matches(patterns.isTitle)
   },
   permissions: {
   	editContent: {

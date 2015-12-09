@@ -22,7 +22,6 @@ if(config.seedDB) { require('./config/seed'); }
 var app = express();
 config.app = app;
 var server = require('http').createServer(app);
-require('./components/validators');
 require('./config/express')(app);
 require('./init')(); //Create dummy data on startup
 require('./components/index')(null, app); //Set our default theme

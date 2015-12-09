@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    patterns = require('../../components/patterns'),
     validators = require('mongoose-validators');
 
 var ExtensionSchema = new Schema({
@@ -9,22 +10,22 @@ var ExtensionSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    validate: validators.isTitle()
+    validate: validators.matches(patterns.isTitle)
   },
   folderName: {
     type: String,
     required: true,
-    validate: validators.isFilePath()
+    validate: validators.matches(patterns.isFilePath)
   },
   urls: [{
     type: String,
     required: false,
-    validate: validators.isURI({skipEmpty: true})
+    validate: validators.matches(patterns.isURI, {skipEmpty: true})
   }],
   screenshot: {
     type: String,
     required: false,
-    validate: validators.isFilePath({skipEmpty: true})
+    validate: validators.matches(patterns.isFilePath, {skipEmpty: true})
   },
   config: Schema.Types.Mixed,
   data: Schema.Types.Mixed,
@@ -36,7 +37,7 @@ var ExtensionSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    validate: validators.isHTML()
+    validate: validators.matches(patterns.isHTML)
   }
 });
 
