@@ -10,7 +10,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   sudo apt-get update
   sudo apt-get install -y graphicsmagick
   sudo apt-get install -y nodejs
-  sudo apt-get install git-core
+  sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew update
