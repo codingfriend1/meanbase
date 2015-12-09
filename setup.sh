@@ -8,11 +8,8 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   #mongod &
   #fg %1
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-  if[[ "which brew" == "/usr/local/bin/brew" ]]; then
-    brew update
-  else
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  fi
+  # ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew update
   brew install mongodb
   brew install graphicsmagick
   brew install node
@@ -21,6 +18,7 @@ elif [[ "$OSTYPE" == "cygwin" ]]; then
 elif [[ "$OSTYPE" == "msys" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 elif [[ "$OSTYPE" == "win32" ]]; then
+  # @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
   choco install git
   choco install mongodb
   choco install graphicsmagick
