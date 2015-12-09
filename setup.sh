@@ -8,7 +8,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   #mongod &
   #fg %1
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-  if[["which brew" == "/usr/local/bin/brew"]]; then
+  if[[ "which brew" == "/usr/local/bin/brew" ]]; then
     brew update
   else
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
