@@ -19,5 +19,10 @@ module.exports = {
             process.env.MONGOHQ_URL ||
             process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
             'mongodb://localhost/meanbase'
+  },
+
+  ssl: {
+    key: process.env.key || '/usr/lib/ssl/certs/server.key',
+    cert: process.env.cert || '/usr/lib/ssl/certs/ca-certificates.crt',
   }
 };
