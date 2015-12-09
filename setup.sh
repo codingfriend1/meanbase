@@ -13,10 +13,6 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew install mongodb
   brew install graphicsmagick
   brew install node
-elif [[ "$OSTYPE" == "cygwin" ]]; then
-        # POSIX compatibility layer and Linux environment emulation for Windows
-elif [[ "$OSTYPE" == "msys" ]]; then
-        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 elif [[ "$OSTYPE" == "win32" ]]; then
   # @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
   choco install git
@@ -25,11 +21,11 @@ elif [[ "$OSTYPE" == "win32" ]]; then
   choco install nodejs
   choco install npm
   npm install bson
-
-elif [[ "$OSTYPE" == "freebsd"* ]]; then
-        # ...
 else
-        # Unknown.
+  sudo apt-get update
+  sudo apt-get install -y graphicsmagick
+  sudo apt-get install -y nodejs
+  sudo apt-get install -y mongodb-org
 fi
 
 #/usr/local/lib/node_modules
