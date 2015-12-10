@@ -11,7 +11,7 @@
     // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
 
     var server = {};
-    if($rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent') > -1) {
+    if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent') > -1) {
       server.menus = api.menus;
     } else {
       server.menus = api.publishedMenus;

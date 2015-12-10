@@ -38,7 +38,7 @@
 
             var pages = api.publishedPages;
             // - Instantiate a new endpoints service to communite with server database
-            if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent')) {
+            if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent') > -1) {
               pages = api.pages;
             }
 

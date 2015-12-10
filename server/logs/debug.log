@@ -737,3 +737,5 @@
 {"url":{"$in":["assets/images/jonpaulmiles_01journelsix_1449705859307/","assets/images/jonpaulmiles_01journelsix_1449705884510/","assets/images/jonpaulmiles_01journelthree_1449705884829/","assets/images/jonpaulmiles_01journeltwo_1449705885136/","assets/images/jonpaulmiles_02journalone_1449705885457/","assets/images/jonpaulmiles_02journeleight_1449705885775/","assets/images/jonpaulmiles_02journelfive_1449705886048/","assets/images/jonpaulmiles_02journelfour_1449705886356/","assets/images/scan-2015-11-20-0017_1449705927746/","assets/images/jonpaulmiles_01journelthree_1449706542192/"]},"level":"info","message":"DAO.delete() /api/media ","timestamp":"2015-12-10T00:19:22.776Z"}
 {"_id":"5668d567575d64f54c9b828e","level":"info","message":"DAO.update()  ","timestamp":"2015-12-10T01:30:03.747Z"}
 {"_id":"5668d6bc6dfb23434d264e24","level":"info","message":"DAO.update()  ","timestamp":"2015-12-10T01:35:05.248Z"}
+{"_id":"56595bf5022ac2a34a1bb941","level":"info","message":"DAO.update()  ","timestamp":"2015-12-10T18:31:05.540Z"}
+{"_id":"56595bf5022ac2a34a1bb941","level":"info","message":"DAO.update()  ","timestamp":"2015-12-10T18:31:54.347Z"}

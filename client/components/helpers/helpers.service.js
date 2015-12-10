@@ -26,15 +26,22 @@ angular.module('meanbaseApp')
           // If the array item has it's `itemToBecomeProperty` value as an object property push this object into that property array
           returnObject[specialProperty].push(array[ii]);
         }
-        
+
       } //for
 
       return returnObject;
     };
 
+    this.hasPermission = function(permission) {
+      if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf(permission) > -1) {
+        return true;
+      }
+      return false;
+    };
+
 
     // ### Convert Array to Object
-    // helpers.arrayToObjectWithObject() receives an array of objects and converts it into an object containing objects using the property name itemToBecomeProperty. For example let say we pass in this array and the itemToBecomeProperty is `contentName`: 
+    // helpers.arrayToObjectWithObject() receives an array of objects and converts it into an object containing objects using the property name itemToBecomeProperty. For example let say we pass in this array and the itemToBecomeProperty is `contentName`:
 
     // **Before**
     // ```javascript
@@ -98,6 +105,7 @@ angular.module('meanbaseApp')
     // ### Loop through page extensions
     // helpers.loopThroughPageExtensions() does a for loop through all the extensions on the current page and runs a callback function on each iteration passing in the current extension being iterated on
     this.loopThroughPageExtensions = function(fn) {
+      if(!$rootScope.page || !$rootScope.page.extensions) {return false;}
       for (var property in $rootScope.page.extensions) {
         if ($rootScope.page.extensions.hasOwnProperty(property)) {
           for(var idx = 0; idx < $rootScope.page.extensions[property].length; idx++) {
@@ -115,7 +123,7 @@ angular.module('meanbaseApp')
           for(var i = 0; i < $rootScope.menus[group].length; i++) {
             fn($rootScope.menus[group][i]);
           }
-        } 
+        }
       }
     };
 
@@ -174,7 +182,7 @@ angular.module('meanbaseApp')
             draggableGroupsObject[group][i].group = group;
             draggableGroupsObject[group][i].position = i;
           }
-        } 
+        }
       }
       return draggableGroupsObject;
     };

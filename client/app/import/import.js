@@ -6,6 +6,8 @@ angular.module('meanbaseApp')
       .state('cms.import', {
         url: '/import',
         templateUrl: 'app/import/import.html',
-        controller: 'ImportCtrl'
+        controller: 'ImportCtrl',
+        hasPermission: "importExportData",
+        icon: 'fa-upload'
       });
   });

@@ -7,6 +7,7 @@ angular.module('meanbaseApp')
         url: '/themes',
         templateUrl: 'app/themes/themes.html',
         controller: 'ThemesCtrl',
-        hasPermission: 'changeSiteSettings'
+        hasPermission: 'changeSiteSettings',
+        icon: 'fa-paint-brush'
       });
   });

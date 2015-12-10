@@ -1,9 +1,19 @@
 'use strict';
 (function(){
-	function CMSCtrl($scope, Auth, $rootScope, endpoints, api) {
+	function CMSCtrl($scope, Auth, $rootScope, endpoints, api, $state) {
 		$scope.$parent.pageTitle = 'Manage Site';
-
 		$scope.user = Auth.getCurrentUser();
+		
+		var states = $state.get();
+		$scope.cmsStates = [];
+		for (var i = 0; i < states.length; i++) {
+			if(states[i].name.indexOf('cms.') > -1) {
+				var state = angular.copy(states[i]);
+				state.userHasPermission = $scope.user.permissions.indexOf(state.hasPermission) > -1;
+				state.friendlyName = state.url.replace('/', '');
+				$scope.cmsStates.push(state);
+			}
+ 		}
 
 		$scope.toggleMenu = function() {
 			$scope.menuOpen = !$scope.menuOpen;
