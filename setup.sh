@@ -51,10 +51,17 @@ npm install -g gulp
 npm link gulp
 npm install -g pm2
 npm install
+npm uninstall bower -g
 npm install bower -g
 bower install
 gulp install
 gulp build
 cd dist/
 export NODE_ENV=production
-#mongod --smallfiles
+# mongod --smallfiles --fork --logpath /var/log/mongodb.log
+# pm2 start server/app.js
+# sudo nginx
+
+#mongod --shutdown
+#pm2 stop all
+#sudo nginx -s quit
