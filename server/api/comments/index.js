@@ -15,7 +15,7 @@ router.get('/approved', controller.findApproved);
 router.get('/search', controller.search);
 
 router.get('/', auth.hasPermission('moderateComments'), controller.find);
-router.post('/', auth.isAuthenticated(), controller.create);
+router.post('/', controller.create);
 router.put('/', auth.hasPermission('moderateComments'), controller.update);
 router.patch('/', auth.hasPermission('moderateComments'), controller.update);
 router.delete('/', auth.hasPermission('moderateComments'), controller.delete);
