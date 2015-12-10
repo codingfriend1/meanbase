@@ -89,7 +89,7 @@ angular.module('meanbaseApp')
           var evt = $(event.target);
           if(evt.is('[meanbase-editable]') || evt.parents('[meanbase-editable]').length > 0) {
             var box = evt.parents('.trumbowyg-box');
-            var topPosition = box.offset().top + box.outerHeight() - event.clientY + 10;
+            var topPosition = box.offset().top + box.outerHeight() - event.pageY + 25;
             var pane = box.find('ul.trumbowyg-button-pane');
             pane.css('bottom', topPosition);
           }
