@@ -1,4 +1,5 @@
 # Stop server
+export NODE_ENV=production
 pm2 stop all; sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"; sudo nginx -s quit
 
 # Grab Updates

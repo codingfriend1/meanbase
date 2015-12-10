@@ -22,7 +22,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew install graphicsmagick
   brew install node
   brew install nginx
-  mkdir /usr/local/etc/nginx/
+  mkdir /etc/nginx/ssl/
   sudo cp deployment/meanbase-config.conf /usr/local/etc/nginx/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /usr/local/etc/nginx/ssl/nginx.key -out /usr/local/etc/nginx/ssl/nginx.crt
 elif [[ "$OSTYPE" == "win32" ]]; then
@@ -55,9 +55,7 @@ npm uninstall bower -g
 npm install bower -g
 bower install
 gulp install
-gulp build
-export NODE_ENV=production
-cd dist/
+export NODE_ENV=development
 # sudo mongod --smallfiles --fork --logpath /var/log/mongodb.log
 # pm2 start server/app.js
 # sudo nginx

@@ -12,43 +12,35 @@ reach a couple more checkpoints. [Youtube Meanbase Demo](http://youtu.be/tteztXr
 Install a package manager such as
 	- [homebrew](http://brew.sh/) on mac
 	- [chocolatey](https://chocolatey.org/) on windows.
-- Install git if on Windows
-	- `choco install git`
-- Install MongoDB
-	- **Mac** - `brew install mongodb`
-	- **Windows** - `choco install mongodb`
-- Mongoose is a little funny on windows
-	- `npm install bson`
-- In windows create the folder for the mongoDB databases and logs
-	- `mkdir c:\data\db`
-	- `mkdir c:\data\log`
-- Install GraphicsMagick
-	- `brew install graphicsmagick`
-	- `choco install graphicsmagick`
-- Install node
-	- `brew install node`
-	- `choco install nodejs`
-- Install npm if using windows
-	- `choco install npm`
-- Install bower
-	- `npm install -g bower`
 - Install my repository
 	- `git clone https://github.com/codingfriend1/meanbase-1.0.0.git`
 - Move into the cloned folder
 	- `cd meanbase-1.0.0`
-- Install npm and bower packages
-	- `npm install`
-- Compose files (compile jade and stylus)
-	- `gulp install` (runs bower install and composes files)
+- Checkout dev branch
+	- `git checkout dev`
+- Change the root of the nginx config to this folder
+	- `vim deployment/meanbase-config.conf`
+- If on windows create the folder for the mongoDB databases and logs
+	- `mkdir c:\data\db`
+	- `mkdir c:\data\log`
+- Run the setup.sh script
+	- `. setup.sh`
+- If you wish to run the production ready version run the update.sh script
+	- `. update.sh`
+- Whenever changes are made to the app running the update.sh will reinstall the latest version
 
-####Run the App
+####Run Development Mode
 - Start Mongodb in one terminal or cmd
 	- `mongod`
 - Run the app from the meanbase-1.0.0 folder in another terminal or cmd
 	- `gulp serve`
 - See app
 	- Open localhost:9000 in your browser
+- Stop each with ctrl-c
 
+###Stop Production Mode
+- Stop pm2, mongoDB, and Nginx services
+	- `pm2 stop all; sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"; sudo nginx -s quit`
 ####Gulp Commands
 - gulp install
 - gulp serve
