@@ -5,8 +5,8 @@
 
 module.exports = function() {
 	console.log('Initializing data in mongoDB');
-	// require('./delete_all')(initializeAllData());
-	initializeAllData();
+	require('./delete_all')(initializeAllData());
+	// initializeAllData();
 };
 
 function initializeAllData() {
