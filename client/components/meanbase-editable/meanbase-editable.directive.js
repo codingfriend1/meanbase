@@ -57,6 +57,7 @@ angular.module('meanbaseApp')
 
         var _snapshot;
 
+
         function enableTextEditor() {
           // Create the text editor instance. These events enable us to wrap the text in green outlines
           el.trumbowyg(config)
@@ -65,6 +66,7 @@ angular.module('meanbaseApp')
 
           // Get the el we want to add the hasFocus class to
           var trumbowygBox = el.parent('.trumbowyg-box');
+          angular.element(window).bind('click', trackMouse);
 
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
         	_snapshot = angular.copy(scope.html);
@@ -78,16 +80,27 @@ angular.module('meanbaseApp')
         if($rootScope.editMode) {
           enableTextEditor();
         }
-        
+
         scope.$onRootScope('cms.editMode', function(event, value) {
           if(value) { enableTextEditor(); }
         });
+
+        function trackMouse(event) {
+          var evt = $(event.target);
+          if(evt.is('[meanbase-editable]') || evt.parents('[meanbase-editable]').length > 0) {
+            var box = evt.parents('.trumbowyg-box');
+            var topPosition = box.offset().top + box.outerHeight() - event.clientY + 10;
+            var pane = box.find('ul.trumbowyg-button-pane');
+            pane.css('bottom', topPosition);
+          }
+        }
 
         // When the user discards their edits, reset trumbowyg and ng-bind-html to the snapshot
         scope.$onRootScope('cms.discardEdits', function() {
           el.trumbowyg('html', _snapshot);
           scope.html = _snapshot;
           el.trumbowyg('destroy');
+          angular.element(window).unbind('click', trackMouse);
         });
 
         // When the user saves their changes, update the ng-bind-html with the trymbowyg html

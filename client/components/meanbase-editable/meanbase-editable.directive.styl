@@ -55,12 +55,17 @@
   color: #999; }
 
 .trumbowyg-button-pane
+  z-index 10
   display none
 
 // .trumbowyg-box:hover .trumbowyg-button-pane
 //   display block
 
-.trumbowyg-box.hasFocus .trumbowyg-button-pane,
+// .trumbowyg-box.hasFocus .trumbowyg-button-pane,
+// .trumbowyg-box.trumbowyg-fullscreen .trumbowyg-button-pane
+//   display block
+
+.trumbowyg-box .trumbowyg-button-pane,
 .trumbowyg-box.trumbowyg-fullscreen .trumbowyg-button-pane
   display block
 
