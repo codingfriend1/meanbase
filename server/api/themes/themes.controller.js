@@ -58,7 +58,7 @@ exports.upload = function(req, res) {
 	try {
 		var form = new formidable.IncomingForm();
 		form.keepExtensions = true;
-		form.parse(req, function(err, fields, files) { 
+		form.parse(req, function(err, fields, files) {
       if(err) { return uploadingError('The theme folder must be compressed in the correct format.', res, createdFolderName); }
       if(!files || !files.file) {
         return res.status(501).send('The theme folder must be compressed.');
@@ -110,8 +110,8 @@ exports.upload = function(req, res) {
       .use(compressType({strip: 1}));
 
       decompress.run(function (err, files) {
-        if (err) { 
-          console.log("unzipping theme error: ", err);  
+        if (err) {
+          console.log("unzipping theme error: ", err);
           return res.status(501).send(err);
         }
         initThemes(function(error) {
@@ -128,7 +128,7 @@ exports.upload = function(req, res) {
 
 // Updates themes in the database
 exports.update = function(req, res) {
-  collection.update(req, res, updateFile);
+  collection.update(req, res);
 };
 
 // Deletes a themes from the DB.
