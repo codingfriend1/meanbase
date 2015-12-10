@@ -109,7 +109,14 @@ exports.retrieveThemes = function(activeURL, callback) {
 
               themeData.themeJSON.themeJSONPath = themeData.themeJSONPath;
 
-              if(process.NODE_ENV !== 'production' && templates && !themeData.themeJSON.templatePaths) {
+              var hasAllTemplates = true;
+              for (var page in templates) {
+                if (templates.hasOwnProperty(page)) {
+                  if(!page.template) { hasAllTemplates = false; break; }
+                }
+              }
+
+              if(hasAllTemplates && templates && !themeData.themeJSON.templatePaths) {
                 themeData.themeJSON.templatePaths = templates;
               }
 
