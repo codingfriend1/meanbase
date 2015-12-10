@@ -56,12 +56,11 @@ npm install bower -g
 bower install
 gulp install
 gulp build
-cd dist/
 export NODE_ENV=production
+cd dist/
 # sudo mongod --smallfiles --fork --logpath /var/log/mongodb.log
 # pm2 start server/app.js
 # sudo nginx
-
-#sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"
-#pm2 stop all
-#sudo nginx -s quit
+#
+# sudo mongod --smallfiles --fork --logpath /var/log/mongodb.log; pm2 start server/app.js; sudo nginx
+# sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"; pm2 stop all; sudo nginx -s quit
