@@ -46,7 +46,7 @@ else
 fi
 
 npm update -g npm
-npm install mongoose express jade lodash multer winston passport karma karma-phantomjs-launcher supertest jsonwebtoken bower
+npm install mongoose express jade lodash multer winston passport karma karma-phantomjs-launcher supertest jsonwebtoken
 npm install -g gulp
 npm link gulp
 npm install -g pm2
