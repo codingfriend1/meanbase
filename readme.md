@@ -41,6 +41,7 @@ Install a package manager such as
 ###Stop Production Mode
 - Stop pm2, mongoDB, and Nginx services
 	- `pm2 stop all; sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"; sudo nginx -s quit`
+	
 ####Gulp Commands
 - gulp install
 - gulp serve
