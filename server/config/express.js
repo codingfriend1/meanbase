@@ -20,18 +20,6 @@ var mongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
 var multer  = require('multer');
 var fs = require('fs');
-var gm = require('gm');
-var Media = require('../api/media/media.model');
-var folderName;
-
-var hasGM = false;
-var exec = require('child_process').exec;
-exec("gm -help", function (error, stdout, stderr) {
-  if(!error) { hasGM = true; } else {
-    console.log('!!!!! Graphics Magick is not installed, image thumbnails cannot be created !!!!!');
-  }
-
-});
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -54,7 +42,7 @@ module.exports = function(app) {
     saveUninitialized: true,
     store: new mongoStore({ mongoose_connection: mongoose.connection })
   }));
-  
+
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
@@ -72,59 +60,4 @@ module.exports = function(app) {
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
   }
-
-
-  app.use('/api/media', multer({ 
-    dest: app.get('appPath') + 'assets/images/',
-    onFileUploadStart: function(file, req, res) {
-      var imagePath = file.path;
-      var thumbnailPath = file.path.replace('origional', 'thumbnail');
-      var smallPath = file.path.replace('origional', 'small');
-      var mediumPath = file.path.replace('origional', 'medium');
-      var largePath = file.path.replace('origional', 'large');
-      
-      if(hasGM) {
-        try {
-          gm(imagePath).autoOrient().setFormat("jpg").resize(992, 744).quality(90).noProfile().write(largePath, function() {
-            gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function() {
-              gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function() {
-                gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function() {
-                  Media.create(req.body, function(err, found) {
-                    if(err) { return res.send(500, err); }
-                    if(!found) { return res.send(404); }
-                    res.status(201).json(found);
-                  });
-                });
-              });
-            });
-          });
-        } catch(err) {
-          console.log('could not create thumbnails');
-          res.status(500).json(err);
-        }
-      }
-    },
-    rename: function (fieldname, filename) {
-      folderName = filename.replace(/\W+/g, '-').toLowerCase() + '_' + Date.now();
-      return 'origional';
-    },
-    changeDest: function(dest, req, res) {
-      var destination = dest + folderName + '/';
-      if(!fs.existsSync(destination)){
-        fs.mkdirSync(destination, "0766", function(err){
-          if(err){ 
-            console.log(err);
-            res.send("ERROR! Can't make the directory! \n");    // echo the result back
-          }
-        });   
-      }
-
-      req.body = {
-        url: 'assets/images/' + folderName + '/',
-        galleries: req.body.galleries? [req.body.galleries]: []
-      };
-
-      return destination; 
-    }
-  }));
 };
