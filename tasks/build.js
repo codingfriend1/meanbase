@@ -61,8 +61,8 @@ module.exports = function (gulp, plugins, config) {
 		  gulp.src('client/bower_components/bootstrap/fonts/**')
 		  	.pipe(gulp.dest('dist/public/bower_components/bootstrap/fonts/')),
 
-			gulp.src('client/components/meanbase-editable/*.png')
-		  	.pipe(gulp.dest('dist/public/components/meanbase-editable/'))
+			gulp.src('client/bower_components/trumbowyg/dist/ui/images/*.png')
+		  	.pipe(gulp.dest('dist/public/bower_components/trumbowyg/dist/ui/images/'))
 		 );
 	});
 
