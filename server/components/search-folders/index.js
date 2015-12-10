@@ -28,7 +28,7 @@ exports.retrieveThemes = function(activeURL, callback) {
         try {
           var stat = fs.statSync(themesFolderUrl + themesFolder[loop.iteration()]);
         } catch(e) {
-          return loop.break('Could not find theme folder'); 
+          return loop.break('Could not find theme folder');
         }
         if(stat.isDirectory()) {
           try {
@@ -37,7 +37,7 @@ exports.retrieveThemes = function(activeURL, callback) {
             } catch(e) {
               return loop.break('Could not navigate theme folder structure.');
             }
-            
+
             var templates = {};
             var themeData = {
               templates: {},
@@ -65,8 +65,8 @@ exports.retrieveThemes = function(activeURL, callback) {
                 themeData.scriptsHTML = templateFilePaths[i];
               } else if(templateFilePaths[i].indexOf('screenshot') > -1 && templateFilePaths[i].indexOf('-screenshot') === -1) {
                 // If we are looking at the theme screenshot
-                themeData.preview = templateFilePaths[i];      
-              } else if(templateFilePaths[i].indexOf('-screenshot') > -1) { 
+                themeData.preview = templateFilePaths[i];
+              } else if(templateFilePaths[i].indexOf('-screenshot') > -1) {
                 // If a template has a screenshot store it's url
                 templateName = templateFilePaths[i].match(/[^(\/|\\)]*(?=-screenshot.[^.]+($|\?))/);
                 if(templateName && templateName[0] && /^[0-9A-Za-z\/\*_.\\\-]*$/.test(templateFilePaths[i])) {
@@ -95,9 +95,9 @@ exports.retrieveThemes = function(activeURL, callback) {
             try {
               themeData.themeJSON = JSON.parse(fs.readFileSync(app.get('appPath') + themeData.themeJSONPath, 'utf8'));
             } catch(e) {
-              return loop.break("Could not find a valid theme.json file in the theme. If it's there, make sure it doesn't have any errors."); 
+              return loop.break("Could not find a valid theme.json file in the theme. If it's there, make sure it doesn't have any errors.");
             }
-                      
+
             if(themeData.themeJSON && Object.prototype.toString.call(themeData.themeJSON) === "[object Object]") {
 
               themeData.themeJSON.url = themesFolder[loop.iteration()];
@@ -109,7 +109,7 @@ exports.retrieveThemes = function(activeURL, callback) {
 
               themeData.themeJSON.themeJSONPath = themeData.themeJSONPath;
 
-              if(templates && !themeData.themeJSON.templatePaths) {
+              if(process.NODE_ENV !== 'production' && templates && !themeData.themeJSON.templatePaths) {
                 themeData.themeJSON.templatePaths = templates;
               }
 
@@ -127,7 +127,7 @@ exports.retrieveThemes = function(activeURL, callback) {
 
               if(themeData.themeJSON.url) {
                 Themes.find({url: themeData.themeJSON.url}).lean().exec(function(err, theme) {
-                  if(theme[0] && theme[0].templates) { 
+                  if(theme[0] && theme[0].templates) {
                     // themeJSONS[loop.iteration()].templates = theme[0].templates;
                     themeData.themeJSON.templates = theme[0].templates;
                   } else {
@@ -169,7 +169,6 @@ exports.retrieveThemes = function(activeURL, callback) {
                     return loop.break('Theme had no templates. At least one file must have a -template.html or -template.jade ending');
                   }
                 }
-
                 themeJSONS.push(themeData.themeJSON);
                 themeData = {};
 
@@ -212,7 +211,7 @@ exports.retrieveExtensions = function(callback) {
       try {
         var stat = fs.statSync(extensionsFolderUrl + extensionsFolder[ii]);
       } catch(e) {
-        return callback('Could not find extension folder'); 
+        return callback('Could not find extension folder');
       }
       if(stat.isDirectory()) {
         try {
@@ -238,7 +237,7 @@ exports.retrieveExtensions = function(callback) {
           } catch(e) {
             return callback("Could not find a valid extension.json file in the extension. If it's there, make sure it doesn't have any errors.");
           }
-          
+
           try {
             extensionJSON.text = fs.readFileSync(app.get('appPath') + index, 'utf8');
           } catch(e) {
@@ -246,7 +245,7 @@ exports.retrieveExtensions = function(callback) {
           }
 
           extensionJSON.folderName = extensionsFolder[ii];
-          
+
           if(files) {
             extensionJSON.urls = files;
           }
@@ -254,7 +253,7 @@ exports.retrieveExtensions = function(callback) {
           if(screenshot && extractFileNameRegex.test(screenshot)) {
             extensionJSON.screenshot = screenshot;
           }
-          
+
           extensionsJSONS.push(extensionJSON);
 
           extensionFilePaths = null;

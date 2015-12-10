@@ -14,7 +14,7 @@
  var path = require('path');
 
 module.exports = function(theme) {
-	themesFolder = path.join(app.get('appPath'), 'themes/');
+	themesFolder = path.join(app.get('appPath'), 'themes', '/');
 	if(theme) {
 		compileIndex(theme, GLOBAL.meanbaseGlobals.extensions);
 	} else {
