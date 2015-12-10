@@ -60,6 +60,11 @@ exports.find = function(req, res) {
   collection.find(req, res);
 };
 
+function createThumbnailsError(res, err) {
+  console.log('could not create thumbnails');
+  fse.remove(path.join( app.get('appPath'), 'assets', 'images', folderName ));
+  res.status(500).json(err);
+}
 // Creates a new pages in the DB.
 exports.create = function(req, res) {
   upload(req, res, function (err) {
@@ -71,15 +76,18 @@ exports.create = function(req, res) {
     var smallPath = req.files.file.path.replace('origional', 'small');
     var mediumPath = req.files.file.path.replace('origional', 'medium');
     var largePath = req.files.file.path.replace('origional', 'large');
-
     if(hasGM) {
       try {
-        gm(imagePath).autoOrient().setFormat("jpg").resize(992, 744).quality(90).noProfile().write(largePath, function() {
-          gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function() {
-            gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function() {
-              gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function() {
-                Media.create(req.body, function(err, found) {
-                  if(err) { return res.send(500, err); }
+        gm(imagePath).autoOrient().setFormat("jpg").resize(992, 744).quality(90).noProfile().write(largePath, function(err) {
+          if(err) { return createThumbnailsError(res, err) };
+          gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function(err) {
+            if(err) { return createThumbnailsError(res, err) };
+            gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function(err) {
+              if(err) { return createThumbnailsError(res, err) };
+              gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function(err) {
+                if(err) { return createThumbnailsError(res, err) };
+                Media.create(req.body, function(error, found) {
+                  if(error) { return res.send(500, err); }
                   if(!found) { return res.send(404); }
                   res.status(201).json(found);
                 });
@@ -88,8 +96,7 @@ exports.create = function(req, res) {
           });
         });
       } catch(err) {
-        console.log('could not create thumbnails');
-        res.status(500).json(err);
+        createThumbnailsError(res, err);
       }
     } else {
       res.status(500).send('Graphics Magick not installed, unable to upload images.');
@@ -106,7 +113,6 @@ exports.update = function(req, res) {
 
 // Deletes a pages from the DB.
 exports.delete = function(req, res) {
-  console.log('hi');
   var url = 'ahlsdfjh32k23jh532';
 	// Since the identifier comes in from query instead of body we need to parse it
 	if(req.query && req.query.where) {
