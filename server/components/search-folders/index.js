@@ -110,13 +110,18 @@ exports.retrieveThemes = function(activeURL, callback) {
               themeData.themeJSON.themeJSONPath = themeData.themeJSONPath;
 
               var hasAllTemplates = true;
-              for (var page in templates) {
-                if (templates.hasOwnProperty(page)) {
-                  if(!page.template) { hasAllTemplates = false; break; }
+              if(templates) {
+                for (var page in templates) {
+                  if (templates.hasOwnProperty(page)) {
+                    if(!page.template) { hasAllTemplates = false; break; }
+                  }
                 }
+              } else {
+                hasAllTemplates = false;
               }
 
-              if(hasAllTemplates && templates && !themeData.themeJSON.templatePaths) {
+
+              if(hasAllTemplates && !themeData.themeJSON.templatePaths) {
                 themeData.themeJSON.templatePaths = templates;
               }
 
