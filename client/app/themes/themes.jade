@@ -55,7 +55,7 @@ script(type="text/ng-template" id="theme.modal.html")
 				label.template-label {{template}}
 				taglist(ng-model="templates[template]")
 	.modal-footer
-		button.btn.btn-danger(ng-click="deleteTheme(theme)" data-dismiss='modal') Delete
+		button.btn.btn-danger(ng-disabled="theme.active" ng-click="deleteTheme(theme)" data-dismiss='modal') Delete
 		button.btn.btn-warning(type='button' ng-click="updateTheme()" data-dismiss='modal') Update
 		button.btn.btn-success(ng-disabled="theme.active" ng-click="activateTheme()" data-dismiss='modal') Use this theme
 		button.btn.btn-default(type='button' ng-click="cancel()") Close
