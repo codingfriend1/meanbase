@@ -42,6 +42,7 @@
     "xml-to-json": "^0.1.1"
   },
   "devDependencies": {
+    "bower": "^1.7.0",
     "connect-livereload": "~0.4.0",
     "del": "^2.0.2",
     "docker": "^0.2.14",

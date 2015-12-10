@@ -13,7 +13,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
   sudo apt-get install nginx
-  mkdir /etc/nginx/ssl/
+  sudo mkdir /etc/nginx/ssl/
   sudo cp deployment/meanbase-config.conf /etc/nginx/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 elif [[ "$OSTYPE" == "darwin"* ]]; then
@@ -40,16 +40,16 @@ else
   sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
   sudo apt-get install nginx
-  mkdir /etc/nginx/ssl/
+  sudo mkdir /etc/nginx/ssl/
   sudo cp deployment/meanbase-config.conf /etc/nginx/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 fi
 
 npm update -g npm
-npm install mongoose express jade lodash multer winston passport karma karma-phantomjs-launcher supertest jsonwebtoken
+npm install mongoose express jade lodash multer winston passport karma karma-phantomjs-launcher supertest jsonwebtoken bower
 npm install -g gulp
-npm install -g nodemon
 npm link gulp
+npm install -g pm2
 npm install
 npm install bower -g
 bower install
