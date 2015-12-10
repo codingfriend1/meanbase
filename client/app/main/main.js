@@ -36,7 +36,7 @@
             // Get the current logged in user
             $rootScope.currentUser = Auth.getCurrentUser();
 
-            pages = api.publishedPages;
+            var pages = api.publishedPages;
             // - Instantiate a new endpoints service to communite with server database
             if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent')) {
               pages = api.pages;
