@@ -61,6 +61,3 @@ cd dist/
 # sudo mongod --smallfiles --fork --logpath /var/log/mongodb.log
 # pm2 start server/app.js
 # sudo nginx
-#
-# sudo mongod --smallfiles --fork --logpath /var/log/mongodb.log; pm2 start server/app.js; sudo nginx
-# sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"; pm2 stop all; sudo nginx -s quit
