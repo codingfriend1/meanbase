@@ -150,6 +150,11 @@
         // Here we get only the active extensions so the admin can select extensions to add
         api.extensions.find({active: true}).success(function(res) {
           $rootScope.extensions = res;
+          for (var i = 0; i < $rootScope.extensions.length; i++) {
+            if(!$rootScope.extensions[i].screenshot) {
+              $rootScope.extensions[i].screenshot = 'http://placehold.it/200x100';
+            }
+          }
         });
       }
     });
