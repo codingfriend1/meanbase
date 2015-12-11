@@ -5,8 +5,7 @@ Since a good CMS for the MEAN stack was not available I decided to begin buildin
 From the start it uses yeoman generator-angular-fullstack with authentication and authorization templates.
 [https://github.com/DaftMonk/generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack) However it has been modified to use gulp instead of grunt.
 
-Here is a link to a demo of the old version. A new demo will be available once I
-reach a couple more checkpoints. [Youtube Meanbase Demo](http://youtu.be/tteztXru4eA)
+A demo of the site in action can be seen at [https://meanbase-jon4888.c9users.io/](https://meanbase-jon4888.c9users.io/)
 
 ####Install
 Install a package manager such as
@@ -41,7 +40,7 @@ Install a package manager such as
 ###Stop Production Mode
 - Stop pm2, mongoDB, and Nginx services
 	- `pm2 stop all; sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"; sudo nginx -s quit`
-	
+
 ####Gulp Commands
 - gulp install
 - gulp serve
