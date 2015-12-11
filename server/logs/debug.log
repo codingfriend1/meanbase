@@ -752,3 +752,9 @@
 {"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2015-12-11T17:40:32.562Z"}
 {"_id":"566a0b8c25076ecb435e1873","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2015-12-11T17:40:32.623Z"}
 {"contentName":"test","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-11T17:40:32.643Z"}
+{"name":"disable-comments","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-11T18:07:42.027Z"}
+{"name":"disable-comments","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-11T18:07:42.382Z"}
+{"name":"auto-accept-comments","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-11T18:07:43.084Z"}
+{"name":"auto-accept-comments","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-11T18:07:43.610Z"}
+{"_id":"566b0ef77ec2d11a05725afe","level":"info","message":"DAO.update()  ","timestamp":"2015-12-11T18:14:52.134Z"}
+{"_id":"566b0ef77ec2d11a05725aff","level":"info","message":"DAO.update()  ","timestamp":"2015-12-11T18:15:03.208Z"}

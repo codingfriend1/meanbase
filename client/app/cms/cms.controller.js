@@ -1,22 +1,29 @@
 'use strict';
 angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $rootScope, endpoints, api, $state) {
-	$scope.$parent.pageTitle = 'Manage Site';
-	$scope.user = Auth.getCurrentUser();
 
 	var states = $state.get();
 	$scope.cmsStates = [];
-	for (var i = 0; i < states.length; i++) {
-		if(states[i].name.indexOf('cms.') > -1) {
-			var state = angular.copy(states[i]);
-			if(!$scope.user.permissions || $scope.user.permissions.length === 0) {
-				state.userHasPermission = false;
-			} else {
-				state.userHasPermission = $scope.user.permissions.indexOf(state.hasPermission) > -1;
-			}
-			state.friendlyName = state.url.replace('/', '');
-			$scope.cmsStates.push(state);
-		}
-		}
+	$scope.$parent.pageTitle = 'Manage Site';
+	Auth.isLoggedInAsync(function(status) {
+	 $rootScope.isLoggedIn = status;
+	 $rootScope.currentUser = Auth.getCurrentUser();
+
+	 for (var i = 0; i < states.length; i++) {
+ 		if(states[i].name.indexOf('cms.') > -1) {
+ 			var state = angular.copy(states[i]);
+ 			if(!$rootScope.currentUser.permissions || $rootScope.currentUser.permissions.length === 0) {
+ 				state.userHasPermission = false;
+ 			} else {
+ 				state.userHasPermission = $rootScope.currentUser.permissions.indexOf(state.hasPermission) > -1;
+ 			}
+ 			state.friendlyName = state.url.replace('/', '');
+ 			$scope.cmsStates.push(state);
+ 		}
+ 	}
+
+ });
+	$rootScope.currentUser = Auth.getCurrentUser();
+	console.log("$rootScope.currentUser.permissions", $rootScope.currentUser.permissions);
 
 	$scope.toggleMenu = function() {
 		$scope.menuOpen = !$scope.menuOpen;
