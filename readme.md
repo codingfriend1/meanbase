@@ -15,14 +15,12 @@ Install a package manager such as
 	- `git clone https://github.com/codingfriend1/meanbase-1.0.0.git`
 - Move into the cloned folder
 	- `cd meanbase-1.0.0`
-- Checkout dev branch
-	- `git checkout dev`
 - Change the root of the nginx config to this folder
 	- `vim deployment/meanbase-config.conf`
 - If on windows create the folder for the mongoDB databases and logs
 	- `mkdir c:\data\db`
 	- `mkdir c:\data\log`
-- Run the setup.sh script
+- Run the setup.sh script, hit enter if prompted, and then make yourself a coffee
 	- `. setup.sh`
 - If you wish to run the production ready version run the update.sh script
 	- `. update.sh`
