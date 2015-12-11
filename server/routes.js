@@ -5,6 +5,8 @@
 'use strict';
 
 var errors = require('./components/errors');
+var path = require('path');
+var config = require('./config/environment');
 
 module.exports = function(app) {
 
@@ -28,17 +30,18 @@ module.exports = function(app) {
 
   app.route('/themes/*').get(function(req, res) {
     try {
-      res.render('../../' + app.get('frontEnd') + '/themes/' + req.params[0]);
-    } catch(e) {
-      res.status(500).send(e);
+      res.render( path.join(config.root, app.get('frontEnd'), 'themes', req.params[0]) );
+    } catch(err) {
+      console.log("err", err);
+      res.status(500).send(err);
     }
   });
 
   app.route('/extensions/*').get(function(req, res) {
     try {
       res.render('../../' + app.get('frontEnd') + '/extensions/' + req.params[0]);
-    } catch(e) {
-      res.status(500).send(e);
+    } catch(err) {
+      res.status(500).send(err);
     }
   });
 

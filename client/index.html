@@ -48,8 +48,8 @@
       // This theme name gets dynamically created on the server when it compiles this file so it can be used throughout the application especially ui-router
       window.meanbaseGlobals = {};
       window.meanbaseGlobals.siteTheme = 'canvas'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
-      window.meanbaseGlobals.themeTemplates = {"about":["about","page","post","home","article","archive","font-page"],"article":["article"],"author":["author"],"blog":["blog"],"contact":["contact"],"home":["home"],"portfolio":["portfolio"],"project":["project"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
-      window.meanbaseGlobals.themeTemplatePaths = {"project":{"template":"themes/canvas/templates/project-template"},"author":{"template":"themes/canvas/templates/author-template"},"article":{"template":"themes/canvas/templates/article-template"},"portfolio":{"template":"themes/canvas/templates/portfolio-template","screenshot":"themes/canvas/screenshots/portfolio-screenshot.png"},"home":{"template":"themes/canvas/templates/home-template","screenshot":"themes/canvas/screenshots/home-screenshot.png"},"contact":{"template":"themes/canvas/templates/contact-template","screenshot":"themes/canvas/screenshots/contact-screenshot.png"},"blog":{"template":"themes/canvas/templates/blog-template","screenshot":"themes/canvas/screenshots/blog-screenshot.png"},"about":{"template":"themes/canvas/templates/about-template","screenshot":"themes/canvas/screenshots/about-screenshot.png"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.themeTemplates = {"project":["project"],"portfolio":["portfolio"],"home":["home"],"contact":["contact"],"blog":["blog"],"author":["author"],"article":["article"],"about":["about","page","post","home","article","archive","font-page"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.themeTemplatePaths = {"project":{"template":"themes/canvas/templates/project/project-template.html"},"author":{"template":"themes/canvas/templates/author/author-template.html"},"article":{"template":"themes/canvas/templates/article/article-template.html"},"portfolio":{"template":"themes/canvas/templates/portfolio/portfolio-template.html","screenshot":"themes/canvas/screenshots/portfolio-screenshot.png"},"home":{"template":"themes/canvas/templates/home/home-template.html","screenshot":"themes/canvas/screenshots/home-screenshot.png"},"contact":{"template":"themes/canvas/templates/contact/contact-template.html","screenshot":"themes/canvas/screenshots/contact-screenshot.png"},"blog":{"template":"themes/canvas/templates/blog/blog-template.html","screenshot":"themes/canvas/screenshots/blog-screenshot.png"},"about":{"template":"themes/canvas/templates/about/about-template.html","screenshot":"themes/canvas/screenshots/about-screenshot.png"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
     </script>
   </head>
   <body ng-app="meanbaseApp">
@@ -134,11 +134,11 @@
     
     <script src="app/app.js"></script>
     
+    <script src="app/account/login/login.controller.js"></script>
+    
     <script src="app/account/signup/signup.controller.js"></script>
     
     <script src="app/account/settings/settings.controller.js"></script>
-    
-    <script src="app/account/login/login.controller.js"></script>
     
     <script src="components/validate/validate.directive.js"></script>
     
@@ -188,11 +188,11 @@
     
     <script src="components/camel-to-human/camel-to-human.filter.js"></script>
     
+    <script src="components/api/api.service.js"></script>
+    
     <script src="components/auth/user.service.js"></script>
     
     <script src="components/auth/auth.service.js"></script>
-    
-    <script src="components/api/api.service.js"></script>
     
     <script src="app/users/users.js"></script>
     
@@ -243,7 +243,6 @@
     <script src="themes/canvas/js/custom.js"></script>
 <script src="themes/canvas/js/isotope.pkgd.min.js"></script>
 <script src="themes/canvas/js/jquery-1.11.2.min.js"></script>
-<script src="themes/canvas/js/map.js"></script>
 <script src="themes/canvas/js/unslider.min.js"></script>
 
     <!-- Extensions JS -->

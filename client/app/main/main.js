@@ -90,7 +90,6 @@
               if($rootScope.page.description) {
                 jQuery('meta[name=description]').attr('content', $rootScope.page.description);
               }
-
               // - **The promise must return a html string instead of a url**
               $templateFactory.fromUrl(templatePath).then(function(html) {
                 // - If html returned the index page instead of the template html then redirect to 404
