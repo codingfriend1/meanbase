@@ -31,10 +31,9 @@
     <link rel="stylesheet" href="app/app.css">
     <!-- endinject -->
     
-    <link rel="stylesheet" href="themes/canvas/css/core.css" media="screen" title="no title" charset="utf-8">
-<link rel="stylesheet" href="themes/canvas/css/custom.css" media="screen" title="no title" charset="utf-8">
-<link rel="stylesheet" href="themes/canvas/css/skins/blue.css" media="screen" title="no title" charset="utf-8">
-
+    <!-- theme:css -->
+<link rel="stylesheet" href="themes/meanbase-starter/assets/theme.css">
+<!-- endinject -->
     <!-- Extensions CSS -->
       <link rel="stylesheet" href="extensions/extensible-areas-extension/extensible-areas-extension.css">
 				 <link rel="stylesheet" href="extensions/gallery/gallery.css">
@@ -47,9 +46,9 @@
     <script>
       // This theme name gets dynamically created on the server when it compiles this file so it can be used throughout the application especially ui-router
       window.meanbaseGlobals = {};
-      window.meanbaseGlobals.siteTheme = 'canvas'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
-      window.meanbaseGlobals.themeTemplates = {"project":["project"],"portfolio":["portfolio"],"home":["home"],"contact":["contact"],"blog":["blog"],"author":["author"],"article":["article"],"about":["about","page","post","home","article","archive","font-page"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
-      window.meanbaseGlobals.themeTemplatePaths = {"project":{"template":"themes/canvas/templates/project/project-template.html"},"author":{"template":"themes/canvas/templates/author/author-template.html"},"article":{"template":"themes/canvas/templates/article/article-template.html"},"portfolio":{"template":"themes/canvas/templates/portfolio/portfolio-template.html","screenshot":"themes/canvas/screenshots/portfolio-screenshot.png"},"home":{"template":"themes/canvas/templates/home/home-template.html","screenshot":"themes/canvas/screenshots/home-screenshot.png"},"contact":{"template":"themes/canvas/templates/contact/contact-template.html","screenshot":"themes/canvas/screenshots/contact-screenshot.png"},"blog":{"template":"themes/canvas/templates/blog/blog-template.html","screenshot":"themes/canvas/screenshots/blog-screenshot.png"},"about":{"template":"themes/canvas/templates/about/about-template.html","screenshot":"themes/canvas/screenshots/about-screenshot.png"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.siteTheme = 'meanbase-starter'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
+      window.meanbaseGlobals.themeTemplates = {"page":["page"],"home":["home"],"article":["article"],"archive":["archive"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.themeTemplatePaths = {"page":{"template":"themes/meanbase-starter/templates/page/page-template.html","screenshot":"themes/meanbase-starter/screenshots/page-screenshot.png"},"home":{"template":"themes/meanbase-starter/templates/home/home-template.html","screenshot":"themes/meanbase-starter/screenshots/home-screenshot.png"},"article":{"template":"themes/meanbase-starter/templates/article/article-template.html","screenshot":"themes/meanbase-starter/screenshots/article-screenshot.png"},"archive":{"template":"themes/meanbase-starter/templates/archive/archive-template.html","screenshot":"themes/meanbase-starter/screenshots/archive-screenshot.png"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
     </script>
   </head>
   <body ng-app="meanbaseApp">
@@ -240,10 +239,12 @@
     
     <!-- endinject -->
     
-    <script src="themes/canvas/js/custom.js"></script>
-<script src="themes/canvas/js/isotope.pkgd.min.js"></script>
-<script src="themes/canvas/js/unslider.min.js"></script>
-
+    <!-- theme:js -->
+<script src="themes/meanbase-starter/templates/archive/archive.controller.js"></script>
+<script src="themes/meanbase-starter/templates/article/article.controller.js"></script>
+<script src="themes/meanbase-starter/templates/home/home.controller.js"></script>
+<script src="themes/meanbase-starter/templates/page/page.controller.js"></script>
+<!-- endinject -->
     <!-- Extensions JS -->
       <script src="extensions/extensible-areas-extension/extensible-areas-extension.directive.js"></script>
 				 <script src="extensions/gallery/gallery.directive.js"></script>

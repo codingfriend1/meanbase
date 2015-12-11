@@ -10,7 +10,6 @@
 
 
 
-.loggedIn #main-view {
-  padding-top: 70px;
+#main-view {
+  padding-top: 20px;
 }
-
