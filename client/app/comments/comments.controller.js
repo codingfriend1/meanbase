@@ -4,7 +4,7 @@ angular.module('meanbaseApp')
   .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr, api) {
 
     $scope.$parent.pageTitle = 'Moderate Comments';
-
+    $scope.commentFilter = '';
     $scope.autoAccept = false;
     $scope.autoReject = false;
     $scope.dateDirection = 'after';
@@ -64,11 +64,9 @@ angular.module('meanbaseApp')
       $scope.dateOpened = true;
     };
 
-
-  	$scope.commentFilter = '';
-  	$scope.filterComments = function(comment) {
-  		return (comment.content + comment.author + comment.ip + comment.email + comment.date + comment.url).toLowerCase().indexOf($scope.commentFilter.toLowerCase()) >= 0;
-  	};
+  	// $scope.filterComments = function(comment) {
+  	// 	return (comment.content + comment.author + comment.ip + comment.email + comment.date + comment.url).toLowerCase().indexOf($scope.commentFilter.toLowerCase()) >= 0;
+  	// };
 
   	$scope.approveComment = function(comment, index) {
   		api.comments.update({_id: comment._id}, {approved: true}).then(function(response) {

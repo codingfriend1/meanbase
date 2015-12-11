@@ -38,6 +38,7 @@ tabset(justified="true").margin-top
               .input-group-addon 
                   i.fa.fa-search
               input(type="text" placeholder="Search comments by text" ng-model="commentFilter").form-control
+              
       .form-group
           button.btn.btn-success(ng-click="approveAllVisible()") Approve All Visibile
           button.btn.btn-warning(ng-click="unapproveAllVisible()") Unapprove All Visibile
@@ -47,7 +48,7 @@ tabset(justified="true").margin-top
               input(type="checkbox" ng-model="sortDirection") 
               | Show oldest comments first?
       accordion(close-others="true")
-          accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:filterComments | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
+          accordion-group(ng-repeat="comment in ($parent.filteredComments = (comments | filter:commentFilter | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}").panel
               accordion-heading.panel-heading(ng-click="status.open=!status.open")
                   i.fa(ng-class="{'fa-check': comment.approved, 'fa-frown-o': !comment.approved}").comment-approved-icon
                   span.commment-author #[strong {{comment.author}} ]: {{comment.date | relativeDate}}
