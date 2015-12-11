@@ -1,0 +1,37 @@
+.about(itemscope='', itemtype='http://schema.org/AboutPage')
+  #masthead
+    include ../components/menu
+    #page-title
+      .container
+        .row
+          h1.entry-title(itemprop='headline' meanbase-editable ng-bind-html="page.title")
+          | &#x9;&#x9;&#x9;&#x9;&#x9;
+          p.description(itemprop='description' meanbase-editable ng-bind-html="page.content['description']")
+        // .row
+      // .container
+    // #page-title
+  // #masthead
+  main#content(role='main')
+    .section
+      .container
+        .row
+          .half-block
+            .content
+              article.post.hentry(itemscope='', itemprop='', itemtype='http://schema.org/Article')
+                .entry-image
+                  span(single-image="main" placehold-it="http://placehold.it/524x250" caption="false" alt='About', itemprop='image')
+                // .entry-image
+                .entry-content(itemprop='articleBody')
+                  p(meanbase-editable ng-bind-html="page.content['content-2']")
+                // .entry-content
+              // .post
+            // .content
+          // .half-block
+          .half-block(role='complementary')
+            div(meanbase-editable ng-bind-html="page.content['content-1']")
+          // .half-block
+        // .row
+      // .container
+    // .section
+  // #content
+  include ../components/footer

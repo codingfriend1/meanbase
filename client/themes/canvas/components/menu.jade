@@ -1,0 +1,10 @@
+#site-header(role='banner')
+  .container
+    .row
+      #branding
+        a.logo(href='index.html') Canvas
+      nav#main-menu(role='navigation', itemscope='', itemtype='http://schema.org/SiteNavigationElement')
+        ul.horizontal-navigation(ng-sortable="menusConfig")
+          li.menu-home(itemprop='url' ng-repeat="menu in menus.main" sortable)
+            a(href='{{menu.url}}', title='Home', itemprop='name' target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
+          li(ng-click="createMenuItem('mainMenuGroup')" ng-if="editMode") i.fa.fa-plus
