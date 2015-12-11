@@ -5,7 +5,7 @@ Since a good CMS for the MEAN stack was not available I decided to begin buildin
 From the start it uses yeoman generator-angular-fullstack with authentication and authorization templates.
 [https://github.com/DaftMonk/generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack) However it has been modified to use gulp instead of grunt.
 
-A demo of the site in action can be seen at [https://meanbase-jon4888.c9users.io/](https://meanbase-jon4888.c9users.io/)
+A demo of the site in action can be seen at [https://meanbase-codingfriend.c9users.io/](https://meanbase-codingfriend.c9users.io/)
 
 ####Install
 Install a package manager such as
