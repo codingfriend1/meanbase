@@ -39,6 +39,11 @@ angular.module('meanbaseApp')
 
     api.themes.find({}).success(function(themes) {
     	$scope.themes = themes;
+      for (var i = 0; i < $scope.themes.length; i++) {
+        if(!$scope.themes[i].preview) {
+          $scope.themes[i].preview = 'http://placehold.it/500x300';
+        }
+      }
     });
 
     $scope.openModal = function (theme) {
