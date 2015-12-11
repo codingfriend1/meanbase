@@ -16,7 +16,12 @@ angular.module('meanbaseApp')
 
     api.extensions.find({}).success(function(response) {
       $scope.extensions = response;
-      console.log("response", response);
+      for (var i = 0; i < $scope.extensions.length; i++) {
+        if (!$scope.extensions[i].screenshot) {
+          console.log('this');
+          $scope.extensions[i].screenshot = 'http://placehold.it/500x200';
+        }
+      }
     });
 
 
