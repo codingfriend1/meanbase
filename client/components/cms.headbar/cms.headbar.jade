@@ -159,8 +159,9 @@ script(type="text/ng-template" id="extensions.modal.html")
 								input.form-control(type="text" placeholder="search content" ng-model="searchExtensions.name")
 						.extensions-list.scrollable-body
 							div(ng-repeat="ext in extensions | filter:searchExtensions" ng-click="toggleChecked(ext, $event)").list-item
+								img(ng-src="{{ext.screenshot}}").list-image
 								h4.list-title {{ext.name}}
-								i.fa.pull-right.checkbox(ng-class="{'fa-check': chosenContent.indexOf(ext) > -1, 'fa-square-o': chosenContent.indexOf(ext) == -1}")
+								i.fa.checkbox(ng-class="{'fa-check': chosenContent.indexOf(ext) > -1, 'fa-square-o': chosenContent.indexOf(ext) == -1}")
 				tab(heading="Choose from existing content")
 					div.extensions-selector
 						.form-group

@@ -234,6 +234,7 @@
             $rootScope.sharedContent[currentExtension.contentName].type = currentExtension.name;
             $rootScope.sharedContent[currentExtension.contentName].data = currentExtension.data;
             $rootScope.sharedContent[currentExtension.contentName].config = currentExtension.config;
+            $rootScope.sharedContent[currentExtension.contentName].screenshot = currentExtension.screenshot;
 
             // Send the shared content back to the server
             api.sharedContent.update({contentName: currentExtension.contentName}, $rootScope.sharedContent[currentExtension.contentName]);

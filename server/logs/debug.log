@@ -749,3 +749,6 @@
 {"_id":"566a31e9e18d5de927dc5a81","level":"info","message":"DAO.update()  ","timestamp":"2015-12-11T02:16:38.402Z"}
 {"_id":"566a5d2d4d1a4b9f9265ae42","level":"info","message":"DAO.update()  ","timestamp":"2015-12-11T05:24:17.112Z"}
 {"_id":"566a5d2d4d1a4b9f9265ae44","level":"info","message":"DAO.update()  ","timestamp":"2015-12-11T05:24:44.920Z"}
+{"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2015-12-11T17:40:32.562Z"}
+{"_id":"566a0b8c25076ecb435e1873","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2015-12-11T17:40:32.623Z"}
+{"contentName":"test","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-11T17:40:32.643Z"}
