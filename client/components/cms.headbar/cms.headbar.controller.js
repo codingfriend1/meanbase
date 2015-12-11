@@ -129,7 +129,9 @@
 		};
 
 		this.hideScreenshot = function(template) {
-			document.body.removeChild(this.currentScreenshot);
+			if(this.currentScreenshot) {
+				document.body.removeChild(this.currentScreenshot);
+			}
 		};
 
 		function prepareDefaultPage(url, e) {

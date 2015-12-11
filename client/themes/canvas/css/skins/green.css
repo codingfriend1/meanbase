@@ -1,0 +1,48 @@
+/* ====================================================
+
+	File Name: Green Theme (green-theme.css)
+	Description: Green theme for Canvas
+	Author: Donny Burnside
+	Author URI: http://www.donnyburnside.co.uk
+	Version: 1.0.0
+	License: GNU General Public License v3.0
+	License URI: http://www.gnu.org/licenses/gpl.html
+
+	Canvas - A Free Website Template by Donny Burnside
+	Copyright 2015 Donny Burnside
+	Distributed under the terms of the GNU GPL
+
+	For help and support please visit http://www.donnyburnside.co.uk
+
+   ==================================================== */
+
+/* ====================================================
+	Accent Colour (Links, buttons, borders, etc)
+   ==================================================== */
+
+/* Colour */
+a,
+.post .entry-title,
+.author-name,
+.posts-by-author-title {
+	color:#76E292;
+}
+
+/* Background Colour */
+#masthead,
+#isotope-menu,
+.isotope-item a .overlay,
+.project-description-title:after,
+.project-details-title:after,
+button,
+.button,
+input[type="submit"],
+input[type="cancel"],
+::selection {
+	background-color:#76E292;
+}
+
+/* Borders */
+#prefooter {
+	border-color:#76E292;
+}

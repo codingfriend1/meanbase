@@ -1,0 +1,48 @@
+/* ====================================================
+
+	File Name: Blue Theme (blue-theme.css)
+	Description: Blue theme for Canvas
+	Author: Donny Burnside
+	Author URI: http://www.donnyburnside.co.uk
+	Version: 1.0.0
+	License: GNU General Public License v3.0
+	License URI: http://www.gnu.org/licenses/gpl.html
+
+	Canvas - A Free Website Template by Donny Burnside
+	Copyright 2015 Donny Burnside
+	Distributed under the terms of the GNU GPL
+
+	For help and support please visit http://www.donnyburnside.co.uk
+
+   ==================================================== */
+
+/* ====================================================
+	Accent Colour (Links, buttons, borders, etc)
+   ==================================================== */
+
+/* Colour */
+a,
+.post .entry-title,
+.author-name,
+.posts-by-author-title {
+	color:#75D6FF;
+}
+
+/* Background Colour */
+#masthead,
+#isotope-menu,
+.isotope-item a .overlay,
+.project-description-title:after,
+.project-details-title:after,
+button,
+.button,
+input[type="submit"],
+input[type="cancel"],
+::selection {
+	background-color:#75D6FF;
+}
+
+/* Borders */
+#prefooter {
+	border-color:#75D6FF;
+}

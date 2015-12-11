@@ -31,9 +31,10 @@
     <link rel="stylesheet" href="app/app.css">
     <!-- endinject -->
     
-    <!-- theme:css -->
-<link rel="stylesheet" href="themes/meanbase-starter/assets/theme.css">
-<!-- endinject -->
+    <link rel="stylesheet" href="themes/canvas/css/core.css" media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="themes/canvas/css/custom.css" media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="themes/canvas/css/skins/blue.css" media="screen" title="no title" charset="utf-8">
+
     <!-- Extensions CSS -->
       <link rel="stylesheet" href="extensions/extensible-areas-extension/extensible-areas-extension.css">
 				 <link rel="stylesheet" href="extensions/gallery/gallery.css">
@@ -46,9 +47,9 @@
     <script>
       // This theme name gets dynamically created on the server when it compiles this file so it can be used throughout the application especially ui-router
       window.meanbaseGlobals = {};
-      window.meanbaseGlobals.siteTheme = 'meanbase-starter'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
-      window.meanbaseGlobals.themeTemplates = {"page":["page"],"home":["home"],"article":["article"],"archive":["archive"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
-      window.meanbaseGlobals.themeTemplatePaths = {"page":{"template":"themes/meanbase-starter/templates/page/page-template","screenshot":"themes/meanbase-starter/screenshots/page-screenshot.png"},"home":{"template":"themes/meanbase-starter/templates/home/home-template","screenshot":"themes/meanbase-starter/screenshots/home-screenshot.png"},"article":{"template":"themes/meanbase-starter/templates/article/article-template","screenshot":"themes/meanbase-starter/screenshots/article-screenshot.png"},"archive":{"template":"themes/meanbase-starter/templates/archive/archive-template","screenshot":"themes/meanbase-starter/screenshots/archive-screenshot.png"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.siteTheme = 'canvas'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
+      window.meanbaseGlobals.themeTemplates = {"about":["about","page","post","home","article","archive","font-page"],"article":["article"],"author":["author"],"blog":["blog"],"contact":["contact"],"home":["home"],"portfolio":["portfolio"],"project":["project"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.themeTemplatePaths = {"project":{"template":"themes/canvas/templates/project-template.html"},"author":{"template":"themes/canvas/templates/author-template.html"},"article":{"template":"themes/canvas/templates/article-template.html"},"portfolio":{"template":"themes/canvas/templates/portfolio-template.html","screenshot":"themes/canvas/screenshots/portfolio-screenshot.png"},"home":{"template":"themes/canvas/templates/home-template.html","screenshot":"themes/canvas/screenshots/home-screenshot.png"},"contact":{"template":"themes/canvas/templates/contact-template.html","screenshot":"themes/canvas/screenshots/contact-screenshot.png"},"blog":{"template":"themes/canvas/templates/blog-template.html","screenshot":"themes/canvas/screenshots/blog-screenshot.png"},"about":{"template":"themes/canvas/templates/about-template.html","screenshot":"themes/canvas/screenshots/about-screenshot.png"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
     </script>
   </head>
   <body ng-app="meanbaseApp">
@@ -169,25 +170,21 @@
     
     <script src="components/find-images-modal/find-images-modal.directive.js"></script>
     
-    <script src="app/missing/missing.js"></script>
-    
-    <script src="app/missing/missing.controller.js"></script>
-    
     <script src="components/fallback-src/fallback-src.directive.js"></script>
     
     <script src="components/extensions-selector/extensions.modal.controller.js"></script>
     
     <script src="components/extensions-selector/extensions-selector.directive.js"></script>
     
-    <script src="components/endpoints/endpoints.service.js"></script>
-    
     <script src="components/extensions-area/extensions-area.directive.js"></script>
+    
+    <script src="components/endpoints/endpoints.service.js"></script>
     
     <script src="components/dynamic-html/dynamic-html.directive.js"></script>
     
-    <script src="components/cms.headbar/cms.headbar.controller.js"></script>
-    
     <script src="components/doubleClick/doubleClick.directive.js"></script>
+    
+    <script src="components/cms.headbar/cms.headbar.controller.js"></script>
     
     <script src="components/camel-to-human/camel-to-human.filter.js"></script>
     
@@ -197,19 +194,19 @@
     
     <script src="components/api/api.service.js"></script>
     
+    <script src="app/users/users.js"></script>
+    
+    <script src="app/users/users.controller.js"></script>
+    
     <script src="app/themes/themes.js"></script>
     
     <script src="app/themes/themes.controller.js"></script>
     
     <script src="app/themes/theme.modal.controller.js"></script>
     
-    <script src="app/users/users.js"></script>
+    <script src="app/missing/missing.js"></script>
     
-    <script src="app/users/users.controller.js"></script>
-    
-    <script src="app/import/import.js"></script>
-    
-    <script src="app/import/import.controller.js"></script>
+    <script src="app/missing/missing.controller.js"></script>
     
     <script src="app/media/media.js"></script>
     
@@ -218,6 +215,10 @@
     <script src="app/main/main.js"></script>
     
     <script src="app/main/main.controller.js"></script>
+    
+    <script src="app/import/import.js"></script>
+    
+    <script src="app/import/import.controller.js"></script>
     
     <script src="app/extensions/extensions.js"></script>
     
@@ -239,12 +240,12 @@
     
     <!-- endinject -->
     
-    <!-- theme:js -->
-<script src="themes/meanbase-starter/templates/archive/archive.controller.js"></script>
-<script src="themes/meanbase-starter/templates/article/article.controller.js"></script>
-<script src="themes/meanbase-starter/templates/home/home.controller.js"></script>
-<script src="themes/meanbase-starter/templates/page/page.controller.js"></script>
-<!-- endinject -->
+    <script src="themes/canvas/js/custom.js"></script>
+<script src="themes/canvas/js/isotope.pkgd.min.js"></script>
+<script src="themes/canvas/js/jquery-1.11.2.min.js"></script>
+<script src="themes/canvas/js/map.js"></script>
+<script src="themes/canvas/js/unslider.js"></script>
+
     <!-- Extensions JS -->
       <script src="extensions/extensible-areas-extension/extensible-areas-extension.directive.js"></script>
 				 <script src="extensions/gallery/gallery.directive.js"></script>
