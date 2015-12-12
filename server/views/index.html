@@ -42,6 +42,8 @@
       window.meanbaseGlobals.siteTheme = 'theme-name'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
       window.meanbaseGlobals.themeTemplates = 'theme-templates'; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
       window.meanbaseGlobals.themeTemplatePaths = 'themeTemplatePaths'; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.clientID = 'clientID';
+      window.meanbaseGlobals.appID = 'appID';
     </script>
   </head>
   <body ng-app="meanbaseApp">
@@ -59,7 +61,7 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', 'meanbase-1157');
+      ga('create', window.meanbaseGlobals.appID);
       ga('send', 'pageview');
     </script>
 
@@ -132,11 +134,7 @@
 
     <script src="app/account/login/login.controller.js"></script>
 
-    <script src="components/findImages/findImages.directive.js"></script>
-
-    <script src="components/find-images-modal/find-images-modal.directive.js"></script>
-
-    <script src="components/helpers/helpers.service.js"></script>
+    <script src="components/navbar/navbar.controller.js"></script>
 
     <script src="components/validate/validate.directive.js"></script>
 
@@ -147,8 +145,6 @@
     <script src="components/single-image/single-image.directive.js"></script>
 
     <script src="components/ng-enter/ng-enter.directive.js"></script>
-
-    <script src="components/navbar/navbar.controller.js"></script>
 
     <script src="components/mongoose-error/mongoose-error.directive.js"></script>
 
@@ -161,6 +157,12 @@
     <script src="components/mb-animate/mb-animate.directive.js"></script>
 
     <script src="components/image-selector/image-selector.directive.js"></script>
+
+    <script src="components/findImages/findImages.directive.js"></script>
+
+    <script src="components/helpers/helpers.service.js"></script>
+
+    <script src="components/find-images-modal/find-images-modal.directive.js"></script>
 
     <script src="components/fallback-src/fallback-src.directive.js"></script>
 

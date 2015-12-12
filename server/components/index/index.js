@@ -113,17 +113,22 @@ function compileIndex(theme, extensionJSONS) {
 
 	GLOBAL.meanbaseGlobals.extensions = null;
 
-	Settings.findOne({name: 'appID'}, function(id) {
-		if(id) {
-			index = index.replace('appID', id);
+	Settings.findOne({name: 'appID'}, function(err, appID) {
+		if(appID) {
+			index = index.replace("'appID'", "'" + appID.value + "'");
 		}
-		try {
-			// Write the results back to index.html in client/ folder
-			fs.writeFileSync(app.get('appPath') + 'index.html', index, 'utf8');
-			console.log('writing to index from index');
-		} catch(error) {
-			console.log('error: ', error);
-		}
+    Settings.findOne({name: 'clientID'}, function(err, clientID) {
+      if(clientID) {
+  			index = index.replace("'clientID'", "'" + clientID.value + "'");
+  		}
+			try {
+				// Write the results back to index.html in client/ folder
+				fs.writeFileSync(app.get('appPath') + 'index.html', index, 'utf8');
+				console.log('writing to index from index');
+			} catch(error) {
+				console.log('error: ', error);
+			}
+    });
 	});
 
 }

@@ -49,6 +49,8 @@
       window.meanbaseGlobals.siteTheme = 'meanbase-starter'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
       window.meanbaseGlobals.themeTemplates = {"page":["page"],"home":["home"],"article":["article"],"archive":["archive","blog"]}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
       window.meanbaseGlobals.themeTemplatePaths = {"page":{"template":"themes/meanbase-starter/templates/page/page-template.html","screenshot":"themes/meanbase-starter/screenshots/page-screenshot.png"},"home":{"template":"themes/meanbase-starter/templates/home/home-template.html","screenshot":"themes/meanbase-starter/screenshots/home-screenshot.png"},"article":{"template":"themes/meanbase-starter/templates/article/article-template.html","screenshot":"themes/meanbase-starter/screenshots/article-screenshot.png"},"archive":{"template":"themes/meanbase-starter/templates/archive/archive-template.html","screenshot":"themes/meanbase-starter/screenshots/archive-screenshot.png"}}; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.clientID = '50285089810-7b5jo0m6ghs4271o9v18m1pnt26ia24h.apps.googleusercontent.com';
+      window.meanbaseGlobals.appID = 'meanbase-1157';
     </script>
   </head>
   <body ng-app="meanbaseApp">
@@ -66,7 +68,7 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', 'meanbase-1157');
+      ga('create', window.meanbaseGlobals.appID);
       ga('send', 'pageview');
     </script>
 
@@ -139,11 +141,7 @@
 
     <script src="app/account/login/login.controller.js"></script>
 
-    <script src="components/findImages/findImages.directive.js"></script>
-
-    <script src="components/find-images-modal/find-images-modal.directive.js"></script>
-
-    <script src="components/helpers/helpers.service.js"></script>
+    <script src="components/navbar/navbar.controller.js"></script>
 
     <script src="components/validate/validate.directive.js"></script>
 
@@ -154,8 +152,6 @@
     <script src="components/single-image/single-image.directive.js"></script>
 
     <script src="components/ng-enter/ng-enter.directive.js"></script>
-
-    <script src="components/navbar/navbar.controller.js"></script>
 
     <script src="components/mongoose-error/mongoose-error.directive.js"></script>
 
@@ -168,6 +164,12 @@
     <script src="components/mb-animate/mb-animate.directive.js"></script>
 
     <script src="components/image-selector/image-selector.directive.js"></script>
+
+    <script src="components/findImages/findImages.directive.js"></script>
+
+    <script src="components/helpers/helpers.service.js"></script>
+
+    <script src="components/find-images-modal/find-images-modal.directive.js"></script>
 
     <script src="components/fallback-src/fallback-src.directive.js"></script>
 

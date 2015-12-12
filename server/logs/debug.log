@@ -761,3 +761,4 @@
 {"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T17:51:24.407Z"}
 {"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T17:53:46.618Z"}
 {"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T17:54:06.215Z"}
+{"name":"clientID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T18:12:11.321Z"}
