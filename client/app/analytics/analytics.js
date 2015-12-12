@@ -7,7 +7,7 @@ angular.module('meanbaseApp')
         url: '/analytics',
         templateUrl: 'app/analytics/analytics.html',
         controller: 'AnalyticsCtrl',
-        authenticate: true,
+        hasPermission: "viewAnalytics",
         icon: 'fa-bar-chart'
       });
   });

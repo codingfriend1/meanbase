@@ -58,6 +58,10 @@ var RolesSchema = new Schema({
   		type: Boolean,
       default: false
   	},
+    viewAnalytics: {
+  		type: Boolean,
+      default: false
+  	},
   	// deleteSite: {
   	// 	type: Boolean,
    //    default: false
