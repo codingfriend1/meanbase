@@ -758,3 +758,6 @@
 {"name":"auto-accept-comments","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-11T18:07:43.610Z"}
 {"_id":"566b0ef77ec2d11a05725afe","level":"info","message":"DAO.update()  ","timestamp":"2015-12-11T18:14:52.134Z"}
 {"_id":"566b0ef77ec2d11a05725aff","level":"info","message":"DAO.update()  ","timestamp":"2015-12-11T18:15:03.208Z"}
+{"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T17:51:24.407Z"}
+{"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T17:53:46.618Z"}
+{"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T17:54:06.215Z"}

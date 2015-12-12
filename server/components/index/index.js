@@ -1,5 +1,7 @@
 'use strict';
 
+var Settings = require('../../api/settings/settings.model.js');
+
 /**
  * Compiles the client/index.html from a copy in server/views/index.html with the chosen theme assets
  * Grunt loads /app/ themes and scripts into server/views/index.html
@@ -111,11 +113,17 @@ function compileIndex(theme, extensionJSONS) {
 
 	GLOBAL.meanbaseGlobals.extensions = null;
 
-	try {
-		// Write the results back to index.html in client/ folder
-		fs.writeFileSync(app.get('appPath') + 'index.html', index, 'utf8');
-		console.log('writing to index from index');
-	} catch(error) {
-		console.log('error: ', error);
-	}
+	Settings.findOne({name: 'appID'}, function(id) {
+		if(id) {
+			index = index.replace('appID', id);
+		}
+		try {
+			// Write the results back to index.html in client/ folder
+			fs.writeFileSync(app.get('appPath') + 'index.html', index, 'utf8');
+			console.log('writing to index from index');
+		} catch(error) {
+			console.log('error: ', error);
+		}
+	});
+
 }
