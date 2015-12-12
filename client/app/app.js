@@ -13,7 +13,8 @@ angular.module('meanbaseApp', [
   'extensions',
   'ng-sortable',
   'toastr',
-  'relativeDate'
+  'relativeDate',
+  'ngAnalytics'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider
@@ -59,7 +60,13 @@ angular.module('meanbaseApp', [
     };
   })
 
-  .run(function ($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location, Auth, ngAnalyticsService, api) {
+
+    api.settings.find({name: 'clientID'}).success(function(res) {
+      if(!res[0] || ! res[0].value) { return false; }
+      ngAnalyticsService.setClientId(res[0].value);
+    });
+
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {

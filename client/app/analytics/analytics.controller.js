@@ -27,4 +27,31 @@ angular.module('meanbaseApp')
         toastr.success('Set app clientID to ' + clientID);
       });
     };
+
+
+    $scope.chart = {
+      reportType: 'ga',
+      query: {
+        metrics: 'ga:sessions',
+        dimensions: 'ga:date',
+        'start-date': '30daysAgo',
+        'end-date': 'yesterday',
+        ids: 'ga:XXXXXX' // put your viewID here or leave it empty if connected with a viewSelector
+      },
+      chart: {
+        container: 'chart', // id of the created DOM-element
+        type: 'LINE',
+        options: {
+          width: '100%'
+        }
+      }
+    };
+
+    $scope.queries = [{
+      query: {
+          ids: 'view-selector',  // put your viewID here
+          metrics: 'ga:sessions',
+          dimensions: 'ga:city'
+      }
+    }];
   });
