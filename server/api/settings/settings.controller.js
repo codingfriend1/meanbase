@@ -12,19 +12,23 @@ exports.find = function(req, res) {
 };
 
 exports.create = function(req, res) {
-  collection.upsert(req, res);
-  if(req.body.name === 'clientID' || req.body.name === 'appID') {
-    console.log('recompiling index');
-    compileIndex(null);
+  if(req.body.identifier && req.body.identifier.name === 'clientID' || req.body.identifier.name === 'appID') {
+    collection.upsert(req, res, function() {
+      console.log('compiling index');
+      compileIndex(null);
+    });
+  } else {
+    collection.upsert(req, res);
   }
 };
 
 // Updates pages in the database
 exports.update = function(req, res) {
   if(req.body.identifier && req.body.identifier.name === 'clientID' || req.body.identifier.name === 'appID') {
-    collection.upsert(req, res);
-    console.log('compiling index');
-    compileIndex(null);
+    collection.upsert(req, res, function() {
+      console.log('compiling index');
+      compileIndex(null);
+    });
   } else {
     collection.upsert(req, res);
   }

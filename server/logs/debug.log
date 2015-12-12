@@ -776,3 +776,6 @@
 {"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T18:44:16.480Z"}
 {"name":"clientID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T18:44:22.573Z"}
 {"name":"clientID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T18:44:44.875Z"}
+{"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T18:46:37.415Z"}
+{"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T18:46:52.718Z"}
+{"name":"clientID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T18:47:18.379Z"}
