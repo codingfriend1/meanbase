@@ -101,10 +101,9 @@ module.exports = function (gulp, plugins, config) {
 		gulp.watch(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'], {read: false}, ['injectComponents']);
 
 		gulp.watch([
-			'.tmp/**/*.html',
-			'client/{app, components, extensions, themes}/**/*.{css, js, styl}',
-			'client/themes/**/*.css',
-			'client/themes/**/*.html',
+			'.tmp/**/*.{css, html}',
+			'client/{app, components, extensions, themes}/**/*.js',
+			'client/themes/**/*.{css, html}',
 			'server/views/index.html',
 			'.tmp/**/*app.css'
 		], {read: false}, plugins.express.notify);

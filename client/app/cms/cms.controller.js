@@ -11,7 +11,13 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 	 for (var i = 0; i < states.length; i++) {
  		if(states[i].name.indexOf('cms.') > -1) {
  			var state = angular.copy(states[i]);
- 			if(!$rootScope.currentUser.permissions || $rootScope.currentUser.permissions.length === 0) {
+			if(!state.hasPermission) {
+				if(!state.authenticate || (state.authenticate && $rootScope.currentUser)) {
+					state.userHasPermission = true;
+				} else {
+					state.userHasPermission = false;
+				}
+			} else if(!$rootScope.currentUser.permissions || $rootScope.currentUser.permissions.length === 0) {
  				state.userHasPermission = false;
  			} else {
  				state.userHasPermission = $rootScope.currentUser.permissions.indexOf(state.hasPermission) > -1;
@@ -23,7 +29,6 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 
  });
 	$rootScope.currentUser = Auth.getCurrentUser();
-	console.log("$rootScope.currentUser.permissions", $rootScope.currentUser.permissions);
 
 	$scope.toggleMenu = function() {
 		$scope.menuOpen = !$scope.menuOpen;
@@ -37,14 +42,11 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 
 	$scope.isBanned = function(identifier) {
 		if(typeof identifier === 'object' || identifier) {
-			api.bannedMembers.find(identifier).success(function(response) {
-				console.log("response", response);
-			});
+			api.bannedMembers.find(identifier);
 		}
 	};
 
 	$scope.isBanned({});
-	console.log("$scope.isBanned", $scope.isBanned);
 
 
 	$scope.ban = function(comment) {
