@@ -5,6 +5,7 @@ var Settings = require('./settings.model');
 var DAO = require('../../components/DAO');
 var collection = new DAO(Settings);
 var helpers = require('../../components/helpers');
+var compileIndex = require('../../components/index');
 
 exports.find = function(req, res) {
   collection.find(req, res);
@@ -12,11 +13,22 @@ exports.find = function(req, res) {
 
 exports.create = function(req, res) {
   collection.upsert(req, res);
+  if(req.body.name === 'clientID' || req.body.name === 'appID') {
+    console.log('recompiling index');
+    compileIndex(null);
+  }
 };
 
 // Updates pages in the database
 exports.update = function(req, res) {
-  collection.upsert(req, res);
+  if(req.body.identifier && req.body.identifier.name === 'clientID' || req.body.identifier.name === 'appID') {
+    collection.upsert(req, res);
+    console.log('compiling index');
+    compileIndex(null);
+  } else {
+    collection.upsert(req, res);
+  }
+
 };
 
 // Deletes a pages from the DB.
