@@ -22,12 +22,20 @@ angular.module('meanbaseApp')
       });
     }
 
-    uploader.onCompleteAll = function() {
-      toastr.success('Images successfully uploaded');
+    var err = null;
+
+    uploader.onCompleteAll = function(res) {
+      if(err) {
+        toastr.error('Failed to upload');
+      } else {
+        toastr.success('Successfully uploaded');
+      }
       uploader.clearQueue()
     };
 
-    uploader.onCompleteItem = function() {
+    uploader.onCompleteItem = function(res) {
+      console.log("res", res);
+      err = res.isError;
       $rootScope.$emit('cms.imagesUploaded');
     };
   });

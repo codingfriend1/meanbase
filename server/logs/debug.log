@@ -780,3 +780,4 @@
 {"name":"appID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T18:46:52.718Z"}
 {"name":"clientID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-12T18:47:18.379Z"}
 {"_id":"566c77008128b4482b795986","level":"info","message":"DAO.update()  ","timestamp":"2015-12-12T19:36:17.720Z"}
+{"_id":"566db716a7244cb94faac913","level":"info","message":"DAO.update()  ","timestamp":"2015-12-13T18:21:32.179Z"}
