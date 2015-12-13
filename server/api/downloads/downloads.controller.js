@@ -7,6 +7,7 @@ var path = require('path');
 var Downloads = require('./downloads.model');
 var DAO = require('../../components/DAO');
 var collection = new DAO(Downloads);
+var assetsFolder = path.join(config.root, app.get('frontEnd'), 'assets', '/');
 
 
 collection.modifyBody = function(body) {
@@ -19,12 +20,20 @@ collection.modifyIdentifier = function(identifier) {
 
 // Get some pages
 exports.find = function(req, res) {
-  var options = {
-    root: path.join(config.root, app.get('frontEnd'), 'assets', '/'),
-    dotfiles: 'deny'
-  };
 
   var fileName = req.query.where;
+  var downloadFolder;
+
+  if(fileName.match(/\.(jpg|jpeg|png|gif)$/)) {
+    downloadFolder = path.join(assetsFolder, 'images', '/');
+  } else {
+    downloadFolder = path.join(assetsFolder, 'other', '/');
+  }
+
+  var options = {
+    root: downloadFolder,
+    dotfiles: 'deny'
+  };
 
   res.sendfile(fileName, options, function (err) {
     if (err) {

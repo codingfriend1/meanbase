@@ -34,7 +34,6 @@ angular.module('meanbaseApp')
     };
 
     uploader.onCompleteItem = function(res) {
-      console.log("res", res);
       err = res.isError;
       $rootScope.$emit('cms.imagesUploaded');
     };

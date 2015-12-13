@@ -21,17 +21,25 @@ exec("gm -help", function (error, stdout, stderr) {
 var multer  = require('multer');
 var fs = require('fs');
 var folderName;
+var assetsFolder = path.join(app.get('appPath'), 'assets');
+var uploadFolder;
+var isImage = false;
+// .match(/\.(jpg|jpeg|png|gif)$/)
 var upload = multer({
-  dest: path.join(app.get('appPath'), 'assets', 'images', '/'),
-  // onFileUploadStart: function(file, req, res) {
-  //
-  // },
   rename: function (fieldname, filename) {
-    folderName = filename.replace(/\W+/g, '-').toLowerCase() + '_' + Date.now();
-    return 'origional';
+    if(filename.match(/\.(jpg|jpeg|png|gif)$/)) {
+      uploadFolder = path.join(assetsFolder, 'images', '/');
+      isImage = true;
+      folderName = filename.replace(/\W+/g, '-').toLowerCase() + '_' + Date.now();
+      return 'origional';
+    } else {
+      uploadFolder = path.join(assetsFolder, 'other', '/');
+      folderName = '';
+      return filename;
+    }
   },
   changeDest: function(dest, req, res) {
-    var destination = path.join(dest, folderName, '/');
+    var destination = path.join(uploadFolder, folderName, '/');
     if(!fs.existsSync(destination)){
       fs.mkdirSync(destination, "0766", function(err){
         if(err){
@@ -41,10 +49,16 @@ var upload = multer({
       });
     }
 
-    req.body = {
-      url: path.join('assets', 'images', folderName, '/'),
-      galleries: req.body.galleries? [req.body.galleries]: []
-    };
+    if(isImage) {
+      req.body = {
+        url: path.join(uploadFolder, folderName, '/'),
+        galleries: req.body.galleries? [req.body.galleries]: []
+      };
+    } else {
+      req.body = {
+        url: path.join(uploadFolder, folderName, '/')
+      };
+    }
 
     return destination;
   }
@@ -71,6 +85,14 @@ exports.create = function(req, res) {
     if (err) {
       return res.status(500).json(err);
     }
+    if(!isImage) {
+      return Media.create(req.body, function(error, found) {
+        if(error) { return res.send(500, err); }
+        if(!found) { return res.send(404); }
+        res.status(201).json(found);
+      });
+    }
+
     var imagePath = req.files.file.path;
     var thumbnailPath = req.files.file.path.replace('origional', 'thumbnail');
     var smallPath = req.files.file.path.replace('origional', 'small');
