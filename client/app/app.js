@@ -14,8 +14,7 @@ angular.module('meanbaseApp', [
   'ng-sortable',
   'toastr',
   'relativeDate',
-  'ngAnalytics',
-  'ngDownload'
+  'ngAnalytics'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider

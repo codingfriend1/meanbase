@@ -793,3 +793,5 @@
 {"url":{"$in":["assets/jonpaulmiles_01journelthree_1450035655376/","assets/jonpaulmiles_01journelsix_1450048905747/","assets/jonpaulmiles_01journelseven_1450035654660/","assets/jonpaulmiles_01journelsix_1450035655002/"]},"level":"info","message":"DAO.delete() /api/media ","timestamp":"2015-12-13T23:22:14.847Z"}
 {"url":{"$in":["assets/divi-resorts-aruba-awfy-wedding-packages-2015_1450048954007/"]},"level":"info","message":"DAO.delete() /api/media ","timestamp":"2015-12-13T23:22:47.114Z"}
 {"url":{"$in":["assets/divi-resorts-aruba-awfy-wedding-packages-2015_1450049036664/"]},"level":"info","message":"DAO.delete() /api/media ","timestamp":"2015-12-13T23:34:52.071Z"}
+{"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2015-12-14T00:34:38.045Z"}
+{"_id":"566c77008128b4482b79598c","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2015-12-14T00:34:38.098Z"}
