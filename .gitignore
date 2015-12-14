@@ -6,7 +6,7 @@ client/bower_components
 documentation
 dist
 /server/config/local.env.js
-/client/assets/images/
+/client/assets
 client/index.html
 __MACOSX
 /logs/*

@@ -11,6 +11,11 @@ var MediaSchema = new Schema({
 		required: true,
     validate: validators.matches(patterns.isFilePath)
 	},
+  filename: {
+    type: String,
+		required: true,
+    validate: validators.matches(patterns.isFilePath)
+  },
 	alt: {
 		type: String,
 		trim: true,
