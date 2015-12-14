@@ -4,7 +4,7 @@
  * @author Jon Paul Miles <milesjonpaul@gmail.com>
  */
 angular.module('meanbaseApp')
-  .directive('imageSelector', function ($cookieStore, Cropper, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, api) {
+  .directive('imageSelector', function ($cookieStore, Cropper, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, api, helpers) {
     return {
       templateUrl: 'components/image-selector/image-selector.html',
       restrict: 'EA',
@@ -282,6 +282,17 @@ angular.module('meanbaseApp')
               scope.next();
             }
           }
+        };
+
+
+
+        scope.downloadSelected = function() {
+          // Get the visibile images' urls
+          for (var i = 0; i < scope.selectedImages.length; i++) {
+            var path = scope.selectedImages[i].url + scope.selectedImages[i].filename;
+            var name = scope.selectedImages[i].url.match(/([^\/]*)\/*$/)[1];
+            helpers.downloadURI(path, name);
+          };
         };
 
         scope.deleteOne = function(image) {

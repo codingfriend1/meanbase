@@ -6,6 +6,7 @@ div.image-selector
 				div(ng-if="hasToken").import-photos
 					.form-group.text-center(title="Upload photos")
 						input.form-control(type='file' nv-file-select multiple uploader="mediaUploader")
+				button.btn.download-selected(ng-click="downloadSelected()" ng-show="media.length > 0") Download Selected
 				button.btn.delete-visible(ng-click="deleteAllVisible()" ng-show="media.length > 0") Delete All Visible
 				button.btn.delete-selected(ng-click="deleteSelected()" ng-show="media.length > 0") Delete Selected
 				button.btn.group-selected(ng-click="groupSelected()" ng-show="media.length > 0") Group Selected

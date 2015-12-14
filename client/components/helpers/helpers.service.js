@@ -39,6 +39,13 @@ angular.module('meanbaseApp')
       return false;
     };
 
+    this.downloadURI = function(uri, name) {
+      var link = document.createElement("a");
+      link.download = name;
+      link.href = uri;
+      link.click();
+    };
+
 
     // ### Convert Array to Object
     // helpers.arrayToObjectWithObject() receives an array of objects and converts it into an object containing objects using the property name itemToBecomeProperty. For example let say we pass in this array and the itemToBecomeProperty is `contentName`:
