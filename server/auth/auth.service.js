@@ -56,9 +56,9 @@ function hasRole(roleRequired) {
 
 /**
  * Checks if the user role has permission to use the route.
- * First we check if the user is authenticated by calling `isAuthenticated()`. 
- * Then we search the roles database for the role the user has. 
- * If the role is found and has the permission name we want or the `allPrivilages` permission then we allow their request to go through. 
+ * First we check if the user is authenticated by calling `isAuthenticated()`.
+ * Then we search the roles database for the role the user has.
+ * If the role is found and has the permission name we want or the `allPrivilages` permission then we allow their request to go through.
  * Otherwise we send back a 403.
  * @param {string} permissionName The name of the permission to see if the user has
  */
