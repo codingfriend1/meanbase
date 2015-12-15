@@ -56,6 +56,7 @@ npm install bower -g
 bower install
 gulp install
 export NODE_ENV=development
+export APP_SECRET="your-secret"
 # sudo mongod --smallfiles --fork --logpath /var/log/mongodb.log
 # pm2 start server/app.js
 # sudo nginx

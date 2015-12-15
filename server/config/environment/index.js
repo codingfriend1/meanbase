@@ -31,7 +31,7 @@ var all = {
 
   // Secret for session, you will want to change this and make it an environment variable
   secrets: {
-    session: 'meanbase-secret'
+    session: requiredProcessEnv(APP_SECRET)
   },
 
   // List of user roles
