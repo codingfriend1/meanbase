@@ -345,6 +345,7 @@
     // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
     $scope.handleClick = function($event, menuItem) {
       if($scope.editMode) {
+        console.log('preventing default');
         $event.preventDefault();
         var modalInstance = $modal.open({
           templateUrl: 'editmenu.modal.html',

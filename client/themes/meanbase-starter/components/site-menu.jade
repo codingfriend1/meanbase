@@ -12,7 +12,7 @@
 		#navbar.navbar-collapse(collapse="navbarClosed")
 			ul.nav.navbar-nav(ng-sortable="menusConfig")
 				li(ng-repeat="menu in menus.main" sortable)
-					a(ng-href="{{menu.url}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
+					a(ng-href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)") {{menu.title}}
 				li.new-menu-item-button(ng-click="createMenuItem('main')" ng-if="editMode")
 					a
 						i.fa.fa-plus
