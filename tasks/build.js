@@ -18,7 +18,7 @@ module.exports = function (gulp, plugins, config) {
 
 	// Inject app and vendors scripts and styles into dist/server/views/index.html
 	gulp.task('injectBuild', function() {
-		return gulp.src('dist/server/views/index.html')
+		gulp.src('dist/server/views/index.html')
 		  .pipe(plugins.inject(gulp.src(['dist/public/app/app.min.*'], {read: false}), {
 		  	name: 'app',
 		  	ignorePath: '/dist/public/',
@@ -30,6 +30,8 @@ module.exports = function (gulp, plugins, config) {
 		  	addRootSlash: false
 		  }))
 		  .pipe(gulp.dest('dist/server/views'));
+
+		return gulp.run(['build-themes']);
 	});
 
 	gulp.task('copy', function () {
@@ -301,7 +303,7 @@ module.exports = function (gulp, plugins, config) {
 					vendorJS = null;
 					appCSS = null;
 					appJS = null;
-		      gulp.run(['injectBuild', 'build-themes']);
+		      gulp.run(['injectBuild']);
 		      done();
 		    }));
 	  });
