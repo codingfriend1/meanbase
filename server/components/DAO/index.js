@@ -6,22 +6,22 @@
 
 // ## API
 /*
-  * **getIdentifer**  
+  * **getIdentifer**
     - All requests get run through getIdentifer which determines whether data is coming in through body, params, or query
 
-  * **handleError**  
+  * **handleError**
     - Universal handler for error messages. Currently returns a 500 along with the error.
 
   * **findById**               - finds by _id
   * **find**                   - finds by mongoDB query
-  * **findAndPopulate**        - finds by mongoDB query *requires 
+  * **findAndPopulate**        - finds by mongoDB query *requires
   * **findAndSort**            - finds by mongoDB query
-  * **findAll**  
+  * **findAll**
 
   * **create**                 - object(s) should be sent on req.body
   * **createAndLink**          - object(s) should be sent on req.body
 
-  * **update**  
+  * **update**
     - The identifier should be sent on req.body.identifier and replacement data on req.body.replacement
     - Or identifier should be in params or query while replacement data should be sent through req.body
   * **updateById**             - req.params should have an _id and replacement data should be on req.body
@@ -44,7 +44,7 @@ var logger = require('../logger');
  * Initializes a DAO instance using the database collection passed in so we can perform operations on it
  * @constructor
  * @param {object} collection A mongoose model
- * @example 
+ * @example
  * ```var Comments = mongoose.model('Comments', CommentsSchema));
     var DAO = require('../../components/DAO');
     var collection = new DAO(Comments);```
@@ -85,7 +85,7 @@ DAO.prototype.findById = function(req, res, callback) {
       var modified;
       if(callback) { modified = callback(found); }
       if(modified) { found = modified; }
-      
+
       return res.json(found);
     });
 };
@@ -94,8 +94,8 @@ DAO.prototype.findById = function(req, res, callback) {
  * Finds items in the database collection that match the `identifier`
  * @param {object} req express request object
  * @param {object} res express response object
- * @param {Function} callback If an object is found it gets passed in to the callback. 
- *                             If the callback returns a value, it sends that returned value 
+ * @param {Function} callback If an object is found it gets passed in to the callback.
+ *                             If the callback returns a value, it sends that returned value
  *                             to the client instead of the found object
  * @return {object|array} Sends back a `200` status code with found item(s)
  */
@@ -111,7 +111,7 @@ DAO.prototype.find = function(req, res, callback) {
     var modified;
     if(callback) { modified = callback(found); }
     if(modified) { found = modified; }
-    
+
     return res.status(200).json(found);
   });
 };
@@ -131,7 +131,7 @@ DAO.prototype.search = function(req, res, callback) {
     // }
     if(callback) { modified = callback(finalFound); }
     if(modified) { finalFound = modified; }
-    
+
     return res.status(200).json(finalFound);
   });
 };
@@ -148,7 +148,7 @@ DAO.prototype.findAndPopulate = function(req, res, populateQuery, callback) {
     // If the function has a callback use it and if it returns a value send that value instead
     var modified;
     if(callback) { modified = callback(found); }
-    if(modified) { found = modified; }  
+    if(modified) { found = modified; }
     return res.status(200).json(found);
   });
 };
@@ -166,7 +166,7 @@ DAO.prototype.findAndSort = function(req, res, callback, sortFilter) {
     var modified;
     if(callback) { modified = callback(found); }
     if(modified) { found = modified; }
-    
+
     return res.status(200).json(found);
   });
 };
@@ -176,11 +176,11 @@ DAO.prototype.findAndSort = function(req, res, callback, sortFilter) {
 * Gets all items in the collection
 * @param {object} req       express request object
 * @param {object} res       express response object
-* @param {Function=} callback Passes all found items as paramater. 
-*                              If callback returns anything it sends that returned value to the 
-*                              client instead of the found items 
+* @param {Function=} callback Passes all found items as paramater.
+*                              If callback returns anything it sends that returned value to the
+*                              client instead of the found items
 * @return {object|array} Sends back a `200` status code with all items in the collection
-* @example 
+* @example
 * ```var Comments = mongoose.model('Comments', CommentsSchema));
    var DAO = require('../../components/DAO');
    var collection = new DAO(Comments);
@@ -195,7 +195,7 @@ DAO.prototype.findAll = function(req, res, callback) {
     var modified;
     if(callback) { modified = callback(found); }
     if(modified) { found = modified; }
-    
+
     return res.status(200).json(found);
   });
 };
@@ -205,11 +205,11 @@ DAO.prototype.findAll = function(req, res, callback) {
 * Adds new items to the collection
 * @param {object} req       express request object
 * @param {object} res       express response object
-* @param {Function=} callback If an object is found it gets passed in to the callback. 
-*                               If the callback returns a value, it sends that returned value 
+* @param {Function=} callback If an object is found it gets passed in to the callback.
+*                               If the callback returns a value, it sends that returned value
 *                               to the client instead of the found object
 * @return {object|array} Sends back a `201` status code with created item(s)
-* @example 
+* @example
 * ```var Comments = mongoose.model('Comments', CommentsSchema));
    var DAO = require('../../components/DAO');
    var collection = new DAO(Comments);
@@ -232,11 +232,11 @@ DAO.prototype.create = function(req, res, callback) {
  * Updates existing items in the collection
  * @param {object} req       express request object
  * @param {object} res       express response object
- * @param {Function=} callback If the replacement data gets passed into the callback. 
- *                              If the callback returns a value, it sends that returned value 
+ * @param {Function=} callback If the replacement data gets passed into the callback.
+ *                              If the callback returns a value, it sends that returned value
  *                              to the client instead of the found object
  * @return {Number} Sends back a `200` status code with number of items updated
- * @example 
+ * @example
  * ```var Comments = mongoose.model('Comments', CommentsSchema));
     var DAO = require('../../components/DAO');
     var collection = new DAO(Comments);
@@ -331,11 +331,11 @@ DAO.prototype.findRaw = function(identifier, callback) {
  * @param {object} req express request object
  * @param {object} res express response object
  * @param {Function=} callback The `identifier` is passed as a paramater
- * @param {boolean=} preventDeleteAll Determines whether the database should prevent an 
- *                                     `Identifier` of `{}` to be passed which would 
+ * @param {boolean=} preventDeleteAll Determines whether the database should prevent an
+ *                                     `Identifier` of `{}` to be passed which would
  *                                     delete all the items in the collection.
  * @return {nothing} Sends back a `204` status code
- * @example 
+ * @example
  * ```collection.delete(req, res, fn(identifier){}, true);```
  */
 DAO.prototype.delete = function(req, res, callback, preventDeleteAll) {
@@ -449,10 +449,10 @@ DAO.prototype.getIdentifer = function(req, res) {
   } else if(req.query && req.query.searchText) {
     identifier = req.query.searchText;
   } else if(req.body && req.body.identifier && req.body.replacement) { //If an update request came in
-    identifier = req.body.identifier; 
+    identifier = req.body.identifier;
     req.body = req.body.replacement;
   } else if (!isEmpty(req.body) && !req.body.replacement) { //if an identifier came in through the body
-    identifier = req.body; 
+    identifier = req.body;
   } else if (!isEmpty(req.query)) { //If the query is not empty use it directly
     identifier = req.query;
   } else if (req.params) { //Otherwise use params

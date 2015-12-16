@@ -20,7 +20,7 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 			} else if(!$rootScope.currentUser.permissions || $rootScope.currentUser.permissions.length === 0) {
  				state.userHasPermission = false;
  			} else {
- 				state.userHasPermission = $rootScope.currentUser.permissions.indexOf(state.hasPermission) > -1;
+ 				state.userHasPermission = $rootScope.currentUser.permissions.indexOf(state.hasPermission) > -1 || $rootScope.currentUser.permissions.indexOf('allPrivilages') > -1;
  			}
  			state.friendlyName = state.url.replace('/', '');
  			$scope.cmsStates.push(state);
