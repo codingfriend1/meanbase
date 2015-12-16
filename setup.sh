@@ -6,10 +6,11 @@
 ## @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  wget -qO- https://deb.nodesource.com/setup_4.x | sudo bash -
   sudo add-apt-repository ppa:dhor/myway
   sudo apt-get update
   sudo apt-get install -y graphicsmagick
-  sudo apt-get install -y nodejs
+  sudo apt-get install --yes nodejs
   sudo apt-get install -y npm
   sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
