@@ -63,7 +63,7 @@ npm install -g pm2
 npm install
 npm uninstall bower -g
 npm install bower -g
-sudo bower install --allow-root
+sudo bower install --allow-root --config.interactive=false
 gulp install
 export NODE_ENV=development
 # export APP_SECRET="your-secret"
