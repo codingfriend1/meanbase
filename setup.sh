@@ -13,7 +13,10 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   sudo apt-get install --yes nodejs
   sudo apt-get install -y npm
   sudo apt-get install -y git-core
-  sudo apt-get install -y mongodb-org
+  # sudo apt-get install -y mongodb-org
+  sudo apt-get install mongodb-server
+  sudo mkdir -p /data/db/
+  sudo chown `id -u` /data/db
   sudo apt-get install nginx
   sudo mkdir -p /etc/nginx/ssl/
   sudo cp deployment/meanbase-config.conf /etc/nginx/
@@ -41,7 +44,10 @@ else
   sudo apt-get install -y nodejs
   sudo apt-get install -y npm
   sudo apt-get install -y git-core
-  sudo apt-get install -y mongodb-org
+  sudo apt-get install mongodb-server
+  # sudo apt-get install -y mongodb-org
+  sudo mkdir -p /data/db/
+  sudo chown `id -u` /data/db
   sudo apt-get install nginx
   sudo mkdir -p /etc/nginx/ssl/
   sudo cp deployment/meanbase-config.conf /etc/nginx/
@@ -54,7 +60,7 @@ npm install -g pm2
 npm install
 npm uninstall bower -g
 npm install bower -g
-bower install
+sudo bower install --allow-root
 gulp install
 export NODE_ENV=development
 # export APP_SECRET="your-secret"
