@@ -32,10 +32,10 @@
 	  	}
 	  	if(!pass) { return false; }
 
-	  	var newRole = {role: roleName, permissions: $scope.selectedRole.permissions};
+	  	var newRole = {role: roleName, permissions: angular.copy($scope.selectedRole.permissions)};
 
   		api.roles.create(newRole).success(function(response) {
-  			$scope.roles.push({role: roleName, permissions: $scope.selectedRole.permissions});
+  			$scope.roles.push(newRole);
   			$scope.selectedRole = newRole;
   			toastr.clear();
   			toastr.success('Created new role: ' + roleName);

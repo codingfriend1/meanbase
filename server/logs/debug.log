@@ -795,3 +795,5 @@
 {"url":{"$in":["assets/divi-resorts-aruba-awfy-wedding-packages-2015_1450049036664/"]},"level":"info","message":"DAO.delete() /api/media ","timestamp":"2015-12-13T23:34:52.071Z"}
 {"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2015-12-14T00:34:38.045Z"}
 {"_id":"566c77008128b4482b79598c","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2015-12-14T00:34:38.098Z"}
+{"level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T17:22:04.136Z"}
+{"_id":"56719f32663069bf3a923f5d","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T17:31:34.964Z"}

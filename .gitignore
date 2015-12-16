@@ -9,6 +9,6 @@ dist
 /client/assets
 client/index.html
 __MACOSX
-/logs/*
+/logs/debug.log
 code-documentation
 build
