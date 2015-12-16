@@ -16,10 +16,10 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   # sudo apt-get install -y mongodb-org
   sudo apt-get install mongodb-server
   sudo mkdir -p /data/db/
-  sudo chown `id -u` /data/db
+  m
   sudo apt-get install nginx
   sudo mkdir -p /etc/nginx/ssl/
-  sudo cp deployment/meanbase-config.conf /etc/nginx/
+  sudo cp deployment/meanbase-config.conf /etc/nginx/sites-enabled/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew update
@@ -28,7 +28,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew install node
   brew install nginx
   mkdir -p /etc/nginx/ssl/
-  sudo cp deployment/meanbase-config.conf /usr/local/etc/nginx/
+  sudo cp deployment/meanbase-config.conf /usr/local/etc/nginx/sites-enabled/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /usr/local/etc/nginx/ssl/nginx.key -out /usr/local/etc/nginx/ssl/nginx.crt
 elif [[ "$OSTYPE" == "win32" ]]; then
   choco install git
@@ -50,7 +50,7 @@ else
   sudo chown `id -u` /data/db
   sudo apt-get install nginx
   sudo mkdir -p /etc/nginx/ssl/
-  sudo cp deployment/meanbase-config.conf /etc/nginx/
+  sudo cp deployment/meanbase-config.conf /etc/nginx/sites-enabled/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 fi
 npm update -g npm

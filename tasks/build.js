@@ -38,30 +38,39 @@ module.exports = function (gulp, plugins, config) {
 				.pipe(plugins.if('*.jade', plugins.jade({
 		      pretty: true
 		    })))
+				.pipe(plugins.chmod(666))
 				.pipe(gulp.dest('dist/public/')),
 
 			gulp.src('client/themes/**/*screenshot.*')
+				.pipe(plugins.chmod(666))
 				.pipe(gulp.dest('dist/public/themes/')),
 
 		  gulp.src('client/*')
+				.pipe(plugins.chmod(666))
 		  	.pipe(gulp.dest('dist/public/')),
 
 		  gulp.src(['client/assets/**'])
+				.pipe(plugins.chmod(666))
 		  	.pipe(gulp.dest('dist/public/assets/')),
 
 		  gulp.src(['server/**'])
+				.pipe(plugins.chmod(666))
 		  	.pipe(gulp.dest('dist/server/')),
 
 		  gulp.src('package.json')
+				.pipe(plugins.chmod(666))
 		  	.pipe(gulp.dest('dist/')),
 
 		  gulp.src('client/bower_components/font-awesome/fonts/**')
+				.pipe(plugins.chmod(666))
 		  	.pipe(gulp.dest('dist/public/bower_components/font-awesome/fonts/')),
 
 		  gulp.src('client/bower_components/bootstrap/fonts/**')
+				.pipe(plugins.chmod(666))
 		  	.pipe(gulp.dest('dist/public/bower_components/bootstrap/fonts/')),
 
 			gulp.src('client/bower_components/trumbowyg/dist/ui/images/*.png')
+				.pipe(plugins.chmod(666))
 		  	.pipe(gulp.dest('dist/public/bower_components/trumbowyg/dist/ui/images/'))
 		 );
 	});
@@ -171,6 +180,7 @@ module.exports = function (gulp, plugins, config) {
 			plugins.es.merge(js, templates, html)
 	    	.pipe(plugins.concat('theme.min.js'))
 	    	.pipe(plugins.uglify())
+				.pipe(plugins.chmod(666))
 	    	.pipe(gulp.dest(plugins.path.join('dist/public/themes', folder)))
 	    	.pipe(plugins.es.wait(function (err, body) {
 					gulp.src(plugins.path.join(config.themesFolder, folder, '/**/*screenshot.*'))
@@ -217,6 +227,7 @@ module.exports = function (gulp, plugins, config) {
 	  		.pipe(plugins.concat('theme.min.css'))
 	  		.pipe(plugins.autoprefixer())
 	  		.pipe(plugins.minifyCss())
+				.pipe(plugins.chmod(666))
 	  		.pipe(gulp.dest( plugins.path.join('dist/public/themes/', folder) ))
 	  		.pipe(plugins.es.wait(function(err) {
 			    plugins.del([
