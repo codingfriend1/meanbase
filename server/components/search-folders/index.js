@@ -248,7 +248,7 @@ exports.retrieveThemes = function(activeURL, callback) {
 
 
 exports.retrieveExtensions = function(callback) {
-  var extensionsFolderUrl = app.get('appPath') + 'extensions/';
+  var extensionsFolderUrl = app.get('extensionsFolder');
   // Loop through themes in extensionsFolderUrl and get the extension.json file out of the root of each one
   var extensionsFolder = fs.readdirSync(extensionsFolderUrl);
   var extensionsJSONS = [];

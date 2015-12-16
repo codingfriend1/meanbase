@@ -1,5 +1,5 @@
 # Stop server
-pm2 stop all; sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"; sudo nginx -s quit
+sudo nginx -s quit; pm2 stop all; sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()";
 
 # Grab Updates
 git pull

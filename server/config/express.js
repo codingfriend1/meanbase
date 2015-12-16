@@ -48,6 +48,7 @@ module.exports = function(app) {
     app.use(express.static(path.join(config.root, 'public')));
     app.set('appPath', path.join(config.root, 'public/'));
     app.set('themesFolder', path.join(config.root, 'public', 'themes', '/'));
+    app.set('extensionsFolder', path.join(config.root, 'public', 'extensions', '/'));
     app.set('frontEnd', 'public');
     app.use(morgan('dev'));
   }
@@ -58,6 +59,7 @@ module.exports = function(app) {
     app.use(express.static(path.join(config.root, 'client')));
     app.set('appPath', path.join(config.root, 'client/'));
     app.set('themesFolder', path.join(config.root, 'client', 'themes', '/'));
+    app.set('extensionsFolder', path.join(config.root, 'client', 'extensions', '/'));
     app.set('frontEnd', 'client');
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
