@@ -13,7 +13,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
   sudo apt-get install nginx
-  sudo mkdir /etc/nginx/ssl/
+  sudo mkdir -p /etc/nginx/ssl/
   sudo cp deployment/meanbase-config.conf /etc/nginx/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 elif [[ "$OSTYPE" == "darwin"* ]]; then
@@ -22,7 +22,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew install graphicsmagick
   brew install node
   brew install nginx
-  mkdir /etc/nginx/ssl/
+  mkdir -p /etc/nginx/ssl/
   sudo cp deployment/meanbase-config.conf /usr/local/etc/nginx/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /usr/local/etc/nginx/ssl/nginx.key -out /usr/local/etc/nginx/ssl/nginx.crt
 elif [[ "$OSTYPE" == "win32" ]]; then
@@ -40,7 +40,7 @@ else
   sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
   sudo apt-get install nginx
-  sudo mkdir /etc/nginx/ssl/
+  sudo mkdir -p /etc/nginx/ssl/
   sudo cp deployment/meanbase-config.conf /etc/nginx/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 fi
