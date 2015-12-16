@@ -15,6 +15,9 @@ A demo of the site in action can be seen at [http://codingfriend.com/](http://co
 	- `git clone https://github.com/codingfriend1/meanbase-1.0.0.git`
 - Move into the cloned folder
 	- `cd meanbase-1.0.0`
+- Create or receive your ssl keys
+	- `sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt`
+	- On linux in the nginx config they are `/etc/nginx/ssl/nginx.key` and `/etc/nginx/ssl/nginx.crt`. If your locations or names are different you will need to update them in your nginx config.
 - Change the root of the nginx config to the `meanbase-1.0.0/dist/public/` folder wherever it is on your system
 	- `sudo nano deployment/meanbase-config.conf`
 - Set your app secret as an environment variable
