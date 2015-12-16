@@ -39,6 +39,8 @@ elif [[ "$OSTYPE" == "win32" ]]; then
   choco install nodejs
   choco install npm
   choco install nginx
+  sudo mkdir c:\data\db
+	sudo mkdir c:\data\log
 else
   sudo add-apt-repository ppa:dhor/myway
   sudo apt-get update

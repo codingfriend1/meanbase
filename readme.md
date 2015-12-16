@@ -5,23 +5,20 @@ Since a good CMS for the MEAN stack was not available I decided to begin buildin
 From the start it uses yeoman generator-angular-fullstack with authentication and authorization templates.
 [https://github.com/DaftMonk/generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack) However it has been modified to use gulp instead of grunt.
 
-A demo of the site in action can be seen at [https://meanbase-codingfriend.c9users.io/](https://meanbase-codingfriend.c9users.io/)
+A demo of the site in action can be seen at [http://codingfriend.com/](http://codingfriend.com/)
 
 ####Install
-Install a package manager such as
+- If on windows or mac, install a package manager such as
 	- [homebrew](http://brew.sh/) on mac
 	- [chocolatey](https://chocolatey.org/) on windows.
 - Install my repository
 	- `git clone https://github.com/codingfriend1/meanbase-1.0.0.git`
 - Move into the cloned folder
 	- `cd meanbase-1.0.0`
-- Change the root of the nginx config to this folder
-	- `vim deployment/meanbase-config.conf`
+- Change the root of the nginx config to the `meanbase-1.0.0/dist/public/` folder wherever it is on your system
+	- `sudo nano deployment/meanbase-config.conf`
 - Set your app secret as an environment variable
 	- `export APP_SECRET=your-secret`
-- If on windows create the folder for the mongoDB databases and logs
-	- `mkdir c:\data\db`
-	- `mkdir c:\data\log`
 - Run the setup.sh script, hit enter if prompted, and then make yourself a coffee
 	- `. setup.sh`
 - If you wish to run the production ready version run the update.sh script
@@ -37,9 +34,11 @@ Install a package manager such as
 	- Open localhost:9000 in your browser
 - Stop each with ctrl-c
 
-###Stop Production Mode
+###Production Mode
 - Stop pm2, mongoDB, and Nginx services
 	- `pm2 stop all; sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"; sudo nginx -s quit`
+- Start pm2, mongoDB, and Nginx services
+	- `sudo mongod --smallfiles --fork --logpath /var/log/mongodb.log; pm2 start dist/server/app.js; sudo nginx`
 
 ####Gulp Commands
 - gulp install
@@ -49,11 +48,11 @@ Install a package manager such as
 - gulp test
 
 ####Meanbase has two main goals:
-- To be self-explanitory and effecient for users
+- To be self-explanitory and efficient for users
 - To be fun and customizable for developers.
 
 ####Code Design Strategy
-- Upon server startup and client-request-theme-change, the server reads the index.html file in server/views/ and adds the active theme's styles and scripts to it as well as passing in some global data for the cms to use. It then writes this concatination to client/index.html. When scripts and styles are added to the project gulp inserts them into server/views/index.html.
+- Upon server startup and client-request-theme-change, the server reads the index.html file in server/views/ and adds the active theme's styles and scripts to it as well as passing in some global data for the cms to use. It then writes this concatenation to client/index.html. When scripts and styles are added to the project gulp inserts them into server/views/index.html.
 - Whenever a page is requested ui-router makes a call to the server to get the page data and the template path for the correct view to render. This allows pages to each use individual templates that your theme supports.
 - cms/* routes are ignored by this template call.
 
