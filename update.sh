@@ -4,7 +4,7 @@ sudo nginx -s quit; pm2 stop all; sudo mongo 127.0.0.1/admin --eval "db.shutdown
 # Grab Updates
 git pull
 npm install
-bower install
+sudo bower install --allow-root
 gulp build
 gulp injectBuild
 gulp build-themes
