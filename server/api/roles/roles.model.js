@@ -62,6 +62,10 @@ var RolesSchema = new Schema({
   		type: Boolean,
       default: false
   	},
+    receiveEmails: {
+  		type: Boolean,
+      default: false
+  	},
   	// deleteSite: {
   	// 	type: Boolean,
    //    default: false

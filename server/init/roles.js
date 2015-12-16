@@ -21,7 +21,8 @@ module.exports = function() {
 			importExportData: false,
 			deleteSite: false,
 			viewAnalytics: false,
-			allPrivilages: false
+			allPrivilages: false,
+			receiveEmails: false
 		}
 	};
 
@@ -41,7 +42,8 @@ module.exports = function() {
 			importExportData: false,
 			deleteSite: false,
 			viewAnalytics: false,
-			allPrivilages: false
+			allPrivilages: false,
+			receiveEmails: false
 		}
 	};
 
@@ -61,7 +63,8 @@ module.exports = function() {
 			importExportData: false,
 			deleteSite: false,
 			viewAnalytics: false,
-			allPrivilages: false
+			allPrivilages: false,
+			receiveEmails: false
 		}
 	};
 
@@ -81,7 +84,8 @@ module.exports = function() {
 			importExportData: false,
 			deleteSite: false,
 			viewAnalytics: false,
-			allPrivilages: false
+			allPrivilages: false,
+			receiveEmails: false
 		}
 	};
 
@@ -101,7 +105,8 @@ module.exports = function() {
 			importExportData: false,
 			deleteSite: false,
 			viewAnalytics: true,
-			allPrivilages: false
+			allPrivilages: false,
+			receiveEmails: false
 		}
 	};
 
@@ -121,7 +126,8 @@ module.exports = function() {
 			importExportData: true,
 			deleteSite: false,
 			viewAnalytics: true,
-			allPrivilages: false
+			allPrivilages: false,
+			receiveEmails: false
 		}
 	};
 
@@ -141,7 +147,8 @@ module.exports = function() {
 			importExportData: true,
 			deleteSite: true,
 			viewAnalytics: true,
-			allPrivilages: true
+			allPrivilages: true,
+			receiveEmails: false
 		}
 	};
 

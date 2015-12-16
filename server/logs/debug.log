@@ -797,3 +797,11 @@
 {"_id":"566c77008128b4482b79598c","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2015-12-14T00:34:38.098Z"}
 {"level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T17:22:04.136Z"}
 {"_id":"56719f32663069bf3a923f5d","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T17:31:34.964Z"}
+{"_id":"5671e3d4c6a4c49e3e6f9f97","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:21:27.616Z"}
+{"level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:21:45.581Z"}
+{"level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:23:31.155Z"}
+{"_id":"5671e59645a65f1b44a2c41b","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:29:28.058Z"}
+{"level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:32:12.492Z"}
+{"_id":"5671e71511fd0227499a645b","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:35:05.443Z"}
+{"_id":"5671e7678d36e4f649e88060","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:36:40.322Z"}
+{"_id":"5671e71511fd0227499a645b","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:36:51.581Z"}

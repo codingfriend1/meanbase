@@ -11,6 +11,7 @@ var config = require('./config/environment');
 module.exports = function(app) {
 
   // Insert routes below
+  app.use('/api/email/', require('./api/email'));
   app.use('/api/settings', require('./api/settings'));
   app.use('/api/import/', require('./api/import'));
   app.use('/api/development-mode', require('./api/development-mode'));
