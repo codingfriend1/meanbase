@@ -301,7 +301,6 @@ module.exports = function (gulp, plugins, config) {
 					vendorJS = null;
 					appCSS = null;
 					appJS = null;
-		      gulp.run(['injectBuild']);
 		      done();
 		    }));
 	  });
