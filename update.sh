@@ -6,6 +6,8 @@ git pull
 npm install
 bower install
 gulp build
+gulp injectBuild
+gulp build-themes
 
 export NODE_ENV=production
 # Start server
