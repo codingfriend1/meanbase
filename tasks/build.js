@@ -30,8 +30,6 @@ module.exports = function (gulp, plugins, config) {
 		  	addRootSlash: false
 		  }))
 		  .pipe(gulp.dest('dist/server/views'));
-
-			gulp.run('build-themes');
 	});
 
 	gulp.task('copy', function () {
@@ -303,7 +301,7 @@ module.exports = function (gulp, plugins, config) {
 					vendorJS = null;
 					appCSS = null;
 					appJS = null;
-		      gulp.run(['injectBuild']);
+		      gulp.run(['injectBuild', 'build-themes']);
 		      done();
 		    }));
 	  });
