@@ -297,7 +297,10 @@ module.exports = function (gulp, plugins, config) {
 	      	.pipe(gulp.dest('dist/public/app/'));
 
 		    plugins.es.merge(vendorCSS, vendorJS, appCSS, appJS).pipe(plugins.es.wait(function (err, body) {
-					var vendorCSS, vendorJS, appCSS, appJS;
+					vendorCSS = null;
+					vendorJS = null;
+					appCSS = null;
+					appJS = null;
 		      gulp.run(['injectBuild', 'build-themes']);
 		      done();
 		    }));
