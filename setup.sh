@@ -10,6 +10,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   sudo apt-get update
   sudo apt-get install -y graphicsmagick
   sudo apt-get install -y nodejs
+  sudo apt-get install -y npm
   sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
   sudo apt-get install nginx
@@ -37,6 +38,7 @@ else
   sudo apt-get update
   sudo apt-get install -y graphicsmagick
   sudo apt-get install -y nodejs
+  sudo apt-get install -y npm
   sudo apt-get install -y git-core
   sudo apt-get install -y mongodb-org
   sudo apt-get install nginx
