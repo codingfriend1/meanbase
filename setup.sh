@@ -47,17 +47,15 @@ else
   sudo cp deployment/meanbase-config.conf /etc/nginx/
   #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 fi
-
-sudo npm update -g npm
-sudo npm install mongoose express jade lodash multer winston passport karma karma-phantomjs-launcher supertest sudo jsonwebtoken
-sudo npm install -g gulp
-sudo npm link gulp
-sudo npm install -g pm2
-sudo npm install
-sudo npm uninstall bower -g
-sudo npm install bower -g
-sudo bower install
-sudo gulp install
+npm update -g npm
+npm install mongoose express jade lodash multer winston passport karma karma-phantomjs-launcher supertest sudo jsonwebtokensudo npm install -g gulp
+npm link gulp
+npm install -g pm2
+npm install
+npm uninstall bower -g
+npm install bower -g
+bower install
+gulp install
 export NODE_ENV=development
 # export APP_SECRET="your-secret"
 # sudo mongod --smallfiles --fork --logpath /var/log/mongodb.log
