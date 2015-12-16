@@ -17,6 +17,8 @@ Install a package manager such as
 	- `cd meanbase-1.0.0`
 - Change the root of the nginx config to this folder
 	- `vim deployment/meanbase-config.conf`
+- Set your app secret as an environment variable
+	- `export APP_SECRET=your-secret`
 - If on windows create the folder for the mongoDB databases and logs
 	- `mkdir c:\data\db`
 	- `mkdir c:\data\log`
