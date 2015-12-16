@@ -16,6 +16,7 @@ module.exports = function (gulp, plugins, config) {
 	    .pipe(plugins.jade({
 	      pretty: true
 	    }))
+			.pipe(plugins.chmod(666))
 	    .pipe(gulp.dest('.tmp/'));
 	});
 
@@ -24,6 +25,7 @@ module.exports = function (gulp, plugins, config) {
 		return gulp.src('client/app/app.styl')
 	    .pipe(plugins.stylus())
 	    .pipe(plugins.autoprefixer())
+			.pipe(plugins.chmod(666))
 	    .pipe(gulp.dest('.tmp/app/'));
 	});
 
