@@ -35,7 +35,7 @@ var upload = multer({
   changeDest: function(dest, req, res) {
     var destination = path.join(uploadFolder, folderName, '/');
     if(!fs.existsSync(destination)){
-      fs.mkdirSync(destination, "0766", function(err){
+      fs.mkdirSync(destination, "0755", function(err){
         if(err){
           console.log(err);
           res.send("ERROR! Can't make the directory! \n");    // echo the result back
