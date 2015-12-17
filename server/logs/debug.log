@@ -805,3 +805,16 @@
 {"_id":"5671e71511fd0227499a645b","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:35:05.443Z"}
 {"_id":"5671e7678d36e4f649e88060","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:36:40.322Z"}
 {"_id":"5671e71511fd0227499a645b","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T22:36:51.581Z"}
+{"_id":"5671eb8570ab546d5624341c","level":"info","message":"DAO.update()  ","timestamp":"2015-12-16T23:59:51.171Z"}
+{"url":{"$in":["assets/jonpaulmiles_01journeltwo_1450049959419/","assets/jonpaulmiles_02journalone_1450049959909/","assets/jonpaulmiles_02journeleight_1450049960465/"]},"level":"info","message":"DAO.update()  ","timestamp":"2015-12-17T00:00:35.424Z"}
+{"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2015-12-17T00:01:03.461Z"}
+{"_id":"5671e70b11fd0227499a6446","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2015-12-17T00:01:03.477Z"}
+{"galleries":"gallery-1","level":"info","message":"DAO.update()  ","timestamp":"2015-12-17T00:01:51.724Z"}
+{"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2015-12-17T00:01:51.727Z"}
+{"_id":"5671e70b11fd0227499a644d","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2015-12-17T00:01:51.742Z"}
+{"url":{"$in":["assets/jonpaulmiles_01journeltwo_1450049959419/","assets/jonpaulmiles_01journelthree_1450049959052/","assets/jonpaulmiles_02journalone_1450049959909/"]},"level":"info","message":"DAO.update()  ","timestamp":"2015-12-17T00:01:51.764Z"}
+{"_id":"5671eb8570ab546d5624341a","level":"info","message":"DAO.update()  ","timestamp":"2015-12-17T00:02:30.774Z"}
+{"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2015-12-17T00:03:16.872Z"}
+{"_id":"5671e70b11fd0227499a6446","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2015-12-17T00:03:16.890Z"}
+{"_id":"5671eb8570ab546d5624341b","level":"info","message":"DAO.update()  ","timestamp":"2015-12-17T00:03:46.382Z"}
+{"_id":"5671eb8570ab546d5624341c","level":"info","message":"DAO.update()  ","timestamp":"2015-12-17T00:04:08.399Z"}
