@@ -50,7 +50,7 @@ module.exports = function (gulp, plugins, config) {
 		  	.pipe(gulp.dest('dist/public/')),
 
 		  gulp.src(['client/assets/**'])
-				.pipe(plugins.chmod(666))
+				.pipe(plugins.chmod(755))
 		  	.pipe(gulp.dest('dist/public/assets/')),
 
 		  gulp.src(['server/**'])
