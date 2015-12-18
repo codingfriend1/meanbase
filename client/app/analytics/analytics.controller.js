@@ -28,6 +28,13 @@ angular.module('meanbaseApp')
       });
     };
 
+    $scope.changeVerificationID = function(verificationID) {
+      if(!verificationID) { return false; }
+      api.settings.update({name: 'verificationID'}, {value: verificationID}).success(function(response) {
+        toastr.success('Set app verificationID to ' + verificationID);
+      });
+    };
+
 
     $scope.chart = {
       reportType: 'ga',

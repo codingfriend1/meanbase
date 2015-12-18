@@ -121,13 +121,18 @@ function compileIndex(theme, extensionJSONS) {
       if(clientID) {
   			index = index.replace("'clientID'", "'" + clientID.value + "'");
   		}
-			try {
-				// Write the results back to index.html in client/ folder
-				fs.writeFileSync(app.get('appPath') + 'index.html', index, 'utf8');
-				console.log('writing to index from index');
-			} catch(error) {
-				console.log('error: ', error);
-			}
+      Settings.findOne({name: 'verificationID'}, function(err, verificationID) {
+        if(verificationID) {
+    			index = index.replace("'verificationID'", verificationID.value);
+    		}
+        try {
+  				// Write the results back to index.html in client/ folder
+  				fs.writeFileSync(app.get('appPath') + 'index.html', index, 'utf8');
+  				console.log('writing to index from index');
+  			} catch(error) {
+  				console.log('error: ', error);
+  			}
+      })
     });
 	});
 

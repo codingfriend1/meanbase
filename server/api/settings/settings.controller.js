@@ -12,7 +12,7 @@ exports.find = function(req, res) {
 };
 
 exports.create = function(req, res) {
-  if(req.body.identifier && req.body.identifier.name === 'clientID' || req.body.identifier.name === 'appID') {
+  if(req.body.identifier && req.body.identifier.name === 'clientID' || req.body.identifier.name === 'appID' || req.body.identifier.name === 'verificationID') {
     collection.upsert(req, res, function() {
       console.log('compiling index');
       compileIndex(null);

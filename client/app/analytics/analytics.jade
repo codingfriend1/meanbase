@@ -11,6 +11,11 @@
         label Google Analytics Client ID
         input(type='text' ng-model="clientID").form-control
         button.btn.btn-success(ng-click="changeClientID(clientID)").btn-block Set Client ID
+    .col-xs-12.col-md-4
+      .form-group
+        label Site Verification ID [for email]
+        input(type='text' ng-model="verificationID").form-control
+        button.btn.btn-success(ng-click="changeVerificationID(verificationID)").btn-block Set Verification ID
   section#auth-button
   section#view-selector
   section#chart

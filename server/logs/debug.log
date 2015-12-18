@@ -818,3 +818,6 @@
 {"_id":"5671e70b11fd0227499a6446","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2015-12-17T00:03:16.890Z"}
 {"_id":"5671eb8570ab546d5624341b","level":"info","message":"DAO.update()  ","timestamp":"2015-12-17T00:03:46.382Z"}
 {"_id":"5671eb8570ab546d5624341c","level":"info","message":"DAO.update()  ","timestamp":"2015-12-17T00:04:08.399Z"}
+{"name":"verificationID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-18T02:53:31.432Z"}
+{"name":"verificationID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-18T02:53:55.758Z"}
+{"name":"verificationID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-18T02:53:59.977Z"}
