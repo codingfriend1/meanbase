@@ -14,6 +14,11 @@ angular.module('meanbaseApp')
       $scope.clientID = res[0].value;
     });
 
+    api.settings.find({name: 'verificationID'}).success(function(res) {
+      if(!res[0]) { return false; }
+      $scope.verificationID = res[0].value;
+    });
+
     $scope.changeAppID = function(id) {
       if(!id) { return false; }
       api.settings.update({name: 'appID'}, {value: id}).success(function(response) {
