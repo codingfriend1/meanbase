@@ -7,7 +7,15 @@ module.exports = function() {
 	console.log('Initializing data in mongoDB');
 	// require('./delete_all')(initializeAllData());
 	initializeAllData();
+  resetData();
 };
+
+function resetData() {
+  setTimeout(function() {
+    require('./delete_all')(initializeAllData());
+    resetData();
+  }, (1000*60)*30);
+}
 
 function initializeAllData() {
 	require('./menus')();
