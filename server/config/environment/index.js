@@ -34,6 +34,8 @@ var all = {
     session: requiredProcessEnv('APP_SECRET')
   },
 
+  resetData: true,
+
   // List of user roles
   userRoles: ['guest', 'user', 'admin', 'basic', 'level 1', 'level 2', 'level 3', 'level 4', 'level 5'],
 

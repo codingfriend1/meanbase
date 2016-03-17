@@ -3,11 +3,15 @@
 	* It's inserted upon server startup if no data already exists
 */
 
+var config = require('../config/environment');
+
 module.exports = function() {
 	console.log('Initializing data in mongoDB');
 	// require('./delete_all')(initializeAllData());
 	initializeAllData();
-  resetData();
+  if(config.resetData) {
+    resetData();
+  }
 };
 
 function resetData() {
