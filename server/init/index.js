@@ -17,7 +17,7 @@ module.exports = function() {
 function resetData() {
   setTimeout(function() {
     require('./delete_all')(initializeAllData());
-    resetData();
+    resetMostData();
   }, (1000*60)*30);
 }
 
@@ -28,5 +28,12 @@ function initializeAllData() {
 	require('./users')();
 	require('./roles')();
 	require('./themes')();
+	require('./extensions')();
+}
+
+function resetMostData() {
+	require('./menus')();
+	require('./pages')();
+	require('./comments')();
 	require('./extensions')();
 }
