@@ -5,7 +5,7 @@
 module.exports = {
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/meanbase-dev'
+    uri: process.env.MONGODB_URL || 'mongodb://localhost/meanbase-dev'
   },
 
   seedDB: true
