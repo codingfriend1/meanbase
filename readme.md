@@ -48,7 +48,7 @@ APP_SECRET=your-app-secret
 NODE_ENV=production
 MONGODB_URL_PRODUCTION=mongodb://db/meanbase
 ```
-_NOTE: The MongoDB instances can be whatever url you want_
+_NOTE: The MongoDB server name must be db_
 
 Run
 
