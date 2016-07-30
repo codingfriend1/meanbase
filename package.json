@@ -102,6 +102,7 @@
   },
   "scripts": {
     "start": "gulp serve",
+    "prepare": "npm install && bower install --allow-root --config.interactive=false",
     "test": "gulp test",
     "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
   },
