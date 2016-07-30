@@ -27,7 +27,6 @@ To do a production deploy add a `meanbase.env` file in the root of this project.
   - `sudo apt-get install -y graphicsmagick`
   - `sudo apt-get install nginx`
   - `sudo apt-get install mongodb-server`
-  -
 - Start Mongodb in one terminal or cmd
 	- `mongod`
 - Run the app from the meanbase-1.0.0 folder in another terminal or cmd
