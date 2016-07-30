@@ -20,8 +20,6 @@ Meanbase CMS runs off of the MEAN stack: Mongo, Express, Angular, and Node meani
 #### Developer Friendly
 Meanbase is also focused on making the process of creating themes and adding extensions delightful for developers who have to interact with the code every day. It's provides you control and simplicity so you can spend more time focusing on what matters.
 
-To do a production deploy add a `meanbase.env` file in the root of this project. This will contain your environment variables. At a minimum it needs
-
 #### Run Development Mode
 - Install GraphicsMagick, nginx, and MongoDB
   - `sudo apt-get install -y graphicsmagick`
@@ -44,7 +42,7 @@ To do a production deploy add a `meanbase.env` file in the root of this project.
 
 
 ### Deploy
-Create a file called `meanbase.env` don't share it with anyone or attach it to your repo, this will contain your app secret for encrypting passwords and such. At a minimum this file needs these variables
+Create a file called `meanbase.env` in the root of this project don't share it with anyone or attach it to your repo, this will contain your app secret for encrypting passwords and such. At a minimum this file needs these variables
 ```
 APP_SECRET=your-app-secret
 NODE_ENV=production
