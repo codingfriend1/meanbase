@@ -10,6 +10,10 @@ module.exports = function (gulp, plugins, config) {
 		return plugins.del('.tmp/**');
 	});
 
+  gulp.task('inject', function(done) {
+    plugins.runSequence('injectBowerComponents', 'injectComponents', 'injectStylus', done)
+  });
+
 	// Compile jade files to .tmp folder
 	gulp.task('jade', function() {
 		return gulp.src('client/{app,components,themes,extensions}/**/*.jade')
