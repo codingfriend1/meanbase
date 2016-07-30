@@ -1,12 +1,12 @@
 db:
   image: mongo
-  ports:
+  expose:
     - "27017"
     - "37017"
 web:
   build: .
-  ports:
-    - "8080:8080"
+  expose:
+    - "8080"
   env_file:
     - meanbase.env
   links:
