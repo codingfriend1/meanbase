@@ -48,7 +48,6 @@ Create a file called `meanbase.env` don't share it with anyone or attach it to y
 ```
 APP_SECRET=your-app-secret
 NODE_ENV=production
-MONGODB_URL=mongodb://db/meanbase-dev
 MONGODB_URL_PRODUCTION=mongodb://db/meanbase
 ```
 _NOTE: The MongoDB instances can be whatever url you want_
