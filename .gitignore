@@ -11,3 +11,4 @@ __MACOSX
 /logs/debug.log
 code-documentation
 build
+meanbase.env

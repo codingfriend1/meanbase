@@ -1,0 +1,24 @@
+db:
+  image: mongo
+  ports:
+    - "27017"
+    - "37017"
+web:
+  build: .
+  ports:
+    - "8080:8080"
+  env_file:
+    - meanbase.env
+  links:
+      - db:db
+nginx:
+  restart: always
+  image: nginx
+  links:
+    - web:web
+  volumes_from:
+    - web
+  volumes:
+    - ./meanbase-nginx.conf:/etc/nginx/conf.d/default.conf
+  ports:
+    - "80:80"

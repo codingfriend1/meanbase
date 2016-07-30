@@ -1,67 +1,80 @@
-###Meanbase 1.0.0
+### Meanbase
+A a CMS built on the MEAN stack and made to be simple and intuitive for users and developers.
 
-Since a good CMS for the MEAN stack was not available I decided to begin building one myself. The CMS itself will be free as my way of thanking the open source web community for making all kinds awesome libraries for free. Thank you guys! Here's me giving back.
 
-From the start it uses yeoman generator-angular-fullstack with authentication and authorization templates.
-[https://github.com/DaftMonk/generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack) However it has been modified to use gulp instead of grunt.
+![Meanbase Screenshot](meanbase-screenshot.png?raw=true "Meanbase Screenshot")
 
-A demo of the site in action can be seen at [http://codingfriend.com/](http://codingfriend.com/)
+#### Backend
+![Meanbase Screenshot Backend](meanbase-screenshot-backend.png?raw=true "Meanbase Screenshot Backend")
 
-####Install
-- If on windows or mac, install a package manager such as
-	- [homebrew](http://brew.sh/) on mac
-	- [chocolatey](https://chocolatey.org/) on windows.
-- Install my repository
-	- `git clone https://github.com/codingfriend1/meanbase-1.0.0.git`
-- Move into the cloned folder
-	- `cd meanbase-1.0.0`
-- Create or receive your ssl keys
-	- `sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt`
-	- On linux in the nginx config they are `/etc/nginx/ssl/nginx.key` and `/etc/nginx/ssl/nginx.crt`. If your locations or names are different you will need to update them in your nginx config.
-- Change the root of the nginx config to the `meanbase-1.0.0/dist/public/` folder wherever it is on your system
-	- `sudo nano deployment/meanbase-config.conf`
-- Set your app secret as an environment variable
-	- `export APP_SECRET=your-secret`
-- Run the setup.sh script, hit enter if prompted, and then make yourself a coffee
-	- `. setup.sh`
-- If you wish to run the production ready version run the update.sh script
-	- `. update.sh`
-- Whenever changes are made to the app running the update.sh will reinstall the latest version
 
-####Run Development Mode
+A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves.
+
+#### Simple
+Meanbase is designed from the ground up to be simple for an average user to learn so you can hand over your product for them to update without stress and training.
+
+#### Fast
+
+Meanbase CMS runs off of the MEAN stack: Mongo, Express, Angular, and Node meaning it's generally faster than wordpress so you don't have to wait for every page to refresh when making edits.
+
+#### Developer Friendly
+Meanbase is also focused on making the process of creating themes and adding extensions delightful for developers who have to interact with the code every day. It's provides you control and simplicity so you can spend more time focusing on what matters.
+
+To do a production deploy add a `meanbase.env` file in the root of this project. This will contain your environment variables. At a minimum it needs
+
+#### Run Development Mode
+- Install GraphicsMagick, nginx, and MongoDB
+  - `sudo apt-get install -y graphicsmagick`
+  - `sudo apt-get install nginx`
+  - `sudo apt-get install mongodb-server`
+  -
 - Start Mongodb in one terminal or cmd
 	- `mongod`
 - Run the app from the meanbase-1.0.0 folder in another terminal or cmd
 	- `gulp serve`
 - See app
-	- Open localhost:9000 in your browser
+	- Open `localhost:9000` in your browser
 - Stop each with ctrl-c
 
-###Production Mode
-- Stop pm2, mongoDB, and Nginx services
-	- `pm2 stop all; sudo mongo 127.0.0.1/admin --eval "db.shutdownServer()"; sudo nginx -s quit`
-- Start pm2, mongoDB, and Nginx services
-	- `sudo mongod --smallfiles --fork --logpath /var/log/mongodb.log; pm2 start dist/server/app.js; sudo nginx`
-
-####Gulp Commands
+#### Gulp Commands
 - gulp install
 - gulp serve
-- gulp build
+- gulp build-all
 - gulp serve-dist
 - gulp test
 
-####Meanbase has two main goals:
-- To be self-explanitory and efficient for users
-- To be fun and customizable for developers.
 
-####Code Design Strategy
-- Upon server startup and client-request-theme-change, the server reads the index.html file in server/views/ and adds the active theme's styles and scripts to it as well as passing in some global data for the cms to use. It then writes this concatenation to client/index.html. When scripts and styles are added to the project gulp inserts them into server/views/index.html.
-- Whenever a page is requested ui-router makes a call to the server to get the page data and the template path for the correct view to render. This allows pages to each use individual templates that your theme supports.
-- cms/* routes are ignored by this template call.
+### Deploy
+Create a file called `meanbase.env` don't share it with anyone or attach it to your repo, this will contain your app secret for encrypting passwords and such. At a minimum this file needs these variables
+```
+APP_SECRET=your-app-secret
+NODE_ENV=production
+MONGODB_URL=mongodb://db/meanbase-dev
+MONGODB_URL_PRODUCTION=mongodb://db/meanbase
+```
+_NOTE: The MongoDB instances can be whatever url you want_
 
-####Contributers
-- David Wible
+Run
 
+```gulp build-all```
+
+To create the dist folder
+
+Makes sure you can make password-less ssh into your host server.
+
+`ssh-copy-id user@your-server-ip-address`
+
+
+Connect to your docker host server
+```
+docker-machine create --driver generic --generic-ip-address=your-server-ip-address you-custom-machine-name
+```
+
+then
+
+```docker-compose up -d```
+
+_NOTE: Parts of the theme are still in development such as cropping and editing images, but for now you can edit locally and then upload._
 
 ##MIT LICENSE
 

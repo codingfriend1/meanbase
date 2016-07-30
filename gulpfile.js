@@ -11,32 +11,6 @@
  * 	Does everything install does except for npm and bower
  * @author Jon Paul Miles <milesjonpaul@gmail.com>
  */
-// var gulp = require('gulp'),
-// 		merge = require('merge-stream'),
-// 		uglify = require('gulp-uglify'),
-// 		concat = require('gulp-concat'),
-// 		stylus = require('gulp-stylus'),
-// 		gulpif = require('gulp-if'),
-// 		minifyCss = require('gulp-minify-css'),
-// 		mainBowerFiles = require('main-bower-files'),
-// 		angularFilesort = require('gulp-angular-filesort'),
-// 		es = require('event-stream'),
-// 		inject = require('gulp-inject'),
-// 		del = require('del'),
-// 		runSequence = require('run-sequence'),
-// 		run = require('gulp-run'),
-// 		server = require('gulp-express'),
-// 		jade = require('jade'),
-// 		gulpJade = require('gulp-jade'),
-// 		jasmine = require('gulp-jasmine'),
-// 		karma = require('karma').server,
-// 		series = require('stream-series'),
-// 		fs = require('fs'),
-// 		path = require('path'),
-// 		ngAnnotate = require('gulp-ng-annotate'),
-// 		ngtemplate = require('gulp-ng-templates'),
-// 		htmlmin = require('gulp-htmlmin'),
-// 		debug = require('gulp-debug');
 
 var exec = require('child_process').exec;
 var gulp = require('gulp');
@@ -81,7 +55,7 @@ tasks.forEach(function (file) {
 });
 
 gulp.task('default', function() {
-
+  plugins.runSequence('install', 'build-themes', 'serve');
 });
 
 gulp.task('compose', function() {

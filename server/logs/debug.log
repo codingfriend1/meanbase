@@ -821,3 +821,6 @@
 {"name":"verificationID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-18T02:53:31.432Z"}
 {"name":"verificationID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-18T02:53:55.758Z"}
 {"name":"verificationID","level":"info","message":"DAO.upsert()  ","timestamp":"2015-12-18T02:53:59.977Z"}
+{"_id":"573bfad7e7796e1a00e28dba","level":"info","message":"DAO.update()  ","timestamp":"2016-05-18T05:17:38.146Z"}
+{"_id":"579c26bc4eccce2800ead55f","level":"info","message":"DAO.update()  ","timestamp":"2016-07-30T04:02:44.634Z"}
+{"url":{"$in":["assets/divi-resorts-aruba-awfy-wedding-packages-2015_1450049950249/","assets/jonpaulmiles_01journelthree_1450049959052/","assets/jonpaulmiles_01journeltwo_1450049959419/","assets/jonpaulmiles_02journalone_1450049959909/","assets/jonpaulmiles_02journeleight_1450049960465/","assets/jonpaulmiles_02journeltwo_1450310412799/","assets/jonpaulmiles_03journalone_1450310413140/","assets/jonpaulmiles_03journeleight_1450310413559/","assets/jonpaulmiles_03journelfive_1450310414009/","assets/jonpaulmiles_03journelfour_1450310414589/"]},"level":"info","message":"DAO.delete() /api/media ","timestamp":"2016-07-30T08:40:26.495Z"}

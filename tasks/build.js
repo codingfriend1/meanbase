@@ -16,6 +16,10 @@ module.exports = function (gulp, plugins, config) {
 		return plugins.del('dist/**');
 	});
 
+  gulp.task('build-all', function(done) {
+    plugins.runSequence('build', 'injectBuild', 'build-themes', done);
+  });
+
 	// Inject app and vendors scripts and styles into dist/server/views/index.html
 	gulp.task('injectBuild', function() {
 		return gulp.src('dist/server/views/index.html')

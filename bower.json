@@ -58,6 +58,6 @@
     "angular-scenario": ">=1.2.*"
   },
   "resolutions": {
-    "angular": "1.4.8"
+    "angular": "1.5.5"
   }
 }

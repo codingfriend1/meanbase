@@ -76,7 +76,7 @@ module.exports = function (gulp, plugins, config) {
 	});
 
 	gulp.task('compileThemeCSS', function() {
-		var folders = getFolders(config.themesFolder);
+		var folders = config.getFolders(config.themesFolder);
 		return folders.map(function(folder) {
 	    return gulp.src(plugins.path.join(config.themesFolder, folder, '/**/*.styl'))
 	      .pipe(plugins.stylus())
@@ -87,7 +87,9 @@ module.exports = function (gulp, plugins, config) {
 	});
 
 	gulp.task('serve', function() {
-		plugins.express.run(['server/app.js'], {livereload: true});
+		// plugins.express.run(['server/app.js'], {livereload: true});
+
+    plugins.nodemon({script: './server/app.js', ext: 'js jade json', legacyWatch: true });
 
 		// app and components stylus files update app.css
 		gulp.watch(['client/{app,components}/**/*.styl'], {read: false}, ['injectStylus', 'compileAppCSS']);
@@ -102,17 +104,17 @@ module.exports = function (gulp, plugins, config) {
 		gulp.watch('bower.json', {read: false}, ['injectBowerComponents']);
 		gulp.watch(['client/{app,components}/**/*.js', '!**/*spec.js', '!**/*mock.js'], {read: false}, ['injectComponents']);
 
-		gulp.watch([
-			'.tmp/**/*.{css, html}',
-			'client/{app, components, extensions, themes}/**/*.js',
-			'client/themes/**/*.{css, html}',
-			'server/views/index.html',
-			'.tmp/**/*app.css'
-		], {read: false}, plugins.express.notify);
+		// gulp.watch([
+		// 	'.tmp/**/*.{css, html}',
+		// 	'client/{app, components, extensions, themes}/**/*.js',
+		// 	'client/themes/**/*.{css, html}',
+		// 	'server/views/index.html',
+		// 	'.tmp/**/*app.css'
+		// ], {read: false}, plugins.express.notify);
 
-		gulp.watch( 'server/**/*.{js, json}', {read:false}, function() {
-			plugins.express.run(['server/app.js'], {livereload: true});
-		});
+		// gulp.watch( 'server/**/*.{js, json}', {read:false}, function() {
+			// plugins.express.run(['server/app.js'], {livereload: true});
+		// });
 	});
 
 

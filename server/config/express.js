@@ -5,7 +5,6 @@
 'use strict';
 
 var express = require('express');
-var favicon = require('serve-favicon');
 var morgan = require('morgan');
 var compression = require('compression');
 var bodyParser = require('body-parser');
@@ -23,7 +22,7 @@ var fs = require('fs');
 
 module.exports = function(app) {
   var env = app.get('env');
-
+  
   app.set('views', config.root + '/server/views');
   app.set('view engine', 'jade');
   app.use(compression());
@@ -31,7 +30,6 @@ module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(cookieParser());
-  app.use(require('prerender-node'));
   app.use(passport.initialize());
 
   // Persist sessions with mongoStore
@@ -44,7 +42,7 @@ module.exports = function(app) {
   }));
 
   if ('production' === env) {
-    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
+    // app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
     app.set('appPath', path.join(config.root, 'public/'));
     app.set('themesFolder', path.join(config.root, 'public', 'themes', '/'));
