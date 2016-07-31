@@ -343,7 +343,7 @@
 
     // ###handleClick
     // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
-    $scope.handleClick = function($event, menuItem) {
+    $scope.handleClick = function($event, menuItem, href) {
       if($scope.editMode) {
         $event.preventDefault();
         var modalInstance = $modal.open({
@@ -360,6 +360,7 @@
           }
         });
       }
+      $location.path(href);
     };
 
     // ### Removing extensions

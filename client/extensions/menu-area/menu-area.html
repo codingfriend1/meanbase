@@ -6,7 +6,7 @@
     <div>
       <ul class="nav navbar-nav" ng-sortable="menusConfig">
         <li ng-repeat="menu in menus[extension.config.menuArea]" sortable>
-          <a href="" href="{{menu.url}}" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu)"> {{menu.title}}</a>
+          <a href="" target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)"> {{menu.title}}</a>
         </li>
         <li class="new-menu-item-button" ng-click="createMenuItem(extension.config.menuArea)" ng-if="editMode">
           <a href=""><i class="fa fa-plus"></i></a>
