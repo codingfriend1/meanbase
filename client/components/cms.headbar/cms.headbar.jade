@@ -6,7 +6,7 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 				span.icon-bar
 				span.icon-bar
 				span.icon-bar
-			a(ui-sref='cms').navbar-brand Manage Site
+			a(href='/cms' target="_self").navbar-brand Manage Site
 		div#mb-headbar-child.navbar-collapse(collapse="cmsHeabarClosed")
 			ul.nav.navbar-nav
 				li.dropdown(ng-show="currentUser.permissions.indexOf('editContent') > -1")

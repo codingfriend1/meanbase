@@ -1,8 +1,8 @@
 #wrapper(ng-class="{'toggled': menuOpen}")
 	#sidebar-wrapper
 		ul.sidebar-nav
-			li.sidebar-brand(ui-sref='main.page') 
-				a Back to Site
+			li.sidebar-brand 
+				a(href='/' target="_self") Back to Site
 			li(ng-repeat="state in cmsStates" ui-sref='{{state.name}}' ng-show="state.userHasPermission" ng-click="toggleMenu()")
 				i.fa(ng-class="state.icon")
 				a {{state.friendlyName}}
