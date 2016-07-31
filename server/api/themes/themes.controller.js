@@ -16,6 +16,7 @@ var initThemes = require('../../init/themes.js');
 var fse = require('fs-extra');
 var config = require('../../config/environment');
 var app = config.app;
+var path = require('path');
 
 // Get list of themes
 exports.findAll = function(req, res) {
@@ -55,6 +56,7 @@ exports.create = function(req, res) {
 // Extracts a new theme to the database.
 exports.upload = function(req, res) {
   var createdFolderName = '125098dsflkj1324';
+  var createdFolderPath = path.join(app.get('appPath'), 'themes', createdFolderName);
 	try {
 		var form = new formidable.IncomingForm();
 		form.keepExtensions = true;
@@ -98,7 +100,7 @@ exports.upload = function(req, res) {
 
       try {
         // Query the entry
-        var stats = fs.lstatSync(app.get('appPath') + 'themes/' + createdFolderName);
+        var stats = fs.lstatSync(createdFolderPath);
         // Is it a directory?
         if (stats.isDirectory()) {
           return res.status(501).send('A theme with that name has already been uploaded. Please choose a different folder name for your theme.');
@@ -106,7 +108,7 @@ exports.upload = function(req, res) {
       } catch (e) {}
 
       decompress.src(tempFilePath)
-      .dest(app.get('appPath') + 'themes/' + createdFolderName)
+      .dest(createdFolderPath)
       .use(compressType({strip: 1}));
 
       decompress.run(function (err, files) {

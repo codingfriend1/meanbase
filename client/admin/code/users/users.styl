@@ -1,0 +1,179 @@
+#meanbase-cms
+  #users
+		.form-group
+      position relative
+      display inline-block
+  .mb-input
+  	background-color transparent
+  	border 2px solid #27AE60
+  	border-radius 3px
+  	outline none
+  	padding 0.4em 0.4em
+  	font-size 1.2em
+  	width 100%
+  	box-sizing border-box
+
+
+  .mb-inputfocus
+  	border-color #2ECC71
+
+
+  #mb-users .mb-form-group
+  	padding 0.5em 1em 0.5em 0
+  	width 50%
+
+
+  .mb-user-info
+  	font-size 1.2em
+  	font-weight bold
+
+
+  .mb-calendar
+  	font-size 1.5em
+  	padding 0.25em 0.5em
+
+
+  .mb-calendar,
+  .mb-share-optionbefore,
+  .mb-lockbefore
+  	font-family "FontAwesome"
+
+  .panel-select
+  	background-color: #27AE60
+  	color: #ECF0F1
+  	border: none
+  	font-size: 1.5em
+  	border-radius: 3px
+
+  .panel
+  	button
+  		margin-left 0.5em
+
+  .panel-dark
+  	margin-bottom 0.5em
+
+  	.panel-head
+  		border-top-right-radius: 3px
+  		border-top-left-radius: 3px
+  		background-color: #2C3E50
+  		padding 0.5em
+
+  		button
+  			margin-left 0.5em
+
+  		.panel-title
+  			display: inline-block
+  			vertical-align: middle
+  			padding: 0.5em
+
+  		.panel-righthand
+  			display: inline-block
+  			box-sizing: border-box
+  			vertical-align: middle
+  			text-align: right
+  			padding: 0.5em
+
+  	.panel-body
+  		background-color: #ECF0F1
+  		border 2px solid #2C3E50
+  		padding 1em
+  		border-bottom-left-radius 3px
+  		border-bottom-right-radius 3px
+
+  	button,
+  	input[type="submit"]
+  		color: #ECF0F1
+  		padding: 0.5em 1em
+  		border: none
+  		border-radius: 3px
+  		margin: 2px
+  		outline: none
+
+  	input[type="submit"]
+  		background-color: #27AE60
+
+
+  	input[type="submit"]:hover
+  		background-color: #2ECC71
+
+
+  	select
+  		background-color: #27AE60
+  		color: #ECF0F1
+  		border: none
+  		font-size: 1.5em
+  		border-radius: 3px
+
+  	.panel-body-open
+  		display: block
+
+  .p-1
+  	padding 1em
+  	.form-group
+  		display block
+
+  #users
+  	input[type=email] + label,
+  	input[type=text] + label,
+  	input[type=url] + label,
+  	input[type=tel] + label,
+  	input[type=search] + label,
+  	input[type=number] + label,
+  	input[type=password] + label,
+  	input[type=hidden] + label
+  		position: absolute
+  		font-size: 19px
+  		top: 4px
+  		color: #ddd
+  		left: 12px
+
+
+  	input[type=radio],
+  	input[type=checkbox]
+  		display: none
+
+
+  	input[type=radio] + label,
+  	input[type=checkbox] + label
+  		font-size: 1.3em
+  		font-family: 'Montserrat', sans-serif
+  		width: 250px
+
+
+  	input[type=radio] + label:before
+  	input[type=checkbox] + label:before
+  		display: inline-block
+  		vertical-align: middle
+  		font-family: 'FontAwesome'
+  		font-size: 1.5em
+  		color: #2C3E50
+  		margin-right: 0.5em
+
+
+  	input[type=radio] + label:before
+  		content: "\f10c"
+
+  	input[type=checkbox] + label:before
+  		content: "\f0c8"
+
+  	input[type=radio]:checked + label:before
+  		content: "\f05d"
+
+  	input[type=checkbox]:checked + label:before
+  		content:"\f14a"
+
+  .mb-toggle-switch
+  	margin-top -1em
+
+  	& input
+  		display none
+
+  	& input + span.mb-switch:before
+  		font-family 'FontAwesome'
+  		font-size 2.75em
+  		content "\f204" /* off */
+  		color #2C3E50
+
+  	& input:checked + span.mb-switch:before
+  		content "\f205" /* on */
+  		color #27AE60

@@ -28,6 +28,18 @@
     <link rel="stylesheet" href="app/app.css">
     <!-- endinject -->
 
+    <!-- theme:css -->
+<link rel="stylesheet" href="themes/meanbase-starter/assets/theme.css">
+<!-- endinject -->
+    <!-- Extensions CSS -->
+      <link rel="stylesheet" href="extensions/extensible-areas-extension/extensible-areas-extension.css">
+				 <link rel="stylesheet" href="extensions/gallery/gallery.css">
+				 <link rel="stylesheet" href="extensions/menu-area/menu-area.css">
+				 <link rel="stylesheet" href="extensions/panel/panel.css">
+				 <link rel="stylesheet" href="extensions/search-form/search-form.css">
+				 <!-- extensions:css -->
+    <!-- End Extensions CSS -->
+
     <script>
       // This theme name gets dynamically created on the server when it compiles this file so it can be used throughout the application especially ui-router
       window.meanbaseGlobals = {};
@@ -45,6 +57,17 @@
 
     <!-- Add your site or application content here -->
     <div ui-view=""></div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', window.meanbaseGlobals.appID);
+      ga('send', 'pageview');
+    </script>
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -109,13 +132,13 @@
 
     <script src="components/libraries/codrops/classie.js"></script>
 
-    <script src="app/app.js"></script>
+    <script src="components/app.js"></script>
 
-    <script src="app/account/signup/signup.controller.js"></script>
+    <script src="components/account/signup/signup.controller.js"></script>
 
-    <script src="app/account/settings/settings.controller.js"></script>
+    <script src="components/account/settings/settings.controller.js"></script>
 
-    <script src="app/account/login/login.controller.js"></script>
+    <script src="components/account/login/login.controller.js"></script>
 
     <script src="components/validate/validate.directive.js"></script>
 
@@ -138,6 +161,10 @@
     <script src="components/meanbase-editable/meanbase-editable.directive.ckeditor.js"></script>
 
     <script src="components/mb-animate/mb-animate.directive.js"></script>
+
+    <script src="components/main/main.js"></script>
+
+    <script src="components/main/main.controller.js"></script>
 
     <script src="components/image-selector/image-selector.directive.js"></script>
 
@@ -175,6 +202,8 @@
 
     <script src="app/users/users.controller.js"></script>
 
+    <script src="components/account/account.js"></script>
+
     <script src="app/themes/themes.js"></script>
 
     <script src="app/themes/themes.controller.js"></script>
@@ -188,10 +217,6 @@
     <script src="app/media/media.js"></script>
 
     <script src="app/media/media.controller.js"></script>
-
-    <script src="app/main/main.js"></script>
-
-    <script src="app/main/main.controller.js"></script>
 
     <script src="app/import/import.js"></script>
 
@@ -215,8 +240,21 @@
 
     <script src="app/analytics/analytics.controller.js"></script>
 
-    <script src="app/account/account.js"></script>
-
     <!-- endinject -->
+
+    <!-- theme:js -->
+<script src="themes/meanbase-starter/templates/archive/archive.controller.js"></script>
+<script src="themes/meanbase-starter/templates/article/article.controller.js"></script>
+<script src="themes/meanbase-starter/templates/home/home.controller.js"></script>
+<script src="themes/meanbase-starter/templates/page/page.controller.js"></script>
+<!-- endinject -->
+    <!-- Extensions JS -->
+      <script src="extensions/extensible-areas-extension/extensible-areas-extension.directive.js"></script>
+				 <script src="extensions/gallery/gallery.directive.js"></script>
+				 <script src="extensions/menu-area/menu-area.directive.js"></script>
+				 <script src="extensions/panel/panel.directive.js"></script>
+				 <script src="extensions/search-form/search-form.directive.js"></script>
+				 <!-- extensions:js -->
+    <!-- End Extensions JS -->
 </body>
 </html>

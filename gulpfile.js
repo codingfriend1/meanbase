@@ -1,76 +1,61 @@
-/**
- * @overview Defines
- * gulp install - Establishes app so its ready for development preview
- * 	Installs npm and bower.
- * 	Compiles jade into .tmp
- * 	Injects stylus files into app.styl
- * 	Compiles app.styl to .tmp
- * 	Injects vendor and app scripts and styles into server/views/index.html
- *
- * gulp compose
- * 	Does everything install does except for npm and bower
- * @author Jon Paul Miles <milesjonpaul@gmail.com>
- */
+var gulp = require('gulp')
+var path = require('path')
+var fs = require('fs')
 
-var exec = require('child_process').exec;
-var gulp = require('gulp');
-var path = require('path');
-var fs = require('fs');
+var folders = {
+  admin: {
+    root: path.resolve(__dirname, 'client', 'admin'),
+    code: path.resolve(__dirname, 'client', 'admin', 'code'),
+    shared: path.resolve(__dirname, 'client', 'shared'),
+    gulp: path.resolve(__dirname, 'gulp', 'admin'),
+    bower: path.resolve(__dirname, 'client', 'admin', 'bower_components')
+  },
+  app: {
+    gulp: path.resolve(__dirname, 'gulp', 'app'),
+    root: path.resolve(__dirname, 'client', 'app'),
+    shared: path.resolve(__dirname, 'client', 'shared'),
+    bower: path.resolve(__dirname, 'client', 'app', 'bower_components')
+  }
+}
+
+var config = {
+  path: path
+}
+
+/**
+ * We add all our gulp modules to the plugins object so we don't have to import their scripts in every file
+ */
 var plugins = require('gulp-load-plugins')({
-    pattern: ['gulp-*', 'gulp.*', 'del', 'run-sequence', 'merge-stream', 'main-bower-files', 'event-stream', 'browser-sync'],
+    pattern: ['gulp-*', 'gulp.*', 'del', 'run-sequence', 'merge-stream', 'main-bower-files', 'event-stream', 'browser-sync', 'debug'],
     rename: {
       'event-stream': 'es'
     },
-    config: path.join(__dirname, 'package.json'),
+    config: path.resolve(__dirname, 'package.json'),
     lazy: false
-});
+})
 
-plugins.path = path;
+/**
+ * Collect all the applications in gulp folder
+ */
+var adminTasks = fs.readdirSync(folders.admin.gulp).filter(function(file) {
+ return fs.statSync(path.join(folders.admin.gulp, file)).isFile()
+})
 
-var config = {
-	themesFolder: 'client/themes/',
-	getFolders: function(dir) {
-	  return fs.readdirSync(dir)
-	    .filter(function(file) {
-	      return fs.statSync(path.join(dir, file)).isDirectory();
-	    });
-	},
-  runCommand: function(command) {
-    return function (cb) {
-      exec(command, function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
-      });
-    }
-  }
-};
+adminTasks.forEach(function (file) {
+	require( path.join(folders.admin.gulp, file))(gulp, plugins, folders.admin, config)
+})
+// var appTasks = fs.readdirSync(folders.app.gulp).filter(function(file) {
+//  return fs.statSync(path.join(folders.app.gulp, file)).isFile()
+// })
+//
+// appTasks.forEach(function (file) {
+// 	require( path.join(folders.app.gulp, file))(gulp, plugins, folders.app, config)
+// })
 
-var tasks = fs.readdirSync(path.join(__dirname, 'tasks')).filter(function(file) {
-  return fs.statSync(path.join(__dirname, 'tasks', file)).isFile();
-});
+ /**
+ * Require each file in the gulp folder and pass in gulp, the plugins, and any configuration
+ */
 
-tasks.forEach(function (file) {
-	require( path.join(__dirname, 'tasks', file))(gulp, plugins, config);
-});
-
-gulp.task('default', function() {
-  plugins.runSequence('install', 'build-themes', 'serve');
-});
-
-gulp.task('compose', function() {
-	plugins.runSequence('jade', 'injectStylus', 'compileAppCSS', 'injectBowerComponents', 'injectComponents');
-});
-
-// Setup
-gulp.task('install', ['clean:tmp'], function() {
-	// plugins.run('npm install').exec('', function() {
-		// plugins.run('bower install').exec('', function() {
-			plugins.runSequence('jade', 'injectStylus', 'compileAppCSS', 'injectBowerComponents', 'injectComponents');
-		// });
-	// });
-});
-
-gulp.task('empty-database', function() {
-  config.runCommand('mongo --eval "show dbs; use meanbase-dev; db.dropDatabase();"');
-});
+gulp.task('admin', function() {
+  plugins.runSequence(['copy-fonts', 'create-bower.js', 'import-admin'])
+})

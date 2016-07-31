@@ -31,7 +31,7 @@ module.exports = function(app) {
 
   app.route('/themes/*').get(function(req, res) {
     try {
-      res.render( path.join(config.root, app.get('frontEnd'), 'themes', req.params[0]) );
+      res.render( path.join(app.get('appPath'), 'themes', req.params[0]) );
     } catch(err) {
       console.log("err", err);
       res.status(500).send(err);
@@ -40,7 +40,7 @@ module.exports = function(app) {
 
   app.route('/extensions/*').get(function(req, res) {
     try {
-      res.render('../../' + app.get('frontEnd') + '/extensions/' + req.params[0]);
+      res.render(app.get('appPath') + '/extensions/' + req.params[0]);
     } catch(err) {
       res.status(500).send(err);
     }
@@ -59,14 +59,15 @@ module.exports = function(app) {
  //    .get(function(req, res) {
  //       res.sendfile(app.get('appPath') + '/app/missing/missing.html');
  //     });
- app.route('/cms')
+ app.route('/cms/?*')
    .get(function(req, res) {
-     res.sendfile(path.join(app.get('appPath'), 'app', 'index.html'));
+     console.log('this one');
+     res.sendfile(path.join(app.get('adminPath'), 'index.html'));
    });
 
   // All other routes should redirect to the index.html
   app.route('/*')
     .get(function(req, res) {
-      res.sendfile(app.get('appPath') + 'index.html');
+      res.sendfile(path.join(app.get('appPath'), 'index.html'));
     });
 };

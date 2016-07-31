@@ -827,3 +827,7 @@
 {"_id":"56eb30b40147ba8d3583ddf3","level":"info","message":"DAO.update()  ","timestamp":"2016-07-31T16:05:16.528Z"}
 {"_id":"56eb30b40147ba8d3583ddf3","level":"info","message":"DAO.update()  ","timestamp":"2016-07-31T16:05:17.647Z"}
 {"_id":"56eb30b40147ba8d3583ddf3","level":"info","message":"DAO.update()  ","timestamp":"2016-07-31T16:05:20.720Z"}
+{"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2016-07-31T16:45:01.673Z"}
+{"_id":"56eb30b40147ba8d3583ddea","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2016-07-31T16:45:01.687Z"}
+{"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2016-07-31T16:45:06.721Z"}
+{"_id":"56eb30b40147ba8d3583ddea","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2016-07-31T16:45:06.742Z"}

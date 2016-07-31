@@ -16,7 +16,7 @@ var Settings = require('../../api/settings/settings.model.js');
  var path = require('path');
 
 module.exports = function(theme) {
-	themesFolder = path.join(app.get('appPath'), 'themes', '/');
+	themesFolder = app.get('themesFolder');
 	if(theme) {
 		compileIndex(theme, GLOBAL.meanbaseGlobals.extensions);
 	} else {
@@ -50,6 +50,9 @@ function compileIndex(theme, extensionJSONS) {
 	var index, themeJS, themeCSS, statsjs, statscss, hasThemeMin = false;
 
 	index = fs.readFileSync(viewFilePath,'utf8');
+
+  var adminFilePath = path.join(config.root, '/server/views/admin.html');
+  var adminIndex = fs.readFileSync(adminFilePath,'utf8');
 
 	try {
 	  statsjs = fs.lstatSync(path.join(themesFolder, theme.url, 'theme.min.js'));
@@ -116,18 +119,22 @@ function compileIndex(theme, extensionJSONS) {
 	Settings.findOne({name: 'appID'}, function(err, appID) {
 		if(appID) {
 			index = index.replace("'appID'", "'" + appID.value + "'");
+			adminIndex = adminIndex.replace("'appID'", "'" + appID.value + "'");
 		}
     Settings.findOne({name: 'clientID'}, function(err, clientID) {
       if(clientID) {
   			index = index.replace("'clientID'", "'" + clientID.value + "'");
+  			adminIndex = adminIndex.replace("'clientID'", "'" + clientID.value + "'");
   		}
       Settings.findOne({name: 'verificationID'}, function(err, verificationID) {
         if(verificationID) {
     			index = index.replace("'verificationID'", verificationID.value);
+    			adminIndex = adminIndex.replace("'verificationID'", verificationID.value);
     		}
         try {
   				// Write the results back to index.html in client/ folder
-  				fs.writeFileSync(app.get('appPath') + 'index.html', index, 'utf8');
+  				fs.writeFileSync(path.join(app.get('appPath'), 'index.html'), index, 'utf8');
+  				fs.writeFileSync(path.join(app.get('adminPath'), 'index.html'), adminIndex, 'utf8');
   				console.log('writing to index from index');
   			} catch(error) {
   				console.log('error: ', error);

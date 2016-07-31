@@ -13,6 +13,7 @@ var fs = require('fs');
 var compileIndex = require('../../components/index/index.js');
 var config = require('../../config/environment');
 var app = config.app;
+var path = require('path');
 
 collection.modifyBody = function(body) {
   return body;
@@ -40,10 +41,13 @@ exports.create = function(req, res) {
 // Extracts a new extension to the database.
 exports.upload = function(req, res) {
   var createdFolderName = '125098dsflkj1324';
+
+  var createdFolderPath = path.join(app.get('appPath'), 'app', 'extensions', createdFolderName);
+
   try {
     var form = new formidable.IncomingForm();
     form.keepExtensions = true;
-    form.parse(req, function(err, fields, files) { 
+    form.parse(req, function(err, fields, files) {
       if(err) { return uploadingError('The extension folder must be compressed in the correct format.', res, createdFolderName); }
       if(!files || !files.file) {
         return res.status(501).send('The extension folder must be compressed.');
@@ -83,7 +87,7 @@ exports.upload = function(req, res) {
 
       try {
         // Query the entry
-        var stats = fs.lstatSync(app.get('appPath') + 'extensions/' + createdFolderName);
+        var stats = fs.lstatSync(createdFolderPath);
         // Is it a directory?
         if (stats.isDirectory()) {
           return res.status(501).send('An extension with that name has already been uploaded. Please choose a different folder name for your extension.');
@@ -92,12 +96,12 @@ exports.upload = function(req, res) {
 
       decompress
       .src(tempFilePath)
-      .dest(app.get('appPath') + 'extensions/' + createdFolderName)
+      .dest(createdFolderPath)
       .use(compressType({strip: 1}));
 
       decompress.run(function (err, files) {
-        if (err) { 
-          console.log("unzipping extension error: ", err);  
+        if (err) {
+          console.log("unzipping extension error: ", err);
           return res.status(501).send(err);
         }
         initExtensions(function(error) {
@@ -124,7 +128,7 @@ exports.delete = function(req, res) {
   collection.delete(req, res, function(identifier) {
     if(identifier && identifier.folderName && identifier.folderName !== '') {
       try {
-        fse.remove(app.get('appPath') + 'extensions/' + identifier.folderName);
+        fse.remove(path.join(app.get('appPath'), 'app', 'extensions', identifier.folderName));
         return res.status(204).send();
       } catch(e) {
         console.log('Could not delete extension', e);
@@ -154,11 +158,11 @@ function uploadingError(err, res, folderName) {
   console.log('Could not upload extension.', err);
   if(folderName && folderName !== '') {
     try {
-      fse.remove(app.get('appPath') + 'extensions/' + folderName);
+      fse.remove(path.join(app.get('appPath'), 'extensions', folderName));
     } catch(e) {
       console.log('Could not delete extension from extensions folder', e);
     }
-    
+
   }
   return res.status(500).send(err);
 }

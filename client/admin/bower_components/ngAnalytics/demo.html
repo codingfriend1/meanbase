@@ -1,0 +1,111 @@
+<html ng-app="gaTest">
+    <head>
+        <title>Google Analytics Test</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta charset="utf-8">
+
+        <style>
+            .input-error {
+                border: 2px dashed red;
+            }
+            .is-increasing, .increaser {
+                background-color: green;
+            }
+            .is-decreasing, .decreaser {
+                background-color: red;
+            }
+        </style>
+
+        <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript" src="src/ng-analytics.js"></script>
+        <script>
+            // declare a module and load ngAnalytics
+            var myAppModule = angular.module('gaTest', ['ngAnalytics']);
+            myAppModule.run(['ngAnalyticsService', function (ngAnalyticsService) {
+                ngAnalyticsService.setClientId('CLIENT_ID');
+            }]);
+            myAppModule.controller('MainCtrl', function ($scope) {
+                $scope.charts = [{
+                    reportType: 'ga',
+                    query: {
+                        metrics: 'ga:sessions',
+                        dimensions: 'ga:date',
+                        'start-date': '30daysAgo',
+                        'end-date': 'yesterday'
+                    },
+                    chart: {
+                        container: 'chart-container-1',
+                        type: 'LINE',
+                        options: {
+                            width: '100%'
+                        }
+                    }
+                }, {
+                    reportType: 'ga',
+                    query: {
+                        metrics: 'ga:sessions',
+                        dimensions: 'ga:browser',
+                        'start-date': '30daysAgo',
+                        'end-date': 'yesterday'
+                    },
+                    chart: {
+                        container: 'chart-container-2',
+                        type: 'PIE',
+                        options: {
+                            width: '100%',
+                            is3D: true,
+                            title: 'Browser Usage'
+                        }
+                    }
+                }];
+
+                $scope.extraChart = {
+                    reportType: 'ga',
+                    query: {
+                        metrics: 'ga:sessions',
+                        dimensions: 'ga:date',
+                        'start-date': '30daysAgo',
+                        'end-date': 'yesterday',
+                        ids: 'ga:81197147' // put your viewID here
+                    },
+                    chart: {
+                        container: 'chart-container-3',
+                        type: 'LINE',
+                        options: {
+                            width: '100%'
+                        }
+                    }
+                };
+
+                $scope.defaultIds = {
+                    ids: 'ga:81197147'
+                };
+
+                $scope.queries = [{
+                    query: {
+                        ids: 'ga:81197147',  // put your viewID here
+                        metrics: 'ga:sessions',
+                        dimensions: 'ga:city'
+                    }
+                }];
+
+                // if a report is ready
+                $scope.$on('$gaReportSuccess', function (e, report, element) {
+                    console.log(report, element);
+                });
+            });
+        </script>
+    </head>
+    <body ng-controller="MainCtrl">
+        <div>
+            <ng-analytics-auth label="Hallo:&nbsp;" hide-on-auth="true" auth-container="embed-api-auth-container"></ng-analytics-auth>
+            <ng-analytics-view view-selector-container="view-selector-container" auth-container="embed-api-auth-container"></ng-analytics-view>
+            <ng-analytics-report queries="queries" auth-container="embed-api-auth-container"></ng-analytics-report>
+            <ng-analytics-report queries="queries" auth-container="embed-api-auth-container" view-selector-container="view-selector-container"></ng-analytics-report>
+            <ng-analytics-chart chart="extraChart" auth-container="embed-api-auth-container"></ng-analytics-chart>
+            <ng-analytics-active-users default-ids="defaultIds" auth-container="embed-api-auth-container"></ng-analytics-active-users>
+            <ng-analytics-active-users label="Current users:" increase-class="increaser" decrease-class="decreaser" active-users-container="active-users-container-1" view-selector-container="view-selector-container" auth-container="embed-api-auth-container"></ng-analytics-active-users>
+            <ng-analytics-chart ng-repeat="chart in charts" chart="chart" view-selector-container="view-selector-container" auth-container="embed-api-auth-container"></ng-analytics-chart>
+        </div>
+    </body>
+</html>
