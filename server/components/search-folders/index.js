@@ -252,29 +252,39 @@ exports.retrieveExtensions = function(callback) {
   var extensionsFolder = fs.readdirSync(app.get('extensionsFolder'));
   var extensionsJSONS = [];
   for(var ii = 0; ii < extensionsFolder.length; ii++) {
-    if(extensionsFolder[ii][0] !== '.' && extensionsFolder[ii][0] !== '_') {
+    var currentFile = extensionsFolder[ii][0];
+    var activeFolder = extensionsFolder[ii];
+    var currentExtensionPath = path.join(app.get('extensionsFolder'), activeFolder);
+
+    if(currentFile !== '.' && currentFile !== '_') {
       try {
-        var stat = fs.statSync(app.get('extensionsFolder') + extensionsFolder[ii]);
+        var folderContent = fs.statSync(currentExtensionPath);
       } catch(e) {
         return callback('Could not find extension folder');
       }
-      if(stat.isDirectory()) {
+
+      if(folderContent.isDirectory()) {
         try {
-          var extensionFilePaths = Finder.from(path.join(app.get('extensionsFolder'), extensionsFolder[ii])).findFiles('<\.jade|\.html|\.css|\.js|extension\.json|screenshot>');
+          // var extensionFilePaths = Finder.from(currentExtensionPath).findFiles('<\.jade|\.html|\.css|\.js|extension\.json|screenshot>');
+          var extensionFilePaths = Finder.from(currentExtensionPath).findFiles('<extension.min.js|index.html|extension\.json|screenshot>');
           var index, json, files = [], screenshot;
+
           for (var i = 0; i < extensionFilePaths.length; i++) {
-            extensionFilePaths[i] = extensionFilePaths[i].replace(app.get('appPath'), '');
-            if(extensionFilePaths[i].indexOf('index.html') > -1) {
-              index = extensionFilePaths[i];
-            } else if(extensionFilePaths[i].indexOf('extension.json') > -1) {
-              json = extensionFilePaths[i];
-            } else if(extensionFilePaths[i].indexOf('screenshot') > -1) {
-              screenshot = extensionFilePaths[i];
-            } else if(extensionFilePaths[i].indexOf('.jade') > -1 && extractFileNameRegex.test(extensionFilePaths[i])) {
-              files.push(extensionFilePaths[i].replace('.jade', ''));
-            } else if(extractFileNameRegex.test(extensionFilePaths[i])) {
-              files.push(extensionFilePaths[i]);
+            var currentExtensionFile = extensionFilePaths[i];
+            currentExtensionFile = extensionFilePaths[i].replace(app.get('appPath'), '');
+
+            if(currentExtensionFile.indexOf('index.html') > -1) {
+              index = currentExtensionFile;
+            } else if(currentExtensionFile.indexOf('extension.json') > -1) {
+              json = currentExtensionFile;
+            } else if(currentExtensionFile.indexOf('screenshot') > -1) {
+              screenshot = currentExtensionFile;
+            // } else if(currentExtensionFile.indexOf('.jade') > -1 && extractFileNameRegex.test(currentExtensionFile)) {
+            //   files.push(currentExtensionFile.replace('.jade', ''));
+            } else if(extractFileNameRegex.test(currentExtensionFile)) {
+              files.push(currentExtensionFile);
             }
+
           }
 
           try {
@@ -289,7 +299,7 @@ exports.retrieveExtensions = function(callback) {
             return callback("Could not find an index.html in the extension. An extension needs this file to know what to compile.");
           }
 
-          extensionJSON.folderName = extensionsFolder[ii];
+          extensionJSON.folderName = activeFolder;
 
           if(files) {
             extensionJSON.urls = files;

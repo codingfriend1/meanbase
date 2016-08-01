@@ -45,6 +45,7 @@ module.exports = function(app) {
     // app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
     app.set('appPath', path.join(config.root, 'public'));
+    app.set('appAppPath', path.join(config.root, 'public', 'app'));
     app.set('adminPath', path.join(config.root, 'public', 'admin/'));
     app.set('themesFolder', path.join(config.root, 'public', 'themes', '/'));
     app.set('extensionsFolder', path.join(config.root, 'public', 'extensions', '/'));
@@ -57,6 +58,7 @@ module.exports = function(app) {
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'client')));
     app.set('appPath', path.join(config.root, 'client'));
+    app.set('appAppPath', path.join(config.root, 'client', 'app'));
     app.set('adminPath', path.join(config.root, 'client', 'admin/'));
     app.set('themesFolder', path.join(config.root, 'client', 'themes', '/'));
     app.set('extensionsFolder', path.join(config.root, 'client', 'extensions', '/'));

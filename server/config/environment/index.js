@@ -10,9 +10,14 @@ function requiredProcessEnv(name) {
   return process.env[name];
 }
 
+var root = path.normalize(__dirname + '/../../..')
+
 var sharedVariables = {
   // shared Express App variable
-  app: null
+  app: null,
+  folders: {
+    views: path.join(root, 'server', 'views')
+  }
 };
 
 // All configurations will extend these options

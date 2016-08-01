@@ -9,14 +9,12 @@ var Settings = require('../../api/settings/settings.model.js');
 
  var config = require('../../config/environment');
  var app = config.app;
- var themesFolder;
  var fs = require('fs');
  var Themes = require('../../api/themes/themes.model');
  var searchFolders = require('../search-folders');
  var path = require('path');
 
 module.exports = function(theme) {
-	themesFolder = app.get('themesFolder');
 	if(theme) {
 		compileIndex(theme, GLOBAL.meanbaseGlobals.extensions);
 	} else {
@@ -44,55 +42,15 @@ function getFirstTheme(callback) {
 
 // Gets the scripts and styles from the chosen theme and inserts them into the index.html
 function compileIndex(theme, extensionJSONS) {
+  var appFilePath, adminFilePath, index, adminIndex, themeCSS, statscss, hasThemeMin = false;
 	// Get file paths for the server/views/index and the chosen theme's scripts and styles templates
-	var viewFilePath = path.join(config.root, '/server/views/index.html');
-
-	var index, themeJS, themeCSS, statsjs, statscss, hasThemeMin = false;
+	var viewFilePath = path.join(config.folders.views, 'index.html');
+  var adminFilePath = path.join(config.folders.views, 'admin.html');
 
 	index = fs.readFileSync(viewFilePath,'utf8');
+  adminIndex = fs.readFileSync(adminFilePath,'utf8');
 
-  var adminFilePath = path.join(config.root, '/server/views/admin.html');
-  var adminIndex = fs.readFileSync(adminFilePath,'utf8');
-
-	try {
-	  statsjs = fs.lstatSync(path.join(themesFolder, theme.url, 'theme.min.js'));
-	  statscss = fs.lstatSync(path.join(themesFolder, theme.url, 'theme.min.css'));
-	  // Is it a directory?
-	  if (statsjs.isFile() && statscss.isFile()) {
-	  	hasThemeMin = true;
-	  	themeJS = '<script src="' + path.join('themes', theme.url, 'theme.min.js') + '"></script>';
-	  	themeCSS = '<link rel="stylesheet" href="' + path.join('themes', theme.url, 'theme.min.css') + '">';
-	  }
-	}
-	catch (err) {
-		console.log("checking for theme.min.* error", err);
-	}
-
-	if(!hasThemeMin) {
-		try {
-			var themeJSPath = path.join(app.get('appPath'), theme.scriptsPath); //themesFolder + theme.url + '/assets/scripts.html',
-			var themeCSSPath = path.join(app.get('appPath'), theme.stylesPath); //themesFolder + theme.url + '/assets/styles.html';
-			themeJS = fs.readFileSync(themeJSPath,'utf8');
-			themeCSS = fs.readFileSync(themeCSSPath,'utf8');
-		} catch(error) {
-			// If meanbase had trouble finding the theme or some other difficulty just use the current index.html
-			console.log('Error compiling the index.html with the chosen theme: ', error);
-			return false;
-		}
-	}
-
-
-
-	// Try to read the file contents
-
-
-
-	// If the file reads were successful then insert given theme's assets into index.html
-	index = index.replace('theme-name', theme.url);
-	index = index.replace("'theme-templates'", JSON.stringify(theme.templates));
-	index = index.replace("'themeTemplatePaths'", JSON.stringify(theme.templatePaths));
-	index = index.replace('<!-- Theme Styles -->', themeCSS);
-	index = index.replace('<!-- Theme Scripts -->', themeJS);
+  index = injectTheme(index, theme);
 
 	if(!extensionJSONS) {
 		GLOBAL.meanbaseGlobals.extensions = searchFolders.retrieveExtensions();
@@ -100,18 +58,7 @@ function compileIndex(theme, extensionJSONS) {
 	}
 
 	if(extensionJSONS) {
-		for (var i = 0; i < extensionJSONS.length; i++) {
-			for (var x = 0; x < extensionJSONS[i].urls.length; x++) {
-				var cssPattern = new RegExp("\.(css)$");
-				var jsPattern = new RegExp("\.(js)$");
-
-				if(cssPattern.test(extensionJSONS[i].urls[x])) {
-					index = index.replace('<!-- extensions:css -->', '<link rel="stylesheet" href="' + extensionJSONS[i].urls[x] + '">' + '\n\t\t\t\t <!-- extensions:css -->');
-				} else if(jsPattern.test(extensionJSONS[i].urls[x])) {
-					index = index.replace('<!-- extensions:js -->', '<script src="' + extensionJSONS[i].urls[x] + '"></script>' + '\n\t\t\t\t <!-- extensions:js -->');
-				}
-			}
-		}
+    index = injectExtensions(index, extensionJSONS);
 	}
 
 	GLOBAL.meanbaseGlobals.extensions = null;
@@ -133,7 +80,7 @@ function compileIndex(theme, extensionJSONS) {
     		}
         try {
   				// Write the results back to index.html in client/ folder
-  				fs.writeFileSync(path.join(app.get('appPath'), 'index.html'), index, 'utf8');
+  				fs.writeFileSync(path.join(app.get('appAppPath'), 'index.html'), index, 'utf8');
   				fs.writeFileSync(path.join(app.get('adminPath'), 'index.html'), adminIndex, 'utf8');
   				console.log('writing to index from index');
   			} catch(error) {
@@ -143,4 +90,42 @@ function compileIndex(theme, extensionJSONS) {
     });
 	});
 
+}
+
+
+function injectTheme(file, theme) {
+  var statsjs, themeJS, hasThemeMin;
+  try {
+	  statsjs = fs.lstatSync(path.join(app.get('themesFolder'), theme.url, 'theme.min.js'));
+	  // Is it a directory?
+	  if (statsjs.isFile()) {
+	  	hasThemeMin = true;
+	  	themeJS = '<script src="' + path.join('themes', theme.url, 'theme.min.js') + '"></script>';
+	  }
+	}
+	catch (err) {
+		console.log("checking for theme.min.* error", err);
+	}
+
+	// If the file reads were successful then insert given theme's assets into index.html
+	file = file.replace('theme-name', theme.url);
+	file = file.replace("'theme-templates'", JSON.stringify(theme.templates));
+	file = file.replace("'themeTemplatePaths'", JSON.stringify(theme.templatePaths));
+	file = file.replace('<!-- Theme Script -->', themeJS);
+
+  return file;
+}
+
+function injectExtensions(file, extensionJSONS) {
+  for (var i = 0; i < extensionJSONS.length; i++) {
+    for (var x = 0; x < extensionJSONS[i].urls.length; x++) {
+
+      var jsPattern = new RegExp("\.(js)$");
+
+      if(/\.(js)$/.test(extensionJSONS[i].urls[x])) {
+        file = file.replace('<!-- extensions:js -->', '<script src="' + extensionJSONS[i].urls[x] + '"></script>' + '\n\t <!-- extensions:js -->');
+      }
+    }
+  }
+  return file;
 }
