@@ -39,7 +39,7 @@ module.exports = function(gulp, plugins, folders, config) {
     	 .pipe(plugins.inject(gulp.src([
         config.path.join(folders.root, extension, '/**/*.js'),
         '!**/index.js',
-        '!**/theme.min.js',
+        '!**/extension.min.js',
         '!**/*spec.js',
         '!**/*mock.js',
        ], { read: true }).pipe(plugins.angularFilesort()), {

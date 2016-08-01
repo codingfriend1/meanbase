@@ -10,8 +10,8 @@ import "../shared/modal/modal.jade";
 import "../shared/navbar/navbar.jade";
 import "../shared/single-image/single-image.jade";
 import "../shared/sortable/sortable.jade";
-import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
+import "../shared/taglist/taglist.jade";
 import "../shared/account/login/login.jade";
 import "../shared/account/settings/settings.jade";
 import "../shared/account/signup/signup.jade";
@@ -22,12 +22,12 @@ import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.
 import "../shared/libraries/codrops/classie.js";
 import "../shared/app.js";
 import "../shared/account/signup/signup.controller.js";
-import "../shared/account/login/login.controller.js";
 import "../shared/account/settings/settings.controller.js";
+import "../shared/account/login/login.controller.js";
 import "../shared/validate/validate.directive.js";
-import "../shared/single-image/single-image.directive.js";
 import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
+import "../shared/single-image/single-image.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/navbar/navbar.controller.js";
 import "../shared/mongoose-error/mongoose-error.directive.js";
@@ -52,19 +52,19 @@ import "../shared/cms.headbar/cms.headbar.controller.js";
 import "../shared/camel-to-human/camel-to-human.filter.js";
 import "../shared/auth/user.service.js";
 import "../shared/auth/auth.service.js";
-import "../shared/account/account.js";
 import "../shared/api/api.service.js";
+import "../shared/account/account.js";
 // end inject js
 
 // inject stylus
 import "../shared/cms.headbar/cms.headbar.styl";
 import "../shared/extensions-area/extensions-area.styl";
 import "../shared/extensions-selector/extensions-selector.styl";
-import "../shared/find-images-modal/find-images-modal.styl";
 import "../shared/findImages/findImages.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/main/main.styl";
 import "../shared/meanbase-editable/meanbase-editable.directive.styl";
+import "../shared/find-images-modal/find-images-modal.styl";
 import "../shared/modal/modal.styl";
 import "../shared/single-image/single-image.styl";
 import "../shared/sortable/sortable.styl";

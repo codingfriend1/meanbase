@@ -1,8 +1,8 @@
 // inject jade
 import "./templates/archive/archive-template.jade";
 import "./templates/article/article-template.jade";
-import "./templates/home/home-template.jade";
 import "./templates/page/page-template.jade";
+import "./templates/home/home-template.jade";
 // end inject jade
 
 // inject js

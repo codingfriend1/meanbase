@@ -122,7 +122,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "start": "gulp serve",
+    "watch": "gulp && webpack -w",
     "prepare": "npm install && bower install --allow-root --config.interactive=false && gulp inject",
     "admin": "gulp admin && webpack --config webpack.admin.config.js",
     "test": "gulp test",

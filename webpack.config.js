@@ -8,8 +8,7 @@ var folders = {
   app: path.resolve(__dirname, 'client', 'app'),
   admin: path.resolve(__dirname, 'client', 'admin'),
   themes: path.resolve(__dirname, 'client', 'themes'),
-  extensions: path.resolve(__dirname, 'client', 'extensions'),
-  bower: path.resolve(__dirname, 'client', 'app', 'bower_components')
+  extensions: path.resolve(__dirname, 'client', 'extensions')
 }
 
 var nodeAndBower = /(node_modules|bower_components)/
