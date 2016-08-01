@@ -1,10 +1,13 @@
 var isProduction = process.env.NODE_ENV === 'production'
 var webpack = require('webpack')
 var path = require('path')
+var fs = require('fs');
 
 var folders = {
   root: path.resolve(__dirname, 'client'),
-  root: path.resolve(__dirname, 'client', 'app'),
+  app: path.resolve(__dirname, 'client', 'app'),
+  admin: path.resolve(__dirname, 'client', 'admin'),
+  themes: path.resolve(__dirname, 'client', 'themes'),
   bower: path.resolve(__dirname, 'client', 'app', 'bower_components')
 }
 
@@ -25,13 +28,13 @@ var config = {
       {
         test: /\.html$/,
         loader: "string",
-        include : folders.app,
+        include : folders.root,
         exclude: nodeAndBower
       },
-      { test: /\.jade$/, loader: "pug" },
+      { test: /\.(jade|pug)$/, loader: "pug" },
       {
         test: /\.js$/,
-        include: folders.app,
+        include: folders.root,
         loader: 'babel',
         exclude: nodeAndBower,
         query: {
@@ -47,19 +50,23 @@ var config = {
       },
       {
         test: /\.styl$/,
-        include : folders.app,
+        include : folders.root,
         exclude: nodeAndBower,
         loaders: ['style', 'css', 'stylus']
       },
       {
         test: /\.css/,
-        include : folders.app,
+        include : folders.root,
         exclude: nodeAndBower,
         loaders: ['style', 'css']
       },
-      { test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/, loader: 'url', include : folders.app,
-        exclude: nodeAndBower },
-      { test: /\.(jpe?g|png|gif|svg)$/, loader:'file', include : folders.app, exclude: nodeAndBower }
+      {
+        test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
+        loader: 'url',
+        include:folders.root,
+        exclude: nodeAndBower
+      },
+      { test: /\.(jpe?g|png|gif|svg)$/, loader:'file', include : folders.root, exclude: nodeAndBower }
       // {
       //   test: /\.jsx?$/,
       //   exclude: nodeAndBower,
@@ -74,4 +81,30 @@ var config = {
   ]
 }
 
-module.exports = config
+var configs = [{
+  entry: folders.admin,
+  output: {
+    path: folders.admin,
+    pathinfo: true,
+    filename: 'bundle.js',
+    sourceMapFilename: "[file].map"
+  },
+}]
+
+var themes = fs.readdirSync(folders.themes).filter(function(file) {
+ return fs.statSync(path.join(folders.themes, file)).isDirectory()
+})
+
+themes.forEach(function (file) {
+  var theme = Object.assign({}, config, {
+    entry: path.join(folders.themes, file, "index.js"),
+    output: {
+       path: path.join(folders.themes, file),
+       filename: "theme.min.js"
+    }
+  });
+	configs.push(theme);
+})
+
+// Return Array of Configurations
+module.exports = configs

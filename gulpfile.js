@@ -1,6 +1,7 @@
 var gulp = require('gulp')
 var path = require('path')
 var fs = require('fs')
+var async = require('async')
 
 var folders = {
   admin: {
@@ -15,11 +16,23 @@ var folders = {
     root: path.resolve(__dirname, 'client', 'app'),
     shared: path.resolve(__dirname, 'client', 'shared'),
     bower: path.resolve(__dirname, 'client', 'app', 'bower_components')
+  },
+  themes: {
+    root: path.resolve(__dirname, 'client', 'themes'),
+    gulp: path.resolve(__dirname, 'gulp', 'themes'),
+    root: path.resolve(__dirname, 'client', 'themes')
   }
 }
 
+var themes = fs.readdirSync(folders.themes.root).filter(function(file) {
+ return fs.statSync(path.join(folders.themes.root, file)).isDirectory()
+})
+
+folders.themes.themes = themes
+
 var config = {
-  path: path
+  path: path,
+  async: async
 }
 
 /**
@@ -53,14 +66,30 @@ appTasks.forEach(function (file) {
 	require( path.join(folders.app.gulp, file))(gulp, plugins, folders.app, config)
 })
 
+var themeTasks = fs.readdirSync(folders.themes.gulp).filter(function(file) {
+ return fs.statSync(path.join(folders.themes.gulp, file)).isFile()
+})
+
+themeTasks.forEach(function (file) {
+	require( path.join(folders.themes.gulp, file))(gulp, plugins, folders.themes, config)
+})
+
  /**
  * Require each file in the gulp folder and pass in gulp, the plugins, and any configuration
  */
 
-gulp.task('admin', function() {
-  plugins.runSequence(['copy-fonts-admin', 'create-bower-admin', 'import-admin'])
+gulp.task('admin', function(done) {
+  plugins.runSequence('copy-fonts-admin', 'create-bower-admin', 'import-admin', done)
 })
 
-gulp.task('app', function() {
-  plugins.runSequence(['copy-fonts-app', 'create-bower-app', 'import-app'])
+gulp.task('app', function(done) {
+  plugins.runSequence('copy-fonts-app', 'create-bower-app', 'import-app', done)
 })
+
+gulp.task('themes', function(done) {
+  plugins.runSequence('import-themes', done)
+})
+
+gulp.task('default', function(done) {
+  plugins.runSequence('admin', 'app', 'themes', done)
+});
