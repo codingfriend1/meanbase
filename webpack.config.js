@@ -14,13 +14,6 @@ var folders = {
 var nodeAndBower = /(node_modules|bower_components)/
 
 var config = {
-  entry: folders.root,
-  output: {
-    path: folders.root,
-    pathinfo: true,
-    filename: 'bundle.js',
-    sourceMapFilename: "[file].map"
-  },
   devtool: isProduction? null: "eval",
   module : {
     noParse: [],
@@ -81,15 +74,27 @@ var config = {
   ]
 }
 
-var configs = [{
+var appConfig = Object.assign({}, config, {
+  entry: folders.app,
+  output: {
+    path: folders.app,
+    pathinfo: true,
+    filename: 'bundle.js',
+    sourceMapFilename: "[file].map"
+  }
+});
+
+var adminConfig = Object.assign({}, config, {
   entry: folders.admin,
   output: {
     path: folders.admin,
     pathinfo: true,
     filename: 'bundle.js',
     sourceMapFilename: "[file].map"
-  },
-}]
+  }
+});
+
+var configs = [appConfig, adminConfig]
 
 var themes = fs.readdirSync(folders.themes).filter(function(file) {
  return fs.statSync(path.join(folders.themes, file)).isDirectory()
