@@ -51,6 +51,17 @@
       "dependencies": {
         "angular": ">=1.2.*"
       }
+    },
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.min.css",
+        "dist/js/bootstrap.min.js"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.min.css"
+      ]
     }
   },
   "devDependencies": {

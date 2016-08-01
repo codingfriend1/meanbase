@@ -145,7 +145,7 @@ exports.delete = function(req, res) {
   collection.delete(req, res, function(identifier) {
   	if(identifier && identifier.url && identifier.url !== '') {
   		try {
-  			fse.remove(app.get('appPath') + 'themes/' + identifier.url);
+  			fse.remove(path.join(app.get('appPath'), 'themes', identifier.url));
   			return res.status(204).send();
   		} catch(e) {
   			console.log('Could not delete theme', e);
@@ -181,7 +181,7 @@ function uploadingError(err, res, folderName) {
 	console.log('Could not upload theme.', err);
   if(folderName && folderName !== '') {
     try {
-      fse.remove(app.get('appPath') + 'themes/' + folderName);
+      fse.remove(path.join(app.get('appPath'), 'themes/', folderName));
     } catch(e) {
       console.log('could not delete theme from themes folder', e);
     }
@@ -201,6 +201,6 @@ function updateFile(theme) {
   };
 	if(theme.themeJSONPath) { var themeJSONPath = theme.themeJSONPath; delete theme.themeJSONPath; }
 	var themeJSON = JSON.stringify(postTheme, null, 2);
-	fs.writeFileSync(app.get('appPath') + themeJSONPath, themeJSON);
+	fs.writeFileSync(path.join(app.get('appPath'), themeJSONPath, themeJSON));
   compileIndex();
 }

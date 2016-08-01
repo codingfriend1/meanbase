@@ -1,6 +1,6 @@
 
 module.exports = function(gulp, plugins, folders, config) {
-  gulp.task('copy-fonts', function() {
+  gulp.task('copy-fonts-admin', function() {
     return plugins.mergeStream(
       gulp.src(folders.bower + '/font-awesome/fonts/**')
         .pipe(plugins.chmod(755))
@@ -25,7 +25,7 @@ module.exports = function(gulp, plugins, folders, config) {
     )
   })
 
-  gulp.task('create-bower.js', function() {
+  gulp.task('create-bower-admin', function() {
     var js = gulp.src(plugins.mainBowerFiles('**/*.js', {
       paths: {
         bowerDirectory: folders.root + '/bower_components',

@@ -248,20 +248,19 @@ exports.retrieveThemes = function(activeURL, callback) {
 
 
 exports.retrieveExtensions = function(callback) {
-  var extensionsFolderUrl = app.get('extensionsFolder');
-  // Loop through themes in extensionsFolderUrl and get the extension.json file out of the root of each one
-  var extensionsFolder = fs.readdirSync(extensionsFolderUrl);
+  // Loop through themes in app.get('extensionsFolder') and get the extension.json file out of the root of each one
+  var extensionsFolder = fs.readdirSync(app.get('extensionsFolder'));
   var extensionsJSONS = [];
   for(var ii = 0; ii < extensionsFolder.length; ii++) {
     if(extensionsFolder[ii][0] !== '.' && extensionsFolder[ii][0] !== '_') {
       try {
-        var stat = fs.statSync(extensionsFolderUrl + extensionsFolder[ii]);
+        var stat = fs.statSync(app.get('extensionsFolder') + extensionsFolder[ii]);
       } catch(e) {
         return callback('Could not find extension folder');
       }
       if(stat.isDirectory()) {
         try {
-          var extensionFilePaths = Finder.from(extensionsFolderUrl + extensionsFolder[ii]).findFiles('<\.jade|\.html|\.css|\.js|extension\.json|screenshot>');
+          var extensionFilePaths = Finder.from(path.join(app.get('extensionsFolder'), extensionsFolder[ii])).findFiles('<\.jade|\.html|\.css|\.js|extension\.json|screenshot>');
           var index, json, files = [], screenshot;
           for (var i = 0; i < extensionFilePaths.length; i++) {
             extensionFilePaths[i] = extensionFilePaths[i].replace(app.get('appPath'), '');

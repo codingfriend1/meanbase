@@ -44,18 +44,23 @@ var adminTasks = fs.readdirSync(folders.admin.gulp).filter(function(file) {
 adminTasks.forEach(function (file) {
 	require( path.join(folders.admin.gulp, file))(gulp, plugins, folders.admin, config)
 })
-// var appTasks = fs.readdirSync(folders.app.gulp).filter(function(file) {
-//  return fs.statSync(path.join(folders.app.gulp, file)).isFile()
-// })
-//
-// appTasks.forEach(function (file) {
-// 	require( path.join(folders.app.gulp, file))(gulp, plugins, folders.app, config)
-// })
+
+var appTasks = fs.readdirSync(folders.app.gulp).filter(function(file) {
+ return fs.statSync(path.join(folders.app.gulp, file)).isFile()
+})
+
+appTasks.forEach(function (file) {
+	require( path.join(folders.app.gulp, file))(gulp, plugins, folders.app, config)
+})
 
  /**
  * Require each file in the gulp folder and pass in gulp, the plugins, and any configuration
  */
 
 gulp.task('admin', function() {
-  plugins.runSequence(['copy-fonts', 'create-bower.js', 'import-admin'])
+  plugins.runSequence(['copy-fonts-admin', 'create-bower-admin', 'import-admin'])
+})
+
+gulp.task('app', function() {
+  plugins.runSequence(['copy-fonts-app', 'create-bower-app', 'import-app'])
 })

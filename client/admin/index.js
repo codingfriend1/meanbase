@@ -4,8 +4,8 @@ import "./code/cms/cms.jade";
 import "./code/comments/comments.jade";
 import "./code/extensions/extensions.jade";
 import "./code/media/media.jade";
-import "./code/missing/missing.jade";
 import "./code/themes/themes.jade";
+import "./code/missing/missing.jade";
 import "./code/users/users.jade";
 import "./code/analytics/import/import.jade";
 import "../shared/cms.headbar/cms.headbar.jade";
@@ -21,8 +21,8 @@ import "../shared/single-image/single-image.jade";
 import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
-import "../shared/account/login/login.jade";
 import "../shared/account/settings/settings.jade";
+import "../shared/account/login/login.jade";
 import "../shared/account/signup/signup.jade";
 // end inject jade
 

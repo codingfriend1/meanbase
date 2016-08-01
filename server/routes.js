@@ -61,7 +61,6 @@ module.exports = function(app) {
  //     });
  app.route('/cms/?*')
    .get(function(req, res) {
-     console.log('this one');
      res.sendfile(path.join(app.get('adminPath'), 'index.html'));
    });
 
