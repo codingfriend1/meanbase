@@ -8,6 +8,7 @@ var folders = {
   app: path.resolve(__dirname, 'client', 'app'),
   admin: path.resolve(__dirname, 'client', 'admin'),
   themes: path.resolve(__dirname, 'client', 'themes'),
+  extensions: path.resolve(__dirname, 'client', 'extensions'),
   bower: path.resolve(__dirname, 'client', 'app', 'bower_components')
 }
 
@@ -106,6 +107,21 @@ themes.forEach(function (file) {
     output: {
        path: path.join(folders.themes, file),
        filename: "theme.min.js"
+    }
+  });
+	configs.push(theme);
+})
+
+var extensions = fs.readdirSync(folders.extensions).filter(function(file) {
+ return fs.statSync(path.join(folders.extensions, file)).isDirectory()
+})
+
+extensions.forEach(function (file) {
+  var theme = Object.assign({}, config, {
+    entry: path.join(folders.extensions, file, "index.js"),
+    output: {
+       path: path.join(folders.extensions, file),
+       filename: "extension.min.js"
     }
   });
 	configs.push(theme);

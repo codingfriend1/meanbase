@@ -111,5 +111,5 @@ gulp.task('extensions', function(done) {
 })
 
 gulp.task('default', function(done) {
-  plugins.runSequence('admin', 'app', 'themes', done)
+  plugins.runSequence('admin', 'app', 'themes', 'extensions', done)
 });
