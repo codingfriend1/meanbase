@@ -19,16 +19,24 @@ var folders = {
   },
   themes: {
     root: path.resolve(__dirname, 'client', 'themes'),
-    gulp: path.resolve(__dirname, 'gulp', 'themes'),
-    root: path.resolve(__dirname, 'client', 'themes')
-  }
+    gulp: path.resolve(__dirname, 'gulp', 'themes')
+  },
+  extensions: {
+    root: path.resolve(__dirname, 'client', 'extensions'),
+    gulp: path.resolve(__dirname, 'gulp', 'extensions')
+  },
 }
 
 var themes = fs.readdirSync(folders.themes.root).filter(function(file) {
  return fs.statSync(path.join(folders.themes.root, file)).isDirectory()
 })
 
+var extensions = fs.readdirSync(folders.extensions.root).filter(function(file) {
+ return fs.statSync(path.join(folders.extensions.root, file)).isDirectory()
+})
+
 folders.themes.themes = themes
+folders.extensions.extensions = extensions
 
 var config = {
   path: path,
@@ -74,6 +82,14 @@ themeTasks.forEach(function (file) {
 	require( path.join(folders.themes.gulp, file))(gulp, plugins, folders.themes, config)
 })
 
+var extensionTasks = fs.readdirSync(folders.extensions.gulp).filter(function(file) {
+ return fs.statSync(path.join(folders.extensions.gulp, file)).isFile()
+})
+
+extensionTasks.forEach(function (file) {
+	require( path.join(folders.extensions.gulp, file))(gulp, plugins, folders.extensions, config)
+})
+
  /**
  * Require each file in the gulp folder and pass in gulp, the plugins, and any configuration
  */
@@ -88,6 +104,10 @@ gulp.task('app', function(done) {
 
 gulp.task('themes', function(done) {
   plugins.runSequence('import-themes', done)
+})
+
+gulp.task('extensions', function(done) {
+  plugins.runSequence('import-extensions', done)
 })
 
 gulp.task('default', function(done) {
