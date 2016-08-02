@@ -91,10 +91,14 @@
               if($rootScope.page.description) {
                 jQuery('meta[name=description]').attr('content', $rootScope.page.description);
               }
+              console.log("templatePath", templatePath);
+              var html = $templateCache.get(templatePath);
+              if(html) {
+                deferred.resolve(html);
+              } else {
+                $state.go('main.missing');
+              }
 
-              // templatePath = templatePath.substr(1);
-
-              deferred.resolve($templateCache.get(templatePath));
 
             }).error(function(error) {
               console.log('Could not request page template: ', error);

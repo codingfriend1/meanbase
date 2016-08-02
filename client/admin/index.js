@@ -87,8 +87,8 @@ import "../shared/account/signup/signup.jade";
 // inject stylus
 import "./code/app.styl";
 import "./code/analytics/analytics.styl";
-import "./code/cms/cms.styl";
 import "./code/comments/comments.styl";
+import "./code/cms/cms.styl";
 import "./code/extensions/extensions.styl";
 import "./code/media/media.styl";
 import "./code/themes/themes.styl";

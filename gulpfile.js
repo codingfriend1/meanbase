@@ -97,19 +97,19 @@ extensionTasks.forEach(function (file) {
  */
 
 gulp.task('admin', function(done) {
-  plugins.runSequence('copy-fonts-admin', 'create-bower-admin', 'import-admin', 'build-admin-jade', done)
+  plugins.runSequence('copy-fonts-admin', 'create-bower-admin', 'import-admin', done)
 })
 
 gulp.task('app', function(done) {
-  plugins.runSequence('copy-fonts-app', 'create-bower-app', 'import-app', 'build-app-jade', done)
+  plugins.runSequence('copy-fonts-app', 'create-bower-app', 'import-app', done)
 })
 
 gulp.task('themes', function(done) {
-  plugins.runSequence('import-themes', 'build-themes', done)
+  plugins.runSequence('import-themes', done)
 })
 
 gulp.task('extensions', function(done) {
-  plugins.runSequence('import-extensions', 'build-extensions', done)
+  plugins.runSequence('import-extensions', done)
 })
 
 gulp.task('default', function(done) {

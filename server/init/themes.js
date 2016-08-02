@@ -14,7 +14,7 @@ module.exports = function(callback) {
 	  	activeTheme = [activeTheme];
 	  }
 	  if(!activeTheme[0] || !activeTheme[0].url) { activeTheme[0] = {url: ''}; }
-	  
+
 	  var themeJSONSPromise = searchFolders.retrieveThemes(activeTheme[0].url, callback);
 
 	  themeJSONSPromise.then(function(themeJSONS) {
@@ -29,11 +29,11 @@ module.exports = function(callback) {
 	  		});
 	  	}
 	  });
-		
+
 
 
 	}); //themes find
-	
+
 
 	function handleError(err) {
 		if(callback) { callback(err); }

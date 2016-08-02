@@ -6,7 +6,6 @@ import "./templates/portfolio-item/portfolio-template.html";
 
 // inject js
 import "./assets/js/small-business-portfolio.js";
-import "./templates.js";
 // end inject js
 
 // inject stylus

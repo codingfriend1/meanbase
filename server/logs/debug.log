@@ -839,3 +839,12 @@
 {"_id":"56eb30b40147ba8d3583ddea","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2016-08-01T12:03:09.177Z"}
 {"level":"info","message":"DAO.delete() /api/menus ","timestamp":"2016-08-01T12:03:14.453Z"}
 {"_id":"56eb30b40147ba8d3583ddea","level":"info","message":"DAO.updateOneAndUpdate()  ","timestamp":"2016-08-01T12:03:14.465Z"}
+{"_id":"57a0100b42d5be537971c6e5","level":"info","message":"DAO.update()  ","timestamp":"2016-08-02T03:27:27.999Z"}
+{"_id":"57a0100b42d5be537971c6e5","level":"info","message":"DAO.update()  ","timestamp":"2016-08-02T03:27:56.474Z"}
+{"_id":"57a0100b42d5be537971c6e5","level":"info","message":"DAO.update()  ","timestamp":"2016-08-02T03:28:24.308Z"}
+{"_id":"57a0100b42d5be537971c6e4","level":"info","message":"DAO.update()  ","timestamp":"2016-08-02T03:28:26.948Z"}
+{"_id":"57a0100b42d5be537971c6e5","level":"info","message":"DAO.update()  ","timestamp":"2016-08-02T03:28:31.350Z"}
+{"_id":"57a0100b42d5be537971c6e4","level":"info","message":"DAO.update()  ","timestamp":"2016-08-02T03:29:33.460Z"}
+{"_id":"57a0188eb586e01a7c515b01","level":"info","message":"DAO.update()  ","timestamp":"2016-08-02T03:50:54.534Z"}
+{"_id":"57a0188eb586e01a7c515b01","level":"info","message":"DAO.update()  ","timestamp":"2016-08-02T03:51:16.482Z"}
+{"_id":"57a018de47369c307c1b902a","level":"info","message":"DAO.update()  ","timestamp":"2016-08-02T03:52:05.191Z"}

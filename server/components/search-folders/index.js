@@ -128,7 +128,7 @@ exports.retrieveThemes = function(activeURL, callback) {
             // We want to extract the template name from the file name without the file extension or the -template
             templateName = file.match(/[^(\/|\\)]*(?=-template.[^.]+($|\?))/);
             // Since the client makes jade requests without the extension we remove it.
-            file = file.replace('.jade', '.html');
+            // file = file.replace('.jade', '.html');
             // Check that the template name is valid
             if(templateName && templateName[0] && /^[0-9A-Za-z\/\*_.\\\-]*$/.test(file)) {
 
@@ -279,8 +279,8 @@ exports.retrieveExtensions = function(callback) {
               json = currentExtensionFile;
             } else if(currentExtensionFile.indexOf('screenshot') > -1) {
               screenshot = currentExtensionFile;
-            // } else if(currentExtensionFile.indexOf('.jade') > -1 && extractFileNameRegex.test(currentExtensionFile)) {
-            //   files.push(currentExtensionFile.replace('.jade', ''));
+            } else if(currentExtensionFile.indexOf('.jade') > -1 && extractFileNameRegex.test(currentExtensionFile)) {
+              files.push(currentExtensionFile);
             } else if(extractFileNameRegex.test(currentExtensionFile)) {
               files.push(currentExtensionFile);
             }

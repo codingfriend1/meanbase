@@ -5,7 +5,7 @@ var fs = require('fs');
 
 var folders = {
   root: path.resolve(__dirname, 'client'),
-  slash: path.resolve(__dirname, 'client', '/'),
+  slash: path.resolve(__dirname, 'client') + '/',
   app: path.resolve(__dirname, 'client', 'app'),
   admin: path.resolve(__dirname, 'client', 'admin'),
   themes: path.resolve(__dirname, 'client', 'themes'),
@@ -41,7 +41,9 @@ var config = {
       // },
       {
         test: /\.html$/,
-        loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.root, "html"]
+        include : folders.root,
+        exclude: nodeAndBower,
+        loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.slash, "html"]
       },
       // {
       //   test: /\.html$/,
@@ -49,8 +51,8 @@ var config = {
       // },
 
       {
-        test: /jade/,
-        loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.root, "string", "jade-html"],
+        test: /\.jade$/,
+        loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.slash, "string", "jade-html"],
         include : folders.root,
         exclude: nodeAndBower
       },
