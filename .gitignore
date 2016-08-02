@@ -17,11 +17,10 @@ public
 bower_components
 documentation
 dist
-!gulp/build/dist
+!gulp/build/dist.js
 /server/config/local.env.js
 client/index.html
 __MACOSX
 /logs/debug.log
 code-documentation
-build
 meanbase.env
