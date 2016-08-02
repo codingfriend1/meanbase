@@ -97,12 +97,12 @@ function injectTheme(file, theme) {
   var statsjs, themeJS = '', hasThemeMin, templatesjs, themeTemplateJS = '', stats2js;
   try {
 	  statsjs = fs.lstatSync(path.join(app.get('themesFolder'), theme.url, 'theme.min.js'));
-	  stats2js = fs.lstatSync(path.join(app.get('themesFolder'), theme.url, 'templates.js'));
+	  // stats2js = fs.lstatSync(path.join(app.get('themesFolder'), theme.url, 'templates.js'));
 	  // Is it a directory?
-	  if (statsjs.isFile() && stats2js.isFile()) {
+	  if (statsjs.isFile()) {
 	  	hasThemeMin = true;
 	  	themeJS = '<script src="' + path.join('themes', theme.url, 'theme.min.js') + '"></script>';
-	  	themeTemplateJS = '<script src="' + path.join('themes', theme.url, 'templates.js') + '"></script>';
+	  	// themeTemplateJS = '<script src="' + path.join('themes', theme.url, 'templates.js') + '"></script>';
 	  }
 	}
 	catch (err) {
@@ -111,9 +111,9 @@ function injectTheme(file, theme) {
 
 	// If the file reads were successful then insert given theme's assets into index.html
 	file = file.replace('theme-name', theme.url);
-	file = file.replace("'theme-templates'", JSON.stringify(theme.templates));
+	// file = file.replace("'theme-templates'", JSON.stringify(theme.templates));
 	file = file.replace("'themeTemplatePaths'", JSON.stringify(theme.templatePaths));
-	file = file.replace('<!-- Theme Script -->', themeJS + themeTemplateJS);
+	file = file.replace('<!-- Theme Script -->', themeJS);
 
   return file;
 }

@@ -79,7 +79,7 @@ exports.retrieveThemes = function(activeURL, callback) {
           var file = themeFiles[i];
 
           // We only want a porition of the url for relative searches
-          file = file.replace(app.get('appPath'), '');
+          file = file.replace(app.get('appPath') + '/', '');
 
           if(_.contains(file, 'theme.json')) { // Get the theme.json
 

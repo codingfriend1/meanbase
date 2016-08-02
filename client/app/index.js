@@ -38,8 +38,8 @@ import "../shared/cms.headbar/cms.headbar.controller.js";
 import "../shared/camel-to-human/camel-to-human.filter.js";
 import "../shared/auth/user.service.js";
 import "../shared/auth/auth.service.js";
-import "../shared/account/account.js";
 import "../shared/api/api.service.js";
+import "../shared/account/account.js";
 // end inject js
 
 // inject jade

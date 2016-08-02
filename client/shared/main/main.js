@@ -27,7 +27,7 @@
     $stateProvider
       .state('main.page', {
         url: '^/{page:(?!cms|login|signup|settings).*}',
-        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', 'api', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth, api) {
+        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', 'api', '$templateCache', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth, api, $templateCache) {
           // - Prepare a promise to return to templateProvider
           var deferred = $q.defer();
           // Let's check if the user is logged in
@@ -92,17 +92,9 @@
                 jQuery('meta[name=description]').attr('content', $rootScope.page.description);
               }
 
-              // - **The promise must return a html string instead of a url**
-              $templateFactory.fromUrl(templatePath).then(function(html) {
-                console.log("html", html);
-                // - If html returned the index page instead of the template html then redirect to 404
-                if(html.indexOf('<html') > -1) {  $state.go('main.missing'); return false; }
-                // - else resolve with template html
-                deferred.resolve(html);
+              // templatePath = templatePath.substr(1);
 
-              }, function(err) {
-                console.log('template error', err);
-              });
+              deferred.resolve($templateCache.get(templatePath));
 
             }).error(function(error) {
               console.log('Could not request page template: ', error);
@@ -110,9 +102,6 @@
             });
 
           });
-
-
-
 
           return deferred.promise;
         }]

@@ -5,6 +5,7 @@ var fs = require('fs');
 
 var folders = {
   root: path.resolve(__dirname, 'client'),
+  slash: path.resolve(__dirname, 'client', '/'),
   app: path.resolve(__dirname, 'client', 'app'),
   admin: path.resolve(__dirname, 'client', 'admin'),
   themes: path.resolve(__dirname, 'client', 'themes'),
@@ -97,8 +98,8 @@ var config = {
   },
   plugins: [
     // new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
+    // new webpack.optimize.OccurenceOrderPlugin(),
+    // new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false, compress: {warnings: false}})
   ]
 }
 
