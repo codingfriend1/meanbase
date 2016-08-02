@@ -1,7 +1,7 @@
 // inject js
+import "./app.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "../shared/libraries/codrops/classie.js";
-import "../shared/app.js";
 import "../shared/account/signup/signup.controller.js";
 import "../shared/account/settings/settings.controller.js";
 import "../shared/account/login/login.controller.js";
@@ -57,9 +57,9 @@ import "../shared/single-image/single-image.jade";
 import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
+import "../shared/account/settings/settings.jade";
 import "../shared/account/login/login.jade";
 import "../shared/account/signup/signup.jade";
-import "../shared/account/settings/settings.jade";
 // end inject jade
 
 // inject stylus
@@ -71,11 +71,11 @@ import "../shared/findImages/findImages.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/main/main.styl";
 import "../shared/meanbase-editable/meanbase-editable.directive.styl";
-import "../shared/missing/missing.styl";
 import "../shared/modal/modal.styl";
-import "../shared/single-image/single-image.styl";
+import "../shared/missing/missing.styl";
 import "../shared/sortable/sortable.styl";
 import "../shared/taglist/taglist.styl";
+import "../shared/single-image/single-image.styl";
 import "../shared/validate/validate.styl";
 import "../shared/account/login/login.styl";
 // end inject stylus

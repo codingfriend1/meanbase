@@ -33,6 +33,7 @@ module.exports = function(gulp, plugins, folders, config) {
   	 .pipe(plugins.inject(gulp.src([
        folders.code + '/**/*.js',
        folders.shared + '/**/*.js',
+       folders.root + '/app.js',
        '!**/*spec.js',
        '!**/*mock.js',
        '!' + config.path.join(folders.shared, '/ckeditor/FileBrowser/fileBrowser.js')
