@@ -4,6 +4,13 @@ var fs = require('fs')
 var async = require('async')
 
 var folders = {
+  build: {
+    app: path.resolve(__dirname, 'client', 'app'),
+    admin: path.resolve(__dirname, 'client', 'admin'),
+    themes: path.resolve(__dirname, 'client', 'themes'),
+    gulp: path.resolve(__dirname, 'gulp', 'build'),
+    extensions: path.resolve(__dirname, 'client', 'extensions'),
+  },
   admin: {
     client: path.resolve(__dirname, 'client'),
     root: path.resolve(__dirname, 'client', 'admin'),
@@ -92,6 +99,14 @@ extensionTasks.forEach(function (file) {
 	require( path.join(folders.extensions.gulp, file))(gulp, plugins, folders.extensions, config)
 })
 
+var buildTasks = fs.readdirSync(folders.build.gulp).filter(function(file) {
+ return fs.statSync(path.join(folders.build.gulp, file)).isFile()
+})
+
+buildTasks.forEach(function (file) {
+	require( path.join(folders.build.gulp, file))(gulp, plugins, folders.build, config)
+})
+
  /**
  * Require each file in the gulp folder and pass in gulp, the plugins, and any configuration
  */
@@ -114,4 +129,8 @@ gulp.task('extensions', function(done) {
 
 gulp.task('default', function(done) {
   plugins.runSequence('admin', 'app', 'themes', 'extensions', done)
+});
+
+gulp.task('build', function(done) {
+  plugins.runSequence('dist', done)
 });
