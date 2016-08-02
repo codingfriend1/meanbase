@@ -10,6 +10,6 @@ angular.module('meanbaseApp')
         templateUrl: require('./cms.jade'),
         controller: 'cmsCtrl',
         controllerAs: 'cms',
-        // authenticate: true
+        authenticate: true
       });
   });
