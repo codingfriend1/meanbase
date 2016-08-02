@@ -32,21 +32,14 @@ module.exports = function() {
   console.log('Initializing data in mongoDB');
 
   if(config.resetData) {
-    resetData(rolesModel, rolesData);
-    resetData(userModel, userData);
-    require('./themes')();
-  	require('./extensions')();
-
     if(config.seedDB) {
       resetData(pagesModel, pagesData);
       resetData(menusModel, menusData);
     }
-  } else {
-    require('./themes')().then(function(data) {
-      resetData(themeModel, data);
-    });
-  	require('./extensions')();
   }
+
+  require('./themes')();
+  require('./extensions')();
 
   ifEmptyCreate(rolesModel, rolesData);
   ifEmptyCreate(userModel, userData);
