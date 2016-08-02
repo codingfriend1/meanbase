@@ -20,9 +20,9 @@ import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
 import "../shared/meanbase-editable/meanbase-editable.directive.js";
 import "../shared/meanbase-editable/meanbase-editable.directive.ckeditor.js";
+import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/main/main.js";
 import "../shared/main/main.controller.js";
-import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/image-selector/image-selector.directive.js";
 import "../shared/helpers/helpers.service.js";
 import "../shared/findImages/findImages.directive.js";
@@ -60,8 +60,8 @@ import "../shared/single-image/single-image.jade";
 import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
-import "../shared/account/login/login.jade";
 import "../shared/account/settings/settings.jade";
+import "../shared/account/login/login.jade";
 import "../shared/account/signup/signup.jade";
 // end inject jade
 
