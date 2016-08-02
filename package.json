@@ -129,9 +129,8 @@
   },
   "scripts": {
     "watch": "gulp && webpack -w",
-    "build": "gulp && webpack",
+    "build": "gulp && webpack && gulp dist",
     "prepare": "npm install && bower install --allow-root --config.interactive=false && gulp inject",
-    "admin": "gulp admin && webpack --config webpack.admin.config.js",
     "test": "gulp test",
     "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
   },
