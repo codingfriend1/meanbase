@@ -17,6 +17,7 @@ public
 bower_components
 documentation
 dist
+!gulp/build/dist
 /server/config/local.env.js
 client/index.html
 __MACOSX
