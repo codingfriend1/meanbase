@@ -1,7 +1,3 @@
-module.exports = function() {
-	console.log('creating pages...');
-	var Pages = require('../api/pages/pages.model');
-
 	var demoHome = {
 		"author": "Admin",
 		"visibility": "basic",
@@ -46,23 +42,4 @@ module.exports = function() {
 		"published": true
 	};
 
-	// In case we need to delete any pages
-	// Pages.remove({}, function (err, page) {
-	//   if(err) { return handleError(err); }
-	//   if(!page) { return false; }
-	// });
-
-	Pages.find(function (err, pages) {
-	  if(err) { return handleError(err); }
-	  if(pages.length === 0) {
-	  	Pages.create([demoHome, tutorial, article], function(err, page) {
-  		  if(err) { return handleError(err); }
-  		  console.log('Pages initialized');
-  		});
-	  }
-	});
-
-	function handleError(err) {
-	  return console.log('Initializing pages error: ', err);
-	}
-};
+module.exports = [demoHome, tutorial, article];

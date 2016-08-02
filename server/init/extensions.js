@@ -17,7 +17,7 @@ module.exports = function(callback) {
 	 		if(err) { return handleError(err); }
 	  	Extension.create(extensionsJSONS, function(err, extensions) {
 			  if(err) { return handleError(err); }
-			  console.log('Extensions initialized');
+			  console.log('extensions initialized');
 			  if(callback) { return callback(null); }
 			});
 		});
