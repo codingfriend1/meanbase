@@ -1,8 +1,8 @@
 // inject js
 import "../shared/libraries/codrops/classie.js";
 import "../shared/app.js";
-import "../shared/account/settings/settings.controller.js";
 import "../shared/account/signup/signup.controller.js";
+import "../shared/account/settings/settings.controller.js";
 import "../shared/account/login/login.controller.js";
 import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
@@ -95,8 +95,8 @@ import "./code/cms/cms.styl";
 import "./code/comments/comments.styl";
 import "./code/extensions/extensions.styl";
 import "./code/media/media.styl";
-import "./code/themes/themes.styl";
 import "./code/users/users.styl";
+import "./code/themes/themes.styl";
 import "./code/analytics/import/import.styl";
 import "../shared/cms.headbar/cms.headbar.styl";
 import "../shared/extensions-area/extensions-area.styl";

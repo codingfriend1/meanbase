@@ -31,4 +31,3 @@ EXPOSE 8080
 VOLUME /var/www
 
 CMD ["pm2", "start", "server/app.js", "--no-daemon"]
-# CMD ["node", "server/app.js"]

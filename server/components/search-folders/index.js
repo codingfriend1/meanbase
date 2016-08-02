@@ -266,7 +266,7 @@ exports.retrieveExtensions = function(callback) {
       if(folderContent.isDirectory()) {
         try {
           // var extensionFilePaths = Finder.from(currentExtensionPath).findFiles('<\.jade|\.html|\.css|\.js|extension\.json|screenshot>');
-          var extensionFilePaths = Finder.from(currentExtensionPath).findFiles('<extension.min.js|templates.js|index.html|extension\.json|screenshot>');
+          var extensionFilePaths = Finder.from(currentExtensionPath).findFiles('<extension.min.js|index.html|extension\.json|screenshot>');
           var index, json, files = [], screenshot;
 
           for (var i = 0; i < extensionFilePaths.length; i++) {
