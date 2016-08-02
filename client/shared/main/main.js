@@ -91,7 +91,7 @@
               if($rootScope.page.description) {
                 jQuery('meta[name=description]').attr('content', $rootScope.page.description);
               }
-              console.log("templatePath", templatePath);
+
               var html = $templateCache.get(templatePath);
               if(html) {
                 deferred.resolve(html);

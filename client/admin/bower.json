@@ -24,7 +24,6 @@
     "angular-toastr": "~1.4.1",
     "angular-relative-date": "~1.0.0",
     "animate-css": "~3.3.0",
-    "trumbowyg": "~1.1.7",
     "ngAnalytics": "nganalytics#~1.1.4",
     "toastr": "^2.1.3"
   },

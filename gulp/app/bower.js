@@ -11,13 +11,6 @@ module.exports = function(gulp, plugins, folders, config) {
         .pipe(gulp.dest(folders.root + '/fonts/')),
 
       gulp.src([
-        folders.bower + '/trumbowyg/dist/ui/images/icons.png',
-        folders.bower + '/trumbowyg/dist/ui/images/icons-2x.png'
-      ])
-        .pipe(plugins.chmod(755))
-        .pipe(gulp.dest(folders.root)),
-
-      gulp.src([
         folders.bower + '/mdl-pack/icons/**',
         '!' + folders.bower + '/mdl-pack/icons/codepoints',
         '!' + folders.bower + '/mdl-pack/icons/material-icons.css',

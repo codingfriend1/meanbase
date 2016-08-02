@@ -1,6 +1,3 @@
-// @require "./**/*.html"
-
-
 // inject js
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "../shared/libraries/codrops/classie.js";
@@ -61,8 +58,8 @@ import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
 import "../shared/account/login/login.jade";
-import "../shared/account/settings/settings.jade";
 import "../shared/account/signup/signup.jade";
+import "../shared/account/settings/settings.jade";
 // end inject jade
 
 // inject stylus

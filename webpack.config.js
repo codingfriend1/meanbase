@@ -16,6 +16,9 @@ var nodeAndBower = /(node_modules|bower_components)/
 
 var config = {
   devtool: isProduction? null: "sourcemap",
+  resolve: {
+    modules: ['node_modules']
+  },
   module : {
     noParse: [],
     // preLoaders: [
@@ -66,13 +69,13 @@ var config = {
         exclude: nodeAndBower,
         loaders: ['style', 'css']
       },
-      {
-        test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
-        loader: 'url',
-        include:folders.root,
-        exclude: nodeAndBower
-      },
-      { test: /\.(jpe?g|png|gif|svg)$/, loader:'file', include : folders.root, exclude: nodeAndBower }
+      { test: /\.svg$/, loader: 'url?limit=65000&mimetype=image/svg+xml&name=public/fonts/[name].[ext]' },
+      { test: /\.woff$/, loader: 'url?limit=65000&mimetype=application/font-woff&name=public/fonts/[name].[ext]' },
+      { test: /\.woff2$/, loader: 'url?limit=65000&mimetype=application/font-woff2&name=public/fonts/[name].[ext]' },
+      { test: /\.[ot]tf$/, loader: 'url?limit=65000&mimetype=application/octet-stream&name=public/fonts/[name].[ext]' },
+      { test: /\.eot$/, loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=public/fonts/[name].[ext]' },
+
+      { test: /\.(jpe?g|png|gif|svg)$/, loader:'url', include : folders.root, exclude: nodeAndBower }
       // {
       //   test: /\.jsx?$/,
       //   exclude: nodeAndBower,
