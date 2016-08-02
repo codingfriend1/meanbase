@@ -1,7 +1,4 @@
-// inject jade
-import "./index.html";
-import "./search-form.html";
-// end inject jade
+
 
 // inject js
 import "./search-form.directive.js";

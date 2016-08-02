@@ -3,7 +3,7 @@
 angular.module('meanbaseApp')
   .directive('singleImage', function ($rootScope, endpoints, $timeout, FileUploader, $cookieStore) {
     return {
-      templateUrl: 'components/single-image/single-image.html',
+      templateUrl: require('./single-image.jade'),
       restrict: 'EA',
       scope: {
       	singleImage: "@",
@@ -31,7 +31,7 @@ angular.module('meanbaseApp')
                   {galleries: scope.singleImage}
                 ]
               });
-            
+
               scope.mediaUploader.onCompleteAll = function() {
                 scope.mediaUploader.clearQueue();
               };
@@ -137,7 +137,7 @@ angular.module('meanbaseApp')
               $rootScope.page.images[scope.singleImage] = scope.image;
             });
           }
-        } //return 
+        } //return
       } //compile
     };
   });

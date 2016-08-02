@@ -5,7 +5,7 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('cms.comments', {
         url: '/comments',
-        templateUrl: 'app/comments/comments.html',
+        template: require('./comments.jade'),
         controller: 'CommentsCtrl',
         hasPermission: 'moderateComments',
         icon: 'fa-comments'

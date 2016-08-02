@@ -31,7 +31,10 @@ module.exports = function(app) {
 
   app.route('/themes/*').get(function(req, res) {
     try {
-      res.render( path.join(app.get('appPath'), 'themes', req.params[0]) );
+      var value = path.join(app.get('appPath'), 'themes', req.params[0]);
+      console.log("value", value);
+      // res.render( path.join(app.get('appPath'), 'themes', req.params[0]) );
+      res.send( path.join(app.get('appPath'), 'themes', req.params[0]) );
     } catch(err) {
       console.log("err", err);
       res.status(500).send(err);

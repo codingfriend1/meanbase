@@ -1,0 +1,2 @@
+angular.module("meanbaseApp").run(["$templateCache", function($templateCache) {$templateCache.put("extensions/panel/index.html","<panel></panel>");
+$templateCache.put("extensions/panel/panel.html","<div class=\"panel panel-default\">\n	<div class=\"panel-heading\">\n		<h3 meanbase-editable ng-bind-html=\"extension.data.heading\"></h3>\n	</div>\n	<div class=\"panel-body\">\n		<div meanbase-editable ng-bind-html=\"extension.data.body\"></div>\n	</div>\n</div>");}]);

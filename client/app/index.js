@@ -1,22 +1,3 @@
-// inject jade
-import "../shared/cms.headbar/cms.headbar.jade";
-import "../shared/extensions-area/extensions-area.jade";
-import "../shared/extensions-selector/extensions-selector.jade";
-import "../shared/find-images-modal/find-images-modal.jade";
-import "../shared/findImages/findImages.jade";
-import "../shared/image-selector/image-selector.jade";
-import "../shared/main/main.jade";
-import "../shared/modal/modal.jade";
-import "../shared/navbar/navbar.jade";
-import "../shared/single-image/single-image.jade";
-import "../shared/sortable/sortable.jade";
-import "../shared/validate/validate.jade";
-import "../shared/taglist/taglist.jade";
-import "../shared/account/login/login.jade";
-import "../shared/account/settings/settings.jade";
-import "../shared/account/signup/signup.jade";
-// end inject jade
-
 // inject js
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "../shared/libraries/codrops/classie.js";
@@ -32,6 +13,8 @@ import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/navbar/navbar.controller.js";
 import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/modal/modal.service.js";
+import "../shared/missing/missing.js";
+import "../shared/missing/missing.controller.js";
 import "../shared/meanbase-editable/meanbase-editable.directive.js";
 import "../shared/meanbase-editable/meanbase-editable.directive.ckeditor.js";
 import "../shared/mb-animate/mb-animate.directive.js";
@@ -56,15 +39,19 @@ import "../shared/api/api.service.js";
 import "../shared/account/account.js";
 // end inject js
 
+// no inject jade
+// no end inject jade
+
 // inject stylus
 import "../shared/cms.headbar/cms.headbar.styl";
 import "../shared/extensions-area/extensions-area.styl";
 import "../shared/extensions-selector/extensions-selector.styl";
+import "../shared/find-images-modal/find-images-modal.styl";
 import "../shared/findImages/findImages.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/main/main.styl";
 import "../shared/meanbase-editable/meanbase-editable.directive.styl";
-import "../shared/find-images-modal/find-images-modal.styl";
+import "../shared/missing/missing.styl";
 import "../shared/modal/modal.styl";
 import "../shared/single-image/single-image.styl";
 import "../shared/sortable/sortable.styl";

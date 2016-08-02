@@ -7,7 +7,7 @@
 angular.module('meanbaseApp')
   .directive('findImagesFor', function ($rootScope, endpoints, $parse, $timeout) {
     return {
-      templateUrl: 'components/findImages/findImages.html',
+      templateUrl: require('./findImages.jade'),
       restrict: 'A',
       replace: true,
       scope: {
@@ -32,7 +32,7 @@ angular.module('meanbaseApp')
           }
         });
 
-        
+
 
         // If a gallery slug was passed into find-images-for="" then use it when emitting events else use meanbase-gallery
         scope.gallerySlug = attrs.findImagesFor || 'meanbase-gallery';
@@ -59,7 +59,7 @@ angular.module('meanbaseApp')
           }
         });
 
-        // If the discard button is hit on the cms headbar have image-selector reset the gallery images and 
+        // If the discard button is hit on the cms headbar have image-selector reset the gallery images and
         scope.$onRootScope('cms.discardEdits', function() {
           if(areChanges) {
             var selectedImages = scope.imageSelectorApi.getInitialImages();
@@ -110,10 +110,10 @@ angular.module('meanbaseApp')
           };
 
           scrollFn();
-          
+
           // var el = document.querySelector( '.morph-button' );
           var el = element[0];
-          
+
           new UIMorphingButton( element[0], {
             closeEl : '.icon-close',
             onBeforeOpen : function() {

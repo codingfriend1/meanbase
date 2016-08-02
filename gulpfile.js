@@ -5,6 +5,7 @@ var async = require('async')
 
 var folders = {
   admin: {
+    client: path.resolve(__dirname, 'client'),
     root: path.resolve(__dirname, 'client', 'admin'),
     code: path.resolve(__dirname, 'client', 'admin', 'code'),
     shared: path.resolve(__dirname, 'client', 'shared'),
@@ -12,6 +13,7 @@ var folders = {
     bower: path.resolve(__dirname, 'client', 'admin', 'bower_components')
   },
   app: {
+    client: path.resolve(__dirname, 'client'),
     gulp: path.resolve(__dirname, 'gulp', 'app'),
     root: path.resolve(__dirname, 'client', 'app'),
     shared: path.resolve(__dirname, 'client', 'shared'),
@@ -26,6 +28,18 @@ var folders = {
     gulp: path.resolve(__dirname, 'gulp', 'extensions')
   },
 }
+
+/**
+ * We add all our gulp modules to the plugins object so we don't have to import their scripts in every file
+ */
+var plugins = require('gulp-load-plugins')({
+    pattern: ['gulp-*', 'gulp.*', 'del', 'run-sequence', 'merge-stream', 'main-bower-files', 'event-stream', 'browser-sync', 'debug'],
+    rename: {
+      'event-stream': 'es'
+    },
+    config: path.resolve(__dirname, 'package.json'),
+    lazy: false
+})
 
 var themes = fs.readdirSync(folders.themes.root).filter(function(file) {
  return fs.statSync(path.join(folders.themes.root, file)).isDirectory()
@@ -42,18 +56,6 @@ var config = {
   path: path,
   async: async
 }
-
-/**
- * We add all our gulp modules to the plugins object so we don't have to import their scripts in every file
- */
-var plugins = require('gulp-load-plugins')({
-    pattern: ['gulp-*', 'gulp.*', 'del', 'run-sequence', 'merge-stream', 'main-bower-files', 'event-stream', 'browser-sync', 'debug'],
-    rename: {
-      'event-stream': 'es'
-    },
-    config: path.resolve(__dirname, 'package.json'),
-    lazy: false
-})
 
 /**
  * Collect all the applications in gulp folder
@@ -95,19 +97,19 @@ extensionTasks.forEach(function (file) {
  */
 
 gulp.task('admin', function(done) {
-  plugins.runSequence('copy-fonts-admin', 'create-bower-admin', 'import-admin', done)
+  plugins.runSequence('copy-fonts-admin', 'create-bower-admin', 'import-admin', 'build-admin-jade', done)
 })
 
 gulp.task('app', function(done) {
-  plugins.runSequence('copy-fonts-app', 'create-bower-app', 'import-app', done)
+  plugins.runSequence('copy-fonts-app', 'create-bower-app', 'import-app', 'build-app-jade', done)
 })
 
 gulp.task('themes', function(done) {
-  plugins.runSequence('import-themes', done)
+  plugins.runSequence('import-themes', 'build-themes', done)
 })
 
 gulp.task('extensions', function(done) {
-  plugins.runSequence('import-extensions', done)
+  plugins.runSequence('import-extensions', 'build-extensions', done)
 })
 
 gulp.task('default', function(done) {

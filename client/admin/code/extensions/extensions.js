@@ -5,7 +5,7 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('cms.extensions', {
         url: '/extensions',
-        templateUrl: 'app/extensions/extensions.html',
+        template: require('./extensions.jade'),
         controller: 'ExtensionsCtrl',
         hasPermission: 'manageExtensions',
         icon: 'fa-plug'

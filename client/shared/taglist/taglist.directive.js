@@ -3,7 +3,7 @@
 angular.module('meanbaseApp')
   .directive('taglist', function () {
     return {
-      templateUrl: 'components/taglist/taglist.html',
+      templateUrl: require('./taglist.jade'),
       restrict: 'EA',
       scope: {
       	tags:"=ngModel"

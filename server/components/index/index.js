@@ -94,13 +94,15 @@ function compileIndex(theme, extensionJSONS) {
 
 
 function injectTheme(file, theme) {
-  var statsjs, themeJS, hasThemeMin;
+  var statsjs, themeJS = '', hasThemeMin, templatesjs, themeTemplateJS = '', stats2js;
   try {
 	  statsjs = fs.lstatSync(path.join(app.get('themesFolder'), theme.url, 'theme.min.js'));
+	  stats2js = fs.lstatSync(path.join(app.get('themesFolder'), theme.url, 'templates.js'));
 	  // Is it a directory?
-	  if (statsjs.isFile()) {
+	  if (statsjs.isFile() && stats2js.isFile()) {
 	  	hasThemeMin = true;
 	  	themeJS = '<script src="' + path.join('themes', theme.url, 'theme.min.js') + '"></script>';
+	  	themeTemplateJS = '<script src="' + path.join('themes', theme.url, 'templates.js') + '"></script>';
 	  }
 	}
 	catch (err) {
@@ -111,7 +113,7 @@ function injectTheme(file, theme) {
 	file = file.replace('theme-name', theme.url);
 	file = file.replace("'theme-templates'", JSON.stringify(theme.templates));
 	file = file.replace("'themeTemplatePaths'", JSON.stringify(theme.templatePaths));
-	file = file.replace('<!-- Theme Script -->', themeJS);
+	file = file.replace('<!-- Theme Script -->', themeJS + themeTemplateJS);
 
   return file;
 }

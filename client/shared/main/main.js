@@ -13,7 +13,7 @@
     .config(function ($stateProvider) {
       $stateProvider
         .state('main', {
-          templateUrl: 'app/main/main.html',
+          template: require('./main.jade'),
           controller: 'MainCtrl'
         });
     });
@@ -90,12 +90,19 @@
               if($rootScope.page.description) {
                 jQuery('meta[name=description]').attr('content', $rootScope.page.description);
               }
+
+              templatePath = templatePath.replace('.html', '.jade');
+
+              console.log("templatePath", templatePath);
               // - **The promise must return a html string instead of a url**
               $templateFactory.fromUrl(templatePath).then(function(html) {
+                console.log("html", html);
                 // - If html returned the index page instead of the template html then redirect to 404
                 if(html.indexOf('<html') > -1) {  $state.go('main.missing'); return false; }
                 // - else resolve with template html
                 deferred.resolve(html);
+              }, function(err) {
+                console.log('template error', err);
               });
 
             }).error(function(error) {

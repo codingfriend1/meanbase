@@ -5,7 +5,7 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('cms.users', {
         url: '/users',
-        templateUrl: 'app/users/users.html',
+        template: require('./users.jade'),
         controller: 'UsersCtrl',
         controllerAs:'stateCtrl',
         hasPermission: 'manageUsers',

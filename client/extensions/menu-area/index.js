@@ -1,7 +1,4 @@
-// inject jade
-import "./index.html";
-import "./menu-area.html";
-// end inject jade
+
 
 // inject js
 import "./menu-area.directive.js";

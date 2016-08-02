@@ -3,7 +3,7 @@
 angular.module('meanbaseApp')
   .directive('extensionsArea', function ($rootScope) {
     return {
-      templateUrl: 'components/extensions-area/extensions-area.html',
+      templateUrl: require('./extensions-area.jade'),
       restrict: 'A',
       scope: true,
       link: function (scope, element, attrs) {

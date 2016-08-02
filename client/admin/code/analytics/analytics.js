@@ -5,7 +5,7 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('cms.analytics', {
         url: '/analytics',
-        templateUrl: 'app/analytics/analytics.html',
+        template: require('./analytics.jade'),
         controller: 'AnalyticsCtrl',
         hasPermission: "viewAnalytics",
         icon: 'fa-bar-chart'

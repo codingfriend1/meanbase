@@ -3,7 +3,7 @@
 angular.module('meanbaseApp')
   .directive('validate', function ($timeout) {
     return {
-      templateUrl: 'components/validate/validate.html',
+      templateUrl: require('./validate.jade'),
       restrict: 'EA',
       replace: true,
       scope: {},
@@ -11,7 +11,7 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
       	var inputEl = angular.element(element[0].querySelector("input"));
       	if(element.hasClass('has-feedback')) {
-      		var feedbackEl = angular.element(element[0].querySelector(".form-control-feedback")); 
+      		var feedbackEl = angular.element(element[0].querySelector(".form-control-feedback"));
       	}
 
       	scope.errorMessage = attrs.validate || '';
@@ -41,7 +41,7 @@ angular.module('meanbaseApp')
       	$timeout(function() {
       		updateValid();
       	}, 0, false);
-      	
+
       	// Apply the correct classes every time the user enters a keystroke if they've already tabbed off of it once
       	inputEl.bind("keyup", function() {
       		if(inputEl.hasClass('ng-touched')) { updateValid(); }

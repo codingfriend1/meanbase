@@ -5,7 +5,7 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('cms.themes', {
         url: '/themes',
-        templateUrl: 'app/themes/themes.html',
+        template: require('./themes.jade'),
         controller: 'ThemesCtrl',
         hasPermission: 'changeSiteSettings',
         icon: 'fa-paint-brush'

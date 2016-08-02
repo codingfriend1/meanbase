@@ -5,7 +5,7 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('main.missing', {
         url: '/missing',
-        templateUrl: 'app/missing/missing.html',
+        template: require('./missing.jade'),
         controller: 'MissingCtrl'
       });
   });

@@ -1,7 +1,4 @@
-// inject jade
-import "./index.html";
-import "./panel.html";
-// end inject jade
+
 
 // inject js
 import "./panel.directive.js";

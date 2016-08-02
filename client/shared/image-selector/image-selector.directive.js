@@ -6,7 +6,7 @@
 angular.module('meanbaseApp')
   .directive('imageSelector', function ($cookieStore, Cropper, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, api, helpers) {
     return {
-      templateUrl: 'components/image-selector/image-selector.html',
+      templateUrl: require('./image-selector.jade'),
       restrict: 'EA',
       scope: {
         config: "=imageSelectorConfig",

@@ -14,7 +14,15 @@ var folders = {
 var nodeAndBower = /(node_modules|bower_components)/
 
 var config = {
-  devtool: isProduction? null: "eval",
+  devtool: isProduction? null: "sourcemap",
+  resolveLoader: {
+    alias: {
+      "logger": function(source) {
+        console.log(source);
+        return source();
+      }
+    }
+  },
   module : {
     noParse: [],
     loaders : [
@@ -24,7 +32,26 @@ var config = {
         include : folders.root,
         exclude: nodeAndBower
       },
-      { test: /\.(jade|pug)$/, loader: "pug" },
+      {
+        test: /\.(jade|pug)$/,
+        include : folders.root,
+        exclude: nodeAndBower,
+        loader: "jade-html"
+      },
+      // {
+      //   test: /\.html$/,
+      //   loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.root + '/', "html"]
+      // },
+      // {
+      //   test: /\.html$/,
+      //   loader: "ng-cache?module=meanbaseApp"
+      // },
+
+      // {
+      //   test: /\.jade$/,
+      //   loader: "ngtemplate?module=meanbaseApp&relativeTo=" + folders.root + "/!html!jade-html",        include : folders.root,
+      //   exclude: nodeAndBower
+      // },
       {
         test: /\.js$/,
         include: folders.root,

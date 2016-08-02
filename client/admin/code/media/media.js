@@ -5,7 +5,7 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('cms.media', {
         url: '/media',
-        templateUrl: 'app/media/media.html',
+        template: require('./media.jade'),
         controller: 'MediaCtrl',
         hasPermission: 'manageMedia',
         icon: 'fa-image'
