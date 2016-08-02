@@ -26,32 +26,33 @@ var config = {
   module : {
     noParse: [],
     loaders : [
-      {
-        test: /\.html$/,
-        loader: "string",
-        include : folders.root,
-        exclude: nodeAndBower
-      },
-      {
-        test: /\.(jade|pug)$/,
-        include : folders.root,
-        exclude: nodeAndBower,
-        loader: "jade-html"
-      },
       // {
       //   test: /\.html$/,
-      //   loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.root + '/', "html"]
+      //   loader: "string",
+      //   include : folders.root,
+      //   exclude: nodeAndBower
       // },
+      // {
+      //   test: /\.jade$/,
+      //   include : folders.root,
+      //   exclude: nodeAndBower,
+      //   loader: "jade-html"
+      // },
+      {
+        test: /\.html$/,
+        loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.root, "html"]
+      },
       // {
       //   test: /\.html$/,
       //   loader: "ng-cache?module=meanbaseApp"
       // },
 
-      // {
-      //   test: /\.jade$/,
-      //   loader: "ngtemplate?module=meanbaseApp&relativeTo=" + folders.root + "/!html!jade-html",        include : folders.root,
-      //   exclude: nodeAndBower
-      // },
+      {
+        test: /jade/,
+        loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.root, "string", "jade-html"],
+        include : folders.root,
+        exclude: nodeAndBower
+      },
       {
         test: /\.js$/,
         include: folders.root,

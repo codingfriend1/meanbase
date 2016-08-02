@@ -1,6 +1,7 @@
 
 
 // inject js
+import "./templates.js";
 import "./search-form.directive.js";
 // end inject js
 

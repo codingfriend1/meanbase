@@ -5,17 +5,17 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('login', {
         url: '/login',
-        templateUrl: 'shared/account/login/login.html',
+        templateUrl: require('./login/login.jade'),
         controller: 'LoginCtrl'
       })
       .state('signup', {
         url: '/signup',
-        templateUrl: 'shared/account/signup/signup.html',
+        templateUrl: require('./signup/signup.jade'),
         controller: 'SignupCtrl'
       })
       .state('settings', {
         url: '/settings',
-        templateUrl: 'shared/account/settings/settings.html',
+        templateUrl: require('./settings/settings.jade'),
         controller: 'SettingsCtrl',
         authenticate: true
       });

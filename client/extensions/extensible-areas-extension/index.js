@@ -1,4 +1,5 @@
 // inject js
+import "./templates.js";
 import "./extensible-areas-extension.directive.js";
 // end inject js
 

@@ -5,11 +5,10 @@ import "../shared/account/signup/signup.controller.js";
 import "../shared/account/settings/settings.controller.js";
 import "../shared/account/login/login.controller.js";
 import "../shared/validate/validate.directive.js";
-import "../shared/sortable/sortable.directive.js";
 import "../shared/taglist/taglist.directive.js";
+import "../shared/sortable/sortable.directive.js";
 import "../shared/single-image/single-image.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
-import "../shared/image-selector/image-selector.directive.js";
 import "../shared/navbar/navbar.controller.js";
 import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/modal/modal.service.js";
@@ -20,13 +19,14 @@ import "../shared/meanbase-editable/meanbase-editable.directive.ckeditor.js";
 import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/main/main.js";
 import "../shared/main/main.controller.js";
+import "../shared/image-selector/image-selector.directive.js";
 import "../shared/helpers/helpers.service.js";
+import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/findImages/findImages.directive.js";
 import "../shared/find-images-modal/find-images-modal.directive.js";
-import "../shared/fallback-src/fallback-src.directive.js";
+import "../shared/extensions-area/extensions-area.directive.js";
 import "../shared/extensions-selector/extensions.modal.controller.js";
 import "../shared/extensions-selector/extensions-selector.directive.js";
-import "../shared/extensions-area/extensions-area.directive.js";
 import "../shared/endpoints/endpoints.service.js";
 import "../shared/dynamic-html/dynamic-html.directive.js";
 import "../shared/doubleClick/doubleClick.directive.js";
@@ -57,8 +57,32 @@ import "./code/analytics/analytics.js";
 import "./code/analytics/analytics.controller.js";
 // end inject js
 
-// no inject jade
-// no end inject jade
+// inject jade
+import "./code/analytics/analytics.jade";
+import "./code/cms/cms.jade";
+import "./code/comments/comments.jade";
+import "./code/extensions/extensions.jade";
+import "./code/media/media.jade";
+import "./code/themes/themes.jade";
+import "./code/users/users.jade";
+import "./code/analytics/import/import.jade";
+import "../shared/cms.headbar/cms.headbar.jade";
+import "../shared/extensions-area/extensions-area.jade";
+import "../shared/extensions-selector/extensions-selector.jade";
+import "../shared/findImages/findImages.jade";
+import "../shared/image-selector/image-selector.jade";
+import "../shared/main/main.jade";
+import "../shared/missing/missing.jade";
+import "../shared/modal/modal.jade";
+import "../shared/navbar/navbar.jade";
+import "../shared/single-image/single-image.jade";
+import "../shared/sortable/sortable.jade";
+import "../shared/taglist/taglist.jade";
+import "../shared/validate/validate.jade";
+import "../shared/account/login/login.jade";
+import "../shared/account/settings/settings.jade";
+import "../shared/account/signup/signup.jade";
+// end inject jade
 
 // inject stylus
 import "./code/app.styl";

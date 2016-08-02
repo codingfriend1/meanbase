@@ -1,6 +1,7 @@
 
 
 // inject js
+import "./templates.js";
 import "./menu-area.directive.js";
 // end inject js
 

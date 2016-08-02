@@ -1,6 +1,7 @@
 
 
 // inject js
+import "./templates.js";
 import "./panel.directive.js";
 // end inject js
 

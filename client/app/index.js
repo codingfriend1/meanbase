@@ -1,3 +1,6 @@
+// @require "./**/*.html"
+
+
 // inject js
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "../shared/libraries/codrops/classie.js";
@@ -35,12 +38,28 @@ import "../shared/cms.headbar/cms.headbar.controller.js";
 import "../shared/camel-to-human/camel-to-human.filter.js";
 import "../shared/auth/user.service.js";
 import "../shared/auth/auth.service.js";
-import "../shared/api/api.service.js";
 import "../shared/account/account.js";
+import "../shared/api/api.service.js";
 // end inject js
 
-// no inject jade
-// no end inject jade
+// inject jade
+import "../shared/cms.headbar/cms.headbar.jade";
+import "../shared/extensions-area/extensions-area.jade";
+import "../shared/extensions-selector/extensions-selector.jade";
+import "../shared/findImages/findImages.jade";
+import "../shared/image-selector/image-selector.jade";
+import "../shared/main/main.jade";
+import "../shared/missing/missing.jade";
+import "../shared/modal/modal.jade";
+import "../shared/navbar/navbar.jade";
+import "../shared/single-image/single-image.jade";
+import "../shared/sortable/sortable.jade";
+import "../shared/taglist/taglist.jade";
+import "../shared/validate/validate.jade";
+import "../shared/account/login/login.jade";
+import "../shared/account/settings/settings.jade";
+import "../shared/account/signup/signup.jade";
+// end inject jade
 
 // inject stylus
 import "../shared/cms.headbar/cms.headbar.styl";
