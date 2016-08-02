@@ -30,5 +30,5 @@ COPY dist/server/ /var/www/server/
 EXPOSE 8080
 VOLUME /var/www
 
-# CMD ["pm2", "start", "server/app.js", "--no-daemon"]
-CMD ["node", "start", "server/app.js"]
+CMD ["pm2", "start", "server/app.js", "--no-daemon"]
+# CMD ["node", "server/app.js"]

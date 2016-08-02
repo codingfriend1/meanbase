@@ -10,9 +10,12 @@ module.exports = function(gulp, plugins, folders, config) {
         .pipe(plugins.chmod(755))
         .pipe(gulp.dest(folders.root + '/fonts/')),
 
-      gulp.src(folders.bower + '/trumbowyg/dist/ui/images/icons.png')
+      gulp.src([
+        folders.bower + '/trumbowyg/dist/ui/images/icons.png',
+        folders.bower + '/trumbowyg/dist/ui/images/icons-2x.png'
+      ])
         .pipe(plugins.chmod(755))
-        .pipe(gulp.dest(folders.root + '/fonts/')),
+        .pipe(gulp.dest(folders.root)),
 
       gulp.src([
         folders.bower + '/mdl-pack/icons/**',
