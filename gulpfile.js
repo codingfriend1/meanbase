@@ -134,3 +134,7 @@ gulp.task('default', function(done) {
 gulp.task('build', function(done) {
   plugins.runSequence('dist', done)
 });
+
+gulp.task('empty-database', function() {
+  config.runCommand('mongo --eval "show dbs; use meanbase-dev; db.dropDatabase();"');
+});

@@ -16,16 +16,15 @@ var nodeAndBower = /(node_modules|bower_components)/
 
 var config = {
   devtool: isProduction? null: "sourcemap",
-  resolveLoader: {
-    alias: {
-      "logger": function(source) {
-        console.log(source);
-        return source();
-      }
-    }
-  },
   module : {
     noParse: [],
+    // preLoaders: [
+    //   {
+    //     test: /\.js$/,
+    //     exclude: nodeAndBower,
+    //     loaders: [ "babel-loader", "eslint-loader" ]
+    //   }
+    // ],
     loaders : [
       {
         test: /\.html$/,

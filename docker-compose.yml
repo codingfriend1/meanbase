@@ -3,16 +3,17 @@ db:
   expose:
     - "27017"
     - "37017"
+  command: --smallfiles
 web:
   build: .
-  expose:
-    - "8080"
+  ports:
+    - "8080:8080"
   env_file:
     - meanbase.env
   links:
       - db:db
 nginx:
-  restart: always
+  # restart: always
   build: nginx
   links:
     - web:web
