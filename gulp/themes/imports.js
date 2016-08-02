@@ -35,7 +35,6 @@ module.exports = function(gulp, plugins, folders, config) {
   gulp.task('import-themes-js', function(done) {
     config.async.eachSeries(folders.themes, function iteratee(theme, callback) {
       var test = config.path.join(folders.root, theme, 'index.js');
-      console.log("test", test);
       gulp.src(config.path.join(folders.root, theme, 'index.js'))
     	 .pipe(plugins.inject(gulp.src([
         config.path.join(folders.root, theme, '/**/*.js'),
