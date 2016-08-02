@@ -279,7 +279,7 @@
     // This controls the image selector modal that opens with the inline text editor
     $rootScope.openImageModal = function(config, callback) {
       var modalInstance = $modal.open({
-        templateUrl: 'findImage.modal.html',
+        templateUrl: require('./findImage.modal.jade'),
         controller: function($scope, $modalInstance, config) {
           $scope.config = config;
 
@@ -347,7 +347,7 @@
       if($scope.editMode) {
         $event.preventDefault();
         var modalInstance = $modal.open({
-          templateUrl: 'editmenu.modal.html',
+          templateUrl: require('./editmenu.modal.jade'),
           controller: menuModal,
           size: 'md',
           resolve: {

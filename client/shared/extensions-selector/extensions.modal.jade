@@ -1,0 +1,37 @@
+#extensions-modal.extensions-selector
+  .modal-header
+    button.close(ng-click="$dismiss()")
+      span(aria-hidden="true") ×
+      span.sr-only Close
+    h4.modal-title 
+      i.fa.fa-plus.fa-lg|  
+      |  Choose Content
+  .modal-body
+    tabset(justified="true")
+      tab(heading="Choose new content")
+        div.extensions-selector
+          .form-group
+            .input-group
+              .input-group-addon 
+                i.fa.fa-search
+              input.form-control(type="text" placeholder="search content" ng-model="searchExtensions.name")
+          .extensions-list.scrollable-body
+            div(ng-repeat="ext in extensions | filter:searchExtensions" ng-click="toggleChecked(ext, $event)").list-item
+              img(ng-src="{{ext.screenshot}}").list-image
+              h4.list-title {{ext.name}}
+              i.fa.checkbox(ng-class="{'fa-check': chosenContent.indexOf(ext) > -1, 'fa-square-o': chosenContent.indexOf(ext) == -1}")
+      tab(heading="Choose from existing content")
+        div.extensions-selector
+          .form-group
+            .input-group
+              .input-group-addon 
+                i.fa.fa-search
+              input.form-control(type="text" placeholder="search existing content" ng-model="findShared")
+          .scrollable-body
+            div(ng-repeat="(key, content) in sharedContent" ng-click="toggleChecked(content, $event)" ng-hide="content.contentName.indexOf(findShared) && content.type.indexOf(findShared)").list-item
+                h4.list-title {{content.type}}: {{content.contentName}}
+                i.fa.pull-right.checkbox.fa-square-o
+  .modal-footer
+    //- button.btn.btn-danger(type='button' ng-click="deleteContent()") Choose
+    button.btn.btn-success(type='button' ng-click="chooseExtensions()") Choose
+    button.btn.btn-default(type='button' ng-click="$dismiss()") Close

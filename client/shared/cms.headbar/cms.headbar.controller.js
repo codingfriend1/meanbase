@@ -43,7 +43,7 @@
 		// This opens the modal for changing page properties such as tabTitle and page description.
 		this.editPageModal = function() {
 		  var modalInstance = $modal.open({
-		    templateUrl: 'editmodal.modal.html',
+		    templateUrl: require('./editmodal.modal.jade'),
 		    controller: function($scope, $modalInstance) {
 		    	$scope.cancel = function () {
 		    	  $modalInstance.dismiss('cancel');

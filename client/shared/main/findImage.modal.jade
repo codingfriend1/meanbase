@@ -1,0 +1,13 @@
+#findImage-modal.extensiondata-selector
+  .modal-header
+    button.close(ng-click="$dismiss()")
+      span(aria-hidden="true") ×
+      span.sr-only Close
+    h4.modal-title {{instructions}}
+  .modal-body
+    image-selector(api="imageSelectorApi" image-selector-config="config")
+  .modal-footer
+    p.double-tap-instructions Double tap to enlarge photos
+    div.choose-close-buttons
+      button.btn.btn-success(type='button' ng-click="chooseImages()") Choose
+      button.btn.btn-default(type='button' ng-click="$dismiss()") Close

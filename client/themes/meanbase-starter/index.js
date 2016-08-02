@@ -16,7 +16,7 @@ import "./templates/archive/archive.controller.js";
 // inject stylus
 import "./components/site-menu.styl";
 import "./templates/archive/archive.styl";
-import "./templates/home/home.styl";
 import "./templates/article/article.styl";
+import "./templates/home/home.styl";
 import "./templates/page/page.styl";
 // end inject stylus

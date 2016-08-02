@@ -15,23 +15,23 @@ import "../shared/single-image/single-image.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/navbar/navbar.controller.js";
 import "../shared/mongoose-error/mongoose-error.directive.js";
-import "../shared/image-selector/image-selector.directive.js";
 import "../shared/modal/modal.service.js";
 import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
-import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/meanbase-editable/meanbase-editable.directive.js";
 import "../shared/meanbase-editable/meanbase-editable.directive.ckeditor.js";
 import "../shared/main/main.js";
 import "../shared/main/main.controller.js";
+import "../shared/mb-animate/mb-animate.directive.js";
+import "../shared/image-selector/image-selector.directive.js";
 import "../shared/helpers/helpers.service.js";
 import "../shared/findImages/findImages.directive.js";
 import "../shared/find-images-modal/find-images-modal.directive.js";
 import "../shared/fallback-src/fallback-src.directive.js";
-import "../shared/extensions-area/extensions-area.directive.js";
-import "../shared/endpoints/endpoints.service.js";
 import "../shared/extensions-selector/extensions.modal.controller.js";
 import "../shared/extensions-selector/extensions-selector.directive.js";
+import "../shared/extensions-area/extensions-area.directive.js";
+import "../shared/endpoints/endpoints.service.js";
 import "../shared/dynamic-html/dynamic-html.directive.js";
 import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/cms.headbar/cms.headbar.controller.js";
@@ -44,10 +44,14 @@ import "../shared/account/account.js";
 
 // inject jade
 import "../shared/cms.headbar/cms.headbar.jade";
+import "../shared/cms.headbar/editmodal.modal.jade";
 import "../shared/extensions-area/extensions-area.jade";
 import "../shared/extensions-selector/extensions-selector.jade";
+import "../shared/extensions-selector/extensions.modal.jade";
 import "../shared/findImages/findImages.jade";
 import "../shared/image-selector/image-selector.jade";
+import "../shared/main/editmenu.modal.jade";
+import "../shared/main/findImage.modal.jade";
 import "../shared/main/main.jade";
 import "../shared/missing/missing.jade";
 import "../shared/modal/modal.jade";
@@ -57,8 +61,8 @@ import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
 import "../shared/account/login/login.jade";
-import "../shared/account/signup/signup.jade";
 import "../shared/account/settings/settings.jade";
+import "../shared/account/signup/signup.jade";
 // end inject jade
 
 // inject stylus

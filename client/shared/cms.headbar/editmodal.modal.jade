@@ -1,0 +1,31 @@
+.modal-header
+  button.close(type='button' ng-click="cancel()")
+    span(aria-hidden='true') ×
+    span.sr-only Close
+  h4.modal-title Page Settings
+.modal-body
+  .form-group(validate="{{errorMessages.isTitle}}").has-feedback
+    label Google Search Title
+    input.form-control(type='text' ng-model="page.tabTitle" ng-pattern="validators.isTitle")
+    span.glyphicon.glyphicon-ok.form-control-feedback
+  .form-group(validate="{{errorMessages.URI}}").has-feedback
+    label URL address
+    .input-group
+      span.input-group-addon /
+      input.form-control(type='text' ng-model="page.url"  ng-pattern="validators.isURI")
+      span.glyphicon.glyphicon-ok.form-control-feedback
+  .form-group
+    label Facebook and Google Page Description
+    textarea.form-control(rows="5" ng-model="page.description")
+  .row
+    .col-sm-6
+      p.h5 Created
+      p {{page.created}}
+    .col-sm-6
+      p.h5 Updated
+      p {{page.updated}}
+.modal-footer
+  .col-sm-9
+    p.h6.text-left (The headbar save and discard buttons will store changes)
+  .col-sm-3
+    button.btn.btn-default(type='button' ng-click="cancel()") Close
