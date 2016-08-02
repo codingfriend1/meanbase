@@ -27,29 +27,12 @@ var config = {
   module : {
     noParse: [],
     loaders : [
-      // {
-      //   test: /\.html$/,
-      //   loader: "string",
-      //   include : folders.root,
-      //   exclude: nodeAndBower
-      // },
-      // {
-      //   test: /\.jade$/,
-      //   include : folders.root,
-      //   exclude: nodeAndBower,
-      //   loader: "jade-html"
-      // },
       {
         test: /\.html$/,
         include : folders.root,
         exclude: nodeAndBower,
         loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.slash, "html"]
       },
-      // {
-      //   test: /\.html$/,
-      //   loader: "ng-cache?module=meanbaseApp"
-      // },
-
       {
         test: /\.jade$/,
         loaders: ["ngtemplate?module=meanbaseApp&relativeTo=" + folders.slash, "string", "jade-html"],
@@ -98,11 +81,11 @@ var config = {
       // }
     ]
   },
-  plugins: [
-    // new webpack.optimize.DedupePlugin(),
-    // new webpack.optimize.OccurenceOrderPlugin(),
-    // new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false, compress: {warnings: false}})
-  ]
+  plugins: isProduction? [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
+  ]: []
 }
 
 var appConfig = Object.assign({}, config, {
