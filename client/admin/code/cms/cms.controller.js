@@ -4,6 +4,7 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 	var states = $state.get();
 	$scope.cmsStates = [];
 	$scope.$parent.pageTitle = 'Manage Site';
+  $rootScope.searchText = '';
 	Auth.isLoggedInAsync(function(status) {
 	 $rootScope.isLoggedIn = status;
 	 $rootScope.currentUser = Auth.getCurrentUser();

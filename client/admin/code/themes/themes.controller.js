@@ -41,6 +41,10 @@ angular.module('meanbaseApp')
       $scope.t.toggleModal('isSettingsOpen', 'settings');
   	};
 
+    $scope.filterThemes = function(theme) {
+      return theme.title.toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
+    };
+
     $scope.deleteTheme = function(theme) {
       var message = theme.title + " deleted";
       var failure = 'Could not delete ' + theme.title;
