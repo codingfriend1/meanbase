@@ -1,15 +1,21 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ThemesCtrl', function ($scope, endpoints, FileUploader, $cookieStore, $rootScope, toastr, api) {
+  .controller('ThemesCtrl', function ($scope, endpoints, FileUploader, $cookieStore, $rootScope, toastr, api, $timeout, crud) {
 
     $scope.$parent.pageTitle = 'Themes';
 
-    $scope.themeDevelopmentMode = false;
-    api.developmentMode.find({}).success(function(response) {
-      $scope.themeDevelopmentMode = response;
-    });
+    $scope.t = new crud($scope, 'themes', api.themes);
 
+    $scope.t.find({}, null, 'Could not get the themes').then(function(response) {
+      for (var i = 0; i < $scope.themes.length; i++) {
+          if(!$scope.themes[i].preview) {
+            $scope.themes[i].preview = 'http://placehold.it/500x300';
+          }
+        }
+    }, function(err) {
+      console.log('promise rejected', err);
+    });
 
     if ($cookieStore.get('token')) {
       var uploader = $scope.uploader = new FileUploader({
@@ -20,6 +26,27 @@ angular.module('meanbaseApp')
           autoUpload: true
       });
     }
+
+    $scope.saveSettings = function(theme, settings) {
+      if(theme && theme._id) {
+        $scope.t.update(theme, settings, theme.title + ' updated', 'Could not update ' + theme.title);
+      } else if(theme && !theme._id) {
+        $scope.t.create(theme, theme.title + ' created', 'Could not create ' + theme.title).then(function(response) {
+          $timeout(function() {
+            componentHandler.upgradeAllRegistered()
+          });
+        });
+      }
+
+      $scope.t.toggleModal('isSettingsOpen', 'settings');
+  	};
+
+    $scope.deleteTheme = function(theme) {
+      var message = theme.title + " deleted";
+      var failure = 'Could not delete ' + theme.title;
+      $scope.t.delete(theme, theme.title + ' unpublished.', message, failure);
+      $scope.t.toggleModal('isSettingsOpen');
+  	};
 
     uploader.onCompleteAll = function(e) {
       uploader.clearQueue();
@@ -36,34 +63,4 @@ angular.module('meanbaseApp')
     uploader.onErrorItem = function(item, response, status, headers) {
       toastr.error("Could not upload theme. " + status + ": " + response);
     };
-
-    api.themes.find({}).success(function(themes) {
-    	$scope.themes = themes;
-      for (var i = 0; i < $scope.themes.length; i++) {
-        if(!$scope.themes[i].preview) {
-          $scope.themes[i].preview = 'http://placehold.it/500x300';
-        }
-      }
-      $timeout(function() {
-        componentHandler.upgradeAllRegistered()
-      }, 0);
-    });
-
-    $scope.switchModes = function() {
-      api.developmentMode.create({theme: $scope.themeDevelopmentMode}).then(function() {
-        if($scope.themeDevelopmentMode) {
-          toastr.success("Meanbase is now watching the active theme's scripts.html and styles.html for changes.")
-        } else {
-          toastr.warning('Meanbase is no longer watching for changes in scripts and styles html.');
-        }
-      });
-    };
-
-    $scope.$onRootScope('deleted theme', function(theme) {
-      $scope.themeDevelopmentMode = false;
-    });
-
-    $scope.$onRootScope('activated theme', function(theme) {
-      $scope.themeDevelopmentMode = false;
-    });
   });

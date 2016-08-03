@@ -46,7 +46,7 @@ angular.module('meanbaseApp')
   	$scope.deletePage = function(page) {
       var message = page.title + " deleted";
       var failure = 'Could not delete ' + page.title;
-      p.delete(page, 'Comment unpublished.', message, failure).then(function() {
+      p.delete(page, page.title + ' unpublished.', message, failure).then(function() {
         api.menus.delete({url: page.url}, {published: page.published});
       });
       p.toggleModal('isDeleteOpen', 'pageToDelete');

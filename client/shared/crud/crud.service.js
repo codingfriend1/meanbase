@@ -12,7 +12,6 @@ angular.module('meanbaseApp')
     CRUD.prototype.create = function(item, message, failure) {
       var self = this;
       return this.api.create(item).then(function(p) {
-        console.log("p.data[0]", p.data[0]);
         self.scope[self.collection].push(p.data[0]);
         if(message) { toastr.clear(); toastr.success(message); }
       }, function(err) {
