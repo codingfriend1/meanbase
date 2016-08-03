@@ -8,6 +8,6 @@ angular.module('meanbaseApp')
         templateUrl: require('./extensions.jade'),
         controller: 'ExtensionsCtrl',
         hasPermission: 'manageExtensions',
-        icon: 'fa-plug'
+        icon: 'input'
       });
   });

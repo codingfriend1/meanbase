@@ -8,6 +8,6 @@ angular.module('meanbaseApp')
         templateUrl: require('./comments.jade'),
         controller: 'CommentsCtrl',
         hasPermission: 'moderateComments',
-        icon: 'fa-comments'
+        icon: 'comment'
       });
   });

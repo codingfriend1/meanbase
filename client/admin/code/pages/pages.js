@@ -6,8 +6,8 @@ angular.module('meanbaseApp')
       .state('cms.pages', {
         url: '/pages',
         templateUrl: require('./pages.jade'),
-        controller: 'CommentsCtrl',
+        controller: 'PagesCtrl',
         hasPermission: 'editContent',
-        icon: 'fa-pages'
+        icon: 'web_asset'
       });
   });

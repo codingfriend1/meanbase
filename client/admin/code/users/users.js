@@ -9,6 +9,6 @@ angular.module('meanbaseApp')
         controller: 'UsersCtrl',
         controllerAs:'stateCtrl',
         hasPermission: 'manageUsers',
-        icon: 'fa-users'
+        icon: 'people'
       });
   });

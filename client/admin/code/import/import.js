@@ -8,6 +8,6 @@ angular.module('meanbaseApp')
         templateUrl: 'app/import/import.html',
         controller: 'ImportCtrl',
         hasPermission: "importExportData",
-        icon: 'fa-upload'
+        icon: 'file_download'
       });
   });

@@ -8,6 +8,6 @@ angular.module('meanbaseApp')
         templateUrl: require('./analytics.jade'),
         controller: 'AnalyticsCtrl',
         hasPermission: "viewAnalytics",
-        icon: 'fa-bar-chart'
+        icon: 'show_chart'
       });
   });

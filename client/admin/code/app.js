@@ -3,6 +3,7 @@
 angular.module('meanbaseApp', [
   'ngCookies',
   'ngResource',
+  'mdl',
   'ngSanitize',
   'ui.router',
   'ngCropper',
@@ -57,7 +58,13 @@ angular.module('meanbaseApp', [
     };
   })
 
-  .run(function ($rootScope, $location, Auth, ngAnalyticsService, api) {
+  .run(function ($rootScope, $location, Auth, ngAnalyticsService, api, $timeout) {
+
+    $rootScope.$on('$viewContentLoaded', function() {
+      $timeout(function() {
+        componentHandler.upgradeAllRegistered()
+      });
+    });
 
     api.settings.find({name: 'clientID'}).success(function(res) {
       if(!res[0] || ! res[0].value) { return false; }

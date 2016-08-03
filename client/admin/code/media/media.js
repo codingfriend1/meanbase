@@ -8,6 +8,6 @@ angular.module('meanbaseApp')
         templateUrl: require('./media.jade'),
         controller: 'MediaCtrl',
         hasPermission: 'manageMedia',
-        icon: 'fa-image'
+        icon: 'images'
       });
   });

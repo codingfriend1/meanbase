@@ -1,116 +1,41 @@
-.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
-      header.mdl-layout__header
-        .mdl-layout__header-row
-          // Title
-          span.mdl-layout-title Pages
-          // Add spacer, to align navigation to the right
-          .mdl-layout-spacer
-          .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
-            label.mdl-button.mdl-js-button.mdl-button--icon(for='fixed-header-drawer-exp')
-              i.material-icons search
-            .mdl-textfield__expandable-holder
-              input#fixed-header-drawer-exp.mdl-textfield__input(type='text', name='sample')
-      .mdl-layout__drawer
-        nav.mdl-navigation
-          li.mdl-list__item
-            span.mdl-list__item-primary-content
-              i.material-icons.mdl-list__item-icon web_asset
-              a(href='index.html') Pages
-          li.mdl-list__item
-            span.mdl-list__item-primary-content
-              i.material-icons.mdl-list__item-icon images
-              a(href='images.html') Images
-          li.mdl-list__item
-            span.mdl-list__item-primary-content
-              i.material-icons.mdl-badge.mdl-badge--overlap.mdl-list__item-icon(data-badge='1') comment
-              |             Comments
-          li.mdl-list__item
-            span.mdl-list__item-primary-content
-              i.material-icons.mdl-list__item-icon people
-              a(href='users.html') Users
-          li.mdl-list__item
-            span.mdl-list__item-primary-content
-              i.material-icons.mdl-list__item-icon settings
-              |             Settings
-      main.mdl-layout__content
-        .page-content
-          ul.demo-list-two.mdl-list
-            li.mdl-list__item.mdl-list__item--two-line
-              span.mdl-list__item-primary-content
-                // <i class="material-icons mdl-list__item-icon">format_align_left</i>
-                span#about-link
-                  span About
-                  span.mdl-list__item-sub-title http://codingfriend.com/about
-                .mdl-tooltip.mdl-tooltip--bottom(for='about-link')
-                  | Go to and Edit About
-              .mdl-list__item-secondary-content
-                label#publish-1.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for='list-switch-1')
-                  input#list-switch-1.mdl-switch__input(type='checkbox', checked='')
-                  .mdl-tooltip.mdl-tooltip--small.mdl-tooltip--middle(for='publish-1')
-                    | Publish page to the public?
-              .mdl-list__item-secondary-content
-                button#extra-1.mdl-button.mdl-js-button.mdl-button--icon
-                  i.material-icons more_vert
-                ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='extra-1')
-                  li.mdl-menu__item.page-settings-button Settings
-                  li.mdl-menu__item.confirm-delete-button Delete Page
-            li.mdl-list__item.mdl-list__item--two-line
-              span.mdl-list__item-primary-content
-                span Contact
-                span.mdl-list__item-sub-title http://codingfriend.com/contact
-              .mdl-list__item-secondary-content
-                label#publish-2.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for='list-switch-1')
-                  input#list-switch-1.mdl-switch__input(type='checkbox', checked='')
-                  .mdl-tooltip.mdl-tooltip--small.mdl-tooltip--middle(for='publish-2')
-                    | Publish page to the public?
-              .mdl-list__item-secondary-content
-                button#extra-2.mdl-button.mdl-js-button.mdl-button--icon
-                  i.material-icons more_vert
-                ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='extra-2')
-                  li.mdl-menu__item.page-settings-button Settings
-                  li.mdl-menu__item.confirm-delete-button Delete Page
-            li.mdl-list__item.mdl-list__item--two-line
-              span.mdl-list__item-primary-content
-                span New Book Release Wednesday
-                span.mdl-list__item-sub-title http://codingfriend.com/new-book-release-wednesday
-              .mdl-list__item-secondary-content
-                label#publish-3.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for='list-switch-1')
-                  input#list-switch-1.mdl-switch__input(type='checkbox', checked='')
-                  .mdl-tooltip.mdl-tooltip--small.mdl-tooltip--middle(for='publish-3')
-                    | Publish page to the public?
-              .mdl-list__item-secondary-content
-                button#extra-3.mdl-button.mdl-js-button.mdl-button--icon
-                  i.material-icons more_vert
-                ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='extra-3')
-                  li.mdl-menu__item.page-settings-button Settings
-                  li.mdl-menu__item.confirm-delete-button Delete Page
-        // Colored FAB button
-        button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--floating-action
-          i.material-icons add
-    dialog#confirm-delete-dialog.mdl-dialog
-      h4.mdl-dialog__title Delete Page?
-      .mdl-dialog__content
-        p
-          | Are you sure you want to delete "About"?
-      .mdl-dialog__actions
-        button.mdl-button.close(type='button') Yes
-        button.mdl-button.close(type='button') No
-    dialog#page-settings-dialog.mdl-dialog
-      h4.mdl-dialog__title Page Settings
-      .mdl-dialog__content
-        form(action='#')
-          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-            input#access.mdl-textfield__input(type='text', value='Everyone')
-            label.mdl-textfield__label(for='access') Who has permission to see?
-          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-            input#url.mdl-textfield__input(type='text')
-            label.mdl-textfield__label(for='url') Url (Ex: "about-me")
-          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-            input#browser-window-title.mdl-textfield__input(type='text')
-            label.mdl-textfield__label(for='browser-window-title') Browser Window Title
-          .mdl-textfield.mdl-js-textfield
-            textarea.mdl-textfield__input(type='text', rows='3', id='Page Description')
-            label.mdl-textfield__label(for='Page Description') Page Description
-      #page-settings-dialog.mdl-dialog__actions
-        button.mdl-button(type='button') Save
-        button.mdl-button.close(type='button') Dismiss
+
+ul.demo-list-two.mdl-list
+  li.mdl-list__item.mdl-list__item--two-line(ng-repeat="page in pages")
+    span.mdl-list__item-primary-content
+      span(id="{{page.url}}")
+        span {{page.title}} {{isSettingsOpen}}
+        span.mdl-list__item-sub-title {{page.url}}
+      .mdl-tooltip.mdl-tooltip--bottom(for='{{page.url}}')
+        | Go to and Edit {{page.url}}
+    .mdl-list__item-secondary-content
+      mdl-switch(ng-model='page.published' ng-click="crud.update(page)")
+    .mdl-list__item-secondary-content
+      button#extra-1.mdl-button.mdl-js-button.mdl-button--icon
+        i.material-icons more_vert
+      ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='extra-1')
+        li.mdl-menu__item.page-settings-button(ng-click="crud.toggleModal('isSettingsOpen', 'settings', page)") Settings
+        li.mdl-menu__item.confirm-delete-button(ng-click="crud.toggleModal('isDeleteOpen', 'pageToDelete', page)") Delete Page
+// Colored FAB button
+button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--floating-action
+i.material-icons add
+
+dialog.mdl-dialog(dialog-open="isDeleteOpen")
+  h4.mdl-dialog__title Delete {{pageToDelete.title}}?
+  .mdl-dialog__content
+    p Are you sure you want to delete {{pageToDelete.title}}?
+  .mdl-dialog__actions
+    button.mdl-button.close(type='button' ng-click="deletePage(pageToDelete)") Yes
+    button.mdl-button.close(type='button' ng-click="crud.toggleModal('isDeleteOpen', 'pageToDelete')") No
+    
+    
+dialog.mdl-dialog(dialog-open="isSettingsOpen")
+  h4.mdl-dialog__title Page Settings
+  .mdl-dialog__content
+    form(action='#')
+      mdl-text-field(label='Who has permission to see?', ng-model='settings.visibility')
+      mdl-text-field(label='Url (Ex: "about-me")', ng-model='settings.url')
+      mdl-text-field(label='Browser Window Title', ng-model='settings.tabTitle')
+      mdl-text-area(label='Page Description', ng-model='settings.description')
+  .mdl-dialog__actions
+    button.mdl-button(type='button', ng-click="saveSettings(settings, settings)") Save
+    button.mdl-button.close(type='button' ng-click="crud.toggleModal('isSettingsOpen', 'settings')") Dismiss

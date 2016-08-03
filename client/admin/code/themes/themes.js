@@ -8,6 +8,6 @@ angular.module('meanbaseApp')
         templateUrl: require('./themes.jade'),
         controller: 'ThemesCtrl',
         hasPermission: 'changeSiteSettings',
-        icon: 'fa-paint-brush'
+        icon: 'settings'
       });
   });
