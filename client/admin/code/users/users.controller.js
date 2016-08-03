@@ -2,8 +2,12 @@
 (function(){
 	angular.module('meanbaseApp').controller('UsersCtrl', UsersCtrl);
 
-	UsersCtrl.$inject = ['$scope', 'endpoints', 'toastr', 'api'];
-	function UsersCtrl($scope, endpoints, toastr, api) {
+	UsersCtrl.$inject = ['$scope', 'endpoints', 'toastr', 'api', 'crud', '$rootScope'];
+	function UsersCtrl($scope, endpoints, toastr, api, crud, $rootScope) {
+
+    var u = $scope.u = new crud($scope, 'users', api.users);
+
+    u.find({}, null, 'Could not get the users');
 
 		$scope.$parent.pageTitle = "Users and Permissions";
 
@@ -93,9 +97,23 @@
 	  	});
 	  };
 
+    $scope.saveSettings = function(user, settings) {
+      if(user && user._id) {
+        p.update(user, settings, user.email + ' updated', 'Could not update ' + user.email);
+      } else if(user && !user._id) {
+        p.create(user, user.email + ' created', 'Could not create ' + user.email).then(function(response) {
+          $timeout(function() {
+            componentHandler.upgradeAllRegistered()
+          });
+        });
+      }
+
+      p.toggleModal('isSettingsOpen', 'settings');
+  	};
+
 	  $scope.userFilter = '';
 	  $scope.filterUsers = function(user) {
-	  	return (user.name + user.email + user.role + user.lastVisited).toLowerCase().indexOf($scope.userFilter.toLowerCase()) >= 0;
+	  	return (user.name + user.email + user.role + user.lastVisited).toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
 	  };
 	}
 })();

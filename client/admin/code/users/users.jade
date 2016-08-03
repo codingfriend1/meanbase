@@ -12,38 +12,50 @@ h3 Roles and Privilages
 		.form-group(ng-repeat="(permissionName, permissionValue) in selectedRole.permissions")
 			input.checkbox(id="{{permissionName}}" type="checkbox" ng-model="selectedRole.permissions[permissionName]" ng-checked="permissionValue")
 			label(for="{{permissionName}}")| {{permissionName | camelToHuman}}
+			
+		
+		
+			
+ul.mdl-list
+	li.mdl-list__item.mdl-list__item--two-line(ng-repeat="user in users | filter:filterUsers")
+		span.mdl-list__item-primary-content
+			span
+				span {{user.email}}
+				span.mdl-list__item-sub-title {{user.role}}
+		.mdl-list__item-secondary-content
+			mdl-switch(ng-model='user.enabled' ng-click="toggleEnabled(user)")
+		.mdl-list__item-secondary-content
+			button(id="{{user._id}}").mdl-button.mdl-js-button.mdl-button--icon
+				i.material-icons more_vert
+			ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{user._id}}')
+				li.mdl-menu__item.user-settings-button(ng-click="u.toggleModal('isSettingsOpen', 'settings', user)") Settings
+				li.mdl-menu__item.confirm-delete-button(ng-click="u.toggleModal('isDeleteOpen', 'userToDelete', user)") Delete User
+// Colored FAB button
+button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--floating-action
+	i.material-icons(ng-click="openSettingsModal()") add
 
-h3 Users
-.form-group
-	input(type="text" placeholder="filter users" ng-model="userFilter").form-control
-accordion(close-others="true")
-	accordion-group(ng-repeat="user in users | filter:filterUsers" is-open="status.open").panel-primary.panel
-		accordion-heading.panel-heading(ng-click="status.open=!status.open")
-			span {{user.name}} 
-			i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}").panel-chevron
-			span.pull-right| {{user.role}} 
-		.panel-body.equal
-			.row
-				.col-md-6
-					.form-group
-						label Username
-						input(type="text" ng-model="user.name").form-control
-				.col-md-6
-					.form-group
-						label Email
-						input(type="text" ng-model="user.email").form-control
-			.row
-				.col-sm-3.col-xs-6
-					.form-group
-						p.h5 Allow User:
-						select.panel-select(ng-model="user.role")
-							option(ng-repeat="role in roles" ng-selected="role.role == user.role") {{role.role}}
-				.col-sm-4.col-xs-6
-					.form-group
-						p.h5 Account Enabled
-						label.mb-toggle-switch
-							input(type="checkbox" ng-model="user.enabled" ng-checked="user.enabled")
-							span.mb-switch
-				.col-sm-5.col-xs-12.text-right
-					button.btn.btn-danger(ng-click="deleteUser(user, $index)" ng-disabled="user.role === 'admin'") Delete
-					button.btn.btn-success(ng-click="updateUser(user)") Update
+dialog.mdl-dialog(dialog-open="isDeleteOpen")
+	h4.mdl-dialog__title Delete {{userToDelete.title}}?
+	.mdl-dialog__content
+		p Are you sure you want to delete {{userToDelete.title}}?
+	.mdl-dialog__actions
+		button.mdl-button.close(type='button' ng-click="deleteUser(userToDelete)") Yes
+		button.mdl-button.close(type='button' ng-click="u.toggleModal('isDeleteOpen', 'userToDelete')") No
+		
+		
+dialog.mdl-dialog(dialog-open="isSettingsOpen")
+	h4.mdl-dialog__title User Settings
+	.mdl-dialog__content
+		form(action='#' mdl)
+			.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.name}")
+				input#name.mdl-textfield__input(type='text', value='Everyone' ng-model='settings.name')
+				label.mdl-textfield__label(for='name') Name
+			.mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.email}")
+				input#email.mdl-textfield__input(type='text' ng-model='settings.email' mdl)
+				label.mdl-textfield__label(for='email') Email (Ex: "about-me")
+			p Allow User:
+			select.panel-select(ng-model="settings.role")
+				option(ng-repeat="role in roles" ng-selected="role.role == settings.role") {{role.role}}
+	.mdl-dialog__actions
+		button.mdl-button(type='button', ng-click="saveSettings(settings, settings)") Save
+		button.mdl-button.close(type='button' ng-click="u.toggleModal('isSettingsOpen', 'settings')") Dismiss
