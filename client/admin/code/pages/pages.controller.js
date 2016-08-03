@@ -53,19 +53,18 @@ angular.module('meanbaseApp')
   	};
 
     $scope.openSettingsModal = function() {
-      $scope.settings = {
+      var settings = {
         "author": Auth.getCurrentUser().name,
         "url": "/",
         "title": "",
         "tabTitle": "",
         "template": "page",
         "description": "",
-        "published": true,
-        "title": ""
-      }
+        "published": true
+      };
 
-      console.log("$scope.settings", $scope.settings);
+      console.log("$scope.settings", settings);
 
-      p.toggleModal('isSettingsOpen', 'settings', $scope.settings)
+      p.toggleModal('isSettingsOpen', 'settings', settings)
     };
   });

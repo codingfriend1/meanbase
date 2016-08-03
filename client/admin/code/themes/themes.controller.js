@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ThemesCtrl', function ($scope, endpoints, $modal, FileUploader, $cookieStore, $rootScope, toastr, api) {
+  .controller('ThemesCtrl', function ($scope, endpoints, FileUploader, $cookieStore, $rootScope, toastr, api) {
 
     $scope.$parent.pageTitle = 'Themes';
 
@@ -44,26 +44,10 @@ angular.module('meanbaseApp')
           $scope.themes[i].preview = 'http://placehold.it/500x300';
         }
       }
+      $timeout(function() {
+        componentHandler.upgradeAllRegistered()
+      }, 0);
     });
-
-    $scope.openModal = function (theme) {
-      var modalInstance = $modal.open({
-        templateUrl: 'theme.modal.html',
-        controller: 'theme.modal.controller',
-        size: 'lg',
-        resolve: {
-          theme: function () {
-            return theme;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (action) {
-        if(action === 'deleted') {
-          $scope.themes.splice($scope.themes.indexOf(theme), 1);
-        }
-      });
-    };
 
     $scope.switchModes = function() {
       api.developmentMode.create({theme: $scope.themeDevelopmentMode}).then(function() {
