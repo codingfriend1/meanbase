@@ -1,8 +1,20 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ExtensionsCtrl', function ($modal, $scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope, api) {
+  .controller('ExtensionsCtrl', function ($scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope, api, crud) {
     $scope.$parent.pageTitle = 'Extensions';
+
+    $scope.e = new crud($scope, 'extensions', api.extensions);
+
+    $scope.e.find({}, null, 'Could not get the extensions').then(function(response) {
+      for (var i = 0; i < $scope.extensions.length; i++) {
+          if(!$scope.extensions[i].preview) {
+            $scope.extensions[i].preview = 'http://placehold.it/500x300';
+          }
+        }
+    }, function(err) {
+      console.log('promise rejected', err);
+    });
 
     if ($cookieStore.get('token')) {
       var uploader = $scope.uploader = new FileUploader({
@@ -13,16 +25,6 @@ angular.module('meanbaseApp')
           autoUpload: true
       });
     }
-
-    api.extensions.find({}).success(function(response) {
-      $scope.extensions = response;
-      for (var i = 0; i < $scope.extensions.length; i++) {
-        if (!$scope.extensions[i].screenshot) {
-          console.log('this');
-          $scope.extensions[i].screenshot = 'http://placehold.it/500x200';
-        }
-      }
-    });
 
 
     uploader.onCompleteAll = function(e) {
@@ -62,6 +64,10 @@ angular.module('meanbaseApp')
           }
         });
       }
+    };
+
+    $scope.filterExtensions = function(extension) {
+      return extension.name.toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
     };
 
   });
