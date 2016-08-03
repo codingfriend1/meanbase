@@ -1,8 +1,8 @@
 // inject js
-import "./code/app.js";
-import "../shared/account/settings/settings.controller.js";
 import "../shared/libraries/codrops/classie.js";
+import "./code/app.js";
 import "../shared/account/signup/signup.controller.js";
+import "../shared/account/settings/settings.controller.js";
 import "../shared/account/login/login.controller.js";
 import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
@@ -39,6 +39,7 @@ import "../shared/api/api.service.js";
 import "../shared/account/account.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "./code/components/dialog/dialog.directive.js";
+import "./code/components/mdl/mdl.directive.js";
 import "./code/users/users.js";
 import "./code/users/users.controller.js";
 import "./code/themes/themes.js";
@@ -96,8 +97,8 @@ import "../shared/account/signup/signup.jade";
 // inject stylus
 import "./code/app.styl";
 import "./code/analytics/analytics.styl";
-import "./code/comments/comments.styl";
 import "./code/cms/cms.styl";
+import "./code/comments/comments.styl";
 import "./code/extensions/extensions.styl";
 import "./code/import/import.styl";
 import "./code/media/media.styl";

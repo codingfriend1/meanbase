@@ -17,7 +17,7 @@
 			li.mdl-list__item(ng-repeat="state in cmsStates" ui-sref='{{state.name}}' ng-show="state.userHasPermission")
 				span.mdl-list__item-primary-content
 					i.material-icons.mdl-list__item-icon {{state.icon}}
-					{{state.friendlyName}}
+					| {{state.friendlyName}}
 	main.mdl-layout__content
 		.page-content
 			div(ui-view="")

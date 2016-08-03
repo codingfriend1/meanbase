@@ -10,12 +10,10 @@ angular.module('meanbaseApp')
 
         scope.$watch('dialogOpen', function(value, oldValue) {
           if(value) {
-            console.log("value", value);
             $timeout(function() {
               el.showModal();
             });
           } else if(value !== undefined) {
-            console.log('is not undefined');
             $timeout(function() {
               el.close();
             });
