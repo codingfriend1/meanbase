@@ -23,6 +23,9 @@ angular.module('meanbaseApp')
       var self = this;
       return this.api.find(query).then(function(res) {
         self.scope[self.collection] = res.data;
+        $timeout(function() {
+          componentHandler.upgradeAllRegistered()
+        });
         if(message) { toastr.clear(); toastr.success(message); }
       }, function(err) {
         if(failure) { toastr.clear(); toastr.warning(failure); }

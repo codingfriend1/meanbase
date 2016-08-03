@@ -1,5 +1,5 @@
 'use strict';
-angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $rootScope, endpoints, api, $state) {
+angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $rootScope, endpoints, api, $state, $timeout) {
 
 	var states = $state.get();
 	$scope.cmsStates = [];
