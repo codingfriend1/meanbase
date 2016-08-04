@@ -2,31 +2,21 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
   .page-content
     .mdl-tabs__panel.is-active
       .mdl-grid
-        .mdl-cell.mdl-cell--6-col.mdl-cell--12-col-tablet
-          .form-group.date-field
-              label Date:
-              .input-group
-                  input(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="commentDate" is-open="dateOpened").form-control
-                  span.input-group-btn
-                      button(type="button" ng-click="open($event)").btn.btn-default
-                          i.glyphicon.glyphicon-calendar
+        .mdl-cell.mdl-cell--6-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
+          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': commentDate}")
+            input#commentDate.mdl-textfield__input(type='text' date-picker ng-model="commentDate" mdl)
+            label.mdl-textfield__label(for='commentDate') Comment Date
+        .mdl-cell.mdl-cell--6-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
           .form-group
-              label.radio-inline
-                  input(type="radio" value="before" ng-model="dateDirection") 
-                  | Before
-              label.radio-inline
-                  input(type="radio" value="during" ng-model="dateDirection") 
-                  | During
-              label.radio-inline
-                  input(type="radio" value="after" ng-model="dateDirection") 
-                  | After
+            label When 
+            select(ng-model="dateDirection" ng-options="state as state for state in ['before', 'during', 'after']").form-control
         .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
           .form-group
-              label Approval: 
+              label Approval
               select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates").form-control
         .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
           .form-group
-              label Page: 
+              label Page
               select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
       //- .form-group
       //-   button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-click="approveAllVisible()") Approve All Visibile

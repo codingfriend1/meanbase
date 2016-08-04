@@ -31,7 +31,6 @@ import "../shared/extensions-area/extensions-area.directive.js";
 import "../shared/endpoints/endpoints.service.js";
 import "../shared/dynamic-html/dynamic-html.directive.js";
 import "../shared/doubleClick/doubleClick.directive.js";
-import "../shared/crud/crud.service.js";
 import "../shared/cms.headbar/cms.headbar.controller.js";
 import "../shared/camel-to-human/camel-to-human.filter.js";
 import "../shared/auth/user.service.js";
