@@ -113,7 +113,7 @@
         });
       }
 
-      p.toggleModal('isSettingsOpen', 'settings');
+      $scope.u.toggleModal('isSettingsOpen', 'settings');
   	};
 
 	  $scope.userFilter = '';
