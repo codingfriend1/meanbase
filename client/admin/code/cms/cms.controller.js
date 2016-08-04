@@ -29,6 +29,12 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
  	}
 
  });
+
+ $scope.goToApp = function() {
+   window.location.href = '/';
+ };
+
+
 	$rootScope.currentUser = Auth.getCurrentUser();
 
 	$scope.toggleMenu = function() {

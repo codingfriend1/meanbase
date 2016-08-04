@@ -1,38 +1,41 @@
-h4 Roles and Privilages
-.mdl-card.mdl-shadow--2dp.roles-panel
-  .mdl-card__title
-    label.role-name Role Name
-    select(ng-options="role as role.role for role in roles track by role.role" ng-model="selectedRole")
-  .mdl-card__actions.mdl-card--border
-    .mdl-grid
-      .mdl-cell.mdl-cell--4-col-phone.mdl-cell--4-col-tablet.mdl-cell--4-col(ng-repeat="(permissionName, permissionValue) in selectedRole.permissions" mdl).role.mdl-cell--3-col-desktop
-        input.checkbox(id="{{permissionName}}" type="checkbox" ng-model="selectedRole.permissions[permissionName]" ng-checked="permissionValue")
-        label(for="{{permissionName}}")| {{permissionName | camelToHuman}}
-  .mdl-card__menu
-    button.mdl-button.mdl-js-button.mdl-button--primary(ng-click="updateRole()" ng-disabled="selectedRole.role === 'admin'") Save
-    
-    button(id="{{selectedRole.role}}").mdl-button.mdl-js-button.mdl-button--icon
-      i.material-icons more_vert
-    ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="{{selectedRole.role}}")
-      li.mdl-menu__item(ng-click="deleteRole()" ng-disabled="selectedRole.role === 'basic' || selectedRole.role === 'admin'") Delete
-      li.mdl-menu__item(ng-click="createRole()") Create
-    
-    
-h4 Users    
-ul.mdl-list
-  li.mdl-list__item.mdl-list__item--two-line(ng-repeat="user in users | filter:filterUsers" mdl)
-    span.mdl-list__item-primary-content
-      span
-        span {{user.email}}
-        span.mdl-list__item-sub-title {{user.role}}
-    .mdl-list__item-secondary-content
-      mdl-switch(ng-model='user.enabled' ng-click="toggleEnabled(user)")
-    .mdl-list__item-secondary-content
-      button(id="{{user._id}}").mdl-button.mdl-js-button.mdl-button--icon
-        i.material-icons more_vert
-      ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{user._id}}')
-        li.mdl-menu__item.user-settings-button(ng-click="u.toggleModal('isSettingsOpen', 'settings', user)") Settings
-        li.mdl-menu__item.confirm-delete-button(ng-click="u.toggleModal('isDeleteOpen', 'userToDelete', user)") Delete User
+.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    h4 Roles and Privilages
+  .mdl-cell.mdl-cell--12-col
+    .mdl-card.mdl-shadow--2dp.roles-panel
+      .mdl-card__title
+        label.role-name Role Name
+        select(ng-options="role as role.role for role in roles track by role.role" ng-model="selectedRole")
+      .mdl-card__actions.mdl-card--border
+        .mdl-grid
+          .mdl-cell.mdl-cell--4-col-phone.mdl-cell--4-col-tablet.mdl-cell--4-col(ng-repeat="(permissionName, permissionValue) in selectedRole.permissions" mdl).role.mdl-cell--3-col-desktop
+            input.checkbox(id="{{permissionName}}" type="checkbox" ng-model="selectedRole.permissions[permissionName]" ng-checked="permissionValue")
+            label(for="{{permissionName}}")| {{permissionName | camelToHuman}}
+      .mdl-card__menu
+        button.mdl-button.mdl-js-button.mdl-button--primary(ng-click="updateRole()" ng-disabled="selectedRole.role === 'admin'") Save
+        button(id="role-methods").mdl-button.mdl-js-button.mdl-button--icon
+          i.material-icons more_vert
+        ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="role-methods")
+          li.mdl-menu__item(ng-click="deleteRole()" ng-disabled="selectedRole.role === 'basic' || selectedRole.role === 'admin'") Delete
+          li.mdl-menu__item(ng-click="createRole()") Create  
+.mdl-grid
+  .mdl-cell.mdl-cell--12-col 
+    h4 Users
+  .mdl-cell.mdl-cell--12-col 
+    ul.mdl-list
+      li.mdl-list__item.mdl-list__item--two-line(ng-repeat="user in users | filter:filterUsers" mdl)
+        span.mdl-list__item-primary-content
+          span
+            span {{user.email}}
+            span.mdl-list__item-sub-title {{user.role}}
+        .mdl-list__item-secondary-content
+          mdl-switch(ng-model='user.enabled' ng-click="toggleEnabled(user)")
+        .mdl-list__item-secondary-content
+          button(id="{{user._id}}").mdl-button.mdl-js-button.mdl-button--icon
+            i.material-icons more_vert
+          ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{user._id}}')
+            li.mdl-menu__item.user-settings-button(ng-click="u.toggleModal('isSettingsOpen', 'settings', user)") Settings
+            li.mdl-menu__item.confirm-delete-button(ng-click="u.toggleModal('isDeleteOpen', 'userToDelete', user)") Delete User
 // Colored FAB button
 button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.float-right.right-1.bottom-1
   i.material-icons(ng-click="openSettingsModal()") add

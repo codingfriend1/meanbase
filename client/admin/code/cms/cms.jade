@@ -10,10 +10,10 @@
 					input#fixed-header-drawer-exp.mdl-textfield__input(type='text', ng-model="$root.searchText")
 	.mdl-layout__drawer
 		nav.mdl-navigation
-			li.mdl-list__item()
+			li.mdl-list__item(ng-click="goToApp()")
 				span.mdl-list__item-primary-content
 					i.material-icons.mdl-list__item-icon arrow_back
-					a(href='/' target="_self") Back to Site
+					| Back to Site
 			li.mdl-list__item(ng-repeat="state in cmsStates" ui-sref='{{state.name}}' ng-show="state.userHasPermission")
 				span.mdl-list__item-primary-content
 					i.material-icons.mdl-list__item-icon {{state.icon}}

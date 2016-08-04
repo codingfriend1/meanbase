@@ -59,6 +59,13 @@
   		});
 	  };
 
+    $scope.deleteUser = function(user) {
+      var message = user.email + " deleted";
+      var failure = 'Could not delete ' + user.email;
+      $scope.u.delete(user, message, failure);
+      $scope.u.toggleModal('isDeleteOpen', 'userToDelete');
+    };
+
 	  // Delete a role and move the users of that role to 'basic'
 	  $scope.deleteRole = function() {
 	  	var confirmed = confirm('Are you sure you want to delete ' + $scope.selectedRole.role + '? All users currently using this role will be switched to basic.');
