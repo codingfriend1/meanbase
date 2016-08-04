@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('PagesCtrl', function ($scope, endpoints, helpers, toastr, api, crud, Auth, $timeout) {
+  .controller('PagesCtrl', function ($scope, endpoints, helpers, toastr, api, crud, Auth, $timeout, $rootScope) {
 
     $scope.$parent.pageTitle = 'Pages';
     $scope.pagesFilter = '';
@@ -67,4 +67,8 @@ angular.module('meanbaseApp')
 
       p.toggleModal('isSettingsOpen', 'settings', settings)
     };
+
+	  $scope.pageFilter = function(user) {
+	  	return (user.title + user.url).toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
+	  };
   });

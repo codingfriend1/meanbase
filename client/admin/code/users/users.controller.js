@@ -17,10 +17,11 @@
 	  	$scope.selectedRole = $scope.roles[0];
 	  });
 
-	  // Get all users
-	  api.users.find({}).success(function(users) {
-	  	$scope.users = users;
-	  });
+    $scope.toggleEnabled = function(user) {
+      var message = user.enabled? user.name + ' enabled.': user.name + ' unenabled.';
+      var failure = user.enabled? 'Could not publish ' + user.name: 'Could not unpublish ' + user.name;
+      $scope.u.update(user, {enabled: user.enabled}, message, failure);
+  	};
 
 	  // Create a new role
 	  $scope.createRole = function() {
@@ -76,32 +77,22 @@
   		});
 	  };
 
-	  // Update a user
-	  $scope.updateUser = function(user) {
-	  	var newInfo = {};
-	  	angular.copy(user, newInfo);
-	  	if(!user) return false;
-	  	api.users.update({_id: user._id}, newInfo).then(function(response) {
-	  		toastr.clear();
-	  		toastr.success('Updated user: ' + user.name);
-	  	});
-	  };
+    $scope.openSettingsModal = function() {
+      var settings = {
+        "email": "",
+        "name": "",
+        "password": "",
+        "enabled": true
+      };
 
-	  // Delete a user
-	  $scope.deleteUser = function(user, index) {
-	  	if(!user) return false;
-	  	api.users.deleteOne(user._id).then(function(response) {
-	  		toastr.clear();
-	  		toastr.success('Deleted user: ' + user.name);
-	  		$scope.users.splice(index, 1);
-	  	});
-	  };
+      $scope.u.toggleModal('isSettingsOpen', 'settings', settings)
+    };
 
     $scope.saveSettings = function(user, settings) {
       if(user && user._id) {
-        p.update(user, settings, user.email + ' updated', 'Could not update ' + user.email);
+        $scope.u.update(user, settings, user.email + ' updated', 'Could not update ' + user.email);
       } else if(user && !user._id) {
-        p.create(user, user.email + ' created', 'Could not create ' + user.email).then(function(response) {
+        $scope.u.create(user, user.email + ' created', 'Could not create ' + user.email).then(function(response) {
           $timeout(function() {
             componentHandler.upgradeAllRegistered()
           });

@@ -1,5 +1,5 @@
 ul.mdl-list
-  li.mdl-list__item.mdl-list__item--two-line(ng-repeat="page in pages")
+  li.mdl-list__item.mdl-list__item--two-line(ng-repeat="page in pages | filter:pageFilter" mdl)
     span.mdl-list__item-primary-content
       span(id="{{page.url}}")
         span {{page.title}}

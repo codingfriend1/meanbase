@@ -15,8 +15,8 @@ div.drop-zone(nv-file-drop="uploader" multiple uploader="uploader").text-center.
 					span(ng-if="!theme.active" ng-click="activateTheme(theme)") Activate Theme
 					span(ng-if="theme.active") Theme active
 				span.mdl-layout-spacer
-				i.material-icons.float-right(ng-click="t.toggleModal('isSettingsOpen', 'settings', theme)") settings
-				i.material-icons.float-left(ng-click="t.toggleModal('isDeleteOpen', 'themeToDelete', theme)") delete
+				i.material-icons.float-right.pointer(ng-click="t.toggleModal('isSettingsOpen', 'settings', theme)") settings
+				i.material-icons.float-left.pointer(ng-click="t.toggleModal('isDeleteOpen', 'themeToDelete', theme)") delete
 
 dialog.mdl-dialog(dialog-open="isDeleteOpen")
 	h4.mdl-dialog__title Delete {{themeToDelete.title}}?
