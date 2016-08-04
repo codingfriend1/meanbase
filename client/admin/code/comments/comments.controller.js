@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr, api) {
+  .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr, api, crud) {
 
     $scope.$parent.pageTitle = 'Moderate Comments';
     $scope.commentFilter = '';
@@ -11,6 +11,9 @@ angular.module('meanbaseApp')
     $scope.pagesWithComments = [{label:'all', value: ''}];
     $scope.filterByThisPage = '';
     $scope.commentDate = null;
+
+    $scope.c = new crud($scope, 'comments', api.comments);
+
   	api.comments.find({}).then(function(response) {
   		$scope.comments = response.data;
 
@@ -68,24 +71,23 @@ angular.module('meanbaseApp')
   	// 	return (comment.content + comment.author + comment.ip + comment.email + comment.date + comment.url).toLowerCase().indexOf($scope.commentFilter.toLowerCase()) >= 0;
   	// };
 
-  	$scope.approveComment = function(comment, index) {
-  		api.comments.update({_id: comment._id}, {approved: true}).then(function(response) {
-  			$scope.comments[$scope.comments.indexOf(comment)].approved = true;
-        toastr.clear();
-        toastr.success('Comment approved.');
-  		});
-  	};
+    $scope.toggleApproved = function(comment) {
+      var message = comment.approved? comment.url + ' approved.': comment.url + ' unapproved.';
+      var failure = comment.approved? 'Could not publish ' + comment.url: 'Could not unpublish ' + comment.url;
 
-  	$scope.unapproveComment = function(comment, index) {
-  		api.comments.update({_id: comment._id}, {approved: false}).then(function(response) {
-  			$scope.comments[$scope.comments.indexOf(comment)].approved = false;
-        toastr.clear();
-        toastr.success('Comment unapproved.');
-  		});
-  	};
+      $scope.c.update(comment, {approved: comment.approved}, message, failure);
+    };
 
   	$scope.editComment = function(comment, index) {
 
+  	};
+
+    $scope.saveSettings = function(comment, settings) {
+      if(comment && comment._id) {
+        $scope.c.update(comment, settings, comment.email + ' updated', 'Could not update ' + comment.email);
+      }
+
+      $scope.c.toggleModal('isSettingsOpen', 'settings');
   	};
 
     $scope.ban = function(comment) {

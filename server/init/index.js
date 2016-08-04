@@ -35,6 +35,7 @@ module.exports = function() {
     if(config.seedDB) {
       resetData(pagesModel, pagesData);
       resetData(menusModel, menusData);
+      resetData(commentsModel, commentsData);
     }
   }
 
