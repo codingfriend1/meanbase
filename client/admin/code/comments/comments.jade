@@ -2,19 +2,19 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
   .page-content
     .mdl-tabs__panel.is-active
       .mdl-grid
-        .mdl-cell.mdl-cell--6-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
+        .mdl-cell.mdl-cell--6-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone.mdl-cell--3-col-desktop
           .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': commentDate}")
             input#commentDate.mdl-textfield__input(type='text' date-picker ng-model="commentDate" mdl)
             label.mdl-textfield__label(for='commentDate') Comment Date
-        .mdl-cell.mdl-cell--6-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
+        .mdl-cell.mdl-cell--6-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone.mdl-cell--3-col-desktop
           .form-group
             label When 
             select(ng-model="dateDirection" ng-options="state as state for state in ['before', 'during', 'after']").form-control
-        .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
+        .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone.mdl-cell--3-col-desktop
           .form-group
               label Approval
               select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates").form-control
-        .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
+        .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone.mdl-cell--3-col-desktop
           .form-group
               label Page
               select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
@@ -23,7 +23,7 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
       //-   button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent(ng-click="unapproveAllVisible()") Unapprove All Visibile
       //-   button.mdl-button.mdl-js-button(ng-click="deleteAllVisible()") Delete All Visibile
         
-      .mdl-grid.all-visible
+      .mdl-grid.no-padding
         .mdl-cell.mdl-cell--8-col.mdl-cell--3-col-phone.mdl-cell--6-col-tablet
           .form-group.checkbox
             label
@@ -36,7 +36,7 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
             li.mdl-menu__item(ng-click="approveAllVisible()") Approve All Visibile
             li.mdl-menu__item(ng-click="unapproveAllVisible()") Unapprove All Visibile
             li.mdl-menu__item(ng-click="deleteAllVisible()") Delete All Visibile
-      .mdl-grid
+      .mdl-grid.no-padding
         .mdl-cell.mdl-cell--12-col
           ul.mdl-list
             li.mdl-list__item.mdl-list__item--three-line(ng-repeat="comment in ($parent.filteredComments = (comments | filter:$root.searchText | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}" mdl)
