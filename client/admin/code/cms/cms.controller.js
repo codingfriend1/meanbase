@@ -5,6 +5,15 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 	$scope.cmsStates = [];
 	$scope.$parent.pageTitle = 'Manage Site';
   $rootScope.searchText = '';
+
+  $scope.goToTab = function(tab) {
+    $scope.tabs.forEach(function(tab) {
+      tab.active = false;
+    });
+
+    tab.active = true;
+  };
+
 	Auth.isLoggedInAsync(function(status) {
 	 $rootScope.isLoggedIn = status;
 	 $rootScope.currentUser = Auth.getCurrentUser();

@@ -10,6 +10,10 @@
     u.find({}, null, 'Could not get the users');
 
 		$scope.$parent.pageTitle = "Users and Permissions";
+		$scope.$parent.tabs = [
+      {title: "Users", id: '#users-list', active: true},
+      {title: "Roles and Permissions", id: '#role-and-permissions', active: false}
+    ];
 
 	  // Get all roles and their permissions and set the roles panel selected role to the first one
 	  api.roles.find({}).success(function(roles) {
@@ -113,5 +117,10 @@
 	  $scope.filterUsers = function(user) {
 	  	return (user.name + user.email + user.role + user.lastVisited).toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
 	  };
+
+    $scope.$on('$destroy', function() {
+      $scope.$parent.tabs = null;
+      componentHandler.upgradeAllRegistered()
+    });
 	}
 })();

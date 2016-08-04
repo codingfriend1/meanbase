@@ -1,25 +1,29 @@
-#meanbase-cms.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
-	header.mdl-layout__header
-		.mdl-layout__header-row
-			span.mdl-layout-title {{pageTitle}}
-			.mdl-layout-spacer
-			.mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
-				label.mdl-button.mdl-js-button.mdl-button--icon(for='fixed-header-drawer-exp')
-					i.material-icons search
-				.mdl-textfield__expandable-holder
-					input#fixed-header-drawer-exp.mdl-textfield__input(type='text', ng-model="$root.searchText")
-	.mdl-layout__drawer
-		nav.mdl-navigation
-			li.mdl-list__item(ng-click="goToApp()")
-				span.mdl-list__item-primary-content
-					i.material-icons.mdl-list__item-icon arrow_back
-					| Back to Site
-			li.mdl-list__item(ng-repeat="state in cmsStates" ui-sref='{{state.name}}' ng-show="state.userHasPermission")
-				span.mdl-list__item-primary-content
-					i.material-icons.mdl-list__item-icon {{state.icon}}
-					| {{state.friendlyName}}
-	main.mdl-layout__content
-		.page-content
-			div(ui-view="")
-				h1 Welcome to meanbase CMS
-				p I'm sure your excited and maybe nervous to begin managing your website. Don't worry we've made the process easy to follow. Just start clicking buttons. Just be careful on the theme's page, that could mess up your site.
+#meanbase-cms.mdl-layout.mdl-js-layout.mdl-layout--fixed-header.mdl-layout--fixed-tabs
+  header.mdl-layout__header
+    .mdl-layout__header-row
+      span.mdl-layout-title {{pageTitle}}
+      .mdl-layout-spacer
+      .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label.mdl-textfield--align-right
+        label.mdl-button.mdl-js-button.mdl-button--icon(for='fixed-header-drawer-exp')
+          i.material-icons search
+        .mdl-textfield__expandable-holder
+          input#fixed-header-drawer-exp.mdl-textfield__input(type='text', ng-model="$root.searchText")
+    .mdl-layout__tab-bar.mdl-js-ripple-effect(ng-if="tabs" mdl)
+      a.mdl-layout__tab(ng-click='goToTab(tab)' ng-repeat="tab in tabs" ng-class="{'is-active': tab.active}") {{tab.title}}
+  .mdl-layout__drawer
+    nav.mdl-navigation
+      li.mdl-list__item(ng-click="goToApp()")
+        span.mdl-list__item-primary-content
+          i.material-icons.mdl-list__item-icon arrow_back
+          | Back to Site
+      li.mdl-list__item(ng-repeat="state in cmsStates" ui-sref='{{state.name}}' ng-show="state.userHasPermission")
+        span.mdl-list__item-primary-content
+          i.material-icons.mdl-list__item-icon {{state.icon}}
+          | {{state.friendlyName}}
+  main.mdl-layout__content
+    .page-content
+      div(ui-view="")
+        .mdl-grid
+          .mdl-cell.mdl-cell--12-col
+            h1 Welcome to meanbase CMS
+            p I'm sure your excited and maybe nervous to begin managing your website. Don't worry we've made the process easy to follow. Just start clicking buttons. Just be careful on the theme's page, that could mess up your site.

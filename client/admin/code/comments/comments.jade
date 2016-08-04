@@ -54,7 +54,7 @@
           li.mdl-list__item.mdl-list__item--three-line(ng-repeat="comment in ($parent.filteredComments = (comments | filter:$root.searchText | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}" mdl)
             .mdl-list__item-primary-content
               i.material-icons.mdl-list__item-avatar person
-              span {{comment.email}} at '{{comment.url}}'
+              span {{comment.url}}
               span.mdl-list__item-text-body {{comment.content}}
             .mdl-list__item-secondary-content
               mdl-switch(ng-model='comment.approved' ng-click="toggleApproved(comment)")

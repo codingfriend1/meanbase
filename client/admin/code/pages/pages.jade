@@ -1,19 +1,21 @@
-ul.mdl-list
-  li.mdl-list__item.mdl-list__item--two-line(ng-repeat="page in pages | filter:pageFilter" mdl)
-    span.mdl-list__item-primary-content
-      span(id="{{page.url}}")
-        span {{page.title}}
-        span.mdl-list__item-sub-title {{page.url}}
-      .mdl-tooltip.mdl-tooltip--bottom(for='{{page.url}}')
-        | Go to and Edit {{page.url}}
-    .mdl-list__item-secondary-content
-      mdl-switch(ng-model='page.published' ng-click="togglePublished(page)")
-    .mdl-list__item-secondary-content
-      button(id="{{page._id}}").mdl-button.mdl-js-button.mdl-button--icon
-        i.material-icons more_vert
-      ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{page._id}}')
-        li.mdl-menu__item.page-settings-button(ng-click="p.toggleModal('isSettingsOpen', 'settings', page)") Settings
-        li.mdl-menu__item.confirm-delete-button(ng-click="p.toggleModal('isDeleteOpen', 'pageToDelete', page)") Delete Page
+.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    ul.mdl-list
+      li.mdl-list__item.mdl-list__item--two-line(ng-repeat="page in pages | filter:pageFilter" mdl)
+        span.mdl-list__item-primary-content
+          span(id="{{page.url}}")
+            span {{page.title}}
+            span.mdl-list__item-sub-title {{page.url}}
+          .mdl-tooltip.mdl-tooltip--bottom(for='{{page.url}}')
+            | Go to and Edit {{page.url}}
+        .mdl-list__item-secondary-content
+          mdl-switch(ng-model='page.published' ng-click="togglePublished(page)")
+        .mdl-list__item-secondary-content
+          button(id="{{page._id}}").mdl-button.mdl-js-button.mdl-button--icon
+            i.material-icons more_vert
+          ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{page._id}}')
+            li.mdl-menu__item.page-settings-button(ng-click="p.toggleModal('isSettingsOpen', 'settings', page)") Settings
+            li.mdl-menu__item.confirm-delete-button(ng-click="p.toggleModal('isDeleteOpen', 'pageToDelete', page)") Delete Page
 // Colored FAB button
 button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--floating-action
   i.material-icons(ng-click="openSettingsModal()") add
