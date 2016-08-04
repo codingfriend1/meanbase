@@ -16,11 +16,10 @@ div.image-selector
 			.album-left.pull-left
 				select(ng-options="group for group in groups" ng-model="selectedGroup").form-control
 			.right-leftover
-				.form-group
-					.input-group
-						.input-group-addon 
-							i.fa.fa-search
-						input.form-control(placeholder="Search Media" ng-model="mediaFilter")
+				.input-group
+					.input-group-addon 
+						i.fa.fa-search
+					input.form-control(placeholder="Search Media" ng-model="mediaFilter")
 		.row(ng-show="fullscreen")
 			.col-sm-12
 				.btn-spacing.pull-left

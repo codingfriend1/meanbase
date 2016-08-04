@@ -30,14 +30,14 @@ import "../shared/extensions-selector/extensions-selector.directive.js";
 import "../shared/extensions-area/extensions-area.directive.js";
 import "../shared/endpoints/endpoints.service.js";
 import "../shared/dynamic-html/dynamic-html.directive.js";
-import "../shared/crud/crud.service.js";
 import "../shared/doubleClick/doubleClick.directive.js";
+import "../shared/crud/crud.service.js";
 import "../shared/cms.headbar/cms.headbar.controller.js";
-import "../shared/account/account.js";
 import "../shared/camel-to-human/camel-to-human.filter.js";
-import "../shared/api/api.service.js";
 import "../shared/auth/user.service.js";
 import "../shared/auth/auth.service.js";
+import "../shared/api/api.service.js";
+import "../shared/account/account.js";
 // end inject js
 
 // inject jade
