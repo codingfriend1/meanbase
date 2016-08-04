@@ -61,7 +61,7 @@ section#roles-and-permissions.mdl-layout__tab-panel(ng-class="{'is-active': tabs
           .mdl-card__actions.mdl-card--border
             .mdl-grid
               .mdl-cell.mdl-cell--4-col-phone.mdl-cell--4-col-tablet.mdl-cell--4-col(ng-repeat="(permissionName, permissionValue) in selectedRole.permissions" mdl).role.mdl-cell--3-col-desktop
-                input.checkbox(id="{{permissionName}}" type="checkbox" ng-model="selectedRole.permissions[permissionName]" ng-checked="permissionValue")
+                input.permission-checkbox(id="{{permissionName}}" type="checkbox" ng-model="selectedRole.permissions[permissionName]" ng-checked="permissionValue")
                 label(for="{{permissionName}}")| {{permissionName | camelToHuman}}
           .mdl-card__menu.top-8
             button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent.margin-right-1(ng-click="updateRole()" ng-disabled="selectedRole.role === 'admin'") Save
