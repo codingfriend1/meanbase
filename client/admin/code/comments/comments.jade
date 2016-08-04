@@ -1,97 +1,99 @@
-.mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
-  .mdl-tabs__tab-bar
-    a.mdl-tabs__tab.is-active(href='#moderate-comments') Moderate Comments
-    a.mdl-tabs__tab(href='#banned-commentors') Banned Commentors
-  #moderate-comments.mdl-tabs__panel.is-active
+section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl)
+  .page-content
+    .mdl-tabs__panel.is-active
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col.mdl-cell--12-col-tablet
+          .form-group.date-field
+              label Date:
+              .input-group
+                  input(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="commentDate" is-open="dateOpened").form-control
+                  span.input-group-btn
+                      button(type="button" ng-click="open($event)").btn.btn-default
+                          i.glyphicon.glyphicon-calendar
+          .form-group
+              label.radio-inline
+                  input(type="radio" value="before" ng-model="dateDirection") 
+                  | Before
+              label.radio-inline
+                  input(type="radio" value="during" ng-model="dateDirection") 
+                  | During
+              label.radio-inline
+                  input(type="radio" value="after" ng-model="dateDirection") 
+                  | After
+        .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
+          .form-group
+              label Approval: 
+              select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates").form-control
+        .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
+          .form-group
+              label Page: 
+              select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
+      //- .form-group
+      //-   button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-click="approveAllVisible()") Approve All Visibile
+      //-   button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent(ng-click="unapproveAllVisible()") Unapprove All Visibile
+      //-   button.mdl-button.mdl-js-button(ng-click="deleteAllVisible()") Delete All Visibile
+        
+      .mdl-grid.all-visible
+        .mdl-cell.mdl-cell--8-col.mdl-cell--3-col-phone.mdl-cell--6-col-tablet
+          .form-group.checkbox
+            label
+              input(type="checkbox" ng-model="sortDirection") 
+              | Show oldest comments first?
+        .mdl-cell.mdl-cell--4-col.mdl-cell--1-col-phone.mdl-cell--2-col-tablet
+          button#all-visible.mdl-button.mdl-js-button.mdl-button--icon.float-right.margin-right-1
+            i.material-icons more_vert
+          ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='all-visible')
+            li.mdl-menu__item(ng-click="approveAllVisible()") Approve All Visibile
+            li.mdl-menu__item(ng-click="unapproveAllVisible()") Unapprove All Visibile
+            li.mdl-menu__item(ng-click="deleteAllVisible()") Delete All Visibile
+      .mdl-grid
+        .mdl-cell.mdl-cell--12-col
+          ul.mdl-list
+            li.mdl-list__item.mdl-list__item--three-line(ng-repeat="comment in ($parent.filteredComments = (comments | filter:$root.searchText | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}" mdl)
+              .mdl-list__item-primary-content
+                i.material-icons.mdl-list__item-avatar person
+                span {{comment.url}}
+                span.mdl-list__item-text-body {{comment.content}}
+              .mdl-list__item-secondary-content
+                mdl-switch(ng-model='comment.approved' ng-click="toggleApproved(comment)")
+              .mdl-list__item-secondary-content
+                button(id="{{comment._id}}").mdl-button.mdl-js-button.mdl-button--icon
+                  i.material-icons more_vert
+                ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{comment._id}}')
+                  li.mdl-menu__item.comment-settings-button(ng-click="c.toggleModal('isInfoOpen', 'settings', comment)") Info
+                  li.mdl-menu__item.confirm-delete-button(ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete', comment)") Delete Comment
+      
+      .mdl-grid
+        .mdl-cell.mdl-cell--4-col.mdl-cell--12-col-tablet
+          .checkbox-inline
+            label
+              input(type="checkbox" ng-model="autoAccept" ng-change="toggleAutoAccept(autoAccept)")
+              | Automatically accept all new comments
+        .mdl-cell.mdl-cell--4-col.mdl-cell--12-col-tablet
+          .checkbox-inline
+            label
+              input(type="checkbox" ng-model="disableComments" ng-change="toggleDisableComments(disableComments)")
+              | Disable Comments
+section#banned-commentors.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" mdl)
+  .page-content
     .mdl-grid
       .mdl-cell.mdl-cell--6-col.mdl-cell--12-col-tablet
-        .form-group.date-field
-            label Date:
-            .input-group
-                input(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="commentDate" is-open="dateOpened").form-control
-                span.input-group-btn
-                    button(type="button" ng-click="open($event)").btn.btn-default
-                        i.glyphicon.glyphicon-calendar
-        .form-group
-            label.radio-inline
-                input(type="radio" value="before" ng-model="dateDirection") 
-                | Before
-            label.radio-inline
-                input(type="radio" value="during" ng-model="dateDirection") 
-                | During
-            label.radio-inline
-                input(type="radio" value="after" ng-model="dateDirection") 
-                | After
-      .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
-        .form-group
-            label Approval: 
-            select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates").form-control
-      .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone
-        .form-group
-            label Page: 
-            select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
-    //- .form-group
-    //-   button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-click="approveAllVisible()") Approve All Visibile
-    //-   button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent(ng-click="unapproveAllVisible()") Unapprove All Visibile
-    //-   button.mdl-button.mdl-js-button(ng-click="deleteAllVisible()") Delete All Visibile
-      
-    .mdl-grid.all-visible
-      .mdl-cell.mdl-cell--8-col.mdl-cell--3-col-phone.mdl-cell--6-col-tablet
-        .form-group.checkbox
-          label
-            input(type="checkbox" ng-model="sortDirection") 
-            | Show oldest comments first?
-      .mdl-cell.mdl-cell--4-col.mdl-cell--1-col-phone.mdl-cell--2-col-tablet
-        button#all-visible.mdl-button.mdl-js-button.mdl-button--icon.float-right.margin-right-1
-          i.material-icons more_vert
-        ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='all-visible')
-          li.mdl-menu__item(ng-click="approveAllVisible()") Approve All Visibile
-          li.mdl-menu__item(ng-click="unapproveAllVisible()") Unapprove All Visibile
-          li.mdl-menu__item(ng-click="deleteAllVisible()") Delete All Visibile
-    .mdl-grid
-      .mdl-cell.mdl-cell--12-col
-        ul.mdl-list
-          li.mdl-list__item.mdl-list__item--three-line(ng-repeat="comment in ($parent.filteredComments = (comments | filter:$root.searchText | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}" mdl)
-            .mdl-list__item-primary-content
-              i.material-icons.mdl-list__item-avatar person
-              span {{comment.url}}
-              span.mdl-list__item-text-body {{comment.content}}
-            .mdl-list__item-secondary-content
-              mdl-switch(ng-model='comment.approved' ng-click="toggleApproved(comment)")
-            .mdl-list__item-secondary-content
-              button(id="{{comment._id}}").mdl-button.mdl-js-button.mdl-button--icon
-                i.material-icons more_vert
-              ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{comment._id}}')
-                li.mdl-menu__item.comment-settings-button(ng-click="c.toggleModal('isInfoOpen', 'settings', comment)") Info
-                li.mdl-menu__item.confirm-delete-button(ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete', comment)") Delete Comment
-    
-    .mdl-grid
-      .mdl-cell.mdl-cell--4-col.mdl-cell--12-col-tablet
-        .checkbox-inline
-          label
-            input(type="checkbox" ng-model="autoAccept" ng-change="toggleAutoAccept(autoAccept)")
-            | Automatically accept all new comments
-      .mdl-cell.mdl-cell--4-col.mdl-cell--12-col-tablet
-        .checkbox-inline
-          label
-            input(type="checkbox" ng-model="disableComments" ng-change="toggleDisableComments(disableComments)")
-            | Disable Comments
-  #banned-commentors.mdl-tabs__panel
-    h3 Banned Members
-    ul.mdl-list
-      li.mdl-list__item.mdl-list__item--two-line(ng-repeat="member in bannedMembers" mdl)
-        span.mdl-list__item-primary-content
-          span
-            span {{member.email}}
-            span.mdl-list__item-sub-title {{member.role}}
-        .mdl-list__item-secondary-content
-          mdl-switch(ng-model='member.enabled' ng-click="unban(member)")
-        .mdl-list__item-secondary-content
-          button(id="{{member._id}}").mdl-button.mdl-js-button.mdl-button--icon
-            i.material-icons more_vert
-          ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{member._id}}')
-            li.mdl-menu__item.member-settings-button(ng-click="u.toggleModal('isInfoOpen', 'settings', member)") Settings
-            li.mdl-menu__item.confirm-delete-button(ng-click="u.toggleModal('isDeleteOpen', 'memberToDelete', member)") Permit User
+        .mdl-tabs__panel
+          h3 Banned Members
+          ul.mdl-list
+            li.mdl-list__item.mdl-list__item--two-line(ng-repeat="member in bannedMembers" mdl)
+              span.mdl-list__item-primary-content
+                span
+                  span {{member.email}}
+                  span.mdl-list__item-sub-title {{member.role}}
+              .mdl-list__item-secondary-content
+                mdl-switch(ng-model='member.enabled' ng-click="unban(member)")
+              .mdl-list__item-secondary-content
+                button(id="{{member._id}}").mdl-button.mdl-js-button.mdl-button--icon
+                  i.material-icons more_vert
+                ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{member._id}}')
+                  li.mdl-menu__item.member-settings-button(ng-click="u.toggleModal('isInfoOpen', 'settings', member)") Settings
+                  li.mdl-menu__item.confirm-delete-button(ng-click="u.toggleModal('isDeleteOpen', 'memberToDelete', member)") Permit User
 
 dialog.mdl-dialog(dialog-open="isDeleteOpen")
   h4.mdl-dialog__title Delete {{commentToDelete.url}}?

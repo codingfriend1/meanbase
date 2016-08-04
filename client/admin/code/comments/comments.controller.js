@@ -12,6 +12,11 @@ angular.module('meanbaseApp')
     $scope.filterByThisPage = '';
     $scope.commentDate = null;
 
+    $scope.$parent.tabs = [
+      {title: "Comments", id: '#moderate-comments', active: true},
+      {title: "Banned Commentors", id: '#banned-commentors', active: false}
+    ];
+
     $scope.c = new crud($scope, 'comments', api.comments);
 
   	api.comments.find({}).then(function(response) {
@@ -191,6 +196,11 @@ angular.module('meanbaseApp')
         boole = !boole;
       });
     };
+
+    $scope.$on('$destroy', function() {
+      $scope.$parent.tabs = null;
+      componentHandler.upgradeAllRegistered()
+    });
 
   });
 
