@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ImportCtrl', function($modal, $scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope) {
+  .controller('ImportCtrl', function($scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope) {
+
     $scope.$parent.pageTitle = 'Import Data from Wordpress';
 
     if ($cookieStore.get('token')) {

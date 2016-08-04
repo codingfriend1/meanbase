@@ -5,7 +5,7 @@ angular.module('meanbaseApp')
     $stateProvider
       .state('cms.import', {
         url: '/import',
-        templateUrl: 'app/import/import.html',
+        templateUrl: require('./import.jade'),
         controller: 'ImportCtrl',
         hasPermission: "importExportData",
         icon: 'file_download'
