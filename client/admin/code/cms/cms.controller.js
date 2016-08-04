@@ -7,11 +7,13 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
   $rootScope.searchText = '';
 
   $scope.goToTab = function(tab) {
-    $scope.tabs.forEach(function(tab) {
-      tab.active = false;
-    });
+    $timeout(function() {
+      $scope.tabs.forEach(function(tab) {
+        tab.active = false;
+      });
 
-    tab.active = true;
+      tab.active = true;
+    });
   };
 
 	Auth.isLoggedInAsync(function(status) {

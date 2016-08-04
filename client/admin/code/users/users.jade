@@ -1,30 +1,6 @@
-section#roles-and-permissions.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" mdl)
-  .page-content
-    .mdl-grid
-      .mdl-cell.mdl-cell--12-col
-        h4 Roles and Privilages
-      .mdl-cell.mdl-cell--12-col
-        .mdl-card.mdl-shadow--2dp.roles-panel
-          .mdl-card__title
-            label.role-name Role Name
-            select(ng-options="role as role.role for role in roles track by role.role" ng-model="selectedRole")
-          .mdl-card__actions.mdl-card--border
-            .mdl-grid
-              .mdl-cell.mdl-cell--4-col-phone.mdl-cell--4-col-tablet.mdl-cell--4-col(ng-repeat="(permissionName, permissionValue) in selectedRole.permissions" mdl).role.mdl-cell--3-col-desktop
-                input.checkbox(id="{{permissionName}}" type="checkbox" ng-model="selectedRole.permissions[permissionName]" ng-checked="permissionValue")
-                label(for="{{permissionName}}")| {{permissionName | camelToHuman}}
-          .mdl-card__menu
-            button.mdl-button.mdl-js-button.mdl-button--primary(ng-click="updateRole()" ng-disabled="selectedRole.role === 'admin'") Save
-            button(id="role-methods").mdl-button.mdl-js-button.mdl-button--icon
-              i.material-icons more_vert
-            ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="role-methods")
-              li.mdl-menu__item(ng-click="deleteRole()" ng-disabled="selectedRole.role === 'basic' || selectedRole.role === 'admin'") Delete
-              li.mdl-menu__item(ng-click="createRole()") Create  
 section#users-list.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl)
   .page-content
     .mdl-grid
-      .mdl-cell.mdl-cell--12-col 
-        h4 Users
       .mdl-cell.mdl-cell--12-col 
         ul.mdl-list
           li.mdl-list__item.mdl-list__item--two-line(ng-repeat="user in users | filter:filterUsers" mdl)
@@ -73,3 +49,23 @@ section#users-list.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}
     .mdl-dialog__actions
       button.mdl-button(type='button', ng-click="saveSettings(settings, settings)") Save
       button.mdl-button.close(type='button' ng-click="u.toggleModal('isSettingsOpen', 'settings')") Dismiss
+section#roles-and-permissions.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" mdl)
+  .page-content
+    .mdl-grid
+      .mdl-cell.mdl-cell--12-col
+        .mdl-card.mdl-shadow--2dp.roles-panel
+          .mdl-card__title
+            label.role-name Role Name
+            select(ng-options="role as role.role for role in roles track by role.role" ng-model="selectedRole")
+          .mdl-card__actions.mdl-card--border
+            .mdl-grid
+              .mdl-cell.mdl-cell--4-col-phone.mdl-cell--4-col-tablet.mdl-cell--4-col(ng-repeat="(permissionName, permissionValue) in selectedRole.permissions" mdl).role.mdl-cell--3-col-desktop
+                input.checkbox(id="{{permissionName}}" type="checkbox" ng-model="selectedRole.permissions[permissionName]" ng-checked="permissionValue")
+                label(for="{{permissionName}}")| {{permissionName | camelToHuman}}
+          .mdl-card__menu.top-8
+            button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent.margin-right-1(ng-click="updateRole()" ng-disabled="selectedRole.role === 'admin'") Save
+            button(id="role-methods").mdl-button.mdl-js-button.mdl-button--icon
+              i.material-icons more_vert
+            ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="role-methods")
+              li.mdl-menu__item(ng-click="deleteRole()" ng-disabled="selectedRole.role === 'basic' || selectedRole.role === 'admin'") Delete
+              li.mdl-menu__item(ng-click="createRole()") Create  

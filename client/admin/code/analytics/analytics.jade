@@ -1,21 +1,33 @@
 //- script(src="google-analytics-embed-customizations.js")
-#meanbase-analytics.container
-  .row
-    .col-xs-6.col-md-4
-      .form-group
-        label Google Analytics App ID
-        input(type='text' ng-model="appID").form-control
-        button.btn.btn-success(ng-click="changeAppID(appID)").btn-block Set App ID
-    .col-xs-6.col-md-4
-      .form-group
-        label Google Analytics Client ID
-        input(type='text' ng-model="clientID").form-control
-        button.btn.btn-success(ng-click="changeClientID(clientID)").btn-block Set Client ID
-    .col-xs-12.col-md-4
-      .form-group
-        label Site Verification ID [for email]
-        input(type='text' ng-model="verificationID").form-control
-        button.btn.btn-success(ng-click="changeVerificationID(verificationID)").btn-block Set Verification ID
+.mdl-grid
+  .mdl-cell.mdl-cell--4-col.mdl-cell--4-col-tablet
+    .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': appID}")
+      input#template.mdl-textfield__input(type='text' ng-model='appID' mdl)
+      label.mdl-textfield__label(for='template') Google Analytics App ID
+  .mdl-cell.mdl-cell--4-col.mdl-cell--4-col-tablet
+    .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': clientID}")
+      input#template.mdl-textfield__input(type='text' ng-model='clientID' mdl)
+      label.mdl-textfield__label(for='template') Google Analytics Client ID
+  .mdl-cell.mdl-cell--4-col.mdl-cell--12-col-tablet
+    .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': verificationID}")
+      input#template.mdl-textfield__input(type='text' ng-model='verificationID' mdl)
+      label.mdl-textfield__label(for='template') Site Verification ID [for email]
+  //- .row
+  //-   .col-xs-6.col-md-4
+  //-     .form-group
+  //-       label Google Analytics App ID
+  //-       input(type='text' ng-model="appID").form-control
+  //-       button.btn.btn-success(ng-click="changeAppID(appID)").btn-block Set App ID
+  //-   .col-xs-6.col-md-4
+  //-     .form-group
+  //-       label Google Analytics Client ID
+  //-       input(type='text' ng-model="clientID").form-control
+  //-       button.btn.btn-success(ng-click="changeClientID(clientID)").btn-block Set Client ID
+  //-   .col-xs-12.col-md-4
+  //-     .form-group
+  //-       label Site Verification ID [for email]
+  //-       input(type='text' ng-model="verificationID").form-control
+  //-       button.btn.btn-success(ng-click="changeVerificationID(verificationID)").btn-block Set Verification ID
   section#auth-button
   section#view-selector
   section#chart

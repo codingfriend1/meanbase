@@ -41,30 +41,33 @@ angular.module('meanbaseApp')
     };
 
     $scope.deleteExtension = function(extension) {
-      if(extension._id) {
-        var sure = window.confirm('Are you sure you want to delete this extension?');
-        if(sure) {
-          api.extensions.delete({folderName: extension.folderName}).then(function(response) {
-            toastr.success('Deleted ' + extension.name + ' extension.');
-            $scope.extensions.splice($scope.extensions.indexOf(extension), 1);
-          });
-        }
-      }
-    };
+      var message = 'Deleted ' + extension.name + ' extension.';
+      var failure = 'Could not delete ' + extension.name;
+      $scope.e.delete(extension, extension.title + ' unpublished.', message, failure);
+      $scope.e.toggleModal('isDeleteOpen', 'pageToDelete');
+  	};
+
+    // $scope.toggleEnabled = function(extension) {
+    //   extension.active = !extension.active;
+    //   if(extension._id) {
+    //     api.extensions.update({_id: extension._id}, {active: extension.active}).then(function(response) {
+    //       toastr.clear();
+    //       if(!extension.active) {
+    //         toastr.warning('"' + extension.name + '" will not longer be useable in your site.')
+    //       } else {
+    //         toastr.success('"' + extension.name + '" can now be used across your site.');
+    //       }
+    //     });
+    //   }
+    // };
 
     $scope.toggleEnabled = function(extension) {
       extension.active = !extension.active;
-      if(extension._id) {
-        api.extensions.update({_id: extension._id}, {active: extension.active}).then(function(response) {
-          toastr.clear();
-          if(!extension.active) {
-            toastr.warning('"' + extension.name + '" will not longer be useable in your site.')
-          } else {
-            toastr.success('"' + extension.name + '" can now be used across your site.');
-          }
-        });
-      }
-    };
+      var message = extension.active? '"' + extension.name + '" can now be used across your site.': '"' + extension.name + '" will not longer be useable in your site.';
+      var failure = extension.active? 'Could not enable ' + extension.name: 'Could not disable ' + extension.name;
+
+      $scope.e.update(extension, {active: extension.active}, message, failure);
+  	};
 
     $scope.filterExtensions = function(extension) {
       return extension.name.toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;

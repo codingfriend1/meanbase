@@ -1,36 +1,35 @@
 //- .row
-//- 	.col-md-4.col-sm-6(ng-repeat="extension in extensions").meanbase-extension-block
-//- 		h4 {{extension.name}} 
-//- 		img(ng-src="{{extension.screenshot}}" ng-click="openModal(extension)").img-responsive.img-thumbnail
-//- 		button.btn.btn-danger.delete-extension-button(ng-click="deleteExtension(extension)") Delete
-//- 		button.btn.btn-success.enable-extension-button(ng-click="toggleEnabled(extension)" ng-show="!extension.active") Enable Use
-//- 		button.btn.btn-warning.enable-extension-button(ng-click="toggleEnabled(extension)" ng-show="extension.active") Disable Use
+//-   .col-md-4.col-sm-6(ng-repeat="extension in extensions").meanbase-extension-block
+//-     h4 {{extension.name}} 
+//-     img(ng-src="{{extension.screenshot}}" ng-click="openModal(extension)").img-responsive.img-thumbnail
+//-     button.btn.btn-danger.delete-extension-button(ng-click="deleteExtension(extension)") Delete
+//-     button.btn.btn-success.enable-extension-button(ng-click="toggleEnabled(extension)" ng-show="!extension.active") Enable Use
+//-     button.btn.btn-warning.enable-extension-button(ng-click="toggleEnabled(extension)" ng-show="extension.active") Disable Use
 
 
 p Upload reusable components to add to extensible areas of your site
 div.drop-zone(nv-file-drop="uploader" multiple uploader="uploader").text-center.form-inline
-	p Drop extension #[strong zip, gz, bz2,] or #[strong tar] file here to upload or
-	.form-group.text-center
-		input.form-control(type='file' nv-file-select multiple uploader="uploader")
-	.progress
-			.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
+  p Drop extension #[strong zip, gz, bz2,] or #[strong tar] file here to upload or
+  .form-group.text-center
+    input.form-control(type='file' nv-file-select multiple uploader="uploader")
+  .progress
+      .progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
 .mdl-grid
-	.mdl-cell.mdl-cell--4-col.mdl-cell--16-col-tablet(ng-repeat="extension in extensions | filter:filterExtensions" mdl).extension
-		.mdl-card.mdl-shadow--2dp
-			img(ng-src="{{extension.screenshot}}")
-			.mdl-card__title.mdl-card--expand
-				h2.mdl-card__title-text {{extension.name}}
-			.mdl-card__actions.mdl-card--border
-				a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect 
-					span(ng-if="!extension.active" ng-click="toggleEnabled(extension)") Activate Extension
-					span(ng-if="extension.active" ng-click="toggleEnabled(extension)") Disable Extension
-				span.mdl-layout-spacer
-				i.material-icons.float-left(ng-click="e.toggleModal('isDeleteOpen', 'extensionToDelete', extension)") delete
+  .mdl-cell.mdl-cell--4-col.mdl-cell--16-col-tablet(ng-repeat="extension in extensions | filter:filterExtensions" mdl).extension
+    .mdl-card.mdl-shadow--2dp
+      img(ng-src="{{extension.screenshot}}")
+      .mdl-card__title.mdl-card--expand
+        h2.mdl-card__title-text {{extension.name}}
+      .mdl-card__actions.mdl-card--border
+        button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent(ng-if="!extension.active" ng-click="toggleEnabled(extension)") Activate Extension
+        button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--accent(ng-if="extension.active" ng-click="toggleEnabled(extension)") Disable Extension
+        span.mdl-layout-spacer
+        i.material-icons.float-left(ng-click="e.toggleModal('isDeleteOpen', 'extensionToDelete', extension)") delete
 
 dialog.mdl-dialog(dialog-open="isDeleteOpen")
-	h4.mdl-dialog__title Delete {{extensionToDelete.title}}?
-	.mdl-dialog__content
-		p Are you sure you want to delete {{extensionToDelete.title}}?
-	.mdl-dialog__actions
-		button.mdl-button.close(type='button' ng-click="deleteExtension(extensionToDelete)") Yes
-		button.mdl-button.close(type='button' ng-click="e.toggleModal('isDeleteOpen', 'extensionToDelete')") No
+  h4.mdl-dialog__title Delete {{extensionToDelete.name}}?
+  .mdl-dialog__content
+    p Are you sure you want to delete {{extensionToDelete.name}}?
+  .mdl-dialog__actions
+    button.mdl-button.close(type='button' ng-click="deleteExtension(extensionToDelete)") Yes
+    button.mdl-button.close(type='button' ng-click="e.toggleModal('isDeleteOpen', 'extensionToDelete')") No
