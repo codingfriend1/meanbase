@@ -100,8 +100,8 @@ dialog.mdl-dialog(dialog-open="isDeleteOpen")
   .mdl-dialog__content
     p Are you sure you want to delete {{commentToDelete.url}}?
   .mdl-dialog__actions
-    button.mdl-button.close(type='button' ng-click="deleteComment(commentToDelete)") Yes
-    button.mdl-button.close(type='button' ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete')") No        
+    button.mdl-button(type='button' ng-click="deleteComment(commentToDelete)") Yes
+    button.mdl-button(type='button' ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete')") No        
     //- accordion(close-others="true")
     //-   accordion-group(ng-repeat="member in bannedMembers").panel
     //-       accordion-heading.panel-heading(ng-click="status.open=!status.open")

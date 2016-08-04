@@ -23,7 +23,8 @@
     "ngAnalytics": "nganalytics#~1.1.4",
     "toastr": "^2.1.3",
     "mdl-pack": "^1.1.3",
-    "angular-material-design-lite": "^0.4.4"
+    "angular-material-design-lite": "^0.4.4",
+    "bootstrap": "^3.3.7"
   },
   "overrides": {
     "modernizr": {

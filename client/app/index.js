@@ -30,14 +30,14 @@ import "../shared/extensions-selector/extensions-selector.directive.js";
 import "../shared/extensions-area/extensions-area.directive.js";
 import "../shared/endpoints/endpoints.service.js";
 import "../shared/dynamic-html/dynamic-html.directive.js";
-import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/crud/crud.service.js";
+import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/cms.headbar/cms.headbar.controller.js";
-import "../shared/camel-to-human/camel-to-human.filter.js";
 import "../shared/account/account.js";
+import "../shared/camel-to-human/camel-to-human.filter.js";
+import "../shared/api/api.service.js";
 import "../shared/auth/user.service.js";
 import "../shared/auth/auth.service.js";
-import "../shared/api/api.service.js";
 // end inject js
 
 // inject jade
@@ -58,9 +58,9 @@ import "../shared/single-image/single-image.jade";
 import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
+import "../shared/account/login/login.jade";
 import "../shared/account/settings/settings.jade";
 import "../shared/account/signup/signup.jade";
-import "../shared/account/login/login.jade";
 // end inject jade
 
 // inject stylus
@@ -75,8 +75,8 @@ import "../shared/meanbase-editable/meanbase-editable.directive.styl";
 import "../shared/missing/missing.styl";
 import "../shared/modal/modal.styl";
 import "../shared/single-image/single-image.styl";
+import "../shared/sortable/sortable.styl";
 import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
-import "../shared/sortable/sortable.styl";
 import "../shared/account/login/login.styl";
 // end inject stylus

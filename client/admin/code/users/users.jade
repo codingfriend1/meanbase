@@ -26,8 +26,8 @@ section#users-list.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}
     .mdl-dialog__content
       p Are you sure you want to delete {{userToDelete.name}}?
     .mdl-dialog__actions
-      button.mdl-button.close(type='button' ng-click="deleteUser(userToDelete)") Yes
-      button.mdl-button.close(type='button' ng-click="u.toggleModal('isDeleteOpen', 'userToDelete')") No
+      button.mdl-button(type='button' ng-click="deleteUser(userToDelete)") Yes
+      button.mdl-button(type='button' ng-click="u.toggleModal('isDeleteOpen', 'userToDelete')") No
       
       
   dialog.mdl-dialog(dialog-open="isSettingsOpen")
@@ -48,7 +48,7 @@ section#users-list.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}
           option(ng-repeat="role in roles" ng-selected="role.role == settings.role") {{role.role}}
     .mdl-dialog__actions
       button.mdl-button(type='button', ng-click="saveSettings(settings, settings)") Save
-      button.mdl-button.close(type='button' ng-click="u.toggleModal('isSettingsOpen', 'settings')") Dismiss
+      button.mdl-button(type='button' ng-click="u.toggleModal('isSettingsOpen', 'settings')") Dismiss
       
 section#roles-and-permissions.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" mdl)
   .page-content

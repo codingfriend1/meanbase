@@ -31,5 +31,5 @@ dialog.mdl-dialog(dialog-open="isDeleteOpen")
   .mdl-dialog__content
     p Are you sure you want to delete {{extensionToDelete.name}}?
   .mdl-dialog__actions
-    button.mdl-button.close(type='button' ng-click="deleteExtension(extensionToDelete)") Yes
-    button.mdl-button.close(type='button' ng-click="e.toggleModal('isDeleteOpen', 'extensionToDelete')") No
+    button.mdl-button(type='button' ng-click="deleteExtension(extensionToDelete)") Yes
+    button.mdl-button(type='button' ng-click="e.toggleModal('isDeleteOpen', 'extensionToDelete')") No
