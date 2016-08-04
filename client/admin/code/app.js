@@ -75,14 +75,14 @@ angular.module('meanbaseApp', [
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {
         if (next.authenticate && !loggedIn) {
-          $location.path('/login');
+          $location.path('/cms/account');
         }
       });
 
       if(!next.hasPermission) return false;
 
       Auth.hasPermission(next.hasPermission, function(hasPermission) {
-        if(!hasPermission) { $location.path('/login'); }
+        if(!hasPermission) { $location.path('/cms/account'); }
       });
     });
   });
