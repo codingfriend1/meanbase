@@ -49,6 +49,7 @@ section#users-list.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}
     .mdl-dialog__actions
       button.mdl-button(type='button', ng-click="saveSettings(settings, settings)") Save
       button.mdl-button.close(type='button' ng-click="u.toggleModal('isSettingsOpen', 'settings')") Dismiss
+      
 section#roles-and-permissions.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" mdl)
   .page-content
     .mdl-grid
@@ -67,5 +68,5 @@ section#roles-and-permissions.mdl-layout__tab-panel(ng-class="{'is-active': tabs
             button(id="role-methods").mdl-button.mdl-js-button.mdl-button--icon
               i.material-icons more_vert
             ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="role-methods")
-              li.mdl-menu__item(ng-click="deleteRole()" ng-disabled="selectedRole.role === 'basic' || selectedRole.role === 'admin'") Delete
+              li.mdl-menu__item(ng-click="deleteRole(selectedRole.role === 'basic' || selectedRole.role === 'admin')" disabled="{{}}" ng-disabled="selectedRole.role === 'basic' || selectedRole.role === 'admin'") Delete
               li.mdl-menu__item(ng-click="createRole()") Create  

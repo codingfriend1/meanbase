@@ -1,10 +1,12 @@
-p Manage and see images, videos, and documents your site is using
-div.drop-zone(nv-file-drop="uploader" nv-file-over multiple uploader="uploader").text-center.form-inline
-	p Drop files here to upload or
-	.form-group.text-center
-		input.form-control(type='file' nv-file-select multiple uploader="uploader")
-	.progress
-			.progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
-hr
-h3 Edit Images
-image-selector(image-selector-config="imageSelectorConfig")
+.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    div.drop-zone(nv-file-drop="uploader" nv-file-over multiple uploader="uploader").text-center.form-inline
+      p Drop files here to upload or
+      .form-group.text-center
+        input.form-control(type='file' nv-file-select multiple uploader="uploader")
+      .progress
+          .progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
+.mdl-grid
+  .mdl-cell.mdl-cell--12-col
+    h3 Edit Images
+    image-selector(image-selector-config="imageSelectorConfig")

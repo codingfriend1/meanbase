@@ -71,21 +71,24 @@
     };
 
 	  // Delete a role and move the users of that role to 'basic'
-	  $scope.deleteRole = function() {
-	  	var confirmed = confirm('Are you sure you want to delete ' + $scope.selectedRole.role + '? All users currently using this role will be switched to basic.');
-	  	if(!confirmed) return false;
-	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'basic' || $scope.selectedRole.role === 'admin') { return false; }
+	  $scope.deleteRole = function(disabled) {
+      if(!disabled) {
+        var confirmed = confirm('Are you sure you want to delete ' + $scope.selectedRole.role + '? All users currently using this role will be switched to basic.');
+  	  	if(!confirmed) return false;
+  	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'basic' || $scope.selectedRole.role === 'admin') { return false; }
 
-  		api.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
-  			toastr.clear();
-  			toastr.warning('Moved users with ' + $scope.selectedRole.role + ' over to basic');
-  		}).finally(function(response) {
-  			api.roles.delete({role: $scope.selectedRole.role}).then(function(response) {
-  				toastr.success('Deleted ' + $scope.selectedRole.role + ' role.');
-  				$scope.roles.splice($scope.roles.indexOf($scope.selectedRole), 1);
-  				$scope.selectedRole = $scope.roles[0];
-				});
-  		});
+    		api.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
+    			toastr.clear();
+    			toastr.warning('Moved users with ' + $scope.selectedRole.role + ' over to basic');
+    		}).finally(function(response) {
+    			api.roles.delete({role: $scope.selectedRole.role}).then(function(response) {
+    				toastr.success('Deleted ' + $scope.selectedRole.role + ' role.');
+    				$scope.roles.splice($scope.roles.indexOf($scope.selectedRole), 1);
+    				$scope.selectedRole = $scope.roles[0];
+  				});
+    		});
+      }
+
 	  };
 
     $scope.openSettingsModal = function() {

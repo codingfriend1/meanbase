@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('MediaCtrl', function ($scope, endpoints, $modal, FileUploader, $timeout, $cookieStore, $rootScope, toastr) {
+  .controller('MediaCtrl', function ($scope, endpoints, FileUploader, $timeout, $cookieStore, $rootScope, toastr) {
 
-    $scope.$parent.pageTitle = 'Upload and edit media';
+    $scope.$parent.pageTitle = 'Upload images';
     $scope.media = [];
     // $scope.allOperations = true;
 
