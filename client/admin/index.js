@@ -1,9 +1,6 @@
 // inject js
 import "../shared/libraries/codrops/classie.js";
 import "./code/app.js";
-import "../shared/account/signup/signup.controller.js";
-import "../shared/account/settings/settings.controller.js";
-import "../shared/account/login/login.controller.js";
 import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
@@ -35,21 +32,22 @@ import "../shared/camel-to-human/camel-to-human.filter.js";
 import "../shared/auth/user.service.js";
 import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
-import "../shared/account/account.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "./code/components/mdl/mdl.directive.js";
 import "./code/components/dialog/dialog.directive.js";
 import "./code/components/date-picker/date-picker.directive.js";
 import "./code/components/crud/crud.service.js";
+import "./code/account/settings/settings.controller.js";
+import "./code/account/login/login.controller.js";
 import "./code/users/users.js";
 import "./code/users/users.controller.js";
 import "./code/themes/themes.js";
 import "./code/themes/themes.controller.js";
 import "./code/themes/theme.modal.controller.js";
-import "./code/media/media.js";
-import "./code/media/media.controller.js";
 import "./code/pages/pages.js";
 import "./code/pages/pages.controller.js";
+import "./code/media/media.js";
+import "./code/media/media.controller.js";
 import "./code/import/import.js";
 import "./code/import/import.controller.js";
 import "./code/extensions/extensions.js";
@@ -61,6 +59,7 @@ import "./code/cms/cms.controller.js";
 import "./code/analytics/google-analytics-embed-customizations.js";
 import "./code/analytics/analytics.js";
 import "./code/analytics/analytics.controller.js";
+import "./code/account/account.js";
 // end inject js
 
 // inject jade
@@ -73,6 +72,9 @@ import "./code/media/media.jade";
 import "./code/pages/pages.jade";
 import "./code/themes/themes.jade";
 import "./code/users/users.jade";
+import "./code/account/login/login.jade";
+import "./code/account/login/login2.jade";
+import "./code/account/settings/settings.jade";
 import "../shared/cms.headbar/cms.headbar.jade";
 import "../shared/cms.headbar/editmodal.modal.jade";
 import "../shared/extensions-area/extensions-area.jade";
@@ -90,9 +92,6 @@ import "../shared/single-image/single-image.jade";
 import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
-import "../shared/account/login/login.jade";
-import "../shared/account/settings/settings.jade";
-import "../shared/account/signup/signup.jade";
 // end inject jade
 
 // inject stylus
@@ -106,6 +105,7 @@ import "./code/media/media.styl";
 import "./code/pages/pages.styl";
 import "./code/themes/themes.styl";
 import "./code/users/users.styl";
+import "./code/account/login/login.styl";
 import "../shared/cms.headbar/cms.headbar.styl";
 import "../shared/extensions-area/extensions-area.styl";
 import "../shared/extensions-selector/extensions-selector.styl";
@@ -120,5 +120,4 @@ import "../shared/single-image/single-image.styl";
 import "../shared/sortable/sortable.styl";
 import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
-import "../shared/account/login/login.styl";
 // end inject stylus

@@ -2,9 +2,6 @@
 import "./app.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "../shared/libraries/codrops/classie.js";
-import "../shared/account/signup/signup.controller.js";
-import "../shared/account/settings/settings.controller.js";
-import "../shared/account/login/login.controller.js";
 import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
@@ -36,7 +33,6 @@ import "../shared/camel-to-human/camel-to-human.filter.js";
 import "../shared/auth/user.service.js";
 import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
-import "../shared/account/account.js";
 // end inject js
 
 // inject jade
@@ -57,9 +53,6 @@ import "../shared/single-image/single-image.jade";
 import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
-import "../shared/account/login/login.jade";
-import "../shared/account/settings/settings.jade";
-import "../shared/account/signup/signup.jade";
 // end inject jade
 
 // inject stylus
@@ -77,5 +70,4 @@ import "../shared/single-image/single-image.styl";
 import "../shared/sortable/sortable.styl";
 import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
-import "../shared/account/login/login.styl";
 // end inject stylus

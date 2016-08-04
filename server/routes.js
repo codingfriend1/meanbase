@@ -62,6 +62,7 @@ module.exports = function(app) {
  //    .get(function(req, res) {
  //       res.sendfile(app.get('appPath') + '/app/missing/missing.html');
  //     });
+
  app.route('/cms/?*')
    .get(function(req, res) {
      res.sendfile(path.join(app.get('adminPath'), 'index.html'));

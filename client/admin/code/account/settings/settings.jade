@@ -1,5 +1,5 @@
 //- div(ng-include='"components/navbar/navbar.html"')
-include ../../navbar/navbar.jade
+//- include ../../components/navbar/navbar.jade
 .container
   .row
     .col-sm-12
@@ -19,4 +19,5 @@ include ../../navbar/navbar.jade
 
         p.help-block  {{ message }}
 
-        button.btn.btn-lg.btn-primary(type='submit') Save changes
+        button.btn.btn-lg.btn-primary.float-right(type='submit') Save changes
+        button.btn.btn-lg.btn-primary(ng-click="logout()") Logout
