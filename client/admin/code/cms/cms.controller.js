@@ -20,6 +20,10 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 	 $rootScope.isLoggedIn = status;
 	 $rootScope.currentUser = Auth.getCurrentUser();
 
+   if(status) {
+     $scope.isBanned({});
+   }
+
 	 for (var i = 0; i < states.length; i++) {
  		if(states[i].name.indexOf('cms.') > -1) {
  			var state = angular.copy(states[i]);
@@ -58,11 +62,13 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 
 	$scope.isBanned = function(identifier) {
 		if(typeof identifier === 'object' || identifier) {
-			api.bannedMembers.find(identifier);
+			api.bannedMembers.find(identifier).then(function(response) {
+			  console.log('response', response);
+			}, function(err) {
+			  console.log('promise rejected', err);
+			});;
 		}
 	};
-
-	$scope.isBanned({});
 
 
 	$scope.ban = function(comment) {
