@@ -3,9 +3,11 @@ npm-debug.log
 client/admin/bower_components
 client/app/bower_components
 client/admin/bundle.js
+client/admin/index.html
 client/admin/bundle.js.map
 client/admin/bower.js
 client/app/bower.js
+client/app/index.html
 client/app/bundle.js
 client/app/bundle.js.map
 client/themes/*/index.js
