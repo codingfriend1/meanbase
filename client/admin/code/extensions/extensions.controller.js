@@ -6,15 +6,18 @@ angular.module('meanbaseApp')
 
     $scope.e = new crud($scope, 'extensions', api.extensions);
 
-    $scope.e.find({}, null, 'Could not get the extensions').then(function(response) {
-      for (var i = 0; i < $scope.extensions.length; i++) {
-          if(!$scope.extensions[i].preview) {
-            $scope.extensions[i].preview = 'http://placehold.it/500x300';
+    function findAll() {
+      $scope.e.find({}, null, 'Could not get the extensions').then(function(response) {
+        for (var i = 0; i < $scope.extensions.length; i++) {
+            if(!$scope.extensions[i].preview) {
+              $scope.extensions[i].preview = 'http://placehold.it/500x300';
+            }
           }
-        }
-    }, function(err) {
-      console.log('promise rejected', err);
-    });
+      }, function(err) {
+        console.log('promise rejected', err);
+      });
+    }
+    findAll();
 
     if ($cookieStore.get('token')) {
       var uploader = $scope.uploader = new FileUploader({
@@ -29,11 +32,12 @@ angular.module('meanbaseApp')
 
     uploader.onCompleteAll = function(e) {
       uploader.clearQueue();
+      toastr.success('Extensions successfully uploaded!');
+      findAll();
     };
 
     uploader.onSuccessItem = function() {
       $rootScope.$emit('cms.extensionUploaded');
-      toastr.success('Extension successfully uploaded! Refreshing page to compile code.');
     };
 
     uploader.onErrorItem = function(item, response, status, headers) {
@@ -43,7 +47,18 @@ angular.module('meanbaseApp')
     $scope.deleteExtension = function(extension) {
       var message = 'Deleted ' + extension.name + ' extension.';
       var failure = 'Could not delete ' + extension.name;
-      $scope.e.delete({folderName: extension.folderName}, message, failure);
+      api.extensions.delete({folderName: extension.folderName}, message, failure).then(function(response) {
+
+        for (var i = 0; i < $scope.extensions.length; i++) {
+          if($scope.extensions[i]._id === extension._id) {
+            $scope.extensions.splice(i, 1);
+          }
+        }
+
+        toastr.clear(); toastr.success(message);
+      }, function(err) {
+        toastr.clear(); toastr.warning(message);
+      });
       $scope.e.toggleModal('isDeleteOpen', 'extensionToDelete');
   	};
 

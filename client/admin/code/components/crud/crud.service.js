@@ -48,7 +48,7 @@ angular.module('meanbaseApp')
       });
     };
 
-    CRUD.prototype.delete = function(item, update, message, failure) {
+    CRUD.prototype.delete = function(item, message, failure) {
       var self = this;
       var identifier = item._id? { _id: item._id }: item;
 
