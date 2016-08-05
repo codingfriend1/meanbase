@@ -80,6 +80,7 @@
     		api.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
     			toastr.clear();
     			toastr.warning('Moved users with ' + $scope.selectedRole.role + ' over to basic');
+          u.find({}, null, 'Could not get the users')
     		}).finally(function(response) {
     			api.roles.delete({role: $scope.selectedRole.role}).then(function(response) {
     				toastr.success('Deleted ' + $scope.selectedRole.role + ' role.');
