@@ -128,7 +128,7 @@ exports.delete = function(req, res) {
   collection.delete(req, res, function(identifier) {
     if(identifier && identifier.folderName && identifier.folderName !== '') {
       try {
-        fse.remove(path.join(app.get('appPath'), 'app', 'extensions', identifier.folderName));
+        fse.remove(path.join(app.get('appPath'), 'extensions', identifier.folderName));
         return res.status(204).send();
       } catch(e) {
         console.log('Could not delete extension', e);

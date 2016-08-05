@@ -318,7 +318,7 @@ DAO.prototype.updateRaw = function(identifier, content) {
 
 DAO.prototype.findRaw = function(identifier, callback) {
   this.collection.find(identifier, function(err, found) {
-    if(err) { return console.log('createRaw error', error); }
+    if(err) { return console.log('createRaw error', err); }
     // Since mongoose returns created items as list of params we must iterate through them
     var allFound = getArguments(arguments);
     if(callback) { callback(allFound[0]); }
