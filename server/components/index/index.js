@@ -111,7 +111,7 @@ function injectTheme(file, theme) {
 
 	// If the file reads were successful then insert given theme's assets into index.html
 	file = file.replace('theme-name', theme.url);
-	// file = file.replace("'theme-templates'", JSON.stringify(theme.templates));
+	file = file.replace("'theme-templates'", JSON.stringify(theme.templates));
 	file = file.replace("'themeTemplatePaths'", JSON.stringify(theme.templatePaths));
 	file = file.replace('<!-- Theme Script -->', themeJS);
 

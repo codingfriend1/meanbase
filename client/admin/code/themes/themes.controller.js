@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ThemesCtrl', function ($scope, endpoints, FileUploader, $cookieStore, $rootScope, toastr, api, $timeout, crud) {
+  .controller('ThemesCtrl', function ($scope, endpoints, FileUploader, $cookieStore, $rootScope, toastr, api, $timeout, crud, $http) {
 
     $scope.$parent.pageTitle = 'Themes';
 
@@ -29,12 +29,8 @@ angular.module('meanbaseApp')
 
     $scope.saveSettings = function(theme, settings) {
       if(theme && theme._id) {
-        $scope.t.update(theme, settings, theme.title + ' updated', 'Could not update ' + theme.title);
-      } else if(theme && !theme._id) {
-        $scope.t.create(theme, theme.title + ' created', 'Could not create ' + theme.title).then(function(response) {
-          $timeout(function() {
-            componentHandler.upgradeAllRegistered()
-          });
+        $scope.t.update(theme, settings, theme.title + ' updated', 'Could not update ' + theme.title).then(function() {
+          window.meanbaseGlobals.themeTemplates = theme.templates;
         });
       }
 
@@ -51,6 +47,21 @@ angular.module('meanbaseApp')
       $scope.t.delete(theme, theme.title + ' unpublished.', message, failure);
       $scope.t.toggleModal('isSettingsOpen');
   	};
+
+    $scope.activateTheme = function(theme) {
+      if(!theme.active) {
+        $http.post('api/themes/activate', {id: theme._id}).then(function() {
+          $rootScope.$emit('activated theme', theme);
+          for (var i = 0; i < $scope.themes.length; i++) {
+            $scope.themes[i].active = false
+          }
+          theme.active = true;
+        }, function(error) {
+          console.log('Switching themes error: ', error);
+        });
+      }
+
+    };
 
     uploader.onCompleteAll = function(e) {
       uploader.clearQueue();

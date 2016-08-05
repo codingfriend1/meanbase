@@ -89,8 +89,8 @@ import "../shared/missing/missing.jade";
 import "../shared/modal/modal.jade";
 import "../shared/navbar/navbar.jade";
 import "../shared/single-image/single-image.jade";
-import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
+import "../shared/sortable/sortable.jade";
 import "../shared/validate/validate.jade";
 // end inject jade
 
@@ -107,11 +107,11 @@ import "./code/themes/themes.styl";
 import "./code/users/users.styl";
 import "./code/account/login/login.styl";
 import "../shared/cms.headbar/cms.headbar.styl";
-import "../shared/extensions-area/extensions-area.styl";
 import "../shared/extensions-selector/extensions-selector.styl";
 import "../shared/find-images-modal/find-images-modal.styl";
 import "../shared/findImages/findImages.styl";
 import "../shared/image-selector/image-selector.styl";
+import "../shared/extensions-area/extensions-area.styl";
 import "../shared/main/main.styl";
 import "../shared/meanbase-editable/meanbase-editable.directive.styl";
 import "../shared/missing/missing.styl";

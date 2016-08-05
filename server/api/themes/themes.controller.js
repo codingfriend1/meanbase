@@ -130,7 +130,9 @@ exports.upload = function(req, res) {
 
 // Updates themes in the database
 exports.update = function(req, res) {
-  collection.update(req, res);
+  collection.update(req, res, function(body) {
+    compileIndex();
+  });
 };
 
 // Deletes a themes from the DB.
@@ -162,7 +164,9 @@ exports.findById = function(req, res) {
 
 // Updates an existing page in the DB.
 exports.updateById = function(req, res) {
-  collection.updateById(req, res);
+  collection.updateById(req, res, function(body) {
+    compileIndex();
+  });
 };
 
 // Deletes a themes from the DB.
