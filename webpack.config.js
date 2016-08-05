@@ -75,7 +75,7 @@ var config = {
       { test: /\.[ot]tf$/, loader: 'url?limit=65000&mimetype=application/octet-stream&name=public/fonts/[name].[ext]' },
       { test: /\.eot$/, loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=public/fonts/[name].[ext]' },
 
-      { test: /\.(jpe?g|png|gif|svg)$/, loader:'url', include : folders.root, exclude: nodeAndBower }
+      { test: /\.(jpe?g|png|gif|svg)$/, loader:'url', include : folders.root },
       // {
       //   test: /\.jsx?$/,
       //   exclude: nodeAndBower,

@@ -57,7 +57,7 @@ module.exports = function(gulp, plugins, folders, config) {
   gulp.task('import-app-stylus', function() {
     return gulp.src(config.path.join(folders.root, 'index.js'))
   	 .pipe(plugins.inject(gulp.src([
-      folders.code + '/**/*.styl',
+      folders.root + '/app.styl',
       // folders.code + '/**/*.css',
       folders.shared + '/**/*.styl',
       // folders.shared + '/**/*.css',
