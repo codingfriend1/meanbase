@@ -3,7 +3,7 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 
 	var states = $state.get();
 	$scope.cmsStates = [];
-	$scope.$parent.pageTitle = 'Manage Site';
+	$scope.pageTitle = 'Manage Site';
   $rootScope.searchText = '';
 
   $scope.goToTab = function(tab) {
@@ -51,8 +51,6 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 	$scope.toggleMenu = function() {
 		$scope.menuOpen = !$scope.menuOpen;
 	};
-
-	$scope.pageTitle = 'Site Preferences';
 
 	if($scope.$parent.pageTitle) {
 	  document.title = $scope.$parent.pageTitle;

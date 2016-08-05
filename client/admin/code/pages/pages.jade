@@ -25,8 +25,8 @@ dialog.mdl-dialog(dialog-open="isDeleteOpen")
   .mdl-dialog__content
     p Are you sure you want to delete {{pageToDelete.title}}?
   .mdl-dialog__actions
-    button.mdl-button.close(type='button' ng-click="deletePage(pageToDelete)") Yes
-    button.mdl-button.close(type='button' ng-click="p.toggleModal('isDeleteOpen', 'pageToDelete')") No
+    button.mdl-button(type='button' ng-click="deletePage(pageToDelete)") Yes
+    button.mdl-button(type='button' ng-click="p.toggleModal('isDeleteOpen', 'pageToDelete')") No
     
     
 dialog.mdl-dialog(dialog-open="isSettingsOpen")

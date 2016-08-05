@@ -51,14 +51,8 @@ angular.module('meanbaseApp')
     CRUD.prototype.delete = function(item, update, message, failure) {
       var self = this;
       var identifier = item._id? { _id: item._id }: item;
-      var promise;
-      if(identifier._id) {
-        promise = this.api.deleteOne(identifier._id);
-      } else {
-        promise = this.api.delete(identifier);
-      }
 
-      return promise.then(function(response) {
+      return this.api.delete(identifier).then(function(response) {
         var collection = self.scope[self.collection];
 
         for (var i = 0; i < collection.length; i++) {

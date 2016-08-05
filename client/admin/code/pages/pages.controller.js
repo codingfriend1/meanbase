@@ -21,6 +21,7 @@ angular.module('meanbaseApp')
     $scope.published = '';
 
     $scope.saveSettings = function(page, settings) {
+      var previousUrl = page.url;
       if(page && page._id) {
         p.update(page, settings, page.title + ' updated', 'Could not update ' + page.title);
       } else if(page && !page._id) {
@@ -46,7 +47,7 @@ angular.module('meanbaseApp')
   	$scope.deletePage = function(page) {
       var message = page.title + " deleted";
       var failure = 'Could not delete ' + page.title;
-      p.delete(page, page.title + ' unpublished.', message, failure).then(function() {
+      p.delete(page, page.title + ' unpublished.', message, failure).then(function(response) {
         api.menus.delete({url: page.url}, {published: page.published});
       });
       p.toggleModal('isDeleteOpen', 'pageToDelete');
