@@ -7,15 +7,18 @@ angular.module('meanbaseApp')
 
     $scope.t = new crud($scope, 'themes', api.themes);
 
-    $scope.t.find({}, null, 'Could not get the themes').then(function(response) {
-      for (var i = 0; i < $scope.themes.length; i++) {
+    function findAll() {
+      $scope.t.find({}, null, 'Could not get the themes').then(function(response) {
+        for (var i = 0; i < $scope.themes.length; i++) {
           if(!$scope.themes[i].preview) {
             $scope.themes[i].preview = 'http://placehold.it/500x300';
           }
         }
-    }, function(err) {
-      console.log('promise rejected', err);
-    });
+      });
+    }
+
+    findAll();
+
 
     if ($cookieStore.get('token')) {
       var uploader = $scope.uploader = new FileUploader({
@@ -41,11 +44,29 @@ angular.module('meanbaseApp')
       return theme.title.toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
     };
 
+    // $scope.deleteTheme = function(theme) {
+    //   var message = theme.title + " deleted";
+    //   var failure = 'Could not delete ' + theme.title;
+    //   $scope.t.delete(theme, message, failure);
+    //   $scope.t.toggleModal('isSettingsOpen');
+  	// };
+
     $scope.deleteTheme = function(theme) {
-      var message = theme.title + " deleted";
+      var message = 'Deleted ' + theme.title + ' theme.';
       var failure = 'Could not delete ' + theme.title;
-      $scope.t.delete(theme, theme.title + ' unpublished.', message, failure);
-      $scope.t.toggleModal('isSettingsOpen');
+      api.themes.delete({url: theme.url}, message, failure).then(function(response) {
+
+        for (var i = 0; i < $scope.themes.length; i++) {
+          if($scope.themes[i]._id === theme._id) {
+            $scope.themes.splice(i, 1);
+          }
+        }
+
+        toastr.clear(); toastr.success(message);
+      }, function(err) {
+        toastr.clear(); toastr.warning(message);
+      });
+      $scope.t.toggleModal('isDeleteOpen', 'themeToDelete');
   	};
 
     $scope.activateTheme = function(theme) {
@@ -65,6 +86,7 @@ angular.module('meanbaseApp')
 
     uploader.onCompleteAll = function(e) {
       uploader.clearQueue();
+      findAll();
     };
 
     uploader.onSuccessItem = function() {

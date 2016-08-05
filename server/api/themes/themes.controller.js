@@ -75,6 +75,8 @@ exports.upload = function(req, res) {
         return res.status(501).send('Theme folder name was invalid: "' + createdFolderName + '". It should only contain letters, numbers, and - or _');
       }
 
+      createdFolderPath = path.join(app.get('appPath'), 'themes', createdFolderName);
+
       var compressType;
       var decompress = new Decompress();
       switch(contentType) {
