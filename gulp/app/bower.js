@@ -4,20 +4,7 @@ module.exports = function(gulp, plugins, folders, config) {
     return plugins.mergeStream(
       gulp.src(folders.bower + '/font-awesome/fonts/**')
         .pipe(plugins.chmod(755))
-        .pipe(gulp.dest(folders.root + '/fonts/')),
-
-      gulp.src(folders.bower + '/bootstrap/fonts/**')
-        .pipe(plugins.chmod(755))
-        .pipe(gulp.dest(folders.root + '/fonts/')),
-
-      gulp.src([
-        folders.bower + '/mdl-pack/icons/**',
-        '!' + folders.bower + '/mdl-pack/icons/codepoints',
-        '!' + folders.bower + '/mdl-pack/icons/material-icons.css',
-        '!' + folders.bower + '/mdl-pack/icons/README.md'
-      ])
-        .pipe(plugins.chmod(755))
-        .pipe(gulp.dest(folders.root + ''))
+        .pipe(gulp.dest(folders.root + '/fonts/'))
     )
   })
 
