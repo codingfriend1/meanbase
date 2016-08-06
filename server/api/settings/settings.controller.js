@@ -14,7 +14,7 @@ exports.find = function(req, res) {
 
 exports.create = function(req, res) {
 
-  if(contains.indexOf(req.body.identifier) > -1) {
+  if(contains.indexOf(req.body.identifier.name) > -1) {
     collection.upsert(req, res, function() {
       console.log('compiling index');
       compileIndex(null);
@@ -26,7 +26,7 @@ exports.create = function(req, res) {
 
 // Updates pages in the database
 exports.update = function(req, res) {
-  if(contains.indexOf(req.body.identifier) > -1) {
+  if(contains.indexOf(req.body.identifier.name) > -1) {
     collection.upsert(req, res, function() {
       console.log('compiling index');
       compileIndex(null);
