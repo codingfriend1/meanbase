@@ -94,25 +94,33 @@ exports.create = function(req, res) {
 
           Settings.findOne({name: 'recaptchaKey'}, function(error, hasKey) {
             if(error || !hasKey) { hasKey = ''; }
-            requestify.post('https://www.google.com/recaptcha/api/siteverify', {
-              'g-recaptcha-response': req.body['g-recaptcha-response'],
-              'remoteip': req.body.ip,
-              'secret': hasKey.value
+
+            requestify.request('https://www.google.com/recaptcha/api/siteverify', {
+              method: 'POST',
+              params: {
+                'response': req.body['g-recaptcha-response'],
+                'remoteip': req.body.ip,
+                'secret': hasKey.value
+              }
             })
             .then(function(response) {
+                req.body['g-recaptcha-response'] = undefined;
                 var recaptchaSuccess = response.getBody();
-                console.log("recaptchaSuccess", recaptchaSuccess);
-                Settings.findOne({name: 'auto-accept-comments'}, function(err, found) {
-                  if(err || !found) { autoApprove = false; }
-                  else { autoApprove = found.value === 'true'; }
+                if(!recaptchaSuccess.success) {
+                  res.status(403).send('Sorry but this comment looks like spam.');
+                } else {
+                  Settings.findOne({name: 'auto-accept-comments'}, function(err, found) {
+                    if(err || !found) { autoApprove = false; }
+                    else { autoApprove = found.value === 'true'; }
 
-                  if(req.body) {
-                    req.body.approved = autoApprove;
-                  }
+                    if(req.body) {
+                      req.body.approved = autoApprove;
+                    }
 
-                  collection.create(req, res);
-                  creatingComment = false;
-                });
+                    collection.create(req, res);
+                    creatingComment = false;
+                  });
+                }
             }, function(err) {
               console.log("Google Recaptcha Error", err);
               res.status(403).send('Sorry but this comment looks like spam.');
