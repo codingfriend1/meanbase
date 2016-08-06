@@ -2,8 +2,8 @@
 (function(){
 	angular.module('meanbaseApp').controller('UsersCtrl', UsersCtrl);
 
-	UsersCtrl.$inject = ['$scope', 'endpoints', 'toastr', 'api', 'crud', '$rootScope'];
-	function UsersCtrl($scope, endpoints, toastr, api, crud, $rootScope) {
+	UsersCtrl.$inject = ['$scope', 'endpoints', 'toastr', 'api', 'crud', '$rootScope', '$timeout'];
+	function UsersCtrl($scope, endpoints, toastr, api, crud, $rootScope, $timeout) {
 
     var u = $scope.u = new crud($scope, 'users', api.users);
 
