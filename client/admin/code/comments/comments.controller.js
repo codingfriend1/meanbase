@@ -157,28 +157,43 @@ angular.module('meanbaseApp')
     }
 
     $scope.approveAllVisible = function() {
+      var ids = [];
       for(var i = 0; i < $scope.filteredComments.length; i++) {
         $scope.filteredComments[i].approved = true;
+        ids.push($scope.filteredComments[i]._id);
       }
 
-      // Sync the database with the comments
-      api.comments.delete({}).then(function() {
-        api.comments.create($scope.comments);
+      api.comments.update({_id: {$in: ids}}, {approved: true}).then(function(response) {
+        for(var i = 0; i < $scope.comments.length; i++) {
+          if(ids.indexOf($scope.comments[i]._id) > -1) {
+            $scope.comments[i].approved = true;
+          }
+        }
         toastr.clear();
         toastr.success('Approved all visible comments.');
+      }, function(err) {
+        toastr.clear();
+        toastr.warning('Sorry but those comments could not all be approved.');
       });
     }
 
     $scope.unapproveAllVisible = function() {
+      var ids = [];
       for(var i = 0; i < $scope.filteredComments.length; i++) {
-        $scope.filteredComments[i].approved = false;
+        ids.push($scope.filteredComments[i]._id);
       }
 
-      // Sync the database with the comments
-      api.comments.delete({}).then(function() {
-        api.comments.create($scope.comments);
+      api.comments.update({_id: {$in: ids}}, {approved: false}).then(function(response) {
+        for(var i = 0; i < $scope.comments.length; i++) {
+          if(ids.indexOf($scope.comments[i]._id) > -1) {
+            $scope.comments[i].approved = false;
+          }
+        }
         toastr.clear();
-        toastr.success('Unapproved all visible comments.');
+        toastr.success('Approved all visible comments.');
+      }, function(err) {
+        toastr.clear();
+        toastr.warning('Sorry but those comments could not all be approved.');
       });
     }
 
