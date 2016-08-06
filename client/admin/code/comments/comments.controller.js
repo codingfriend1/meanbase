@@ -77,6 +77,7 @@ angular.module('meanbaseApp')
   	// };
 
     $scope.toggleApproved = function(comment) {
+      comment.approved = !comment.approved
       var message = comment.approved? comment.url + ' approved.': comment.url + ' unapproved.';
       var failure = comment.approved? 'Could not publish ' + comment.url: 'Could not unpublish ' + comment.url;
 
