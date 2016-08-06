@@ -41,7 +41,7 @@ section#users-list.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}
           input#email.mdl-textfield__input(type='text' ng-model='settings.email' mdl)
           label.mdl-textfield__label(for='email') Email
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.password}" ng-if="!settings._id")
-          input#password.mdl-textfield__input(type='text' ng-model='settings.password' mdl)
+          input#password.mdl-textfield__input(type='password' ng-model='settings.password' mdl)
           label.mdl-textfield__label(for='password') Password
         p Allow User:
         select.panel-select(ng-model="settings.role")
