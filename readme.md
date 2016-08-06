@@ -67,7 +67,9 @@ docker-machine create --driver generic --generic-ip-address=your-server-ip-addre
 ```
 
 Point docker to that machine
+```
 eval $(docker-machine env you-custom-machine-name)
+```
 
 then
 
