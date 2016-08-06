@@ -6,13 +6,15 @@ var DAO = require('../../components/DAO');
 var collection = new DAO(Settings);
 var helpers = require('../../components/helpers');
 var compileIndex = require('../../components/index');
+var contains = ['clientID', 'appID', 'verificationID', 'recaptchaClientKey', 'recaptchaKey'];
 
 exports.find = function(req, res) {
   collection.find(req, res);
 };
 
 exports.create = function(req, res) {
-  if(req.body.identifier && req.body.identifier.name === 'clientID' || req.body.identifier.name === 'appID' || req.body.identifier.name === 'verificationID') {
+
+  if(contains.indexOf(req.body.identifier) > -1) {
     collection.upsert(req, res, function() {
       console.log('compiling index');
       compileIndex(null);
@@ -24,7 +26,7 @@ exports.create = function(req, res) {
 
 // Updates pages in the database
 exports.update = function(req, res) {
-  if(req.body.identifier && req.body.identifier.name === 'clientID' || req.body.identifier.name === 'appID' || req.body.identifier.name === 'verificationID') {
+  if(contains.indexOf(req.body.identifier) > -1) {
     collection.upsert(req, res, function() {
       console.log('compiling index');
       compileIndex(null);
