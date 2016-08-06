@@ -52,7 +52,7 @@ _NOTE: The MongoDB server name must be db_
 
 Run
 
-```gulp build-all```
+```npm run build```
 
 To create the dist folder
 
