@@ -108,7 +108,8 @@
   "scripts": {
     "watch": "gulp && webpack -w",
     "build": "gulp && webpack && gulp dist",
-    "prepare": "npm install && bower install --allow-root --config.interactive=false && gulp inject",
+    "bower": "cd client/admin; bower install --allow-root --config.interactive=false; cd ../app; bower install --allow-root --config.interactive=false; cd ../../",
+    "prepare": "npm install && npm run bower && gulp && webpack",
     "test": "gulp test",
     "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
   },
