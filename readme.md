@@ -66,6 +66,9 @@ Connect to your docker host server
 docker-machine create --driver generic --generic-ip-address=your-server-ip-address you-custom-machine-name
 ```
 
+Point docker to that machine
+eval $(docker-machine env you-custom-machine-name)
+
 then
 
 ```docker-compose up -d```
