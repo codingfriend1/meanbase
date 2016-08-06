@@ -13,7 +13,8 @@ angular.module('meanbaseApp', [
   'ng-sortable',
   'toastr',
   'relativeDate',
-  'ngAnalytics'
+  'ngAnalytics',
+  'vcRecaptcha'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider, $httpProvider, $urlMatcherFactoryProvider, $provide) {
     $urlRouterProvider

@@ -8,6 +8,7 @@ var DAO = require('../../components/DAO');
 var collection = new DAO(Comments);
 var banCollection = new DAO(Ban);
 var helpers = require('../../components/helpers');
+var requestify = require('requestify');
 
 var onlyApproved = false;
 var creatingComment = false;
@@ -91,19 +92,33 @@ exports.create = function(req, res) {
             req.body.ip = req.ip;
           }
 
-          Settings.findOne({name: 'auto-accept-comments'}, function(err, found) {
-              if(err || !found) { autoApprove = false; }
-              else { autoApprove = found.value === 'true'; }
+          Settings.findOne({name: 'recaptchaKey'}, function(error, hasKey) {
+            if(error || !hasKey) { hasKey = ''; }
+            requestify.post('https://www.google.com/recaptcha/api/siteverify', {
+              'g-recaptcha-response': req.body['g-recaptcha-response'],
+              'remoteip': req.body.ip,
+              'secret': hasKey.value
+            })
+            .then(function(response) {
+                var recaptchaSuccess = response.getBody();
+                console.log("recaptchaSuccess", recaptchaSuccess);
+                Settings.findOne({name: 'auto-accept-comments'}, function(err, found) {
+                  if(err || !found) { autoApprove = false; }
+                  else { autoApprove = found.value === 'true'; }
 
-              if(req.body) {
-                req.body.approved = autoApprove;
-              }
+                  if(req.body) {
+                    req.body.approved = autoApprove;
+                  }
 
-              collection.create(req, res);
-              creatingComment = false;
+                  collection.create(req, res);
+                  creatingComment = false;
+                });
+            }, function(err) {
+              console.log("Google Recaptcha Error", err);
+              res.status(403).send('Sorry but this comment looks like spam.');
+            });
+
           });
-
-
           creatingComment = false;
         } else {
           res.status(403).send('Sorry, but you cannot make comments on this site.');

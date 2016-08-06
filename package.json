@@ -37,6 +37,7 @@
     "passport-local": "~0.1.6",
     "passport-twitter": "latest",
     "promise": "^7.0.1",
+    "requestify": "^0.1.17",
     "serve-favicon": "~2.0.1",
     "winston": "^1.0.0",
     "xml-to-json": "^0.1.1"

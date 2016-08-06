@@ -78,14 +78,22 @@ function compileIndex(theme, extensionJSONS) {
     			index = index.replace("'verificationID'", verificationID.value);
     			adminIndex = adminIndex.replace("'verificationID'", verificationID.value);
     		}
-        try {
-  				// Write the results back to index.html in client/ folder
-  				fs.writeFileSync(path.join(app.get('appAppPath'), 'index.html'), index, 'utf8');
-  				fs.writeFileSync(path.join(app.get('adminPath'), 'index.html'), adminIndex, 'utf8');
-  				console.log('writing to index from index');
-  			} catch(error) {
-  				console.log('error: ', error);
-  			}
+        Settings.findOne({name: 'recaptchaClientKey'}, function(err, recaptchaClientKey) {
+          if(recaptchaClientKey) {
+            index = index.replace("RecaptchaClientKey", recaptchaClientKey.value);
+          }
+
+          try {
+    				// Write the results back to index.html in client/ folder
+    				fs.writeFileSync(path.join(app.get('appAppPath'), 'index.html'), index, 'utf8');
+    				fs.writeFileSync(path.join(app.get('adminPath'), 'index.html'), adminIndex, 'utf8');
+    				console.log('writing to index from index');
+    			} catch(error) {
+    				console.log('error: ', error);
+    			}
+
+        });
+
       })
     });
 	});
