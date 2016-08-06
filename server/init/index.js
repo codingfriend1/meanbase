@@ -5,52 +5,6 @@
 
 var config = require('../config/environment');
 
-
-
-
-var rolesModel = require('../api/roles/roles.model');
-var rolesData = require('./roles');
-
-var userData = require('./users');
-var userModel = require('../api/user/user.model');
-
-var pagesModel = require('../api/pages/pages.model');
-var pagesData = require('./pages');
-
-var menusModel = require('../api/menus/menus.model');
-var menusData = require('./menus');
-
-var extensionModel = require('../api/extension/extension.model');
-
-var themeModel = require('../api/themes/themes.model');
-
-var commentsModel = require('../api/comments/comments.model');
-var commentsData = require('./comments');
-
-
-module.exports = function() {
-  console.log('Initializing data in mongoDB');
-
-  ifEmptyCreate(rolesModel, rolesData);
-  ifEmptyCreate(userModel, userData);
-
-  if(config.resetData) {
-    if(config.seedDB) {
-      resetData(pagesModel, pagesData);
-      resetData(menusModel, menusData);
-      resetData(commentsModel, commentsData);
-    }
-  }
-
-  require('./themes')();
-  require('./extensions')();
-
-  if(config.seedDB) {
-    ifEmptyCreate(pagesModel, pagesData);
-    ifEmptyCreate(menusModel, menusData);
-  }
-};
-
 // ### ifEmptyCreate(model, data)
 /**
  * If the model is empty then populate it's data
@@ -83,10 +37,54 @@ function ifEmptyCreate(model, data) {
  */
 function resetData(model, data) {
   model.remove({}, function( error, reply) {
-    ifEmptyCreate(model, data)();
+    ifEmptyCreate(model, data);
   });
 }
 
 function removeData(model) {
   model.remove({});
 }
+
+
+var rolesModel = require('../api/roles/roles.model');
+var rolesData = require('./roles');
+
+var userData = require('./users');
+var userModel = require('../api/user/user.model');
+
+var pagesModel = require('../api/pages/pages.model');
+var pagesData = require('./pages');
+
+var menusModel = require('../api/menus/menus.model');
+var menusData = require('./menus');
+
+var extensionModel = require('../api/extension/extension.model');
+
+var themeModel = require('../api/themes/themes.model');
+
+var commentsModel = require('../api/comments/comments.model');
+var commentsData = require('./comments');
+
+
+module.exports = function() {
+  console.log('Initializing data in mongoDB');
+
+  ifEmptyCreate(rolesModel, rolesData);
+  ifEmptyCreate(userModel, userData);
+
+  if(config.resetData) {
+    resetData(rolesModel, rolesData);
+    resetData(userModel, userData);
+    resetData(pagesModel, pagesData);
+    resetData(menusModel, menusData);
+    resetData(commentsModel, commentsData);
+  }
+
+  require('./themes')();
+  require('./extensions')();
+
+  if(config.seedDB) {
+    ifEmptyCreate(pagesModel, pagesData);
+    ifEmptyCreate(menusModel, menusData);
+  }
+};
