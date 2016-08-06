@@ -1,12 +1,3 @@
-var userPile = [];
-var basic = {
-  provider: 'local',
-  role: 'basic',
-  name: 'Test User',
-  email: 'test@test.com',
-  password: 'test'
-};
-
 var admin = {
   provider: 'local',
   role: 'admin',
@@ -15,7 +6,4 @@ var admin = {
   password: 'admin'
 };
 
-userPile.push(admin);
-userPile.push(basic);
-
-module.exports = userPile
+module.exports = admin

@@ -31,6 +31,9 @@ var commentsData = require('./comments');
 module.exports = function() {
   console.log('Initializing data in mongoDB');
 
+  ifEmptyCreate(rolesModel, rolesData);
+  ifEmptyCreate(userModel, userData);
+
   if(config.resetData) {
     if(config.seedDB) {
       resetData(pagesModel, pagesData);
@@ -41,9 +44,6 @@ module.exports = function() {
 
   require('./themes')();
   require('./extensions')();
-
-  ifEmptyCreate(rolesModel, rolesData);
-  ifEmptyCreate(userModel, userData);
 
   if(config.seedDB) {
     ifEmptyCreate(pagesModel, pagesData);
@@ -59,21 +59,20 @@ module.exports = function() {
  * @return {function} Returns a method to be called by configure
  */
 function ifEmptyCreate(model, data) {
-  return function() {
-    model.find({}, function (err, result) {
+  model.find({}, function (err, result) {
+    console.log("if empty result", result);
 
-      if(err) { return console.log('Testing ' + model.modelName + ' error: ', err); }
+    if(err) { return console.log('Testing ' + model.modelName + ' error: ', err); }
 
-      if(result.length === 0) {
+    if(result.length === 0) {
 
-      	model.create(data, function(err, afterCreation) {
-    		  if(err) { return console.log('Initializing ' + model.modelName + ' error: ', err); }
-    		  console.log('default ' + model.modelName + ' created');
-    		});
+    	model.create(data, function(err, afterCreation) {
+  		  if(err) { return console.log('Initializing ' + model.modelName + ' error: ', err); }
+  		  console.log('default ' + model.modelName + ' created');
+  		});
 
-      }
-    });
-  }
+    }
+  });
 }
 
 // ### resetData(model, data)
