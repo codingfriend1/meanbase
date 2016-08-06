@@ -14,7 +14,6 @@ var config = require('../config/environment');
  */
 function ifEmptyCreate(model, data) {
   model.find({}, function (err, result) {
-    console.log("if empty result", result);
 
     if(err) { return console.log('Testing ' + model.modelName + ' error: ', err); }
 
