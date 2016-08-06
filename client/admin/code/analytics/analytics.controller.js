@@ -30,35 +30,30 @@ angular.module('meanbaseApp')
     });
 
     $scope.changeAppID = function(id) {
-      if(!id) { return false; }
       api.settings.update({name: 'appID'}, {value: id}).success(function(response) {
         toastr.success('Set app id to ' + id);
       });
     };
 
     $scope.changeClientID = function(clientID) {
-      if(!clientID) { return false; }
       api.settings.update({name: 'clientID'}, {value: clientID}).success(function(response) {
         toastr.success('Set app clientID to ' + clientID);
       });
     };
 
     $scope.changeRecaptcha = function(key) {
-      if(!$scope.recaptchaKey) { return false; }
       api.settings.update({name: 'recaptchaKey'}, {value: $scope.recaptchaKey}).success(function(response) {
         toastr.success('Set app recaptcha key to ' + $scope.recaptchaKey);
       });
     };
 
     $scope.changeClientRecaptcha = function() {
-      if(!$scope.recaptchaClientKey) { return false; }
       api.settings.update({name: 'recaptchaClientKey'}, {value: $scope.recaptchaClientKey}).success(function(response) {
         toastr.success('Set app recaptcha key to ' + $scope.recaptchaClientKey);
       });
     };
 
     $scope.changeVerificationID = function(verificationID) {
-      if(!verificationID) { return false; }
       api.settings.update({name: 'verificationID'}, {value: verificationID}).success(function(response) {
         toastr.success('Set app verificationID to ' + verificationID);
       });

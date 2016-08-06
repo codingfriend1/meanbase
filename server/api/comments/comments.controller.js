@@ -106,7 +106,7 @@ exports.create = function(req, res) {
             .then(function(response) {
                 req.body['g-recaptcha-response'] = undefined;
                 var recaptchaSuccess = response.getBody();
-                if(!recaptchaSuccess.success) {
+                if(hasKey.value && !recaptchaSuccess.success) {
                   res.status(403).send('Sorry but this comment looks like spam.');
                 } else {
                   Settings.findOne({name: 'auto-accept-comments'}, function(err, found) {
