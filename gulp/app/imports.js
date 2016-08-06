@@ -7,7 +7,7 @@ module.exports = function(gulp, plugins, folders, config) {
   gulp.task('import-app-jade', function() {
     return gulp.src(config.path.join(folders.root, 'index.js'))
   	 .pipe(plugins.inject(gulp.src([
-       folders.code + '/**/*.jade',
+       folders.components + '/**/*.jade',
        folders.shared + '/**/*.jade'
      ], { read: true }), {
   		relative: true,
@@ -31,7 +31,7 @@ module.exports = function(gulp, plugins, folders, config) {
   gulp.task('import-app-js', function() {
     return gulp.src(config.path.join(folders.root, 'index.js'))
   	 .pipe(plugins.inject(gulp.src([
-       folders.code + '/**/*.js',
+       folders.components + '/**/*.js',
        folders.shared + '/**/*.js',
        folders.root + '/app.js',
        '!**/*spec.js',
@@ -58,6 +58,7 @@ module.exports = function(gulp, plugins, folders, config) {
     return gulp.src(config.path.join(folders.root, 'index.js'))
   	 .pipe(plugins.inject(gulp.src([
       folders.root + '/app.styl',
+      folders.components + '/**/*.styl',
       // folders.code + '/**/*.css',
       folders.shared + '/**/*.styl',
       // folders.shared + '/**/*.css',

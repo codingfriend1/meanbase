@@ -28,7 +28,7 @@
         .form-group
           label Message
           textarea(ng-model="comment.content" placeholder="Message" rows="3").form-control
-        div(vc-recaptcha key="recaptchaClientKey")
+        mb-recaptcha(ng-model="comment.recaptcha")
         button.btn.btn-primary(ng-click="submitComment()") Comment
         .help-block(ng-show="sucessfulSend") Comment sent!
       hr

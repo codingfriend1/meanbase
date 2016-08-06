@@ -4,7 +4,6 @@ angular.module('meanbaseApp')
   .controller('ArticleCtrl', function ($scope, endpoints, $rootScope, $timeout, $http, api, vcRecaptchaService, toastr) {
   	$scope.sucessfulSend = false;
 
-    $scope.recaptchaClientKey = window.meanbaseGlobals.recaptchaClientKey;
   	// Everything needs to be wrapped in a timeout
   	$timeout(function() {
 
@@ -12,19 +11,16 @@ angular.module('meanbaseApp')
   			$scope.comments = response.data;
   		});
 
-      // api.settings.find({name: 'recaptchaClientKey'}).success(function(res) {
-      //   if(!res[0]) { return false; }
-      //   $scope.recaptchaClientKey = res[0].value;
-      // });
-
   		$scope.submitComment = function() {
   			var valid = validateComment($scope.comment);
   			if(valid) {
-          console.log("vcRecaptchaService.getResponse()", vcRecaptchaService.getResponse());
-          if(vcRecaptchaService.getResponse() === ""){ //if string is empty
-              toastr.warning("Please resolve the captcha and submit!")
+          // console.log("vcRecaptchaService.getResponse()", vcRecaptchaService.getResponse());
+          // if(vcRecaptchaService.getResponse() === ""){ //if string is empty
+          if($scope.comment.recaptcha === ""){ //if string is empty
+            toastr.warning("Please resolve the captcha and submit!")
           } else {
-            $scope.comment['g-recaptcha-response'] = vcRecaptchaService.getResponse();
+            $scope.comment['g-recaptcha-response'] = $scope.comment.recaptcha;
+            $scope.comment.recaptcha = undefined;
             api.comments.create($scope.comment).then(function(response) {
     					$scope.comment = {};
     					$scope.sucessfulSend = true;

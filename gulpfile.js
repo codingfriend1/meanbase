@@ -23,6 +23,7 @@ var folders = {
     client: path.resolve(__dirname, 'client'),
     gulp: path.resolve(__dirname, 'gulp', 'app'),
     root: path.resolve(__dirname, 'client', 'app'),
+    components: path.resolve(__dirname, 'client', 'app', 'components'),
     shared: path.resolve(__dirname, 'client', 'shared'),
     bower: path.resolve(__dirname, 'client', 'app', 'bower_components')
   },
