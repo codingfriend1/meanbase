@@ -12,10 +12,10 @@ angular.module('meanbaseApp')
   			$scope.comments = response.data;
   		});
 
-      api.settings.find({name: 'recaptchaClientKey'}).success(function(res) {
-        if(!res[0]) { return false; }
-        $scope.recaptchaClientKey = res[0].value;
-      });
+      // api.settings.find({name: 'recaptchaClientKey'}).success(function(res) {
+      //   if(!res[0]) { return false; }
+      //   $scope.recaptchaClientKey = res[0].value;
+      // });
 
   		$scope.submitComment = function() {
   			var valid = validateComment($scope.comment);
