@@ -7,7 +7,10 @@
 
     var u = $scope.u = new crud($scope, 'users', api.users);
 
-    u.find({}, null, 'Could not get the users');
+    function findall() {
+      u.find({}, null, 'Could not get the users');
+    }
+    findAll();
 
 		$scope.$parent.pageTitle = "Users and Permissions";
 		$scope.$parent.tabs = [
@@ -121,6 +124,7 @@
         $scope.u.update(user, settings, user.email + ' updated', 'Could not update ' + user.email);
       } else if(user && !user._id) {
         $scope.u.create(user, user.email + ' created', 'Could not create ' + user.email).then(function(response) {
+          findall();
           $timeout(function() {
             componentHandler.upgradeAllRegistered()
           });

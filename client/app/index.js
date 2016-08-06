@@ -1,15 +1,15 @@
 // inject js
 import "./app.js";
+import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
 import "../shared/single-image/single-image.directive.js";
-import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/navbar/navbar.controller.js";
 import "../shared/mongoose-error/mongoose-error.directive.js";
-import "../shared/modal/modal.service.js";
 import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
+import "../shared/modal/modal.service.js";
 import "../shared/meanbase-editable/meanbase-editable.directive.js";
 import "../shared/meanbase-editable/meanbase-editable.directive.ckeditor.js";
 import "../shared/mb-animate/mb-animate.directive.js";
