@@ -1,3 +1,39 @@
+.image-float-left {
+  float: left;
+  margin-right 1em;
+  margin-bottom: 1em;
+}
+
+.image-float-left:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.image-float-right {
+  float: right;
+  margin-left 1em;
+  margin-bottom: 1em;
+}
+
+[meanbase-editable]:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+[meanbase-editable] .mb-currently-selected-img {
+  padding: 1px;
+  border 2px solid green;
+}
+
+
 /**
  * Trumbowyg v1.1.7 - A lightweight WYSIWYG editor
  * Default stylesheet for Trumbowyg editor
@@ -91,7 +127,7 @@
   position absolute
   bottom 100%
   width: 100%;
-  min-width 200px
+  min-width 300px;
   background: #ecf0f1;
   border-bottom: 1px solid #d7e0e2;
   margin: 0;

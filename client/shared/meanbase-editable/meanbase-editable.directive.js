@@ -13,6 +13,7 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         var el = jQuery(element);
+        var selectedImage;
 
         // Sets up default configuration for our text editors
         var config = {
@@ -37,25 +38,76 @@ angular.module('meanbaseApp')
                   el.trumbowyg('saveSelection');
                   scope.$parent.openImageModal({multiple: false}, function(image) {
                     el.trumbowyg('restoreSelection');
+                    // var imageWrapper = document.createElement('span');
+                    // imageWrapper.classList.add('mb-img-container');
+
                     var imageToInsert = new Image();
                     imageToInsert.src = image.small;
                     imageToInsert.alt = image.alt;
                     imageToInsert.class = 'img-responsive';
+
+                    // imageWrapper.appendChild(imageToInsert);
                     var sel = el.trumbowyg('getSelection');
                     sel.insertNode(imageToInsert);
+                    startImageListeners();
                   });
                 },
                 ico: 'insertImage'
+              },
+              floatLeft: {
+                func: function(params, tbw) {
+                  if(selectedImage) {
+                    selectedImage.classList.remove('image-float-right');
+                    if(!selectedImage.classList.contains('image-float-left')) {
+                      selectedImage.classList.add('image-float-left');
+                    } else {
+                      selectedImage.classList.remove('image-float-left');
+                    }
+                    selectedImage = null;
+                  }
+                },
+                ico: 'justifyLeft'
+              },
+              floatRight: {
+                func: function(params, tbw) {
+                  if(selectedImage) {
+                    selectedImage.classList.remove('image-float-left');
+                    if(!selectedImage.classList.contains('image-float-right')) {
+                      selectedImage.classList.add('image-float-right');
+                    } else {
+                      selectedImage.classList.remove('image-float-right');
+                    }
+                    selectedImage = null;
+                  }
+                },
+                ico: 'justifyRight'
               }
           },
-          btns: ['viewHTML',
-              '|', 'formatting',
-              '|', 'align',
-              '|', 'lists',
-              '|', 'chooseImage']
+          btns: [
+            'viewHTML',
+            '|', 'formatting',
+            '|', 'align',
+            '|', 'lists',
+            '|', 'chooseImage', 'floatLeft', 'floatRight'
+          ]
         };
 
         var _snapshot;
+        var allImages;
+
+        // function clickAnywhere() {
+        //   if(selectedImage && selectedImage.classList) {
+        //     selectedImage.classList.remove('mb-currently-selected-img');
+        //   }
+        //   document.body.removeEventListener('click', clickAnywhere)
+        // }
+
+        function getSelectedImage(event) {
+          selectedImage = event.target;
+          // selectedImage.classList.add('mb-currently-selected-img');
+          event.stopPropagation();
+          // document.body.addEventListener('click', clickAnywhere, {once: true})
+        }
 
 
         function enableTextEditor() {
@@ -73,7 +125,18 @@ angular.module('meanbaseApp')
 
           // We want to set the trumbowyg html to a copy of the inital value so if the extension drags around we retain it's html
           el.trumbowyg('html', _snapshot);
+          startImageListeners();
         } //enableTextEditor
+
+        function startImageListeners() {
+          if(allImages) {
+            removeImageListeners();
+          }
+          allImages = document.querySelectorAll('[meanbase-editable] img');
+          allImages.forEach(function(image) {
+            image.addEventListener("click", getSelectedImage);
+          });
+        }
 
 
         // Start up the text editors when editMode is activated
@@ -95,8 +158,20 @@ angular.module('meanbaseApp')
           }
         }
 
+        function removeImageListeners() {
+          allImages.forEach(function(image) {
+            image.removeEventListener("click", getSelectedImage);
+            console.log("image.classList", image.classList);
+            if(image.classList.contains('mb-currently-selected-img')) {
+              image.classList.remove('mb-currently-selected-img');
+            }
+          });
+          allImages = null;
+        }
+
         // When the user discards their edits, reset trumbowyg and ng-bind-html to the snapshot
         scope.$onRootScope('cms.discardEdits', function() {
+          removeImageListeners();
           el.trumbowyg('html', _snapshot);
           scope.html = _snapshot;
           el.trumbowyg('destroy');
@@ -105,6 +180,8 @@ angular.module('meanbaseApp')
 
         // When the user saves their changes, update the ng-bind-html with the trymbowyg html
         scope.$onRootScope('cms.saveEdits', function() {
+          removeImageListeners();
+          console.log('save edits');
           scope.html = el.trumbowyg('html');
           el.trumbowyg('destroy');
         });
