@@ -21,6 +21,7 @@ Meanbase CMS runs off of the MEAN stack: Mongo, Express, Angular, and Node meani
 Meanbase is also focused on making the process of creating themes and adding extensions delightful for developers who have to interact with the code every day. It's provides you control and simplicity so you can spend more time focusing on what matters.
 
 #### Run Development Mode
+- Make sure bower is installed globally `npm i bower -g`
 - Run `npm run prepare`
 - Install GraphicsMagick, nginx, and MongoDB
   - `sudo apt-get install -y graphicsmagick`
