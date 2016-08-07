@@ -29,6 +29,8 @@ Meanbase is also focused on making the process of creating themes and adding ext
   - `sudo apt-get install mongodb-server`
 - Start Mongodb in one terminal or cmd
 	- `mongod`
+  - If that doesn't work here's a quick article explaining how to fix it
+  - [Mongodb server permission denied](http://wesleytsai.io/2015/07/26/mongodb-server-directory-permission-denied/)
 - In the root of this project run
 	- `npm start`
 - See app
