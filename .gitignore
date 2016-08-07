@@ -10,10 +10,8 @@ client/app/bower.js
 client/app/index.html
 client/app/bundle.js
 client/app/bundle.js.map
-client/themes/*/index.js
 client/themes/*/theme.min.js
 client/themes/*/theme.min.js.map
-client/themes/*/index.js
 server/logs/debug.log
 public
 .tmp
