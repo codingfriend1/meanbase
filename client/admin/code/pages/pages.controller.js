@@ -39,7 +39,7 @@ angular.module('meanbaseApp')
       var message = page.published? page.title + ' published.': page.title + ' unpublished.';
       var failure = page.published? 'Could not publish ' + page.title: 'Could not unpublish ' + page.title;
 
-      p.update(page, {published: page.published}, message, failure).then(function() {
+      $scope.p.update(page, {published: page.published}, message, failure).then(function() {
         api.menus.update({url: page.url}, {published: page.published});
       });
   	};
