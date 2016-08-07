@@ -23,6 +23,5 @@ dist
 /server/config/local.env.js
 client/index.html
 __MACOSX
-/logs/debug.log
 code-documentation
 meanbase.env
