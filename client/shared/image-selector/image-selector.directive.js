@@ -4,7 +4,7 @@
  * @author Jon Paul Miles <milesjonpaul@gmail.com>
  */
 angular.module('meanbaseApp')
-  .directive('imageSelector', function ($cookieStore, Cropper, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, api, helpers) {
+  .directive('imageSelector', function ($cookieStore, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, api, helpers) {
     return {
       templateUrl: require('./image-selector.jade'),
       restrict: 'EA',

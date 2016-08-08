@@ -6,7 +6,6 @@ angular.module('meanbaseApp', [
   'mdl',
   'ngSanitize',
   'ui.router',
-  'ngCropper',
   'angularFileUpload',
   'ngTouch',
   'extensions',
