@@ -7,8 +7,10 @@
   "clientPath": "../public/",
   "appPath": "../public/app",
   "adminPath": "../public/admin/",
-  "themes": "../public/themes/",
-  "extensions": "../public/extensions/",
+  "themesPath": "../public/themes/",
+  "extensionsPath": "../public/extensions/",
+  "seed": true,
+  "reset-seed": true,
   "auth": {
     "token": {
       "secret": "qhWPy33jz+vvkug6w/e/+SMYqPoWU+zgbeYMV1RSGvpsV8GLEIR3FTg6lVg6Y1ACdJ4XWTelnyW7h0wlbMXQ9w=="

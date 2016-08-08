@@ -75,16 +75,16 @@ function ifEmptyCreate(name, data) {
 function resetData(name, data) {
   return async () => {
     try {
-      await this.service(name).remove(null, {query: {}});
+      let response = await this.service(name).remove(null, {query: {}});
       ifEmptyCreate(name, data)();
     } catch (err) {
-      console.log("trouble resetting Data", err);
+      console.log("trouble resetting data for " + name, err);
     }
   }
 }
 
 function removeData(name) {
   return async () => {
-    await this.service(name).remove({});
+    await this.service(name).remove(null, {query:{}});
   }
 }

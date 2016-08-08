@@ -1,6 +1,6 @@
 'use strict';
 
-import recompileIndex from 'recompile-index';
+import recompileIndex from './recompile-index';
 
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');

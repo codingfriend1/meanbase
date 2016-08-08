@@ -7,8 +7,10 @@
   "clientPath": "../public/",
   "appPath": "../public/app",
   "adminPath": "../public/admin/",
-  "themes": "../public/themes/",
-  "extensions": "../public/extensions/",
+  "themesPath": "../public/themes/",
+  "extensionsPath": "../public/extensions/",
+  "seed": true,
+  "reset-seed": false,
   "auth": {
     "token": {
       "secret": "FEATHERS_AUTH_SECRET"

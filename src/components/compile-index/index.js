@@ -1,7 +1,5 @@
 'use strict';
 
-var Settings = require('../../api/settings/settings.model.js');
-
 /**
  * Compiles the client/index.html from a copy in server/views/index.html with the chosen theme assets
  * Grunt loads /app/ themes and scripts into server/views/index.html
