@@ -27,6 +27,8 @@ exports.attachPermissions = function(options) {
   return async function(hook) {
     try {
 
+      if (!hook.params.provider) { return Promise.resolve(hook); }
+
       const role = hook.params.user.role;
       let access = await hook.app.service('roles').find({query: { role } });
       access = access[0];
@@ -36,6 +38,8 @@ exports.attachPermissions = function(options) {
       if(hook.type === 'after' && hook.result && !Array.isArray(hook.result)) {
         hook.result.permissions = access.permissions;
       }
+
+      console.log("hook.result.permissions", hook.result.permissions);
 
       Promise.resolve(hook);
     } catch(err) {

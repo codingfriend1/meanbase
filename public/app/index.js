@@ -19,6 +19,7 @@ import "../shared/image-selector/image-selector.directive.js";
 import "../shared/helpers/helpers.service.js";
 import "../shared/findImages/findImages.directive.js";
 import "../shared/find-images-modal/find-images-modal.directive.js";
+import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/extensions-selector/extensions.modal.controller.js";
 import "../shared/extensions-selector/extensions-selector.directive.js";

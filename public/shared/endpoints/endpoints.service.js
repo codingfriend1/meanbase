@@ -3,18 +3,18 @@
  * @author Jon Paul Miles <milesjonpaul@gmail.com>
  * @version 1.0.0
  * @license MIT
- * @example `var menus = new endpoints('menus');  
+ * @example `var menus = new endpoints('menus');
  * var replaceMenu = {
- * 	url: '/new-url', 
- * 	classes: 'another-class', 
+ * 	url: '/new-url',
+ * 	classes: 'another-class',
  * 	target:'_self'
  * };
  * //Pass in raw mongoDB queries
- * menus.update({url: '/about'}, replaceMenu).success(cb);`
+ * menus.update({url: '/about'}, replaceMenu).then(cb);`
  */
 
 (function(){
-	angular.module('meanbaseApp').factory('endpoints', function($http, toastr) {
+	angular.module('meanbaseApp').factory('endpoints', function($http, toastr, feathers) {
 
 		/**
 		 * Sets up a rest endpoint for the given url so create, find, update, and delete can be performed on it. Calls generic error handler `errorHandler()` if error.
@@ -28,6 +28,7 @@
 			if(endpoint.indexOf('http://') > -1 || endpoint.indexOf('https://') > -1) {
 				this.url = endpoint; // If the url is a full address then don't modify it
 			} else { // else prefix it with /api/ so it calls our server api
+				// this.url = '/api/' + this.endpoint;
 				this.url = '/api/' + this.endpoint;
 			}
 		}
@@ -36,10 +37,10 @@
 		 * Adds content in the server database for the endpoint passed into the constructor function. Calls generic error handler `errorHandler()` if error.
 		 * @param  {object} content the item to be added to the database
 		 * @return {promise}         An object or array of items that were created
-		 */	
+		 */
 		endpoints.prototype.create = function(content) {
 			var self = this;
-			return $http.post(this.url, content).error(function(data, status, headers, config) {
+			return feathers.service(this.url).create(content).error(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -51,7 +52,7 @@
 		 */
 		endpoints.prototype.find = function(identifier) {
 			var self = this;
-			return $http.get(this.url, {params: {where: identifier} }).error(function(data, status, headers, config) {
+			return feathers.service(this.url).find({ query: identifier }).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -64,7 +65,7 @@
 		 */
 		endpoints.prototype.update = function(identifier, replacement) {
 			var self = this;
-			return $http.put(this.url, {identifier: identifier, replacement: replacement}).error(function(data, status, headers, config) {
+			return feathers.service(this.url).patch(null, replacement, {query: identifier}).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -76,10 +77,7 @@
 		 */
 		endpoints.prototype.delete = function(identifier) {
 			var self = this;
-			return $http.delete(this.url, {
-			    params: {where: identifier},
-			    headers: {"Content-Type": "application/json;charset=utf-8"}
-  			}).error(function(data, status, headers, config) {
+			return feathers.service(this.url).remove(null, {query: identifier}).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -91,7 +89,7 @@
 		 */
 		endpoints.prototype.findOne = function(id) {
 			var self = this;
-			return $http.get(this.url + '/' + id).error(function(data, status, headers, config) {
+			return feathers.get(this.url).get(id).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -104,7 +102,7 @@
 		 */
 		endpoints.prototype.updateOne = function(id, replacement) {
 			var self = this;
-			return $http.put(this.url + '/' + id, replacement).error(function(data, status, headers, config) {
+			return feathers.patch(this.url).patch(id, replacement).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -116,7 +114,7 @@
 		 */
 		endpoints.prototype.deleteOne = function(id) {
 			var self = this;
-			return $http.delete(this.url + '/' + id).error(function(data, status, headers, config) {
+			return feathers.patch(this.url).remove(id).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -130,6 +128,7 @@
 	 * @return {nothing}
 	 */
 		endpoints.prototype.errorHandler = function(data, status, headers, config) {
+      console.log("data", data);
 			var category = this.endpoint;
 			if(!/<[a-z][\s\S]*>/i.test(data)) {
 				console.log('Server API call to "' + category + '" failed. ', data);

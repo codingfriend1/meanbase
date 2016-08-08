@@ -10,7 +10,7 @@ angular.module('meanbaseApp')
       pages: new endpoints('pages'),
       approvedComments: new endpoints('comments/approved'),
       comments: new endpoints('comments'),
-      bannedMembers: new endpoints('comments/ban'),
+      bannedMembers: new endpoints('bans'),
       publishedMenus: new endpoints('menus/published'),
       menus: new endpoints('menus'),
       sharedContent: new endpoints("shared-content"),

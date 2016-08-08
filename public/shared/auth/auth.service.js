@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q, feathers) {
     var currentUser = {};
     if($cookieStore.get('token')) {
-      currentUser = User.get();
+      currentUser = feathers.get('user');
     }
 
     return {
@@ -20,22 +20,21 @@ angular.module('meanbaseApp')
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
-        $http.post('/auth/local', {
+        feathers.authenticate({
+          type: 'local',
           email: user.email,
           password: user.password
-        }).
-        success(function(data) {
+        }).then(function(result){
           $rootScope.isLoggedIn = true;
-          $cookieStore.put('token', data.token);
-          currentUser = User.get();
-          deferred.resolve(data);
+          currentUser = feathers.get('user');
+          deferred.resolve(result);
           return cb();
-        }).
-        error(function(err) {
+        }).catch(function(error){
+          console.error('Error authenticating!', error);
           this.logout();
           deferred.reject(err);
           return cb(err);
-        }.bind(this));
+        });
 
         return deferred.promise;
       },
@@ -46,7 +45,7 @@ angular.module('meanbaseApp')
        * @param  {Function}
        */
       logout: function() {
-        $cookieStore.remove('token');
+        feathers.logout();
         currentUser = {};
         $rootScope.isLoggedIn = false;
       },
@@ -63,8 +62,8 @@ angular.module('meanbaseApp')
 
         return User.save(user,
           function(data) {
-            $cookieStore.put('token', data.token);
-            currentUser = User.get();
+
+            currentUser = feathers.get('user');
             $rootScope.isLoggedIn = true;
             return cb(user);
           },
@@ -117,17 +116,12 @@ angular.module('meanbaseApp')
        * Waits for currentUser to resolve before checking if user is logged in
        */
       isLoggedInAsync: function(cb) {
-        if(currentUser.hasOwnProperty('$promise')) {
-          currentUser.$promise.then(function() {
-            cb(true);
-          }).catch(function() {
-            cb(false);
-          });
-        } else if(currentUser.hasOwnProperty('role')) {
+        feathers.authenticate().then(function(response) {
+          console.log('response', response);
           cb(true);
-        } else {
+        }, function(err) {
           cb(false);
-        }
+        });
       },
 
       // Check if the user's role has the correct permission
@@ -171,7 +165,7 @@ angular.module('meanbaseApp')
        * Get auth token
        */
       getToken: function() {
-        return $cookieStore.get('token');
+        feathers.get('token')
       }
     };
   });
