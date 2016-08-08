@@ -21,8 +21,7 @@ RUN rm -rf /var/www/
 WORKDIR /var/www/
 COPY dist/package.json /var/www/
 RUN npm install
-COPY dist/public/ /var/www/public/
-COPY dist/server/ /var/www/server/
+COPY dist/ /var/www/
 # RUN chmod -R 755 /var/www
 ################## END DIRECTORIES ######################
 
