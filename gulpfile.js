@@ -5,34 +5,34 @@ var async = require('async')
 
 var folders = {
   build: {
-    app: path.resolve(__dirname, 'client', 'app'),
-    admin: path.resolve(__dirname, 'client', 'admin'),
-    themes: path.resolve(__dirname, 'client', 'themes'),
+    app: path.resolve(__dirname, 'public', 'app'),
+    admin: path.resolve(__dirname, 'public', 'admin'),
+    themes: path.resolve(__dirname, 'public', 'themes'),
     gulp: path.resolve(__dirname, 'gulp', 'build'),
-    extensions: path.resolve(__dirname, 'client', 'extensions'),
+    extensions: path.resolve(__dirname, 'public', 'extensions'),
   },
   admin: {
-    client: path.resolve(__dirname, 'client'),
-    root: path.resolve(__dirname, 'client', 'admin'),
-    code: path.resolve(__dirname, 'client', 'admin', 'code'),
-    shared: path.resolve(__dirname, 'client', 'shared'),
+    client: path.resolve(__dirname, 'public'),
+    root: path.resolve(__dirname, 'public', 'admin'),
+    code: path.resolve(__dirname, 'public', 'admin', 'code'),
+    shared: path.resolve(__dirname, 'public', 'shared'),
     gulp: path.resolve(__dirname, 'gulp', 'admin'),
-    bower: path.resolve(__dirname, 'client', 'admin', 'bower_components')
+    bower: path.resolve(__dirname, 'public', 'admin', 'bower_components')
   },
   app: {
-    client: path.resolve(__dirname, 'client'),
+    client: path.resolve(__dirname, 'public'),
     gulp: path.resolve(__dirname, 'gulp', 'app'),
-    root: path.resolve(__dirname, 'client', 'app'),
-    components: path.resolve(__dirname, 'client', 'app', 'components'),
-    shared: path.resolve(__dirname, 'client', 'shared'),
-    bower: path.resolve(__dirname, 'client', 'app', 'bower_components')
+    root: path.resolve(__dirname, 'public', 'app'),
+    components: path.resolve(__dirname, 'public', 'app', 'components'),
+    shared: path.resolve(__dirname, 'public', 'shared'),
+    bower: path.resolve(__dirname, 'public', 'app', 'bower_components')
   },
   themes: {
-    root: path.resolve(__dirname, 'client', 'themes'),
+    root: path.resolve(__dirname, 'public', 'themes'),
     gulp: path.resolve(__dirname, 'gulp', 'themes')
   },
   extensions: {
-    root: path.resolve(__dirname, 'client', 'extensions'),
+    root: path.resolve(__dirname, 'public', 'extensions'),
     gulp: path.resolve(__dirname, 'gulp', 'extensions')
   },
 }

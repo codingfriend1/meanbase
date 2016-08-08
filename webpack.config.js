@@ -4,12 +4,12 @@ var path = require('path')
 var fs = require('fs');
 
 var folders = {
-  root: path.resolve(__dirname, 'client'),
-  slash: path.resolve(__dirname, 'client') + '/',
-  app: path.resolve(__dirname, 'client', 'app'),
-  admin: path.resolve(__dirname, 'client', 'admin'),
-  themes: path.resolve(__dirname, 'client', 'themes'),
-  extensions: path.resolve(__dirname, 'client', 'extensions')
+  root: path.resolve(__dirname, 'public'),
+  slash: path.resolve(__dirname, 'public') + '/',
+  app: path.resolve(__dirname, 'public', 'app'),
+  admin: path.resolve(__dirname, 'public', 'admin'),
+  themes: path.resolve(__dirname, 'public', 'themes'),
+  extensions: path.resolve(__dirname, 'public', 'extensions')
 }
 
 var nodeAndBower = /(node_modules|bower_components)/
@@ -47,10 +47,11 @@ var config = {
         loader: 'babel',
         exclude: nodeAndBower,
         query: {
-          presets: ['es2015', 'stage-1'],
+          presets: ['es2017', 'stage-1'],
           "plugins": [
             "ng-annotate",
             "transform-decorators-legacy",
+            "transform-async-to-generator",
             "transform-class-properties",
             "transform-flow-strip-types",
             "transform-object-rest-spread"

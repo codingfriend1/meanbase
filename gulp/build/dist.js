@@ -2,7 +2,7 @@
 module.exports = function(gulp, plugins, folders, config) {
 
   gulp.task('dist', function(done) {
-    plugins.runSequence('clean', 'copy', done);
+    plugins.runSequence('copy', done);
   });
 
   gulp.task('clean', function() {
