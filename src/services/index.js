@@ -19,7 +19,6 @@ module.exports = function() {
   mongoose.connect(app.get('mongodb'));
   mongoose.Promise = global.Promise;
 
-  app.configure(authentication);
   app.configure(user);
   app.configure(pages);
   app.configure(menus);
@@ -32,4 +31,5 @@ module.exports = function() {
   app.configure(themes);
   app.configure(extension);
   app.configure(ban);
+  app.configure(authentication);
 };
