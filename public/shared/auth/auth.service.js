@@ -133,7 +133,7 @@ angular.module('meanbaseApp')
       // Check if the user's role has the correct permission
       hasPermission: function(permissionName, cb) {
         currentUser = feathers.get('user');
-        if(_.isPlainObject(currentUser)) {
+        if(_.isEmpty(currentUser)) {
           feathers.authenticate().then(function(response) {
             feathers.set('user', response);
             currentUser = feathers.get('user');
