@@ -12,7 +12,7 @@ angular.module('meanbaseApp')
     CRUD.prototype.create = function(item, message, failure) {
       var self = this;
       return this.api.create(item).then(function(p) {
-        self.scope[self.collection].push(p.data[0]);
+        self.scope[self.collection].push(p[0]);
         if(message) { toastr.clear(); toastr.success(message); }
       }, function(err) {
         if(failure) { toastr.clear(); toastr.warning(failure); }
@@ -22,7 +22,7 @@ angular.module('meanbaseApp')
     CRUD.prototype.find = function(query, message, failure) {
       var self = this;
       return this.api.find(query).then(function(res) {
-        self.scope[self.collection] = res.data;
+        self.scope[self.collection] = res;
         $timeout(function() {
           componentHandler.upgradeAllRegistered()
         });

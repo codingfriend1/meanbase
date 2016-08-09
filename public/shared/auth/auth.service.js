@@ -132,8 +132,11 @@ angular.module('meanbaseApp')
 
       // Check if the user's role has the correct permission
       hasPermission: function(permissionName, cb) {
-        if(currentUser.hasOwnProperty('$promise')) {
-          currentUser.$promise.then(function() {
+        currentUser = feathers.get('user');
+        if(_.isPlainObject(currentUser)) {
+          feathers.authenticate().then(function(response) {
+            feathers.set('user', response);
+            currentUser = feathers.get('user');
             if(!currentUser.hasOwnProperty('permissions')) { cb(false); return false; }
             // If user's role is in meanbaseGlobals.roles then check roles to see if user has permission
             // Or if user has allPrivilages
@@ -142,7 +145,7 @@ angular.module('meanbaseApp')
             } else {
               cb(false);
             }
-          }).catch(function() {
+          }, function(err) {
             cb(false);
           });
         } else if(currentUser.hasOwnProperty('permissions')) {

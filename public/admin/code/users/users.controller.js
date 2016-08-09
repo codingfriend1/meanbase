@@ -10,7 +10,7 @@
     function findall() {
       u.find({}, null, 'Could not get the users');
     }
-    findAll();
+    findall();
 
 		$scope.$parent.pageTitle = "Users and Permissions";
 		$scope.$parent.tabs = [
