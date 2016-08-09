@@ -19,7 +19,7 @@
     ];
 
 	  // Get all roles and their permissions and set the roles panel selected role to the first one
-	  api.roles.find({}).success(function(roles) {
+	  api.roles.find({}).then(function(roles) {
 	  	$scope.roles = roles;
 	  	$scope.selectedRole = $scope.roles[0];
 	  });
@@ -46,7 +46,7 @@
 
 	  	var newRole = {role: roleName, permissions: angular.copy($scope.selectedRole.permissions)};
 
-  		api.roles.create(newRole).success(function(response) {
+  		api.roles.create(newRole).then(function(response) {
 				if(Array.isArray(response) && response[0]) {
 					$scope.roles.push(response[0]);
 	  			$scope.selectedRole = response[0];

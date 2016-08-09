@@ -72,7 +72,7 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 
 	$scope.ban = function(comment) {
 		if(comment && comment.ip && comment.email) {
-			api.bannedMembers.create({ip: comment.ip, email: comment.email}).success(function(response) {
+			api.bannedMembers.create({ip: comment.ip, email: comment.email}).then(function(response) {
 				console.log("response", response);
 			});
 		}

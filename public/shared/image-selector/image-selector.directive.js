@@ -142,7 +142,7 @@ angular.module('meanbaseApp')
 
         // Find all media
         function getMedia() {
-          api.media.find({}).success(function(media) {
+          api.media.find({}).then(function(media) {
             scope.media = media;
 
             // Take the image path from the server and choose the appropriate image to display

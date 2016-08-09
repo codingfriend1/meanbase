@@ -22,7 +22,7 @@ angular.module('meanbaseApp')
   	api.comments.find({}).then(function(response) {
   		$scope.comments = response.data;
 
-      api.bannedMembers.find({}).success(function(bannedComments) {
+      api.bannedMembers.find({}).then(function(bannedComments) {
         $scope.bannedMembers = bannedComments;
         for (var i = 0; i < $scope.comments.length; i++) {
           if($scope.pagesWithComments.indexOf($scope.comments[i].url) === -1) {
@@ -98,7 +98,7 @@ angular.module('meanbaseApp')
 
     $scope.ban = function(comment) {
       if(!comment || !comment.email || !comment.ip) { return false; }
-      api.bannedMembers.create({email: comment.email, ip: comment.ip}).success(function(response) {
+      api.bannedMembers.create({email: comment.email, ip: comment.ip}).then(function(response) {
         toastr.success('Commentor banned');
         comment.banned = true;
         $scope.bannedMembers.push(response[0]);

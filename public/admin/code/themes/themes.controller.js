@@ -92,7 +92,7 @@ angular.module('meanbaseApp')
     uploader.onSuccessItem = function() {
       $rootScope.$emit('cms.themeUploaded');
       toastr.success('Theme successfully uploaded! Refreshing page to compile code.');
-      api.themes.find({}).success(function(themes) {
+      api.themes.find({}).then(function(themes) {
         $scope.themes = themes;
       });
     };

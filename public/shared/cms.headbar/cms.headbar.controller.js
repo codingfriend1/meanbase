@@ -77,7 +77,7 @@
 				if($rootScope.page.url.charAt(0) !== '/') { url = '/' + $rootScope.page.url; } else { url = $rootScope.page.url; }
 				api.menus.delete({url: url}).finally(function() {
 					// Replenish menus
-					api.menus.find({}).success(function(response) {
+					api.menus.find({}).then(function(response) {
 						$rootScope.menus = response;
 					});
 				});

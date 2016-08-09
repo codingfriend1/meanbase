@@ -44,7 +44,7 @@
             }
 
             // - Find a page in the database with a url that matches the current url
-            pages.find({url: '/' + $stateParams.page}).success(function(response) {
+            pages.find({url: '/' + $stateParams.page}).then(function(response) {
               $rootScope.page = {
                 tabTitle: 404,
                 description: 'Could not find page',
@@ -100,7 +100,7 @@
               }
 
 
-            }).error(function(error) {
+            }).catch(function(error) {
               console.log('Could not request page template: ', error);
               $state.go('main.missing');
             });

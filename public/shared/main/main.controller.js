@@ -36,14 +36,14 @@
     $scope.sharedContentToCheckDelete = [];
 
     // Get all the menus on the server.
-    server.menus.find({}).success(function(response) {
+    server.menus.find({}).then(function(response) {
       $rootScope.menus = response;
     });
 
 
     function getSharedContentFromServer() {
       // Gets all existing shared content. Why not just content that's used by the page we are on? Because if the user is in edit mode and they want to add existing content they will need the full list of shared content to choose from.
-      api.sharedContent.find({}).success(function(data) {
+      api.sharedContent.find({}).then(function(data) {
 
         // We need to define this for use even if no data was returned so it doesn't break code when we add properties to this object
         $rootScope.sharedContent = {};
@@ -148,7 +148,7 @@
 
         // In the admin pages, extensions may be disabled so they cannot be added to the page.
         // Here we get only the active extensions so the admin can select extensions to add
-        api.extensions.find({active: true}).success(function(res) {
+        api.extensions.find({active: true}).then(function(res) {
           $rootScope.extensions = res;
           for (var i = 0; i < $rootScope.extensions.length; i++) {
             if(!$rootScope.extensions[i].screenshot) {
@@ -183,8 +183,8 @@
 
       server.menus.delete({}).finally(function(deleteResponse) {
         if(!helpers.isEmpty($rootScope.menus)) {
-          server.menus.create($rootScope.menus).success(function(createResponse) {
-            server.menus.find({}).success(function(response) {
+          server.menus.create($rootScope.menus).then(function(createResponse) {
+            server.menus.find({}).then(function(response) {
               $rootScope.menus = response;
             });
           });
@@ -415,7 +415,7 @@
     // @ngInject
     function menuModal($scope, $modalInstance, menuItem, isNewMenu) {
 
-      api.pages.find({}).success(function(response) {
+      api.pages.find({}).then(function(response) {
         // if(response) {
         //   if(Array.isArray(response)) {
         //     for(var idx = 0; idx < response.length; idx++) {
