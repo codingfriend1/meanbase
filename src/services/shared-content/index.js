@@ -16,10 +16,10 @@ module.exports = function() {
   };
 
   // Initialize our service with any options it requires
-  app.use('/shared-contents', service(options));
+  app.use('/shared-content', service(options));
 
   // Get our initialize service to that we can bind hooks
-  const sharedContentService = app.service('/shared-contents');
+  const sharedContentService = app.service('/shared-content');
 
   // Set up our before hooks
   sharedContentService.before(hooks.before);
