@@ -24,12 +24,9 @@ angular.module('meanbaseApp')
           email: user.email,
           password: user.password
         }).then(function(result){
-          feathers.service('/api/users').get(result.data._id).then(function(response) {
-            $rootScope.isLoggedIn = true;
-            feathers.set('user', response);
-            currentUser = feathers.get('user');
-            deferred.resolve(result);
-          });
+          $rootScope.isLoggedIn = true;
+          currentUser = feathers.get('user');
+          deferred.resolve(currentUser);
           return cb();
         }).catch(function(error){
           console.error('Error authenticating!', error);
@@ -119,12 +116,8 @@ angular.module('meanbaseApp')
        */
       isLoggedInAsync: function(cb) {
         feathers.authenticate().then(function(result) {
-          feathers.service('/api/users').get(result.data._id).then(function(response) {
-            feathers.set('user', response);
-            currentUser = feathers.get('user');
-            cb(true);
-          });
-
+          currentUser = feathers.get('user');
+          cb(true);
         }, function(err) {
           cb(false);
         });
@@ -135,19 +128,16 @@ angular.module('meanbaseApp')
         currentUser = feathers.get('user');
         if(!currentUser || _.isEmpty(currentUser)) {
           feathers.authenticate().then(function(result) {
-            feathers.service('/api/users').get(result.data._id).then(function(response) {
-              $rootScope.isLoggedIn = true;
-              currentUser = feathers.get('user');
-              feathers.set('user', response);
-              if(!currentUser.hasOwnProperty('permissions')) { cb(false); return false; }
-              // If user's role is in meanbaseGlobals.roles then check roles to see if user has permission
-              // Or if user has allPrivilages
-              if(currentUser.permissions.indexOf(permissionName) > -1 || currentUser.permissions.indexOf('allPrivilages') > -1) {
-                cb(true);
-              } else {
-                cb(false);
-              }
-            });
+            $rootScope.isLoggedIn = true;
+            currentUser = feathers.get('user');
+            if(!currentUser.hasOwnProperty('permissions')) { cb(false); return false; }
+            // If user's role is in meanbaseGlobals.roles then check roles to see if user has permission
+            // Or if user has allPrivilages
+            if(currentUser.permissions.indexOf(permissionName) > -1 || currentUser.permissions.indexOf('allPrivilages') > -1) {
+              cb(true);
+            } else {
+              cb(false);
+            }
           }, function(err) {
             cb(false);
           });

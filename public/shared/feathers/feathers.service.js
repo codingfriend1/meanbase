@@ -6,7 +6,7 @@ const localstorage = require('feathers-localstorage');
 const authentication = require('feathers-authentication/client');
 
 angular.module('meanbaseApp').factory('feathers', function() {
-  const socket = io('http://localhost:3030');
+  const socket = io(window.location.origin);
 
   window.app = feathers()
     .configure(hooks())
