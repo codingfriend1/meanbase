@@ -1,5 +1,6 @@
 'use strict';
 import errors from 'feathers-errors';
+import _ from 'lodash';
 
 // Add any common hooks you want to share across services in here.
 //
@@ -63,18 +64,24 @@ exports.attachPermissions = function(options) {
 
       const role = hook.params.user.role;
       let access = await hook.app.service('roles').find({query: { role } });
-      access = access[0];
-
-      hook.params.user.permissions = access.permissions;
-
-      if(hook.type === 'after' && hook.result && !Array.isArray(hook.result)) {
-        hook.result.permissions = access.permissions;
+      
+      let permissions;
+      if(access.length > 0) {
+        access = access[0];
+        permissions = _.keys(_.pick(access.permissions, value => value));
+      } else {
+        permissions = [];
       }
 
-      console.log("hook.result.permissions", hook.result.permissions);
+      hook.params.user.permissions = permissions;
+
+      if(hook.type === 'after' && hook.result && !Array.isArray(hook.result)) {
+        hook.result.permissions = permissions;
+      }
 
       Promise.resolve(hook);
     } catch(err) {
+      console.log("error attaching permissions: ", err);
       Promise.reject(err);
     }
   }

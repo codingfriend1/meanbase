@@ -7,20 +7,7 @@ angular.module('meanbaseApp')
       currentUser = feathers.get('user');
     }
 
-    function permissionsToArray(response) {
-      var permissionArray = [];
-      Object.keys(response.permissions).map(function(permission) {
-        if(response.permissions[permission]) {
-          permissionArray.push(permission);
-        }
-
-      });
-      response.permissions = permissionArray;
-    }
-
-
     return {
-
       /**
        * Authenticate user and save token
        *
@@ -39,7 +26,6 @@ angular.module('meanbaseApp')
         }).then(function(result){
           feathers.service('/api/users').get(result.data._id).then(function(response) {
             $rootScope.isLoggedIn = true;
-            permissionsToArray(response);
             feathers.set('user', response);
             currentUser = feathers.get('user');
             deferred.resolve(result);
@@ -134,7 +120,6 @@ angular.module('meanbaseApp')
       isLoggedInAsync: function(cb) {
         feathers.authenticate().then(function(result) {
           feathers.service('/api/users').get(result.data._id).then(function(response) {
-            permissionsToArray(response);
             feathers.set('user', response);
             currentUser = feathers.get('user');
             cb(true);
