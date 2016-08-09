@@ -141,7 +141,8 @@ angular.module('meanbaseApp')
           }, function(err) {
             cb(false);
           });
-        } else if(currentUser.hasOwnProperty('permissions')) {
+        }
+        else if(currentUser.hasOwnProperty('permissions')) {
           // If user's role is in meanbaseGlobals.roles then check roles to see if user has permission
           // Or if user has allPrivilages
           if(currentUser.permissions.indexOf(permissionName) > -1 || currentUser.permissions.indexOf('allPrivilages') > -1) {

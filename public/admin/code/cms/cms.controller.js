@@ -16,15 +16,7 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
     });
   };
 
-	Auth.isLoggedInAsync(function(status) {
-	 $rootScope.isLoggedIn = status;
-	 $rootScope.currentUser = Auth.getCurrentUser();
-
-   if(status) {
-     $scope.isBanned({});
-   }
-
-	 for (var i = 0; i < states.length; i++) {
+	for (var i = 0; i < states.length; i++) {
  		if(states[i].name.indexOf('cms.') > -1) {
  			var state = angular.copy(states[i]);
 			if(!state.hasPermission) {
@@ -42,8 +34,6 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
  			$scope.cmsStates.push(state);
  		}
  	}
-
- });
 
  $scope.goToApp = function() {
    window.location.href = '/';

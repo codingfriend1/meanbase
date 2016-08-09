@@ -28,7 +28,7 @@ angular.module('meanbaseApp', [
     }]);
   })
 
-  .run(function ($rootScope, $location, Auth, ngAnalyticsService, api, $timeout) {
+  .run(function ($rootScope, $location, Auth, ngAnalyticsService, api, $timeout, $state) {
 
     $rootScope.$on('$viewContentLoaded', function() {
       $timeout(function() {
@@ -43,17 +43,37 @@ angular.module('meanbaseApp', [
 
 
     // Redirect to login if route requires auth and you're not logged in
-    $rootScope.$on('$stateChangeStart', function (event, next) {
-      Auth.isLoggedInAsync(function(loggedIn) {
-        if (next.authenticate && !loggedIn) {
-          $location.path('/cms/account');
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
+      if(!Auth.isLoggedIn()) {
+        event.preventDefault();
+
+        function continueNavigation() {
+          var params = angular.copy(toParams);
+          params.skipSomeAsync = true;
+          $state.go(toState.name, params);
         }
-      });
 
-      if(!next.hasPermission) return false;
+        Auth.isLoggedInAsync(function(loggedIn) {
+          if (toState.authenticate && !loggedIn) {
+            $location.path('/cms/account');
+          } else {
+            $rootScope.isLoggedIn = loggedIn;
+            $rootScope.currentUser = Auth.getCurrentUser();
 
-      Auth.hasPermission(next.hasPermission, function(hasPermission) {
-        if(!hasPermission) { $location.path('/cms/account'); }
-      });
+            if(toState.hasPermission) {
+              Auth.hasPermission(toState.hasPermission, function(hasPermission) {
+                if(!hasPermission) { $location.path('/cms/account'); } else {
+                  continueNavigation();
+                }
+              });
+            } else {
+              continueNavigation();
+            }
+          }
+        });
+
+      }
+
     });
   });
