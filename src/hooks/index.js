@@ -23,34 +23,59 @@ exports.recaptcha = function(options) {
   }
 };
 
+// exports.attachPermissions = function(options) {
+//   return async function(hook) {
+//     try {
+//
+//       if (!hook.params.provider) { return Promise.resolve(hook); }
+//
+//       let role;
+//       if (hook.type !== 'before' && hook.params.user) {
+//         role = hook.params.user.role;
+//       } else if (hook.type !== 'after' && hook.result) {
+//         role = hook.result.role;
+//       }
+//
+//       if(role) {
+//         let access = await hook.app.service('roles').find({query: { role } });
+//
+//         access = access[0];
+//
+//         hook.params.user.permissions = access.permissions;
+//
+//         if(hook.type === 'after' && hook.result && !Array.isArray(hook.result)) {
+//           hook.result.permissions = access.permissions;
+//         }
+//       }
+//
+//       return Promise.resolve(hook);
+//     } catch(err) {
+//       return Promise.reject(err);
+//     }
+//   }
+// };
+
 exports.attachPermissions = function(options) {
   return async function(hook) {
     try {
 
       if (!hook.params.provider) { return Promise.resolve(hook); }
 
-      let role;
-      if (hook.type !== 'before' && hook.params.user) {
-        role = hook.params.user.role;
-      } else if (hook.type !== 'after' && hook.result) {
-        role = hook.result.role;
+      const role = hook.params.user.role;
+      let access = await hook.app.service('roles').find({query: { role } });
+      access = access[0];
+
+      hook.params.user.permissions = access.permissions;
+
+      if(hook.type === 'after' && hook.result && !Array.isArray(hook.result)) {
+        hook.result.permissions = access.permissions;
       }
 
-      if(role) {
-        let access = await hook.app.service('roles').find({query: { role } });
+      console.log("hook.result.permissions", hook.result.permissions);
 
-        access = access[0];
-
-        hook.params.user.permissions = access.permissions;
-
-        if(hook.type === 'after' && hook.result && !Array.isArray(hook.result)) {
-          hook.result.permissions = access.permissions;
-        }
-      }
-
-      return Promise.resolve(hook);
+      Promise.resolve(hook);
     } catch(err) {
-      return Promise.reject(err);
+      Promise.reject(err);
     }
   }
 };
