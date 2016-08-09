@@ -63,7 +63,6 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
 	$scope.isBanned = function(identifier) {
 		if(typeof identifier === 'object' || identifier) {
 			api.bannedMembers.find(identifier).then(function(response) {
-			  console.log('response', response);
 			}, function(err) {
 			  console.log('promise rejected', err);
 			});;

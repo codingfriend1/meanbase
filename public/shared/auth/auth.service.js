@@ -7,6 +7,18 @@ angular.module('meanbaseApp')
       currentUser = feathers.get('user');
     }
 
+    function permissionsToArray(response) {
+      var permissionArray = [];
+      Object.keys(response.permissions).map(function(permission) {
+        if(response.permissions[permission]) {
+          permissionArray.push(permission);
+        }
+
+      });
+      response.permissions = permissionArray;
+    }
+
+
     return {
 
       /**
@@ -25,9 +37,13 @@ angular.module('meanbaseApp')
           email: user.email,
           password: user.password
         }).then(function(result){
-          $rootScope.isLoggedIn = true;
-          currentUser = feathers.get('user');
-          deferred.resolve(result);
+          feathers.service('/api/users').get(result.data._id).then(function(response) {
+            $rootScope.isLoggedIn = true;
+            permissionsToArray(response);
+            feathers.set('user', response);
+            currentUser = feathers.get('user');
+            deferred.resolve(result);
+          });
           return cb();
         }).catch(function(error){
           console.error('Error authenticating!', error);
@@ -116,9 +132,14 @@ angular.module('meanbaseApp')
        * Waits for currentUser to resolve before checking if user is logged in
        */
       isLoggedInAsync: function(cb) {
-        feathers.authenticate().then(function(response) {
-          console.log('response', response);
-          cb(true);
+        feathers.authenticate().then(function(result) {
+          feathers.service('/api/users').get(result.data._id).then(function(response) {
+            permissionsToArray(response);
+            feathers.set('user', response);
+            currentUser = feathers.get('user');
+            cb(true);
+          });
+
         }, function(err) {
           cb(false);
         });
