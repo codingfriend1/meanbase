@@ -66,7 +66,7 @@ export default function(restriction = {}, options = {}){
         delete options.algorithm;
       }
 
-      return new Promise(function(resolve, reject){
+      return new Promise(function(resolve, reject) {
         jwt.verify(token, secret, options, function (error, payload) {
           if (error) {
             // If the user is trying to add a token then it is better to throw and error than let the request go through with a restriction

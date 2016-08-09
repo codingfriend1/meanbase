@@ -29,21 +29,28 @@ exports.attachPermissions = function(options) {
 
       if (!hook.params.provider) { return Promise.resolve(hook); }
 
-      const role = hook.params.user.role;
-      let access = await hook.app.service('roles').find({query: { role } });
-      access = access[0];
-
-      hook.params.user.permissions = access.permissions;
-
-      if(hook.type === 'after' && hook.result && !Array.isArray(hook.result)) {
-        hook.result.permissions = access.permissions;
+      let role;
+      if (hook.type !== 'before' && hook.params.user) {
+        role = hook.params.user.role;
+      } else if (hook.type !== 'after' && hook.result) {
+        role = hook.result.role;
       }
 
-      console.log("hook.result.permissions", hook.result.permissions);
+      if(role) {
+        let access = await hook.app.service('roles').find({query: { role } });
 
-      Promise.resolve(hook);
+        access = access[0];
+
+        hook.params.user.permissions = access.permissions;
+
+        if(hook.type === 'after' && hook.result && !Array.isArray(hook.result)) {
+          hook.result.permissions = access.permissions;
+        }
+      }
+
+      return Promise.resolve(hook);
     } catch(err) {
-      Promise.reject(err);
+      return Promise.reject(err);
     }
   }
 };

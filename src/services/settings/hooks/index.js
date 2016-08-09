@@ -8,23 +8,23 @@ const auth = require('feathers-authentication').hooks;
 
 const permissionName = 'changeSiteSettings';
 
+const restriction = {name: 'clientID'};
+
 exports.before = {
   all: [],
   find: [
-    auth.verifyToken(),
-    auth.populateUser(),
-    auth.restrictToAuthenticated(),
-    globalHooks.attachPermissions(),
+    globalHooks.verifyOrRestrict(restriction),
+    globalHooks.populateOrRestrict(restriction),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.attachPermissions(),
+    globalHooks.hasPermissionOrRestrict(permissionName, restriction)
   ],
   get: [
-    auth.verifyToken(),
-    auth.populateUser(),
-    auth.restrictToAuthenticated(),
-    globalHooks.attachPermissions(),
+    globalHooks.verifyOrRestrict(restriction),
+    globalHooks.populateOrRestrict(restriction),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.attachPermissions(),
+    globalHooks.hasPermissionOrRestrict(permissionName, restriction)
   ],
   create: [
     auth.verifyToken(),

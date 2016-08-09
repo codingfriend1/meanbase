@@ -26,10 +26,10 @@ module.exports = function() {
   });
 
   app.get('/cms/?*', (req, res) => {
-    res.sendfile(path.join(app.get('adminPath'), 'index.html'));
+    res.sendFile(path.join(app.get('adminPath'), 'index.html'));
   });
 
   app.get('/*', (req, res) => {
-    res.sendfile(path.join(app.get('appPath'), 'index.html'));
+    res.sendFile(path.join(app.get('appPath'), 'index.html'));
   });
 };

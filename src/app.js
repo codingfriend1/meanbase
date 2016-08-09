@@ -31,13 +31,13 @@ api.use(compress())
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
   .configure(rest())
+  .configure(socketio())
   .use(function(req, res, next) {
     req.feathers.ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     next();
   })
   .configure(hooks())
   .configure(settings)
-  .configure(socketio())
   .configure(services)
   .configure(seed)
   .configure(middleware);

@@ -9,12 +9,12 @@ const permissionName = 'manageUsers';
 exports.before = {
   all: [],
   find: [
-    // auth.verifyToken(),
-    // auth.populateUser(),
-    // auth.restrictToAuthenticated(),
-    // globalHooks.attachPermissions(),
-    // globalHooks.isEnabled(),
-    // globalHooks.hasPermission(permissionName),
+    auth.verifyToken(),
+    auth.populateUser(),
+    auth.restrictToAuthenticated(),
+    globalHooks.attachPermissions(),
+    globalHooks.isEnabled(),
+    globalHooks.hasPermission(permissionName),
   ],
   get: [
     auth.verifyToken(),
