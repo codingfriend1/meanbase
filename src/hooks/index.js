@@ -64,7 +64,7 @@ exports.attachPermissions = function(options) {
 
       const role = hook.params.user.role;
       let access = await hook.app.service('roles').find({query: { role } });
-      
+
       let permissions;
       if(access.length > 0) {
         access = access[0];
@@ -114,7 +114,7 @@ exports.hasPermission = function(permissionName) {
     if (!hook.params.provider) { return hook; }
     if(!hook.params.user) {
       throw new Error('Cannot check permissions of a non-existant user.');
-    } else if (hook.params.user.permissions[permissionName] !== true && hook.params.user.permissions['allPrivilages'] !== true) {
+    } else if (hook.params.user.permissions.indexOf(permissionName) === -1 && hook.params.user.permissions.indexOf('allPrivilages') === -1) {
       throw new Error('You must be a(n) ' + permissionName + ' to do that.');
     }
   };
@@ -123,7 +123,7 @@ exports.hasPermission = function(permissionName) {
 exports.hasPermissionOrRestrict = function(permissionName, restriction) {
   return async function(hook) {
     if (!hook.params.provider) { return hook; }
-    if(!hook.params.user || (hook.params.user.permissions[permissionName] !== true && hook.params.user.permissions['allPrivilages'] !== true)) {
+    if(!hook.params.user || (hook.params.user.permissions.indexOf(permissionName) === -1 && hook.params.user.permissions.indexOf('allPrivilages') === -1) ) {
 
       let query = Object.assign({}, hook.params.query, restriction);
       const params = Object.assign({}, hook.params, { provider: undefined });

@@ -4,4 +4,10 @@ const admin = {
   "role": "admin"
 }
 
-module.exports = [admin];
+const guest = {
+  "email": "guest@guest.com",
+  "password": "guest",
+  "role": "basic"
+}
+
+module.exports = [admin, guest];
