@@ -18,6 +18,7 @@ public/app/bundle.js.map
 public/themes/*/theme.min.js
 public/themes/*/theme.min.js.map
 server/logs/debug.log
+.vscode
 .tmp
 old-server
 .idea
