@@ -4,14 +4,14 @@ angular.module('meanbaseApp')
   .service('api', function (endpoints) {
 
     var api = {
-      publishedPages: new endpoints('pages/published'),
-      searchPages: new endpoints('pages/search'),
-      searchPublishedPages: new endpoints('pages/published/search'),
+      publishedPages: new endpoints('pages'),
+      searchPages: new endpoints('pages'),
+      searchPublishedPages: new endpoints('pages'),
       pages: new endpoints('pages'),
-      approvedComments: new endpoints('comments/approved'),
+      approvedComments: new endpoints('comments'),
       comments: new endpoints('comments'),
       bannedMembers: new endpoints('bans'),
-      publishedMenus: new endpoints('menus/published'),
+      publishedMenus: new endpoints('menus'),
       menus: new endpoints('menus'),
       sharedContent: new endpoints("shared-content"),
       extensions: new endpoints('extension'),

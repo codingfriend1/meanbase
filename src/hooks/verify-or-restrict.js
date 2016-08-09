@@ -48,6 +48,7 @@ export default function(restriction = {}, options = {}){
           hook.result = results;
           return hook;
         }
+        console.log("hook.result", hook.result);
       }).catch(() => {
         throw new errors.NotFound(`No record found`);
       });

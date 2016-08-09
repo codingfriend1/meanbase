@@ -90,7 +90,6 @@ export default function(restriction = {}, options = {}){
         //   return hook;
         // }
 
-
         hook.params.provider = undefined;
         self.find({ query }, params).then(results => {
           if(hook.method === 'get' && Array.isArray(results) && results.length === 1) {

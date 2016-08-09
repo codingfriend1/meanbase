@@ -50,9 +50,7 @@ const pagesSchema = new Schema({
 		default: "Title",
 		validate: validators.matches(patterns.isTitle, {skipEmpty:true})
 	},
-	content: [
-		{location: {type: String}, text: {type: String}}
-	],
+	content: { type: Schema.Types.Mixed },
 	images: [{
 	  url: {
 			type: String,

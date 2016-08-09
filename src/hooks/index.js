@@ -8,48 +8,20 @@ import _ from 'lodash';
 // see http://docs.feathersjs.com/hooks/readme.html for more details
 // on hooks.
 
-import populateOrRestrict from './populate-or-restrict.js';
-import verifyOrRestrict from './verify-or-restrict.js';
+import populateOrRestrict from './populate-or-restrict';
+import verifyOrRestrict from './verify-or-restrict';
+import attachPermissions from './attach-permissions';
 
 exports.populateOrRestrict = populateOrRestrict;
 exports.verifyOrRestrict = verifyOrRestrict;
+
+exports.attachPermissions = attachPermissions;
 
 exports.recaptcha = function(options) {
   return async function(hook) {
     try {
       Promise.resolve(hook);
     } catch(err) {
-      Promise.reject(err);
-    }
-  }
-};
-
-exports.attachPermissions = function(options) {
-  return async function(hook) {
-    try {
-
-      if (!hook.params.provider) { return Promise.resolve(hook); }
-
-      const role = hook.params.user.role;
-      let access = await hook.app.service('roles').find({query: { role } });
-
-      let permissions;
-      if(access.length > 0) {
-        access = access[0];
-        permissions = _.keys(_.pick(access.permissions, value => value));
-      } else {
-        permissions = [];
-      }
-
-      hook.params.user.permissions = permissions;
-
-      if(hook.type === 'after' && hook.result && !Array.isArray(hook.result)) {
-        hook.result.permissions = permissions;
-      }
-
-      Promise.resolve(hook);
-    } catch(err) {
-      console.log("error attaching permissions: ", err);
       Promise.reject(err);
     }
   }

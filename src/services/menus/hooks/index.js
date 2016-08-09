@@ -1,4 +1,6 @@
 'use strict';
+import arrayToObject from './array-to-object';
+import objectToArray from './object-to-array';
 
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
@@ -29,7 +31,8 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.hasPermission(permissionName),
+    objectToArray()
   ],
   update: [
     auth.verifyToken(),
@@ -58,7 +61,9 @@ exports.before = {
 };
 
 exports.after = {
-  all: [],
+  all: [
+    arrayToObject()
+  ],
   find: [],
   get: [],
   create: [],
