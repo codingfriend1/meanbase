@@ -20,7 +20,7 @@ angular.module('meanbaseApp')
     $scope.c = new crud($scope, 'comments', api.comments);
 
   	api.comments.find({}).then(function(response) {
-  		$scope.comments = response.data;
+  		$scope.comments = response;
 
       api.bannedMembers.find({}).then(function(bannedComments) {
         $scope.bannedMembers = bannedComments;
@@ -37,7 +37,7 @@ angular.module('meanbaseApp')
         $scope.pagesWithComments = helpers.generateSelectOptions($scope.pagesWithComments, function(page){
           return page.substring(1);
         });
-      }).error(function(err) {
+      }).catch(function(err) {
          toastr.warning('Could not figure out if comments are banned.')
       });
 
@@ -45,13 +45,13 @@ angular.module('meanbaseApp')
 
     // Get the auto accept comments status
     api.settings.find({name: 'auto-accept-comments'}).then(function(response) {
-      if(!response.data[0]) { return $scope.autoAccept = false; }
-      $scope.autoAccept = response.data[0].value === "true";
+      if(!response[0]) { return $scope.autoAccept = false; }
+      $scope.autoAccept = response.value === "true";
     });
 
     api.settings.find({name: 'disable-comments'}).then(function(response) {
-      if(!response.data[0]) { return $scope.disableComments = false; }
-      $scope.disableComments = response.data[0].value === "true";
+      if(!response) { return $scope.disableComments = false; }
+      $scope.disableComments = response.value === "true";
     });
 
     $scope.approvalStates = [
@@ -102,7 +102,7 @@ angular.module('meanbaseApp')
         toastr.success('Commentor banned');
         comment.banned = true;
         $scope.bannedMembers.push(response[0]);
-      }).error(function(err) {
+      }).catch(function(err) {
         toastr.danger('Could not ban commentor', err);
       });
     };

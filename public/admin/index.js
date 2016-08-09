@@ -35,10 +35,10 @@ import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "./code/components/mdl/mdl.directive.js";
-import "./code/account/login/login.controller.js";
 import "./code/components/dialog/dialog.directive.js";
 import "./code/components/date-picker/date-picker.directive.js";
 import "./code/components/crud/crud.service.js";
+import "./code/account/login/login.controller.js";
 import "./code/account/settings/settings.controller.js";
 import "./code/users/users.js";
 import "./code/users/users.controller.js";
@@ -64,13 +64,13 @@ import "./code/account/account.js";
 // end inject js
 
 // inject jade
-import "./code/comments/comments.jade";
-import "./code/cms/cms.jade";
-import "./code/extensions/extensions.jade";
 import "./code/analytics/analytics.jade";
-import "./code/pages/pages.jade";
+import "./code/cms/cms.jade";
+import "./code/comments/comments.jade";
+import "./code/extensions/extensions.jade";
 import "./code/import/import.jade";
 import "./code/media/media.jade";
+import "./code/pages/pages.jade";
 import "./code/themes/themes.jade";
 import "./code/users/users.jade";
 import "./code/account/login/login.jade";
