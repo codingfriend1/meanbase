@@ -4,7 +4,7 @@
  * @author Jon Paul Miles <milesjonpaul@gmail.com>
  */
 angular.module('meanbaseApp')
-  .directive('imageSelector', function ($cookieStore, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, api, helpers) {
+  .directive('imageSelector', function (Auth, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, api, helpers) {
     return {
       templateUrl: require('./image-selector.jade'),
       restrict: 'EA',
@@ -381,12 +381,12 @@ angular.module('meanbaseApp')
           });
         };
 
-        scope.hasToken = $cookieStore.get('token');
+        scope.hasToken = Auth.getToken();;
         if (scope.hasToken) {
           var uploader = scope.mediaUploader = new FileUploader({
               url: '/api/media',
               headers: {
-                'Authorization': 'Bearer ' + $cookieStore.get('token')
+                'Authorization': 'Bearer ' + Auth.getToken()
               },
               autoUpload: true
           });

@@ -16,7 +16,7 @@ angular.module('meanbaseApp')
       sharedContent: new endpoints("shared-content"),
       extensions: new endpoints('extension'),
       themes: new endpoints('themes'),
-      media: new endpoints('media'),
+      media: new endpoints('images'),
       settings: new endpoints('settings'),
       import: new endpoints('import'),
       developmentMode: new endpoints('development-mode'),

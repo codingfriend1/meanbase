@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('MediaCtrl', function ($scope, endpoints, FileUploader, $timeout, $cookieStore, $rootScope, toastr) {
+  .controller('MediaCtrl', function ($scope, endpoints, FileUploader, $timeout, $cookieStore, $rootScope, toastr, Auth) {
 
     $scope.$parent.pageTitle = 'Upload images';
     $scope.media = [];
@@ -12,11 +12,11 @@ angular.module('meanbaseApp')
       allOperations: true
     };
 
-    if ($cookieStore.get('token')) {
+    if (Auth.getToken()) {
       var uploader = $scope.uploader = new FileUploader({
           url: '/api/media',
           headers: {
-            'Authorization': 'Bearer ' + $cookieStore.get('token')
+            'Authorization': 'Bearer ' + Auth.getToken()
           },
           autoUpload: true
       });
