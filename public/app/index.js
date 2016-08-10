@@ -29,7 +29,6 @@ import "../shared/dynamic-html/dynamic-html.directive.js";
 import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/cms.headbar/cms.headbar.controller.js";
 import "../shared/camel-to-human/camel-to-human.filter.js";
-import "../shared/auth/user.service.js";
 import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";

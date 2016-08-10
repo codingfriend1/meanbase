@@ -59,11 +59,11 @@ angular.module('meanbaseApp')
       createUser: function(user, callback) {
         var cb = callback || angular.noop;
 
-        return api.users.create(user).then(user => {
+        return api.users.create(user).then(function(user) {
           console.log('user', user);
           $rootScope.isLoggedIn = true;
           return cb(user);
-        }, err => {
+        }, function(err)  {
           this.logout();
         });
       },
@@ -82,9 +82,9 @@ angular.module('meanbaseApp')
         return api.users.update({ id: currentUser._id }, {
           oldPassword: oldPassword,
           newPassword: newPassword
-        }, user => {
+        }, function(user) {
           return cb(user);
-        }, err => {
+        }, function(err) {
           return cb(err);
         });
       },
