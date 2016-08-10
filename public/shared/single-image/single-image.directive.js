@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('singleImage', function ($rootScope, endpoints, $timeout, FileUploader, $cookieStore) {
+  .directive('singleImage', function ($rootScope, endpoints, $timeout, FileUploader, Auth) {
     return {
       templateUrl: require('./single-image.jade'),
       restrict: 'EA',
@@ -20,12 +20,12 @@ angular.module('meanbaseApp')
             scope.editMode = $rootScope.editMode;
 
             // If the user is authorized
-            if ($cookieStore.get('token')) {
+            if (Auth.getToken()) {
               // Make this area uploadable
               scope.mediaUploader = new FileUploader({
                 url: '/api/media',
                 headers: {
-                  'Authorization': 'Bearer ' + $cookieStore.get('token')
+                  'Authorization': 'Bearer ' + Auth.getToken()
                 },
                 formData: [
                   {galleries: scope.singleImage}
