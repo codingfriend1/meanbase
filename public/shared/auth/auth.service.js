@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q, feathers) {
+  .factory('Auth', function Auth($location, $rootScope, $http, $cookieStore, $q, feathers, api) {
     var currentUser = {};
     if($cookieStore.get('token')) {
       currentUser = feathers.get('user');
@@ -59,17 +59,13 @@ angular.module('meanbaseApp')
       createUser: function(user, callback) {
         var cb = callback || angular.noop;
 
-        return User.save(user,
-          function(data) {
-
-            currentUser = feathers.get('user');
-            $rootScope.isLoggedIn = true;
-            return cb(user);
-          },
-          function(err) {
-            this.logout();
-            return cb(err);
-          }.bind(this)).$promise;
+        return api.users.create(user).then(user => {
+          console.log('user', user);
+          $rootScope.isLoggedIn = true;
+          return cb(user);
+        }, err => {
+          this.logout();
+        });
       },
 
       /**
@@ -83,14 +79,14 @@ angular.module('meanbaseApp')
       changePassword: function(oldPassword, newPassword, callback) {
         var cb = callback || angular.noop;
 
-        return User.changePassword({ id: currentUser._id }, {
+        return api.users.update({ id: currentUser._id }, {
           oldPassword: oldPassword,
           newPassword: newPassword
-        }, function(user) {
+        }, user => {
           return cb(user);
-        }, function(err) {
+        }, err => {
           return cb(err);
-        }).$promise;
+        });
       },
 
       /**
