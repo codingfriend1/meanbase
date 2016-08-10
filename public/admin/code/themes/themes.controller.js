@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ThemesCtrl', function ($scope, endpoints, FileUploader, $cookieStore, $rootScope, toastr, api, $timeout, crud, $http) {
+  .controller('ThemesCtrl', function ($scope, endpoints, FileUploader, $cookieStore, $rootScope, toastr, api, $timeout, crud, $http, Auth) {
 
     $scope.$parent.pageTitle = 'Themes';
 
@@ -20,14 +20,31 @@ angular.module('meanbaseApp')
     findAll();
 
 
-    if ($cookieStore.get('token')) {
+    if (Auth.getToken()) {
       var uploader = $scope.uploader = new FileUploader({
           url: '/api/themes/upload',
           headers: {
-            'Authorization': 'Bearer ' + $cookieStore.get('token')
+            'Authorization': 'Bearer ' + Auth.getToken()
           },
           autoUpload: true
       });
+
+      uploader.onCompleteAll = function(e) {
+        uploader.clearQueue();
+        findAll();
+      };
+
+      uploader.onSuccessItem = function() {
+        $rootScope.$emit('cms.themeUploaded');
+        toastr.success('Theme successfully uploaded! Refreshing page to compile code.');
+        api.themes.find({}).then(function(themes) {
+          $scope.themes = themes;
+        });
+      };
+
+      uploader.onErrorItem = function(item, response, status, headers) {
+        toastr.error("Could not upload theme. " + status + ": " + response);
+      };
     }
 
     $scope.saveSettings = function(theme, settings) {
@@ -82,22 +99,5 @@ angular.module('meanbaseApp')
         });
       }
 
-    };
-
-    uploader.onCompleteAll = function(e) {
-      uploader.clearQueue();
-      findAll();
-    };
-
-    uploader.onSuccessItem = function() {
-      $rootScope.$emit('cms.themeUploaded');
-      toastr.success('Theme successfully uploaded! Refreshing page to compile code.');
-      api.themes.find({}).then(function(themes) {
-        $scope.themes = themes;
-      });
-    };
-
-    uploader.onErrorItem = function(item, response, status, headers) {
-      toastr.error("Could not upload theme. " + status + ": " + response);
     };
   });

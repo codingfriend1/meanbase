@@ -164,7 +164,7 @@ angular.module('meanbaseApp')
        * Get auth token
        */
       getToken: function() {
-        feathers.get('token')
+        return feathers.get('token')
       }
     };
   });

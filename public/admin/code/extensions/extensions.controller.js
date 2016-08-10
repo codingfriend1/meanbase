@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ExtensionsCtrl', function ($scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope, api, crud) {
+  .controller('ExtensionsCtrl', function ($scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope, api, crud, Auth) {
     $scope.$parent.pageTitle = 'Extensions';
 
     $scope.e = new crud($scope, 'extensions', api.extensions);
@@ -19,30 +19,29 @@ angular.module('meanbaseApp')
     }
     findAll();
 
-    if ($cookieStore.get('token')) {
+    if (Auth.getToken()) {
       var uploader = $scope.uploader = new FileUploader({
           url: '/api/extension/upload',
           headers: {
-            'Authorization': 'Bearer ' + $cookieStore.get('token')
+            'Authorization': 'Bearer ' + Auth.getToken
           },
           autoUpload: true
       });
+
+      uploader.onCompleteAll = function(e) {
+        uploader.clearQueue();
+        toastr.success('Extensions successfully uploaded!');
+        findAll();
+      };
+
+      uploader.onSuccessItem = function() {
+        $rootScope.$emit('cms.extensionUploaded');
+      };
+
+      uploader.onErrorItem = function(item, response, status, headers) {
+        toastr.error("Could not upload extension. " + status + ": " + response);
+      };
     }
-
-
-    uploader.onCompleteAll = function(e) {
-      uploader.clearQueue();
-      toastr.success('Extensions successfully uploaded!');
-      findAll();
-    };
-
-    uploader.onSuccessItem = function() {
-      $rootScope.$emit('cms.extensionUploaded');
-    };
-
-    uploader.onErrorItem = function(item, response, status, headers) {
-      toastr.error("Could not upload extension. " + status + ": " + response);
-    };
 
     $scope.deleteExtension = function(extension) {
       var message = 'Deleted ' + extension.name + ' extension.';

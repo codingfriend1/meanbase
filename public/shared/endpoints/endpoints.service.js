@@ -40,7 +40,7 @@
 		 */
 		endpoints.prototype.create = function(content) {
 			var self = this;
-			return feathers.service(this.url).create(content).error(function(data, status, headers, config) {
+			return feathers.service(this.url).create(content).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};

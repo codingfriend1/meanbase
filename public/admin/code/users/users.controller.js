@@ -97,7 +97,7 @@
     			toastr.clear();
     			toastr.warning('Moved users with ' + $scope.selectedRole.role + ' over to basic');
           u.find({}, null, 'Could not get the users')
-    		}).finally(function(response) {
+    		}).then(function(response) {
     			api.roles.delete({role: $scope.selectedRole.role}).then(function(response) {
     				toastr.success('Deleted ' + $scope.selectedRole.role + ' role.');
     				$scope.roles.splice($scope.roles.indexOf($scope.selectedRole), 1);

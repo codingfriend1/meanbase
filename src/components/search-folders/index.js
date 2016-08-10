@@ -1,7 +1,7 @@
-var fs = require('fs');
-var Finder = require('fs-finder');
-var path = require('path');
-var _ = require('lodash');
+const fs = require('fs');
+const Finder = require('fs-finder');
+const path = require('path');
+const _ = require('lodash');
 
 var extractFileNameRegex = /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/;
 
@@ -81,7 +81,7 @@ exports.retrieveThemes = async function(activeURL) {
         // We only want a porition of the url for relative searches
         file = file.replace(app.get('clientPath') + '/', '');
 
-        if(_.contains(file, 'theme.json')) { // Get the theme.json
+        if(file.includes('theme.json')) { // Get the theme.json
 
           themeData.themeJSONPath = file;
 
@@ -95,7 +95,7 @@ exports.retrieveThemes = async function(activeURL) {
             throw Error("Could not find a valid theme.json file in the theme. If it's there, make sure it doesn't have any errors.");
           }
 
-        } else if(_.contains(file, '-screenshot')) { // If a template has a screenshot store it's url
+        } else if(file.includes('-screenshot')) { // If a template has a screenshot store it's url
           //Get just the name
           templateName = file.match(/[^(\/|\\)]*(?=-screenshot.[^.]+($|\?))/);
 
@@ -108,11 +108,11 @@ exports.retrieveThemes = async function(activeURL) {
             templates[templateName[0]].screenshot = file;
           }
 
-        } else if(_.contains(file, 'screenshot')) { // If we are looking at the theme screenshot
+        } else if(file.includes('screenshot')) { // If we are looking at the theme screenshot
 
           themeData.preview = file;
 
-        } else if(_.contains(file, '-template')) { // If we are looking at an actual template
+        } else if(file.includes('-template')) { // If we are looking at an actual template
 
           // We want to remove the super long absolute path and replace with a relative one
           file = file;
@@ -133,9 +133,7 @@ exports.retrieveThemes = async function(activeURL) {
         }
       } //themeFiles loop
 
-
-
-      if(_.isPlainObject(themeJSONFileContents)) {
+      if(!_.isEmpty(themeJSONFileContents)) {
 
         themeJSONFileContents.url = currentThemeFolderName;
 
@@ -184,11 +182,13 @@ exports.retrieveThemes = async function(activeURL) {
             }
           }
           if(Object.keys(themeJSONFileContents.templates).length === 0) {
-            return loop.break('Theme had no templates. At least one file must have a -template.html or -template.jade ending');
+            throw new Error('Theme had no templates. At least one file must have a -template.html or -template.jade ending');
           }
+
           themejsons.push(themeJSONFileContents);
           themeData = {};
           themeJSONFileContents = {};
+
           continue;
 
         } else {
@@ -221,12 +221,15 @@ exports.retrieveThemes = async function(activeURL) {
 
     } catch (err) {
       console.log("validating themes error", err);
-      continue;
     } finally {
-      if(!anyActive && themejsons[0]) { themejsons[0].active = true; }
-      return themejsons;
+      if(a < themesFolder.length) {
+        continue;
+      }
     }
   }
+
+  if(!anyActive && themejsons[0]) { themejsons[0].active = true; }
+  return themejsons;
 };
 
 

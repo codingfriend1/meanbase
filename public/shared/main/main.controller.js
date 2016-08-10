@@ -181,7 +181,7 @@
       // Get the newly updated menus with their server-generated ids
       helpers.removeEmptyProperties($rootScope.menus)
 
-      server.menus.delete({}).finally(function(deleteResponse) {
+      server.menus.delete({}).then(function(deleteResponse) {
         if(!helpers.isEmpty($rootScope.menus)) {
           server.menus.create($rootScope.menus).then(function(createResponse) {
             server.menus.find({}).then(function(response) {
@@ -195,7 +195,7 @@
       $timeout(function(){
         if(!$rootScope.page._id) { return false; }
 
-        api.pages.update({_id: $rootScope.page._id}, $rootScope.page).finally(function() {
+        api.pages.update({_id: $rootScope.page._id}, $rootScope.page).then(function() {
 
           // Since we have angular setting the browser tab title we want to update it in case it changed. Normally this is bad practice, but we have prerender in node pre-compiling these pages for search engine bots
           if($rootScope.page.tabTitle) {
@@ -209,7 +209,7 @@
 
           // Here's where we try to delete shared content that was removed from this page.
           if($scope.sharedContentToCheckDelete.length > 0) {
-            api.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } }).finally(function() {
+            api.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } }).then(function() {
 
               // Get the latest content for the list next time the user want to add existing content
               getSharedContentFromServer();
@@ -335,7 +335,7 @@
 
       // Remove this gallery slug from all the images that use it and then add it back to the appropriate images
       // This strategy is quicker than checking which ones were added and removed
-      api.media.update({galleries: slug}, { $pull: {galleries: slug} }).finally(function() {
+      api.media.update({galleries: slug}, { $pull: {galleries: slug} }).then(function() {
         if(imageArray.length < 1) return false;
         api.media.update({ url: {$in: imageArray } }, { $push: {galleries: slug} });
       });
