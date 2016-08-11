@@ -4,15 +4,10 @@ const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication').hooks;
 
+import preparePages from './prepare-pages';
+
 const permissionName = 'editContent';
 const restriction = {published: true};
-
-function log(options) {
-  return (hook) => {
-    console.log("hook.data", hook.data);
-    if (!hook.params.provider) { return hook; }
-  }
-}
 
 exports.before = {
   all: [],
@@ -37,7 +32,7 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermission(permissionName),
-    log()
+    preparePages()
   ],
   update: [
     auth.verifyToken(),
@@ -46,7 +41,7 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermission(permissionName),
-    log()
+    preparePages()
   ],
   patch: [
     auth.verifyToken(),
@@ -54,7 +49,8 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.hasPermission(permissionName),
+    preparePages()
   ],
   remove: [
     auth.verifyToken(),
