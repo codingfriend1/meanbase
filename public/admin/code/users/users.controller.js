@@ -71,19 +71,6 @@
       var message = user.email + " deleted";
       var failure = 'Could not delete ' + user.email;
       $scope.u.delete(user, message, failure);
-      api.users.deleteOne(user._id).then(function(response) {
-
-        for (var i = 0; i < $scope.users.length; i++) {
-          if($scope.users[i]._id === user._id) {
-            $scope.users.splice(i, 1);
-          }
-        }
-
-        if(message) { toastr.clear(); toastr.success(message); }
-      }, function(err) {
-        if(failure) { toastr.clear(); toastr.warning(failure); }
-      });
-
       $scope.u.toggleModal('isDeleteOpen', 'userToDelete');
     };
 

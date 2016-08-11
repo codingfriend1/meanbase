@@ -76,8 +76,12 @@
 		 * @return {promise}            http response object
 		 */
 		endpoints.prototype.delete = function(identifier) {
+      let id = null;
+      let query = {query: identifier};
+      if(identifier._id) { id = identifier._id; query = undefined; }
+
 			var self = this;
-			return feathers.service(this.url).remove(null, {query: identifier}).catch(function(data, status, headers, config) {
+			return feathers.service(this.url).remove(id, query).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
