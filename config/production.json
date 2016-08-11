@@ -10,6 +10,7 @@
   "themesPath": "../public/themes/",
   "extensionsPath": "../public/extensions/",
   "uploadsPath": "../public/assets/",
+  "viewsPath": "../views/",
   "seed": true,
   "reset-seed": false,
   "auth": {

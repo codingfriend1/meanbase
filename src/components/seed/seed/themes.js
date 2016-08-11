@@ -16,7 +16,9 @@ module.exports = async function() {
 
     let themejsons = await searchFolders.retrieveThemes.call(app, activeTheme[0].url);
 
-    console.log("themejsons", themejsons);
+    themejsons.forEach(theme => {
+      console.log("Sucessfully grabbed theme: " + theme.title);
+    });
 
     await app.service('themes').remove(null, { query: {} });
 

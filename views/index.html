@@ -1,0 +1,65 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="fragment" content="!">
+    <base href="/">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="google-site-verification" content="'verificationID'" />
+    <meta name="viewport" content="width=device-width">
+    <script
+      src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit"
+      async defer
+    ></script>
+
+    <script>
+      // This theme name gets dynamically created on the server when it compiles this file so it can be used throughout the application especially ui-router
+      window.meanbaseGlobals = {};
+      window.meanbaseGlobals.siteTheme = 'theme-name'; //Do not change this value, it is used by the server string.replace() as a placeholder for the chosen theme
+      window.meanbaseGlobals.themeTemplates = 'theme-templates'; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.themeTemplatePaths = 'themeTemplatePaths'; //Do not change this value, it is used by the server string.replace() as a placeholder for the theme's templates
+      window.meanbaseGlobals.clientID = 'clientID';
+      window.meanbaseGlobals.appID = 'appID';
+      window.meanbaseGlobals.recaptchaClientKey = 'RecaptchaClientKey';
+    </script>
+  </head>
+  <body ng-app="meanbaseApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div ui-view=""></div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', window.meanbaseGlobals.appID);
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <script src="app/bower.js"></script>
+    <script src="app/bundle.js"></script>
+    <!-- <script src="app/templates.js"></script> -->
+
+    <!-- Theme Script -->
+
+    <!-- Extensions JS -->
+    <!-- extensions:js -->
+    <!-- End Extensions JS -->
+</body>
+</html>

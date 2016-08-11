@@ -9,14 +9,14 @@
  var searchFolders = require('../search-folders');
  var path = require('path');
 
-module.exports = async function(theme) {
+export default async function(theme) {
   const app = this;
 	if(theme) {
 		compileIndex.call(this, theme, global.meanbaseGlobals.extensions);
 	} else {
     try {
-      const found = await app.service('themes').find({active: true});
-
+      const found = await app.service('themes').find({query: {active: true}});
+      
       if(found.length < 1) {
         const theme = await getFirstTheme.call(this);
         compileIndex.call(this, theme, global.meanbaseGlobals.extensions);
@@ -48,8 +48,8 @@ async function compileIndex(theme, extensionjsons) {
   var appFilePath, adminIndexPath, index, adminIndex, themeCSS, statscss, hasThemeMin = false;
 	// Get file paths for the server/views/index and the chosen theme's scripts and styles templates
 
-	var appIndexPath = path.join(app.get('appPath'), 'index.html');
-  var adminIndexPath = path.join(app.get('adminPath'), 'admin.html');
+	var appIndexPath = path.join(app.get('viewsPath'), 'index.html');
+  var adminIndexPath = path.join(app.get('viewsPath'), 'admin.html');
 
   try {
     index = fs.readFileSync(appIndexPath,'utf8');
@@ -110,13 +110,11 @@ function injectTheme(file, theme) {
   const app = this;
   var statsjs, themeJS = '', hasThemeMin, templatesjs, themeTemplateJS = '', stats2js;
   try {
-	  statsjs = fs.lstatSync(path.join(app.get('themesFolder'), theme.url, 'theme.min.js'));
-	  // stats2js = fs.lstatSync(path.join(app.get('themesFolder'), theme.url, 'templates.js'));
+	  statsjs = fs.lstatSync(path.join(app.get('themesPath'), theme.url, 'theme.min.js'));
 	  // Is it a directory?
 	  if (statsjs.isFile()) {
 	  	hasThemeMin = true;
 	  	themeJS = '<script src="' + path.join('themes', theme.url, 'theme.min.js') + '"></script>';
-	  	// themeTemplateJS = '<script src="' + path.join('themes', theme.url, 'templates.js') + '"></script>';
 	  }
 	}
 	catch (err) {

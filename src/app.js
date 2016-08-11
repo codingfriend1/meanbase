@@ -2,6 +2,7 @@
 
 import 'babel-preset-es2017/polyfill';
 
+import compileIndex from './components/compile-index';
 const seed = require('./components/seed');
 const path = require('path');
 const serveStatic = require('feathers').static;
@@ -38,6 +39,7 @@ api.use(compress())
   .configure(settings)
   .configure(services)
   .configure(seed)
+  .configure(compileIndex)
   .configure(middleware);
 
 const app = feathers()
