@@ -1,4 +1,5 @@
 
+const imageUploads = require('./image-uploads');
 const ban = require('./ban');
 const extension = require('./extension');
 const themes = require('./themes');
@@ -20,6 +21,7 @@ module.exports = function() {
   mongoose.Promise = global.Promise;
 
   app.configure(authentication);
+  app.configure(imageUploads);
   app.configure(user);
   app.configure(pages);
   app.configure(menus);

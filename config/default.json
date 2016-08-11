@@ -9,6 +9,7 @@
   "adminPath": "../public/admin/",
   "themesPath": "../public/themes/",
   "extensionsPath": "../public/extensions/",
+  "uploadsPath": "../public/assets/",
   "seed": true,
   "reset-seed": true,
   "auth": {

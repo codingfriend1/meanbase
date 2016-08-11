@@ -14,7 +14,7 @@ angular.module('meanbaseApp')
 
     if (Auth.getToken()) {
       var uploader = $scope.uploader = new FileUploader({
-          url: '/api/media',
+          url: '/api/image-uploads',
           headers: {
             'Authorization': 'Bearer ' + Auth.getToken()
           },
@@ -25,6 +25,7 @@ angular.module('meanbaseApp')
     var err = null;
 
     uploader.onCompleteAll = function(res) {
+      console.log("res", res);
       if(err) {
         toastr.error('Failed to upload');
       } else {
@@ -34,6 +35,7 @@ angular.module('meanbaseApp')
     };
 
     uploader.onCompleteItem = function(res) {
+      console.log("res", res);
       err = res.isError;
       $rootScope.$emit('cms.imagesUploaded');
     };

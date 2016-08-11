@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 export default function(options) {
   return (hook) => {
-    console.log("hook.data", hook.data);
     if (!hook.params.provider || !hook.data) { return hook; }
 
     if(typeof hook.data.url === 'string' && hook.data.url.charAt(0) !== '/') {
