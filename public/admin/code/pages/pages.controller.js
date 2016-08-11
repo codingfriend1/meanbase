@@ -22,6 +22,7 @@ angular.module('meanbaseApp')
 
     $scope.saveSettings = function(page, settings) {
       var previousUrl = page.url;
+      console.log("page", page);
       if(page && page._id) {
         p.update(page, settings, page.title + ' updated', 'Could not update ' + page.title);
       } else if(page && !page._id) {
@@ -65,12 +66,14 @@ angular.module('meanbaseApp')
         "published": true
       };
 
-      console.log("$scope.settings", settings);
-
       p.toggleModal('isSettingsOpen', 'settings', settings)
     };
 
-	  $scope.pageFilter = function(user) {
-	  	return (user.title + user.url).toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
+	  $scope.pageFilter = function(page) {
+      if(page) {
+        return (page.title + page.url).toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
+      } else {
+        return false;
+      }
 	  };
   });

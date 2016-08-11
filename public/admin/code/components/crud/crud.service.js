@@ -12,7 +12,8 @@ angular.module('meanbaseApp')
     CRUD.prototype.create = function(item, message, failure) {
       var self = this;
       return this.api.create(item).then(function(p) {
-        self.scope[self.collection].push(p[0]);
+        console.log("p", p);
+        self.scope[self.collection].push(p);
         if(message) { toastr.clear(); toastr.success(message); }
       }, function(err) {
         if(failure) { toastr.clear(); toastr.warning(failure); }
@@ -75,6 +76,7 @@ angular.module('meanbaseApp')
         self.scope[copiedPropertyName] = {};
       } else {
         self.scope[copiedPropertyName] = _.merge({}, item);
+        self.scope[copiedPropertyName].$$hashKey = undefined;
       }
     };
 
