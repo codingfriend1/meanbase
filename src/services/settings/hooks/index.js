@@ -70,6 +70,8 @@ exports.after = {
   update: [
     recompileIndex()
   ],
-  patch: [],
+  patch: [
+    recompileIndex()
+  ],
   remove: []
 };

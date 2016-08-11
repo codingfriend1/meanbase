@@ -5,7 +5,8 @@ var contains = ['clientID', 'appID', 'verificationID', 'recaptchaClientKey', 're
 module.exports = options => {
   const contains = options || ['clientID', 'appID', 'verificationID', 'recaptchaClientKey', 'recaptchaKey'];
   return hook => {
-    if(contains.indexOf(hook.data.identifier.name) > -1) {
+    if(hook.params.query && contains.indexOf(hook.params.query.name) > -1) {
+      console.log('recompiling html views');
       compileIndex();
     }
   }
