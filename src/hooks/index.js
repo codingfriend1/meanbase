@@ -15,6 +15,7 @@ import hasPermissionOrRestrict from './has-permission-or-restrict';
 import hasPermission from './has-permission';
 import isEnabled from './is-enabled';
 import recaptcha from './recaptcha';
+import isTargetEnabled from './is-target-enabled';
 
 exports.verifyOrRestrict = verifyOrRestrict;
 exports.populateOrRestrict = populateOrRestrict;
@@ -23,3 +24,4 @@ exports.hasPermissionOrRestrict = hasPermissionOrRestrict;
 exports.hasPermission = hasPermission;
 exports.isEnabled = isEnabled;
 exports.recaptcha = recaptcha;
+exports.isTargetEnabled = isTargetEnabled;

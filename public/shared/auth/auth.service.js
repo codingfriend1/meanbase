@@ -28,12 +28,12 @@ angular.module('meanbaseApp')
           currentUser = feathers.get('user');
           deferred.resolve(currentUser);
           return cb();
-        }).catch(function(error){
-          console.error('Error authenticating!', error);
+        }).catch(function(err){
+          console.error('Error authenticating!', err);
           this.logout();
           deferred.reject(err);
           return cb(err);
-        });
+        }.bind(this));
 
         return deferred.promise;
       },
