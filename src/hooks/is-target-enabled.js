@@ -17,7 +17,7 @@ export default (options) => {
         if(found.enabled) {
           return Promise.resolve(hook);
         } else {
-          return Promise.reject(new errors.Forbidden('That user is not enabled'));
+          return Promise.reject(new errors.Forbidden('This user is not enabled'));
         }
       } else {
         return Promise.reject(new errors.Forbidden('Could not find that user.'));
