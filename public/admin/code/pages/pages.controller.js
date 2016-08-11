@@ -22,7 +22,6 @@ angular.module('meanbaseApp')
 
     $scope.saveSettings = function(page, settings) {
       var previousUrl = page.url;
-      console.log("page", page);
       if(page && page._id) {
         p.update(page, settings, page.title + ' updated', 'Could not update ' + page.title);
       } else if(page && !page._id) {
