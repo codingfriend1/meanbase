@@ -36,6 +36,7 @@ angular.module('meanbaseApp')
   	};
 
   	$scope.togglePublished = function(page) {
+      page.published = !page.published;
       var message = page.published? page.title + ' published.': page.title + ' unpublished.';
       var failure = page.published? 'Could not publish ' + page.title: 'Could not unpublish ' + page.title;
 
