@@ -4,60 +4,113 @@ angular.module('meanbaseApp')
   .controller('AnalyticsCtrl', function ($scope, api, toastr) {
     $scope.$parent.pageTitle = 'Site Traffic and Stats';
 
+    var appIdExists = false,
+      clientIDExists = false,
+      verificationIDExists = false,
+      recaptchaKeyExists = false,
+      recaptchaClientKeyExists = false;
+
+    var appIDConfig = {
+      name: 'appID',
+      removeSuccessMessage: 'Removed Analytics App ID',
+      doesExist: false,
+      saveSuccessMessage: 'Set app id to <id>'
+    }
+
+    var clientIDConfig = {
+      name: 'clientID',
+      removeSuccessMessage: 'Removed Analytics Client ID',
+      doesExist: false,
+      saveSuccessMessage: 'Set analytics client ID to <id>'
+    };
+
+    var serverRecaptchaConfig = {
+      name: 'recaptchaKey',
+      removeSuccessMessage: 'Removed Analytics Server ID',
+      doesExist: false,
+      saveSuccessMessage: 'Set server recaptcha key to <id>'
+    };
+
+    var clientRecaptchaConfig = {
+      name: 'recaptchaClientKey',
+      removeSuccessMessage: 'Removed client recaptcha ID',
+      doesExist: false,
+      saveSuccessMessage: 'Set client recaptcha key to <id>'
+    };
+
+    var verificationIDConfig = {
+      name: 'verificationID',
+      removeSuccessMessage: 'Removed site verification ID',
+      doesExist: false,
+      saveSuccessMessage: 'Set site verification id to <id>'
+    };
+
     api.settings.find({name: 'appID'}).then(function(res) {
       if(!res[0]) { return false; }
+      appIDConfig.doesExist = true;
       $scope.appID = res[0].value;
     });
 
     api.settings.find({name: 'clientID'}).then(function(res) {
       if(!res[0]) { return false; }
+      clientIDConfig.doesExist = true;
       $scope.clientID = res[0].value;
     });
 
     api.settings.find({name: 'verificationID'}).then(function(res) {
       if(!res[0]) { return false; }
+      verificationIDConfig.doesExist = true;
       $scope.verificationID = res[0].value;
     });
 
     api.settings.find({name: 'recaptchaKey'}).then(function(res) {
       if(!res[0]) { return false; }
+      serverRecaptchaConfig.doesExist = true;
       $scope.recaptchaKey = res[0].value;
     });
 
     api.settings.find({name: 'recaptchaClientKey'}).then(function(res) {
       if(!res[0]) { return false; }
+      clientRecaptchaConfig.doesExist = true;
       $scope.recaptchaClientKey = res[0].value;
     });
 
-    $scope.changeAppID = function(id) {
-      api.settings.update({name: 'appID'}, {value: id}).then(function(response) {
-        toastr.success('Set app id to ' + id);
-      });
-    };
+    function route(options) {
+      return function(id) {
+        if(!id) {
+          api.settings.delete({name: options.name}).then(function(response) {
+            toastr.success(options.removeSuccessMessage);
+            options.doesExist = false;
+          }, function(err) {
+            console.log("err", err);
+          });
+          return false;
+        }
 
-    $scope.changeClientID = function(clientID) {
-      api.settings.update({name: 'clientID'}, {value: clientID}).then(function(response) {
-        toastr.success('Set app clientID to ' + clientID);
-      });
-    };
+        var promise;
+        if(!options.doesExist) {
+          promise = api.settings.create({name: options.name, value: id});
+        } else {
+          promise = api.settings.update({name: options.name}, {value: id});
+        }
 
-    $scope.changeRecaptcha = function(key) {
-      api.settings.update({name: 'recaptchaKey'}, {value: $scope.recaptchaKey}).then(function(response) {
-        toastr.success('Set app recaptcha key to ' + $scope.recaptchaKey);
-      });
-    };
+        promise.then(function(response) {
+          options.doesExist = true;
+          var message = options.saveSuccessMessage.replace('<id>', id);
+          toastr.success(message);
+        });
+      }
+    }
 
-    $scope.changeClientRecaptcha = function() {
-      api.settings.update({name: 'recaptchaClientKey'}, {value: $scope.recaptchaClientKey}).then(function(response) {
-        toastr.success('Set app recaptcha key to ' + $scope.recaptchaClientKey);
-      });
-    };
+    $scope.changeAppID = route(appIDConfig);
 
-    $scope.changeVerificationID = function(verificationID) {
-      api.settings.update({name: 'verificationID'}, {value: verificationID}).then(function(response) {
-        toastr.success('Set app verificationID to ' + verificationID);
-      });
-    };
+    $scope.changeClientID = route(clientIDConfig);
+
+    $scope.changeRecaptcha = route(serverRecaptchaConfig);
+
+    $scope.changeClientRecaptcha = route(clientRecaptchaConfig);
+
+    $scope.changeVerificationID = route(verificationIDConfig);
 
 
     $scope.chart = {

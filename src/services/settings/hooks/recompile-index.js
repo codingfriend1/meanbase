@@ -1,5 +1,5 @@
 
-var compileIndex = require('../../../components/compile-index');
+import compileIndex from '../../../components/compile-index';
 var contains = ['clientID', 'appID', 'verificationID', 'recaptchaClientKey', 'recaptchaKey'];
 
 module.exports = options => {
@@ -7,7 +7,7 @@ module.exports = options => {
   return hook => {
     if(hook.params.query && contains.indexOf(hook.params.query.name) > -1) {
       console.log('recompiling html views');
-      compileIndex();
+      compileIndex.call(hook.app);
     }
   }
 }
