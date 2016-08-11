@@ -24,9 +24,10 @@ const userSchema = new Schema({
   paypalId: { type: String },
   paypal: { type: Schema.Types.Mixed },
 
+  name: {type: String, required: false, unique: false},
   email: {type: String, required: true, unique: true},
   password: { type: String, required: true },
-  
+
   role: {
     type: String,
     default: 'basic',

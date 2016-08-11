@@ -89,7 +89,7 @@
 		 */
 		endpoints.prototype.findOne = function(id) {
 			var self = this;
-			return feathers.get(this.url).get(id).catch(function(data, status, headers, config) {
+			return feathers.service(this.url).get(id).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -102,7 +102,7 @@
 		 */
 		endpoints.prototype.updateOne = function(id, replacement) {
 			var self = this;
-			return feathers.patch(this.url).patch(id, replacement).catch(function(data, status, headers, config) {
+			return feathers.service(this.url).patch(id, replacement).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -114,7 +114,7 @@
 		 */
 		endpoints.prototype.deleteOne = function(id) {
 			var self = this;
-			return feathers.patch(this.url).remove(id).catch(function(data, status, headers, config) {
+			return feathers.service(this.url).remove(id).catch(function(data, status, headers, config) {
 				self.errorHandler(data, status, headers, config);
 			});
 		};
@@ -128,7 +128,7 @@
 	 * @return {nothing}
 	 */
 		endpoints.prototype.errorHandler = function(data, status, headers, config) {
-      console.log("data", data);
+      console.log("Error", data);
 			var category = this.endpoint;
 			if(!/<[a-z][\s\S]*>/i.test(data)) {
 				console.log('Server API call to "' + category + '" failed. ', data);

@@ -25,8 +25,9 @@
 	  });
 
     $scope.toggleEnabled = function(user) {
-      var message = user.enabled? user.name + ' enabled.': user.name + ' unenabled.';
-      var failure = user.enabled? 'Could not publish ' + user.name: 'Could not unpublish ' + user.name;
+      user.enabled = !user.enabled;
+      var message = user.enabled? user.email + ' enabled.': user.email + ' blocked.';
+      var failure = user.enabled? 'Could not publish ' + user.email: 'Could not unpublish ' + user.email;
       $scope.u.update(user, {enabled: user.enabled}, message, failure);
   	};
 

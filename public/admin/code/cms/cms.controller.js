@@ -16,24 +16,27 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
     });
   };
 
-	for (var i = 0; i < states.length; i++) {
- 		if(states[i].name.indexOf('cms.') > -1) {
- 			var state = angular.copy(states[i]);
-			if(!state.hasPermission) {
-				if(!state.authenticate || (state.authenticate && $rootScope.currentUser)) {
-					state.userHasPermission = true;
-				} else {
-					state.userHasPermission = false;
-				}
-			} else if(!$rootScope.currentUser.permissions || $rootScope.currentUser.permissions.length === 0) {
- 				state.userHasPermission = false;
- 			} else {
- 				state.userHasPermission = $rootScope.currentUser.permissions.indexOf(state.hasPermission) > -1 || $rootScope.currentUser.permissions.indexOf('allPrivilages') > -1;
- 			}
- 			state.friendlyName = state.url.replace('/', '');
- 			$scope.cmsStates.push(state);
- 		}
- 	}
+  if(Auth.isLoggedIn()) {
+    for (var i = 0; i < states.length; i++) {
+   		if(states[i].name.indexOf('cms.') > -1) {
+   			var state = angular.copy(states[i]);
+  			if(!state.hasPermission) {
+  				if(!state.authenticate || (state.authenticate && $rootScope.currentUser)) {
+  					state.userHasPermission = true;
+  				} else {
+  					state.userHasPermission = false;
+  				}
+  			} else if(!$rootScope.currentUser.permissions || $rootScope.currentUser.permissions.length === 0) {
+   				state.userHasPermission = false;
+   			} else {
+   				state.userHasPermission = $rootScope.currentUser.permissions.indexOf(state.hasPermission) > -1 || $rootScope.currentUser.permissions.indexOf('allPrivilages') > -1;
+   			}
+   			state.friendlyName = state.url.replace('/', '');
+   			$scope.cmsStates.push(state);
+   		}
+   	}
+  }
+
 
  $scope.goToApp = function() {
    window.location.href = '/';
