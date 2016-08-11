@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr, api, crud) {
+  .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr, api, crud, $rootScope) {
 
-    $scope.$parent.pageTitle = 'Moderate Comments';
-    $scope.commentFilter = '';
+    $scope.$parent.pageTitle = 'Comments';
     $scope.autoAccept = false;
     $scope.autoReject = false;
     $scope.dateDirection = 'after';
@@ -19,9 +18,7 @@ angular.module('meanbaseApp')
 
     $scope.c = new crud($scope, 'comments', api.comments);
 
-  	api.comments.find({}).then(function(response) {
-  		$scope.comments = response;
-
+  	$scope.c.find({}).then(function(response) {
       api.bannedMembers.find({}).then(function(bannedComments) {
         $scope.bannedMembers = bannedComments;
         for (var i = 0; i < $scope.comments.length; i++) {
@@ -72,9 +69,9 @@ angular.module('meanbaseApp')
       $scope.dateOpened = true;
     };
 
-  	// $scope.filterComments = function(comment) {
-  	// 	return (comment.content + comment.author + comment.ip + comment.email + comment.date + comment.url).toLowerCase().indexOf($scope.commentFilter.toLowerCase()) >= 0;
-  	// };
+  	$scope.commentFilter = function(comment) {
+  		return (comment.content + comment.author + comment.ip + comment.email + comment.date + comment.url).toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
+  	};
 
     $scope.toggleApproved = function(comment) {
       comment.approved = !comment.approved
@@ -135,6 +132,7 @@ angular.module('meanbaseApp')
   			$scope.comments.splice($scope.comments.indexOf(comment), 1);
         toastr.clear();
         toastr.success('Comment deleted.');
+        $scope.c.toggleModal('isDeleteOpen', 'commentToDelete')
   		});
   	};
 

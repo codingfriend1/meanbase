@@ -35,7 +35,7 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
       .mdl-grid.no-padding
         .mdl-cell.mdl-cell--12-col
           ul.mdl-list
-            li.mdl-list__item.mdl-list__item--infinite-line.mdl-list__item--three-line(ng-repeat="comment in ($parent.filteredComments = (comments | filter:$root.searchText | filter: {approved: approval, url: filterByThisPage})) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" is-open="status.open" ng-class="{'panel-success': comment.approved, 'panel-warning': !comment.approved}" mdl)
+            li.mdl-list__item.mdl-list__item--infinite-line.mdl-list__item--three-line(ng-repeat="comment in (comments | filter:commentFilter | filter: {approved: approval, url: filterByThisPage}) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" mdl)
               .mdl-list__item-primary-content
                 i.material-icons.mdl-list__item-avatar person
                 span #[strong {{comment.url}}]: {{comment.date | relativeDate}}
@@ -47,7 +47,7 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
                   i.material-icons more_vert
                 ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{comment._id}}')
                   li.mdl-menu__item.comment-settings-button(ng-click="c.toggleModal('isInfoOpen', 'settings', comment)") Info
-                  li.mdl-menu__item.confirm-delete-button(ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete', comment)") Delete Comment
+                  li.mdl-menu__item.confirm-delete-button(ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete', comment)") Delete
       
       .mdl-grid
         .mdl-cell.mdl-cell--4-col.mdl-cell--12-col-tablet
