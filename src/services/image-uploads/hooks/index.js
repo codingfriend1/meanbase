@@ -9,12 +9,12 @@ const permissionName = 'manageMedia';
 
 exports.before = {
   create: [
-    // auth.verifyToken(),
-    // auth.populateUser(),
-    // auth.restrictToAuthenticated(),
-    // globalHooks.attachPermissions(),
-    // globalHooks.isEnabled(),
-    // globalHooks.hasPermission(permissionName),
+    auth.verifyToken(),
+    auth.populateUser(),
+    auth.restrictToAuthenticated(),
+    globalHooks.attachPermissions(),
+    globalHooks.isEnabled(),
+    globalHooks.hasPermission(permissionName),
     function(hook) {
       if (!hook.data.uri && hook.params.file){
         const file = hook.params.file;
@@ -30,9 +30,7 @@ exports.after = {
   find: [],
   get: [],
   create: [
-    function(hook) {
-      
-    }
+    
   ],
   update: [],
   patch: [],

@@ -88,8 +88,6 @@ async function compileIndex(theme, extensionjsons) {
       adminIndex = adminIndex.replace("'verificationID'", verificationID[0].value);
     }
 
-    console.log("recaptchaClientKey", recaptchaClientKey);
-
     if(recaptchaClientKey[0]) {
       index = index.replace("RecaptchaClientKey", recaptchaClientKey[0].value);
     }
