@@ -22,19 +22,20 @@ var exec = require('child_process').exec;
 module.exports = function() {
   const app = this;
 
-  function createThumbnailsError(err, folderName) {
+  function createThumbnailsError(err, folderName, reject) {
     console.log('could not create thumbnails');
     fse.remove(path.join( app.get('uploadsPath'), folderName ));
-    res.status(500).json(err);
+    reject(err);
   }
 
 
   const uploadService = {
     create: function(data, params) {
       return new Promise(function(resolve, reject) {
+        const destination = params.file.destination.replace(app.get('clientPath'), '');
         if(!params.file.filename.match(/\.(jpg|jpeg|png|gif)$/)) {
           data = {
-            url: params.file.destination,
+            url: destination,
             filename: params.file.filename
           };
 
@@ -48,34 +49,27 @@ module.exports = function() {
         }
 
         data = {
-          url: params.file.destination,
+          url: destination,
           filename: params.file.filename,
           galleries: data.galleries? [data.galleries]: []
         };
 
         var imagePath = path.join(params.file.destination, params.file.filename);
-        var thumbnailPath = imagePath.replace('origional', 'thumbnail');
-        var smallPath = imagePath.replace('origional', 'small');
-        var mediumPath = imagePath.replace('origional', 'medium');
-        var largePath = imagePath.replace('origional', 'large');
+        var thumbnailPath = imagePath.replace('original', 'thumbnail');
+        var smallPath = imagePath.replace('original', 'small');
+        var mediumPath = imagePath.replace('original', 'medium');
+        var largePath = imagePath.replace('original', 'large');
         // if(hasGM) {
         if(true) {
           try {
             gm(imagePath).autoOrient().setFormat("jpg").resize(992, 744).quality(90).noProfile().write(largePath, function(err) {
-              if(err) { return createThumbnailsError(err, params.file.destination) };
-              console.log("'made first'", 'made first');
+              if(err) { return createThumbnailsError(err, destination, reject) };
               gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function(err) {
-                if(err) { return createThumbnailsError(err, params.file.destination) };
+                if(err) { return createThumbnailsError(err, destination, reject) };
                 gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function(err) {
-                  if(err) { return createThumbnailsError(err, params.file.destination) };
+                  if(err) { return createThumbnailsError(err, destination, reject) };
                   gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function(err) {
-                    if(err) { return createThumbnailsError(err, params.file.destination) };
-                    app.service('images').create(data).then(function(response) {
-                      console.log('response', response);
-
-                    }, function(err) {
-                      console.log('promise rejected', err);
-                    });
+                    if(err) { return createThumbnailsError(err, destination, reject) };
                     app.service('images').create(data).then(function(found) {
                       resolve(found);
                     }).catch(function(err) {
@@ -87,14 +81,12 @@ module.exports = function() {
               });
             });
           } catch(err) {
-            createThumbnailsError(err, params.file.destination);
+            createThumbnailsError(err, destination, reject);
           }
         } else {
           return reject(new Error('Graphics Magick not installed, unable to upload images.'));
         }
       });
-      console.log("data", data);
-      console.log("params", params);
     }
   };
 
