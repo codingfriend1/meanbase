@@ -1,5 +1,7 @@
 'use strict';
 
+const hooks = require('./hooks');
+
 const authentication = require('feathers-authentication');
 
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -35,4 +37,11 @@ module.exports = function() {
 
   app.set('auth', config);
   app.configure(authentication(config));
+
+  const authService = app.service('/auth/local');
+  const tokenService = app.service('/auth/token');
+
+  // Set up our before hooks
+  authService.before(hooks.before);
+  tokenService.before(hooks.before);
 };

@@ -5,10 +5,10 @@ section#Login.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl
         .mdl-card.mdl-shadow--6dp.margin-center
           .mdl-card__supporting-text.no-padding
             form.form(name='loginForm' ng-submit='login(loginForm)' novalidate='')
-              .mdl-textfield.mdl-js-textfield
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
                 input#username.mdl-textfield__input(type='text' ng-model='user.email')
                 label.mdl-textfield__label(for='username') Email
-              .mdl-textfield.mdl-js-textfield
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
                 input#password.mdl-textfield__input(type='password' ng-model='user.password')
                 label.mdl-textfield__label(for='password') Password
               .form-group.has-error
@@ -31,7 +31,7 @@ section#Login.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl
                 |  Connect with Twitter
 section#Sign-Up.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" mdl)  
   .page-content      
-    .mdl-layout.mdl-js-layout.mdl-color--grey-100
+    .mdl-layout.mdl-js-layout.mdl-color--grey-100(mdl)
       main.mdl-layout__content
         .mdl-card.mdl-shadow--6dp.margin-center
           .mdl-card__supporting-text

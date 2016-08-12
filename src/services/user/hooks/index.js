@@ -14,15 +14,15 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName),
+    // globalHooks.hasPermission(permissionName),
   ],
   get: [
     auth.verifyToken(),
     auth.populateUser(),
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
-    auth.restrictToOwner({ ownerField: '_id' }),
-    globalHooks.isTargetEnabled(),
+    // auth.restrictToOwner({ ownerField: '_id' }),
+    // globalHooks.isTargetEnabled(),
   ],
   create: [
     auth.hashPassword()

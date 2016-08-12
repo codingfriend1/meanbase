@@ -1,3 +1,4 @@
+import errors from 'feathers-errors';
 
 export default (permissionName, restriction) => {
   return async (hook) => {
@@ -19,10 +20,10 @@ export default (permissionName, restriction) => {
           return hook;
         } else {
           hook.result = results;
-          Promise.resolve(hook);
+          return Promise.resolve(hook);
         }
       } catch (e) {
-        Promise.reject(new errors.NotFound(`No record found`));
+        return Promise.reject(new errors.NotFound(`No record found`));
       }
 
     }

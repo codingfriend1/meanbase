@@ -59,9 +59,16 @@ angular.module('meanbaseApp')
       createUser: function(user, callback) {
         var cb = callback || angular.noop;
 
-        return api.users.create(user).then(function(user) {
-          console.log('user', user);
-          $rootScope.isLoggedIn = true;
+        return api.users.create(user).then(function(response) {
+          feathers.logout();
+          feathers.authenticate({
+            type: 'local',
+            email: user.email,
+            password: user.password
+          }).then(function(response) {
+            $rootScope.isLoggedIn = true;
+            currentUser = feathers.get('user');
+          });
           return cb(user);
         }, function(err)  {
           this.logout();
