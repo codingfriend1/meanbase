@@ -1,5 +1,7 @@
 'use strict';
 
+import removeFromDisk from './remove-from-disk';
+
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication').hooks;
@@ -55,5 +57,7 @@ exports.after = {
   create: [],
   update: [],
   patch: [],
-  remove: []
+  remove: [
+    removeFromDisk()
+  ]
 };
