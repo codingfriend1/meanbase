@@ -359,8 +359,13 @@
             }
           }
         });
+      } else {
+        if($event.target.target) {
+          window.open(href, $event.target.target);
+        } else {
+          $location.path(href);
+        }
       }
-      $location.path(href);
     };
 
     // ### Removing extensions
@@ -389,7 +394,7 @@
         $rootScope.menus[group] = [];
       }
       var modalInstance = $modal.open({
-        templateUrl: 'editmenu.modal.html',
+        templateUrl: require('./editmenu.modal.jade'),
         controller: menuModal,
         size: 'md',
         resolve: {
