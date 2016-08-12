@@ -1,7 +1,7 @@
 import errors from 'feathers-errors';
 import areCommentsPermitted from './are-comments-permitted';
 import prependSlash from './prepend-slash';
-import approvedFalse from './approved-false';
+import isApproved from './is-approved';
 import recaptcha from './google-recaptcha';
 
 const globalHooks = require('../../../hooks');
@@ -30,13 +30,7 @@ exports.before = {
     globalHooks.hasPermissionOrRestrict(permissionName, restriction)
   ],
   create: [
-    auth.verifyToken(),
-    auth.populateUser(),
-    auth.restrictToAuthenticated(),
-    globalHooks.attachPermissions(),
-    globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName),
-    approvedFalse(),
+    isApproved(),
     areCommentsPermitted(),
     recaptcha()
   ],

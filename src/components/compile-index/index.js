@@ -16,7 +16,7 @@ export default async function(theme) {
 	} else {
     try {
       const found = await app.service('themes').find({query: {active: true}});
-      
+
       if(found.length < 1) {
         const theme = await getFirstTheme.call(this);
         compileIndex.call(this, theme, global.meanbaseGlobals.extensions);
@@ -68,28 +68,30 @@ async function compileIndex(theme, extensionjsons) {
 
   	global.meanbaseGlobals.extensions = null;
 
-    const appID = app.service('settings').find({query: {name: 'appID'}});
-    const clientID = app.service('settings').find({query: {name: 'clientID'}});
-    const verificationID = app.service('settings').find({query: {name: 'verificationID'}});
-    const recaptchaClientKey = app.service('settings').find({query: {name: 'recaptchaClientKey'}});
+    const appID = await app.service('settings').find({query: {name: 'appID'}});
+    const clientID = await app.service('settings').find({query: {name: 'clientID'}});
+    const verificationID = await app.service('settings').find({query: {name: 'verificationID'}});
+    const recaptchaClientKey = await app.service('settings').find({query: {name: 'recaptchaClientKey'}});
 
-    if(appID) {
-      index = index.replace("'appID'", "'" + appID.value + "'");
-      adminIndex = adminIndex.replace("'appID'", "'" + appID.value + "'");
+    if(appID[0]) {
+      index = index.replace("'appID'", "'" + appID[0].value + "'");
+      adminIndex = adminIndex.replace("'appID'", "'" + appID[0].value + "'");
     }
 
-    if(clientID) {
-      index = index.replace("'clientID'", "'" + clientID.value + "'");
-      adminIndex = adminIndex.replace("'clientID'", "'" + clientID.value + "'");
+    if(clientID[0]) {
+      index = index.replace("'clientID'", "'" + clientID[0].value + "'");
+      adminIndex = adminIndex.replace("'clientID'", "'" + clientID[0].value + "'");
     }
 
-    if(verificationID) {
-      index = index.replace("'verificationID'", verificationID.value);
-      adminIndex = adminIndex.replace("'verificationID'", verificationID.value);
+    if(verificationID[0]) {
+      index = index.replace("'verificationID'", verificationID[0].value);
+      adminIndex = adminIndex.replace("'verificationID'", verificationID[0].value);
     }
 
-    if(recaptchaClientKey) {
-      index = index.replace("RecaptchaClientKey", recaptchaClientKey.value);
+    console.log("recaptchaClientKey", recaptchaClientKey);
+
+    if(recaptchaClientKey[0]) {
+      index = index.replace("RecaptchaClientKey", recaptchaClientKey[0].value);
     }
 
     try {

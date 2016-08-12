@@ -36,12 +36,12 @@
     .form-group
       label Google Recaptcha Server Key
       input(type='text' ng-model="recaptchaKey").form-control
-      button.btn.btn-success(ng-click="changeRecaptcha()").btn-block Set Server Recaptcha Key
+      button.btn.btn-success(ng-click="changeRecaptcha(recaptchaKey)").btn-block Set Server Recaptcha Key
   .mdl-cell.mdl-cell--6-col.mdl-cell--4-col-tablet
     .form-group
       label Google Recaptcha Client Key
       input(type='text' ng-model="recaptchaClientKey").form-control
-      button.btn.btn-success(ng-click="changeClientRecaptcha()").btn-block Set Client Recaptcha Key
+      button.btn.btn-success(ng-click="changeClientRecaptcha(recaptchaClientKey)").btn-block Set Client Recaptcha Key
   section#auth-button
   section#view-selector
   section#chart

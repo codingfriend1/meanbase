@@ -40,15 +40,21 @@ angular.module('meanbaseApp')
 
   	});
 
+    var autoAcceptCommentsExists = false
+
     // Get the auto accept comments status
     api.settings.find({name: 'auto-accept-comments'}).then(function(response) {
+      if(response.length > 0) { autoAcceptCommentsExists = true; }
       if(!response[0]) { return $scope.autoAccept = false; }
-      $scope.autoAccept = response.value === "true";
+      $scope.autoAccept = response[0].value;
     });
 
+    var disableCommentsExists = false;
+
     api.settings.find({name: 'disable-comments'}).then(function(response) {
-      if(!response) { return $scope.disableComments = false; }
-      $scope.disableComments = response.value === "true";
+      if(response.length > 0) { disableCommentsExists = true; }
+      if(!response || response.length === 0) { return $scope.disableComments = false; }
+      $scope.disableComments = response[0].value;
     });
 
     $scope.approvalStates = [
@@ -196,17 +202,35 @@ angular.module('meanbaseApp')
     }
 
     $scope.toggleAutoAccept = function(boole) {
-      api.settings.update({name: 'auto-accept-comments'}, {name: 'auto-accept-comments', value: boole}).then(function(response) {
+      var promise;
+      if(autoAcceptCommentsExists) {
+        promise = api.settings.update({name: 'auto-accept-comments'}, {name: 'auto-accept-comments', value: boole});
+      } else {
+        promise = api.settings.create({name: 'auto-accept-comments', value: boole});
+      }
+
+      promise.then(function(response) {
+        autoAcceptCommentsExists = true;
         boole = boole;
-      }, function() {
+      }, function(err) {
         boole = !boole;
       });
     };
 
     $scope.toggleDisableComments = function(boole) {
-      api.settings.update({name: 'disable-comments'}, {name: 'disable-comments', value: boole}).then(function(response) {
+      var message = boole? 'Comments are disabled on the site.': 'Comments are enabled on the site.'
+      var promise;
+      if(disableCommentsExists) {
+        promise = api.settings.update({name: 'disable-comments'}, {value: boole});
+      } else {
+        promise = api.settings.create({name: 'disable-comments', value: boole});
+      }
+      promise.then(function(response) {
+        toastr.success(message);
+        disableCommentsExists = true;
         boole = boole;
-      }, function() {
+      }).catch(function() {
+        toastr.warning('Sorry, something went wrong on the server and we could not enable or disable comments.');
         boole = !boole;
       });
     };

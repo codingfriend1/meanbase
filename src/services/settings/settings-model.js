@@ -19,7 +19,7 @@ const settingsSchema = new Schema({
     validate: validators.matches(patterns.isTitle)
   },
   value: {
-    type: String,
+    type: Schema.Types.Mixed,
     required: true
   }
 });
