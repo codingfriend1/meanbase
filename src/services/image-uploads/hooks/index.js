@@ -1,5 +1,7 @@
 'use strict';
 
+import resize from './resize';
+
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication').hooks;
@@ -15,13 +17,7 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermission(permissionName),
-    function(hook) {
-      if (!hook.data.uri && hook.params.file){
-        const file = hook.params.file;
-        const uri = dauria.getBase64DataURI(file.buffer, file.mimetype);
-        hook.data = {uri: uri};
-      }
-    }
+    resize()
   ]
 };
 
@@ -30,7 +26,7 @@ exports.after = {
   find: [],
   get: [],
   create: [
-    
+
   ],
   update: [],
   patch: [],
