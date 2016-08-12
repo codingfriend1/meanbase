@@ -21,8 +21,8 @@ exports.before = {
     auth.populateUser(),
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
+    globalHooks.isEnabled()
     // auth.restrictToOwner({ ownerField: '_id' }),
-    // globalHooks.isTargetEnabled(),
   ],
   create: [
     auth.hashPassword()
@@ -33,7 +33,8 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.hasPermissionOrRestrictChanges(permissionName, {restrictOn: ['role', 'enabled'] }),
+    // auth.hashPassword()
   ],
   patch: [
     auth.verifyToken(),
@@ -41,7 +42,8 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.hasPermissionOrRestrictChanges(permissionName, {restrictOn: ['role', 'enabled'] }),
+    // auth.hashPassword()
   ],
   remove: [
     auth.verifyToken(),

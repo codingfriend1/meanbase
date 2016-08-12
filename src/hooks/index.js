@@ -17,6 +17,7 @@ import isEnabled from './is-enabled';
 import recaptcha from './recaptcha';
 import isTargetEnabled from './is-target-enabled';
 import removeFromDisk from './remove-from-disk';
+import hasPermissionOrRestrictChanges from './permission-or-restrict-changes';
 
 exports.verifyOrRestrict = verifyOrRestrict;
 exports.populateOrRestrict = populateOrRestrict;
@@ -27,3 +28,4 @@ exports.isEnabled = isEnabled;
 exports.recaptcha = recaptcha;
 exports.isTargetEnabled = isTargetEnabled;
 exports.removeFromDisk = removeFromDisk;
+exports.hasPermissionOrRestrictChanges = hasPermissionOrRestrictChanges;
