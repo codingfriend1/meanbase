@@ -60,19 +60,28 @@ angular.module('meanbaseApp')
       createUser: function(user, callback) {
         var cb = callback || angular.noop;
 
+        var deferred = $q.defer();
+
         return api.users.create(user).then(function(response) {
-          feathers.authenticate({
+          return feathers.authenticate({
             type: 'local',
             email: user.email,
             password: user.password
           }).then(function(response) {
             $rootScope.isLoggedIn = true;
             currentUser = feathers.get('user');
+            deferred.resolve(currentUser);
+            $rootScope.currentUser = currentUser;
+          }).catch(function(err) {
+            console.log("err authenticating", err);
+            deferred.reject(err);
           });
           return cb(user);
         }, function(err)  {
           this.logout();
         });
+
+        return deferred.promise;
       },
 
       /**
@@ -118,11 +127,11 @@ angular.module('meanbaseApp')
        * Waits for currentUser to resolve before checking if user is logged in
        */
       isLoggedInAsync: function(cb) {
-        console.log('is logged in sync');
         feathers.authenticate().then(function(result) {
           currentUser = feathers.get('user');
           cb(true);
         }, function(err) {
+          console.log("Error authenticating", err);
           cb(false);
         });
       },
