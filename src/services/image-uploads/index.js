@@ -12,8 +12,10 @@ const fse = require('fs-extra');
 
 var gm = require('gm');
 var hasGM = false;
+var hasGM = true;
 var exec = require('child_process').exec;
 // exec("gm -help", function (error, stdout, stderr) {
+//   console.log("stdout", stdout);
 //   if(!error) { hasGM = true; } else {
 //     console.log('!!!!! Graphics Magick is not installed, image thumbnails cannot be created !!!!!');
 //   }
@@ -59,8 +61,7 @@ module.exports = function() {
         var smallPath = imagePath.replace('original', 'small');
         var mediumPath = imagePath.replace('original', 'medium');
         var largePath = imagePath.replace('original', 'large');
-        // if(hasGM) {
-        if(true) {
+        if(hasGM) {
           try {
             gm(imagePath).autoOrient().setFormat("jpg").resize(992, 744).quality(90).noProfile().write(largePath, function(err) {
               if(err) { return createThumbnailsError(err, destination, reject) };
@@ -127,11 +128,11 @@ module.exports = function() {
   );
 
   // Get our initialize service to that we can bind hooks
-  // const imageUploadsService = app.service('/image-uploads');
+  const imageUploadsService = app.service('/image-uploads');
   //
   // // Set up our before hooks
-  // imageUploadsService.before(hooks.before);
+  imageUploadsService.before(hooks.before);
   //
   // // Set up our after hooks
-  // imageUploadsService.after(hooks.after);
+  imageUploadsService.after(hooks.after);
 };
