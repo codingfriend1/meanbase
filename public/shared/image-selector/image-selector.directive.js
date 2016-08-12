@@ -296,9 +296,12 @@ angular.module('meanbaseApp')
         };
 
         scope.deleteOne = function(image) {
+          console.log("image", image);
           // Delete image
           if(image.url) {
-            api.media.delete({ url: image.url}).then(function() {
+            api.media.delete({ url: image.url}).then(function(response) {
+              console.log("response", response);
+              toastr.success('Successfully deleted that image');
               scope.fullscreen = false;
               scope.media.splice(scope.media.indexOf(image), 1);
             });
@@ -356,7 +359,8 @@ angular.module('meanbaseApp')
           if(urlArray.length < 1) return false;
 
           // Delete those images
-          api.media.delete({ url: {$in: urlArray } }).then(function() {
+          api.media.delete({ url: {$in: urlArray } }).then(function(response) {
+            toastr.success('Deleted All visible images');
             for (var i = 0; i < scope.filteredMedia.length; i++) {
               scope.media.splice(scope.media.indexOf(scope.filteredMedia[i]), 1);
             }
@@ -374,7 +378,8 @@ angular.module('meanbaseApp')
           if(urlArray.length < 1) return false;
 
           // Delete those images
-          api.media.delete({ url: {$in: urlArray } }).then(function() {
+          api.media.delete({ url: {$in: urlArray } }).then(function(response) {
+            toastr.success('Successfully deleted those images');
             for (var i = 0; i < scope.selectedImages.length; i++) {
               scope.media.splice(scope.media.indexOf(scope.selectedImages[i]), 1);
             }
