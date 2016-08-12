@@ -1,7 +1,5 @@
 'use strict';
 
-import removeFromDisk from './remove-from-disk';
-
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication').hooks;
@@ -46,7 +44,12 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.hasPermission(permissionName),
+    globalHooks.removeFromDisk({
+      service: 'themes',
+      containerProperty: 'themesPath',
+      folderNameProperty: 'url'
+    })
   ]
 };
 
@@ -58,6 +61,6 @@ exports.after = {
   update: [],
   patch: [],
   remove: [
-    removeFromDisk()
+
   ]
 };
