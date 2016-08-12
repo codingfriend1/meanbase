@@ -26,6 +26,7 @@ angular.module('meanbaseApp')
         }).then(function(result){
           $rootScope.isLoggedIn = true;
           currentUser = feathers.get('user');
+          $rootScope.currentUser = currentUser;
           deferred.resolve(currentUser);
           return cb();
         }).catch(function(err){
@@ -60,7 +61,6 @@ angular.module('meanbaseApp')
         var cb = callback || angular.noop;
 
         return api.users.create(user).then(function(response) {
-          feathers.logout();
           feathers.authenticate({
             type: 'local',
             email: user.email,
@@ -118,6 +118,7 @@ angular.module('meanbaseApp')
        * Waits for currentUser to resolve before checking if user is logged in
        */
       isLoggedInAsync: function(cb) {
+        console.log('is logged in sync');
         feathers.authenticate().then(function(result) {
           currentUser = feathers.get('user');
           cb(true);

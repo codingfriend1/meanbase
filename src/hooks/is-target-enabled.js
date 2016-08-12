@@ -6,7 +6,7 @@ export default (options) => {
     if(!hook.params.provider) { return Promise.resolve(hook); }
 
     if(!hook.data.email) {
-      return Promise.reject(new errors.Forbidden('Email field is missing.'));
+      return Promise.resolve(hook);
     }
 
     try {

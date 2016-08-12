@@ -29,6 +29,7 @@ section#Login.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl
               a.btn.btn-twitter(href='', ng-click='loginOauth("twitter")')
                 i.fa.fa-twitter
                 |  Connect with Twitter
+              button.btn.btn-lg.btn-primary.btn-block(ng-click="logout()") Logout
 section#Sign-Up.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" mdl)  
   .page-content      
     .mdl-layout.mdl-js-layout.mdl-color--grey-100(mdl)

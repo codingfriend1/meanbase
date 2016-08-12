@@ -18,9 +18,4 @@ angular.module('meanbaseApp')
         });
       }
 		};
-
-    $scope.logout = function() {
-      Auth.logout();
-      location.href = '/';
-    }
   });

@@ -20,7 +20,7 @@ angular.module('meanbaseApp')
           email: $scope.user.email,
           password: $scope.user.password
         })
-        .then( function() {
+        .then( function(res) {
           // Logged in, redirect to home
           $timeout(function() {
             $rootScope.isLoggedIn = Auth.isLoggedIn();
@@ -36,6 +36,11 @@ angular.module('meanbaseApp')
     $scope.loginOauth = function(provider) {
       $window.location.href = '/auth/' + provider;
     };
+
+    $scope.logout = function() {
+      Auth.logout();
+      location.href = '/';
+    }
 
     $scope.register = function(form) {
       $scope.submitted = true;
