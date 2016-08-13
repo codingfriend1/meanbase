@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('SettingsCtrl', function ($scope, Auth) {
+  .controller('SettingsCtrl', function ($scope, Auth, toastr) {
     $scope.errors = {};
 
     $scope.changePassword = function(form) {
@@ -9,6 +9,7 @@ angular.module('meanbaseApp')
       if(form.$valid) {
         Auth.changePassword( $scope.user.oldPassword, $scope.user.newPassword )
         .then( function() {
+          toastr.success('Successfully changed password');
           $scope.message = 'Password successfully changed.';
         })
         .catch( function() {
