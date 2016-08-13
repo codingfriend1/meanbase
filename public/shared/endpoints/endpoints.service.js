@@ -131,30 +131,34 @@
 	 * @param  {object} config  Describes the request made to the server
 	 * @return {nothing}
 	 */
-		endpoints.prototype.errorHandler = function(data, status, headers, config) {
-      console.log("Error", data);
-			var category = this.endpoint;
-			if(!/<[a-z][\s\S]*>/i.test(data)) {
-				console.log('Server API call to "' + category + '" failed. ', data);
-				var response = '';
-				if(data.message && data.message === 'Validation failed') {
-					for (var field in data.errors) {
-					  if (data.errors.hasOwnProperty(field)) {
-					  	if(data.errors[field].value && data.errors[field].value.length < 50) {
-						  	response += data.errors[field].value + ' is invalid.';
-						  }
-					  }
-					}
-					toastr.warning("Some of the form information was invalid. " + response);
-				} else {
-					toastr.error('Hmmmm, the server is having trouble with the ' + category + '.');
-				}
-			} else {
-				console.log('api request error.');
-				if(status !== 404) {
-					toastr.error('Hmmmm, there server is having trouble with the ' + category + '.');
-				}
-			}
+		endpoints.prototype.errorHandler = function(data) {
+
+      var category = this.endpoint;
+
+      toastr.warning(category + ': ' + data);
+			// var category = this.endpoint;
+
+			// if(!/<[a-z][\s\S]*>/i.test(data)) {
+			// 	console.log('Server API call to "' + category + '" failed. ', data);
+			// 	var response = '';
+			// 	if(data.message && data.message === 'Validation failed') {
+			// 		for (var field in data.errors) {
+			// 		  if (data.errors.hasOwnProperty(field)) {
+			// 		  	if(data.errors[field].value && data.errors[field].value.length < 50) {
+			// 			  	response += data.errors[field].value + ' is invalid.';
+			// 			  }
+			// 		  }
+			// 		}
+			// 		toastr.warning("Some of the form information was invalid. " + response);
+			// 	} else {
+			// 		toastr.error('Hmmmm, the server is having trouble with the ' + category + '.');
+			// 	}
+			// } else {
+			// 	console.log('api request error.');
+			// 	if(status !== 404) {
+			// 		toastr.error('Hmmmm, there server is having trouble with the ' + category + '.');
+			// 	}
+			// }
 		};
 
 		return endpoints;
