@@ -136,6 +136,7 @@
       var category = this.endpoint;
 
       toastr.warning(category + ': ' + data);
+      console.log("general error: ", data);
 			// var category = this.endpoint;
 
 			// if(!/<[a-z][\s\S]*>/i.test(data)) {

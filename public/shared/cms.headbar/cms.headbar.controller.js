@@ -175,7 +175,10 @@
 			api.pages.create(newPage).then(function(response) {
 				// Save new menu to database
 				api.menus.create(newMenu).then(function(response) {
+          console.log("response", response);
 					$scope.menus.main.push(newMenu);
+				}).catch(function(err) {
+				  console.log("err", err);
 				});
 				$timeout(function() {
 					$location.url(url);
