@@ -21,7 +21,7 @@ angular.module('meanbaseApp')
 
     if (Auth.getToken()) {
       var uploader = $scope.uploader = new FileUploader({
-          url: '/api/extension/upload',
+          url: '/api/extension-uploads',
           headers: {
             'Authorization': 'Bearer ' + Auth.getToken
           },

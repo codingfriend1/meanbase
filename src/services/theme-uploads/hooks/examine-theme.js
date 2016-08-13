@@ -16,7 +16,6 @@ export default function(options) {
       if(!hook.params.themeUrl) { return reject('themeUrl not found.'); }
 
       // Loop through themes in hook.app.get('themesPath') and get the theme.json file out of the root of each one
-      console.log("hook.params.themeUrl", hook.params.themeUrl);
 
       const themePath = path.join(hook.app.get('themesPath'), hook.params.themeUrl);
 
