@@ -42,8 +42,9 @@ export default function(options) {
     			meanbasePage.tabTitle = wpPage["title"];
     			meanbasePage.published = (wpPage["pubDate"] !== "Mon, 30 Nov -0001 00:00:00 +0000")? true: false;
     			meanbasePage.title = wpPage["title"];
-    			meanbasePage.content = [];
-    			meanbasePage.content.push({location: 'content-1', text: wpPage["content:encoded"]});
+    			meanbasePage.content = {
+            "content-1": wpPage["content:encoded"]
+          };
     			meanbasePage.description = wpPage["description"];
     			meanbasePage.summary = wpPage["excerpt:encoded"];
 
