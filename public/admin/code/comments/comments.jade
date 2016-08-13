@@ -67,19 +67,14 @@ section#banned-commentors.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].
         .mdl-tabs__panel
           h3 Banned Members
           ul.mdl-list
-            li.mdl-list__item.mdl-list__item--two-line(ng-repeat="member in bannedMembers" mdl)
+            li.mdl-list__item.mdl-list__item--two-line(ng-repeat="member in (bannedMembers | filter:banFilter)" mdl)
               span.mdl-list__item-primary-content
+                i.material-icons.mdl-list__item-avatar person
                 span
                   span {{member.email}}
-                  span.mdl-list__item-sub-title {{member.role}}
+                  span.mdl-list__item-sub-title {{member.ip}}
               .mdl-list__item-secondary-content
-                mdl-switch(ng-model='member.enabled' ng-click="unban(member)")
-              .mdl-list__item-secondary-content
-                button(id="{{member._id}}").mdl-button.mdl-js-button.mdl-button--icon
-                  i.material-icons more_vert
-                ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{member._id}}')
-                  li.mdl-menu__item.member-settings-button(ng-click="u.toggleModal('isSettingsOpen', 'settings', member)") Info
-                  li.mdl-menu__item.confirm-delete-button(ng-click="u.toggleModal('isDeleteOpen', 'memberToDelete', member)") Permit User
+                button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-click="unban(member)") Unban
 
 dialog.mdl-dialog(dialog-open="isDeleteOpen")
   h4.mdl-dialog__title Delete {{commentToDelete.url}}?
@@ -97,6 +92,7 @@ dialog.mdl-dialog(dialog-open="isInfoOpen")
     span  {{settings.url}}
     p {{settings.content}}
   .mdl-dialog__actions
+    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-click="ban(settings)") Ban this commentor
     button.mdl-button(type='button' ng-click="c.toggleModal('isInfoOpen', 'settings')") Close
     //- accordion(close-others="true")
     //-   accordion-group(ng-repeat="member in bannedMembers").panel

@@ -79,6 +79,10 @@ angular.module('meanbaseApp')
   		return (comment.content + comment.author + comment.ip + comment.email + comment.date + comment.url).toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
   	};
 
+    $scope.banFilter = function(member) {
+  		return (member.ip + member.email).toLowerCase().indexOf($rootScope.searchText.toLowerCase()) >= 0;
+  	};
+
     $scope.toggleApproved = function(comment) {
       comment.approved = !comment.approved
       var message = comment.approved? comment.url + ' approved.': comment.url + ' unapproved.';
@@ -101,6 +105,7 @@ angular.module('meanbaseApp')
 
     $scope.ban = function(comment) {
       if(!comment || !comment.email || !comment.ip) { return false; }
+      $scope.c.toggleModal('isSettingsOpen', 'settings');
       api.bannedMembers.create({email: comment.email, ip: comment.ip}).then(function(response) {
         toastr.success('Commentor banned');
         comment.banned = true;
