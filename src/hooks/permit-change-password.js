@@ -36,7 +36,7 @@ export default options => {
         const hash = user[options.passwordField];
 
         if (!hash) {
-          return reject(new Error(`User record in the database is missing a '${options.passwordField}'`));
+          return reject(new Error('User record in the database is missing a ' + options.passwordField));
         }
 
         crypto.compare(hook.data.oldPassword, hash, async (error, result) => {
@@ -45,6 +45,12 @@ export default options => {
           }
 
           if(result) {
+            // This is important so users can't update other users passwords
+            hook.id = hook.params.user._id;
+            let query = {}
+            query[options.usernameField] = hook.params.user[options.usernameField];
+            hook.params.query = query;
+            
             hook.data.password = hook.data.newPassword;
             hook.data.newPassword = undefined;
             hook.data.oldPassword = undefined;

@@ -34,7 +34,6 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermissionOrRestrictChanges(permissionName, {restrictOn: ['role', 'enabled'] }),
-    // globalHooks.ownerOrRestrictChanges({restrictOn: ['password'] }),
     globalHooks.permitChangePassword(),
     globalHooks.ifPasswordThenHash()
   ],
@@ -45,7 +44,6 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermissionOrRestrictChanges(permissionName, {restrictOn: ['role', 'enabled'] }),
-    // globalHooks.ownerOrRestrictChanges({restrictOn: ['password'] }),
     globalHooks.permitChangePassword(),
     globalHooks.ifPasswordThenHash()
   ],

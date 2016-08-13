@@ -95,7 +95,7 @@ angular.module('meanbaseApp')
       changePassword: function(oldPassword, newPassword, callback) {
         var cb = callback || angular.noop;
 
-        return api.users.update({ id: currentUser._id }, {
+        return api.users.update({ _id: currentUser._id }, {
           oldPassword: oldPassword,
           newPassword: newPassword
         }, function(user) {
