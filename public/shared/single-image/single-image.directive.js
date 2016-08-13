@@ -23,7 +23,7 @@ angular.module('meanbaseApp')
             if (Auth.getToken()) {
               // Make this area uploadable
               scope.mediaUploader = new FileUploader({
-                url: '/api/media',
+                url: '/api/image-uploads',
                 headers: {
                   'Authorization': 'Bearer ' + Auth.getToken()
                 },
@@ -93,7 +93,7 @@ angular.module('meanbaseApp')
               scope.image = newValue;
               if(!scope.image) { return false; }
               if(!scope.image.modifiedurl) {
-                scope.image.modifiedurl = scope.image.url + 'origional.jpg';
+                scope.image.modifiedurl = scope.image.url + 'original.jpg';
               }
               scope.findImagesConfig.alreadySelected = newValue;
             });
@@ -113,7 +113,7 @@ angular.module('meanbaseApp')
                 scope.image = (Array.isArray(gallery.images))? gallery.images[0]: gallery.images;
                 if(scope.image) {
                   scope.image.location = scope.singleImage;
-                  scope.image.modifiedurl = scope.image.origional;
+                  scope.image.modifiedurl = scope.image.original;
                   $rootScope.page.images[scope.singleImage] = scope.image;
                 } else {
                   scope.image = defaultImage;

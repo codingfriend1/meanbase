@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {objectOfArraysToArrayOfObjects} from '../../../components/utility';
+import {objectOfArraysToArrayOfObjects, objectToArray} from '../../../components/utility';
 
 export default function(options) {
   return (hook) => {
@@ -14,7 +14,8 @@ export default function(options) {
     }
 
     if(hook.data.images) {
-      hook.data.images = objectOfArraysToArrayOfObjects(hook.data.images);
+      // hook.data.images = objectToArray(hook.data.images);
+      hook.data.images = objectToArray(hook.data.images);
     }
 
     return hook;

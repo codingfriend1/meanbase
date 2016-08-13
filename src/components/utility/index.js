@@ -31,6 +31,17 @@ exports.objectOfArraysToArrayOfObjects = function(data) {
   return data;
 };
 
+exports.objectToArray = function(data) {
+  if(!data || data === null || typeof data !== 'object') { return data; }
+  var returnArray = [];
+  for (var property in data) {
+    if (data.hasOwnProperty(property)) {
+      returnArray = returnArray.concat(data[property]);
+    }
+  }
+  return returnArray;
+};
+
 
 exports.arrayToObjectWithObject = function(array, itemToBecomeProperty) {
   if(!array || !itemToBecomeProperty) { return array; }
