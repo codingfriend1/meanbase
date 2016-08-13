@@ -8,7 +8,7 @@ module.exports = function() {
   const app = this;
 
   app.use('/extension-uploads',
-    unzip({folderPathProperty: 'extensionsPath'}),
+    unzip({folderPathProperty: 'extensionsPath', setProperty: 'extensionUrl'}),
     new ExtensionUploadsService()
   );
 

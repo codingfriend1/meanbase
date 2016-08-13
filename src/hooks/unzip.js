@@ -8,6 +8,7 @@ import fs from 'fs';
 
 export default options => {
   if(!options.folderPathProperty) { throw Error('Unzip must have a folderPathProperty'); }
+  if(!options.setProperty) { throw Error('Unzip must have a setProperty'); }
 
   return function(req, res, next) {
     const app = this;
@@ -87,7 +88,7 @@ export default options => {
             return next(new feathersErrors.Unprocessable(err));
           }
 
-          req.feathers.extensionUrl = createdFolderName;
+          req.feathers[options.setProperty] = createdFolderName;
           return next();
         });
       });

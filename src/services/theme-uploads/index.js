@@ -8,7 +8,7 @@ module.exports = function() {
   const app = this;
 
   app.use('/theme-uploads',
-    unzip({folderPathProperty: 'themesPath'}),
+    unzip({folderPathProperty: 'themesPath', setProperty: 'themeUrl'}),
     new ThemeUploadsService()
   );
 
