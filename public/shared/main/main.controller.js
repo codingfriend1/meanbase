@@ -181,7 +181,7 @@
       // Get the newly updated menus with their server-generated ids
       helpers.removeEmptyProperties($rootScope.menus)
 
-      server.menus.delete({}).then(function(deleteResponse) {
+      server.menus.delete({}).finally(function(deleteResponse) {
         if(!helpers.isEmpty($rootScope.menus)) {
           server.menus.create($rootScope.menus).then(function(createResponse) {
             server.menus.find({}).then(function(response) {
