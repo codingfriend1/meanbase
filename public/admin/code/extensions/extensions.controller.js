@@ -23,23 +23,26 @@ angular.module('meanbaseApp')
       var uploader = $scope.uploader = new FileUploader({
           url: '/api/extension-uploads',
           headers: {
-            'Authorization': 'Bearer ' + Auth.getToken
+            'Authorization': 'Bearer ' + Auth.getToken()
           },
           autoUpload: true
       });
 
       uploader.onCompleteAll = function(e) {
         uploader.clearQueue();
-        toastr.success('Extensions successfully uploaded!');
+
         findAll();
       };
 
-      uploader.onSuccessItem = function() {
+      uploader.onSuccessItem = function(event, response) {
+        toastr.success('Extension successfully uploaded');
         $rootScope.$emit('cms.extensionUploaded');
       };
 
-      uploader.onErrorItem = function(item, response, status, headers) {
-        toastr.error("Could not upload extension. " + status + ": " + response);
+      uploader.onErrorItem = function(data, response, status, headers) {
+        console.log("data", data);
+        console.log('Error uploading extension: ', response);
+        toastr.error("Could not upload extension. " + response.message);
       };
     }
 

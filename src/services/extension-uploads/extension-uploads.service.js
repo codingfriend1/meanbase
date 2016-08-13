@@ -10,14 +10,14 @@ export default class ImageUploadService {
   create(data, params) {
     return new Promise((resolve, reject) => {
       if(data && !_.isEmpty(data)) {
-        this.app.service('extensions').create(data).then(function(found) {
+        this.app.service('extension').create(data).then(function(found) {
           return resolve(found);
         }).catch(function(err) {
           console.log("error uploading theme", err);
           return reject(err);
         });
       } else {
-        return reject(new feathersErrors.Unprocessable('The theme did not have a valid theme content.'));
+        return reject(new feathersErrors.Unprocessable('The extension did not have a valid extension content.'));
       }
 
     });

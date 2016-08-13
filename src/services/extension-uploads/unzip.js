@@ -20,11 +20,11 @@ export default function(req, res, next) {
     form.keepExtensions = true;
     form.parse(req, function(err, fields, files) {
       if(err) {
-        console.log("Error parsing theme: ", err);
-        return next(new feathersErrors.NotAcceptable('The theme folder must be compressed in the correct format.'));
+        console.log("Error parsing extension: ", err);
+        return next(new feathersErrors.NotAcceptable('The extension folder must be compressed in the correct format.'));
       }
       if(!files || !files.file) {
-        return next(new feathersErrors.NotAcceptable('The theme folder must be compressed.'));
+        return next(new feathersErrors.NotAcceptable('The extension folder must be compressed.'));
       }
 
       var tempFilePath = files.file.path;
@@ -34,7 +34,7 @@ export default function(req, res, next) {
       createdFolderName = fileName.substring(fileName.lastIndexOf('/'), fileName.indexOf('.', fileName.lastIndexOf('/')) );
 
       if(!createdFolderName || !/^[a-zA-Z0-9_-]+$/.test(createdFolderName)) {
-        return next(new feathersErrors.NotAcceptable('Theme folder name was invalid: "' + createdFolderName + '". It should only contain letters, numbers, and - or _'));
+        return next(new feathersErrors.NotAcceptable('Extension folder name was invalid: "' + createdFolderName + '". It should only contain letters, numbers, and - or _'));
       }
 
       createdFolderPath = path.join(req.app.get('extensionsPath'), createdFolderName);
@@ -68,10 +68,10 @@ export default function(req, res, next) {
         // Is it a directory?
         if (stats.isDirectory()) {
           console.log('already exists');
-          return next(new feathersErrors.NotAcceptable('A theme with that name has already been uploaded. Please choose a different folder name for your theme.'));
+          return next(new feathersErrors.NotAcceptable('A extension with that name has already been uploaded. Please choose a different folder name for your extension.'));
         }
       } catch (err) {
-        console.log("Checking if theme already exists error", err);
+        console.log("Checking if extension already exists error", err);
       }
 
       decompress.src(tempFilePath)
@@ -80,10 +80,10 @@ export default function(req, res, next) {
 
       decompress.run(function (err, files) {
         if (err) {
-          console.log("unzipping theme error: ", err);
+          console.log("unzipping extension error: ", err);
           return next(new feathersErrors.Unprocessable(err));
         }
-
+        console.log("createdFolderName", createdFolderName);
         req.feathers.extensionUrl = createdFolderName;
         return next();
       });
