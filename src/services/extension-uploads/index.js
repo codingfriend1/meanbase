@@ -2,13 +2,13 @@
 
 import ExtensionUploadsService from './extension-uploads.service';
 const hooks = require('./hooks');
-import unzip from './unzip';
+import unzip from '../../hooks/unzip'
 
 module.exports = function() {
   const app = this;
 
   app.use('/extension-uploads',
-    unzip,
+    unzip({folderPathProperty: 'extensionsPath'}),
     new ExtensionUploadsService()
   );
 

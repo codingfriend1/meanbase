@@ -2,13 +2,13 @@
 
 import ThemeUploadsService from './theme-uploads.service';
 const hooks = require('./hooks');
-import unzip from './unzip';
+import unzip from '../../hooks/unzip'
 
 module.exports = function() {
   const app = this;
 
   app.use('/theme-uploads',
-    unzip,
+    unzip({folderPathProperty: 'themesPath'}),
     new ThemeUploadsService()
   );
 
