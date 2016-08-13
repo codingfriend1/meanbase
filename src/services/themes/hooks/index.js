@@ -1,10 +1,16 @@
 'use strict';
 
+import compileIndex from '../../../components/compile-index';
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication').hooks;
 
 const permissionName = 'changeSiteSettings';
+
+const recompileIndex = function(hook) {
+  compileIndex.call(hook.app);
+  console.log('recompiling html views');
+}
 
 exports.before = {
   all: [],
@@ -28,7 +34,7 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.hasPermission(permissionName),
   ],
   patch: [
     auth.verifyToken(),
@@ -36,7 +42,7 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.hasPermission(permissionName),
   ],
   remove: [
     auth.verifyToken(),
@@ -58,8 +64,12 @@ exports.after = {
   find: [],
   get: [],
   create: [],
-  update: [],
-  patch: [],
+  update: [
+    recompileIndex
+  ],
+  patch: [
+    recompileIndex
+  ],
   remove: [
 
   ]
