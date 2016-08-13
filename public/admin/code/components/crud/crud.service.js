@@ -39,7 +39,7 @@ angular.module('meanbaseApp')
         var collection = self.scope[self.collection];
         for (var i = 0; i < collection.length; i++) {
           if(collection[i]._id === item._id) {
-            collection[i] = _.merge(item, update);
+            collection[i] = _.merge(collection[i], update);
           }
         }
         if(message) { toastr.clear(); toastr.success(message); }

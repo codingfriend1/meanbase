@@ -7,6 +7,8 @@
 
     var u = $scope.u = new crud($scope, 'users', api.users);
 
+    var r = $scope.r = new crud($scope, 'roles', api.roles);
+
     function findall() {
       u.find({}, null, 'Could not get the users');
     }
@@ -48,11 +50,8 @@
 	  	var newRole = {role: roleName, permissions: angular.copy($scope.selectedRole.permissions)};
 
   		api.roles.create(newRole).then(function(response) {
-				if(Array.isArray(response) && response[0]) {
-					$scope.roles.push(response[0]);
-	  			$scope.selectedRole = response[0];
-				}
-
+				$scope.roles.push(response);
+  			$scope.selectedRole = response;
 				toastr.clear();
 				toastr.success('Created new role: ' + roleName);
   		});
@@ -61,10 +60,10 @@
 	  // Update a role
 	  $scope.updateRole = function(roleForm) {
 	  	if(!$scope.selectedRole || $scope.selectedRole.role === 'admin') { return false; }
-  		api.roles.update({_id: $scope.selectedRole._id}, {permissions: $scope.selectedRole.permissions}).then(function(response) {
-  			toastr.clear();
+      $scope.r.update({_id: $scope.selectedRole._id}, {permissions: $scope.selectedRole.permissions}).then(function() {
+        toastr.clear();
   			toastr.success('Updated ' + $scope.selectedRole.role + ' role.');
-  		});
+      });
 	  };
 
     $scope.deleteUser = function(user) {
