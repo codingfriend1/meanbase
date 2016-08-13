@@ -43,7 +43,7 @@
       var deferred = $q.defer();
 			feathers.service(this.url).create(content).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
-				self.errorHandler(data, status, headers, config);
+				self.errorHandler(data);
 			});
       return deferred.promise;
 		};
@@ -56,9 +56,9 @@
 		endpoints.prototype.find = function(identifier) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).find({ query: identifier }).then(deferred.resolve).catch(function(data, status, headers, config) {
+			feathers.service(this.url).find({ query: identifier }).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
-				self.errorHandler(data, status, headers, config);
+				self.errorHandler(data);
 			});
       return deferred.promise;
 		};
@@ -72,9 +72,9 @@
 		endpoints.prototype.update = function(identifier, replacement) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).patch(null, replacement, {query: identifier}).then(deferred.resolve).catch(function(data, status, headers, config) {
+			feathers.service(this.url).patch(null, replacement, {query: identifier}).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
-				self.errorHandler(data, status, headers, config);
+				self.errorHandler(data);
 			});
       return deferred.promise;
 		};
@@ -91,9 +91,9 @@
 
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).remove(id, query).then(deferred.resolve).catch(function(data, status, headers, config) {
+			feathers.service(this.url).remove(id, query).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
-				self.errorHandler(data, status, headers, config);
+				self.errorHandler(data);
 			});
       return deferred.promise;
 		};
@@ -106,9 +106,9 @@
 		endpoints.prototype.findOne = function(id) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).get(id).then(deferred.resolve).catch(function(data, status, headers, config) {
+			feathers.service(this.url).get(id).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
-				self.errorHandler(data, status, headers, config);
+				self.errorHandler(data);
 			});
       return deferred.promise;
 		};
@@ -122,9 +122,9 @@
 		endpoints.prototype.updateOne = function(id, replacement) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).patch(id, replacement).then(deferred.resolve).catch(function(data, status, headers, config) {
+			feathers.service(this.url).patch(id, replacement).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
-				self.errorHandler(data, status, headers, config);
+				self.errorHandler(data);
 			});
       return deferred.promise;
 		};
@@ -137,9 +137,9 @@
 		endpoints.prototype.deleteOne = function(id) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).remove(id).then(deferred.resolve).catch(function(data, status, headers, config) {
+			feathers.service(this.url).remove(id).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
-				self.errorHandler(data, status, headers, config);
+				self.errorHandler(data);
 			});
       return deferred.promise;
 		};

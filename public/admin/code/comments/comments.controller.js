@@ -19,18 +19,14 @@ angular.module('meanbaseApp')
     $scope.c = new crud($scope, 'comments', api.comments);
 
   	$scope.c.find({}).then(function(response) {
-      api.bannedMembers.find({}).then(function(bannedComments) {
-        $scope.bannedMembers = bannedComments;
+      api.bannedMembers.find({}).then(function(bannedMembers) {
+        $scope.bannedMembers = bannedMembers;
         for (var i = 0; i < $scope.comments.length; i++) {
           if($scope.pagesWithComments.indexOf($scope.comments[i].url) === -1) {
             $scope.pagesWithComments.push($scope.comments[i].url);
           }
-          for (var j = 0; j < bannedComments.length; j++) {
-            if(bannedComments[j].email === $scope.comments[i].email || bannedComments[j].ip === $scope.comments[i].ip) {
-              $scope.comments[i].banned = true;
-            }
-          }
         }
+        isCommentBanned($scope.comments, bannedMembers);
         $scope.pagesWithComments = helpers.generateSelectOptions($scope.pagesWithComments, function(page){
           return page.substring(1);
         });
@@ -105,34 +101,46 @@ angular.module('meanbaseApp')
 
     $scope.ban = function(comment) {
       if(!comment || !comment.email || !comment.ip) { return false; }
-      $scope.c.toggleModal('isSettingsOpen', 'settings');
+      $scope.c.toggleModal('isInfoOpen', 'settings');
       api.bannedMembers.create({email: comment.email, ip: comment.ip}).then(function(response) {
         toastr.success('Commentor banned');
-        comment.banned = true;
-        $scope.bannedMembers.push(response[0]);
+        $scope.bannedMembers.push(response);
+        isCommentBanned($scope.comments, $scope.bannedMembers);
       }).catch(function(err) {
-        toastr.danger('Could not ban commentor', err);
+        console.log("err", err);
+        toastr.warning('Could not ban commentor: ' +  err);
       });
     };
 
-    $scope.unban = function(item) {
-      if(!item || !item.email || !item.ip) { return false; }
-      api.bannedMembers.delete({ $or: [ {email: item.email}, {ip: item.ip} ] }).then(function(response) {
-        toastr.clear();
-        toastr.success('Commentor unbanned');
-        var index = $scope.bannedMembers.indexOf(item);
-        if(index > -1) {
-          $scope.bannedMembers.splice(index, 1);
-        }
-        if(item.date) {
-          item.banned = false;
+    function isCommentBanned(comments, bannedMembers) {
+      for (var i = 0; i < comments.length; i++) {
+        if(!bannedMembers || bannedMembers.length === 0) {
+          comments[i].banned = false;
         } else {
-          for (var i = 0; i < $scope.comments.length; i++) {
-            if($scope.comments[i].email === item.email || $scope.comments[i].ip === item.ip) {
-              $scope.comments[i].banned = false;
+          for (var h = 0; h < bannedMembers.length; h++) {
+            if(comments[i].email === bannedMembers[h].email) {
+              comments[i].banned = true;
+            } else {
+              comments[i].banned = false;
             }
           }
         }
+      }
+    }
+
+    $scope.unban = function(item) {
+      if(!item || !item.email || !item.ip) { return false; }
+      $scope.isInfoOpen = false;
+
+      api.bannedMembers.delete({ $or: [ {email: item.email}, {ip: item.ip} ] }).then(function(response) {
+        toastr.clear();
+        toastr.success('Commentor unbanned');
+        for (var i = 0; i < $scope.bannedMembers.length; i++) {
+          if($scope.bannedMembers[i].email === item.email || $scope.bannedMembers[i].ip === item.ip) {
+            $scope.bannedMembers.splice(i, 1);
+          }
+        }
+        isCommentBanned($scope.comments, $scope.bannedMembers);
       }, function(err) {
         toastr.danger('Could not unban commentor', err);
       });

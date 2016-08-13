@@ -36,7 +36,7 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
         .mdl-cell.mdl-cell--12-col
           ul.mdl-list
             li.mdl-list__item.mdl-list__item--infinite-line.mdl-list__item--three-line(ng-repeat="comment in (comments | filter:commentFilter | filter: {approved: approval, url: filterByThisPage}) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" mdl)
-              .mdl-list__item-primary-content
+              .mdl-list__item-primary-content(ng-class="{'banned': comment.banned}")
                 i.material-icons.mdl-list__item-avatar person
                 span #[strong {{comment.url}}]: {{comment.date | relativeDate}}
                 .mdl-list__item-text-body {{comment.content}}
@@ -92,7 +92,8 @@ dialog.mdl-dialog(dialog-open="isInfoOpen")
     span  {{settings.url}}
     p {{settings.content}}
   .mdl-dialog__actions
-    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-click="ban(settings)") Ban this commentor
+    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-if="!settings.banned" ng-click="ban(settings)") Ban this commentor
+    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-if="settings.banned" ng-click="unban(settings)") Unban this commentor
     button.mdl-button(type='button' ng-click="c.toggleModal('isInfoOpen', 'settings')") Close
     //- accordion(close-others="true")
     //-   accordion-group(ng-repeat="member in bannedMembers").panel
