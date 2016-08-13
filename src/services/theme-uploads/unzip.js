@@ -3,10 +3,17 @@ const Decompress = require('decompress');
 const zip = require('decompress-unzip');
 const formidable = require('formidable');
 import feathersErrors from 'feathers-errors'
+import fs from 'fs';
 
 export default function(req, res, next) {
   const app = this;
+
+  if(!req.app || !req.app.get('themesPath')) {
+    next(new Error('themesPath not found on server'));
+  }
+
   var createdFolderName = '125098dsflkj1324';
+
   var createdFolderPath = path.join(req.app.get('themesPath'), createdFolderName);
   try {
     var form = new formidable.IncomingForm();
@@ -21,10 +28,10 @@ export default function(req, res, next) {
       }
 
       var tempFilePath = files.file.path;
-      var userFileName  = files.file.name;
+      var fileName  = files.file.name;
       var contentType   = files.file.type;
 
-      createdFolderName = userFileName.substring(userFileName.lastIndexOf('/'), userFileName.indexOf('.', userFileName.lastIndexOf('/')) );
+      createdFolderName = fileName.substring(fileName.lastIndexOf('/'), fileName.indexOf('.', fileName.lastIndexOf('/')) );
 
       if(!createdFolderName || !/^[a-zA-Z0-9_-]+$/.test(createdFolderName)) {
         return next(new feathersErrors.NotAcceptable('Theme folder name was invalid: "' + createdFolderName + '". It should only contain letters, numbers, and - or _'));
@@ -60,15 +67,18 @@ export default function(req, res, next) {
         var stats = fs.lstatSync(createdFolderPath);
         // Is it a directory?
         if (stats.isDirectory()) {
-          return res.status(501).send('A theme with that name has already been uploaded. Please choose a different folder name for your theme.');
+          console.log('already exists');
+          return next(new feathersErrors.NotAcceptable('A theme with that name has already been uploaded. Please choose a different folder name for your theme.'));
         }
-      } catch (e) {}
+      } catch (err) {
+        console.log("Checking if theme already exists error", err);
+      }
 
       decompress.src(tempFilePath)
-      .dest(createdFolderPath)
-      .use(compressType({strip: 1}));
+        .dest(createdFolderPath)
+        .use(compressType({strip: 1}));
 
-      decompress.run(async function (err, files) {
+      decompress.run(function (err, files) {
         if (err) {
           console.log("unzipping theme error: ", err);
           return next(new feathersErrors.Unprocessable(err));

@@ -16,7 +16,20 @@ export default function(options) {
       if(!hook.params.themeUrl) { return reject('themeUrl not found.'); }
 
       // Loop through themes in hook.app.get('themesPath') and get the theme.json file out of the root of each one
+      console.log("hook.params.themeUrl", hook.params.themeUrl);
+
       const themePath = path.join(hook.app.get('themesPath'), hook.params.themeUrl);
+
+      let themeUrl = hook.params.themeUrl;
+      if (hook.params.themeUrl.charAt(hook.params.themeUrl.length - 1) == '/') {
+        themeUrl = hook.params.themeUrl.substr(0, myString.length - 1);
+      }
+
+      if(!themeUrl) { theme.url = '2G13j13523lksdf73520sFASGSDFweT'; }
+
+      const deletePath = path.join(hook.app.get('themesPath'), themeUrl);
+
+
       if(!fs.lstatSync(themePath).isDirectory()) { return reject('Theme is not a folder'); }
       var themeFolder = fs.readdirSync(themePath);
 
@@ -34,8 +47,8 @@ export default function(options) {
           var themeFiles = Finder.from(themePath).findFiles('<-template\.jade|-template\.html|(scripts|styles)\.html|theme\.json|screenshot>');
         } catch(err) {
           console.log('could not navigate theme files', err);
-          if(themePath) {
-            fse.remove(themePath);
+          if(deletePath) {
+            fse.remove(deletePath);
           }
           return reject('Could not navigate theme folder structure.', err);
         }
@@ -77,8 +90,8 @@ export default function(options) {
               );
             } catch(err) {
               console.log("Could not parse json", err);
-              if(themePath) {
-                fse.remove(themePath);
+              if(deletePath) {
+                fse.remove(deletePath);
               }
               return reject(new Error("Could not find a valid theme.json file in the theme. If it's there, make sure it doesn't have any errors."));
             }
@@ -159,8 +172,8 @@ export default function(options) {
               themeJSONFileContents.templates = templateMaps;
             }
             if(Object.keys(themeJSONFileContents.templates).length === 0) {
-              if(themePath) {
-                fse.remove(themePath);
+              if(deletePath) {
+                fse.remove(deletePath);
               }
               return reject(new Error('Theme had no templates. At least one file must have a -template.html or -template.jade ending'));
             }
@@ -181,8 +194,8 @@ export default function(options) {
               }
               themeJSONFileContents.templates = templateMaps;
               if(Object.keys(themeJSONFileContents.templates).length === 0) {
-                if(themePath) {
-                  fse.remove(themePath);
+                if(deletePath) {
+                  fse.remove(deletePath);
                 }
                 return reject(new feathersErrors.BadRequest('Theme had no templates. At least one file must have a -template.html or -template.jade ending'));
               }
@@ -194,8 +207,8 @@ export default function(options) {
         }
 
       } catch (err) {
-        if(themePath) {
-          fse.remove(themePath);
+        if(deletePath) {
+          fse.remove(deletePath);
         }
         return reject(err);
         console.log("validating themes error", err);
