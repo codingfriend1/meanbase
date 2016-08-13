@@ -195,7 +195,7 @@
       $timeout(function(){
         if(!$rootScope.page._id) { return false; }
 
-        api.pages.update({_id: $rootScope.page._id}, $rootScope.page).then(function() {
+        api.pages.update({_id: $rootScope.page._id}, $rootScope.page).then(function(response) {
 
           // Since we have angular setting the browser tab title we want to update it in case it changed. Normally this is bad practice, but we have prerender in node pre-compiling these pages for search engine bots
           if($rootScope.page.tabTitle) {

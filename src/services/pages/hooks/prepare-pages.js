@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import {objectOfArraysToArrayOfObjects} from '../../../components/utility';
 
 export default function(options) {
   return (hook) => {
@@ -9,15 +10,12 @@ export default function(options) {
     }
 
     if(hook.data.extensions) {
-      hook.data.extensions = _.values(hook.data.extensions);
+      hook.data.extensions = objectOfArraysToArrayOfObjects(hook.data.extensions);
     }
 
     if(hook.data.images) {
-      hook.data.images = _.values(hook.data.images);
+      hook.data.images = objectOfArraysToArrayOfObjects(hook.data.images);
     }
-
-
-    console.log("hook.data", hook.data);
 
     return hook;
   }
