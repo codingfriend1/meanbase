@@ -22,7 +22,7 @@ angular.module('meanbaseApp')
 
     if (Auth.getToken()) {
       var uploader = $scope.uploader = new FileUploader({
-          url: '/api/themes/upload',
+          url: '/api/theme-uploads',
           headers: {
             'Authorization': 'Bearer ' + Auth.getToken()
           },
@@ -43,7 +43,8 @@ angular.module('meanbaseApp')
       };
 
       uploader.onErrorItem = function(item, response, status, headers) {
-        toastr.error("Could not upload theme. " + status + ": " + response);
+        console.log("Uploading theme error: ", response);
+        toastr.error("Could not upload theme. " + response.message);
       };
     }
 

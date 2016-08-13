@@ -1,3 +1,4 @@
+import themeUploads from './theme-uploads';
 
 const imageUploads = require('./image-uploads');
 const ban = require('./ban');
@@ -22,6 +23,7 @@ module.exports = function() {
 
   app.configure(authentication);
   app.configure(imageUploads);
+  app.configure(themeUploads);
   app.configure(user);
   app.configure(pages);
   app.configure(menus);

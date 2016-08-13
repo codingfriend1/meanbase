@@ -5,13 +5,6 @@ const _ = require('lodash');
 
 var extractFileNameRegex = /^[0-9A-Za-z(\/|\\)*_.\\\-]*$/;
 
-
-function isMyPath(item, searchString) {
-  if(item.indexOf(searchString) > -1) {
-    return item;
-  }
-}
-
 /**
  * Returns the required theme.json file contents plus other required information
  * @param {string} activeURL The folder name of the active theme

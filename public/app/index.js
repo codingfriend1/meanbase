@@ -1,7 +1,7 @@
 // inject js
 import "./app.js";
-import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
+import "../shared/validate/validate.directive.js";
 import "../shared/sortable/sortable.directive.js";
 import "../shared/single-image/single-image.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
@@ -47,8 +47,8 @@ import "../shared/image-selector/image-selector.jade";
 import "../shared/main/editmenu.modal.jade";
 import "../shared/main/findImage.modal.jade";
 import "../shared/main/main.jade";
-import "../shared/missing/missing.jade";
 import "../shared/modal/modal.jade";
+import "../shared/missing/missing.jade";
 import "../shared/navbar/navbar.jade";
 import "../shared/single-image/single-image.jade";
 import "../shared/sortable/sortable.jade";

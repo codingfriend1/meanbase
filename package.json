@@ -10,7 +10,7 @@
     "cors": "^2.7.1",
     "dauria": "^1.1.4",
     "decompress": "^2.3.0",
-    "decompress-unzip": "^3.2.2",
+    "decompress-unzip": "^3.4.0",
     "feathers": "^2.0.1",
     "feathers-authentication": "^0.7.9",
     "feathers-blob": "^1.1.0",
