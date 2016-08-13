@@ -101,7 +101,6 @@ export default function(options) {
       }
 
       try {
-        console.log("pages", pages);
         await hook.app.service('pages').remove(null, {query: {}});
         await hook.app.service('pages').create(pages);
         console.log("WordPress pages saved");
