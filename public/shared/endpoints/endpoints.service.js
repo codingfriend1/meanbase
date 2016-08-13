@@ -14,7 +14,7 @@
  */
 
 (function(){
-	angular.module('meanbaseApp').factory('endpoints', function($http, toastr, feathers) {
+	angular.module('meanbaseApp').factory('endpoints', function($http, toastr, feathers, $q) {
 
 		/**
 		 * Sets up a rest endpoint for the given url so create, find, update, and delete can be performed on it. Calls generic error handler `errorHandler()` if error.
@@ -40,9 +40,12 @@
 		 */
 		endpoints.prototype.create = function(content) {
 			var self = this;
-			return feathers.service(this.url).create(content).catch(function(data, status, headers, config) {
+      var deferred = $q.defer();
+			feathers.service(this.url).create(content).then(deferred.resolve).catch(function(data) {
+        deferred.reject(data)
 				self.errorHandler(data, status, headers, config);
 			});
+      return deferred.promise;
 		};
 
 		/**
@@ -52,9 +55,12 @@
 		 */
 		endpoints.prototype.find = function(identifier) {
 			var self = this;
-			return feathers.service(this.url).find({ query: identifier }).catch(function(data, status, headers, config) {
+      var deferred = $q.defer();
+			feathers.service(this.url).find({ query: identifier }).then(deferred.resolve).catch(function(data, status, headers, config) {
+        deferred.reject(data)
 				self.errorHandler(data, status, headers, config);
 			});
+      return deferred.promise;
 		};
 
 		/**
@@ -65,9 +71,12 @@
 		 */
 		endpoints.prototype.update = function(identifier, replacement) {
 			var self = this;
-			return feathers.service(this.url).patch(null, replacement, {query: identifier}).catch(function(data, status, headers, config) {
+      var deferred = $q.defer();
+			feathers.service(this.url).patch(null, replacement, {query: identifier}).then(deferred.resolve).catch(function(data, status, headers, config) {
+        deferred.reject(data)
 				self.errorHandler(data, status, headers, config);
 			});
+      return deferred.promise;
 		};
 
 		/**
@@ -81,9 +90,12 @@
       if(identifier._id) { id = identifier._id; query = undefined; }
 
 			var self = this;
-			return feathers.service(this.url).remove(id, query).catch(function(data, status, headers, config) {
+      var deferred = $q.defer();
+			feathers.service(this.url).remove(id, query).then(deferred.resolve).catch(function(data, status, headers, config) {
+        deferred.reject(data)
 				self.errorHandler(data, status, headers, config);
 			});
+      return deferred.promise;
 		};
 
 		/**
@@ -93,9 +105,12 @@
 		 */
 		endpoints.prototype.findOne = function(id) {
 			var self = this;
-			return feathers.service(this.url).get(id).catch(function(data, status, headers, config) {
+      var deferred = $q.defer();
+			feathers.service(this.url).get(id).then(deferred.resolve).catch(function(data, status, headers, config) {
+        deferred.reject(data)
 				self.errorHandler(data, status, headers, config);
 			});
+      return deferred.promise;
 		};
 
 		/**
@@ -106,9 +121,12 @@
 		 */
 		endpoints.prototype.updateOne = function(id, replacement) {
 			var self = this;
-			return feathers.service(this.url).patch(id, replacement).catch(function(data, status, headers, config) {
+      var deferred = $q.defer();
+			feathers.service(this.url).patch(id, replacement).then(deferred.resolve).catch(function(data, status, headers, config) {
+        deferred.reject(data)
 				self.errorHandler(data, status, headers, config);
 			});
+      return deferred.promise;
 		};
 
 		/**
@@ -118,9 +136,12 @@
 		 */
 		endpoints.prototype.deleteOne = function(id) {
 			var self = this;
-			return feathers.service(this.url).remove(id).catch(function(data, status, headers, config) {
+      var deferred = $q.defer();
+			feathers.service(this.url).remove(id).then(deferred.resolve).catch(function(data, status, headers, config) {
+        deferred.reject(data)
 				self.errorHandler(data, status, headers, config);
 			});
+      return deferred.promise;
 		};
 
 		/**
