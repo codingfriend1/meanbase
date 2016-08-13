@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .controller('ImportCtrl', function($scope, endpoints, FileUploader, $cookieStore, toastr, $rootScope) {
+  .controller('ImportCtrl', function($scope, endpoints, FileUploader, Auth, toastr, $rootScope) {
 
     $scope.$parent.pageTitle = 'Import Data from Wordpress';
 
-    if ($cookieStore.get('token')) {
+    if (Auth.getToken()) {
       var uploader = $scope.uploader = new FileUploader({
-          url: '/api/import',
+          url: '/api/wordpress-import',
           headers: {
-            'Authorization': 'Bearer ' + $cookieStore.get('token')
+            'Authorization': 'Bearer ' + Auth.getToken()
           },
           autoUpload: true
       });
@@ -21,11 +21,11 @@ angular.module('meanbaseApp')
     };
 
     uploader.onSuccessItem = function() {
-      toastr.success('Data successfully imported. Check out your new content!');
+      toastr.success('Data successfully imported. Make sure to add the "post" and "page" template names to your theme templates.');
     };
 
     uploader.onErrorItem = function(item, response, status, headers) {
-      toastr.error("Sorry, we could not import that data.");
+      toastr.error("Error importing data from wordpress. " + response.message);
     };
 
   });

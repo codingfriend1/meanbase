@@ -14,8 +14,7 @@ const commentsSchema = new Schema({
   author: {
     type: String,
     trim: true,
-    default: 'anonymous',
-    validate: validators.matches(patterns.isTitle)
+    default: 'anonymous'
   },
   content: {
 		type: String,

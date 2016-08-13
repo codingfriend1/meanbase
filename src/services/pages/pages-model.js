@@ -41,14 +41,14 @@ const pagesSchema = new Schema({
 	},
 	tabTitle: {
 		type: String,
-		trim: true,
-		validate: validators.matches(patterns.isTitle, {skipEmpty:true})
+		trim: true
+		// validate: validators.matches(patterns.isTitle, {skipEmpty:true})
 	},
 	title: {
 		type: String,
 		trim: true,
-		default: "Title",
-		validate: validators.matches(patterns.isTitle, {skipEmpty:true})
+		default: "Title"
+		// validate: validators.matches(patterns.isTitle, {skipEmpty:true})
 	},
 	content: { type: Schema.Types.Mixed },
 	images: [{

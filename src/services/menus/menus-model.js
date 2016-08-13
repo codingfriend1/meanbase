@@ -14,8 +14,8 @@ const menusSchema = new Schema({
   title: {
     type: String,
     trim: true,
-    required: true,
-    validate: validators.matches(patterns.isTitle)
+    required: true
+    // validate: validators.matches(patterns.isTitle)
   },
   url: {
   	type: String,
