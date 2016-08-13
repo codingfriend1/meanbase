@@ -19,7 +19,6 @@ export default class ImageUploadService {
       } else {
         return reject(new feathersErrors.Unprocessable('The theme did not have a valid theme content.'));
       }
-
     });
   }
 
