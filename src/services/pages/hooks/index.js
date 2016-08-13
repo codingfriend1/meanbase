@@ -4,8 +4,9 @@ const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication').hooks;
 
-import preparePages from './prepare-pages';
-import mapExtensionsAndImages from './map-extensions-and-images';
+import convertForIncoming from './convert-for-incoming';
+
+import convertForOutgoing from './convert-for-outgoing';
 
 const permissionName = 'editContent';
 const restriction = {published: true};
@@ -33,7 +34,7 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermission(permissionName),
-    preparePages()
+    convertForIncoming()
   ],
   update: [
     auth.verifyToken(),
@@ -42,7 +43,7 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermission(permissionName),
-    preparePages()
+    convertForIncoming()
   ],
   patch: [
     auth.verifyToken(),
@@ -51,7 +52,7 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermission(permissionName),
-    preparePages()
+    convertForIncoming()
   ],
   remove: [
     auth.verifyToken(),
@@ -67,10 +68,10 @@ exports.after = {
   all: [
   ],
   find: [
-    mapExtensionsAndImages()
+    convertForOutgoing()
   ],
   get: [
-    mapExtensionsAndImages()
+    convertForOutgoing()
   ],
   create: [],
   update: [],
