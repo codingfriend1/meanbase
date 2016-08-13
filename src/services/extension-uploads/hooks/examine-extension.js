@@ -35,8 +35,6 @@ export default function(options) {
 
         var extensionjson = {};
 
-        console.log("folderContent", folderContent);
-
         if(folderContent.isDirectory()) {
           try {
             try {
