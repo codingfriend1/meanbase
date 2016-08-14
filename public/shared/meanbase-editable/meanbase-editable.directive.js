@@ -109,7 +109,7 @@ angular.module('meanbaseApp')
           // document.body.addEventListener('click', clickAnywhere, {once: true})
         }
 
-
+        var dropdowns, openDropdowns;
         function enableTextEditor() {
           // Create the text editor instance. These events enable us to wrap the text in green outlines
           el.trumbowyg(config)
@@ -119,6 +119,12 @@ angular.module('meanbaseApp')
           // Get the el we want to add the hasFocus class to
           var trumbowygBox = el.parent('.trumbowyg-box');
           angular.element(window).bind('click', trackMouse);
+
+          dropdowns = $('.trumbowyg-dropdown');
+
+          openDropdowns = $('.trumbowyg-open-dropdown')
+
+          openDropdowns.bind( "click", dropdownTrackMouse);
 
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
         	_snapshot = angular.copy(scope.html);
@@ -130,7 +136,7 @@ angular.module('meanbaseApp')
 
         function startImageListeners() {
           if(allImages) {
-            removeImageListeners();
+            removeEventListeners();
           }
           allImages = document.querySelectorAll('[meanbase-editable] img');
           allImages.forEach(function(image) {
@@ -158,7 +164,15 @@ angular.module('meanbaseApp')
           }
         }
 
-        function removeImageListeners() {
+        function dropdownTrackMouse(event) {
+          var evt = $(event.target);
+          var box = evt.parents('.trumbowyg-box');
+          var topPosition = event.pageY - box.offset().top + 15;
+          dropdowns.css('top', topPosition);
+        }
+
+        function removeEventListeners() {
+          openDropdowns.unbind( "click", dropdownTrackMouse);
           allImages.forEach(function(image) {
             image.removeEventListener("click", getSelectedImage);
             console.log("image.classList", image.classList);
@@ -171,7 +185,7 @@ angular.module('meanbaseApp')
 
         // When the user discards their edits, reset trumbowyg and ng-bind-html to the snapshot
         scope.$onRootScope('cms.discardEdits', function() {
-          removeImageListeners();
+          removeEventListeners();
           el.trumbowyg('html', _snapshot);
           scope.html = _snapshot;
           el.trumbowyg('destroy');
@@ -180,7 +194,7 @@ angular.module('meanbaseApp')
 
         // When the user saves their changes, update the ng-bind-html with the trymbowyg html
         scope.$onRootScope('cms.saveEdits', function() {
-          removeImageListeners();
+          removeEventListeners();
           console.log('save edits');
           scope.html = el.trumbowyg('html');
           el.trumbowyg('destroy');
