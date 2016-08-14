@@ -75,10 +75,13 @@ angular.module('meanbaseApp')
           var groupsArraysMatch = scope.fullscreenImage.groups.sort().join(',') === globals._fullscreenImage.groups.sort().join(',');
           var galleriesArraysMatch = scope.fullscreenImage.galleries.sort().join(',') === globals._fullscreenImage.galleries.sort().join(',');
 
-            if(globals._fullscreenImage.alt === scope.fullscreenImage.alt && globals._fullscreenImage.attribute === scope.fullscreenImage.attribute && groupsArraysMatch && galleriesArraysMatch) {
-              return false;
-            }
-          api.media.update({_id: scope.fullscreenImage._id}, scope.fullscreenImage);
+          if(globals._fullscreenImage.alt === scope.fullscreenImage.alt && globals._fullscreenImage.attribute === scope.fullscreenImage.attribute && groupsArraysMatch && galleriesArraysMatch) {
+            return false;
+          }
+
+          var image = _.merge({}, scope.fullscreenImage);
+          image.$$hashKey = undefined;
+          api.media.update({_id: scope.fullscreenImage._id}, image);
         }
 
 
@@ -207,6 +210,11 @@ angular.module('meanbaseApp')
         scope.exitFullscreen = function() {
           saveImageEdits();
           scope.fullscreen = false;
+        };
+
+        scope.saveImageEdits = function() {
+          if(!scope.fullscreenImage._id || ! scope.fullscreenImage.alt) { return false; }
+          api.media.update({_id: scope.fullscreenImage._id}, {alt: scope.fullscreenImage.alt});
         };
 
         // Slide to the next image
