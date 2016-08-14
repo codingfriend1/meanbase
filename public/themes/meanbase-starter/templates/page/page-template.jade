@@ -39,17 +39,12 @@
       .col-sm-4.margin-bottom
         choose-image(for="image-1")
           img.img-responsive(mb-src="image-1")  
-        //- img.img-responsive(mb-src="image-1" ng-if="!$root.editMode")  
           //- button.btn.btn-block.btn-primary.select-images-button Select Image
       .col-sm-4
-        //- div(mb-src="image-2" ng-if="!$root.editMode").full-width
         choose-image(for="image-2")
           div(mb-src="image-2").full-width
-          //- button.btn.btn-block.btn-primary.select-images-button Select Image
       .col-sm-4
         choose-image(for="image-3")
           img.img-responsive(mb-src="image-3")  
-        //- img.img-responsive(mb-src="image-3" ng-if="!$root.editMode") 
-        //- img.img-responsive(src='http://placehold.it/300x300')
     div(meanbase-editable ng-bind-html="page.content['content-8']")
     hr
