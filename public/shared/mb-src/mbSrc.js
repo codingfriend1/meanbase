@@ -13,6 +13,7 @@ angular.module('meanbaseApp')
 
         function setUrls() {
           if(!scope.size) { scope.size = 'original'; }
+          if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/768x432'; }
 
           var url, alt;
 

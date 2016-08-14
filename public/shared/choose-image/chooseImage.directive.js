@@ -1,36 +1,43 @@
 angular.module('meanbaseApp')
-  .directive('chooseImage', function ($rootScope, endpoints) {
+  .directive('chooseImage', function ($rootScope, endpoints, $compile) {
     return {
-      templateUrl: require('./chooseImage.jade'),
-      restrict: 'A',
-      scope: {
-        chooseImage: "@",
-        size:"@"
-      },
+      template: '<ng-transclude find-images-modal find-images-config="findImagesConfig" ng-if="$root.editMode"></ng-transclude>',
+      restrict: 'E',
+      transclude: true,
+      scope: true,
+      // compile: function(element, attrs) {
+      //   return {
+      //     pre: function preLink(scope, element, attrs, controller) {},
+      //     post: function postLink(scope, element, attrs, controller) {
+      //       setTimeout(function() {
+      //         $compile('<span find-images-modal find-images-config="findImagesConfig" ng-if="$root.editMode"><ng-transclude></ng-transclude></span>')(scope);
+      //       }, 500);
+      //     }
+      //   }
+      // },
       link: function (scope, element, attrs) {
-
+        // find-images-modal find-images-config="findImagesConfig" ng-if="$root.editMode"
         scope.findImagesConfig = {
           multiple: false,
           allOperations: false,
-          gallerySlug: scope.chooseImage,
-          alreadySelected: $rootScope.page.images[scope.chooseImage]
+          gallerySlug: attrs.for,
+          alreadySelected: $rootScope.page.images[attrs.for]
         };
 
         scope.$onRootScope('cms.choseImages', function(e, gallery) {
-          if(scope.chooseImage === gallery.gallerySlug) {
+          if(attrs.for === gallery.gallerySlug) {
             var image = (Array.isArray(gallery.images))? gallery.images[0]: gallery.images;
             if(image) {
-              image.location = scope.chooseImage;
-              image.modifiedurl = image[scope.size];
-              $rootScope.page.images[scope.chooseImage] = image;
+              image.location = attrs.for;
+              image.modifiedurl = image[attrs.size];
+              $rootScope.page.images[attrs.for] = image;
               scope.findImagesConfig.alreadySelected = image;
             } else {
-              $rootScope.page.images[scope.chooseImage] = undefined;
+              $rootScope.page.images[attrs.for] = undefined;
               scope.findImagesConfig.alreadySelected = undefined;
             }
           }
         });
       }
     }
-
   });
