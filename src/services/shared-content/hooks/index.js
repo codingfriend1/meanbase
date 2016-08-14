@@ -12,7 +12,7 @@ exports.before = {
 
   ],
   get: [
-    
+
   ],
   create: [
     auth.verifyToken(),

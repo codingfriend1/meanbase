@@ -11,7 +11,6 @@
     "angular-sanitize": ">=1.2.*",
     "angular-bootstrap": "^0.14.3",
     "font-awesome": ">=4.1.0",
-    "lodash": "~2.4.1",
     "angular-ui-router": "~0.2.10",
     "Sortable": "~1.2.0",
     "angular-touch": "~1.3.15",
@@ -25,7 +24,8 @@
     "animate-css": "~3.3.0",
     "ngAnalytics": "nganalytics#~1.1.4",
     "trumbowyg": "~1.1.7",
-    "angular-recaptcha": "^3.0.4"
+    "angular-recaptcha": "^3.0.4",
+    "lodash": "^4.15.0"
   },
   "overrides": {
     "modernizr": {

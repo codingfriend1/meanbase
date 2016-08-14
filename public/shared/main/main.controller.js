@@ -231,32 +231,50 @@
 
         // **In this first loop, we update the shared content with the data from the extensions**
         helpers.loopThroughPageExtensions(function(currentExtension) {
-          if(currentExtension.contentName && currentExtension.contentName !== '') {
-            if(!$rootScope.sharedContent[currentExtension.contentName]) {
-              $rootScope.sharedContent[currentExtension.contentName] = {};
+          var key = currentExtension.contentName;
+          var ext = {
+            contentName: key,
+            type: currentExtension.name,
+            data: currentExtension.data,
+            config: currentExtension.config,
+            screenshot: currentExtension.screenshot
+          }
+          if(key && key !== '') {
+            if(!$rootScope.sharedContent[key]) {
+              $rootScope.sharedContent[key] = _.merge({}, ext);
+              upsertSharedContent(key, $rootScope.sharedContent[key]);
+            } else {
+              var mergedItem = _.mergeWith($rootScope.sharedContent[key], ext);
+              upsertSharedContent(key, mergedItem);
             }
-            $rootScope.sharedContent[currentExtension.contentName].contentName = currentExtension.contentName;
-            $rootScope.sharedContent[currentExtension.contentName].type = currentExtension.name;
-            $rootScope.sharedContent[currentExtension.contentName].data = currentExtension.data;
-            $rootScope.sharedContent[currentExtension.contentName].config = currentExtension.config;
-            $rootScope.sharedContent[currentExtension.contentName].screenshot = currentExtension.screenshot;
 
-            // Send the shared content back to the server
-            api.sharedContent.update({contentName: currentExtension.contentName}, $rootScope.sharedContent[currentExtension.contentName]);
           }
         }); //helpers.loopThroughPageExtensions
 
         // **In this second loop, we update the extensions with the data from shared content**
         // This is so that extensions using the same data on the same page all stay in sync
         helpers.loopThroughPageExtensions(function(currentExtension) {
-          if(currentExtension.contentName && currentExtension.contentName !== '') {
-            currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data;
-            currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config;
+          var key = currentExtension.contentName;
+          if(key && key !== '') {
+            currentExtension.data = $rootScope.sharedContent[key].data;
+            currentExtension.config = $rootScope.sharedContent[key].config;
           }
         });
 
       }); //$timeout
     }); //saveEdits()
+
+    function upsertSharedContent(key, content) {
+      api.sharedContent.find({contentName: key}).then(function(response) {
+        if(response[0]) {
+          api.sharedContent.update({contentName: key}, content);
+        } else {
+          api.sharedContent.create(content);
+        }
+      }, function(err) {
+        console.log("Could not save shared content", err);
+      });
+    }
 
     // ### Discard Edits
     // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when the user first clicked edit
