@@ -1,3 +1,4 @@
+const custom = require('./custom');
 import themeUploads from './theme-uploads';
 import extensionUploads from './extension-uploads'
 import wordpressImport from './wordpress-import'
@@ -40,4 +41,5 @@ module.exports = function() {
   app.configure(themes);
   app.configure(extension);
   app.configure(ban);
+  app.configure(custom);
 };
