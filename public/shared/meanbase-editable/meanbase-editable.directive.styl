@@ -115,12 +115,16 @@ img.image-float-right {
 // .trumbowyg-box:hover .trumbowyg-button-pane
 //   display block
 
-// .trumbowyg-box.hasFocus .trumbowyg-button-pane,
-.trumbowyg-box .trumbowyg-button-pane,
+.trumbowyg-box.hasFocus .trumbowyg-button-pane,
+// .trumbowyg-box .trumbowyg-button-pane,
 .trumbowyg-box.trumbowyg-fullscreen .trumbowyg-button-pane
   display block
 
 .trumbowyg-button-pane {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   position relative;
   background-color white
   border 2px solid #d7e0e2

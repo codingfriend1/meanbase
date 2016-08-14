@@ -63,7 +63,7 @@ angular.module('meanbaseApp')
                     } else {
                       selectedImage.classList.remove('image-float-left');
                     }
-                    selectedImage = null;
+                    // selectedImage = null;
                   }
                 },
                 ico: 'justifyLeft'
@@ -77,7 +77,7 @@ angular.module('meanbaseApp')
                     } else {
                       selectedImage.classList.remove('image-float-right');
                     }
-                    selectedImage = null;
+                    // selectedImage = null;
                   }
                 },
                 ico: 'justifyRight'
@@ -95,18 +95,24 @@ angular.module('meanbaseApp')
         var _snapshot;
         var allImages;
 
-        // function clickAnywhere() {
-        //   if(selectedImage && selectedImage.classList) {
-        //     selectedImage.classList.remove('mb-currently-selected-img');
-        //   }
-        //   document.body.removeEventListener('click', clickAnywhere)
-        // }
+        function clickAnywhere(event) {
+          var target = $(event.target);
+          var parents = target.parents('.trumbowyg-button-pane');
+
+          if(!target.hasClass('trumbowyg-button-pane') && !parents.length) {
+            if(selectedImage && selectedImage.classList) {
+              selectedImage.classList.remove('mb-currently-selected-img');
+              selectedImage = null;
+            }
+            document.body.removeEventListener('click', clickAnywhere)
+          }
+
+        }
 
         function getSelectedImage(event) {
           selectedImage = event.target;
-          // selectedImage.classList.add('mb-currently-selected-img');
           event.stopPropagation();
-          // document.body.addEventListener('click', clickAnywhere, {once: true})
+          document.body.addEventListener('click', clickAnywhere);
         }
 
         var dropdowns, openDropdowns;
