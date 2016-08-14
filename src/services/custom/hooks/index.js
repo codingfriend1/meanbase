@@ -5,7 +5,7 @@ const hooks = require('feathers-hooks');
 const auth = require('feathers-authentication').hooks;
 
 const permissionName = 'editContent';
-const restriction = {enabled: true};
+const restriction = {};
 
 exports.before = {
   all: [],
@@ -25,17 +25,17 @@ exports.before = {
     auth.verifyToken(),
     auth.populateUser(),
     auth.restrictToAuthenticated(),
-    globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.attachPermissions(),
+    globalHooks.updateByPermission()
   ],
   update: [
-    auth.verifyToken(),
-    auth.populateUser(),
+    auth.verifyToken(restriction),
+    auth.populateUser(restriction),
     auth.restrictToAuthenticated(),
-    globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.attachPermissions(),
+    globalHooks.updateByPermission()
   ],
   patch: [
     auth.verifyToken(),
@@ -43,7 +43,7 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.updateByPermission()
   ],
   remove: [
     auth.verifyToken(),
@@ -51,7 +51,7 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.updateByPermission()
   ]
 };
 

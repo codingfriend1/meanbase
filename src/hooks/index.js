@@ -22,6 +22,7 @@ import ownerOrRestrictChanges from './owner-or-restrict-changes';
 import ifPasswordThenHash from './if-password-then-hash';
 import permitChangePassword from './permit-change-password';
 import filterByPermissionOrRestrict from './filter-by-permission-or-restrict'
+import updateByPermission from './update-by-permission'
 
 exports.verifyOrRestrict = verifyOrRestrict;
 exports.populateOrRestrict = populateOrRestrict;
@@ -37,3 +38,4 @@ exports.ownerOrRestrictChanges = ownerOrRestrictChanges;
 exports.ifPasswordThenHash = ifPasswordThenHash;
 exports.permitChangePassword = permitChangePassword;
 exports.filterByPermissionOrRestrict = filterByPermissionOrRestrict;
+exports.updateByPermission = updateByPermission;
