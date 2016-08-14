@@ -5,7 +5,7 @@ div(ng-sortable="sortableExtensions" ng-class="{'mb-drag-to-room': editMode && p
 			.form-group
 				.input-group
 					.input-group-addon Name
-					input.form-control(type="text" placeholder="What is the shared name for this content?" ng-model="extension.contentName" ng-pattern="validators.isTitle")
+					input.form-control(type="text" placeholder="Waht name would you like to remember these settings by?" ng-model="extension.contentName" ng-pattern="validators.isTitle")
 			button.btn.btn-danger.remove-extension-button(ng-click='removeThisExtension(extension)')
 				i.fa.fa-trash.fa-lg|  
 				|  Delete
