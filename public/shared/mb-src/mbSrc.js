@@ -14,18 +14,19 @@ angular.module('meanbaseApp')
         function setUrls() {
           if(!scope.size) { scope.size = 'original'; }
 
-          var url;
+          var url, alt;
 
           if($rootScope.page.images[scope.mbSrc]) {
             url = $rootScope.page.images[scope.mbSrc].url + scope.size + '.jpg';
+            alt = $rootScope.page.images[scope.mbSrc].alt;
           } else {
             url = scope.placeholdIt;
           }
 
           if(isImage) {
             element.attr('src', url);
-            if($rootScope.page.images[scope.mbSrc].alt) {
-              element.attr('alt', $rootScope.page.images[scope.mbSrc].alt);
+            if(alt) {
+              element.attr('alt', alt);
             }
           } else {
             element.css({
@@ -36,18 +37,15 @@ angular.module('meanbaseApp')
 
         setUrls();
 
-        if($rootScope.page.images[scope.mbSrc]) {
-          setUrls();
-          scope.$onRootScope('cms.choseImages', function(e, gallery) {
-            if(scope.mbSrc === gallery.gallerySlug) {
+        scope.$onRootScope('cms.choseImages', function(e, gallery) {
+          if(scope.mbSrc === gallery.gallerySlug) {
+            $timeout(function() {
               $timeout(function() {
-                $timeout(function() {
-                  setUrls();
-                });
+                setUrls();
               });
-            }
-          });
-        }
+            });
+          }
+        });
       }
     }
 
