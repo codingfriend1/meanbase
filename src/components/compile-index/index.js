@@ -58,7 +58,7 @@ async function compileIndex(theme, extensionjsons) {
     index = injectTheme.call(this, index, theme);
 
   	if(!extensionjsons) {
-  		global.meanbaseGlobals.extensions = searchFolders.retrieveExtensions();
+  		global.meanbaseGlobals.extensions = searchFolders.retrieveExtensions.call(app);
   		extensionjsons = global.meanbaseGlobals.extensions;
   	}
 

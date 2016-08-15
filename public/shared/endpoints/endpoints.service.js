@@ -73,6 +73,7 @@
 			var self = this;
       var deferred = $q.defer();
 			feathers.service(this.url).patch(null, replacement, {query: identifier}).then(deferred.resolve).catch(function(data) {
+        console.log("Update failure for " + self.url, data);
         deferred.reject(data)
 				self.errorHandler(data);
 			});

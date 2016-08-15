@@ -89,15 +89,20 @@ angular.module('meanbaseApp')
 
     $scope.activateTheme = function(theme) {
       if(!theme.active) {
-        $http.post('api/themes/activate', {id: theme._id}).then(function() {
-          $rootScope.$emit('activated theme', theme);
-          for (var i = 0; i < $scope.themes.length; i++) {
-            $scope.themes[i].active = false
-          }
-          theme.active = true;
-        }, function(error) {
-          console.log('Switching themes error: ', error);
+        api.themes.update({}, {active: false}).then(function(response) {
+          api.themes.update({title: theme.title}, {active: true}).then(function() {
+            $rootScope.$emit('activated theme', theme);
+            for (var i = 0; i < $scope.themes.length; i++) {
+              $scope.themes[i].active = false
+            }
+            theme.active = true;
+          }, function(error) {
+            console.log('Switching themes error: ', error);
+          });
+        }, function(err) {
+          console.log('promise rejected', err);
         });
+
       }
 
     };

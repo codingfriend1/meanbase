@@ -138,6 +138,7 @@ exports.retrieveThemes = async function(activeURL) {
         themeJSONFileContents.themeJSONPath = themeData.themeJSONPath;
 
         var hasAllTemplates = true;
+
         if(templates) {
           for (var page in templates) {
             if (templates.hasOwnProperty(page)) {
@@ -176,6 +177,15 @@ exports.retrieveThemes = async function(activeURL) {
           }
           if(Object.keys(themeJSONFileContents.templates).length === 0) {
             throw new Error('Theme had no templates. At least one file must have a -template.html or -template.jade ending');
+          }
+
+          var templateMaps = {};
+          for (var template in templates) {
+            if (templates.hasOwnProperty(template)) {
+              if(templates[template].template) {
+                templateMaps[template] = [template];
+              }
+            }
           }
 
           themejsons.push(themeJSONFileContents);

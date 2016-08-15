@@ -49,8 +49,7 @@ const themesSchema = new Schema({
   },
   preview: {
     type: String,
-    required: false,
-    validate: validators.matches(patterns.isFilePath, {skipEmpty: true})
+    required: false
   },
   active: {
   	type: Boolean,

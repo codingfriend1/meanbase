@@ -8,8 +8,12 @@ const auth = require('feathers-authentication').hooks;
 const permissionName = 'changeSiteSettings';
 
 const recompileIndex = function(hook) {
-  compileIndex.call(hook.app);
-  console.log('recompiling html views');
+  let theme = hook.result;
+  if(Array.isArray(hook.result)) {
+    theme = hook.result[0];
+  }
+
+  compileIndex.call(hook.app, theme);
 }
 
 exports.before = {
@@ -42,7 +46,7 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName),
+    globalHooks.hasPermission(permissionName)
   ],
   remove: [
     auth.verifyToken(),
