@@ -6,4 +6,5 @@ import "./landing-template.html";
 // end inject js
 
 // inject stylus
+import "./css/landing-page.css";
 // end inject stylus

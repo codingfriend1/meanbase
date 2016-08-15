@@ -1,11 +1,11 @@
 // inject js
 import "./app.js";
 import "../shared/validate/validate.directive.js";
-import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
+import "../shared/taglist/taglist.directive.js";
+import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/navbar/navbar.controller.js";
-import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/modal/modal.service.js";
 import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
@@ -15,11 +15,11 @@ import "../shared/mb-src/mbSrc.js";
 import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/main/main.js";
 import "../shared/main/main.controller.js";
-import "../shared/image-selector/image-selector.directive.js";
 import "../shared/helpers/helpers.service.js";
+import "../shared/image-selector/image-selector.directive.js";
 import "../shared/findImages/findImages.directive.js";
-import "../shared/find-images-modal/find-images-modal.directive.js";
 import "../shared/feathers/feathers.service.js";
+import "../shared/find-images-modal/find-images-modal.directive.js";
 import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/extensions-selector/extensions.modal.controller.js";
 import "../shared/extensions-selector/extensions-selector.directive.js";
