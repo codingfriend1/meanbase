@@ -39,6 +39,11 @@ const menusSchema = new Schema({
   	default: '',
     validate: validators.matches(patterns.isCSSClass, {skipEmpty: true})
   },
+  iconClasses: {
+  	type: String,
+  	default: '',
+    validate: validators.matches(patterns.isCSSClass, {skipEmpty: true})
+  },
   target: {
   	type: String,
   	default: '',

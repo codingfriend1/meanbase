@@ -110,7 +110,7 @@
       isTitle: /^[A-Za-z0-9@:?&=.\/ _\-]*$/,
       isURI: /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}((\/|#)[\w~,;\-\.\/?%&+#=]*))/,
       isFilePath: /^[0-9A-Za-z\/*_.\\\-]*$/,
-      isCSSClass: /^[A-Za-z0-9_\-*]*$/,
+      isCSSClass: /^[A-Za-z0-9_ \-*]*$/,
       isAnchorTarget: /^[_blank|_self|_parent|_top]*$/,
       isEmail: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
       isText: /^$/,
@@ -378,8 +378,9 @@
           }
         });
       } else {
-        if($event.target.target || $($event.target).parent('a')[0].target) {
-          window.open(href, $event.target.target);
+        // var parent = $($event.target).parent('a')[0];
+        if(menuItem.target) {
+          window.open(href, menuItem.target);
         } else {
           $location.path(href);
         }

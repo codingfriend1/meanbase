@@ -25,6 +25,11 @@
       div.help-block.required(ng-show="editingMenuForm.classes.$error.required && editingMenuForm.classes.$dirty") {{errorMessages.requiredMessage}}
       div.help-block.error(ng-show="editingMenuForm.classes.$invalid && editingMenuForm.classes.$dirty") {{errorMessages.isCSSClass}}
     .form-group
+      label Icon Classes
+      input.form-control(ng-model="menuItem.iconClasses" name="iconClasses" ng-pattern="validators.isCSSClass")
+      div.help-block.required(ng-show="editingMenuForm.iconClasses.$error.required && editingMenuForm.iconClasses.$dirty") {{errorMessages.requiredMessage}}
+      div.help-block.error(ng-show="editingMenuForm.iconClasses.$invalid && editingMenuForm.iconClasses.$dirty") {{errorMessages.isCSSClass}}
+    .form-group
       label How should the link navigate?
       select(ng-model="menuItem.target").form-control
         option(value="") Update the current page without a refresh

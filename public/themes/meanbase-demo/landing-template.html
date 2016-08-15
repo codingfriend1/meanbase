@@ -40,10 +40,13 @@
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li ng-repeat="menu in menus.social" sortable>
-                                <a target="{{menu.target}}" class="btn btn-default btn-lg" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)"><span class="network-name">{{menu.title}}</span></a>
+                                <a target="{{menu.target}}" class="btn btn-default btn-lg" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">
+                                  <i ng-class="menu.iconClasses" ng-if="menu.iconClasses"></i>
+                                  <span class="network-name">{{menu.title}}</span>
+                                </a>
                             </li>
                             <li ng-click="createMenuItem('social')" class="btn btn-default btn-lg" ng-if="editMode" class="new-menu-item-button">
-                              <a><i class="fa fa-plus"></i></a>
+                              <a><i class="fa fa-plus"></i> <span> Add Social link</span></a>
                             </li>
 
                             <!-- <li>
