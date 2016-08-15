@@ -378,7 +378,7 @@
           }
         });
       } else {
-        if($event.target.target) {
+        if($event.target.target || $($event.target).parent('a')[0].target) {
           window.open(href, $event.target.target);
         } else {
           $location.path(href);
