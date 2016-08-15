@@ -378,7 +378,6 @@
           }
         });
       } else {
-        // var parent = $($event.target).parent('a')[0];
         if(menuItem.target) {
           window.open(href, menuItem.target);
         } else {

@@ -5,7 +5,8 @@ angular.module('meanbaseApp')
       scope: {
         mbSrc: "@",
         size:"@",
-        placeholdIt:'@'
+        placeholdIt:'@',
+        backgroundPrefix: '@'
       },
       link: function (scope, element, attrs) {
 
@@ -30,8 +31,10 @@ angular.module('meanbaseApp')
               element.attr('alt', alt);
             }
           } else {
+            var backgroundUrl = scope.backgroundPrefix? scope.backgroundPrefix + ', url(' + url +')': 'url(' + url +')';
+            console.log("backgroundUrl", backgroundUrl);
             element.css({
-              'background-image': 'url(' + url +')'
+              'background-image': backgroundUrl
             });
           }
         }
