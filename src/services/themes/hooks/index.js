@@ -8,6 +8,7 @@ const auth = require('feathers-authentication').hooks;
 const permissionName = 'changeSiteSettings';
 
 const recompileIndex = function(hook) {
+  if (!hook.params.provider) { return hook; }
   let theme = hook.result;
   if(Array.isArray(hook.result)) {
     theme = hook.result[0];
@@ -75,6 +76,10 @@ exports.after = {
     recompileIndex
   ],
   remove: [
+    function(hook) {
+      if (!hook.params.provider) { return hook;  }
+      compileIndex.call(hook.app);
+    },
     globalHooks.deleteCustomData('theme')
   ]
 };

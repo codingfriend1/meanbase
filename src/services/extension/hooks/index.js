@@ -1,4 +1,5 @@
 'use strict';
+import compileIndex from '../../../components/compile-index';
 
 const globalHooks = require('../../../hooks');
 const hooks = require('feathers-hooks');
@@ -70,6 +71,10 @@ exports.after = {
   update: [],
   patch: [],
   remove: [
+    function(hook) {
+      if (!hook.params.provider) { return hook;  }
+      compileIndex.call(hook.app);
+    },
     globalHooks.deleteCustomData('extension')
   ]
 };
