@@ -29,7 +29,7 @@ div.drop-zone(nv-file-drop="uploader" multiple uploader="uploader").text-center.
 dialog.mdl-dialog(dialog-open="isDeleteOpen")
   h4.mdl-dialog__title Delete {{extensionToDelete.name}}?
   .mdl-dialog__content
-    p Are you sure you want to delete {{extensionToDelete.name}}?
+    p Are you sure you want to delete {{extensionToDelete.name}}? It will also delete any data specific to this extension.
   .mdl-dialog__actions
     button.mdl-button(type='button' ng-click="deleteExtension(extensionToDelete)") Yes
     button.mdl-button(type='button' ng-click="e.toggleModal('isDeleteOpen', 'extensionToDelete')") No
