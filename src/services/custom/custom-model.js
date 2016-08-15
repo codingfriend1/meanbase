@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const customSchema = new Schema({
-  prefix: {
+  belongsTo: {
     type: String,
     required: true
   },

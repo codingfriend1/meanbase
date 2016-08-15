@@ -65,6 +65,6 @@ exports.after = {
   update: [],
   patch: [],
   remove: [
-
+    globalHooks.deleteCustomData('extension')
   ]
 };

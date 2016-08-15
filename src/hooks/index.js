@@ -23,6 +23,7 @@ import ifPasswordThenHash from './if-password-then-hash';
 import permitChangePassword from './permit-change-password';
 import filterByPermissionOrRestrict from './filter-by-permission-or-restrict'
 import updateByPermission from './update-by-permission'
+import deleteCustomData from './delete-custom-data'
 
 exports.verifyOrRestrict = verifyOrRestrict;
 exports.populateOrRestrict = populateOrRestrict;
@@ -39,3 +40,4 @@ exports.ifPasswordThenHash = ifPasswordThenHash;
 exports.permitChangePassword = permitChangePassword;
 exports.filterByPermissionOrRestrict = filterByPermissionOrRestrict;
 exports.updateByPermission = updateByPermission;
+exports.deleteCustomData = deleteCustomData;

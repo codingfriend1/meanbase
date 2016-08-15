@@ -71,6 +71,6 @@ exports.after = {
     recompileIndex
   ],
   remove: [
-
+    globalHooks.deleteCustomData('themes')
   ]
 };
