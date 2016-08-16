@@ -7,21 +7,22 @@ angular.module('meanbaseApp')
       replace: true,
       link: function (scope, element, attrs) {
         scope.for = scope.$parent.$eval(attrs.for);
+
         if(!scope.for) { scope.for = {}; }
 
         function setDefaultIfEmpty() {
-          if(!scope.for[scope.property]  || _.isEmpty(scope.for[scope.property])) {
-            scope.for[scope.property] = {
+          if(!scope.for[attrs.property]  || _.isEmpty(scope.for[attrs.property])) {
+            scope.for[attrs.property] = {
               classes: 'fa fa-pencil fa-2x erase-this'
             };
-          } else if(scope.for[scope.property].classes === '') {
-            scope.for[scope.property].classes = 'fa fa-pencil fa-2x erase-this';
+          } else if(scope.for[attrs.property].classes === '') {
+            scope.for[attrs.property].classes = 'fa fa-pencil fa-2x erase-this';
           }
         }
 
         function removeDefault() {
-          if(scope.for[scope.property].classes === 'fa fa-pencil fa-2x erase-this') {
-            scope.for[scope.property].classes = '';
+          if(scope.for[attrs.property].classes === 'fa fa-pencil fa-2x erase-this') {
+            scope.for[attrs.property].classes = '';
           }
         }
 

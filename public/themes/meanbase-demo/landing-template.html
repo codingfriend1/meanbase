@@ -30,7 +30,7 @@
   <!-- Header -->
   <a name="about"></a>
   <choose-image property="image-1">
-    <div class="intro-header" mb-src="image" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
+    <div class="intro-header" mb-src="image-1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
         <div class="container disable-click">
 
             <div class="row">
@@ -82,7 +82,7 @@
             <div class="col-lg-4 col-sm-4 text-center" ng-repeat="point in page.lists.bulletPoints1">
               <choose-icon for="point" property="icon"></choose-icon>
               <choose-image property="image" belongs-to="point">
-                <img mb-src="image" on="point" class="img-responsive"/>
+                <img mb-src="image" belongs-to="point" class="img-responsive"/>
               </choose-image>
               <h3 meanbase-editable ng-bind-html="point.title"></h3>
               <div meanbase-editable ng-bind-html="point.description"></div>

@@ -12,6 +12,8 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         var isImage = element.is('img') || element.find('img').length > 0;
+        if(!scope.size) { scope.size = 'original'; }
+        if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/768x432'; }
 
         var currentUrl, on, key;
         if(attrs.belongsTo) {
@@ -23,11 +25,8 @@ angular.module('meanbaseApp')
         }
 
         function setUrls() {
-          if(!scope.size) { scope.size = 'original'; }
-          if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/768x432'; }
 
           var url, alt;
-
           if(on[scope.mbSrc]) {
             url = on[scope.mbSrc].url + scope.size + '.jpg';
             alt = on[scope.mbSrc].alt;
@@ -41,7 +40,6 @@ angular.module('meanbaseApp')
           }
 
           if(isImage) {
-
             element.attr('src', url);
             if(alt) {
               element.attr('alt', alt);
@@ -84,7 +82,7 @@ angular.module('meanbaseApp')
             });
           }
         });
-        
+
       }
     }
 
