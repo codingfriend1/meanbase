@@ -426,8 +426,8 @@
           var testIcon = $('#test-icon');
           console.log("testIcon", testIcon);
           $scope.hasContent = getComputedStyle(testIcon[0], ':before').content;
-          if(!$scope.hasContent) {
-            $scope.hasContentError = "Please choose a class name that will make the icon appear";
+          if(!$scope.hasContent && $scope.icon.classes) {
+            $scope.hasContentError = "Please choose a class name that will make the icon appear or erase all the class names.";
           } else {
             $scope.hasContentError = '';
           }
@@ -437,7 +437,7 @@
       $scope.saveIcon = function(editIconForm) {
 
         // We want to make sure the changes are valid before submitting it
-        if(editIconForm.$valid && $scope.hasContent) {
+        if(editIconForm.$valid && ($scope.hasContent || !$scope.icon.classes)) {
           // icon is the menu that was passed in (the actual menu we want to modify). $scope.icon is the object that's being edited in the modal.
           icon.title = $scope.icon.title || icon.title;
           icon.url = $scope.icon.url || icon.url;
