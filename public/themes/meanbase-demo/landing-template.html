@@ -48,13 +48,13 @@
                                 <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
                                 <!-- <button class="btn btn-block btn-danger"  ng-if="editMode">Remove Button</button> -->
                             </li>
-                            <div class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="socialBtn = {}">
+                            <li class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
                               <a class="btn btn-default btn-lg">
                                 <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
                                 <span meanbase-editable ng-bind-html="socialBtn.title"></span>
                               </a>
-                              <button class="btn btn-block btn-primary margin-top-1" mb-new="page.lists.social" mb-model="socialBtn"><a><i class="fa fa-plus"></i><span>Add Social Button</span></button>
-                            </div>
+                              <mb-list-add list="page.lists.social" item="socialBtn"></mb-list-add>
+                            </li>
 
                             <!-- <li>
                                 <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
@@ -112,7 +112,7 @@
               </choose-image>
               <h3 meanbase-editable ng-bind-html="point.title"></h3>
               <div meanbase-editable ng-bind-html="point.description"></div>
-              <button class="btn btn-block btn-primary margin-top-1" mb-new="page.lists.bulletPoints1" mb-model="point">Save New Bullet Point</button>
+              <mb-list-add list="page.lists.bulletPoints1" item="point"></mb-list-add>
             </div>
 
               <!-- <div class="col-lg-5 col-sm-6">
