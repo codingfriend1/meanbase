@@ -80,7 +80,7 @@
       <div class="container">
           <div class="row" page-list="bulletPoints1">
             <div class="col-lg-4 col-sm-4 text-center" ng-repeat="point in page.lists.bulletPoints1">
-              <choose-icon for="point" property="icon"></choose-icon>
+              <choose-icon belongs-to="point" property="icon"></choose-icon>
               <choose-image property="image" belongs-to="point">
                 <img mb-src="image" belongs-to="point" class="img-responsive"/>
               </choose-image>
@@ -89,7 +89,7 @@
               <button class="btn btn-block btn-danger" ng-click="page.lists.bulletPoints1.splice($index, 1)" ng-if="editMode">Remove Bullet Point</button>
             </div>
             <div class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="point = {}">
-              <choose-icon for="point" property="icon"></choose-icon>
+              <choose-icon belongs-to="point" property="icon"></choose-icon>
               <choose-image property="image" belongs-to="point">
                 <img mb-src="image" belongs-to="point" class="img-responsive"/>
               </choose-image>

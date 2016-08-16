@@ -4,11 +4,16 @@
     span.sr-only Close
   h4#editMenuItemLabel.modal-title Edit Icon
 .modal-body
+  div.text-center
+    label Preview
+  div.text-center.margin-bottom-1
+    i.fa(ng-class="icon.classes")#test-icon
+    .help-block.error {{hasContentError}}
   form(novalidate name="editIconForm" ng-submit="saveIcon(editIconForm)")
     input(type="submit").hidden
     .form-group
       label Choose the icon class name from font-awesome or bootstrap
-      input.form-control(ng-model="icon.classes" name="classes" ng-pattern="validators.isCSSClass")
+      input.form-control(ng-model="icon.classes" name="classes" ng-pattern="validators.isCSSClass" ng-change="checkHasContent()")
       div.help-block.error(ng-show="editIconForm.classes.$invalid && editIconForm.classes.$dirty") {{errorMessages.isCSSClass}}
     .form-group
       label Icon link
@@ -28,5 +33,5 @@
         option(value="_self") Reload the whole web page
         option(value="_blank") Open link in a new browser tab
 .modal-footer
-  button.btn.btn-success(type="submit" ng-click="saveIcon(editIconForm)" ng-class="{disabled: editIconForm.$invalid}") Save
+  button.btn.btn-success(type="submit" ng-click="saveIcon(editIconForm)" ng-class="{disabled: editIconForm.$invalid || !hasContent}") Save
   button.btn.btn-default(type='button' ng-click="$dismiss()") Close
