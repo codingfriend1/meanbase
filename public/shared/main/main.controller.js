@@ -386,6 +386,53 @@
       }
     };
 
+
+    $scope.handleIconClick = function($event, item, property, href) {
+      if($scope.editMode) {
+        if(!item[property]) {
+          item[property] = {};
+        }
+        $event.preventDefault();
+        var modalInstance = $modal.open({
+          templateUrl: require('./editicon.modal.jade'),
+          controller: iconModalController,
+          size: 'md',
+          resolve: {
+            icon: function() {
+              return item[property];
+            },
+          }
+        });
+      } else {
+        if(item[property].target) {
+          window.open(href, item[property].target);
+        } else {
+          $location.path(href);
+        }
+      }
+    };
+
+    function iconModalController($scope, $modalInstance, icon) {
+      api.pages.find({}).then(function(response) {
+        $scope.pages = response;
+      });
+
+      $scope.icon = angular.copy(icon);
+
+      $scope.saveIcon = function(editIconForm) {
+        // We want to make sure the changes are valid before submitting it
+        if(editIconForm.$valid) {
+          // icon is the menu that was passed in (the actual menu we want to modify). $scope.icon is the object that's being edited in the modal.
+          icon.title = $scope.icon.title || icon.title;
+          icon.url = $scope.icon.url || icon.url;
+          icon.classes = $scope.icon.classes;
+          icon.target = $scope.icon.target;
+
+          $modalInstance.dismiss();
+        }
+      };
+    }
+
     // ### Removing extensions
     // This may not be the best location for this function, but it handles removing extensions when the user clicks the delete **delete** button on an extension
     // Removes an extension from an extensible area

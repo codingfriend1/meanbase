@@ -5,6 +5,7 @@ angular.module('meanbaseApp')
       scope: {
         mbSrc: "@",
         size:"@",
+        on: "=",
         placeholdIt:'@',
         backgroundPrefix: '@'
       },
@@ -18,9 +19,16 @@ angular.module('meanbaseApp')
 
           var url, alt;
 
-          if($rootScope.page.images[scope.mbSrc]) {
-            url = $rootScope.page.images[scope.mbSrc].url + scope.size + '.jpg';
-            alt = $rootScope.page.images[scope.mbSrc].alt;
+          var on;
+          if(scope.on) {
+            on = scope.on;
+          } else {
+            on = $rootScope.page.images;
+          }
+
+          if(on[scope.mbSrc]) {
+            url = on[scope.mbSrc].url + scope.size + '.jpg';
+            alt = on[scope.mbSrc].alt;
           } else {
             url = scope.placeholdIt;
           }
@@ -32,7 +40,6 @@ angular.module('meanbaseApp')
             }
           } else {
             var backgroundUrl = scope.backgroundPrefix? scope.backgroundPrefix + ', url(' + url +')': 'url(' + url +')';
-            console.log("backgroundUrl", backgroundUrl);
             element.css({
               'background-image': backgroundUrl
             });

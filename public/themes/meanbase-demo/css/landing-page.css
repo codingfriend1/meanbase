@@ -21,6 +21,10 @@ h6 {
     font-weight: 700;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .topnav {
     font-size: 14px;
 }
@@ -35,7 +39,6 @@ h6 {
     padding-bottom: 50px;
     text-align: center;
     color: #f8f8f8;
-    background-color: black;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -118,7 +121,8 @@ h6 {
 .banner {
     padding: 100px 0;
     color: #f8f8f8;
-    background: url(../img/banner-bg.jpg) no-repeat center center;
+    background-repeat: no-repeat;
+    background-position: center center;
     background-size: cover;
 }
 

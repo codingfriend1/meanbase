@@ -41,7 +41,7 @@
 		endpoints.prototype.create = function(content) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).create(content).then(deferred.resolve).catch(function(data) {
+			feathers.service(this.url).create(angular.copy(content)).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
 				self.errorHandler(data);
 			});
@@ -72,7 +72,7 @@
 		endpoints.prototype.update = function(identifier, replacement) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).patch(null, replacement, {query: identifier}).then(deferred.resolve).catch(function(data) {
+			feathers.service(this.url).patch(null, angular.copy(replacement), {query: identifier}).then(deferred.resolve).catch(function(data) {
         console.log("Update failure for " + self.url, data);
         deferred.reject(data)
 				self.errorHandler(data);
@@ -123,7 +123,7 @@
 		endpoints.prototype.updateOne = function(id, replacement) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).patch(id, replacement).then(deferred.resolve).catch(function(data) {
+			feathers.service(this.url).patch(id, angular.copy(replacement)).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
 				self.errorHandler(data);
 			});

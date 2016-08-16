@@ -101,6 +101,10 @@ const pagesSchema = new Schema({
 		  data: Schema.Types.Mixed
 		}
 	],
+  lists: {
+    type: Object,
+    default: {}
+  },
 	description: {
 		type: String,
 		required: false,
@@ -119,7 +123,7 @@ const pagesSchema = new Schema({
 	likes: Number,
   createdAt: { type: Date, 'default': Date.now },
   updatedAt: { type: Date, 'default': Date.now }
-});
+}, { minimize: false });
 
 const pagesModel = mongoose.model('pages', pagesSchema);
 

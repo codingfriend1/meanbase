@@ -1,0 +1,32 @@
+.modal-header
+  button.close(type='button' ng-click="$dismiss()")
+    span(aria-hidden='true') ×
+    span.sr-only Close
+  h4#editMenuItemLabel.modal-title Edit Icon
+.modal-body
+  form(novalidate name="editIconForm" ng-submit="saveIcon(editIconForm)")
+    input(type="submit").hidden
+    .form-group
+      label Choose the icon class name from font-awesome or bootstrap
+      input.form-control(ng-model="icon.classes" name="classes" ng-pattern="validators.isCSSClass")
+      div.help-block.error(ng-show="editIconForm.classes.$invalid && editIconForm.classes.$dirty") {{errorMessages.isCSSClass}}
+    .form-group
+      label Icon link
+      input.form-control(ng-model="icon.url" name="url" ng-pattern="validators.isURI")
+      div.help-block.error(ng-show="editIconForm.url.$invalid && editIconForm.url.$dirty") {{errorMessages.isURI}}
+    .form-group
+      label Link to existing pages: 
+      select(ng-options="page.url as page.url for page in pages" ng-model="icon.url").form-control
+    .form-group
+      label Tool-tip
+      input.form-control(ng-model="icon.title" name="title" ng-pattern="validators.isTitle")
+      div.help-block.error(ng-show="editIconForm.title.$invalid && editIconForm.title.$dirty") {{errorMessages.isTitle}}
+    .form-group
+      label How should the link navigate?
+      select(ng-model="icon.target").form-control
+        option(value="") Update the current page without a refresh
+        option(value="_self") Reload the whole web page
+        option(value="_blank") Open link in a new browser tab
+.modal-footer
+  button.btn.btn-success(type="submit" ng-click="saveIcon(editIconForm)" ng-class="{disabled: editIconForm.$invalid}") Save
+  button.btn.btn-default(type='button' ng-click="$dismiss()") Close

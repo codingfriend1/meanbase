@@ -3,6 +3,7 @@ import "./landing-template.html";
 // end inject jade
 
 // inject js
+import "./js/landing.controller.js";
 // end inject js
 
 // inject stylus

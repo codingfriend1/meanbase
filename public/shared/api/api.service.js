@@ -5,6 +5,7 @@ angular.module('meanbaseApp')
 
     var api = {
       publishedPages: new endpoints('pages'),
+      custom: new endpoints('custom'),
       searchPages: new endpoints('pages'),
       searchPublishedPages: new endpoints('pages'),
       pages: new endpoints('pages'),

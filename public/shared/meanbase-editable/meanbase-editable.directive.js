@@ -206,6 +206,11 @@ angular.module('meanbaseApp')
           el.trumbowyg('destroy');
         });
 
+        scope.$onRootScope('cms.saveListItem', function() {
+          console.log('save edits');
+          scope.html = el.trumbowyg('html');
+        });
+
       } //link
     }; //return
   });
