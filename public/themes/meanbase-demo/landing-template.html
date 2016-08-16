@@ -40,15 +40,21 @@
                         <div meanbase-editable ng-bind-html="page.title"></div>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
-                            <li ng-repeat="menu in menus.social" sortable>
-                                <a target="{{menu.target}}" class="btn btn-default btn-lg" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">
-                                  <i ng-class="menu.iconClasses" ng-if="menu.iconClasses"></i>
-                                  <span class="network-name">{{menu.title}}</span>
+                            <li ng-repeat="socialBtn in page.lists.social" style="position: relative;">
+                                <a class="btn btn-default btn-lg">
+                                  <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
+                                  <span meanbase-editable ng-bind-html="socialBtn.title"></span>
                                 </a>
+                                <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
+                                <!-- <button class="btn btn-block btn-danger"  ng-if="editMode">Remove Button</button> -->
                             </li>
-                            <li ng-click="createMenuItem('social')" class="btn btn-default btn-lg" ng-if="editMode" class="new-menu-item-button">
-                              <a><i class="fa fa-plus"></i> <span> Add Social link</span></a>
-                            </li>
+                            <div class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="socialBtn = {}">
+                              <a class="btn btn-default btn-lg">
+                                <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
+                                <span meanbase-editable ng-bind-html="socialBtn.title"></span>
+                              </a>
+                              <button class="btn btn-block btn-primary margin-top-1" mb-new="page.lists.social" mb-model="socialBtn"><a><i class="fa fa-plus"></i><span>Add Social Button</span></button>
+                            </div>
 
                             <!-- <li>
                                 <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
@@ -78,15 +84,15 @@
   <div class="content-section-a">
 
       <div class="container">
-          <div class="row" page-list="bulletPoints1">
-            <div class="col-lg-4 col-sm-4 text-center" ng-repeat="point in page.lists.bulletPoints1">
+          <div class="row">
+            <div class="col-lg-4 col-sm-4 text-center mb-animate-list" ng-repeat="point in page.lists.bulletPoints1">
               <choose-icon belongs-to="point" property="icon" class="margin-bottom-1"></choose-icon>
               <choose-image property="image" belongs-to="point">
                 <img mb-src="image" belongs-to="point" class="img-responsive"/>
               </choose-image>
               <h3 meanbase-editable ng-bind-html="point.title"></h3>
               <div meanbase-editable ng-bind-html="point.description"></div>
-              <button class="btn btn-block btn-danger" ng-click="page.lists.bulletPoints1.splice($index, 1)" ng-if="editMode">Remove Bullet Point</button>
+              <mb-list-remove list="page.lists.bulletPoints1" item="point"></mb-list-remove>
             </div>
             <div class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="point = {}">
               <choose-icon belongs-to="point" property="icon" class="margin-bottom-1"></choose-icon>
@@ -144,7 +150,7 @@
               <div class="col-lg-5 col-sm-6">
                   <hr class="section-heading-spacer">
                   <div class="clearfix"></div>
-                  <div meanbase-editable="meanbase-editable" ng-bind-html="page.content['content-1']"></div>
+                  <div meanbase-editable="meanbase-editable" ng-bind-html="page.content['content-1']" dummy="p"></div>
               </div>
               <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                   <choose-image property="image-4"><img mb-src="image-4" class="img-responsive"/></choose-image>

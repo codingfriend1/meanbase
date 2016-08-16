@@ -14,15 +14,15 @@ angular.module('meanbaseApp')
         function setDefaultIfEmpty() {
           if(!scope.belongsTo[attrs.property]  || _.isEmpty(scope.belongsTo[attrs.property])) {
             scope.belongsTo[attrs.property] = {
-              classes: 'fa fa-pencil fa-2x erase-this'
+              classes: 'fa fa-pencil fa-lg erase-this'
             };
           } else if(scope.belongsTo[attrs.property].classes === '') {
-            scope.belongsTo[attrs.property].classes = 'fa fa-pencil fa-2x erase-this';
+            scope.belongsTo[attrs.property].classes = 'fa fa-pencil fa-lg erase-this';
           }
         }
 
         function removeDefault() {
-          if(scope.belongsTo[attrs.property].classes === 'fa fa-pencil fa-2x erase-this') {
+          if(scope.belongsTo[attrs.property].classes === 'fa fa-pencil fa-lg erase-this') {
             scope.belongsTo[attrs.property].classes = '';
           }
         }

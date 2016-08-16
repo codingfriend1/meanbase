@@ -1,0 +1,23 @@
+angular.module('meanbaseApp')
+  .directive('mbListRemove', function ($rootScope, endpoints, $timeout) {
+    return {
+      template: '<div ng-if="editMode" class="remove-from-list-btn"><i class="fa fa-times fa-lg"></i></div>',
+      restrict: 'EA',
+      scope: true,
+      link: function (scope, element, attrs) {
+        var list = scope.$parent.$eval(attrs.list);
+        var item = scope.$parent.$eval(attrs.item);
+
+        element.bind('click', function() {
+          $timeout(function() {
+            var index = list.indexOf(item);
+            if(index !== -1) {
+              list.splice(index, 1);
+            }
+          });
+
+        });
+      }
+    }
+
+  });

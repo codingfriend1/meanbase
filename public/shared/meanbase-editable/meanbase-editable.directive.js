@@ -9,11 +9,16 @@ angular.module('meanbaseApp')
       scope: {
       	html:'=ngBindHtml',
       	config:'=config',
+        dummy: '@'
       },
       link: function (scope, element, attrs) {
 
         var el = jQuery(element);
         var selectedImage;
+
+        var sampleP = 'Some sample paragraph content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        var sampleH = 'Some sample text';
+        var sampleB = 'Short Text';
 
         // Sets up default configuration for our text editors
         var config = {
@@ -135,6 +140,22 @@ angular.module('meanbaseApp')
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
         	_snapshot = angular.copy(scope.html);
 
+          if(!scope.html) {
+            switch (scope.dummy) {
+              case 'p':
+                scope.html = sampleP;
+                break;
+              case 'h':
+                scope.html = sampleH;
+                break;
+              case 'b':
+                scope.html = sampleB;
+                break;
+              default:
+                scope.html = 'Some sample text';
+            }
+          }
+
           // We want to set the trumbowyg html to a copy of the inital value so if the extension drags around we retain it's html
           el.trumbowyg('html', _snapshot);
           startImageListeners();
@@ -159,6 +180,20 @@ angular.module('meanbaseApp')
         scope.$onRootScope('cms.editMode', function(event, value) {
           if(value) { enableTextEditor(); }
         });
+
+        function removeDefaultText() {
+            switch (scope.html) {
+              case sampleP:
+                scope.html = '';
+                break;
+              case sampleH:
+                scope.html = '';
+                break;
+              case sampleB:
+                scope.html = '';
+                break;
+            }
+        }
 
         function trackMouse(event) {
           var evt = $(event.target);
@@ -191,6 +226,7 @@ angular.module('meanbaseApp')
 
         // When the user discards their edits, reset trumbowyg and ng-bind-html to the snapshot
         scope.$onRootScope('cms.discardEdits', function() {
+          removeDefaultText();
           removeEventListeners();
           el.trumbowyg('html', _snapshot);
           scope.html = _snapshot;

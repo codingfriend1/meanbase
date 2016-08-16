@@ -29,7 +29,8 @@ angular.module('meanbaseApp')
                 var image = (Array.isArray(gallery.images))? gallery.images[0]: gallery.images;
                 if(image) {
                   image.location = attrs.property;
-                  image.modifiedurl = image[attrs.size];
+                  image.modifiedurl = image[attrs.size] || image.url;
+                  scope.belongsTo[attrs.property] = {};
                   scope.belongsTo[attrs.property].url = image.url;
                   scope.belongsTo[attrs.property].alt = image.alt;
                   scope.belongsTo[attrs.property].modifiedurl = image.modifiedurl;
