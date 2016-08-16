@@ -8,7 +8,7 @@ angular.module('meanbaseApp')
       restrict: 'EA',
       scope: {
       	html:'=ngBindHtml',
-      	config:'=config'
+      	config:'=config',
       },
       link: function (scope, element, attrs) {
 

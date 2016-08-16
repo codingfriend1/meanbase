@@ -30,10 +30,11 @@ angular.module('meanbaseApp')
                 if(image) {
                   image.location = attrs.property;
                   image.modifiedurl = image[attrs.size];
-                  scope.belongsTo[attrs.property] = {};
                   scope.belongsTo[attrs.property].url = image.url;
                   scope.belongsTo[attrs.property].alt = image.alt;
                   scope.belongsTo[attrs.property].modifiedurl = image.modifiedurl;
+                  scope.belongsTo[attrs.property].location = image.location;
+
                   scope.findImagesConfig.alreadySelected = image;
                 } else {
                   scope.belongsTo[attrs.property] = undefined;
