@@ -5,13 +5,22 @@ angular.module('meanbaseApp')
       scope: {
         mbSrc: "@",
         size:"@",
-        on: "=",
+        belongsTo: "=",
         placeholdIt:'@',
         backgroundPrefix: '@'
       },
       link: function (scope, element, attrs) {
 
-        var isImage = element[0].nodeName.toLowerCase() === 'img';
+        var isImage = element.is('img') || element.find('img').length > 0;
+
+        var currentUrl, on, key;
+        if(attrs.belongsTo) {
+          on = scope.belongsTo;
+          if(!on) { on = {}; }
+        } else {
+          on = $rootScope.page.images;
+          key = attrs.property
+        }
 
         function setUrls() {
           if(!scope.size) { scope.size = 'original'; }
@@ -19,21 +28,20 @@ angular.module('meanbaseApp')
 
           var url, alt;
 
-          var on;
-          if(scope.on) {
-            on = scope.on;
-          } else {
-            on = $rootScope.page.images;
-          }
-
           if(on[scope.mbSrc]) {
             url = on[scope.mbSrc].url + scope.size + '.jpg';
             alt = on[scope.mbSrc].alt;
+            currentUrl = on[scope.mbSrc].url;
           } else {
-            url = scope.placeholdIt;
+            if($rootScope.editMode) {
+              url = scope.placeholdIt;
+            } else {
+              url  = '';
+            }
           }
 
           if(isImage) {
+
             element.attr('src', url);
             if(alt) {
               element.attr('alt', alt);
@@ -48,15 +56,35 @@ angular.module('meanbaseApp')
 
         setUrls();
 
+        scope.$onRootScope('cms.editMode', function() {
+          setUrls();
+        });
+
         scope.$onRootScope('cms.choseImages', function(e, gallery) {
-          if(scope.mbSrc === gallery.gallerySlug) {
+          if(key) {
+            if(key === gallery.gallerySlug) {
+              $timeout(function() {
+                $timeout(function() {
+                  setUrls();
+                });
+              });
+            }
+          } else {
             $timeout(function() {
               $timeout(function() {
-                setUrls();
+                if(!currentUrl) {
+                  setUrls();
+                } else if(currentUrl && !on[scope.mbSrc]) {
+                  setUrls();
+                } else if(on[scope.mbSrc] && (on[scope.mbSrc].url + scope.size + '.jpg') !== currentUrl) {
+                  setUrls();
+                }
+
               });
             });
           }
         });
+        
       }
     }
 

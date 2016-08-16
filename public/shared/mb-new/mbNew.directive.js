@@ -25,7 +25,6 @@ angular.module('meanbaseApp')
               scope.mbModel = {};
             });
           });
-
         });
       }
     }

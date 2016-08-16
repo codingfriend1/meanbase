@@ -12,15 +12,15 @@ angular.module('meanbaseApp')
         function setDefaultIfEmpty() {
           if(!scope.for[scope.property]  || _.isEmpty(scope.for[scope.property])) {
             scope.for[scope.property] = {
-              classes: 'fa fa-pencil fa-3x default-erase-this'
+              classes: 'fa fa-pencil fa-2x erase-this'
             };
           } else if(scope.for[scope.property].classes === '') {
-            scope.for[scope.property].classes = 'fa fa-pencil fa-3x erase-this';
+            scope.for[scope.property].classes = 'fa fa-pencil fa-2x erase-this';
           }
         }
 
         function removeDefault() {
-          if(scope.for[scope.property].classes === 'fa fa-pencil fa-3x erase-this') {
+          if(scope.for[scope.property].classes === 'fa fa-pencil fa-2x erase-this') {
             scope.for[scope.property].classes = '';
           }
         }
@@ -30,13 +30,16 @@ angular.module('meanbaseApp')
         }
 
         scope.$onRootScope('cms.editMode', function(event, value) {
-          setDefaultIfEmpty()
+          if(value) {
+            setDefaultIfEmpty()
+          } else {
+            removeDefault();
+          }
         });
 
-        // When the user saves their changes, update the ng-bind-html with the trymbowyg html
-        scope.$onRootScope('cms.saveEdits', function() {
-          removeDefault();
-        });
+        // scope.$onRootScope('cms.saveEdits', function() {
+        //   removeDefault();
+        // });
       }
     }
   });

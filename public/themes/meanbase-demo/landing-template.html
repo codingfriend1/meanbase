@@ -29,8 +29,8 @@
 
   <!-- Header -->
   <a name="about"></a>
-  <choose-image for="image-1">
-    <div class="intro-header" mb-src="image-1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
+  <choose-image property="image-1">
+    <div class="intro-header" mb-src="image" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
         <div class="container disable-click">
 
             <div class="row">
@@ -80,16 +80,19 @@
       <div class="container">
           <div class="row" page-list="bulletPoints1">
             <div class="col-lg-4 col-sm-4 text-center" ng-repeat="point in page.lists.bulletPoints1">
-              <!-- <i class="fa fa-star-o fa-3x" ng-if="editMode && !point.icon" ng-click="handleIconClick($event, point, 'icon', icon.url)"></i> -->
               <choose-icon for="point" property="icon"></choose-icon>
-
+              <choose-image property="image" belongs-to="point">
+                <img mb-src="image" on="point" class="img-responsive"/>
+              </choose-image>
               <h3 meanbase-editable ng-bind-html="point.title"></h3>
               <div meanbase-editable ng-bind-html="point.description"></div>
               <button class="btn btn-block btn-danger" ng-click="page.lists.bulletPoints1.splice($index, 1)" ng-if="editMode">Remove Bullet Point</button>
             </div>
-            <div class="col-lg-4 col-sm-4 text-center" ng-if="editMode">
-              <!-- <i class="fa fa-star-o fa-3x" ng-class="point.icon.classes" ng-click="handleIconClick($event, point, 'icon')"></i> -->
+            <div class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="point = {}">
               <choose-icon for="point" property="icon"></choose-icon>
+              <choose-image property="image" belongs-to="point">
+                <img mb-src="image" belongs-to="point" class="img-responsive"/>
+              </choose-image>
               <h3 meanbase-editable ng-bind-html="point.title"></h3>
               <div meanbase-editable ng-bind-html="point.description"></div>
               <button class="btn btn-block btn-primary margin-top-1" mb-new="page.lists.bulletPoints1" mb-model="point">Save New Bullet Point</button>
@@ -101,7 +104,7 @@
                   <div meanbase-editable="meanbase-editable" ng-bind-html="page.content['content-1']"></div>
               </div>
               <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                  <choose-image for="image-2"><img mb-src="image-2" class="img-responsive"/></choose-image>
+                  <choose-image property="image-2"><img mb-src="image-2" class="img-responsive"/></choose-image>
               </div> -->
           </div>
 
@@ -123,7 +126,7 @@
                   <div meanbase-editable="meanbase-editable" ng-bind-html="page.content['content-1']"></div>
               </div>
               <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                  <choose-image for="image-3"><img mb-src="image-3" class="img-responsive"/></choose-image>
+                  <choose-image property="image-3"><img mb-src="image-3" class="img-responsive"/></choose-image>
               </div> -->
           </div>
 
@@ -144,7 +147,7 @@
                   <div meanbase-editable="meanbase-editable" ng-bind-html="page.content['content-1']"></div>
               </div>
               <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                  <choose-image for="image-4"><img mb-src="image-4" class="img-responsive"/></choose-image>
+                  <choose-image property="image-4"><img mb-src="image-4" class="img-responsive"/></choose-image>
               </div>
           </div>
 
@@ -155,7 +158,7 @@
   <!-- /.content-section-a -->
 
 <a  name="contact"></a>
-  <choose-image for="image-5">
+  <choose-image property="image-5">
     <div class="banner" mb-src="image-5">
 
         <div class="container">
