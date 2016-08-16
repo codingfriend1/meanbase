@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('meanbaseEditable', function ($sanitize, $rootScope) {
+  .directive('meanbaseEditable', function ($sanitize, $rootScope, $timeout) {
     return {
       restrict: 'EA',
       scope: {
@@ -140,6 +140,23 @@ angular.module('meanbaseApp')
         	// Store the initial data in a snapshot in case we need to restore the inital data if the user cancels their changes
         	_snapshot = angular.copy(scope.html);
 
+
+          // We want to set the trumbowyg html to a copy of the inital value so if the extension drags around we retain it's html
+          el.trumbowyg('html', _snapshot);
+          startImageListeners();
+        } //enableTextEditor
+
+        function startImageListeners() {
+          if(allImages) {
+            removeEventListeners();
+          }
+          allImages = document.querySelectorAll('[meanbase-editable] img');
+          allImages.forEach(function(image) {
+            image.addEventListener("click", getSelectedImage);
+          });
+        }
+
+        function setDefaultText() {
           if(!scope.html) {
             switch (scope.dummy) {
               case 'p':
@@ -155,20 +172,6 @@ angular.module('meanbaseApp')
                 scope.html = 'Some sample text';
             }
           }
-
-          // We want to set the trumbowyg html to a copy of the inital value so if the extension drags around we retain it's html
-          el.trumbowyg('html', _snapshot);
-          startImageListeners();
-        } //enableTextEditor
-
-        function startImageListeners() {
-          if(allImages) {
-            removeEventListeners();
-          }
-          allImages = document.querySelectorAll('[meanbase-editable] img');
-          allImages.forEach(function(image) {
-            image.addEventListener("click", getSelectedImage);
-          });
         }
 
 
@@ -224,6 +227,8 @@ angular.module('meanbaseApp')
           allImages = null;
         }
 
+        setDefaultText();
+
         // When the user discards their edits, reset trumbowyg and ng-bind-html to the snapshot
         scope.$onRootScope('cms.discardEdits', function() {
           removeDefaultText();
@@ -243,8 +248,15 @@ angular.module('meanbaseApp')
         });
 
         scope.$onRootScope('cms.saveListItem', function() {
-          console.log('save edits');
           scope.html = el.trumbowyg('html');
+
+          $timeout(function() {
+            $timeout(function() {
+              $timeout(function() {
+                setDefaultText();
+              });
+            });
+          });
         });
 
       } //link

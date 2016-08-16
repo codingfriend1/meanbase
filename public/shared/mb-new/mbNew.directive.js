@@ -23,6 +23,7 @@ angular.module('meanbaseApp')
             $timeout(function() {
               scope.mbNew.push(_.cloneDeep(scope.mbModel));
               scope.mbModel = {};
+
             });
           });
         });

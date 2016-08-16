@@ -85,6 +85,17 @@
 
       <div class="container">
           <div class="row">
+
+            <!-- <page-list class="col-lg-4 col-sm-4 text-center mb-animate-list" list="page.lists.bulletPoints1">
+              <choose-icon belongs-to="item" property="icon" class="margin-bottom-1"></choose-icon>
+              <choose-image property="image" belongs-to="item">
+                <img mb-src="image" belongs-to="item" class="img-responsive"/>
+              </choose-image>
+              <h3 meanbase-editable ng-bind-html="item.title"></h3>
+              <div meanbase-editable ng-bind-html="item.description"></div>
+              <mb-list-remove list="page.lists.bulletPoints1" item="item"></mb-list-remove>
+            </page-list> -->
+
             <div class="col-lg-4 col-sm-4 text-center mb-animate-list" ng-repeat="point in page.lists.bulletPoints1">
               <choose-icon belongs-to="point" property="icon" class="margin-bottom-1"></choose-icon>
               <choose-image property="image" belongs-to="point">
