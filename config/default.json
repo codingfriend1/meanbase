@@ -12,7 +12,7 @@
   "uploadsPath": "../public/assets/",
   "viewsPath": "../views/",
   "seed": true,
-  "reset-seed": true,
+  "reset-seed": false,
   "auth": {
     "token": {
       "secret": "qhWPy33jz+vvkug6w/e/+SMYqPoWU+zgbeYMV1RSGvpsV8GLEIR3FTg6lVg6Y1ACdJ4XWTelnyW7h0wlbMXQ9w=="

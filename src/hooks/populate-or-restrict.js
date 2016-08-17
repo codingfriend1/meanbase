@@ -33,15 +33,15 @@ export default function(restriction = {}, options = {}){
     // If we don't have a payload we have to always use find instead of get because we must not return id queries that are unrestricted and we don't want the developer to have to add after hooks.
     let query = Object.assign({}, hook.params.query, restriction);
 
-    // Set provider as undefined so we avoid an infinite loop if this hook is
-    // set on the resource we are requesting.
-    const params = Object.assign({}, hook.params, { provider: undefined });
-
     if(hook.id !== null && hook.id !== undefined) {
       const id = {};
       id[options.idField] = hook.id;
       query = Object.assign(query, id);
     }
+
+    // Set provider as undefined so we avoid an infinite loop if this hook is
+    // set on the resource we are requesting.
+    const params = Object.assign({}, {query}, hook.params, { provider: undefined }, {forceCall: true});
 
     // Check to see if we have an id from a decoded JWT
     if (hook.params.payload) {
@@ -52,7 +52,7 @@ export default function(restriction = {}, options = {}){
       }
 
       hook.params.provider = undefined;
-      return this.find({ query }, params).then(results => {
+      return this.find(params).then(results => {
         if(hook.method === 'get' && Array.isArray(results) && results.length === 1) {
           hook.result = results[0];
           return hook;
@@ -91,7 +91,7 @@ export default function(restriction = {}, options = {}){
         // }
 
         hook.params.provider = undefined;
-        self.find({ query }, params).then(results => {
+        self.find(params).then(results => {
           if(hook.method === 'get' && Array.isArray(results) && results.length === 1) {
             hook.result = results[0];
             resolve(hook);

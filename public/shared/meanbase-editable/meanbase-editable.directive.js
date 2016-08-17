@@ -13,6 +13,8 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
 
+        if(!$rootScope.isLoggedIn) { return false; }
+
         var el = jQuery(element);
         var selectedImage;
 

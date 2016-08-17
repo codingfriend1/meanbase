@@ -54,6 +54,8 @@ angular.module('meanbaseApp')
 
         setUrls();
 
+        if(!$rootScope.isLoggedIn) { return false; }
+
         scope.$onRootScope('cms.editMode', function() {
           setUrls();
         });

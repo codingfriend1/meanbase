@@ -3,6 +3,8 @@ import { arrayToObjectWithObject, arrayToObjectWithArray } from '../../../compon
 export default options => {
   return hook => {
     if(!hook.result) { return hook; }
+    if(!hook.params.provider && !hook.params.forceCall) { return hook; }
+
     if(Array.isArray(hook.result)) {
       for (var i = 0; i < hook.result.length; i++) {
         let page = hook.result[i];

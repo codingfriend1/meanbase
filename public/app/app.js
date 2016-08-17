@@ -33,7 +33,7 @@ angular.module('meanbaseApp', [
 
     $locationProvider.hashPrefix('!');
     $locationProvider.html5Mode(true);
-    $httpProvider.interceptors.push('authInterceptor');
+    // $httpProvider.interceptors.push('authInterceptor');
 
     $provide.decorator('$rootScope', ['$delegate', function($delegate){
       $delegate.constructor.prototype.$onRootScope = function(name, listener){
@@ -44,51 +44,79 @@ angular.module('meanbaseApp', [
     }]);
   })
 
-  .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
-    return {
-      // Add authorization token to headers
-      request: function (config) {
-        config.headers = config.headers || {};
-        if ($cookieStore.get('token')) {
-          config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
-        }
-        return config;
-      },
+  // .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
+  //   return {
+  //     // Add authorization token to headers
+  //     request: function (config) {
+  //       config.headers = config.headers || {};
+  //       if ($cookieStore.get('token')) {
+  //         config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+  //       }
+  //       return config;
+  //     },
+  //
+  //     // Intercept 401s and redirect you to login
+  //     // responseError: function(response) {
+  //     //   if(response.status === 401) {
+  //     //     $location.path('/login');
+  //     //     // remove any stale tokens
+  //     //     $cookieStore.remove('token');
+  //     //     return $q.reject(response);
+  //     //   }
+  //     //   else {
+  //     //     return $q.reject(response);
+  //     //   }
+  //     // }
+  //   };
+  // })
 
-      // Intercept 401s and redirect you to login
-      // responseError: function(response) {
-      //   if(response.status === 401) {
-      //     $location.path('/login');
-      //     // remove any stale tokens
-      //     $cookieStore.remove('token');
-      //     return $q.reject(response);
-      //   }
-      //   else {
-      //     return $q.reject(response);
-      //   }
-      // }
-    };
-  })
-
-  .run(function ($rootScope, $location, Auth, ngAnalyticsService, api) {
+  .run(function ($rootScope, $location, Auth, ngAnalyticsService, api, $state) {
 
     api.settings.find({name: 'clientID'}).then(function(res) {
       if(!res[0] || ! res[0].value) { return false; }
       ngAnalyticsService.setClientId(res[0].value);
     });
 
-    // Redirect to login if route requires auth and you're not logged in
-    $rootScope.$on('$stateChangeStart', function (event, next) {
-      Auth.isLoggedInAsync(function(loggedIn) {
-        if (next.authenticate && !loggedIn) {
-          $location.path('/login');
-        }
-      });
+    var toStateName;
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      if(Auth.isLoggedIn()) {
+        $rootScope.isLoggedIn = loggedIn;
+      }
+      // if(!Auth.isLoggedIn() && toState.name !== toStateName) {
+      //   event.preventDefault();
+      //
+      //   function continueNavigation() {
+      //     var params = angular.copy(toParams);
+      //     params.skipSomeAsync = true;
+      //     toStateName = toState.name;
+      //     $state.go(toState.name, params);
+      //   }
+      //
+      //   Auth.isLoggedInAsync(function(loggedIn) {
+      //     if (toState.authenticate && !loggedIn) {
+      //       $location.path('/missing');
+      //     } else {
+      //       $rootScope.isLoggedIn = loggedIn;
+      //       $rootScope.currentUser = Auth.getCurrentUser();
+      //
+      //       if(toState.hasPermission) {
+      //         Auth.hasPermission(toState.hasPermission, function(hasPermission) {
+      //           if(!hasPermission) {
+      //             $location.path('/missing');
+      //           } else {
+      //             continueNavigation();
+      //           }
+      //         });
+      //       } else {
+      //         continueNavigation();
+      //       }
+      //     }
+      //   });
+      //
+      // } else {
+      //   console.log("toStateName", toStateName);
+      //   toStateName = undefined;
+      // }
 
-      if(!next.hasPermission) return false;
-
-      Auth.hasPermission(next.hasPermission, function(hasPermission) {
-        if(!hasPermission) { $location.path('/login'); }
-      });
     });
   });

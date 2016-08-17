@@ -7,9 +7,9 @@ module.exports = function() {
   app.set('view engine', 'jade');
   app.use( express.static(app.get('clientPath')) );
 
-  if(process.env.NODE_ENV !== 'production') {
-    app.set('seed', false);
-    app.set('reset-seed', true);
-  }
+  // if(process.env.NODE_ENV !== 'production') {
+  //   app.set('seed', false);
+  //   app.set('reset-seed', false);
+  // }
 
 };
