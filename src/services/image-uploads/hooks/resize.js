@@ -22,21 +22,26 @@ export default options => {
       }
 
       const imagePath = path.join(hook.params.file.destination, hook.params.file.filename);
-      const thumbnailPath = imagePath.replace('original', 'thumbnail');
-      const smallPath = imagePath.replace('original', 'small');
-      const mediumPath = imagePath.replace('original', 'medium');
-      const largePath = imagePath.replace('original', 'large');
+      const imagePathJPG = path.join(hook.params.file.destination, hook.params.file.filename).replace(/\.[^/.]+$/, ".jpg");
+      const originalJPG = imagePathJPG;
+      const thumbnailPath = imagePathJPG.replace('original', 'thumbnail');
+      const smallPath = imagePathJPG.replace('original', 'small');
+      const mediumPath = imagePathJPG.replace('original', 'medium');
+      const largePath = imagePathJPG.replace('original', 'large');
       if(hasGM) {
         try {
-          gm(imagePath).autoOrient().setFormat("jpg").resize(992, 744).quality(90).noProfile().write(largePath, function(err) {
+          gm(imagePath).autoOrient().setFormat("jpg").quality(90).noProfile().write(originalJPG, function(err) {
             if(err) { return throwError(err) };
-            gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function(err) {
+            gm(imagePath).autoOrient().setFormat("jpg").resize(992, 744).quality(90).noProfile().write(largePath, function(err) {
               if(err) { return throwError(err) };
-              gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function(err) {
+              gm(imagePath).autoOrient().setFormat("jpg").resize(768, 576).quality(80).noProfile().write(mediumPath, function(err) {
                 if(err) { return throwError(err) };
-                gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function(err) {
+                gm(imagePath).autoOrient().setFormat("jpg").resize(480, 360).quality(70).noProfile().write(smallPath, function(err) {
                   if(err) { return throwError(err) };
-                  resolve(hook);
+                  gm(imagePath).autoOrient().setFormat("jpg").thumb(100, 100, thumbnailPath, 60, function(err) {
+                    if(err) { return throwError(err) };
+                    resolve(hook);
+                  });
                 });
               });
             });
