@@ -161,7 +161,8 @@
               <div class="col-lg-5 col-sm-6">
                   <hr class="section-heading-spacer">
                   <div class="clearfix"></div>
-                  <div meanbase-editable="meanbase-editable" ng-bind-html="page.content['content-1']" dummy="p"></div>
+                  <!-- <div meanbase-editable="meanbase-editable" ng-bind-html="page.content['content-1']" dummy="p"></div> -->
+                  <mb-edit ng-model="page.content['content-1']" bind-options="editorOptions"></mb-edit>
               </div>
               <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                   <choose-image property="image-4"><img mb-src="image-4" class="img-responsive"/></choose-image>
