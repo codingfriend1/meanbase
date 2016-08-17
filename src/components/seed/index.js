@@ -42,6 +42,7 @@ module.exports = function() {
     app.configure(resetData('pages', pagesData));
     app.configure(resetData('menus', menusData));
     app.configure(resetData('comments', commentsData));
+    app.configure(resetData('themes'));
   }
 
 };

@@ -158,7 +158,7 @@ exports.retrieveThemes = async function(activeURL) {
         }
 
         if(themeJSONFileContents.url) {
-          let theme = await app.service('themes').find({url: themeJSONFileContents.url});
+          let theme = await app.service('themes').find({ query: {url: themeJSONFileContents.url}});
           if(theme[0] && theme[0].templates) {
             // themejsons[iteration].templates = theme[0].templates;
             themeJSONFileContents.templates = theme[0].templates;
