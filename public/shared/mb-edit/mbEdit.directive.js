@@ -57,6 +57,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
           if(value) {
             ngModel.editor.setup();
           } else {
+            ngModel.$setViewValue(ngModel.editor.getContent());
             ngModel.editor.destroy();
             ngModel.$render();
           }
