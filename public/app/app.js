@@ -77,46 +77,50 @@ angular.module('meanbaseApp', [
       ngAnalyticsService.setClientId(res[0].value);
     });
 
-    var toStateName;
+    var toStateName, userIsDefinitelyNotLoggedIn = false;
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if(Auth.isLoggedIn()) {
-        $rootScope.isLoggedIn = loggedIn;
+        $rootScope.isLoggedIn = true;
       }
-      // if(!Auth.isLoggedIn() && toState.name !== toStateName) {
-      //   event.preventDefault();
-      //
-      //   function continueNavigation() {
-      //     var params = angular.copy(toParams);
-      //     params.skipSomeAsync = true;
-      //     toStateName = toState.name;
-      //     $state.go(toState.name, params);
-      //   }
-      //
-      //   Auth.isLoggedInAsync(function(loggedIn) {
-      //     if (toState.authenticate && !loggedIn) {
-      //       $location.path('/missing');
-      //     } else {
-      //       $rootScope.isLoggedIn = loggedIn;
-      //       $rootScope.currentUser = Auth.getCurrentUser();
-      //
-      //       if(toState.hasPermission) {
-      //         Auth.hasPermission(toState.hasPermission, function(hasPermission) {
-      //           if(!hasPermission) {
-      //             $location.path('/missing');
-      //           } else {
-      //             continueNavigation();
-      //           }
-      //         });
-      //       } else {
-      //         continueNavigation();
-      //       }
-      //     }
-      //   });
-      //
-      // } else {
-      //   console.log("toStateName", toStateName);
-      //   toStateName = undefined;
-      // }
+      if(!Auth.isLoggedIn()) {
+
+        function continueNavigation() {
+          var params = angular.copy(toParams);
+          params.skipSomeAsync = true;
+          toStateName = toState.name;
+          $state.go(toState.name, params);
+        }
+
+        if(!userIsDefinitelyNotLoggedIn) {
+          event.preventDefault();
+          Auth.isLoggedInAsync(function(loggedIn) {
+            if(!loggedIn) { userIsDefinitelyNotLoggedIn = true; }
+            if (toState.authenticate && !loggedIn) {
+              $location.path('/missing');
+            } else {
+              $rootScope.isLoggedIn = loggedIn;
+              $rootScope.currentUser = Auth.getCurrentUser();
+
+              if(toState.hasPermission) {
+                Auth.hasPermission(toState.hasPermission, function(hasPermission) {
+                  if(!hasPermission) {
+                    $location.path('/missing');
+                  } else {
+                    continueNavigation();
+                  }
+                });
+              } else {
+                continueNavigation();
+              }
+            }
+          });
+        } else {
+          if(toState.authenticate || toState.hasPermission) {
+            $location.path('/missing');
+            return false;
+          }
+        }
+      }
 
     });
   });
