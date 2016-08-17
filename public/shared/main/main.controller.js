@@ -17,6 +17,66 @@
       server.menus = api.publishedMenus;
     }
 
+    // Get all the menus on the server.
+    server.menus.find({}).then(function(response) {
+      $rootScope.menus = response;
+    });
+
+    // ###handleClick
+    // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
+    $scope.handleClick = function($event, menuItem, href) {
+      if($scope.editMode) {
+        $event.preventDefault();
+        var modalInstance = $modal.open({
+          templateUrl: require('./editmenu.modal.jade'),
+          controller: menuModal,
+          size: 'md',
+          resolve: {
+            menuItem: function() {
+              return menuItem;
+            },
+            isNewMenu: function() {
+              return false;
+            }
+          }
+        });
+      } else {
+        if(menuItem.target) {
+          window.open(href, menuItem.target);
+        } else {
+          $location.path(href);
+        }
+      }
+    };
+
+
+    $scope.handleIconClick = function($event, item, property, href) {
+      if($scope.editMode) {
+        if(!item[property]) {
+          item[property] = {};
+        }
+        $event.preventDefault();
+        var modalInstance = $modal.open({
+          templateUrl: require('./editicon.modal.jade'),
+          controller: iconModalController,
+          size: 'md',
+          resolve: {
+            icon: function() {
+              return item[property];
+            },
+          }
+        });
+      } else {
+        if(item[property].target) {
+          window.open(href, item[property].target);
+        } else {
+          $location.path(href);
+        }
+      }
+    };
+
+    if(!$rootScope.isLoggedIn) { return false; }
+
     // // Let's check if the user is logged in
     // $rootScope.isLoggedIn = Auth.isLoggedIn();
 
@@ -34,11 +94,6 @@
     // ####Deleting Shared Content
     // However, we need some way of knowing when to delete shared content, say when it's no longer being used? Upon every save, if an extension was removed from the page, we send it's shared content name to the server which will perform a check. If no other pages are using that shared content, it deletes it all together, however if some other page is still using that content, we do nothing. This variable keeps a record of extensions with names that were deleted for sending to the server.
     $scope.sharedContentToCheckDelete = [];
-
-    // Get all the menus on the server.
-    server.menus.find({}).then(function(response) {
-      $rootScope.menus = response;
-    });
 
 
     function getSharedContentFromServer() {
@@ -357,59 +412,6 @@
         if(imageArray.length < 1) return false;
         api.media.update({ url: {$in: imageArray } }, { $push: {galleries: slug} });
       });
-    };
-
-    // ###handleClick
-    // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
-    $scope.handleClick = function($event, menuItem, href) {
-      if($scope.editMode) {
-        $event.preventDefault();
-        var modalInstance = $modal.open({
-          templateUrl: require('./editmenu.modal.jade'),
-          controller: menuModal,
-          size: 'md',
-          resolve: {
-            menuItem: function() {
-              return menuItem;
-            },
-            isNewMenu: function() {
-              return false;
-            }
-          }
-        });
-      } else {
-        if(menuItem.target) {
-          window.open(href, menuItem.target);
-        } else {
-          $location.path(href);
-        }
-      }
-    };
-
-
-    $scope.handleIconClick = function($event, item, property, href) {
-      if($scope.editMode) {
-        if(!item[property]) {
-          item[property] = {};
-        }
-        $event.preventDefault();
-        var modalInstance = $modal.open({
-          templateUrl: require('./editicon.modal.jade'),
-          controller: iconModalController,
-          size: 'md',
-          resolve: {
-            icon: function() {
-              return item[property];
-            },
-          }
-        });
-      } else {
-        if(item[property].target) {
-          window.open(href, item[property].target);
-        } else {
-          $location.path(href);
-        }
-      }
     };
 
     function iconModalController($scope, $modalInstance, icon) {

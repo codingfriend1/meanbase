@@ -3,6 +3,9 @@
 
 	// @ngInject
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr, api) {
+
+    if(!$rootScope.isLoggedIn) { return false; }
+    
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 		var self = this;
 

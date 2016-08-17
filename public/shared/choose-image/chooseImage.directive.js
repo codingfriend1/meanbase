@@ -8,6 +8,9 @@ angular.module('meanbaseApp')
       compile: function(element, attrs) {
         return {
           pre: function preLink(scope, element, attrs, controller) {
+
+            if(!$rootScope.isLoggedIn) { return false; }
+            
             var key;
             if(attrs.belongsTo) {
               scope.belongsTo = scope.$parent.$eval(attrs.belongsTo) || {};
