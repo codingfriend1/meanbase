@@ -23,8 +23,8 @@ angular.module('meanbaseApp')
         }
 
         function fireClick(event) {
-          if(event.target !== element && event.target !== insideLink) { return false; }
           if(!$rootScope.editMode) { return false; }
+          if(event.target !== element && event.target !== insideLink) { return false; }
           event.preventDefault();
           scope.openLinkModal(scope.belongsTo, attrs.property);
         }

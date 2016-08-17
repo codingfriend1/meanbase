@@ -41,21 +41,21 @@
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li ng-repeat="socialBtn in page.lists.social" style="position: relative;">
-                                <choose-link belongs-to="socialBtn" property="link">
-                                  <a mb-link="link" belongs-to="socialBtn">
-                                  <!-- <a class="mb-link btn btn-default btn-lg" ng-class="socialBtn.link.classes" ng-href="socialBtn.link.url" target="{{socialBtn.link.target}}"> -->
-                                    <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
-                                    <span mb-edit ng-model="socialBtn.title" bind-options="editorOptions"></span>
-                                  </a>
-                                </choose-link>
-                                <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
+                              <choose-link belongs-to="socialBtn" property="link">
+                                <a mb-link="link" belongs-to="socialBtn">
+                                  <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
+                                  <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
+                                </a>
+                              </choose-link>
+                              <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
                             </li>
                             <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
-                              <a class="btn btn-default btn-lg">
-                                <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
-                                <!-- <span meanbase-editable ng-bind-html="socialBtn.title"></span> -->
-                                <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
-                              </a>
+                              <choose-link belongs-to="socialBtn" property="link">
+                                <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
+                                  <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
+                                  <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
+                                </a>
+                              </choose-link>
                               <mb-list-add list="page.lists.social" item="socialBtn"></mb-list-add>
                             </li>
 
