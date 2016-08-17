@@ -42,7 +42,7 @@
                         <ul class="list-inline intro-social-buttons">
                             <li ng-repeat="socialBtn in page.lists.social" style="position: relative;">
                               <choose-link belongs-to="socialBtn" property="link">
-                                <a mb-link="link" belongs-to="socialBtn">
+                                <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                                   <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
                                   <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
                                 </a>
