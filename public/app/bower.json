@@ -30,6 +30,13 @@
     "medium-editor": "^5.21.1"
   },
   "overrides": {
+    "medium-editor": {
+      "main": [
+        "dist/css/themes/flat.min.css",
+        "dist/js/medium-editor.js",
+        "dist/css/medium-editor.css"
+      ]
+    },
     "modernizr": {
       "main": [
         "modernizr.js"

@@ -43,15 +43,15 @@
                             <li ng-repeat="socialBtn in page.lists.social" style="position: relative;">
                                 <a class="btn btn-default btn-lg">
                                   <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
-                                  <span meanbase-editable ng-bind-html="socialBtn.title"></span>
+                                  <span mb-edit ng-model="socialBtn.title" bind-options="editorOptions"></span>
                                 </a>
                                 <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
-                                <!-- <button class="btn btn-block btn-danger"  ng-if="editMode">Remove Button</button> -->
                             </li>
                             <li class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
                               <a class="btn btn-default btn-lg">
                                 <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
-                                <span meanbase-editable ng-bind-html="socialBtn.title"></span>
+                                <!-- <span meanbase-editable ng-bind-html="socialBtn.title"></span> -->
+                                <span mb-edit ng-model="socialBtn.title" bind-options="editorOptions"></span>
                               </a>
                               <mb-list-add list="page.lists.social" item="socialBtn"></mb-list-add>
                             </li>
@@ -101,8 +101,10 @@
               <choose-image property="image" belongs-to="point">
                 <img mb-src="image" belongs-to="point" class="img-responsive"/>
               </choose-image>
-              <h3 meanbase-editable ng-bind-html="point.title"></h3>
-              <div meanbase-editable ng-bind-html="point.description"></div>
+              <!-- <h3 meanbase-editable ng-bind-html="point.title"></h3>
+              <div meanbase-editable ng-bind-html="point.description"></div> -->
+              <h3 mb-edit ng-model="point.title" bind-options="editorOptions"></h3>
+              <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
               <mb-list-remove list="page.lists.bulletPoints1" item="point"></mb-list-remove>
             </div>
             <div class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="point = {}">
@@ -110,8 +112,10 @@
               <choose-image property="image" belongs-to="point">
                 <img mb-src="image" belongs-to="point" class="img-responsive"/>
               </choose-image>
-              <h3 meanbase-editable ng-bind-html="point.title"></h3>
-              <div meanbase-editable ng-bind-html="point.description"></div>
+              <!-- <h3 meanbase-editable ng-bind-html="point.title"></h3> -->
+              <h3 mb-edit ng-model="point.title" bind-options="editorOptions"></h3>
+              <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
+              <!-- <div meanbase-editable ng-bind-html="point.description"></div> -->
               <mb-list-add list="page.lists.bulletPoints1" item="point"></mb-list-add>
             </div>
 
@@ -161,7 +165,6 @@
               <div class="col-lg-5 col-sm-6">
                   <hr class="section-heading-spacer">
                   <div class="clearfix"></div>
-                  <!-- <div meanbase-editable="meanbase-editable" ng-bind-html="page.content['content-1']" dummy="p"></div> -->
                   <mb-edit ng-model="page.content['content-1']" bind-options="editorOptions"></mb-edit>
               </div>
               <div class="col-lg-5 col-lg-offset-2 col-sm-6">

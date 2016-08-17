@@ -89,7 +89,12 @@
     };
 
     $scope.editorOptions = {
-
+      buttonLabels: 'fontawesome',
+      toolbar: {
+        buttons: ['bold', 'italic', 'anchor', 'quote', 'p', 'justifyLeft', 'justifyCenter', 'justifyRight', 'h1', 'h2', 'h3', 'h4', 'h5'],
+        diffLeft: 25,
+        diffTop: -90,
+      }
     };
 
     // ###Shared Content
