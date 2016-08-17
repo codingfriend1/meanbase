@@ -75,6 +75,31 @@
       }
     };
 
+    $scope.handleLinkClick = function($event, item, property, href) {
+      if($scope.editMode) {
+        if(!item[property]) {
+          item[property] = {};
+        }
+        $event.preventDefault();
+        var modalInstance = $modal.open({
+          templateUrl: require('./editicon.modal.jade'),
+          controller: iconModalController,
+          size: 'md',
+          resolve: {
+            icon: function() {
+              return item[property];
+            },
+          }
+        });
+      } else {
+        if(item[property].target) {
+          window.open(href, item[property].target);
+        } else {
+          $location.path(href);
+        }
+      }
+    };
+
     if(!$rootScope.isLoggedIn) { return false; }
 
     // // Let's check if the user is logged in
@@ -426,6 +451,43 @@
         api.media.update({ url: {$in: imageArray } }, { $push: {galleries: slug} });
       });
     };
+
+
+    $scope.openLinkModal = function(belongsTo, property) {
+      if(!belongsTo || !property) { return false; }
+      var modalInstance = $modal.open({
+        templateUrl: require('./editLink.modal.jade'),
+        controller: linkModalController,
+        size: 'md',
+        resolve: {
+          link: function() {
+            return belongsTo[property];
+          },
+        }
+      });
+    };
+
+    function linkModalController($scope, $modalInstance, link) {
+      api.pages.find({}).then(function(response) {
+        $scope.pages = response;
+      });
+
+      $scope.link = angular.copy(link);
+
+      $scope.saveLink = function(editLinkForm) {
+
+        // We want to make sure the changes are valid before submitting it
+        if(editLinkForm.$valid) {
+          // link is the menu that was passed in (the actual menu we want to modify). $scope.link is the object that's being edited in the modal.
+          link.title = $scope.link.title || link.title;
+          link.url = $scope.link.url || link.url;
+          link.classes = $scope.link.classes;
+          link.target = $scope.link.target;
+
+          $modalInstance.dismiss();
+        }
+      };
+    }
 
     function iconModalController($scope, $modalInstance, icon) {
       api.pages.find({}).then(function(response) {
