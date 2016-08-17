@@ -16,13 +16,19 @@ angular.module('meanbaseApp')
         if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/768x432'; }
 
         var currentUrl, on, key;
-        if(attrs.belongsTo) {
-          on = scope.belongsTo;
-          if(!on) { on = {}; }
-        } else {
-          on = $rootScope.page.images;
-          key = attrs.property
+
+        function findOn() {
+          if(attrs.belongsTo) {
+            on = scope.belongsTo;
+            if(!on) { on = {}; }
+          } else {
+            on = $rootScope.page.images;
+            key = attrs.property
+          }
         }
+
+        findOn();
+
 
         function setUrls() {
 
@@ -56,8 +62,17 @@ angular.module('meanbaseApp')
 
         if(!$rootScope.isLoggedIn) { return false; }
 
-        scope.$onRootScope('cms.editMode', function() {
-          setUrls();
+        scope.$onRootScope('cms.editMode', function(event, value) {
+          if(value) {
+            setUrls();
+          }
+        });
+
+        scope.$onRootScope('cms.discardEdits', function() {
+          $timeout(function() {
+            findOn();
+            setUrls();
+          });
         });
 
         scope.$onRootScope('cms.choseImages', function(e, gallery) {

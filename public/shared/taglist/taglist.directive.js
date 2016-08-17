@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('taglist', function () {
+  .directive('taglist', function ($rootScope) {
     return {
       templateUrl: require('./taglist.jade'),
       restrict: 'EA',

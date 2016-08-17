@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('validate', function ($timeout) {
+  .directive('validate', function ($timeout, $rootScope) {
     return {
       templateUrl: require('./validate.jade'),
       restrict: 'EA',
@@ -11,7 +11,7 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         if(!$rootScope.isLoggedIn) { return false; }
-        
+
       	var inputEl = angular.element(element[0].querySelector("input"));
       	if(element.hasClass('has-feedback')) {
       		var feedbackEl = angular.element(element[0].querySelector(".form-control-feedback"));
