@@ -16,6 +16,8 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
 
+        if(!$rootScope.isLoggedIn) { return false; }
+
         scope.imageSelectorApi = {};
 
         scope.allOperations = true;

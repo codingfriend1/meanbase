@@ -9,6 +9,9 @@ angular.module('meanbaseApp')
       scope: {},
       transclude: true,
       link: function (scope, element, attrs) {
+
+        if(!$rootScope.isLoggedIn) { return false; }
+        
       	var inputEl = angular.element(element[0].querySelector("input"));
       	if(element.hasClass('has-feedback')) {
       		var feedbackEl = angular.element(element[0].querySelector(".form-control-feedback"));

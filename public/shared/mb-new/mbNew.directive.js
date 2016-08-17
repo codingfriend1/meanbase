@@ -9,6 +9,8 @@ angular.module('meanbaseApp')
         mbModel: '='
       },
       link: function (scope, element, attrs) {
+        if(!$rootScope.isLoggedIn) { return false; }
+        
         if(!scope.mbNew) {
           scope.mbNew = [];
         }

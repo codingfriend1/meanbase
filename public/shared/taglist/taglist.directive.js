@@ -10,6 +10,8 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
 
+        if(!$rootScope.isLoggedIn) { return false; }
+
       	// Removes a template from the list
       	scope.deleteTag = function(tag) {
       		scope.tags.splice(scope.tags.indexOf(tag), 1);

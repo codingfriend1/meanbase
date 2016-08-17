@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('mbAnimate', function () {
+  .directive('mbAnimate', function ($rootScope) {
     return {
       template: '<div></div>',
       restrict: 'EA',
       link: function (scope, element, attrs) {
+        if(!$rootScope.isLoggedIn) { return false; }
         element.addClass('animated');
       	if(attrs.mbAnimationTrigger) {
       		scope.$watch(function() {

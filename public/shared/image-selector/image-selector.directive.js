@@ -13,6 +13,9 @@ angular.module('meanbaseApp')
         api: "="
       },
       link: function (scope, element, attrs) {
+
+        if(!$rootScope.isLoggedIn) { return false; }
+        
         scope.API = {};
 
         // Stores all interactive elements in the dom object

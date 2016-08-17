@@ -9,6 +9,8 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
 
+        if(!$rootScope.isLoggedIn) { return false; }
+
         if(!scope.list) {
           scope.list = [];
         }

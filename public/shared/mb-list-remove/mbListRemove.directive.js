@@ -5,6 +5,9 @@ angular.module('meanbaseApp')
       restrict: 'EA',
       scope: true,
       link: function (scope, element, attrs) {
+
+        if(!$rootScope.isLoggedIn) { return false; }
+        
         var list = scope.$parent.$eval(attrs.list);
         var item = scope.$parent.$eval(attrs.item);
 

@@ -11,6 +11,8 @@ angular.module('meanbaseApp')
         if(!scope.belongsTo) { scope.belongsTo = {}; }
         scope.property = attrs.property;
 
+        if(!$rootScope.isLoggedIn) { return false; }
+
         function setDefaultIfEmpty() {
           if(!scope.belongsTo[attrs.property]  || _.isEmpty(scope.belongsTo[attrs.property])) {
             scope.belongsTo[attrs.property] = {
