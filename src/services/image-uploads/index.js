@@ -9,6 +9,10 @@ const fs = require('fs');
 module.exports = function() {
   const app = this;
 
+  if (!fs.existsSync(path.join(app.get('public'), 'assets'))) {
+    fs.mkdirSync(path.join(app.get('public'), 'assets'));
+  }
+
   const storage = multer.diskStorage({
     filename: function (req, file, cb) {
       let name = 'original';
