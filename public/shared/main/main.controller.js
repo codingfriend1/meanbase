@@ -113,16 +113,68 @@
       Auth.logout();
     };
 
+    var ImageSelector = MediumEditor.Extension.extend({
+      name: 'image-selector',
+      init: function () {
+        this.button = this.document.createElement('button');
+        this.button.classList.add('medium-editor-action');
+        this.button.innerHTML = '<i class="fa fa-image"></i>';
+        this.button.title = 'Choose an image';
+
+        this.on(this.button, 'click', this.handleClick.bind(this));
+      },
+
+      getButton: function () {
+        return this.button;
+      },
+
+      handleClick: function (event) {
+        var self = this;
+        this.base.saveSelection();
+        $scope.openImageModal({multiple: false}, function(image) {
+          var imageToInsert = document.createElement("img");
+          imageToInsert.src = image.small;
+          imageToInsert.alt = image.alt;
+          // imageToInsert.class = 'img-responsive';
+          imageToInsert.className = 'img-responsive medium-editor-insert-images';
+          self.base.restoreSelection();
+          var tmp = document.createElement("div");
+          tmp.appendChild(imageToInsert);
+          self.base.pasteHTML(tmp.innerHTML);
+        });
+      }
+    });
+
     $scope.editorOptions = {
       buttonLabels: 'fontawesome',
       toolbar: {
-        buttons: ['bold', 'italic', 'anchor', 'quote', 'p', 'justifyLeft', 'justifyCenter', 'justifyRight', 'h1', 'h2', 'h3', 'h4', 'h5'],
+        buttons: ['bold', 'italic', 'anchor', 'quote', 'p', 'justifyLeft', 'justifyCenter', 'justifyRight', 'h1', 'h2', 'h3', 'h4', 'h5', 'image-selector', 'insert'],
         diffLeft: 25,
         diffTop: -90,
+        forcePlainText: true,
+        // static: true,
+        // updateOnEmptySelection: true
+      },
+      placeholder: {
+          /* This example includes the default options for placeholder,
+             if nothing is passed this is what it used */
+          hideOnClick: false
+      },
+      extensions: {
+        "image-selector": new ImageSelector(),
+        'insert': new MediumEditorInsert()
+      },
+      imageDragging: true,
+      paste: {
+        forcePlainText: true,
+        cleanPastedHTML: true,
+        cleanReplacements: [],
+        cleanAttrs: ['style', 'dir'],
+        cleanTags: ['meta']
       }
     };
 
-    $scope.editorSingleLine = _.merge($scope.editorOptions, {
+    $scope.editorSingleLine = _.merge({}, $scope.editorOptions, {
       disableReturn: true
     });
 

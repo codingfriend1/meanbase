@@ -27,7 +27,8 @@
     "lodash": "^4.15.0",
     "font-awesome": "^4.6.3",
     "angular-animate": "^1.5.8",
-    "medium-editor": "^5.21.1"
+    "medium-editor": "^5.21.1",
+    "medium-editor-insert-plugin": "3.0"
   },
   "overrides": {
     "medium-editor": {
@@ -35,6 +36,15 @@
         "dist/css/themes/flat.min.css",
         "dist/js/medium-editor.js",
         "dist/css/medium-editor.css"
+      ]
+    },
+    "medium-editor-insert-plugin": {
+      "main": [
+        "dist/js/medium-editor-insert.js",
+        "dist/css/medium-editor-insert.css"
+      ],
+      "dependencies": [
+        "medium-editor"
       ]
     },
     "modernizr": {
