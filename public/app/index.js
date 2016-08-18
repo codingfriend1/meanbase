@@ -23,18 +23,18 @@ import "../shared/image-selector/image-selector.directive.js";
 import "../shared/helpers/helpers.service.js";
 import "../shared/findImages/findImages.directive.js";
 import "../shared/find-images-modal/find-images-modal.directive.js";
+import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/feathers/feathers.service.js";
 import "../shared/extensions-selector/extensions.modal.controller.js";
 import "../shared/extensions-selector/extensions-selector.directive.js";
-import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/extensions-area/extensions-area.directive.js";
 import "../shared/endpoints/endpoints.service.js";
 import "../shared/dynamic-html/dynamic-html.directive.js";
 import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/cms.headbar/cms.headbar.controller.js";
 import "../shared/choose-image/chooseImage.directive.js";
-import "../shared/choose-icon/chooseIcon.directive.js";
 import "../shared/auth/auth.service.js";
+import "../shared/choose-icon/chooseIcon.directive.js";
 import "../shared/api/api.service.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "../shared/libraries/codrops/classie.js";
@@ -63,8 +63,8 @@ import "../shared/validate/validate.jade";
 
 // inject stylus
 import "./app.styl";
-import "../shared/choose-icon/chooseImage.styl";
 import "../shared/choose-image/chooseImage.styl";
+import "../shared/choose-icon/chooseImage.styl";
 import "../shared/cms.headbar/cms.headbar.styl";
 import "../shared/extensions-area/extensions-area.styl";
 import "../shared/extensions-selector/extensions-selector.styl";
@@ -81,6 +81,6 @@ import "../shared/mb-new/mbNew.styl";
 import "../shared/meanbase-editable/meanbase-editable.directive.styl";
 import "../shared/missing/missing.styl";
 import "../shared/sortable/sortable.styl";
-import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
+import "../shared/taglist/taglist.styl";
 // end inject stylus

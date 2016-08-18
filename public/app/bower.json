@@ -28,7 +28,8 @@
     "font-awesome": "^4.6.3",
     "angular-animate": "^1.5.8",
     "medium-editor": "^5.21.1",
-    "medium-editor-insert-plugin": "3.0"
+    "medium-editor-insert-plugin": "3.0",
+    "medium-editor-mobile-plugin": "^0.0.1"
   },
   "overrides": {
     "medium-editor": {
@@ -93,6 +94,7 @@
     "angular-scenario": ">=1.2.*"
   },
   "resolutions": {
-    "angular": "1.5.8"
+    "angular": "1.5.8",
+    "medium-editor": "^5.21.1"
   }
 }

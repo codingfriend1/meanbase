@@ -177,7 +177,7 @@
         diffLeft: 25,
         diffTop: -90,
         forcePlainText: true,
-        static: true,
+        static: false,
         sticky: true,
         updateOnEmptySelection: true
       },
@@ -190,6 +190,8 @@
         "image-selector": new ImageSelector(),
         'insert': new MediumEditorInsert({
           addons: {
+            images: false,
+            embeds: false,
             custom: InsertImage
           }
         })
