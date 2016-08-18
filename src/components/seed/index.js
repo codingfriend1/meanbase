@@ -27,7 +27,7 @@ module.exports = function() {
   resetData = resetData.bind(this);
 
   app.configure(ifEmptyCreate('roles', rolesData));
-  app.configure(ifEmptyCreate('users', userData));
+  app.configure(resetData('users', userData));
 
   themes.call(this);
   extensions.call(this);
