@@ -2,10 +2,11 @@
 A a CMS built on the MEAN stack and made to be simple and intuitive for users and developers.
 
 
-![Meanbase Screenshot](meanbase-screenshot.png?raw=true "Meanbase Screenshot")
+![Meanbase Screenshot](Meanbase-Frontend.png?raw=true "Meanbase Front End Screenshot")
 
 #### Backend
-![Meanbase Screenshot Backend](meanbase-screenshot-backend.png?raw=true "Meanbase Screenshot Backend")
+![Meanbase Screenshot Backend](Meanbase-Themes-Page.png?raw=true "Meanbase Screenshot Backend Screenshot")
+![Meanbase Screenshot Backend Sidebar](Meanbase-Sidebar.png?raw=true "Meanbase Screenshot Backend Sidebar")
 
 
 A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves.
@@ -49,13 +50,13 @@ Create a file called `meanbase.env` in the root of this project don't share it w
 ```
 APP_SECRET=your-app-secret
 NODE_ENV=production
-MONGODB_URL_PRODUCTION=mongodb://db/meanbase
+DATABASE_URL=mongodb://db/meanbase
 ```
 _NOTE: The MongoDB server name must be db_
 
 Run
 
-```npm run build```
+```npm run compile```
 
 To create the dist folder
 
