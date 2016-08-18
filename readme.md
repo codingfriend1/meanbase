@@ -39,10 +39,7 @@ Meanbase is also focused on making the process of creating themes and adding ext
 - Stop each with ctrl-c
 
 #### Gulp Commands
-- gulp serve - Serves the app with watch and the server with nodemon
-- gulp inject - Automatically sorts and injects bower scripts, stylus, and js files into index.html
-- gulp test - Runs unit tests
-- gulp build-all - Builds the dist folder for deployment
+- npm run watch - Injects files into your app and compiles all the main bower components. Then watches your app files for changes and uses webpack to compile.
 
 
 ### Deploy
