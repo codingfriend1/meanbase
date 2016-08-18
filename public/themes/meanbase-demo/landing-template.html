@@ -37,7 +37,7 @@
                 <div class="col-lg-12">
                     <div class="intro-message">
                       <div class="enable-click">
-                        <div meanbase-editable ng-bind-html="page.title"></div>
+                        <div mb-edit ng-model="page.title" bind-options="editorSingleLine"></div>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li ng-repeat="socialBtn in page.lists.social" style="position: relative;">
@@ -106,8 +106,8 @@
               </choose-image>
               <!-- <h3 meanbase-editable ng-bind-html="point.title"></h3>
               <div meanbase-editable ng-bind-html="point.description"></div> -->
-              <h3 mb-edit ng-model="point.title" bind-options="editorOptions"></h3>
-              <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
+              <div mb-edit ng-model="point.title" bind-options="editorOptions"></div>
+              <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
               <mb-list-remove list="page.lists.bulletPoints1" item="point"></mb-list-remove>
             </div>
             <div class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="point = {}">
@@ -117,7 +117,7 @@
               </choose-image>
               <!-- <h3 meanbase-editable ng-bind-html="point.title"></h3> -->
               <h3 mb-edit ng-model="point.title" bind-options="editorOptions"></h3>
-              <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
+              <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
               <!-- <div meanbase-editable ng-bind-html="point.description"></div> -->
               <mb-list-add list="page.lists.bulletPoints1" item="point"></mb-list-add>
             </div>
@@ -147,7 +147,7 @@
                   <hr class="section-heading-spacer">
                   <div class="clearfix"></div>
                   <h2 class="section-heading"mb-edit ng-model="page.content['content-2']" bind-options="editorOptions"></h2></h2>
-                  <p class="lead" mb-edit ng-model="page.content['content-3']" bind-options="editorOptions"></p>
+                  <div class="lead" mb-edit ng-model="page.content['content-3']" bind-options="editorOptions"></div>
               </div>
               <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                   <choose-image property="image-3"><img mb-src="image-3" class="img-responsive"/></choose-image>
@@ -168,7 +168,7 @@
               <div class="col-lg-5 col-sm-6">
                   <hr class="section-heading-spacer">
                   <div class="clearfix"></div>
-                  <mb-edit ng-model="page.content['content-4']" bind-options="editorOptions"></mb-edit>
+                  <div mb-edit ng-model="page.content['content-4']" bind-options="editorOptions"></div>
               </div>
               <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                   <choose-image property="image-4"><img mb-src="image-4" class="img-responsive"/></choose-image>
@@ -189,7 +189,7 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <h2><span mb-edit ng-model="page.content['footer-1']" bind-options="editorSingleLine"></span></h2>
+                    <h2><div mb-edit ng-model="page.content['footer-1']" bind-options="editorSingleLine"></div></h2>
                 </div>
                 <div class="col-lg-6">
                     <ul class="list-inline banner-social-buttons">

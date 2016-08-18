@@ -14,6 +14,7 @@ import "../shared/mb-new/mbNew.directive.js";
 import "../shared/mb-list-remove/mbListRemove.directive.js";
 import "../shared/mb-list-add/mbListAdd.directive.js";
 import "../shared/mb-link/mb-link.directive.js";
+import "../shared/mb-icon/mb-icon.directive.js";
 import "../shared/mb-edit/mbEdit.directive.js";
 import "../shared/mb-choose-link/choose-link.directive.js";
 import "../shared/mb-animate/mb-animate.directive.js";

@@ -173,18 +173,31 @@
     $scope.editorOptions = {
       buttonLabels: 'fontawesome',
       toolbar: {
-        buttons: ['bold', 'italic', 'anchor', 'quote', 'p', 'justifyLeft', 'justifyCenter', 'justifyRight', 'h1', 'h2', 'h3', 'h4', 'h5', 'image-selector', 'insert'],
+        buttons: [
+          'bold',
+          'italic',
+          'anchor',
+          'quote',
+          'p',
+          'justifyLeft',
+          'justifyCenter',
+          'justifyRight',
+          'orderedlist',
+          'unorderedlist',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'image-selector',
+          'insert'
+        ],
         diffLeft: 25,
         diffTop: -90,
         forcePlainText: true,
         static: false,
         sticky: true,
         updateOnEmptySelection: true
-      },
-      placeholder: {
-          /* This example includes the default options for placeholder,
-             if nothing is passed this is what it used */
-          hideOnClick: false
       },
       extensions: {
         "image-selector": new ImageSelector(),
@@ -207,7 +220,10 @@
     };
 
     $scope.editorSingleLine = _.merge({}, $scope.editorOptions, {
-      disableReturn: true
+      disableReturn: true,
+      placeholder: {
+        hideOnClick: false
+      },
     });
 
     // ###Shared Content
