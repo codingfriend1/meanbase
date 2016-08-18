@@ -34,8 +34,8 @@ import "../shared/dynamic-html/dynamic-html.directive.js";
 import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/cms.headbar/cms.headbar.controller.js";
 import "../shared/choose-image/chooseImage.directive.js";
-import "../shared/auth/auth.service.js";
 import "../shared/choose-icon/chooseIcon.directive.js";
+import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "../shared/libraries/codrops/classie.js";
@@ -57,16 +57,16 @@ import "../shared/main/editmenu.modal.jade";
 import "../shared/main/findImage.modal.jade";
 import "../shared/main/main.jade";
 import "../shared/missing/missing.jade";
-import "../shared/taglist/taglist.jade";
 import "../shared/sortable/sortable.jade";
+import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
 // end inject jade
 
 // inject stylus
 import "./app.styl";
 import "../shared/choose-icon/chooseImage.styl";
-import "../shared/cms.headbar/cms.headbar.styl";
 import "../shared/choose-image/chooseImage.styl";
+import "../shared/cms.headbar/cms.headbar.styl";
 import "../shared/extensions-area/extensions-area.styl";
 import "../shared/extensions-selector/extensions-selector.styl";
 import "../shared/find-images-modal/find-images-modal.styl";
@@ -77,11 +77,11 @@ import "../shared/mb-choose-link/choose-link.styl";
 import "../shared/mb-edit/mb-edit.styl";
 import "../shared/mb-link/mb-link.styl";
 import "../shared/mb-list-add/mbListAdd.styl";
+import "../shared/mb-list-remove/mbListRemove.styl";
 import "../shared/mb-new/mbNew.styl";
 import "../shared/meanbase-editable/meanbase-editable.directive.styl";
 import "../shared/missing/missing.styl";
 import "../shared/sortable/sortable.styl";
 import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
-import "../shared/mb-list-remove/mbListRemove.styl";
 // end inject stylus

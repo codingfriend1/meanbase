@@ -45,7 +45,7 @@ Meanbase is also focused on making the process of creating themes and adding ext
 ### Deploy
 Create a file called `meanbase.env` in the root of this project don't share it with anyone or attach it to your repo, this will contain your app secret for encrypting passwords and such. At a minimum this file needs these variables
 ```
-APP_SECRET=your-app-secret
+FEATHERS_AUTH_SECRET=your-app-secret
 NODE_ENV=production
 DATABASE_URL=mongodb://db/meanbase
 ```
