@@ -1,6 +1,6 @@
 'use strict';
 
-import 'babel-preset-es2017/polyfill';
+// import 'babel-preset-es2017/polyfill';
 
 import compileIndex from './components/compile-index';
 const seed = require('./components/seed');

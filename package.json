@@ -125,7 +125,7 @@
     "watch": "gulp && webpack -w",
     "start": "babel-watch src",
     "build": "gulp && webpack && gulp dist",
-    "compile": "rm -rf dist/ && babel -d dist/ src/ && npm run build",
+    "compile": "rm -rf dist/ && babel -d dist/src src/ && npm run build",
     "test": "gulp test",
     "mocha": "mocha test/ --recursive",
     "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"

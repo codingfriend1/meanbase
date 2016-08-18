@@ -69,9 +69,13 @@ module.exports = function(gulp, plugins, folders, config) {
 				.pipe(plugins.chmod(755))
 		  	.pipe(gulp.dest('dist/public')),
 
-		  gulp.src(['server/**'])
+		  gulp.src(['views/**'])
 				.pipe(plugins.chmod(755))
-		  	.pipe(gulp.dest('dist/server/')),
+		  	.pipe(gulp.dest('dist/views')),
+
+		  gulp.src('config/**')
+				.pipe(plugins.chmod(755))
+		  	.pipe(gulp.dest('dist/config')),
 
 		  gulp.src('package.json')
 				.pipe(plugins.chmod(755))
