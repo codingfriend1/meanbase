@@ -145,6 +145,31 @@
       }
     });
 
+    var InsertImage = function (plugin) {
+      this._plugin = plugin;
+      this.base = this._plugin.base;
+      this.options = {
+        label: '<i class="fa fa-image"></i>'
+      };
+      this.label = this.options.label;
+    };
+
+    InsertImage.prototype.handleClick = function () {
+      var self = this;
+      this.base.saveSelection();
+      $scope.openImageModal({multiple: false}, function(image) {
+        var imageToInsert = document.createElement("img");
+        imageToInsert.src = image.small;
+        imageToInsert.alt = image.alt;
+        // imageToInsert.class = 'img-responsive';
+        imageToInsert.className = 'img-responsive medium-editor-insert-images';
+        self.base.restoreSelection();
+        var tmp = document.createElement("div");
+        tmp.appendChild(imageToInsert);
+        self.base.pasteHTML(tmp.innerHTML);
+      });
+    };
+
     $scope.editorOptions = {
       buttonLabels: 'fontawesome',
       toolbar: {
@@ -152,8 +177,9 @@
         diffLeft: 25,
         diffTop: -90,
         forcePlainText: true,
-        // static: true,
-        // updateOnEmptySelection: true
+        static: true,
+        sticky: true,
+        updateOnEmptySelection: true
       },
       placeholder: {
           /* This example includes the default options for placeholder,
@@ -162,9 +188,13 @@
       },
       extensions: {
         "image-selector": new ImageSelector(),
-        'insert': new MediumEditorInsert()
+        'insert': new MediumEditorInsert({
+          addons: {
+            custom: InsertImage
+          }
+        })
       },
-      imageDragging: true,
+      // imageDragging: true,
       paste: {
         forcePlainText: true,
         cleanPastedHTML: true,
