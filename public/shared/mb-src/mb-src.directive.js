@@ -23,7 +23,7 @@ angular.module('meanbaseApp')
             if(!on) { on = {}; }
           } else {
             on = $rootScope.page.images;
-            key = attrs.property
+            key = attrs.mbSrc;
           }
         }
 
@@ -64,6 +64,10 @@ angular.module('meanbaseApp')
 
         scope.$onRootScope('cms.editMode', function(event, value) {
           if(value) {
+            findOn();
+            setUrls();
+          } else {
+            findOn();
             setUrls();
           }
         });

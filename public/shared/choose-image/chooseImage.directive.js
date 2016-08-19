@@ -12,13 +12,18 @@ angular.module('meanbaseApp')
             if(!$rootScope.isLoggedIn) { return false; }
 
             var key;
-            if(attrs.belongsTo) {
-              scope.belongsTo = scope.$parent.$eval(attrs.belongsTo) || {};
-              key = attrs.property + attrs.belongsTo + Date.now();
-            } else {
-              scope.belongsTo = $rootScope.page.images;
-              key = attrs.property;
+
+            function getBelongsTo() {
+              if(attrs.belongsTo) {
+                scope.belongsTo = scope.$parent.$eval(attrs.belongsTo) || {};
+                key = attrs.property + attrs.belongsTo + Date.now();
+              } else {
+                scope.belongsTo = $rootScope.page.images;
+                key = attrs.property;
+              }
             }
+
+            getBelongsTo();
 
             scope.findImagesConfig = {
               multiple: false,
@@ -35,6 +40,8 @@ angular.module('meanbaseApp')
 
             scope.$onRootScope('cms.choseImages', function(e, gallery) {
               if(key === gallery.gallerySlug) {
+                getBelongsTo();
+                scope.findImagesConfig.gallerySlug = key;
                 var image = (Array.isArray(gallery.images))? gallery.images[0]: gallery.images;
                 if(image) {
                   image.location = attrs.property;
