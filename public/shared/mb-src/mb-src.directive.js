@@ -75,6 +75,13 @@ angular.module('meanbaseApp')
           });
         });
 
+        scope.$onRootScope('cms.saveListItem', function() {
+          $timeout(function() {
+            findOn();
+            setUrls();
+          });
+        });
+
         scope.$onRootScope('cms.choseImages', function(e, gallery) {
           if(key) {
             if(key === gallery.gallerySlug) {

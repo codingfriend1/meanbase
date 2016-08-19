@@ -10,7 +10,7 @@ angular.module('meanbaseApp')
           pre: function preLink(scope, element, attrs, controller) {
 
             if(!$rootScope.isLoggedIn) { return false; }
-            
+
             var key;
             if(attrs.belongsTo) {
               scope.belongsTo = scope.$parent.$eval(attrs.belongsTo) || {};
@@ -26,6 +26,12 @@ angular.module('meanbaseApp')
               gallerySlug: key,
               alreadySelected: scope.belongsTo[attrs.property]
             };
+
+            scope.$onRootScope('cms.saveListItem', function(event, value) {
+              $timeout(function() {
+                scope.belongsTo = scope.$parent.$eval(attrs.belongsTo) || {};
+              });
+            });
 
             scope.$onRootScope('cms.choseImages', function(e, gallery) {
               if(key === gallery.gallerySlug) {

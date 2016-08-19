@@ -105,6 +105,10 @@ const pagesSchema = new Schema({
     type: Object,
     default: {}
   },
+  links: {
+    type: Object,
+    default: {}
+  },
 	description: {
 		type: String,
 		required: false,
