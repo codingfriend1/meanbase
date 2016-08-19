@@ -20,14 +20,9 @@ angular.module('meanbaseApp')
         }
 
         element.bind('click', function(event) {
+          scope.list.push(angular.copy(scope.item));
           $rootScope.$emit('cms.saveListItem');
-          $timeout(function() {
-            $timeout(function() {
-              scope.list.push(_.cloneDeep(scope.item));
-              scope.item = {};
-
-            });
-          });
+          scope.item = {};
         });
       }
     }

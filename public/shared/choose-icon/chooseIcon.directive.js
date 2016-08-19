@@ -1,5 +1,5 @@
 angular.module('meanbaseApp')
-  .directive('chooseIcon', function ($rootScope, endpoints, $compile) {
+  .directive('chooseIcon', function ($rootScope, endpoints, $compile, $timeout) {
     return {
       template: '<i ng-class="belongsTo[property].classes" ng-click="handleIconClick($event, belongsTo, property, belongsTo[property].url)"></i>',
       restrict: 'EA',
@@ -39,6 +39,13 @@ angular.module('meanbaseApp')
           } else {
             removeDefault();
           }
+        });
+
+        scope.$onRootScope('cms.saveListItem', function(event, value) {
+          $timeout(function() {
+            scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
+            setDefaultIfEmpty();
+          });
         });
 
         // scope.$onRootScope('cms.saveEdits', function() {
