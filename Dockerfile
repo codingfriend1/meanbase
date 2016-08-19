@@ -3,17 +3,7 @@
 # Based on Ubuntu
 ############################################################
 
-FROM node:latest
-
-# File Author / Maintainer
-MAINTAINER Jon Paul Miles
-
-################## INSTALL LIBRARIES ######################
-RUN apt-get update
-ENV NODE_ENV=production
-RUN apt-get install -y graphicsmagick
-RUN npm install pm2 -g
-##################### LIBRARIES END #####################
+FROM codingfriend/meanbase
 
 
 ################## ESTABLISH DIRECTORIES ######################
