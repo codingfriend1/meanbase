@@ -600,13 +600,15 @@
       $scope.hasContent = true;
       $scope.checkHasContent = function() {
         $timeout(function() {
-          var testIcon = $('#test-icon');
-          $scope.hasContent = getComputedStyle(testIcon[0], ':before').content;
-          if(!$scope.hasContent && $scope.icon.classes) {
-            $scope.hasContentError = "Please choose a class name that will make the icon appear or erase all the class names.";
-          } else {
-            $scope.hasContentError = '';
-          }
+          $timeout(function() {
+            var testIcon = $('#test-icon');
+            $scope.hasContent = getComputedStyle(testIcon[0], ':before').content;
+            if(!$scope.hasContent && $scope.icon.classes) {
+              $scope.hasContentError = "Please choose a class name that will make the icon appear or erase all the class names.";
+            } else {
+              $scope.hasContentError = '';
+            }
+          });
         });
       };
 
