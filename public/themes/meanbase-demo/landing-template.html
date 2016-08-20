@@ -78,14 +78,14 @@
 <div class="content-section-a">
   <div class="container-fluid">
     <div class="row-fluid">
-      <div mb-grid-item class="col-sm-4" ng-class="grid.classes" ng-repeat="grid in page.grid['main-1']">
+      <div mb-grid-item item="grid" class="col-sm-4" ng-repeat="grid in page.grid['main-1']">
         <mb-grid-remove list="page.grid['main-1']" item="grid"></mb-grid-remove>
         <h1>Title</h1>
         <p>
           Some content 4
         </p>
       </div>
-      <mb-grid-add list="page.grid['main-1']" item="{}"></mb-grid-add>
+      <mb-grid-add list="page.grid['main-1']"></mb-grid-add>
     </div>
   </div>
   <!-- /.container -->

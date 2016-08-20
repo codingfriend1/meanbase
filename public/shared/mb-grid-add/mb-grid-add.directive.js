@@ -5,7 +5,6 @@ angular.module('meanbaseApp')
       restrict: 'EA',
       scope: {
         list: '=',
-        item: '='
       },
       link: function (scope, element, attrs) {
 
@@ -15,13 +14,10 @@ angular.module('meanbaseApp')
           scope.list = [];
         }
 
-        if(!scope.item || _.isEmpty(scope.item)) {
-          scope.item = { x:0, y:0, width:6, height:1 }
-        }
-
         element.bind('click', function(event) {
           $timeout(function() {
-            scope.list.push(angular.copy(scope.item));
+            element.
+            scope.list.push(angular.copy({classes: 'col-sm-4 col-xs-6'}));
           });
 
         });

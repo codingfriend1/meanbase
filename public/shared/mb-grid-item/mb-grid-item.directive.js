@@ -3,9 +3,34 @@ angular.module('meanbaseApp')
     return {
       // template: '<div ng-if="$root.editMode" class="add-to-grid-btn"><i class="fa fa-plus fa-lg"></i></div>',
       restrict: 'A',
+      scope: {
+        item: '='
+      },
       link: function (scope, element, attrs) {
 
+
+        element[0].className = scope.item.classes;
+
         if(!$rootScope.isLoggedIn) { return false; }
+
+        if(!scope.item) { scope.item = {classes: ''}; }
+
+        var originalClasses;
+        scope.$onRootScope('cms.editMode', function(e, value) {
+          if(!value) {
+            $(element).resizable('disable');
+          } else {
+            originalClasses = element[0].className;
+            originalClasses = originalClasses.replace('ng-scope', '').replace('ng-isolate-scope', '').replace('ui-resizable', '');
+            $(element).resizable('enable');
+          }
+        });
+
+        scope.$onRootScope('cms.saveEdits', function(event, value) {
+          var classes = element[0].className;
+          scope.item.classes = classes;
+          originalClasses = classes;
+        });
 
         (function() {
 
@@ -98,14 +123,6 @@ angular.module('meanbaseApp')
           var smRegex = /col-sm-(\d+)/;
           var mdRegex = /col-md-(\d+)/;
           var lgRegex = /col-lg-(\d+)/;
-
-          scope.$watch('editMode', function(newVal) {
-            if(!newVal) {
-              $(element).resizable('disable');
-            } else {
-              $(element).resizable('enable');
-            }
-          });
 
 
           $(element).resizable({
