@@ -170,30 +170,45 @@
       });
     };
 
+    var InsertGrid = function (plugin) {
+      this._plugin = plugin;
+      this.base = this._plugin.base;
+      this.options = {
+        label: '<i class="fa fa-th"></i>'
+      };
+      this.label = this.options.label;
+    };
+
+    InsertGrid.prototype.handleClick = function () {
+      var self = this;
+      self.base.pasteHTML('<div gridstack class="grid-stack" options="gridOptions"></div>');
+    };
+
     $scope.editorOptions = {
       buttonLabels: 'fontawesome',
       toolbar: {
         buttons: [
+          'removeFormat',
           'bold',
           'italic',
           'anchor',
           'quote',
           'p',
-          'justifyLeft',
-          'justifyCenter',
-          'justifyRight',
-          'orderedlist',
-          'unorderedlist',
           'h1',
           'h2',
           'h3',
           'h4',
           'h5',
+          'justifyLeft',
+          'justifyCenter',
+          'justifyRight',
+          'orderedlist',
+          'unorderedlist',
           'image-selector',
           'insert'
         ],
         diffLeft: 25,
-        diffTop: -90,
+        diffTop: -70,
         forcePlainText: true,
         static: false,
         sticky: true,
@@ -205,7 +220,8 @@
           addons: {
             images: false,
             embeds: false,
-            custom: InsertImage
+            custom: InsertImage,
+            insertGrid: InsertGrid,
           }
         })
       },
@@ -225,6 +241,16 @@
         hideOnClick: false
       },
     });
+
+    var doit;
+    $rootScope.windowWidth = $(window).width();
+    window.onresize = function(){
+      clearTimeout(doit);
+      doit = setTimeout(function() {
+        $rootScope.windowWidth = $(window).width();
+      }, 200);
+    };
+
 
     // ###Shared Content
     // What is shared content? Let's say you have an extension|plugin|widget|component|content, whatever you want to call it, on your page. By default it will only exist on that page. If you create another page, even when using the same template you won't see that extension. Shared data is a concept that let's you have the same extension on multiple pages just by naming the extension. The best part? All extensions with that name and type stay in sync, so when you make changes to an extension on one page all other instances of that extension are updated. It means you don't have to recreate the same information over and over again on every page you want that extension.

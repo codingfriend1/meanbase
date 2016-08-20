@@ -11,6 +11,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
     return {
       require: 'ngModel',
       restrict: 'AE',
+      template: '<div></div>',
       scope: { bindOptions: '=' },
       link: function(scope, element, iAttrs, ngModel) {
 

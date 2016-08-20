@@ -14,12 +14,10 @@
               <choose-link belongs-to="page.links" property="callToAction">
                 <a class="navbar-brand topnav" mb-link="callToAction" belongs-to="page.links">
                   <choose-icon belongs-to="page.links.callToAction" property="icon"></choose-icon>
-                  <span mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></span>
+                  <mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></mb-edit>
                 </a>
               </choose-link>
-              <!-- <a class="navbar-brand topnav" href="#">Use Meanbase</a> -->
           </div>
-          <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
                   <li ng-repeat="menu in menus.main" sortable>
@@ -28,9 +26,7 @@
                   <li ng-click="createMenuItem('main')" ng-if="editMode" class="new-menu-item-button"><a><i class="fa fa-plus"></i></a></li>
               </ul>
           </div>
-          <!-- /.navbar-collapse -->
       </div>
-      <!-- /.container -->
   </nav>
 
 
@@ -44,14 +40,14 @@
                 <div class="col-lg-12">
                     <div class="intro-message">
                       <div class="enable-click">
-                        <div mb-edit ng-model="page.title" bind-options="editorSingleLine"></div>
+                        <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li ng-repeat="socialBtn in page.lists.social" style="position: relative;">
                               <choose-link belongs-to="socialBtn" property="link">
                                 <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                                   <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
-                                  <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
+                                  <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
                                 </a>
                               </choose-link>
                               <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
@@ -60,21 +56,11 @@
                               <choose-link belongs-to="socialBtn" property="link">
                                 <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                                   <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
-                                  <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
+                                  <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
                                 </a>
                               </choose-link>
                               <mb-list-add list="page.lists.social" item="socialBtn"></mb-list-add>
                             </li>
-
-                            <!-- <li>
-                                <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Dcomentation</span></a>
-                            </li> -->
                         </ul>
                       </div>
                     </div>
@@ -87,6 +73,23 @@
     </div>
   </choose-image>
   <!-- /.intro-header -->
+
+
+<div class="content-section-a">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div mb-grid-item class="col-sm-4" ng-class="grid.classes" ng-repeat="grid in page.grid['main-1']">
+        <mb-grid-remove list="page.grid['main-1']" item="grid"></mb-grid-remove>
+        <h1>Title</h1>
+        <p>
+          Some content 4
+        </p>
+      </div>
+      <mb-grid-add list="page.grid['main-1']" item="{}"></mb-grid-add>
+    </div>
+  </div>
+  <!-- /.container -->
+</div>
 
   <!-- Page Content -->
 
@@ -113,8 +116,8 @@
               </choose-image>
               <!-- <h3 meanbase-editable ng-bind-html="point.title"></h3>
               <div meanbase-editable ng-bind-html="point.description"></div> -->
-              <div mb-edit ng-model="point.title" bind-options="editorOptions"></div>
-              <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
+              <mb-edit ng-model="point.title" bind-options="editorOptions"></mb-edit>
+              <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
               <mb-list-remove list="page.lists.bulletPoints1" item="point"></mb-list-remove>
             </div>
             <div class="col-lg-4 col-sm-4 text-center" ng-if="editMode" ng-init="point = {}">
@@ -123,8 +126,8 @@
                 <img mb-src="image" belongs-to="point" class="img-responsive"/>
               </choose-image>
               <!-- <h3 meanbase-editable ng-bind-html="point.title"></h3> -->
-              <h3 mb-edit ng-model="point.title" bind-options="editorOptions"></h3>
-              <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
+              <mb-edit ng-model="point.title" bind-options="editorOptions"></mb-edit>
+              <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
               <!-- <div meanbase-editable ng-bind-html="point.description"></div> -->
               <mb-list-add list="page.lists.bulletPoints1" item="point"></mb-list-add>
             </div>
@@ -153,8 +156,8 @@
               <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                   <hr class="section-heading-spacer">
                   <div class="clearfix"></div>
-                  <h2 class="section-heading"mb-edit ng-model="page.content['content-2']" bind-options="editorOptions"></h2></h2>
-                  <div class="lead" mb-edit ng-model="page.content['content-3']" bind-options="editorOptions"></div>
+                  <mb-edit class="section-heading" ng-model="page.content['content-2']" bind-options="editorOptions"></mb-edit>
+                  <mb-edit class="lead" ng-model="page.content['content-3']" bind-options="editorOptions"></mb-edit>
               </div>
               <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                   <choose-image property="image-3"><img mb-src="image-3" class="img-responsive"/></choose-image>
@@ -175,7 +178,7 @@
               <div class="col-lg-5 col-sm-6">
                   <hr class="section-heading-spacer">
                   <div class="clearfix"></div>
-                  <div mb-edit ng-model="page.content['content-4']" bind-options="editorOptions"></div>
+                  <mb-edit class="lead" ng-model="page.content['content-4']" bind-options="editorOptions"></mb-edit>
               </div>
               <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                   <choose-image property="image-4"><img mb-src="image-4" class="img-responsive"/></choose-image>
@@ -196,7 +199,7 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <h2><div mb-edit ng-model="page.content['footer-1']" bind-options="editorSingleLine"></div></h2>
+                    <mb-edit ng-model="page.content['footer-1']" bind-options="editorSingleLine"></mb-edit>
                 </div>
                 <div class="col-lg-6">
                     <ul class="list-inline banner-social-buttons">
@@ -204,7 +207,7 @@
                         <choose-link belongs-to="socialBtn" property="link">
                           <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                             <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
-                            <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
+                            <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
                           </a>
                         </choose-link>
                         <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
@@ -213,7 +216,7 @@
                         <choose-link belongs-to="socialBtn" property="link">
                           <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                             <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
-                            <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
+                            <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
                           </a>
                         </choose-link>
                         <mb-list-add list="page.lists.social" item="socialBtn"></mb-list-add>
