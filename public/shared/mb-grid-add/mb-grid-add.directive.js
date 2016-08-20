@@ -16,7 +16,6 @@ angular.module('meanbaseApp')
 
         element.bind('click', function(event) {
           $timeout(function() {
-            element.
             scope.list.push(angular.copy({classes: 'col-sm-4 col-xs-6'}));
           });
 
