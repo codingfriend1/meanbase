@@ -8,12 +8,10 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
 
-
-        element[0].className = scope.item.classes;
+        if(!scope.item) { scope.item = {gridClasses: 'col-sm-4 col-xs-6'}; }
+        element[0].className = scope.item.gridClasses;
 
         if(!$rootScope.isLoggedIn) { return false; }
-
-        if(!scope.item) { scope.item = {classes: ''}; }
 
         var originalClasses;
         scope.$onRootScope('cms.editMode', function(e, value) {
@@ -28,8 +26,13 @@ angular.module('meanbaseApp')
 
         scope.$onRootScope('cms.saveEdits', function(event, value) {
           var classes = element[0].className;
-          scope.item.classes = classes;
+          scope.item.gridClasses = classes;
           originalClasses = classes;
+        });
+
+        scope.$onRootScope('cms.saveListItem', function(event, value) {
+          var classes = element[0].className;
+          scope.item.gridClasses = classes;
         });
 
         (function() {
@@ -205,6 +208,9 @@ angular.module('meanbaseApp')
               el.removeClass(classClass);
               el.addClass(query + newColNum);
               beforeColNumber = getCurrentColumnWidth(el, rejex, alsoCheck);
+              $timeout(function() {
+                scope.item.gridClasses = el[0].className;
+              });
             }
           });
         })();
