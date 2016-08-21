@@ -1,4 +1,4 @@
-angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScope, $timeout) {
+angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScope, $timeout, $compile) {
 
     function toInnerText(value) {
       var tempEl = document.createElement('div'),
@@ -20,8 +20,14 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         // Global MediumEditor
         ngModel.editor = new MediumEditor(element, scope.bindOptions);
 
+        scope.$onRootScope('recompile-editor', function() {
+          ngModel.$setViewValue(ngModel.editor.getContent());
+          ngModel.$render();
+        });
+
         ngModel.$render = function() {
           element.html(ngModel.$viewValue || "");
+          $compile(element.contents())(scope.$parent);
           var placeholder = ngModel.editor.getExtensionByName('placeholder');
           if (placeholder) {
             placeholder.updatePlaceholder(element[0]);
@@ -39,7 +45,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         };
 
         ngModel.editor.subscribe('editableInput', function (event, editable) {
-          ngModel.$setViewValue(editable.innerHTML.trim());
+          ngModel.$setViewValue( editable.innerHTML.trim() );
         });
 
         scope.$watch('bindOptions', function(bindOptions) {

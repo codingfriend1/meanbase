@@ -1,21 +1,25 @@
-.inEditMode [mb-grid-item] {
-  position: relative;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-}
+.inEditMode [mb-grid-item]
+  position relative
+  box-shadow 2px 2px 2px 1px rgba(0, 0, 0, 0.2)
 
-.inEditMode [mb-grid-item] .ui-resizable-handle:before {
-  content: "\f0dc";
-}
+// .inEditMode [mb-grid-item] .ui-resizable-handlebefore
+//   content "\f0dc"
 
-.inEditMode [mb-grid-item] .ui-resizable-handle {
-  color: black;
-  display: inline-block;
-  left: 100%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%) rotate(90deg);
-  transform: translate(-50%, -50%) rotate(90deg);
-  -ms-transform: translate(-50%, -50%) rotate(90deg);
-  font: normal normal normal 20px/1 FontAwesome;
-  position: absolute;
-  cursor: pointer;
-}
+.inEditMode [mb-grid-item] .ui-resizable-handle
+  position absolute
+  font normal normal normal 20px/1 FontAwesome
+  color black
+  display block
+  background-color transparent
+  left 100%
+  top 50%
+  width 12px
+  height 100%
+  // -webkit-transform translate(-50%, -50%) rotate(90deg)
+  // transform translate(-50%, -50%) rotate(90deg)
+  // -ms-transform translate(-50%, -50%) rotate(90deg)
+
+  -webkit-transform translate(-50%, -50%)
+  transform translate(-50%, -50%)
+  -ms-transform translate(-50%, -50%)
+  cursor ew-resize

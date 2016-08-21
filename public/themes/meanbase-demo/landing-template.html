@@ -80,10 +80,7 @@
     <div class="row-fluid">
       <div mb-grid-item item="grid" class="col-sm-4" ng-repeat="grid in page.grid['main-1']">
         <mb-grid-remove list="page.grid['main-1']" item="grid"></mb-grid-remove>
-        <h1>Title</h1>
-        <p>
-          Some content 4
-        </p>
+        <mb-edit ng-model="grid.content" bind-options="editorOptions"></mb-edit>
       </div>
       <mb-grid-add list="page.grid['main-1']"></mb-grid-add>
     </div>

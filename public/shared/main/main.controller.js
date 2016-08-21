@@ -6,7 +6,7 @@
   angular.module('meanbaseApp').controller('MainCtrl', MainCtrl);
 
   // @ngInject
-  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api) {
+  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api, $compile) {
 
     // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
 
@@ -145,6 +145,50 @@
       }
     });
 
+    var AddIcon = MediumEditor.Extension.extend({
+      name: 'add-icon',
+      init: function () {
+        this.button = this.document.createElement('button');
+        this.button.classList.add('medium-editor-action');
+        this.button.innerHTML = '<i class="fa fa-plug"></i>';
+        this.button.title = 'Insert an icon';
+
+        this.on(this.button, 'click', this.handleClick.bind(this));
+      },
+
+      getButton: function () {
+        return this.button;
+      },
+
+      handleClick: function (event) {
+        var self = this;
+        self.base.pasteHTML('<choose-icon belongs-to="{}" property="icon"></choose-icon>');
+        $rootScope.$emit('recompile-editor');
+      }
+    });
+
+    var addChooseImage = MediumEditor.Extension.extend({
+      name: 'add-choose-image',
+      init: function () {
+        this.button = this.document.createElement('button');
+        this.button.classList.add('medium-editor-action');
+        this.button.innerHTML = '<i class="fa fa-camera"></i>';
+        this.button.title = 'Insert an icon';
+
+        this.on(this.button, 'click', this.handleClick.bind(this));
+      },
+
+      getButton: function () {
+        return this.button;
+      },
+
+      handleClick: function (event) {
+        var self = this;
+        self.base.pasteHTML('<mb-choose-image></mb-choose-image>');
+        $rootScope.$emit('recompile-editor');
+      }
+    });
+
     var InsertImage = function (plugin) {
       this._plugin = plugin;
       this.base = this._plugin.base;
@@ -181,7 +225,7 @@
 
     InsertGrid.prototype.handleClick = function () {
       var self = this;
-      self.base.pasteHTML('<div gridstack class="grid-stack" options="gridOptions"></div>');
+      self.base.pasteHTML('<choose-image belongs-to="{}" property="image"></choose-icon>');
     };
 
     $scope.editorOptions = {
@@ -205,7 +249,8 @@
           'orderedlist',
           'unorderedlist',
           'image-selector',
-          'insert'
+          'add-icon',
+          'add-choose-image'
         ],
         diffLeft: 25,
         diffTop: -70,
@@ -216,14 +261,16 @@
       },
       extensions: {
         "image-selector": new ImageSelector(),
-        'insert': new MediumEditorInsert({
-          addons: {
-            images: false,
-            embeds: false,
-            custom: InsertImage,
-            insertGrid: InsertGrid,
-          }
-        })
+        "add-icon": new AddIcon(),
+        "add-choose-image": new addChooseImage(),
+        // 'insert': new MediumEditorInsert({
+        //   addons: {
+        //     images: false,
+        //     embeds: false,
+        //     custom: InsertImage,
+        //     insertGrid: InsertGrid,
+        //   }
+        // })
       },
       // imageDragging: true,
       paste: {

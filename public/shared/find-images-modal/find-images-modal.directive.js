@@ -8,7 +8,7 @@ angular.module('meanbaseApp')
       scope: true,
       link: function (scope, element, attrs) {
         if(!$rootScope.isLoggedIn) { return false; }
-        
+
       	var config = scope.findImagesConfig;
         var chosenElement = element;
 
