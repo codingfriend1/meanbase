@@ -8,9 +8,8 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
 
-        if(!scope.item) { scope.item = {gridClasses: 'col-sm-4 col-xs-6'}; }
         if(!scope.item.gridClasses) {
-          scope.item.gridClasses = element[0].className.replace('ng-scope', '').replace('ng-isolate-scope', '').replace('ui-resizable', '');; 
+          scope.item.gridClasses = element[0].className.replace('ng-scope', '').replace('ng-isolate-scope', '').replace('ui-resizable', '');;
         }
         element[0].className = scope.item.gridClasses;
 

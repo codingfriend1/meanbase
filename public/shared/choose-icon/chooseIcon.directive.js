@@ -35,6 +35,7 @@ angular.module('meanbaseApp')
 
         scope.$onRootScope('cms.editMode', function(event, value) {
           if(value) {
+            scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
             setDefaultIfEmpty();
           } else {
             removeDefault();
@@ -43,10 +44,8 @@ angular.module('meanbaseApp')
 
         scope.$onRootScope('cms.saveListItem', function(event, value) {
           $timeout(function() {
-            $timeout(function() {
-              scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
-              setDefaultIfEmpty();
-            });
+            scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
+            setDefaultIfEmpty();
           });
         });
 
