@@ -29,9 +29,6 @@ module.exports = function() {
   app.configure(ifEmptyCreate('roles', rolesData));
   app.configure(resetData('users', userData));
 
-  themes.call(this);
-  extensions.call(this);
-
   if(app.get('seed')) {
     app.configure(ifEmptyCreate('pages', pagesData));
     app.configure(ifEmptyCreate('menus', menusData));
@@ -45,6 +42,10 @@ module.exports = function() {
     app.configure(resetData('themes'));
   }
 
+  setTimeout(function() {
+    themes.call(this);
+    extensions.call(this);
+  }, 300);
 };
 
 // ### ifEmptyCreate(model, data)

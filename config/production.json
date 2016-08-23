@@ -11,8 +11,8 @@
   "extensionsPath": "../public/extensions/",
   "uploadsPath": "../public/assets/",
   "viewsPath": "../views/",
-  "seed": true,
-  "reset-seed": false,
+  "seed": "SEED",
+  "reset-seed": "RESET_SEED",
   "auth": {
     "token": {
       "secret": "FEATHERS_AUTH_SECRET"
