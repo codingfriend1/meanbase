@@ -4,9 +4,9 @@ section#Login.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl
       main.mdl-layout__content
         .mdl-card.mdl-shadow--6dp.margin-center
           .mdl-card__supporting-text.no-padding
-            form.form(name='loginForm' ng-submit='login(loginForm)' novalidate='')
+            form.form(name='loginForm' ng-submit='login(loginForm)')
               .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-                input#username.mdl-textfield__input(type='email' ng-model='user.email')
+                input#username.mdl-textfield__input(type="email" ng-model="user.email" name="email" autofocus)
                 label.mdl-textfield__label(for='username') Email
               .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
                 input#password.mdl-textfield__input(type='password' ng-model='user.password')
