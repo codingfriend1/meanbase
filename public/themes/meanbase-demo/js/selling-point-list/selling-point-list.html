@@ -1,0 +1,40 @@
+<div>
+  <div class="relative" ng-repeat="point in sellingPoints.items" ng-class="{'content-section-a': point.left, 'content-section-b': !point.left}">
+    <div class="container">
+      <div class="row relative">
+        <div ng-class="{'col-lg-5 col-sm-6': point.left, 'col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6': !point.left}">
+          <hr class="section-heading-spacer">
+          <div class="clearfix"></div>
+          <mb-edit class="section-heading" ng-model="point.title" bind-options="editorOptions"></mb-edit>
+          <mb-edit class="lead" ng-model="point.text" bind-options="editorOptions"></mb-edit>
+        </div>
+        <div ng-class="{'col-lg-5 col-lg-offset-2 col-sm-6': point.left, 'col-lg-5 col-sm-pull-6  col-sm-6': !point.left}">
+          <choose-image property="image" belongs-to="point"><img mb-src="image" belongs-to="point" class="img-responsive"/></choose-image>
+        </div>
+        <!-- <div class="col-sm-12"> -->
+          <mb-list-remove list="sellingPoints.items" item="point"></mb-list-remove>
+          <div class="md-toggle-type" ng-click="openModal(point)" ng-if="$root.editMode"><i class="fa fa-gear fa-lg"></i></div>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="relative" ng-class="{'content-section-a': point.left, 'content-section-b': !point.left}" ng-if="$root.editMode">
+      <div class="container">
+          <div class="row relative">
+              <div ng-class="{'col-lg-5 col-sm-6': point.left, 'col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6': !point.left}">
+                  <hr class="section-heading-spacer">
+                  <div class="clearfix"></div>
+                  <mb-edit class="section-heading" ng-model="point.title" bind-options="editorOptions"></mb-edit>
+                  <mb-edit class="lead" ng-model="point.text" bind-options="editorOptions"></mb-edit>
+              </div>
+              <div ng-class="{'col-lg-5 col-lg-offset-2 col-sm-6': point.left, 'col-lg-5 col-sm-pull-6  col-sm-6': !point.left}">
+                <choose-image property="image" belongs-to="point"><img mb-src="image" belongs-to="point" class="img-responsive"/></choose-image>
+              </div>
+              <!-- <div class="col-sm-12"> -->
+                <mb-list-add list="sellingPoints.items" item="point"></mb-list-add>
+                <div class="md-toggle-type" ng-click="openModal(point)"><i class="fa fa-gear fa-lg"></i></div>
+              <!-- </div> -->
+          </div>
+      </div>
+  </div>
+</div>

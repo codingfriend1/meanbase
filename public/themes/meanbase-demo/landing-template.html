@@ -68,43 +68,19 @@
             </div>
 
         </div>
-        <!-- /.container -->
 
     </div>
   </choose-image>
-  <!-- /.intro-header -->
 
-
-<div class="content-section-a">
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div mb-grid-item item="grid" class="col-sm-4" ng-repeat="grid in page.grid['main-1']">
-        <mb-grid-remove list="page.grid['main-1']" item="grid"></mb-grid-remove>
-        <mb-edit ng-model="grid.content" bind-options="editorOptions"></mb-edit>
-      </div>
-      <mb-grid-add list="page.grid['main-1']"></mb-grid-add>
-    </div>
-  </div>
-  <!-- /.container -->
-</div>
+<div list-area="mainList1"></div>
 
   <!-- Page Content -->
 
-<a  name="services"></a>
+<!-- <a  name="services"></a>
   <div class="content-section-a">
 
       <div class="container">
           <div class="row" ng-init="point = {}">
-
-            <!-- <page-list class="col-lg-4 col-sm-4 text-center mb-animate-list" list="page.lists.bulletPoints1">
-              <choose-icon belongs-to="item" property="icon" class="margin-bottom-1"></choose-icon>
-              <choose-image property="image" belongs-to="item">
-                <img mb-src="image" belongs-to="item" class="img-responsive"/>
-              </choose-image>
-              <h3 meanbase-editable ng-bind-html="item.title"></h3>
-              <div meanbase-editable ng-bind-html="item.description"></div>
-              <mb-list-remove list="page.lists.bulletPoints1" item="item"></mb-list-remove>
-            </page-list> -->
 
             <div class="col-lg-4 col-sm-4 mb-animate-list" mb-grid-item item="point" ng-repeat="point in page.lists.bulletPoints1">
               <div class="text-center">
@@ -112,8 +88,8 @@
                 <choose-image property="image" belongs-to="point">
                   <img mb-src="image" belongs-to="point" class="img-responsive"/>
                 </choose-image>
-                <!-- <h3 meanbase-editable ng-bind-html="point.title"></h3>
-                <div meanbase-editable ng-bind-html="point.description"></div> -->
+                <h3 meanbase-editable ng-bind-html="point.title"></h3>
+                <div meanbase-editable ng-bind-html="point.description"></div>
                 <mb-edit ng-model="point.title" bind-options="editorOptions"></mb-edit>
                 <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
                 <mb-list-remove list="page.lists.bulletPoints1" item="point"></mb-list-remove>
@@ -125,31 +101,17 @@
                 <choose-image property="image" belongs-to="point">
                   <img mb-src="image" belongs-to="point" class="img-responsive"/>
                 </choose-image>
-                <!-- <h3 meanbase-editable ng-bind-html="point.title"></h3> -->
                 <mb-edit ng-model="point.title" bind-options="editorOptions"></mb-edit>
                 <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
-                <!-- <div meanbase-editable ng-bind-html="point.description"></div> -->
                 <mb-list-add list="page.lists.bulletPoints1" item="point"></mb-list-add>
               </div>
             </div>
-
-              <!-- <div class="col-lg-5 col-sm-6">
-                  <hr class="section-heading-spacer">
-                  <div class="clearfix"></div>
-                  <div meanbase-editable="meanbase-editable" ng-bind-html="page.content['content-1']"></div>
-              </div>
-              <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                  <choose-image property="image-2"><img mb-src="image-2" class="img-responsive"/></choose-image>
-              </div> -->
           </div>
 
       </div>
-      <!-- /.container -->
+  </div> -->
 
-  </div>
-  <!-- /.content-section-a -->
-
-  <div class="content-section-b">
+  <!-- <div class="content-section-b">
 
       <div class="container">
 
@@ -166,12 +128,11 @@
           </div>
 
       </div>
-      <!-- /.container -->
 
-  </div>
-  <!-- /.content-section-b -->
+  </div> -->
 
-  <div class="content-section-a">
+
+  <!-- <div class="content-section-a">
 
       <div class="container">
 
@@ -187,12 +148,10 @@
           </div>
 
       </div>
-      <!-- /.container -->
 
-  </div>
-  <!-- /.content-section-a -->
+  </div> -->
 
-<a  name="contact"></a>
+<!-- <a  name="contact"></a>
   <choose-image property="image-5">
     <div class="banner" mb-src="image-5">
 
@@ -227,10 +186,8 @@
             </div>
 
         </div>
-      <!-- /.container -->
     </choose-image>
-  </div>
-  <!-- /.banner -->
+  </div> -->
 
   <!-- Footer -->
   <footer>
