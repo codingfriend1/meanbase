@@ -19,8 +19,8 @@
               </choose-link>
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav navbar-right">
-                  <li ng-repeat="menu in menus.main" sortable>
+              <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
+                  <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
                       <a target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
                   </li>
                   <li ng-click="createMenuItem('main')" ng-if="editMode" class="new-menu-item-button"><a><i class="fa fa-plus"></i></a></li>
