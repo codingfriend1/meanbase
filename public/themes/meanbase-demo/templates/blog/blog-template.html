@@ -1,0 +1,127 @@
+<div ng-controller="landingController as controller">
+  <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+      <div class="container topnav">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+
+              <choose-link belongs-to="page.links" property="callToAction">
+                <a class="navbar-brand topnav" mb-link="callToAction" belongs-to="page.links">
+                  <choose-icon belongs-to="page.links.callToAction" property="icon"></choose-icon>
+                  <mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></mb-edit>
+                </a>
+              </choose-link>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
+                  <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
+                      <a target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
+                  </li>
+                  <li ng-click="createMenuItem('main')" ng-if="editMode" class="new-menu-item-button"><a><i class="fa fa-plus"></i></a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+  <!-- Page Header -->
+  <!-- Set your background image for this header on the line below. -->
+  <choose-image property="image-1">
+    <header class="intro-header" mb-src="image-1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
+        <div class="container disable-click">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 enable-click">
+                    <div class="post-heading">
+                        <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
+                        <hr class="small">
+                        <mb-edit class="subheading" ng-model="page.content.subTitle" bind-options="editorSingleLine"></mb-edit>
+                        <span class="meta">Posted by <a href="#">{{page.author}}</a> on {{page.createdAt}}</span>
+                        <!-- <span class="meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+  </choose-image>
+
+  <!-- Post Content -->
+  <article>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                  <mb-edit class="meta" ng-model="page.content.content1" bind-options="editorOptions"></mb-edit>
+              </div>
+          </div>
+      </div>
+  </article>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                  <ul class="list-inline text-center">
+                      <li ng-repeat="socialBtn in page.lists.socialFooter1.items" style="position: relative;">
+                        <choose-link belongs-to="socialBtn" property="link">
+                          <a mb-link="link" belongs-to="socialBtn">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></choose-icon>
+                              <!-- <i class="fa fa-twitter fa-stack-1x fa-inverse"></i> -->
+                            </span>
+                          </a>
+                        </choose-link>
+                        <mb-list-remove list="page.lists.socialFooter1.items" item="socialBtn"></mb-list-remove>
+                      </li>
+                      <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
+                        <choose-link belongs-to="socialBtn" property="link">
+                          <a mb-link="link" belongs-to="socialBtn">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></choose-icon>
+                              <!-- <i class="fa fa-twitter fa-stack-1x fa-inverse"></i> -->
+                            </span>
+                          </a>
+                        </choose-link>
+                        <mb-list-add list="page.lists.socialFooter1.items" item="socialBtn"></mb-list-add>
+                      </li>
+                  </ul>
+                  <!-- <ul class="list-inline text-center">
+                      <li>
+                          <a href="#">
+                              <span class="fa-stack fa-lg">
+                                  <i class="fa fa-circle fa-stack-2x"></i>
+                                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                              </span>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                              <span class="fa-stack fa-lg">
+                                  <i class="fa fa-circle fa-stack-2x"></i>
+                                  <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                              </span>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                              <span class="fa-stack fa-lg">
+                                  <i class="fa fa-circle fa-stack-2x"></i>
+                                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                              </span>
+                          </a>
+                      </li>
+                  </ul> -->
+                  <!-- <p class="copyright text-muted">Copyright &copy; Your Website 2016</p> -->
+                  <mb-edit class="copyright text-muted" ng-model="page.content.license" bind-options="editorOptions"></mb-edit>
+              </div>
+          </div>
+      </div>
+  </footer>
+</div>

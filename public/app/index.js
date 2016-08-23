@@ -1,8 +1,5 @@
 // inject js
 import "./app.js";
-import "../shared/mb-edit/mbEdit.directive.js";
-import "../shared/extensions-selector/extensions.modal.controller.js";
-import "../shared/extensions-selector/extensions-selector.directive.js";
 import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
@@ -22,6 +19,7 @@ import "../shared/mb-grid-remove/mbListRemove.directive.js";
 import "../shared/mb-grid-item/mb-grid-item.directive.js";
 import "../shared/mb-grid-add/mb-grid-add.directive.js";
 import "../shared/mb-grid/mb-grid.directive.js";
+import "../shared/mb-edit/mbEdit.directive.js";
 import "../shared/mb-choose-src/mbChooseSrc.directive.js";
 import "../shared/mb-choose-link/choose-link.directive.js";
 import "../shared/mb-animate/mb-animate.directive.js";
@@ -36,6 +34,8 @@ import "../shared/findImages/findImages.directive.js";
 import "../shared/find-images-modal/find-images-modal.directive.js";
 import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
+import "../shared/extensions-selector/extensions.modal.controller.js";
+import "../shared/extensions-selector/extensions-selector.directive.js";
 import "../shared/extensions-area/extensions-area.directive.js";
 import "../shared/endpoints/endpoints.service.js";
 import "../shared/dynamic-html/dynamic-html.directive.js";
@@ -99,6 +99,6 @@ import "../shared/mb-new/mbNew.styl";
 import "../shared/meanbase-editable/meanbase-editable.directive.styl";
 import "../shared/missing/missing.styl";
 import "../shared/sortable/sortable.styl";
-import "../shared/validate/validate.styl";
 import "../shared/taglist/taglist.styl";
+import "../shared/validate/validate.styl";
 // end inject stylus
