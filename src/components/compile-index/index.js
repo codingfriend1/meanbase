@@ -11,6 +11,7 @@
 
 export default async function(theme) {
   const app = this;
+  if(!global.meanbaseGlobals) { global.meanbaseGlobals = {}; }
 	if(theme) {
 		compileIndex.call(this, theme, global.meanbaseGlobals.extensions);
 	} else {
@@ -58,7 +59,7 @@ async function compileIndex(theme, extensionjsons) {
     index = injectTheme.call(this, index, theme);
 
   	if(!extensionjsons) {
-  		global.meanbaseGlobals.extensions = searchFolders.retrieveExtensions.call(app);
+  		global.meanbaseGlobals.extensions = await searchFolders.retrieveExtensions.call(app);
   		extensionjsons = global.meanbaseGlobals.extensions;
   	}
 
