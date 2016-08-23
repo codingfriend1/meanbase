@@ -7,10 +7,10 @@ div.image-selector
           .form-group.text-center(title="Upload photos")
             input.form-control(type='file' nv-file-select multiple uploader="mediaUploader")
         button.btn.download-selected(ng-click="downloadSelected()" ng-show="media.length > 0") Download Selected
-        button.btn.delete-visible(ng-click="deleteAllVisible()" ng-show="media.length > 0") Delete All Visible
-        button.btn.delete-selected(ng-click="deleteSelected()" ng-show="media.length > 0") Delete Selected
         button.btn.group-selected(ng-click="groupSelected()" ng-show="media.length > 0") Group Selected
         button.btn.ungroup-selected(ng-click="ungroupSelected()" ng-show="media.length > 0") Ungroup Selected
+        button.btn.delete-selected(ng-click="deleteSelected()" ng-show="media.length > 0")
+          i.fa.fa-trash.fa-lg
       .select-all.pull-left(ng-click="selectAllVisible()")
         i.fa(ng-class="{'fa-circle-o': !allSelected, 'fa-check': allSelected}")
       .album-left.pull-left

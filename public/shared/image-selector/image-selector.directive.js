@@ -15,7 +15,7 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         if(!$rootScope.isLoggedIn) { return false; }
-        
+
         scope.API = {};
 
         // Stores all interactive elements in the dom object
@@ -400,7 +400,7 @@ angular.module('meanbaseApp')
         scope.hasToken = Auth.getToken();;
         if (scope.hasToken) {
           var uploader = scope.mediaUploader = new FileUploader({
-              url: '/api/media',
+              url: '/api/image-uploads',
               headers: {
                 'Authorization': 'Bearer ' + Auth.getToken()
               },
