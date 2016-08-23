@@ -5,10 +5,10 @@
 angular.module('extensions')
   .directive('panel', function (endpoints, $rootScope) {
     return {
-      templateUrl: 'extensions/panel/panel.html',
+      templateUrl: require('./panel.html'),
       restrict: 'EA',
       link: function (scope, element, attrs) {
-      	
+
       }
     };
   });
