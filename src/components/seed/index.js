@@ -42,6 +42,8 @@ module.exports = function() {
     app.configure(resetData('themes'));
   }
 
+  // app.configure(resetData('themes'));
+
   setTimeout(() => {
     themes.call(this);
     extensions.call(this);
