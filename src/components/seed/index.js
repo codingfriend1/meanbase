@@ -42,7 +42,7 @@ module.exports = function() {
     app.configure(resetData('themes'));
   }
 
-  setTimeout(function() {
+  setTimeout(() => {
     themes.call(this);
     extensions.call(this);
   }, 300);
