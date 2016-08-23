@@ -27,7 +27,7 @@ module.exports = function() {
   resetData = resetData.bind(this);
 
   app.configure(ifEmptyCreate('roles', rolesData));
-  app.configure(resetData('users', userData));
+  app.configure(ifEmptyCreate('users', userData));
 
   if(app.get('seed')) {
     app.configure(ifEmptyCreate('pages', pagesData));
@@ -40,6 +40,7 @@ module.exports = function() {
     app.configure(resetData('menus', menusData));
     app.configure(resetData('comments', commentsData));
     app.configure(resetData('themes'));
+    app.configure(resetData('users', userData));
   }
 
   // app.configure(resetData('themes'));
