@@ -72,7 +72,10 @@
 		endpoints.prototype.update = function(identifier, replacement) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).patch(null, angular.copy(replacement), {query: identifier}).then(deferred.resolve).catch(function(data) {
+      var rp = angular.copy(replacement);
+      rp.createdAt = undefined;
+      rp.updatedAt = undefined;
+			feathers.service(this.url).patch(null, rp, {query: identifier}).then(deferred.resolve).catch(function(data) {
         console.log("Update failure for " + self.url, data);
         deferred.reject(data)
 				self.errorHandler(data);
