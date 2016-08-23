@@ -18,7 +18,29 @@ angular.module('meanbaseApp')
 
     $scope.c = new crud($scope, 'comments', api.comments);
 
-  	$scope.c.find({}).then(function(response) {
+    $scope.numPages = 1;
+    $scope.pageItemLimit = 30;
+
+    $scope.range = function(n) {
+      return new Array(n);
+    };
+
+    $scope.getPage = function(page) {
+      var obj = {};
+      if(page > 1) {
+        obj.$skip = page * $scope.pageItemLimit
+      }
+      return api.comments.find(obj).then(function(response) {
+        $scope.currentPage = page;
+        $scope.comments = response.data;
+        $scope.numPages = Math.ceil(response.total/response.limit);
+        $scope.pageItemLimit = response.limit;
+      }, function(err) {
+        toastr.warning('There was an issue getting the comments.');
+      });
+    }
+
+  	$scope.getPage(1).then(function(response) {
       api.bannedMembers.find({}).then(function(bannedMembers) {
         $scope.bannedMembers = bannedMembers;
         for (var i = 0; i < $scope.comments.length; i++) {

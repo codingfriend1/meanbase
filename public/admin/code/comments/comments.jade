@@ -34,6 +34,11 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
             li.mdl-menu__item(ng-click="deleteAllVisible()") Delete All Visibile
       .mdl-grid.no-padding
         .mdl-cell.mdl-cell--12-col
+          .container
+            .pagination
+              span(ng-click="getPage(1)") <
+              span(ng-repeat="num in range(numPages) track by $index" ng-class="{'active': ($index + 1) === currentPage}" ng-click="getPage($index + 1)") {{$index + 1}}
+              span(ng-click="getPage(numPages)") >
           ul.mdl-list
             li.mdl-list__item.mdl-list__item--infinite-line.mdl-list__item--three-line(ng-repeat="comment in (comments | filter:commentFilter | filter: {approved: approval, url: filterByThisPage}) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" mdl)
               .mdl-list__item-primary-content(ng-class="{'banned': comment.banned}")
@@ -48,8 +53,12 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
                 ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{comment._id}}')
                   li.mdl-menu__item.comment-settings-button(ng-click="c.toggleModal('isInfoOpen', 'settings', comment)") Info
                   li.mdl-menu__item.confirm-delete-button(ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete', comment)") Delete
-      
-      .mdl-grid
+          .container
+            .pagination
+              span(ng-click="getPage(1)") <
+              span(ng-repeat="num in range(numPages) track by $index" ng-class="{'active': ($index + 1) === currentPage}" ng-click="getPage($index + 1)") {{$index + 1}}
+              span(ng-click="getPage(numPages)") >
+    .mdl-grid
         .mdl-cell.mdl-cell--4-col.mdl-cell--12-col-tablet
           .checkbox-inline
             label
