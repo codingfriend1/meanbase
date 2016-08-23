@@ -120,7 +120,7 @@ angular.module('meanbaseApp')
        * @return {Boolean}
        */
       isLoggedIn: function() {
-        return currentUser.hasOwnProperty('role');
+        return (currentUser && currentUser.hasOwnProperty('role'));
       },
 
       /**

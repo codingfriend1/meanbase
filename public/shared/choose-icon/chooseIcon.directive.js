@@ -43,8 +43,10 @@ angular.module('meanbaseApp')
 
         scope.$onRootScope('cms.saveListItem', function(event, value) {
           $timeout(function() {
-            scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
-            setDefaultIfEmpty();
+            $timeout(function() {
+              scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
+              setDefaultIfEmpty();
+            });
           });
         });
 
