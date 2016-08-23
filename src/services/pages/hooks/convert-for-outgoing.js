@@ -24,6 +24,8 @@ function getFormattedDate(timestamp) {
 
     var ampm = (hour >= 12) ? "pm" : "am";
 
+    hour = (hour % 12) || 12;
+
     var month = months[date.getMonth()];
     day = (day < 10 ? "0" : "") + day;
     hour = (hour < 10 ? "0" : "") + hour;
