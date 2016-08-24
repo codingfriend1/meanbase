@@ -30,6 +30,36 @@ angular.module('meanbaseApp')
       if(page > 1) {
         obj.$skip = page * $scope.pageItemLimit
       }
+
+      if($scope.approval === 'true') {
+        obj.approved = true;
+      } else if ($scope.approval === 'false') {
+        obj.approved = false;
+      }
+
+      if($scope.filterByThisPage) {
+        obj.url = $scope.filterByThisPage;
+      }
+
+      if($scope.commentDate) {
+        if($scope.dateDirection === 'during') {
+          var timeStart = new Date($scope.commentDate);
+          timeStart = Date.parse(timeStart);
+          var timeEnd = timeStart + 86400000; // 1 day in ms
+          obj.date = {"$gte": timeStart, "$lt": timeEnd};
+        } else if($scope.dateDirection === 'before') {
+          var timeStart = new Date($scope.commentDate);
+          timeStart = Date.parse(timeStart);
+          obj.date = {"$lte": timeStart};
+        } else if($scope.dateDirection === 'after') {
+          var timeStart = new Date($scope.commentDate);
+          timeStart = Date.parse(timeStart);
+          obj.date = {"$gte": timeStart};
+        }
+      }
+
+      obj.$sort = { date: $scope.sortDirection === true? 1:-1 };
+
       return api.comments.find(obj).then(function(response) {
         $scope.currentPage = page;
         $scope.comments = response.data;

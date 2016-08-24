@@ -4,26 +4,26 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
       .mdl-grid
         .mdl-cell.mdl-cell--6-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone.mdl-cell--3-col-desktop
           .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': commentDate}")
-            input#commentDate.mdl-textfield__input(type='text' date-picker ng-model="commentDate" mdl)
+            input#commentDate.mdl-textfield__input(type='text' date-picker ng-model="commentDate" ng-change="getPage(1)" mdl)
             label.mdl-textfield__label(for='commentDate') Comment Date
         .mdl-cell.mdl-cell--6-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone.mdl-cell--3-col-desktop
           .form-group
             label When 
-            select(ng-model="dateDirection" ng-options="state as state for state in ['before', 'during', 'after']").form-control
+            select(ng-model="dateDirection" ng-options="state as state for state in ['before', 'during', 'after']" ng-change="getPage(1)").form-control
         .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone.mdl-cell--3-col-desktop
           .form-group
               label Approval
-              select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates").form-control
+              select(ng-model="approval" ng-options="approvalState.value as approvalState.label for approvalState in approvalStates" ng-change="getPage(1)").form-control
         .mdl-cell.mdl-cell--3-col.mdl-cell--4-col-tablet.mdl-cell--2-col-phone.mdl-cell--3-col-desktop
           .form-group
               label Page
-              select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage").form-control
+              select(ng-options="page.value as page.label for page in pagesWithComments" ng-model="filterByThisPage" ng-change="getPage(1)").form-control
         
       .mdl-grid.no-padding
         .mdl-cell.mdl-cell--8-col.mdl-cell--3-col-phone.mdl-cell--6-col-tablet
           .form-group.checkbox
             label
-              input(type="checkbox" ng-model="sortDirection") 
+              input(type="checkbox" ng-model="sortDirection" ng-change="getPage(1)") 
               | Show oldest comments first?
         .mdl-cell.mdl-cell--4-col.mdl-cell--1-col-phone.mdl-cell--2-col-tablet
           button#all-visible.mdl-button.mdl-js-button.mdl-button--icon.float-right.margin-right-1
@@ -40,7 +40,8 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
               span(ng-repeat="num in range(numPages) track by $index" ng-class="{'active': ($index + 1) === currentPage}" ng-click="getPage($index + 1)") {{$index + 1}}
               span(ng-click="getPage(numPages)") >
           ul.mdl-list
-            li.mdl-list__item.mdl-list__item--infinite-line.mdl-list__item--three-line(ng-repeat="comment in (comments | filter:commentFilter | filter: {approved: approval, url: filterByThisPage}) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" mdl)
+            //- li.mdl-list__item.mdl-list__item--infinite-line.mdl-list__item--three-line(ng-repeat="comment in (comments | filter:commentFilter | filter: {approved: approval, url: filterByThisPage}) | orderBy:'date':sortDirection | dateRange: 'date':commentDate:1:dateDirection" mdl)
+            li.mdl-list__item.mdl-list__item--infinite-line.mdl-list__item--three-line(ng-repeat="comment in (comments | filter:commentFilter)" mdl)
               .mdl-list__item-primary-content(ng-class="{'banned': comment.banned}")
                 i.material-icons.mdl-list__item-avatar person
                 span #[strong {{comment.url}}]: {{comment.date | relativeDate}}
