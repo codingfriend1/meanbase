@@ -35,7 +35,7 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
       .mdl-grid.no-padding
         .mdl-cell.mdl-cell--12-col
           .container
-            .pagination
+            .pagination(ng-show="numPages > 1")
               span(ng-click="getPage(1)") <
               span(ng-repeat="num in range(numPages) track by $index" ng-class="{'active': ($index + 1) === currentPage}" ng-click="getPage($index + 1)") {{$index + 1}}
               span(ng-click="getPage(numPages)") >
@@ -55,7 +55,7 @@ section#moderate-comments.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].
                   li.mdl-menu__item.comment-settings-button(ng-click="c.toggleModal('isInfoOpen', 'settings', comment)") Info
                   li.mdl-menu__item.confirm-delete-button(ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete', comment)") Delete
           .container
-            .pagination
+            .pagination(ng-show="numPages > 1")
               span(ng-click="getPage(1)") <
               span(ng-repeat="num in range(numPages) track by $index" ng-class="{'active': ($index + 1) === currentPage}" ng-click="getPage($index + 1)") {{$index + 1}}
               span(ng-click="getPage(numPages)") >
