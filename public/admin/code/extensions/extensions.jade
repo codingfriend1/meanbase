@@ -11,7 +11,9 @@ p Upload reusable components to add to extensible areas of your site
 div.drop-zone(nv-file-drop="uploader" multiple uploader="uploader").text-center.form-inline
   p Drop extension #[strong zip, gz, bz2,] or #[strong tar] file here to upload or
   .form-group.text-center
-    input.form-control(type='file' nv-file-select multiple uploader="uploader")
+    input#file.form-control(type='file' nv-file-select multiple uploader="uploader" style="display: none")
+    label.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.file-upload-btn(for="file")
+      i.material-icons add
   .progress
       .progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
 .mdl-grid
