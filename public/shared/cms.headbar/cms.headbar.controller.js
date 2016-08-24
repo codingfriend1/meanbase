@@ -29,6 +29,10 @@
 			if(boole !== undefined) { $rootScope.editMode = boole; } else { $rootScope.editMode = !$rootScope.editMode; }
 			$rootScope.$emit('cms.editMode', $rootScope.editMode);
 
+      if($rootScope.editMode) {
+        toastr.warning("While in edit mode you won't be able to visit links or navigate to other pages. Make sure to save your work before you leave the page.")
+      }
+
 			// We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
 			$scope.ableToNavigate = !$rootScope.editMode;
 		};

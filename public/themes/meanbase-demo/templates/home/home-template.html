@@ -12,7 +12,7 @@
               </button>
 
               <choose-link belongs-to="page.links" property="callToAction">
-                <a class="navbar-brand topnav" mb-link="callToAction" belongs-to="page.links">
+                <a class="navbar-brand topnav mb-link" mb-link="callToAction" belongs-to="page.links">
                   <choose-icon belongs-to="page.links.callToAction" property="icon"></choose-icon>
                   <mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></mb-edit>
                 </a>
@@ -21,7 +21,7 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
                   <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
-                      <a target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
+                      <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
                   </li>
                   <li ng-click="createMenuItem('main')" ng-if="editMode" class="new-menu-item-button"><a><i class="fa fa-plus"></i></a></li>
               </ul>

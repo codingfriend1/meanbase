@@ -764,16 +764,7 @@
     // @ngInject
     function menuModal($scope, $modalInstance, menuItem, isNewMenu) {
 
-      api.pages.find({}).then(function(response) {
-        // if(response) {
-        //   if(Array.isArray(response)) {
-        //     for(var idx = 0; idx < response.length; idx++) {
-        //       response[idx].url = '/' + response[idx].url;
-        //     }
-        //   } else {
-        //     response.url = '/' + response.url;
-        //   }
-        // }
+      api.pages.find({$select: ['url']}).then(function(response) {
         $scope.pages = response;
       });
 
@@ -797,6 +788,14 @@
           $scope.menuItem.position = $rootScope.menus[$scope.menuItem.group].length;
           $rootScope.menus[$scope.menuItem.group].push($scope.menuItem);
           $modalInstance.dismiss();
+        }
+      };
+
+      $scope.updateTarget = function(url) {
+        if(url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+          if(!$scope.menuItem.target) {
+            $scope.menuItem.target = '_blank';
+          }
         }
       };
 

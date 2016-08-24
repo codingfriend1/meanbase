@@ -20,7 +20,7 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
                   <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
-                      <a target="{{menu.target}}" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
+                      <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
                   </li>
                   <li ng-click="createMenuItem('main')" ng-if="editMode" class="new-menu-item-button"><a><i class="fa fa-plus"></i></a></li>
               </ul>
@@ -31,8 +31,8 @@
     <header class="intro-header" mb-src="image-1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
         <div class="container disable-click">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 enable-click">
-                    <div class="site-heading">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading enable-click">
                         <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
                         <hr class="small">
                         <mb-edit class="subheading" ng-model="page.content.subTitle" bind-options="editorSingleLine"></mb-edit>
