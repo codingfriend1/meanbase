@@ -18,18 +18,49 @@ angular.module('meanbaseApp')
       {label: 'unpublished', value: 'false'}
     ];
 
+
+    $scope.templateOptions = [];
+
+    api.themes.find({active: true, $select: ['templates']}).then(function(response) {
+      $scope.templateOptions = Object.keys(response[0].templates);
+    }, function(err) {
+      toastr.error("Sorry but something is wrong with the server and you can't choose templates for your pages.")
+    });
+
     $scope.published = '';
+
+    $scope.updateUrl = function(title) {
+      if(!$scope.settings) { return false; }
+      if(title) {
+        $scope.settings.url = title;
+        $scope.settings.url = title.replace(/[ ]/g, "-").toLowerCase();
+  			if(($scope.settings.url.charAt(0) !== '/')) {
+  				$scope.settings.url =  '/' + $scope.settings.url;
+  			}
+      } else {
+        $scope.settings.url = '/';
+      }
+    };
 
     $scope.saveSettings = function(page, settings) {
       var previousUrl = page.url;
       if(page && page._id) {
         p.update(page, settings, page.title + ' updated', 'Could not update ' + page.title);
       } else if(page && !page._id) {
-        p.create(page, page.title + ' created', 'Could not create ' + page.title).then(function(response) {
-          $timeout(function() {
-            componentHandler.upgradeAllRegistered()
-          });
+        api.pages.find({url: page.url}).then(function(response) {
+          if(response.length < 1) {
+            p.create(page, page.title + ' created', 'Could not create ' + page.title).then(function(response) {
+              $timeout(function() {
+                componentHandler.upgradeAllRegistered()
+              });
+            });
+          } else {
+            toastr.warning('A page with the url of ' + page.url + ' already exists');
+          }
+        }, function(err) {
+          toastr.warning("Sorry, but something is wrong and you can't add pages right now.");
         });
+
       }
 
       p.toggleModal('isSettingsOpen', 'settings');
@@ -57,7 +88,7 @@ angular.module('meanbaseApp')
     $scope.openSettingsModal = function() {
       var settings = {
         "author": Auth.getCurrentUser().name,
-        "url": "/",
+        "url": "",
         "title": "",
         "tabTitle": "",
         "template": "page",

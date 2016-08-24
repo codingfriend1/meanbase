@@ -80,16 +80,7 @@
                         <mb-list-remove list="page.lists.socialFooter1.items" item="socialBtn"></mb-list-remove>
                       </li>
                       <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
-                        <choose-link belongs-to="socialBtn" property="link">
-                          <a mb-link="link" belongs-to="socialBtn">
-                            <span class="fa-stack fa-lg">
-                              <i class="fa fa-circle fa-stack-2x"></i>
-                              <choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></choose-icon>
-                              <!-- <i class="fa fa-twitter fa-stack-1x fa-inverse"></i> -->
-                            </span>
-                          </a>
-                        </choose-link>
-                        <mb-list-add list="page.lists.socialFooter1.items" item="socialBtn"></mb-list-add>
+                        <mb-list-add list="page.lists.socialFooter1.items" item="socialBtn" label="social button"></mb-list-add>
                       </li>
                   </ul>
                   <mb-edit class="copyright text-muted" ng-model="page.content.license" bind-options="editorOptions"></mb-edit>

@@ -34,14 +34,16 @@ dialog.mdl-dialog(dialog-open="isSettingsOpen")
   .mdl-dialog__content
     form(action='#' mdl)
       .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.title}")
-        input#title.mdl-textfield__input(type='text', value='Everyone' ng-model='settings.title')
+        input#title.mdl-textfield__input(type='text', value='Everyone' ng-model='settings.title' ng-change="updateUrl(settings.title)")
         label.mdl-textfield__label(for='title') Page Title
       .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.url}")
         input#url.mdl-textfield__input(type='text' ng-model='settings.url' mdl)
-        label.mdl-textfield__label(for='url') Url (Ex: "about-me")
-      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.template}")
-        input#template.mdl-textfield__input(type='text' ng-model='settings.template' mdl)
-        label.mdl-textfield__label(for='template') Page Template
+        label.mdl-textfield__label(for='url') Page Link Url
+      .form-group
+        label(for='page-template') Page template:
+        select#page-template.form-control(ng-model="settings.template" ng-options="option for option in templateOptions")
+        //- input#template.mdl-textfield__input(type='text' ng-model='settings.template' mdl)
+        //- label.mdl-textfield__label(for='template') Page Template
       .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.tabTitle}")
         input#browser-window-title.mdl-textfield__input(type='text' ng-model='settings.tabTitle')
         label.mdl-textfield__label(for='browser-window-title') Browser Window Title
