@@ -5,7 +5,7 @@
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr, api) {
 
     if(!$rootScope.isLoggedIn) { return false; }
-    
+
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 		var self = this;
 
@@ -36,11 +36,44 @@
 		// Creates a new page and prompts the user for a url
 		this.createPage = function(e) {
 			// Prepare new page default text based on url
-			var url = prompt('url');
-			if(url === null) { return false; }
-			this.toggleEdit(false);
-			// Prepares some default values for the page
-			prepareDefaultPage(url, e);
+			// var url = prompt('url');
+      var self = this;
+      var modalInstance = $modal.open({
+		    templateUrl: require('./choose-link.modal.jade'),
+		    controller: function($scope, $modalInstance) {
+
+          $scope.url = '';
+
+          $scope.choose = function(url) {
+            if(!url) { return false; }
+            api.pages.find({url: url}).then(function(response) {
+              console.log("response", response);
+              if(response.length > 0) {
+                toastr.warning('Sorry but a page with that link name already exists.')
+              } else {
+                $modalInstance.close(url);
+              }
+            }, function(err) {
+              $modalInstance.dismiss('cancel');
+              toastr.warning("Sorry but there was an error and that page could not be created.");
+            });
+
+          };
+
+		    	$scope.cancel = function () {
+		    	  $modalInstance.dismiss('cancel');
+		    	};
+		    },
+		    size: 'sm'
+		  });
+
+      modalInstance.result.then(function (url) {
+        if(url === null || url === undefined) { return false; }
+
+  			self.toggleEdit(false);
+  			// Prepares some default values for the page
+  			prepareDefaultPage(url, e);
+      });
 		};
 
 		// This opens the modal for changing page properties such as tabTitle and page description.
@@ -157,7 +190,7 @@
         visibility: $scope.currentUser.role,
         url: url,
         tabTitle: placeholderTitle,
-        template: $(e.currentTarget).text(),
+        template: $(e.currentTarget).text().replace(' template', ''),
         title: placeholderTitle,
         summary: "Summary of " + placeholderTitle + ".",
         description: "The description that will show up on facebook feeds and google searches.",

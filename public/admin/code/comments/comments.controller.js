@@ -313,37 +313,37 @@ angular.module('meanbaseApp').filter('removeSlash', function() {
   };
 });
 
-angular.module('meanbaseApp').filter('dateRange', function(){
-  return function(items, field, date, days, dateDirection){
-    if(!date || date === '') { return items; }
-    if(!items) { return items; }
-    var timeEnd, timeStart;
-    if(dateDirection === 'during') {
-      timeStart = new Date(date);
-      timeStart = Date.parse(timeStart);
-      timeEnd = timeStart + (days * 86400000); // 1 day in ms
-
-      return items.filter(function(item){
-        var itemDate = Date.parse(item[field]);
-        return (itemDate > timeStart && itemDate < timeEnd);
-      });
-    } else if(dateDirection === 'before') {
-      timeStart = new Date(date);
-      timeStart = Date.parse(timeStart);
-
-      return items.filter(function(item){
-        var itemDate = Date.parse(item[field]);
-        return (itemDate < timeStart);
-      });
-    } else if(dateDirection === 'after') {
-      timeStart = new Date(date);
-      timeStart = Date.parse(timeStart);
-
-      return items.filter(function(item){
-        var itemDate = Date.parse(item[field]);
-        return (itemDate > timeStart);
-      });
-    }
-
-  };
-});
+// angular.module('meanbaseApp').filter('dateRange', function(){
+//   return function(items, field, date, days, dateDirection){
+//     if(!date || date === '') { return items; }
+//     if(!items) { return items; }
+//     var timeEnd, timeStart;
+//     if(dateDirection === 'during') {
+//       timeStart = new Date(date);
+//       timeStart = Date.parse(timeStart);
+//       timeEnd = timeStart + (days * 86400000); // 1 day in ms
+//
+//       return items.filter(function(item){
+//         var itemDate = Date.parse(item[field]);
+//         return (itemDate > timeStart && itemDate < timeEnd);
+//       });
+//     } else if(dateDirection === 'before') {
+//       timeStart = new Date(date);
+//       timeStart = Date.parse(timeStart);
+//
+//       return items.filter(function(item){
+//         var itemDate = Date.parse(item[field]);
+//         return (itemDate < timeStart);
+//       });
+//     } else if(dateDirection === 'after') {
+//       timeStart = new Date(date);
+//       timeStart = Date.parse(timeStart);
+//
+//       return items.filter(function(item){
+//         var itemDate = Date.parse(item[field]);
+//         return (itemDate > timeStart);
+//       });
+//     }
+//
+//   };
+// });

@@ -126,7 +126,10 @@
 		endpoints.prototype.updateOne = function(id, replacement) {
 			var self = this;
       var deferred = $q.defer();
-			feathers.service(this.url).patch(id, angular.copy(replacement)).then(deferred.resolve).catch(function(data) {
+      var rp = angular.copy(replacement);
+      rp.createdAt = undefined;
+      rp.updatedAt = undefined;
+			feathers.service(this.url).patch(id, rp).then(deferred.resolve).catch(function(data) {
         deferred.reject(data)
 				self.errorHandler(data);
 			});

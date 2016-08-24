@@ -4,11 +4,11 @@ import "./js/selling-point-list/selling-point-list.html";
 import "./js/selling-point-list/toggle-type.modal.html";
 import "./templates/archive/archive-template.html";
 import "./templates/blog/blog-template.html";
-import "./templates/landing/landing-template.html";
+import "./templates/home/home-template.html";
 // end inject jade
 
 // inject js
-import "./templates/landing/landing.controller.js";
+import "./templates/home/home.controller.js";
 import "./templates/blog/blog.controller.js";
 import "./templates/archive/archive.controller.js";
 import "./js/selling-point-list/selling-point-list.directive.js";
