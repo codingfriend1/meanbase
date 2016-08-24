@@ -7,8 +7,8 @@
           <choose-image property="image" belongs-to="point">
             <img mb-src="image" belongs-to="point" class="img-responsive"/>
           </choose-image>
-          <mb-edit ng-model="point.title" bind-options="editorOptions"></mb-edit>
-          <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
+          <div mb-edit ng-model="point.title" bind-options="editorOptions"></div>
+          <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
           <mb-list-remove list="bulletPoints.items" item="point"></mb-list-remove>
         </div>
       </div>
@@ -18,8 +18,8 @@
           <choose-image property="image" belongs-to="point">
             <img mb-src="image" belongs-to="point" class="img-responsive"/>
           </choose-image>
-          <mb-edit ng-model="point.title" bind-options="editorOptions"></mb-edit>
-          <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
+          <div mb-edit ng-model="point.title" bind-options="editorOptions"></div>
+          <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
           <mb-list-add list="bulletPoints.items" item="point"></mb-list-add>
         </div>
       </div>

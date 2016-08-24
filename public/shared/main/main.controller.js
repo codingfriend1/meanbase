@@ -167,67 +167,6 @@
       }
     });
 
-    var addChooseImage = MediumEditor.Extension.extend({
-      name: 'add-choose-image',
-      init: function () {
-        this.button = this.document.createElement('button');
-        this.button.classList.add('medium-editor-action');
-        this.button.innerHTML = '<i class="fa fa-camera"></i>';
-        this.button.title = 'Insert an icon';
-
-        this.on(this.button, 'click', this.handleClick.bind(this));
-      },
-
-      getButton: function () {
-        return this.button;
-      },
-
-      handleClick: function (event) {
-        var self = this;
-        self.base.pasteHTML('<mb-choose-image></mb-choose-image>');
-        $rootScope.$emit('recompile-editor');
-      }
-    });
-
-    var InsertImage = function (plugin) {
-      this._plugin = plugin;
-      this.base = this._plugin.base;
-      this.options = {
-        label: '<i class="fa fa-image"></i>'
-      };
-      this.label = this.options.label;
-    };
-
-    InsertImage.prototype.handleClick = function () {
-      var self = this;
-      this.base.saveSelection();
-      $scope.openImageModal({multiple: false}, function(image) {
-        var imageToInsert = document.createElement("img");
-        imageToInsert.src = image.small;
-        imageToInsert.alt = image.alt;
-        // imageToInsert.class = 'img-responsive';
-        imageToInsert.className = 'img-responsive medium-editor-insert-images';
-        self.base.restoreSelection();
-        var tmp = document.createElement("div");
-        tmp.appendChild(imageToInsert);
-        self.base.pasteHTML(tmp.innerHTML);
-      });
-    };
-
-    var InsertGrid = function (plugin) {
-      this._plugin = plugin;
-      this.base = this._plugin.base;
-      this.options = {
-        label: '<i class="fa fa-th"></i>'
-      };
-      this.label = this.options.label;
-    };
-
-    InsertGrid.prototype.handleClick = function () {
-      var self = this;
-      self.base.pasteHTML('<choose-image belongs-to="{}" property="image"></choose-icon>');
-    };
-
     $scope.editorOptions = {
       buttonLabels: 'fontawesome',
       toolbar: {
@@ -248,9 +187,7 @@
           'justifyRight',
           'orderedlist',
           'unorderedlist',
-          'image-selector',
-          'add-icon',
-          'add-choose-image'
+          'image-selector'
         ],
         diffLeft: 25,
         diffTop: -70,
@@ -260,9 +197,7 @@
         updateOnEmptySelection: true
       },
       extensions: {
-        "image-selector": new ImageSelector(),
-        "add-icon": new AddIcon(),
-        "add-choose-image": new addChooseImage(),
+        "image-selector": new ImageSelector()
         // 'insert': new MediumEditorInsert({
         //   addons: {
         //     images: false,
