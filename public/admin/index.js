@@ -15,8 +15,8 @@ import "../shared/mb-new/mbNew.directive.js";
 import "../shared/mb-list-remove/mb-grid-remove.directive.js";
 import "../shared/mb-list-add/mbListAdd.directive.js";
 import "../shared/mb-link/mb-link.directive.js";
-import "../shared/mb-grid-remove/mbListRemove.directive.js";
 import "../shared/mb-icon/mb-icon.directive.js";
+import "../shared/mb-grid-remove/mbListRemove.directive.js";
 import "../shared/mb-grid-item/mb-grid-item.directive.js";
 import "../shared/mb-grid-add/mb-grid-add.directive.js";
 import "../shared/mb-grid/mb-grid.directive.js";
@@ -52,8 +52,8 @@ import "./code/components/dialog/dialog.directive.js";
 import "./code/components/date-picker/date-picker.directive.js";
 import "./code/components/crud/crud.service.js";
 import "./code/components/camel-to-human/camel-to-human.filter.js";
-import "./code/account/login/login.controller.js";
 import "./code/account/settings/settings.controller.js";
+import "./code/account/login/login.controller.js";
 import "./code/users/users.js";
 import "./code/users/users.controller.js";
 import "./code/themes/themes.js";
@@ -108,8 +108,8 @@ import "../shared/main/findImage.modal.jade";
 import "../shared/main/main.jade";
 import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";
-import "../shared/validate/validate.jade";
 import "../shared/taglist/taglist.jade";
+import "../shared/validate/validate.jade";
 // end inject jade
 
 // inject stylus

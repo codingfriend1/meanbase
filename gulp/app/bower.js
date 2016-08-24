@@ -15,6 +15,7 @@ module.exports = function(gulp, plugins, folders, config) {
         bowerJson: folders.root + '/bower.json'
       }
     }))
+      .pipe(plugins.debug('js'))
 
     var css = gulp.src(plugins.mainBowerFiles('**/*.css', {
       paths: {
@@ -22,6 +23,7 @@ module.exports = function(gulp, plugins, folders, config) {
         bowerJson: folders.root + '/bower.json'
       }
     }))
+      .pipe(plugins.debug('css'))
       .pipe(plugins.cssToJs())
 
     return plugins.es.merge(css, js)

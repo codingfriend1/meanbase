@@ -197,15 +197,8 @@
         updateOnEmptySelection: true
       },
       extensions: {
-        "image-selector": new ImageSelector()
-        // 'insert': new MediumEditorInsert({
-        //   addons: {
-        //     images: false,
-        //     embeds: false,
-        //     custom: InsertImage,
-        //     insertGrid: InsertGrid,
-        //   }
-        // })
+        "image-selector": new ImageSelector(),
+        // 'insert': new MediumEditorInsert()
       },
       // imageDragging: true,
       paste: {
