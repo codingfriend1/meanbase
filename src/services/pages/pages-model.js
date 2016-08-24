@@ -129,6 +129,7 @@ const pagesSchema = new Schema({
 		default: false
 	},
 	likes: Number,
+  publishedOn: { type: Date, 'default': Date.now },
   createdAt: { type: Date, 'default': Date.now },
   updatedAt: { type: Date, 'default': Date.now }
 }, { minimize: false });

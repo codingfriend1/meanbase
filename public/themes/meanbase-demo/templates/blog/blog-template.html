@@ -39,7 +39,7 @@
                         <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
                         <hr class="small">
                         <mb-edit class="subheading" ng-model="page.content.subTitle" bind-options="editorSingleLine"></mb-edit>
-                        <span class="meta">Posted by <a href="#">{{page.author}}</a> on {{page.createdAt}}</span>
+                        <span class="meta">Posted by <a href="#">{{page.author}}</a> on {{page.createdAt | date:'MMM d, yyyy h:ma'}}</span>
                         <!-- <span class="meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</span> -->
                     </div>
                 </div>

@@ -145,6 +145,9 @@
 				toastr.warning('Only users with permission to edit pages can see this page.');
 			}
 
+      if($rootScope.page.published) {
+        page.publishedOn = Date.now();
+      }
 
 			this.toggleEdit();
 			$rootScope.$emit('cms.saveEdits', $rootScope.page);
