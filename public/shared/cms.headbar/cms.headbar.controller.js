@@ -13,6 +13,8 @@
 		// The big daddy power house **editMode**! This variable is used all throughout the app to enable edits to be made on the content. We don't want this to be true until we hit the edit button in the admin top menu.
 		$rootScope.editMode = false;
 
+    $scope.previousEditUrl = localStorage.getItem('previousEditUrl');
+
 		// Used to disable navigation while in edit mode
 		$scope.ableToNavigate = true;
 
@@ -217,6 +219,8 @@
 				api.menus.create(newMenu).then(function(response) {
           console.log("response", response);
 					$scope.menus.main.push(newMenu);
+          localStorage.setItem('previousEditUrl', response.url);
+          $scope.previousEditUrl = response.url;
 				}).catch(function(err) {
 				  console.log("err", err);
 				});

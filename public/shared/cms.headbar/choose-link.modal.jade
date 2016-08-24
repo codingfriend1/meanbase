@@ -8,7 +8,7 @@
     label Link Title
     .input-group
       span.input-group-addon /
-      input.form-control(type='text' ng-model="url")
+      input.form-control(type='text' ng-model="url" autofocus ng-enter="choose(url)")
       span.glyphicon.glyphicon-ok.form-control-feedback
 .modal-footer
   button.btn.btn-default(type='button' ng-click="cancel()") Close
