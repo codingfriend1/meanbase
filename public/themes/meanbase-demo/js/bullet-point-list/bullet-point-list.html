@@ -13,7 +13,8 @@
         </div>
       </div>
       <div class="col-lg-4 col-sm-4 text-center relative" mb-grid-item item="point" ng-if="editMode">
-        <div class="text-center">
+        <mb-list-add list="bulletPoints.items" item="point"></mb-list-add>
+        <!-- <div class="text-center">
           <choose-icon property="icon" belongs-to="point" class="margin-bottom-1"></choose-icon>
           <choose-image property="image" belongs-to="point">
             <img mb-src="image" belongs-to="point" class="img-responsive"/>
@@ -21,7 +22,7 @@
           <div mb-edit ng-model="point.title" bind-options="editorOptions"></div>
           <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
           <mb-list-add list="bulletPoints.items" item="point"></mb-list-add>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

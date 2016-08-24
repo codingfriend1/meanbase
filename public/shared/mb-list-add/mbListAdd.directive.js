@@ -1,7 +1,7 @@
 angular.module('meanbaseApp')
   .directive('mbListAdd', function ($rootScope, endpoints, $timeout) {
     return {
-      template: '<div class="add-to-list-btn"><i class="fa fa-plus fa-lg"></i></div>',
+      template: '<div class="add-to-list-btn" ng-if="$root.editMode"><i class="fa fa-plus-square fa-lg"></i></div>',
       restrict: 'EA',
       scope: {
         list: '=',

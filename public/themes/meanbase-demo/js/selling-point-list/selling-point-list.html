@@ -17,8 +17,10 @@
       </div>
     </div>
   </div>
-  <div class="relative" ng-class="{'content-section-a': point.left, 'content-section-b': !point.left}" ng-if="$root.editMode">
-      <div class="container">
+  <mb-list-add list="sellingPoints.items" item="point"></mb-list-add>
+  <!-- <div class="relative" ng-class="{'content-section-a': point.left, 'content-section-b': !point.left}" ng-if="$root.editMode"> -->
+    <!-- <mb-list-add list="sellingPoints.items" item="point"></mb-list-add> -->
+      <!-- <div class="container">
           <div class="row relative">
               <div ng-class="{'col-lg-5 col-sm-6': point.left, 'col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6': !point.left}">
                   <hr class="section-heading-spacer">
@@ -32,6 +34,6 @@
               <mb-list-add list="sellingPoints.items" item="point"></mb-list-add>
               <div class="md-toggle-type" ng-click="openModal(point)"><i class="fa fa-gear fa-lg"></i></div>
           </div>
-      </div>
-  </div>
+      </div> -->
+  <!-- </div> -->
 </div>
