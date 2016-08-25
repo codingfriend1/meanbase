@@ -11,7 +11,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
     return {
       require: 'ngModel',
       restrict: 'AE',
-      template: '<div></div>',
+      // template: '<div></div>',
       scope: { bindOptions: '=' },
       link: function(scope, element, iAttrs, ngModel) {
 
@@ -19,10 +19,11 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
 
         // Global MediumEditor
         ngModel.editor = new MediumEditor(element, scope.bindOptions);
-
-        $(element).mediumInsert({
-          editor: ngModel.editor
-        });
+        if(!scope.bindOptions.disableReturn) {
+          $(element).mediumInsert({
+            editor: ngModel.editor
+          });
+        }
 
         scope.$onRootScope('recompile-editor', function() {
           ngModel.$setViewValue(ngModel.editor.getContent());

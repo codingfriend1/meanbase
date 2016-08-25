@@ -212,8 +212,10 @@
 
     $scope.editorSingleLine = _.merge({}, $scope.editorOptions, {
       disableReturn: true,
+      disableDoubleReturn: true,
       placeholder: {
-        hideOnClick: false
+        text: 'type here',
+        hideOnClick: true
       },
     });
 
