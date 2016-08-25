@@ -26,9 +26,8 @@ Meanbase is also focused on making the process of creating themes and adding ext
 #### Run Development Mode
 - Make sure bower is installed globally `npm i bower -g`
 - Run `npm run prepare`
-- Install GraphicsMagick, nginx, and MongoDB
+- Install GraphicsMagick and MongoDB
   - `sudo apt-get install -y graphicsmagick`
-  - `sudo apt-get install nginx`
   - `sudo apt-get install mongodb-server`
 - Start Mongodb in one terminal or cmd
 	- `mongod`
@@ -37,7 +36,7 @@ Meanbase is also focused on making the process of creating themes and adding ext
 - In the root of this project run
 	- `npm start`
 - See app
-	- Open `localhost:9000` in your browser
+	- Open `localhost:3030` in your browser
 - Stop each with ctrl-c
 
 #### Gulp Commands
@@ -52,6 +51,15 @@ NODE_ENV=production
 DATABASE_URL=mongodb://db/meanbase
 ```
 _NOTE: The MongoDB server name must be db_
+
+These variables are optional. If you do not specify an admin and admin pass then a default account with `admin@admin.com` and pass `admin` will be created for you.
+```
+RESET_SEED=false
+DOMAIN=your-domain.com
+RESET_USERS=false
+ADMIN="adminemail@admin.com"
+ADMIN_PASS="admin_password"
+```
 
 Run
 

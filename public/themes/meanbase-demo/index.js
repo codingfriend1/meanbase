@@ -1,10 +1,10 @@
 // inject jade
-import "./js/bullet-point-list/bullet-point-list.html";
-import "./js/selling-point-list/selling-point-list.html";
-import "./js/selling-point-list/toggle-type.modal.html";
 import "./templates/archive/archive-template.html";
 import "./templates/blog/blog-template.html";
 import "./templates/home/home-template.html";
+import "./js/bullet-point-list/bullet-point-list.html";
+import "./js/selling-point-list/selling-point-list.html";
+import "./js/selling-point-list/toggle-type.modal.html";
 // end inject jade
 
 // inject js
