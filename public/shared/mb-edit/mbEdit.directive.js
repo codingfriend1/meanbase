@@ -19,7 +19,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
 
         // Global MediumEditor
         ngModel.editor = new MediumEditor(element, scope.bindOptions);
-        if(!scope.bindOptions.disableReturn) {
+        if(scope.bindOptions && !scope.bindOptions.disableReturn) {
           $(element).mediumInsert({
             editor: ngModel.editor
           });

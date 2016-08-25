@@ -1,7 +1,6 @@
 'use strict';
 
 const rolesData = require('./seed/roles.js');
-const userData = require('./seed/user.js');
 const pagesData = require('./seed/pages.js');
 const menusData = require('./seed/menus.js');
 const commentsData = require('./seed/comments.js');
@@ -23,13 +22,19 @@ const extensions = require('./seed/extensions.js');
 module.exports = function() {
   const app = this;
 
+  const userData = require('./seed/user.js')(app);
+
   ifEmptyCreate = ifEmptyCreate.bind(this)
   resetData = resetData.bind(this);
 
   app.configure(ifEmptyCreate('roles', rolesData));
   app.configure(resetData('pages', pagesData));
 
+  app.configure(ifEmptyCreate('users', userData));
+
+  console.log("app.get('reset-users')", app.get('reset-users'));
   if(app.get('reset-users')) {
+    console.log('resetting users');
     app.configure(resetData('users', userData));
   }
 
