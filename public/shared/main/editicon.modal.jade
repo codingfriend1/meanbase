@@ -12,26 +12,31 @@
   form(novalidate name="editIconForm" ng-submit="saveIcon(editIconForm)")
     input(type="submit").hidden
     .form-group
-      label Choose the icon class name from font-awesome or bootstrap
+      label Type the icon name from 
+      a(href="http://fontawesome.io/icons/" target="_blank")  font-awesome 
+      | (add an fa- prefix) or 
+      a(href="http://getbootstrap.com/components/" target="_blank") bootstrap
       input.form-control(ng-model="icon.classes" name="classes" ng-pattern="validators.isCSSClass" ng-change="checkHasContent()")
       div.help-block.error(ng-show="editIconForm.classes.$invalid && editIconForm.classes.$dirty") {{errorMessages.isCSSClass}}
     .form-group
       label Icon link
-      input.form-control(ng-model="icon.url" name="url" ng-pattern="validators.isURI")
+      input.form-control(ng-model="icon.url" name="url" ng-pattern="validators.isURI" ng-change="updateTarget(icon.url)")
       div.help-block.error(ng-show="editIconForm.url.$invalid && editIconForm.url.$dirty") {{errorMessages.isURI}}
     .form-group
-      label Link to existing pages: 
+      label Choose a link from an existing page:
       select(ng-options="page.url as page.url for page in pages" ng-model="icon.url").form-control
-    .form-group
-      label Tool-tip
-      input.form-control(ng-model="icon.title" name="title" ng-pattern="validators.isTitle")
-      div.help-block.error(ng-show="editIconForm.title.$invalid && editIconForm.title.$dirty") {{errorMessages.isTitle}}
-    .form-group
-      label How should the link navigate?
-      select(ng-model="icon.target").form-control
-        option(value="") Update the current page without a refresh
-        option(value="_self") Reload the whole web page
-        option(value="_blank") Open link in a new browser tab
+    button.btn.btn-info(type='button', data-toggle='collapse', data-target='#extra-styles') Extra Options
+    #extra-styles.collapse
+      .form-group
+        label Tool-tip
+        input.form-control(ng-model="icon.title" name="title" ng-pattern="validators.isTitle")
+        div.help-block.error(ng-show="editIconForm.title.$invalid && editIconForm.title.$dirty") {{errorMessages.isTitle}}
+      .form-group
+        label How should the link navigate?
+        select(ng-model="icon.target").form-control
+          option(value="") Navigate within this site
+          option(value="_self") Replace the current page
+          option(value="_blank") New Page
 .modal-footer
   button.btn.btn-success(type="submit" ng-click="saveIcon(editIconForm)" ng-class="{disabled: editIconForm.$invalid || (!hasContent && icon.classes)}") Save
   button.btn.btn-default(type='button' ng-click="$dismiss()") Close

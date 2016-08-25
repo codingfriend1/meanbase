@@ -7,6 +7,11 @@
   form(novalidate name="editingMenuForm" ng-submit="isNewMenu? newMenuItem(editingMenuForm): editMenuItem(editingMenuForm)")
     input(type="submit").hidden
     .form-group
+      label Label
+      input.form-control(ng-model="menuItem.title" name="title" ng-pattern="validators.isTitle" required)
+      div.help-block.required(ng-show="editingMenuForm.title.$error.required && editingMenuForm.title.$dirty") {{errorMessages.requiredMessage}}
+      div.help-block.error(ng-show="editingMenuForm.title.$invalid && editingMenuForm.title.$dirty") {{errorMessages.isTitle}}
+    .form-group
       label Link url
       input.form-control(ng-model="menuItem.url" name="url" ng-pattern="validators.isURI" required ng-change="updateTarget(menuItem.url)")
       div.help-block.required(ng-show="editingMenuForm.url.$error.required && editingMenuForm.url.$dirty") {{errorMessages.requiredMessage}}
@@ -14,17 +19,6 @@
     .form-group
       label Choose a link from an existing url: 
       select(ng-options="page.url as page.url for page in pages" ng-model="menuItem.url").form-control
-    .form-group
-      label Navigation Menu Label
-      input.form-control(ng-model="menuItem.title" name="title" ng-pattern="validators.isTitle" required)
-      div.help-block.required(ng-show="editingMenuForm.title.$error.required && editingMenuForm.title.$dirty") {{errorMessages.requiredMessage}}
-      div.help-block.error(ng-show="editingMenuForm.title.$invalid && editingMenuForm.title.$dirty") {{errorMessages.isTitle}}
-    .form-group
-      label How should the link navigate?
-      select(ng-model="menuItem.target").form-control
-        option(value="") Navigate within this site
-        option(value="_self") Replace the current page
-        option(value="_blank") New Page
     button.btn.btn-info(type='button', data-toggle='collapse', data-target='#extra-styles') Extra Options
     #extra-styles.collapse
       .form-group
@@ -37,6 +31,12 @@
         input.form-control(ng-model="menuItem.iconClasses" name="iconClasses" ng-pattern="validators.isCSSClass")
         div.help-block.required(ng-show="editingMenuForm.iconClasses.$error.required && editingMenuForm.iconClasses.$dirty") {{errorMessages.requiredMessage}}
         div.help-block.error(ng-show="editingMenuForm.iconClasses.$invalid && editingMenuForm.iconClasses.$dirty") {{errorMessages.isCSSClass}}
+      .form-group
+        label How should the link navigate?
+        select(ng-model="menuItem.target").form-control
+          option(value="") Navigate within this site
+          option(value="_self") Replace the current page
+          option(value="_blank") New Page
 .modal-footer
   button.btn.btn-danger(ng-click="removeMenuItem()" ng-hide="isNewMenu") Delete
   button.btn.btn-success(type="submit" ng-click="editMenuItem(editingMenuForm)" ng-hide="isNewMenu" ng-class="{disabled: editingMenuForm.$invalid}") Save

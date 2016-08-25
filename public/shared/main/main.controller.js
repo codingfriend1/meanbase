@@ -636,6 +636,16 @@
 
       $scope.link = angular.copy(link);
 
+      $scope.updateTarget = function(url) {
+        if(url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+          if(!$scope.link.target) {
+            $scope.link.target = '_blank';
+          }
+        } else {
+          $scope.link.target = "";
+        }
+      };
+
       $scope.saveLink = function(editLinkForm) {
 
         // We want to make sure the changes are valid before submitting it
@@ -657,6 +667,16 @@
       });
 
       $scope.icon = angular.copy(icon);
+
+      $scope.updateTarget = function(url) {
+        if(url && url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+          if(!$scope.icon.target) {
+            $scope.icon.target = '_blank';
+          }
+        } else {
+          $scope.icon.target = "";
+        }
+      };
 
 
       $scope.hasContent = true;
@@ -773,6 +793,8 @@
           if(!$scope.menuItem.target) {
             $scope.menuItem.target = '_blank';
           }
+        } else {
+          $scope.menuItem.target = "";
         }
       };
 
