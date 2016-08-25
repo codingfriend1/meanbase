@@ -22,6 +22,53 @@
       $rootScope.menus = response;
     });
 
+
+    api.comments.find({url: $rootScope.page.url}).then(function(response) {
+      $rootScope.comments = response.data;
+    });
+
+    $rootScope.newComment = {};
+
+    $rootScope.submitComment = function(newComment) {
+      if(!newComment.recaptcha) { return false; }
+      var valid = validateComment(newComment);
+      if(valid) {
+        // console.log("vcRecaptchaService.getResponse()", vcRecaptchaService.getResponse());
+        // if(vcRecaptchaService.getResponse() === ""){ //if string is empty
+        if(newComment.recaptcha === ""){ //if string is empty
+          toastr.warning("Please resolve the captcha and submit!")
+        } else {
+          newComment['g-recaptcha-response'] = newComment.recaptcha;
+          newComment.recaptcha = undefined;
+          api.comments.create(newComment).then(function(response) {
+            $rootScope.newComment = newComment = {};
+            $rootScope.commentSent = true;
+            $timeout(function() { $rootScope.commentSent = false; }, 2000);
+          });
+        }
+      }
+    };
+
+    function validateComment(comment) {
+      if(comment && $rootScope.page) {
+
+        // If someone tries to set comment to already approved this will unset it
+        // Validation is also done server side
+        if(comment.approved) { comment.approved = false; }
+
+        // Add forward slash if missing from page url
+        if($rootScope.page.url) {
+          if($rootScope.page.url.charAt(0) !== '/') {
+            $rootScope.page.url = '/' + $rootScope.page.url;
+          }
+        }
+
+        comment.url = $rootScope.page.url;
+        return true;
+      }
+      return false;
+    }
+
     // ###handleClick
     // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
     $scope.handleClick = function($event, menuItem, href) {

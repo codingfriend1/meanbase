@@ -69,22 +69,22 @@
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-addon">Name</div>
-                <input type="text" ng-model="comment.author" placeholder="nickname" class="form-control"/>
+                <input type="text" ng-model="newComment.author" placeholder="nickname" class="form-control"/>
               </div>
             </div>
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-addon">Email</div>
-                <input type="email" ng-model="comment.email" placeholder="email" class="form-control"/>
+                <input type="email" ng-model="newComment.email" placeholder="email" class="form-control"/>
               </div>
             </div>
             <div class="form-group">
               <label>Message</label>
-              <textarea ng-model="comment.content" placeholder="Message" rows="3" class="form-control"></textarea>
+              <textarea ng-model="newComment.content" placeholder="Message" rows="3" class="form-control"></textarea>
             </div>
-            <mb-recaptcha ng-model="comment.recaptcha"></mb-recaptcha>
-            <button ng-click="submitComment()" class="btn btn-primary">Comment</button>
-            <div ng-show="sucessfulSend" class="help-block">Comment sent!</div>
+            <mb-recaptcha ng-model="newComment.recaptcha"></mb-recaptcha>
+            <button ng-click="$root.submitComment(newComment)" class="btn btn-primary">Comment</button>
+            <div ng-show="commentSent" class="help-block">Comment sent!</div>
           </div>
         </div>
       </div>
