@@ -13,8 +13,8 @@ import "../shared/mb-src/mb-src.directive.js";
 import "../shared/mb-new/mbNew.directive.js";
 import "../shared/mb-list-remove/mb-grid-remove.directive.js";
 import "../shared/mb-list-add/mbListAdd.directive.js";
-import "../shared/mb-icon/mb-icon.directive.js";
 import "../shared/mb-link/mb-link.directive.js";
+import "../shared/mb-icon/mb-icon.directive.js";
 import "../shared/mb-grid-remove/mbListRemove.directive.js";
 import "../shared/mb-grid-item/mb-grid-item.directive.js";
 import "../shared/mb-grid-add/mb-grid-add.directive.js";
@@ -42,8 +42,8 @@ import "../shared/dynamic-html/dynamic-html.directive.js";
 import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/cms.headbar/cms.headbar.controller.js";
 import "../shared/choose-image/chooseImage.directive.js";
-import "../shared/auth/auth.service.js";
 import "../shared/choose-icon/chooseIcon.directive.js";
+import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "../shared/libraries/codrops/classie.js";
@@ -51,10 +51,10 @@ import "./components/mb-recaptcha/mb-recaptcha.directive.js";
 // end inject js
 
 // inject jade
-import "../shared/choose-image/chooseImage.jade";
 import "../shared/cms.headbar/choose-link.modal.jade";
 import "../shared/cms.headbar/cms.headbar.jade";
 import "../shared/cms.headbar/editmodal.modal.jade";
+import "../shared/choose-image/chooseImage.jade";
 import "../shared/extensions-area/extensions-area.jade";
 import "../shared/extensions-selector/extensions-selector.jade";
 import "../shared/extensions-selector/extensions.modal.jade";

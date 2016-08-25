@@ -44,12 +44,12 @@
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li ng-repeat="socialBtn in page.lists.social" style="position: relative;">
-                              <!-- <choose-link belongs-to="socialBtn" property="link"> -->
+                              <choose-link belongs-to="socialBtn" property="link">
                                 <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                                   <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
                                   <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
                                 </a>
-                              <!-- </choose-link> -->
+                              </choose-link>
                               <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
                             </li>
                             <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
