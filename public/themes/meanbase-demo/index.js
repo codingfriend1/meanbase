@@ -1,10 +1,10 @@
 // inject jade
-import "./templates/archive/archive-template.html";
-import "./templates/blog/blog-template.html";
-import "./templates/home/home-template.html";
 import "./js/bullet-point-list/bullet-point-list.html";
 import "./js/selling-point-list/selling-point-list.html";
 import "./js/selling-point-list/toggle-type.modal.html";
+import "./templates/archive/archive-template.html";
+import "./templates/blog/blog-template.html";
+import "./templates/home/home-template.html";
 // end inject jade
 
 // inject js
@@ -17,8 +17,8 @@ import "./js/bullet-point-list/bullet-point-list.directive.js";
 
 // inject stylus
 import "./js/selling-point-list/selling-point-list.styl";
-import "./templates/archive/archive.styl";
 import "./templates/blog/blog.styl";
 import "./templates/blog/clean-blog.styl";
+import "./templates/archive/archive.styl";
 import "./css/landing-page.css";
 // end inject stylus
