@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
 <div ng-controller="blogController as controller">
   <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
       <div class="container topnav">
@@ -59,6 +60,56 @@
       </div>
   </article>
 
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="well">
+            <h3 mb-edit ng-model="page.content.leaveComment" bind-options="editorSingleLine"></h3>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">Name</div>
+                <input type="text" ng-model="comment.author" placeholder="nickname" class="form-control"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">Email</div>
+                <input type="email" ng-model="comment.email" placeholder="email" class="form-control"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea ng-model="comment.content" placeholder="Message" rows="3" class="form-control"></textarea>
+            </div>
+            <mb-recaptcha ng-model="comment.recaptcha"></mb-recaptcha>
+            <button ng-click="submitComment()" class="btn btn-primary">Comment</button>
+            <div ng-show="sucessfulSend" class="help-block">Comment sent!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
+
+
+  <hr/>
+
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 mb-edit ng-model="page.content.commentTitle" bind-options="editorSingleLine"></h3>
+          <div ng-repeat="comment in comments" class="well media"><a href="#" class="pull-left"><img src="http://placehold.it/64x64" alt="" class="media-object"/></a>
+            <div class="media-body">
+              <h4 class="media-heading">{{comment.author}}</h4><small>{{comment.date | date:'MMM d, yyyy h:ma'}} </small>
+              <p>{{comment.content}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <hr>
 
   <!-- Footer -->

@@ -27,12 +27,17 @@ module.exports = function() {
   resetData = resetData.bind(this);
 
   app.configure(ifEmptyCreate('roles', rolesData));
-  app.configure(resetData('users', userData));
+  app.configure(resetData('pages', pagesData));
+
+  if(app.get('reset-users')) {
+    app.configure(resetData('users', userData));
+  }
 
   if(app.get('seed')) {
     app.configure(ifEmptyCreate('pages', pagesData));
     app.configure(ifEmptyCreate('menus', menusData));
     app.configure(ifEmptyCreate('comments', commentsData));
+    app.configure(ifEmptyCreate('users', userData));
   }
 
   if(app.get('reset-seed')) {

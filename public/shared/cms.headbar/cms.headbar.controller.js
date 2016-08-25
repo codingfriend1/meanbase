@@ -206,6 +206,10 @@
         updated: Date.now()
 			};
 
+      if(!$scope.menus.main) {
+        $scope.menus.main = [];
+      }
+
 			var newMenu = {
 				title: menuTitle,
 				url: url,

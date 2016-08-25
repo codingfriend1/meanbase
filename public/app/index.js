@@ -42,8 +42,8 @@ import "../shared/dynamic-html/dynamic-html.directive.js";
 import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/cms.headbar/cms.headbar.controller.js";
 import "../shared/choose-image/chooseImage.directive.js";
-import "../shared/choose-icon/chooseIcon.directive.js";
 import "../shared/auth/auth.service.js";
+import "../shared/choose-icon/chooseIcon.directive.js";
 import "../shared/api/api.service.js";
 import "../shared/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "../shared/libraries/codrops/classie.js";
@@ -51,10 +51,10 @@ import "./components/mb-recaptcha/mb-recaptcha.directive.js";
 // end inject js
 
 // inject jade
+import "../shared/choose-image/chooseImage.jade";
 import "../shared/cms.headbar/choose-link.modal.jade";
 import "../shared/cms.headbar/cms.headbar.jade";
 import "../shared/cms.headbar/editmodal.modal.jade";
-import "../shared/choose-image/chooseImage.jade";
 import "../shared/extensions-area/extensions-area.jade";
 import "../shared/extensions-selector/extensions-selector.jade";
 import "../shared/extensions-selector/extensions.modal.jade";
@@ -63,12 +63,12 @@ import "../shared/image-selector/image-selector.jade";
 import "../shared/list-area/list-area.jade";
 import "../shared/list-selector/list-selector.jade";
 import "../shared/list-selector/list.modal.jade";
+import "../shared/missing/missing.jade";
 import "../shared/main/editLink.modal.jade";
 import "../shared/main/editicon.modal.jade";
 import "../shared/main/editmenu.modal.jade";
 import "../shared/main/findImage.modal.jade";
 import "../shared/main/main.jade";
-import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";

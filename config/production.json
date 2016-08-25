@@ -1,5 +1,5 @@
 {
-  "host": "meanbase-api-app.feathersjs.com",
+  "host": "DOMAIN",
   "port": 80,
   "mongodb": "DATABASE_URL",
   "public": "../public/",
@@ -13,6 +13,7 @@
   "viewsPath": "../views/",
   "seed": "SEED",
   "reset-seed": "RESET_SEED",
+  "reset-users": "RESET_USERS",
   "auth": {
     "token": {
       "secret": "FEATHERS_AUTH_SECRET"
