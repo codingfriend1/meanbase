@@ -97,7 +97,9 @@
 
 		this.saveChanges = function() {
 			this.toggleEdit();
+
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
+      localStorage.setItem('previousEditUrl', $rootScope.page.url);
 			$rootScope.$emit('cms.saveEdits', $rootScope.page);
 		};
 
