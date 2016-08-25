@@ -130,9 +130,7 @@
                         </choose-link>
                         <mb-list-remove list="page.lists.socialFooter1.items" item="socialBtn"></mb-list-remove>
                       </li>
-                      <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
-                        <mb-list-add list="page.lists.socialFooter1.items" item="socialBtn" label="social button"></mb-list-add>
-                      </li>
+                      <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;" mb-list-add list="page.lists.socialFooter1.items" item="socialBtn" label="social button"></li>
                   </ul>
                   <mb-edit class="copyright text-muted" ng-model="page.content.license" bind-options="editorOptions"></mb-edit>
               </div>

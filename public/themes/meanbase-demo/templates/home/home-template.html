@@ -53,14 +53,7 @@
                               </choose-link>
                               <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
                             </li>
-                            <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
-                              <!-- <choose-link belongs-to="socialBtn" property="link">
-                                <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
-                                  <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
-                                  <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
-                                </a>
-                              </choose-link> -->
-                              <mb-list-add list="page.lists.social" item="socialBtn" label="button"></mb-list-add>
+                            <li mb-list-add list="page.lists.social" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
                             </li>
                         </ul>
                       </div>
@@ -74,83 +67,6 @@
   </choose-image>
 
 <div list-area="mainList1"></div>
-
-  <!-- Page Content -->
-
-<!-- <a  name="services"></a>
-  <div class="content-section-a">
-
-      <div class="container">
-          <div class="row" ng-init="point = {}">
-
-            <div class="col-lg-4 col-sm-4 mb-animate-list" mb-grid-item item="point" ng-repeat="point in page.lists.bulletPoints1">
-              <div class="text-center">
-                <choose-icon belongs-to="point" property="icon" class="margin-bottom-1"></choose-icon>
-                <choose-image property="image" belongs-to="point">
-                  <img mb-src="image" belongs-to="point" class="img-responsive"/>
-                </choose-image>
-                <h3 meanbase-editable ng-bind-html="point.title"></h3>
-                <div meanbase-editable ng-bind-html="point.description"></div>
-                <mb-edit ng-model="point.title" bind-options="editorOptions"></mb-edit>
-                <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
-                <mb-list-remove list="page.lists.bulletPoints1" item="point"></mb-list-remove>
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-4 text-center" mb-grid-item item="point" ng-if="editMode">
-              <div class="text-center">
-                <choose-icon belongs-to="point" property="icon" class="margin-bottom-1"></choose-icon>
-                <choose-image property="image" belongs-to="point">
-                  <img mb-src="image" belongs-to="point" class="img-responsive"/>
-                </choose-image>
-                <mb-edit ng-model="point.title" bind-options="editorOptions"></mb-edit>
-                <mb-edit ng-model="point.description" bind-options="editorOptions"></mb-edit>
-                <mb-list-add list="page.lists.bulletPoints1" item="point"></mb-list-add>
-              </div>
-            </div>
-          </div>
-
-      </div>
-  </div> -->
-
-  <!-- <div class="content-section-b">
-
-      <div class="container">
-
-          <div class="row">
-              <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
-                  <hr class="section-heading-spacer">
-                  <div class="clearfix"></div>
-                  <mb-edit class="section-heading" ng-model="page.content['content-2']" bind-options="editorOptions"></mb-edit>
-                  <mb-edit class="lead" ng-model="page.content['content-3']" bind-options="editorOptions"></mb-edit>
-              </div>
-              <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                  <choose-image property="image-3"><img mb-src="image-3" class="img-responsive"/></choose-image>
-              </div>
-          </div>
-
-      </div>
-
-  </div> -->
-
-
-  <!-- <div class="content-section-a">
-
-      <div class="container">
-
-          <div class="row">
-              <div class="col-lg-5 col-sm-6">
-                  <hr class="section-heading-spacer">
-                  <div class="clearfix"></div>
-                  <mb-edit class="lead" ng-model="page.content['content-4']" bind-options="editorOptions"></mb-edit>
-              </div>
-              <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                  <choose-image property="image-4"><img mb-src="image-4" class="img-responsive"/></choose-image>
-              </div>
-          </div>
-
-      </div>
-
-  </div> -->
 
 <choose-image property="image-5">
   <div class="banner" mb-src="image-5">
@@ -172,8 +88,7 @@
                       </choose-link>
                       <mb-list-remove list="page.lists.social" item="socialBtn"></mb-list-remove>
                     </li>
-                    <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
-                      <mb-list-add list="page.lists.social" item="socialBtn" label="social button"></mb-list-add>
+                    <li mb-list-add list="page.lists.social" item="socialBtn" label="social button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
                     </li>
                   </ul>
               </div>
