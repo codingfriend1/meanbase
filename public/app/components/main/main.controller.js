@@ -452,6 +452,18 @@
             document.title = $rootScope.page.tabTitle;
           }
 
+          if(response && response[0]) {
+            if(snapshots.page.url !== response[0].url) {
+              localStorage.setItem('previousEditUrl', response[0].url);
+              $rootScope.previousEditUrl = response[0].url;
+              api.menus.update({url: snapshots.page.url}, {url: response[0].url}).then(function(response) {}, function(err) {
+                toastr.warning('Make sure to update any menus that point to the previous url for the page.')
+              });
+            }
+          }
+
+
+
           // Same with description
           if($rootScope.page.description) {
             jQuery('meta[name=description]').attr('content', $rootScope.page.description);
