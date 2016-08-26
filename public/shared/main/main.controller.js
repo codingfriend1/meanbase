@@ -22,11 +22,6 @@
       $rootScope.menus = response;
     });
 
-
-    api.comments.find({url: $rootScope.page.url}).then(function(response) {
-      $rootScope.comments = response.data;
-    });
-
     $rootScope.newComment = {};
 
     $rootScope.submitComment = function(newComment) {

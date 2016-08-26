@@ -4,4 +4,8 @@ angular.module('meanbaseApp').controller('blogController', function ($rootScope,
       items: []
     }
   }
+
+  api.comments.find({url: $rootScope.page.url}).then(function(response) {
+    $scope.comments = response.data;
+  });
 });
