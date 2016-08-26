@@ -86,6 +86,14 @@
 		  var modalInstance = $modal.open({
 		    templateUrl: require('./editmodal.modal.jade'),
 		    controller: function($scope, $modalInstance) {
+          $scope.templateOptions = [];
+
+          api.themes.find({active: true, $select: ['templates']}).then(function(response) {
+            $scope.templateOptions = Object.keys(response[0].templates);
+          }, function(err) {
+            toastr.error("Sorry but something is wrong with the server and you can't choose templates for your pages.")
+          });
+
 		    	$scope.cancel = function () {
 		    	  $modalInstance.dismiss('cancel');
 		    	};
