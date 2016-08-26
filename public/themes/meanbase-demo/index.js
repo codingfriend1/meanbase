@@ -16,9 +16,9 @@ import "./js/bullet-point-list/bullet-point-list.directive.js";
 // end inject js
 
 // inject stylus
-import "./js/selling-point-list/selling-point-list.styl";
 import "./templates/archive/archive.styl";
 import "./templates/blog/blog.styl";
 import "./templates/blog/clean-blog.styl";
+import "./js/selling-point-list/selling-point-list.styl";
 import "./css/landing-page.css";
 // end inject stylus

@@ -13,6 +13,10 @@ angular.module('meanbaseApp')
           };
         }
 
+        if(!scope.listItem.data.items) {
+          scope.listItem.data.items = [];
+        }
+
         scope.bulletPoints = scope.listItem.data;
 
 

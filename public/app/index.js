@@ -33,12 +33,13 @@ import "./components/mb-grid-add/mb-grid-add.directive.js";
 import "./components/mb-grid/mb-grid.directive.js";
 import "./components/mb-edit/mbEdit.directive.js";
 import "./components/mb-choose-src/mbChooseSrc.directive.js";
-import "./components/mb-choose-link/choose-link.directive.js";
 import "./components/main/main.js";
 import "./components/main/main.controller.js";
+import "./components/mb-choose-link/choose-link.directive.js";
 import "./components/list-selector/list.modal.controller.js";
 import "./components/list-selector/list-selector.directive.js";
 import "./components/list-area/list-area-directive.js";
+import "./components/init-list/init-list.directive.js";
 import "./components/findImages/findImages.directive.js";
 import "./components/find-images-modal/find-images-modal.directive.js";
 import "./components/extensions-selector/extensions.modal.controller.js";
@@ -51,6 +52,7 @@ import "./components/choose-icon/chooseIcon.directive.js";
 // end inject js
 
 // inject jade
+import "./components/choose-image/chooseImage.jade";
 import "./components/cms.headbar/choose-link.modal.jade";
 import "./components/cms.headbar/cms.headbar.jade";
 import "./components/cms.headbar/editmodal.modal.jade";
@@ -66,7 +68,6 @@ import "./components/main/editicon.modal.jade";
 import "./components/main/editmenu.modal.jade";
 import "./components/main/findImage.modal.jade";
 import "./components/main/main.jade";
-import "./components/choose-image/chooseImage.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";

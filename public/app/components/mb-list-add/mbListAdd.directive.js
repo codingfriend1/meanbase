@@ -23,6 +23,7 @@ angular.module('meanbaseApp')
 
         element.bind('click', function(event) {
           scope.item = scope.$eval(attrs.item);
+          scope.list = scope.$eval(attrs.list);
           scope.list.push(angular.copy(scope.item));
           $rootScope.$emit('cms.saveListItem');
           scope.item = {};

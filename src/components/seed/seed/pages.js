@@ -107,16 +107,18 @@ var home = {
         }]
       }
     }],
-    "social": [{
-      "icon": {
-        "classes": "fa fa-github"
-      },
-      "link": {
-        "url": "https://github.com/codingfriend1/meanbase-1.0.0",
-        "target": "_blank"
-      },
-      "title": "<span class=\"ng-scope\">Github</span>"
-    }]
+    "social": {
+      items: [{
+        "icon": {
+          "classes": "fa fa-github"
+        },
+        "link": {
+          "url": "https://github.com/codingfriend1/meanbase-1.0.0",
+          "target": "_blank"
+        },
+        "title": "<span class=\"ng-scope\">Github</span>"
+      }]
+    }
   },
   "title": "<h1 class=\"ng-scope\"><span class=\"ng-scope\" style=\"font-weight: normal;\">meanbase</span></h1>"
 };
