@@ -39,7 +39,7 @@
                     <div class="post-heading enable-click">
                         <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
                         <hr class="small">
-                        <mb-edit class="subheading" ng-model="page.content.subTitle" bind-options="editorSingleLine"></mb-edit>
+                        <span mb-edit class="subheading" ng-model="page.content.subTitle" bind-options="editorSingleLine"></span>
                         <span class="meta">Posted by <a href="#">{{page.author}}</a> on {{page.createdAt | date:'MMM d, yyyy h:ma'}}</span>
                         <!-- <span class="meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</span> -->
                     </div>
@@ -54,7 +54,7 @@
       <div class="container">
           <div class="row">
               <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                  <mb-edit class="meta" ng-model="page.content.content1" bind-options="editorOptions"></mb-edit>
+                  <div mb-edit class="meta" ng-model="page.content.content1" bind-options="editorOptions"></div>
               </div>
           </div>
       </div>
