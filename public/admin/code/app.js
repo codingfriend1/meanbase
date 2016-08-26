@@ -1,3 +1,4 @@
+angular.module('extensions', []);
 angular.module('meanbaseApp', [
   'ngCookies',
   'ngResource',
