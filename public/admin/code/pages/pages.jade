@@ -4,8 +4,9 @@
       li.mdl-list__item.mdl-list__item--two-line(ng-repeat="page in pages | filter:pageFilter" mdl)
         span.mdl-list__item-primary-content
           span(id="{{page.url}}")
-            span {{page.title | htmlToPlainText}}
-            span.mdl-list__item-sub-title {{page.url}}
+            a(ng-href="{{page.url}}" target="_self") 
+              span {{page.title | htmlToPlainText}}
+              span.mdl-list__item-sub-title {{page.url}}
           .mdl-tooltip.mdl-tooltip--bottom(for='{{page.url}}')
             | Go to and Edit {{page.url}}
         .mdl-list__item-secondary-content

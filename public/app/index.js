@@ -69,8 +69,8 @@ import "../shared/main/editmenu.modal.jade";
 import "../shared/main/findImage.modal.jade";
 import "../shared/main/main.jade";
 import "../shared/missing/missing.jade";
-import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
+import "../shared/sortable/sortable.jade";
 import "../shared/validate/validate.jade";
 // end inject jade
 
@@ -82,8 +82,8 @@ import "../shared/cms.headbar/cms.headbar.styl";
 import "../shared/extensions-area/extensions-area.styl";
 import "../shared/extensions-selector/extensions-selector.styl";
 import "../shared/find-images-modal/find-images-modal.styl";
-import "../shared/image-selector/image-selector.styl";
 import "../shared/findImages/findImages.styl";
+import "../shared/image-selector/image-selector.styl";
 import "../shared/list-area/list-area.styl";
 import "../shared/list-selector/list-selector.styl";
 import "../shared/main/main.styl";
