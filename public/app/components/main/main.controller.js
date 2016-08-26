@@ -142,6 +142,43 @@
       }
     };
 
+    // Rubaxa's library "sortable" and "ng-sortable" (the drag and drop capabilities) need a configuration to be passed in. Here we define it. Inside the ng-repeat, any item with a class of `.mb-draggable` will be able to be dragged.
+    //
+    $rootScope.menusConfig = {
+      group: 'menus',
+      ghostClass: "mb-draggable-ghost",
+      draggable: ".mb-draggable",
+      filter: ".ignore-draggable",
+      animation: 250,
+      scroll: true, // or HTMLElement
+      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
+      scrollSpeed: 10 // px
+    };
+
+    // Since extensions are draggable we need to define those here too.
+    $rootScope.sortableExtensions = {
+      group: 'extensions',
+      ghostClass: "mb-draggable-ghost",
+      draggable: ".mb-draggable",
+      filter: ".ignore-draggable",
+      animation: 250,
+      scroll: true, // or HTMLElement
+      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
+      scrollSpeed: 10 // px
+    };
+
+    $rootScope.sortableLists = {
+      group: 'lists',
+      ghostClass: "mb-draggable-ghost",
+      draggable: ".mb-draggable",
+      filter: ".ignore-draggable",
+      handle: ".mb-drag-handle",
+      animation: 250,
+      scroll: true, // or HTMLElement
+      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
+      scrollSpeed: 10 // px
+    };
+
     if(!$rootScope.isLoggedIn) { return false; }
 
     // // Let's check if the user is logged in
@@ -313,44 +350,6 @@
     }
 
     getSharedContentFromServer();
-
-
-    // Rubaxa's library "sortable" and "ng-sortable" (the drag and drop capabilities) need a configuration to be passed in. Here we define it. Inside the ng-repeat, any item with a class of `.mb-draggable` will be able to be dragged.
-    //
-    $rootScope.menusConfig = {
-      group: 'menus',
-      ghostClass: "mb-draggable-ghost",
-      draggable: ".mb-draggable",
-      filter: ".ignore-draggable",
-      animation: 250,
-      scroll: true, // or HTMLElement
-      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
-      scrollSpeed: 10 // px
-    };
-
-    // Since extensions are draggable we need to define those here too.
-    $rootScope.sortableExtensions = {
-      group: 'extensions',
-      ghostClass: "mb-draggable-ghost",
-      draggable: ".mb-draggable",
-      filter: ".ignore-draggable",
-      animation: 250,
-      scroll: true, // or HTMLElement
-      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
-      scrollSpeed: 10 // px
-    };
-
-    $rootScope.sortableLists = {
-      group: 'lists',
-      ghostClass: "mb-draggable-ghost",
-      draggable: ".mb-draggable",
-      filter: ".ignore-draggable",
-      handle: ".mb-drag-handle",
-      animation: 250,
-      scroll: true, // or HTMLElement
-      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
-      scrollSpeed: 10 // px
-    };
 
     // ###Client Side Validation
     // We want to validate client side data before sending it to the server so the user can know what to correct. The server also validates the data.

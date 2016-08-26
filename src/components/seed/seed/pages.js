@@ -144,7 +144,29 @@ var article = {
   "template": "article",
   "title": "Why use a CMS",
   "content": {
-    "content-1": "A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves."
+    "content-1": "A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves.",
+    "subTitle": "",
+    "content1": "<p class=\"ng-scope\">A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves.<br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"display: none\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>",
+    "leaveComment": "",
+    "commentTitle": "",
+    "license": ""
+  },
+  // "content": {
+  //   "content-1": "A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves."
+  // },
+  "lists": {
+    "socialFooter1": {
+      "items": [
+        {
+          "icon": {
+            "classes": "fa fa-github",
+            "url": "https://github.com/codingfriend1/meanbase-1.0.0",
+            "target": "_blank"
+          },
+          "link": {}
+        }
+      ]
+    }
   },
   "description": "Why do we need a CMS?",
   "summary": "A reason to use a CMS",

@@ -1,3 +1,10 @@
+var home = {
+    "title": "Home",
+    "url": "/",
+    "position": 0,
+    "group": "main"
+};
+
 var tutorial = {
 	"title": "Tutorial",
 	"url": "/tutorial",
@@ -25,4 +32,13 @@ var article = {
 	"position": 2
 };
 
-module.exports = [tutorial, login, youtubeDemo, article];
+var CMS = {
+  "title": "CMS",
+  "url": "/cms",
+  "published": true,
+  "target": "_self",
+  "position": 4,
+  "group": "main",
+};
+
+module.exports = [home, tutorial, login, youtubeDemo, article, CMS];
