@@ -1,6 +1,6 @@
 .meanbase-front(ng-class="{loggedIn: isLoggedIn}")
 	include ../cms.headbar/cms.headbar.jade
-	div(ui-view="" ng-class="{'fixed-header-stopper': isLoggedIn}" mb-animation-trigger="{{editMode}}" mb-animate mb-de-animate="{{pageAnimation}}")#main-view
+	div(ui-view="" ng-class="{'fixed-header-stopper': isLoggedIn}")#main-view
 		div.mb-loading-screen.text-center
 			h1
 				i.fa.fa-spinner.fa-spin 
