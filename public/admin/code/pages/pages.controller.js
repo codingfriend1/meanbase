@@ -47,9 +47,21 @@ angular.module('meanbaseApp')
       if(page && page._id) {
         p.update(page, settings, page.title + ' updated', 'Could not update ' + page.title);
       } else if(page && !page._id) {
+        
+        var newMenu = {
+  				title: page.title,
+  				url: page.url,
+  				location: 'main',
+  				position: 0,
+  				published: false
+  			};
+
         api.pages.find({url: page.url}).then(function(response) {
           if(response.length < 1) {
             p.create(page, page.title + ' created', 'Could not create ' + page.title).then(function(response) {
+              api.menus.create(newMenu).then(function(response) {
+                localStorage.setItem('previousEditUrl', response.url);
+      				});
               $timeout(function() {
                 componentHandler.upgradeAllRegistered()
               });

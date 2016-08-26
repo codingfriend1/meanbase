@@ -53,7 +53,6 @@
           $scope.choose = function(url) {
             if(!url) { return false; }
             api.pages.find({url: url}).then(function(response) {
-              console.log("response", response);
               if(response.length > 0) {
                 toastr.warning('Sorry but a page with that link name already exists.')
               } else {
