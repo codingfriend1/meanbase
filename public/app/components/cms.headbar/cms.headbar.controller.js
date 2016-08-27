@@ -23,10 +23,11 @@
 
 		// Prevent the user from navigating away while in edit mode until they save or discard their changes.
 		$scope.$onRootScope('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-		  if (!$scope.ableToNavigate) {
-		    event.preventDefault();
-		    toastr.info('Please save or discard your changes before navigating.');
-		  }
+		  // if (!$scope.ableToNavigate) {
+		  //   event.preventDefault();
+        self.finishEdits();
+		    // toastr.info('Please save or discard your changes before navigating.');
+		  // }
 		});
 
     var pageWatcher, menusWatcher, autoSaveSessionSnapshot = {};
