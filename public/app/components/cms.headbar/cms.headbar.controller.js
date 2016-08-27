@@ -52,7 +52,13 @@
           }
           $rootScope.$emit('cms.takePageSnapshot', $rootScope.editMode);
           if(response[0] && response[0].data) {
-            angular.merge($rootScope.page, response[0].data);
+            $rootScope.page.title = angular.copy(response[0].data.title);
+            $rootScope.page.content = angular.copy(response[0].data.content);
+            $rootScope.page.images = angular.copy(response[0].data.images);
+            $rootScope.page.extensions = angular.copy(response[0].data.extensions);
+            $rootScope.page.lists = angular.copy(response[0].data.lists);
+            $rootScope.page.grid = angular.copy(response[0].data.grid);
+            $rootScope.page.links = angular.copy(response[0].data.links);
           }
           pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
             if(typeof newValue !== oldValue) {
@@ -69,7 +75,7 @@
           if(response[0] && response[0].data) {
             autoSaveSessionSnapshot.menus = response[0].data;
             $rootScope.$emit('cms.takeMenusSnapshot', $rootScope.editMode);
-            angular.merge($rootScope.menus, response[0].data);
+            $rootScope.menus = response[0].data;
           } else {
             autoSaveSessionSnapshot.menus = angular.copy($rootScope.menus);
           }
