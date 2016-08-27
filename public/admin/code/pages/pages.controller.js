@@ -47,7 +47,7 @@ angular.module('meanbaseApp')
       if(page && page._id) {
         p.update(page, settings, page.title + ' updated', 'Could not update ' + page.title);
       } else if(page && !page._id) {
-        
+
         var newMenu = {
   				title: page.title,
   				url: page.url,
@@ -95,6 +95,11 @@ angular.module('meanbaseApp')
       var failure = 'Could not delete ' + page.title;
       p.delete(page, page.title + ' unpublished.', message, failure).then(function(response) {
         api.menus.delete({url: page.url}, {published: page.published});
+        api.staging.delete({key: page.url}).then(function(response) {
+          console.log('Deleting autosave data for that page', response);
+        }, function(err) {
+          console.log('Could not delete auto save data for that page', err);
+        });
       });
       p.toggleModal('isDeleteOpen', 'pageToDelete');
   	};

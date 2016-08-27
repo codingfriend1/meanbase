@@ -53,8 +53,14 @@
 
         toastr.warning("While in edit mode you won't be able to visit links or navigate to other pages. Make sure to save your work before you leave the page.")
       } else {
-        pageWatcher();
-        menusWatcher();
+        if(pageWatcher) {
+          pageWatcher();
+        }
+        if(menusWatcher) {
+          menusWatcher();
+        }
+
+        $rootScope.$emit('cms.editMode', $rootScope.editMode);
       }
 
 			// We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
@@ -149,6 +155,12 @@
 				// Delete menu with the same url
 				var url;
 				if($rootScope.page.url.charAt(0) !== '/') { url = '/' + $rootScope.page.url; } else { url = $rootScope.page.url; }
+
+        api.staging.delete({key: url}).then(function(response) {
+          console.log('Deleting autosave data for that page', response);
+        }, function(err) {
+          console.log('Could not delete auto save data for that page', err);
+        });
 				api.menus.delete({url: url}).finally(function() {
 					// Replenish menus
 					api.menus.find({}).then(function(response) {
@@ -178,7 +190,7 @@
 			}
 
       if($rootScope.page.published) {
-        page.publishedOn = Date.now();
+        $rootScope.page.publishedOn = Date.now();
       }
 
 			this.toggleEdit();

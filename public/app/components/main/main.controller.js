@@ -431,12 +431,6 @@
         } else {
           promise = api.staging.create({key: $rootScope.page.url, data: content});
         }
-
-        promise.then(function(response) {
-          console.log('response', response);
-        }, function(err) {
-          console.log('promise rejected', err);
-        });
       }, function(err) {
         console.log('promise rejected', err);
       });
