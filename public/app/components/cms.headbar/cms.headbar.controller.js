@@ -4,6 +4,8 @@
 	// @ngInject
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr, api) {
 
+    var msTillAutoSaveMenus = 200;
+
     if(!$rootScope.isLoggedIn) { return false; }
 
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
@@ -26,7 +28,7 @@
 		  }
 		});
 
-    var pageWatcher, menusWatcher;
+    var pageWatcher, menusWatcher, autoSaveSessionSnapshot = {};
 		// Toggles the all powerful editMode, emits an event so the rest of the app can make changes
 		this.toggleEdit = function(boole) {
 			if(boole !== undefined) { $rootScope.editMode = boole; } else { $rootScope.editMode = !$rootScope.editMode; }
@@ -35,6 +37,9 @@
 
         api.staging.find({key: $rootScope.page.url}).then(function(response) {
           if(response[0] && response[0].data) {
+            $rootScope.$emit('cms.takeSnapshots', $rootScope.editMode);
+            autoSaveSessionSnapshot.menus = angular.copy($rootScope.menus);
+            autoSaveSessionSnapshot.page = angular.copy(response[0].data);
             angular.merge($rootScope.page, response[0].data);
             $rootScope.$emit('cms.editMode', $rootScope.editMode);
           }
@@ -49,9 +54,9 @@
 
         menusWatcher = $scope.$watch('menus', _.debounce(function() {
           $rootScope.$emit('cms.menusAutoSave');
-        }, 500), true);
+        }, msTillAutoSaveMenus), true);
 
-        toastr.warning("While in edit mode you won't be able to visit links or navigate to other pages. Make sure to save your work before you leave the page.")
+        // toastr.warning("While in edit mode you won't be able to visit links or navigate to other pages. Make sure to save your work before you leave the page.")
       } else {
         if(pageWatcher) {
           pageWatcher();
@@ -59,6 +64,8 @@
         if(menusWatcher) {
           menusWatcher();
         }
+
+        $rootScope.$emit('cms.returnToSnapshot');
 
         $rootScope.$emit('cms.editMode', $rootScope.editMode);
       }
@@ -142,8 +149,13 @@
 		this.discardChanges = function() {
 			this.toggleEdit();
 
+
+      $rootScope.menus = angular.merge($rootScope.menus, autoSaveSessionSnapshot.menus);
+      $rootScope.$emit('cms.autoSave', autoSaveSessionSnapshot.page);
+      autoSaveSessionSnapshot = {};
+      $rootScope.$emit('cms.returnToSnapshot');
 			// Event event that alerts all editable parts to discard those changes including the edit directive
-			$rootScope.$emit('cms.discardEdits');
+			toastr.warning('Changes have been discarded');
 		};
 
 		this.deletePage = function() {

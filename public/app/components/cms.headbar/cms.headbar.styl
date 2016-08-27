@@ -31,6 +31,9 @@
       padding 5px 10px
       font-size 0.9em
       outline none
+    .mb-dropdown
+      display inline-block
+      vertical-align: top
     #mb-headbar-child
       padding 0 1em
       box-sizing: border-box
@@ -40,20 +43,15 @@
 
   [contenteditable="true"]
     outline none
-    // &:hover
-    //   outline 2px solid #2ECC71
-    //   outline-offset 1px
-    // &:focus
-    //   outline none
   .navbar
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
     text-transform none
     font-weight normal
   .navbar-fixed-top
     padding 0
     margin 0
     .navbar-brand
-      padding 15px 10px
+      padding 10px 10px
       font-size 16px
   .navbar-nav
     margin 0
@@ -66,17 +64,42 @@
   float none
   display inline-block
 
-// @media (min-width: 768px) and (max-width: 991px) {
-//     .navbar-collapse.collapse {
-//         display: none !important;
-//     }
-//     .navbar-collapse.collapse.in {
-//         display: block !important;
-//     }
-//     .navbar-header .collapse, .navbar-toggle {
-//         display:block !important;
-//     }
-//     .navbar-header {
-//         float:none;
-//     }
-// }
+
+
+
+#mb-headbar
+  position relative
+  z-index: 11
+  #mb-headbar-child
+    background-color: #34495E
+    color #ECF0F1
+    top 0
+    width 100%
+    position: fixed
+    z-index 3
+
+    .mb-fill
+      padding 0 1em
+  .mb-navbar-right
+    float right
+  ul
+    padding-left: 0
+    margin 0
+
+  ul.root-ul
+    display inline-block
+  ul.root-ul > li
+    display inline-block
+    list-style: none
+    padding 1em
+  a
+    text-decoration: none
+    color #ECF0F1
+    display block
+    i
+      color #ECF0F1
+  .dropdown-menu
+    a
+      color #34495E
+      i
+        color #34495E

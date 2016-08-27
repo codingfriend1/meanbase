@@ -384,7 +384,7 @@
 
     // We need some way of reseting the content back to what it was before. That's what snapshots do. We do an angular.copy() on all major pieces of data when the user hits edit and if the user then hits discard, we set that data to the initial copied value.
     var snapshots = {};
-    $scope.$onRootScope('cms.editMode', function(event, editMode) {
+    $scope.$onRootScope('cms.takeSnapshots', function(event, editMode) {
       // Rubaxa's library has the ability to be disabled.
       // We only want draggable elements while in edit mode
       $rootScope.menusConfig.disabled = !editMode;
@@ -413,17 +413,21 @@
       getSharedContentFromServer();
     });
 
-    $scope.$onRootScope('cms.autoSave', function() {
+    $scope.$onRootScope('cms.autoSave', function(event, content) {
       api.staging.find({key: $rootScope.page.url}).then(function(response) {
-        var content = _.pick($rootScope.page, [
-          'title',
-          'content',
-          'images',
-          'extensions',
-          'lists',
-          'grid',
-          'links'
-        ]);
+
+        if(!content) {
+          content = _.pick($rootScope.page, [
+            'title',
+            'content',
+            'images',
+            'extensions',
+            'lists',
+            'grid',
+            'links'
+          ]);
+        }
+
 
         var promise;
         if(response.length > 0) {
@@ -451,15 +455,17 @@
     $scope.$onRootScope('cms.publishChanges', function() {
       api.staging.find({key: $rootScope.page.url}).then(function(response) {
         if(response[0]) {
-          $rootScope.page = angular.merge(response[0], $rootScope.page);
+          $rootScope.page = angular.merge($rootScope.page, response[0].data);
+          $rootScope.$emit('cms.saveEdits');
           api.staging.delete({key: $rootScope.page.url}).then(function(response) {
             console.log('Deleting autosave data', response);
           }, function(err) {
             console.log('Trouble deleting autosave data', err);
           });
+        } else {
+          toastr.error('Sorry but there was an error and we could not save your changes.');
         }
       });
-      $rootScope.$emit('cms.saveEdits');
     });
 
     // ###Save Edits!
@@ -588,7 +594,7 @@
 
     // ### Discard Edits
     // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when the user first clicked edit
-    $scope.$onRootScope('cms.discardEdits', function() {
+    $scope.$onRootScope('cms.returnToSnapshot', function() {
       $scope.pageAnimation = 'shake';
 
       // We want to set the data to it's old initial snapshot
@@ -596,16 +602,16 @@
       $rootScope.page = snapshots.page;
       $rootScope.sharedContent = snapshots.sharedContent;
 
-      api.staging.delete({key: $rootScope.page.url}).then(function(response) {
-        console.log('Deleting staging data', response);
-      }, function(err) {
-        console.log('Trouble deleting staging data', err);
-      });
-
-      toastr.warning('Changes have been discarded');
-
       // We also want to reset the shared content to delete check
       $rootScope.sharedContentToCheckDelete = [];
+    });
+
+    $scope.$onRootScope('cms.revertToPublished', function(event, url) {
+      api.staging.delete({key: url}).then(function(response) {
+        console.log('Deleting autosave data for ' + url, response);
+      }, function(err) {
+        console.log('Trouble deleting autosave data for ' + url, err);
+      });
     });
 
     // ### Image selector
