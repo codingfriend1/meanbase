@@ -2,7 +2,7 @@
   button.close(type='button' ng-click="$dismiss()")
     span(aria-hidden='true') ×
     span.sr-only Close
-  h4#editMenuItemLabel.modal-title Menu Navigation Link
+  h4#editMenuItemLabel.modal-title {{isNewMenu? 'Add': 'Edit'}} Menu Navigation Link
 .modal-body
   form(novalidate name="editingMenuForm" ng-submit="isNewMenu? newMenuItem(editingMenuForm): editMenuItem(editingMenuForm)")
     input(type="submit").hidden

@@ -413,6 +413,61 @@
       getSharedContentFromServer();
     });
 
+    $scope.$onRootScope('cms.autoSave', function() {
+      api.staging.find({key: $rootScope.page.url}).then(function(response) {
+        var content = _.pick($rootScope.page, [
+          'title',
+          'content',
+          'images',
+          'extensions',
+          'lists',
+          'grid',
+          'links'
+        ]);
+
+        var promise;
+        if(response.length > 0) {
+          promise = api.staging.update({key: $rootScope.page.url}, {data: content});
+        } else {
+          promise = api.staging.create({key: $rootScope.page.url, data: content});
+        }
+
+        promise.then(function(response) {
+          console.log('response', response);
+        }, function(err) {
+          console.log('promise rejected', err);
+        });
+      }, function(err) {
+        console.log('promise rejected', err);
+      });
+    });
+
+    $scope.$onRootScope('cms.menusAutoSave', function() {
+      server.menus.delete({}).finally(function(deleteResponse) {
+        if(!helpers.isEmpty($rootScope.menus)) {
+          server.menus.create($rootScope.menus).then(function(createResponse) {
+            server.menus.find({}).then(function(response) {
+              $rootScope.menus = response;
+            });
+          });
+        }
+      });
+    });
+
+    $scope.$onRootScope('cms.publishChanges', function() {
+      api.staging.find({key: $rootScope.page.url}).then(function(response) {
+        if(response[0]) {
+          $rootScope.page = angular.merge(response[0], $rootScope.page);
+          api.staging.delete({key: $rootScope.page.url}).then(function(response) {
+            console.log('Deleting autosave data', response);
+          }, function(err) {
+            console.log('Trouble deleting autosave data', err);
+          });
+        }
+      });
+      $rootScope.$emit('cms.saveEdits');
+    });
+
     // ###Save Edits!
     // This is the event that listens for when the user clicks the save button after being in edit mode.
     $scope.$onRootScope('cms.saveEdits', function() {
@@ -547,6 +602,12 @@
       $rootScope.page = snapshots.page;
       $rootScope.sharedContent = snapshots.sharedContent;
 
+      api.staging.delete({key: $rootScope.page.url}).then(function(response) {
+        console.log('Deleting staging data', response);
+      }, function(err) {
+        console.log('Trouble deleting staging data', err);
+      });
+
       toastr.warning('Changes have been discarded');
 
       // We also want to reset the shared content to delete check
@@ -661,7 +722,6 @@
           link.url = $scope.link.url || link.url;
           link.classes = $scope.link.classes;
           link.target = $scope.link.target;
-
           $modalInstance.dismiss();
         }
       };
@@ -709,7 +769,6 @@
           icon.url = $scope.icon.url || icon.url;
           icon.classes = $scope.icon.classes;
           icon.target = $scope.icon.target;
-
           $modalInstance.dismiss();
         }
       };

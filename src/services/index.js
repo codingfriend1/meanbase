@@ -1,3 +1,4 @@
+const staging = require('./staging');
 const custom = require('./custom');
 import themeUploads from './theme-uploads';
 import extensionUploads from './extension-uploads'
@@ -42,4 +43,5 @@ module.exports = function() {
   app.configure(extension);
   app.configure(ban);
   app.configure(custom);
+  app.configure(staging);
 };

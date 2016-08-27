@@ -49,10 +49,6 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
           }
         };
 
-        ngModel.editor.subscribe('editableInput', function (event, editable) {
-          ngModel.$setViewValue( editable.innerHTML.trim() );
-        });
-
         scope.$watch('bindOptions', function(bindOptions) {
           if(!$rootScope.editMode) {
             ngModel.editor.destroy();
@@ -68,6 +64,10 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         scope.$onRootScope('cms.editMode', function(event, value) {
           if(value) {
             ngModel.editor.setup();
+            ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
+              // ngModel.$setViewValue( editable.innerHTML.trim() );
+              ngModel.$setViewValue(ngModel.editor.getContent());
+            }, 1000));
           } else {
             ngModel.$setViewValue(ngModel.editor.getContent());
             ngModel.editor.destroy();

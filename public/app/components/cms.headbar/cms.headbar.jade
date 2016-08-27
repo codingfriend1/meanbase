@@ -18,11 +18,11 @@ nav#mb-headbar.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navig
 							a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template + ' template'}}
 				li(ng-show="currentUser.permissions.indexOf('editContent') > -1")
 					a(ng-hide="editMode" ng-click="headbar.toggleEdit()") Edit
-					button.btn.btn-success(ng-show="editMode" ng-click="headbar.saveChanges()") Save
+					button.btn.btn-success(ng-show="editMode" ng-click="headbar.publishChanges()") Publish Changes
 				li(ng-show="editMode")
 					button.btn.btn-info(ng-click="headbar.editPageModal()") Settings
 				li(ng-show="editMode")
-					button.btn.btn-warning(ng-click="headbar.discardChanges()") Discard
+					button.btn.btn-warning(ng-click="headbar.discardChanges()") Undo Changes
 				li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
 					button.btn.btn-danger(ng-click="headbar.deletePage()") Delete page
 				li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && editMode")

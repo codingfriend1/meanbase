@@ -26,13 +26,35 @@
 		  }
 		});
 
+    var pageWatcher, menusWatcher;
 		// Toggles the all powerful editMode, emits an event so the rest of the app can make changes
 		this.toggleEdit = function(boole) {
 			if(boole !== undefined) { $rootScope.editMode = boole; } else { $rootScope.editMode = !$rootScope.editMode; }
-			$rootScope.$emit('cms.editMode', $rootScope.editMode);
 
       if($rootScope.editMode) {
+
+        api.staging.find({key: $rootScope.page.url}).then(function(response) {
+          if(response[0] && response[0].data) {
+            angular.merge($rootScope.page, response[0].data);
+            $rootScope.$emit('cms.editMode', $rootScope.editMode);
+          }
+        }, function(err) {
+          toastr.error('Sorry but we could not fetch the latest auto saved data');
+          $rootScope.$emit('cms.editMode', $rootScope.editMode);
+        });
+
+        pageWatcher = $scope.$watch('page', function() {
+          $rootScope.$emit('cms.autoSave');
+        }, true);
+
+        menusWatcher = $scope.$watch('menus', _.debounce(function() {
+          $rootScope.$emit('cms.menusAutoSave');
+        }, 500), true);
+
         toastr.warning("While in edit mode you won't be able to visit links or navigate to other pages. Make sure to save your work before you leave the page.")
+      } else {
+        pageWatcher();
+        menusWatcher();
       }
 
 			// We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
@@ -102,13 +124,13 @@
 		  });
 		};
 
-		this.saveChanges = function() {
+		this.publishChanges = function() {
 			this.toggleEdit();
 
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
       localStorage.setItem('previousEditUrl', $rootScope.page.url);
       $rootScope.previousEditUrl = $rootScope.page.url;
-			$rootScope.$emit('cms.saveEdits', $rootScope.page);
+			$rootScope.$emit('cms.publishChanges', $rootScope.page);
 		};
 
 		this.discardChanges = function() {
