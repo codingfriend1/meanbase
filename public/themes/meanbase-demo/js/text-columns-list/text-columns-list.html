@@ -1,0 +1,12 @@
+<div class="content-section-a md-padding">
+  <div class="container">
+    <div class="row" ng-init="point={}">
+      <div class="col-sm-12 mb-animate-list relative" mb-grid-item item="point" ng-repeat="point in textColumns.items">
+          <div mb-edit ng-model="point.text" bind-options="editorOptions"></div>
+          <mb-list-remove list="textColumns.items" item="point"></mb-list-remove>
+        </div>
+      </div>
+      <mb-list-add class="col-sm-12 relative" mb-grid-item item="point" ng-if="editMode" list="textColumns.items" label="plain text"></mb-list-add>
+    </div>
+  </div>
+</div>

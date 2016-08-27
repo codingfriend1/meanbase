@@ -23,7 +23,7 @@
                   <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
                       <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
                   </li>
-                  <li ng-click="createMenuItem('main')" ng-if="editMode" class="new-menu-item-button"><a><i class="fa fa-plus"></i></a></li>
+                  <li ng-click="createMenuItem('main')" ng-if="editMode" class="new-menu-item-button"><a><i class="fa fa-plus"> </i> <span> Add Link</span></a></li>
               </ul>
           </div>
       </div>
