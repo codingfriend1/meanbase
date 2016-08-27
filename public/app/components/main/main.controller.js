@@ -19,7 +19,7 @@
 
     // Get all the menus on the server.
     server.menus.find({}).then(function(response) {
-      $rootScope.menus = response;
+      $rootScope.menus = response || {};
     });
 
     $rootScope.newComment = {};
@@ -384,10 +384,9 @@
 
     // We need some way of reseting the content back to what it was before. That's what snapshots do. We do an angular.copy() on all major pieces of data when the user hits edit and if the user then hits discard, we set that data to the initial copied value.
     var snapshots = {};
-    $scope.$onRootScope('cms.takeSnapshots', function(event, editMode) {
+    $scope.$onRootScope('cms.takePageSnapshot', function(event, editMode) {
       // Rubaxa's library has the ability to be disabled.
       // We only want draggable elements while in edit mode
-      $rootScope.menusConfig.disabled = !editMode;
       $rootScope.sortableExtensions.disabled = !editMode;
 
       if(editMode) {
@@ -408,13 +407,25 @@
       }
     });
 
+    $scope.$onRootScope('cms.takeMenusSnapshot', function(event, editMode) {
+      // Rubaxa's library has the ability to be disabled.
+      // We only want draggable elements while in edit mode
+      $rootScope.menusConfig.disabled = !editMode;
+      $rootScope.sortableExtensions.disabled = !editMode;
+
+      if(editMode) {
+        snapshots.menus = angular.copy($rootScope.menus);
+      }
+    });
+
     // Every time we load a new page, we need to get the shared content all over again so we can sync any content on that page with changes that were made on a different page
     $scope.$onRootScope('$stateChangeSuccess', function() {
       getSharedContentFromServer();
     });
 
     $scope.$onRootScope('cms.autoSave', function(event, content) {
-      api.staging.find({key: $rootScope.page.url}).then(function(response) {
+      var url = $rootScope.page.url;
+      api.staging.find({key: url}).then(function(response) {
 
         if(!content) {
           content = _.pick($rootScope.page, [
@@ -428,43 +439,78 @@
           ]);
         }
 
-
         var promise;
         if(response.length > 0) {
-          promise = api.staging.update({key: $rootScope.page.url}, {data: content});
+          promise = api.staging.update({key: url}, {data: content});
         } else {
-          promise = api.staging.create({key: $rootScope.page.url, data: content});
+          promise = api.staging.create({key: url, data: content});
         }
       }, function(err) {
         console.log('promise rejected', err);
       });
     });
 
-    $scope.$onRootScope('cms.menusAutoSave', function() {
-      server.menus.delete({}).finally(function(deleteResponse) {
-        if(!helpers.isEmpty($rootScope.menus)) {
-          server.menus.create($rootScope.menus).then(function(createResponse) {
-            server.menus.find({}).then(function(response) {
-              $rootScope.menus = response;
-            });
-          });
+    $scope.$onRootScope('cms.menusAutoSave', function(event, content) {
+      api.staging.find({key: 'menus'}).then(function(response) {
+        var promise;
+        if(!content) {
+          content = angular.copy($rootScope.menus);
         }
+
+        if(response.length > 0) {
+          promise = api.staging.update({key: 'menus'}, {data: content});
+        } else {
+          promise = api.staging.create({key: 'menus', data: content});
+        }
+      }, function(err) {
+        console.log('Autosave Menus failed', err);
       });
     });
 
     $scope.$onRootScope('cms.publishChanges', function() {
       api.staging.find({key: $rootScope.page.url}).then(function(response) {
-        if(response[0]) {
+        if(response[0] && response[0].data) {
           $rootScope.page = angular.merge($rootScope.page, response[0].data);
-          $rootScope.$emit('cms.saveEdits');
-          api.staging.delete({key: $rootScope.page.url}).then(function(response) {
-            console.log('Deleting autosave data', response);
+
+          api.staging.find({key: 'menus'}).then(function(response) {
+            if(response[0] && response[0].data) {
+              server.menus.delete({}).finally(function(deleteResponse) {
+                if(!helpers.isEmpty(response[0].data)) {
+                  server.menus.create(response[0].data).then(function(createResponse) {
+                    server.menus.find({}).then(function(response) {
+                      $rootScope.menus = response;
+                      $rootScope.$emit('cms.saveEdits');
+                      api.staging.delete({key: 'menus'}).then(function(response) {
+                        console.log('Deleting autosaved menus', response);
+                      }, function(err) {
+                        console.log('Trouble deleting autosave menus', err);
+                      });
+                    });
+                  });
+                }
+              });
+            } else {
+              $rootScope.$emit('cms.saveEdits');
+              api.staging.delete({key: 'menus'}).then(function(response) {
+                console.log('Deleting autosaved menus', response);
+              }, function(err) {
+                console.log('Trouble deleting autosave menus', err);
+              });
+            }
           }, function(err) {
-            console.log('Trouble deleting autosave data', err);
+            console.log('Could not find menu autosave data', err);
+            $rootScope.$emit('cms.saveEdits');
           });
+
         } else {
-          toastr.error('Sorry but there was an error and we could not save your changes.');
+          $rootScope.$emit('cms.saveEdits');
         }
+
+        api.staging.delete({key: $rootScope.page.url}).then(function(response) {
+          console.log('Deleting autosave data', response);
+        }, function(err) {
+          console.log('Trouble deleting autosave data', err);
+        });
       });
     });
 
@@ -483,17 +529,17 @@
       // Delete all the menus in the database,
       // recreate all of them based off the client data stored in $rootScope.menus,
       // Get the newly updated menus with their server-generated ids
-      helpers.removeEmptyProperties($rootScope.menus)
+      // helpers.removeEmptyProperties($rootScope.menus)
 
-      server.menus.delete({}).finally(function(deleteResponse) {
-        if(!helpers.isEmpty($rootScope.menus)) {
-          server.menus.create($rootScope.menus).then(function(createResponse) {
-            server.menus.find({}).then(function(response) {
-              $rootScope.menus = response;
-            });
-          });
-        }
-      });
+      // server.menus.delete({}).finally(function(deleteResponse) {
+      //   if(!helpers.isEmpty($rootScope.menus)) {
+      //     server.menus.create($rootScope.menus).then(function(createResponse) {
+      //       server.menus.find({}).then(function(response) {
+      //         $rootScope.menus = response;
+      //       });
+      //     });
+      //   }
+      // });
 
       // We use a timeout so that the meanbase-editable html changes have time to update their models before we save the page.
       $timeout(function(){

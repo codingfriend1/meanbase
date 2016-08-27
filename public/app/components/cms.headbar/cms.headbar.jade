@@ -13,9 +13,12 @@
               a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template + ' template'}}
         li(ng-show="editMode")
           a(ng-click="headbar.discardChanges()") Undo Changes
-        li(ng-show="currentUser.permissions.indexOf('editContent') > -1")
+        li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && !editMode")
           a(ng-click="headbar.toggleEdit()")
-            i.fa.fa-lg(ng-class="{'fa-pencil': !editMode, 'fa-check': editMode}")
+            i.fa.fa-lg.fa-pencil
+        li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode")
+          a(ng-click="headbar.finishEdits()")
+            i.fa.fa-lg.fa-check
       ul.root-ul.dropdown.navbar-right(ng-show="editMode")
         li.dropdown
           a.dropdown-toggle(data-toggle="dropdown" role="button" ng-show="editMode").mb-fill

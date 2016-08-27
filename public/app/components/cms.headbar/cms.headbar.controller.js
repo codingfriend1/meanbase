@@ -5,6 +5,7 @@
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr, api) {
 
     var msTillAutoSaveMenus = 200;
+    var msTillAutoSavePage = 200;
 
     if(!$rootScope.isLoggedIn) { return false; }
 
@@ -37,42 +38,67 @@
 
         api.staging.find({key: $rootScope.page.url}).then(function(response) {
           if(response[0] && response[0].data) {
-            $rootScope.$emit('cms.takeSnapshots', $rootScope.editMode);
-            autoSaveSessionSnapshot.menus = angular.copy($rootScope.menus);
             autoSaveSessionSnapshot.page = angular.copy(response[0].data);
-            angular.merge($rootScope.page, response[0].data);
-            $rootScope.$emit('cms.editMode', $rootScope.editMode);
+          } else {
+            autoSaveSessionSnapshot.page = angular.copy(_.pick($rootScope.page, [
+              'title',
+              'content',
+              'images',
+              'extensions',
+              'lists',
+              'grid',
+              'links'
+            ]));
           }
+          $rootScope.$emit('cms.takePageSnapshot', $rootScope.editMode);
+          if(response[0] && response[0].data) {
+            angular.merge($rootScope.page, response[0].data);
+          }
+          pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
+            if(typeof newValue !== oldValue) {
+              $rootScope.$emit('cms.autoSave');
+            }
+
+          }, msTillAutoSavePage), true);
         }, function(err) {
           toastr.error('Sorry but we could not fetch the latest auto saved data');
           $rootScope.$emit('cms.editMode', $rootScope.editMode);
         });
 
-        pageWatcher = $scope.$watch('page', function() {
-          $rootScope.$emit('cms.autoSave');
-        }, true);
+        api.staging.find({key: 'menus'}).then(function(response) {
+          if(response[0] && response[0].data) {
+            autoSaveSessionSnapshot.menus = response[0].data;
+            $rootScope.$emit('cms.takeMenusSnapshot', $rootScope.editMode);
+            angular.merge($rootScope.menus, response[0].data);
+          } else {
+            autoSaveSessionSnapshot.menus = angular.copy($rootScope.menus);
+          }
+          menusWatcher = $scope.$watch('menus', _.debounce(function(newValue) {
+            if(typeof newValue !== undefined) {
+              $rootScope.$emit('cms.menusAutoSave');
+            }
+          }, msTillAutoSaveMenus), true);
 
-        menusWatcher = $scope.$watch('menus', _.debounce(function() {
-          $rootScope.$emit('cms.menusAutoSave');
-        }, msTillAutoSaveMenus), true);
+          $rootScope.$emit('cms.editMode', $rootScope.editMode);
+        }, function(err) {
+          toastr.error('Sorry but we could not fetch the menus autosave data.');
+        });
 
         // toastr.warning("While in edit mode you won't be able to visit links or navigate to other pages. Make sure to save your work before you leave the page.")
-      } else {
-        if(pageWatcher) {
-          pageWatcher();
-        }
-        if(menusWatcher) {
-          menusWatcher();
-        }
-
-        $rootScope.$emit('cms.returnToSnapshot');
-
-        $rootScope.$emit('cms.editMode', $rootScope.editMode);
       }
 
 			// We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
 			$scope.ableToNavigate = !$rootScope.editMode;
 		};
+
+    $scope.$onRootScope('cms.stopPageListener', function() {
+      if(pageWatcher) {
+        pageWatcher();
+      }
+      if(menusWatcher) {
+        menusWatcher();
+      }
+    });
 
 		// Creates a new page and prompts the user for a url
 		this.createPage = function(e) {
@@ -143,19 +169,31 @@
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
       localStorage.setItem('previousEditUrl', $rootScope.page.url);
       $rootScope.previousEditUrl = $rootScope.page.url;
+      $rootScope.$emit('cms.stopPageListener');
 			$rootScope.$emit('cms.publishChanges', $rootScope.page);
 		};
 
-		this.discardChanges = function() {
-			this.toggleEdit();
-
-
-      $rootScope.menus = angular.merge($rootScope.menus, autoSaveSessionSnapshot.menus);
-      $rootScope.$emit('cms.autoSave', autoSaveSessionSnapshot.page);
-      autoSaveSessionSnapshot = {};
+    this.finishEdits = function() {
+      this.toggleEdit();
+      $rootScope.$emit('cms.stopPageListener');
       $rootScope.$emit('cms.returnToSnapshot');
-			// Event event that alerts all editable parts to discard those changes including the edit directive
-			toastr.warning('Changes have been discarded');
+      $rootScope.$emit('cms.editMode', $rootScope.editMode);
+    };
+
+		this.discardChanges = function() {
+      $rootScope.$emit('cms.stopPageListener');
+      $rootScope.$emit('cms.menusAutoSave', autoSaveSessionSnapshot.menus);
+
+      $rootScope.$emit('cms.autoSave', autoSaveSessionSnapshot.page);
+			this.toggleEdit();
+      autoSaveSessionSnapshot = {};
+      $timeout(function() {
+        $rootScope.$emit('cms.returnToSnapshot');
+
+        $rootScope.$emit('cms.editMode', $rootScope.editMode);
+  			// Event event that alerts all editable parts to discard those changes including the edit directive
+  			toastr.warning('Changes have been discarded');
+      });
 		};
 
 		this.deletePage = function() {
@@ -280,7 +318,6 @@
 			api.pages.create(newPage).then(function(response) {
 				// Save new menu to database
 				api.menus.create(newMenu).then(function(response) {
-          console.log("response", response);
 					$scope.menus.main.push(newMenu);
           localStorage.setItem('previousEditUrl', response.url);
           $rootScope.previousEditUrl = response.url;
