@@ -14,7 +14,7 @@ import { arrayToObjectWithObject, arrayToObjectWithArray } from '../../../compon
 //   months[9] = "October";
 //   months[10] = "November";
 //   months[11] = "December";
-// 
+//
 // function getFormattedDate(timestamp) {
 //     var date = new Date(timestamp);
 //

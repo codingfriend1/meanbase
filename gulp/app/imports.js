@@ -49,6 +49,7 @@ module.exports = function(gulp, plugins, folders, config) {
             "transform-flow-strip-types",
             "transform-object-rest-spread",
             "syntax-async-functions",
+            "angularjs-annotate",
             "ng-annotate"
           ]
         }))

@@ -54,7 +54,9 @@ var config = {
             "transform-async-to-generator",
             "transform-class-properties",
             "transform-flow-strip-types",
-            "transform-object-rest-spread"
+            "transform-object-rest-spread",
+            "syntax-decorators",
+            "ng-annotate"
           ]
         }
       },
