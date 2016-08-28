@@ -1,8 +1,6 @@
 //meanbase Head Tool Bar 
 #mb-headbar(ng-if="isLoggedIn" ng-controller="cms.headbar.controller as headbar" class="ng-cloak")
   div#mb-headbar-child
-    div(ng-show="!editMode")
-      a(href='/cms' target="_self").navbar-brand Admin
     div.ng-cloak
       ul.root-ul
         li.dropdown(ng-show="!editMode && currentUser.permissions.indexOf('editContent') > -1")
@@ -39,6 +37,10 @@
           a.dropdown-toggle(data-toggle="dropdown" role="button")
             i.fa.fa-user.fa-lg
           ul.dropdown-menu(role="menu").dropdown-menu-right
+            li(ng-show="!editMode")
+              a(href='/cms' target="_self") Go To CMS
+            li(ng-show="!editMode")
+              a(href='/') Home Page
             li 
               a(ng-click="logout()") Log Out
             li 
