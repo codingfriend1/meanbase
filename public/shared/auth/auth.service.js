@@ -127,6 +127,7 @@ angular.module('meanbaseApp')
        * Waits for currentUser to resolve before checking if user is logged in
        */
       isLoggedInAsync: async function(cb) {
+        if(!cb) { cb = angular.noop; }
         try {
           await feathers.authenticate();
           currentUser = feathers.get('user');
