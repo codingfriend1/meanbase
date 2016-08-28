@@ -11,6 +11,10 @@ angular.module('meanbaseApp')
         if(!scope.belongsTo) { scope.belongsTo = {}; }
         scope.property = attrs.property;
 
+        if(!scope.belongsTo[scope.property]) {
+          scope.belongsTo[scope.property] = {};
+        }
+
         if(scope.belongsTo[scope.property].classes === 'fa fa-pencil fa-lg erase-this') {
           scope.belongsTo[scope.property].classes = '';
         }

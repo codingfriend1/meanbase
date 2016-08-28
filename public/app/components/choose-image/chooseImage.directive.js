@@ -20,6 +20,9 @@ angular.module('meanbaseApp')
               } else {
                 scope.belongsTo = $rootScope.page.images;
                 key = attrs.property;
+                if(!scope.belongsTo[key]) {
+                  scope.belongsTo[key] = {};
+                }
               }
             }
 
