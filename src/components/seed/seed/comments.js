@@ -18,4 +18,13 @@ var secondComment = {
   "likes": 0
 };
 
-module.exports = [firstComment, secondComment];
+var thirdComment = {
+  "email": "codingfriend@meanbase.com",
+  "content": "You can manage comments on your site by approving or rejecting them. Google Recaptcha protects you from spam.",
+  "url": "/why-cms",
+  "approved": true,
+  "date": "2016-08-28T02:05:02.842Z",
+  "author": "Coding Friend",
+}
+
+module.exports = [firstComment, secondComment, thirdComment];

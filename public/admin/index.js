@@ -1,7 +1,7 @@
 // inject js
 import "./code/app.js";
-import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
+import "../shared/validate/validate.directive.js";
 import "../shared/sortable/sortable.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/mongoose-error/mongoose-error.directive.js";
@@ -36,10 +36,10 @@ import "./code/import/import.js";
 import "./code/import/import.controller.js";
 import "./code/extensions/extensions.js";
 import "./code/extensions/extensions.controller.js";
-import "./code/cms/cms.js";
-import "./code/cms/cms.controller.js";
 import "./code/comments/comments.js";
 import "./code/comments/comments.controller.js";
+import "./code/cms/cms.js";
+import "./code/cms/cms.controller.js";
 import "./code/analytics/google-analytics-embed-customizations.js";
 import "./code/analytics/analytics.js";
 import "./code/analytics/analytics.controller.js";
