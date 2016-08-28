@@ -53,7 +53,6 @@
           }
           $rootScope.$emit('cms.takePageSnapshot', $rootScope.editMode);
           if(response[0] && response[0].data) {
-            console.log("response[0].data.images", response[0].data.images) || {};
             $rootScope.page.title = angular.copy(response[0].data.title) || {};
             $rootScope.page.content = angular.copy(response[0].data.content) || {};
             $rootScope.page.images = angular.copy(response[0].data.images) || {};

@@ -18,7 +18,11 @@
     }
 
     // Get all the menus on the server.
-    server.menus.find({}).then(function(response) {
+    api.menus.find({}).then(function(response) {
+      console.log("response", response);
+      if(Array.isArray(response) && response.length === 0)
+        response = {}
+
       $rootScope.menus = response || {};
     });
 
@@ -423,9 +427,11 @@
       getSharedContentFromServer();
     });
 
-    $scope.$onRootScope('cms.autoSave', function(event, content) {
-      var url = $rootScope.page.url;
-      api.staging.find({key: url}).then(function(response) {
+    $scope.$onRootScope('cms.autoSave', async function(event, content) {
+      var url = $rootScope.page.url
+
+      try {
+        let response = await api.staging.find({key: url})
 
         if(!content) {
           content = _.pick($rootScope.page, [
@@ -436,82 +442,71 @@
             'lists',
             'grid',
             'links'
-          ]);
+          ])
         }
 
-        var promise;
+        let promise
         if(response.length > 0) {
-          promise = api.staging.update({key: url}, {data: content});
+          promise = api.staging.update({key: url}, {data: content})
         } else {
-          promise = api.staging.create({key: url, data: content});
+          promise = api.staging.create({key: url, data: content})
         }
-      }, function(err) {
-        console.log('promise rejected', err);
-      });
-    });
 
-    $scope.$onRootScope('cms.menusAutoSave', function(event, content) {
-      api.staging.find({key: 'menus'}).then(function(response) {
-        var promise;
+      } catch(err) {
+        console.log('Error auto saving page', err)
+      }
+    })
+
+    $scope.$onRootScope('cms.menusAutoSave', async function(event, content) {
+      try {
+        let response = await api.staging.find({key: 'menus'})
+
+        let promise;
         if(!content) {
           content = angular.copy($rootScope.menus);
         }
+
+        console.log("content", content);
 
         if(response.length > 0) {
           promise = api.staging.update({key: 'menus'}, {data: content});
         } else {
           promise = api.staging.create({key: 'menus', data: content});
         }
-      }, function(err) {
-        console.log('Autosave Menus failed', err);
-      });
+
+      } catch(err) {
+        console.log('Error auto saving menus', err)
+      }
     });
 
-    $scope.$onRootScope('cms.publishChanges', function() {
-      api.staging.find({key: $rootScope.page.url}).then(function(response) {
-        if(response[0] && response[0].data) {
-          $rootScope.page = angular.merge($rootScope.page, response[0].data);
+    $scope.$onRootScope('cms.publishChanges', async function() {
+      try {
+        let pageStagingData = await api.staging.find({key: $rootScope.page.url})
+        pageStagingData = pageStagingData[0]
 
-          api.staging.find({key: 'menus'}).then(function(response) {
-            if(response[0] && response[0].data) {
-              server.menus.delete({}).finally(function(deleteResponse) {
-                if(!helpers.isEmpty(response[0].data)) {
-                  server.menus.create(response[0].data).then(function(createResponse) {
-                    server.menus.find({}).then(function(response) {
-                      $rootScope.menus = response;
-                      $rootScope.$emit('cms.saveEdits');
-                      api.staging.delete({key: 'menus'}).then(function(response) {
-                        console.log('Deleting autosaved menus', response);
-                      }, function(err) {
-                        console.log('Trouble deleting autosave menus', err);
-                      });
-                    });
-                  });
-                }
-              });
-            } else {
-              $rootScope.$emit('cms.saveEdits');
-              api.staging.delete({key: 'menus'}).then(function(response) {
-                console.log('Deleting autosaved menus', response);
-              }, function(err) {
-                console.log('Trouble deleting autosave menus', err);
-              });
-            }
-          }, function(err) {
-            console.log('Could not find menu autosave data', err);
-            $rootScope.$emit('cms.saveEdits');
-          });
+        if(pageStagingData && pageStagingData.data)
+          $rootScope.page = angular.merge($rootScope.page, pageStagingData.data)
 
-        } else {
-          $rootScope.$emit('cms.saveEdits');
+        let menusStagingData = await api.staging.find({key: 'menus'})
+        menusStagingData = menusStagingData[0]
+
+        if(menusStagingData && menusStagingData.data) {
+          await api.menus.delete({})
+          let newMenus = await api.menus.create(menusStagingData.data)
+          $rootScope.menus = newMenus;
         }
 
-        api.staging.delete({key: $rootScope.page.url}).then(function(response) {
-          console.log('Deleting autosave data', response);
-        }, function(err) {
-          console.log('Trouble deleting autosave data', err);
-        });
-      });
+        $rootScope.$emit('cms.saveEdits');
+
+        if(pageStagingData)
+          await api.staging.delete({key: $rootScope.page.url})
+
+        if(menusStagingData)
+          await api.staging.delete({key: 'menus'})
+
+      } catch(err) {
+        console.log('Error publishing changes', err)
+      }
     });
 
     // ###Save Edits!
