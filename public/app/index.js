@@ -77,8 +77,8 @@ import "../shared/validate/validate.jade";
 
 // inject stylus
 import "./app.styl";
-import "./components/choose-icon/chooseImage.styl";
 import "./components/choose-image/chooseImage.styl";
+import "./components/choose-icon/chooseImage.styl";
 import "./components/cms.headbar/cms.headbar.styl";
 import "./components/extensions-area/extensions-area.styl";
 import "./components/extensions-selector/extensions-selector.styl";

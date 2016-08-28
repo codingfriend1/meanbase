@@ -126,14 +126,26 @@ angular.module('meanbaseApp')
       /**
        * Waits for currentUser to resolve before checking if user is logged in
        */
-      isLoggedInAsync: function(cb) {
-        feathers.authenticate().then(function(result) {
+      isLoggedInAsync: async function(cb) {
+        try {
+          await feathers.authenticate();
           currentUser = feathers.get('user');
           cb(true);
-        }, function(err) {
+          return true
+        } catch(err) {
           console.log("Error authenticating", err);
           cb(false);
-        });
+          return false
+        }
+
+
+        // feathers.authenticate().then(function(result) {
+        //   currentUser = feathers.get('user');
+        //   cb(true);
+        // }, function(err) {
+        //   console.log("Error authenticating", err);
+        //   cb(false);
+        // });
       },
 
       // Check if the user's role has the correct permission

@@ -29,26 +29,43 @@ module.exports = function(gulp, plugins, folders, config) {
 
 
   gulp.task('import-admin-js', function() {
+
+    var sources = gulp.src([
+      folders.code + '/**/*.js',
+      folders.shared + '/**/*.js',
+      '!**/*spec.js',
+      '!**/*mock.js'
+    ], {read: true})
+      .pipe(plugins.babel({
+        presets: ['es2017', 'es2015', 'stage-3'],
+        "plugins": [
+          'transform-runtime',
+          'transform-async-to-generator',
+          "transform-decorators-legacy",
+          "transform-class-properties",
+          "transform-flow-strip-types",
+          "transform-object-rest-spread",
+          "syntax-async-functions",
+          "ng-annotate"
+        ]
+      }))
+      .pipe(plugins.angularFilesort());
+
+
     return gulp.src(config.path.join(folders.root, 'index.js'))
-  	 .pipe(plugins.inject(gulp.src([
-       folders.code + '/**/*.js',
-       folders.shared + '/**/*.js',
-       '!**/*spec.js',
-       '!**/*mock.js',
-       '!' + config.path.join(folders.shared, '/ckeditor/FileBrowser/fileBrowser.js')
-     ], { read: true }).pipe(plugins.angularFilesort()), {
-  		relative: true,
-  		starttag: '// inject js',
-  		endtag: '// end inject js',
-      // ignorePath: 'client',
-      addRootSlash: false,
-  		transform: function(filepath, file, i, length) {
-        if(filepath.indexOf('..') !== -1) {
-          return 'import "' + filepath + '";'
-        } else {
-    		  return 'import "./' + filepath + '";'
-        }
-  		}
+  	 .pipe(plugins.inject(sources, {
+    		relative: true,
+    		starttag: '// inject js',
+    		endtag: '// end inject js',
+        // ignorePath: 'client',
+        addRootSlash: false,
+    		transform: function(filepath, file, i, length) {
+          if(filepath.indexOf('..') !== -1) {
+            return 'import "' + filepath + '";'
+          } else {
+      		  return 'import "./' + filepath + '";'
+          }
+    		}
   	 }))
   	 .pipe(gulp.dest(folders.root))
   })

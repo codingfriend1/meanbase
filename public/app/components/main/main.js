@@ -27,7 +27,14 @@
     $stateProvider
       .state('main.page', {
         url: '^/{page:(?!cms|login|signup|settings).*}',
-        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', 'api', '$templateCache', function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth, api, $templateCache) {
+        templateProvider: ['endpoints', '$templateFactory', '$stateParams', '$q', '$state', '$rootScope', 'Auth', 'api', '$templateCache', async function(endpoints, $templateFactory, $stateParams, $q, $state, $rootScope, Auth, api, $templateCache) {
+
+          let status = await Auth.isLoggedInAsync(function(afterStatus) {
+            console.log("afterStatus", afterStatus);
+          });
+
+
+          console.log("first status", status);
           // - Prepare a promise to return to templateProvider
           var deferred = $q.defer();
           // Let's check if the user is logged in
