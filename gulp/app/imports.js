@@ -37,7 +37,18 @@ module.exports = function(gulp, plugins, folders, config) {
        '!**/*spec.js',
        '!**/*mock.js',
        '!' + config.path.join(folders.shared, '/ckeditor/FileBrowser/fileBrowser.js')
-     ], { read: true }).pipe(plugins.angularFilesort()), {
+    //  ], { read: true }).pipe(plugins.angularFilesort()), {
+    ], { read: true }).pipe(plugins.babel({
+      presets: ['es2017'],
+      "plugins": [
+        "ng-annotate",
+        "transform-decorators-legacy",
+        "transform-async-to-generator",
+        "transform-class-properties",
+        "transform-flow-strip-types",
+        "transform-object-rest-spread"
+      ]
+    })).pipe(plugins.angularFilesort()), {
   		relative: true,
   		starttag: '// inject js',
   		endtag: '// end inject js',

@@ -1,10 +1,10 @@
 // inject js
 import "./app.js";
-import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
+import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
 import "../shared/mb-animate/mb-animate.directive.js";
@@ -39,15 +39,15 @@ import "./components/main/main.controller.js";
 import "./components/list-selector/list.modal.controller.js";
 import "./components/list-selector/list-selector.directive.js";
 import "./components/list-area/list-area-directive.js";
-import "./components/extensions-area/extensions-area.directive.js";
 import "./components/init-list/init-list.directive.js";
 import "./components/findImages/findImages.directive.js";
 import "./components/find-images-modal/find-images-modal.directive.js";
 import "./components/extensions-selector/extensions.modal.controller.js";
 import "./components/extensions-selector/extensions-selector.directive.js";
+import "./components/extensions-area/extensions-area.directive.js";
 import "./components/dynamic-html/dynamic-html.directive.js";
-import "./components/choose-image/chooseImage.directive.js";
 import "./components/cms.headbar/cms.headbar.controller.js";
+import "./components/choose-image/chooseImage.directive.js";
 import "./components/choose-icon/chooseIcon.directive.js";
 // end inject js
 
@@ -77,8 +77,8 @@ import "../shared/validate/validate.jade";
 
 // inject stylus
 import "./app.styl";
-import "./components/choose-image/chooseImage.styl";
 import "./components/choose-icon/chooseImage.styl";
+import "./components/choose-image/chooseImage.styl";
 import "./components/cms.headbar/cms.headbar.styl";
 import "./components/extensions-area/extensions-area.styl";
 import "./components/extensions-selector/extensions-selector.styl";
