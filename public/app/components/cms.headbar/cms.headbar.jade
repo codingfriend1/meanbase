@@ -15,15 +15,15 @@
           a(ng-click="headbar.undoSession()") Undo Changes
             //- i.fa.fa-lg.fa-undo
         li(ng-show="editMode")
-          a(ng-click="headbar.resetDraft()") Reset Draft   
-        li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && !editMode")
-          a(ng-click="headbar.toggleEdit()") Edit
-        li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode && page.published")
-          a(ng-click="headbar.publishChanges()") Publish Changes
+          a(ng-click="headbar.resetDraft()") Reset Draft
         li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode")
           a(ng-click="headbar.togglePublishPage()") 
             span(ng-show="!page.published") Publish
-            span(ng-show="page.published") Unpublish   
+            span(ng-show="page.published") Unpublish 
+        li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && !editMode")
+          a(ng-click="headbar.toggleEdit()") Edit
+        li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode && page.published")
+          a(ng-click="headbar.publishChanges()") Publish Changes  
       ul.root-ul.dropdown.navbar-right.mb-right(ng-show="editMode")
         li.dropdown.less-padding
           a.dropdown-toggle(data-toggle="dropdown" role="button" ng-show="editMode").mb-fill

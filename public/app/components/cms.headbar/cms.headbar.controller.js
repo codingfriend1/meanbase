@@ -257,14 +257,8 @@
       $rootScope.previousEditUrl = $rootScope.page.url;
       $rootScope.$emit('cms.stopPageListener');
 			$rootScope.$emit('cms.publishChanges', $rootScope.page);
+      autoSaveSessionSnapshot = {}
 		};
-
-    this.finishEdits = function() {
-      this.toggleEdit()
-      $rootScope.$emit('cms.stopPageListener')
-      $rootScope.$emit('cms.returnToSnapshot')
-      $rootScope.$emit('cms.editMode', $rootScope.editMode)
-    }
 
 		this.undoSession = function() {
       $rootScope.$emit('cms.stopPageListener')
