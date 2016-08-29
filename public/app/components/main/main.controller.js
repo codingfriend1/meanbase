@@ -452,9 +452,7 @@
             'links'
           ])
         }
-
-        console.log("pageContent.content", pageContent.content);
-
+        
         let pagesPromise
         if(response.length > 0) {
           pagesPromise = await api.staging.update({key: url}, {data: pageContent})

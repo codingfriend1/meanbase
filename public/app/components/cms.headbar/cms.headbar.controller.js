@@ -59,9 +59,13 @@
       }
 		};
 
+    let lastPageUndoData
+    let lastMenuUndoData
+
     $scope.$onRootScope('cms.startPageListener', function() {
       pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
         if(typeof newValue !== oldValue) {
+          lastPageUndoData = angular.copy(oldValue)
           $rootScope.$emit('cms.autoSave')
           $scope.autoSavingInProgress = true
           $timeout(function() {
@@ -71,8 +75,9 @@
       }, msTillAutoSavePage), true)
 
 
-      menusWatcher = $scope.$watch('menus', _.debounce(function(newValue) {
+      menusWatcher = $scope.$watch('menus', _.debounce(function(newValue, oldValue) {
         if(typeof newValue !== undefined) {
+          lastMenuUndoData = angular.copy(oldValue)
           $rootScope.$emit('cms.autoSave')
           $scope.autoSavingInProgress = true
           $timeout(function() {
@@ -289,8 +294,15 @@
 		}
 
 		this.undoMoment = function() {
-      console.log("undoing", undoing);
-      $rootScope.$emit('cms.returnToAutoSave')
+      if(lastPageUndoData) {
+        $rootScope.page = angular.copy(lastPageUndoData)
+      }
+
+      if(lastMenuUndoData) {
+        $rootScope.menus = angular.copy(lastMenuUndoData)
+      }
+
+      $rootScope.$emit('cms.updateView')
 		}
 
 		this.deletePage = async function() {
