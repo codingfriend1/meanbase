@@ -288,6 +288,11 @@
       })
 		}
 
+		this.undoMoment = function() {
+      console.log("undoing", undoing);
+      $rootScope.$emit('cms.returnToAutoSave')
+		}
+
 		this.deletePage = async function() {
 			this.toggleEdit();
 			if(!$rootScope.page._id) { return false; }

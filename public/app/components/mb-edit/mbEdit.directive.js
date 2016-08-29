@@ -71,7 +71,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
             ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
               // ngModel.$setViewValue( editable.innerHTML.trim() );
               ngModel.$setViewValue(ngModel.editor.getContent());
-            }, 1000));
+            }, 200));
           } else {
             ngModel.$setViewValue(ngModel.editor.getContent());
             ngModel.$render();

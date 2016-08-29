@@ -1,8 +1,8 @@
 // inject jade
 import "./js/bullet-point-list/bullet-point-list.html";
+import "./js/text-columns-list/text-columns-list.html";
 import "./js/selling-point-list/selling-point-list.html";
 import "./js/selling-point-list/toggle-type.modal.html";
-import "./js/text-columns-list/text-columns-list.html";
 import "./templates/archive/archive-template.html";
 import "./templates/blog/blog-template.html";
 import "./templates/home/home-template.html";

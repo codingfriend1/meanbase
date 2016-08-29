@@ -18,13 +18,10 @@
             span.show-mobile
               i.fa.fa-lg.fa-eye
         li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Undo Changes")
-          a(ng-click="headbar.undoSession()") 
-            span.show-desktop Undo Changes
+          a(ng-click="headbar.undoMoment()") 
+            span.show-desktop Undo
             span.show-mobile
               i.fa.fa-lg.fa-undo
-        li(ng-show="editMode" title="Undo all changes since last time this was published")
-          a(ng-click="headbar.resetDraft()") Reset Draft
-        li(ng-show="autoSavingInProgress").autosaving-text.show-desktop autosaving...
         li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode")
           a(ng-click="headbar.togglePublishPage()") 
             span(ng-show="!page.published" title="Publish the page") Publish
@@ -34,8 +31,9 @@
             span.show-desktop Edit
             span.show-mobile
               i.fa.fa-lg.fa-pencil
-        li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode && page.published")
-          a(ng-click="headbar.publishChanges()" title="Save all recent edits to the live page") Publish Changes  
+        li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && page.published")
+          a(ng-click="headbar.publishChanges()" title="Save all recent edits to the live page") Publish Changes
+        li(ng-show="autoSavingInProgress").autosaving-text.show-desktop autosaving...
       ul.root-ul.dropdown.navbar-right.mb-right(ng-show="editMode")
         li.dropdown.less-padding
           a.dropdown-toggle(data-toggle="dropdown" role="button" ng-show="editMode").mb-fill
@@ -43,6 +41,8 @@
           ul.dropdown-menu.dropdown-menu-right(role="menu").mb-dropdown-menu-right
             li(ng-show="editMode")
               a(ng-click="headbar.editPageModal()") Settings
+            li(ng-show="editMode" title="Undo all changes since last time this was published")
+              a(ng-click="headbar.resetDraft()") Reset Draft
             li(ng-show="!editMode && previousEditUrl")
               a(ng-href="{{previousEditUrl}}") Return to last edit
             li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
@@ -52,9 +52,9 @@
           a.dropdown-toggle(data-toggle="dropdown" role="button")
             i.fa.fa-user.fa-lg
           ul.dropdown-menu(role="menu").dropdown-menu-right
-            li(ng-show="!editMode")
-              a(href='/cms' target="_self") Go To CMS
-            li(ng-show="!editMode")
+            li
+              a(href='/cms' target="_self") Go To Admin
+            li
               a(href='/') Home Page
             li 
               a(ng-click="logout()") Log Out
