@@ -44,6 +44,8 @@
           } else {
             autoSaveSessionSnapshot.page = angular.copy(_.pick($rootScope.page, [
               'title',
+              'tabTitle',
+              'description',
               'content',
               'images',
               'extensions',
@@ -58,12 +60,17 @@
 
           if(pageAutoSaveData && pageAutoSaveData.data) {
             $rootScope.page.title = angular.copy(pageAutoSaveData.data.title) || {}
+            $rootScope.page.tabTitle = angular.copy(pageAutoSaveData.data.tabTitle)
+            $rootScope.page.description = angular.copy(pageAutoSaveData.data.description)
             $rootScope.page.content = angular.copy(pageAutoSaveData.data.content) || {}
             $rootScope.page.images = angular.copy(pageAutoSaveData.data.images) || {}
             $rootScope.page.extensions = angular.copy(pageAutoSaveData.data.extensions) || {}
             $rootScope.page.lists = angular.copy(pageAutoSaveData.data.lists) || {}
             $rootScope.page.grid = angular.copy(pageAutoSaveData.data.grid) || {}
             $rootScope.page.links = angular.copy(pageAutoSaveData.data.links) || {}
+
+            document.title = $rootScope.page.tabTitle
+            jQuery('meta[name=description]').attr('content', $rootScope.page.description)
           }
 
           let menusStagingData = await api.staging.find({key: 'menus'})

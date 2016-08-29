@@ -427,12 +427,17 @@
     $scope.$onRootScope('cms.autoSave', async function(event, content) {
       var url = $rootScope.page.url
 
+      document.title = $rootScope.page.tabTitle
+      jQuery('meta[name=description]').attr('content', $rootScope.page.description)
+
       try {
         let response = await api.staging.find({key: url})
 
         if(!content) {
           content = _.pick($rootScope.page, [
             'title',
+            'tabTitle',
+            'description',
             'content',
             'images',
             'extensions',
@@ -523,9 +528,8 @@
           let updatedPage = await api.pages.update({_id: $rootScope.page._id}, $rootScope.page)
           updatedPage = updatedPage[0]
 
-          if($rootScope.page.tabTitle) {
-            document.title = $rootScope.page.tabTitle
-          }
+          document.title = $rootScope.page.tabTitle
+          jQuery('meta[name=description]').attr('content', $rootScope.page.description);
 
           if(updatedPage) {
             if(snapshots.page.url !== updatedPage.url) {
@@ -625,10 +629,17 @@
 
       // We also want to reset the shared content to delete check
       $rootScope.sharedContentToCheckDelete = []
+
+      document.title = $rootScope.page.tabTitle
+      jQuery('meta[name=description]').attr('content', $rootScope.page.description)
     })
 
     $scope.$onRootScope('cms.revertToPublished', async function(event, url) {
       if(!url) { url = $rootScope.page.url }
+
+      document.title = $rootScope.page.tabTitle
+      jQuery('meta[name=description]').attr('content', $rootScope.page.description)
+
       try {
         let response = await api.staging.delete({key: url})
         console.log('Deleting autosave data for ' + url, response)
