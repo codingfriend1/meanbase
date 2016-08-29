@@ -6,6 +6,8 @@
 
     const msTillAutoSaveMenus = 100;
     const msTillAutoSavePage = 100;
+
+    $scope.autoSavingInProgress = false
     let self = this
 
     if(!$rootScope.isLoggedIn) { return false; }
@@ -61,6 +63,10 @@
       pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
         if(typeof newValue !== oldValue) {
           $rootScope.$emit('cms.autoSave')
+          $scope.autoSavingInProgress = true
+          $timeout(function() {
+            $scope.autoSavingInProgress = false
+          }, 1000);
         }
       }, msTillAutoSavePage), true)
 
@@ -68,6 +74,10 @@
       menusWatcher = $scope.$watch('menus', _.debounce(function(newValue) {
         if(typeof newValue !== undefined) {
           $rootScope.$emit('cms.autoSave')
+          $scope.autoSavingInProgress = true
+          $timeout(function() {
+            $scope.autoSavingInProgress = false
+          }, 1000);
         }
       }, msTillAutoSaveMenus), true)
     })

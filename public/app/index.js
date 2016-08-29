@@ -47,19 +47,19 @@ import "./components/extensions-selector/extensions-selector.directive.js";
 import "./components/extensions-area/extensions-area.directive.js";
 import "./components/dynamic-html/dynamic-html.directive.js";
 import "./components/cms.headbar/cms.headbar.controller.js";
-import "./components/choose-image/chooseImage.directive.js";
 import "./components/choose-icon/chooseIcon.directive.js";
+import "./components/choose-image/chooseImage.directive.js";
 // end inject js
 
 // inject jade
 import "./components/choose-image/chooseImage.jade";
+import "./components/cms.headbar/choose-link.modal.jade";
+import "./components/cms.headbar/cms.headbar.jade";
+import "./components/cms.headbar/editmodal.modal.jade";
 import "./components/extensions-area/extensions-area.jade";
 import "./components/extensions-selector/extensions-selector.jade";
 import "./components/extensions-selector/extensions.modal.jade";
 import "./components/findImages/findImages.jade";
-import "./components/cms.headbar/choose-link.modal.jade";
-import "./components/cms.headbar/cms.headbar.jade";
-import "./components/cms.headbar/editmodal.modal.jade";
 import "./components/list-area/list-area.jade";
 import "./components/list-selector/list-selector.jade";
 import "./components/list-selector/list.modal.jade";

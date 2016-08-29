@@ -24,6 +24,7 @@
               i.fa.fa-lg.fa-undo
         li(ng-show="editMode" title="Undo all changes since last time this was published")
           a(ng-click="headbar.resetDraft()") Reset Draft
+        li(ng-show="autoSavingInProgress").autosaving-text.show-desktop autosaving...
         li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode")
           a(ng-click="headbar.togglePublishPage()") 
             span(ng-show="!page.published" title="Publish the page") Publish
