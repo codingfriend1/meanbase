@@ -72,7 +72,7 @@ angular.module('meanbaseApp')
           }
         });
 
-        scope.$onRootScope('cms.discardEdits', function() {
+        scope.$onRootScope('cms.returnToSnapshot', function() {
           $timeout(function() {
             findOn();
             setUrls();

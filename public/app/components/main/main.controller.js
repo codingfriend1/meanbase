@@ -463,8 +463,6 @@
           content = angular.copy($rootScope.menus)
         }
 
-        console.log("content", content)
-
         if(response.length > 0) {
           promise = api.staging.update({key: 'menus'}, {data: content})
         } else {
@@ -518,51 +516,49 @@
       $rootScope.menus = helpers.updatePositionData($rootScope.menus)
 
       // We use a timeout so that the meanbase-editable html changes have time to update their models before we save the page.
-      $timeout(function(){
+      $timeout(async function(){
         if(!$rootScope.page._id) { return false }
 
-        api.pages.update({_id: $rootScope.page._id}, $rootScope.page).then(function(response) {
+        try {
+          let updatedPage = await api.pages.update({_id: $rootScope.page._id}, $rootScope.page)
+          updatedPage = updatedPage[0]
 
-          // Since we have angular setting the browser tab title we want to update it in case it changed. Normally this is bad practice, but we have prerender in node pre-compiling these pages for search engine bots
           if($rootScope.page.tabTitle) {
             document.title = $rootScope.page.tabTitle
           }
 
-          if(response && response[0]) {
-            if(snapshots.page.url !== response[0].url) {
-              localStorage.setItem('previousEditUrl', response[0].url)
-              $rootScope.previousEditUrl = response[0].url
-              api.menus.update({url: snapshots.page.url}, {url: response[0].url}).then(function(response) {}, function(err) {
+          if(updatedPage) {
+            if(snapshots.page.url !== updatedPage.url) {
+              localStorage.setItem('previousEditUrl', updatedPage.url)
+              $rootScope.previousEditUrl = updatedPage.url
+              try {
+                await api.menus.update({url: snapshots.page.url}, {url: updatedPage.url})
+              } catch(err) {
+                console.log('Error updating menus to match url change', err);
                 toastr.warning('Make sure to update any menus that point to the previous url for the page.')
-              })
+              }
             }
           }
+        } catch(err) {
+          console.log('err', err);
+        }
 
-
-
-          // Same with description
-          if($rootScope.page.description) {
-            jQuery('meta[name=description]').attr('content', $rootScope.page.description)
-          }
-
-          // Here's where we try to delete shared content that was removed from this page.
+        (async () => {
           if($scope.sharedContentToCheckDelete.length > 0) {
-            api.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } }).then(function() {
-
-              // Get the latest content for the list next time the user want to add existing content
+            try {
+              await api.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } })
+                // Get the latest content for the list next time the user want to add existing content
               getSharedContentFromServer()
-
-              // Reset the array
+                // Reset the array
               $scope.sharedContentToCheckDelete = []
-            })
+            } catch(err) {
+              console.log('Error deleting shared content', err);
+            }
           } else {
             getSharedContentFromServer()
           }
 
-          // Let the user know their changes were saved
-          toastr.success('Changes saved')
-
-        }) //api.pages.update()
+        })()
 
         // We want to update the extension position data as well
         $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions)
@@ -599,26 +595,29 @@
           }
         })
 
+        toastr.success('Changes saved')
+
       }) //$timeout
     }) //saveEdits()
 
-    function upsertSharedContent(key, content) {
-      api.sharedContent.find({contentName: key}).then(function(response) {
+    async function upsertSharedContent(key, content) {
+      try {
+        let response = await api.sharedContent.find({contentName: key})
+
         if(response[0]) {
-          api.sharedContent.update({contentName: key}, content)
+          await api.sharedContent.update({contentName: key}, content)
         } else {
-          api.sharedContent.create(content)
+          await api.sharedContent.create(content)
         }
-      }, function(err) {
+      } catch(err) {
         console.log("Could not save shared content", err)
-      })
+      }
     }
 
     // ### Discard Edits
     // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when the user first clicked edit
     $scope.$onRootScope('cms.returnToSnapshot', function() {
       $scope.pageAnimation = 'shake'
-
       // We want to set the data to it's old initial snapshot
       $rootScope.menus = snapshots.menus
       $rootScope.page = snapshots.page
@@ -628,12 +627,14 @@
       $rootScope.sharedContentToCheckDelete = []
     })
 
-    $scope.$onRootScope('cms.revertToPublished', function(event, url) {
-      api.staging.delete({key: url}).then(function(response) {
+    $scope.$onRootScope('cms.revertToPublished', async function(event, url) {
+      if(!url) { url = $rootScope.page.url }
+      try {
+        let response = await api.staging.delete({key: url})
         console.log('Deleting autosave data for ' + url, response)
-      }, function(err) {
+      } catch(err) {
         console.log('Trouble deleting autosave data for ' + url, err)
-      })
+      }
     })
 
     // ### Image selector

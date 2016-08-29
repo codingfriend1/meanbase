@@ -46,6 +46,7 @@ angular.module('meanbaseApp')
             scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
             setDefaultIfEmpty();
           } else {
+            scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
             removeDefault();
           }
         });

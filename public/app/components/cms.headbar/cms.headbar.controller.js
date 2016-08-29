@@ -36,11 +36,11 @@
 
       if($rootScope.editMode) {
         try {
-          let pageStagingData = await api.staging.find({key: $rootScope.page.url})
-          pageStagingData = pageStagingData[0]
+          let pageAutoSaveData = await api.staging.find({key: $rootScope.page.url})
+          pageAutoSaveData = pageAutoSaveData[0]
 
-          if(pageStagingData && pageStagingData.data) {
-            autoSaveSessionSnapshot.page = angular.copy(pageStagingData.data)
+          if(pageAutoSaveData && pageAutoSaveData.data) {
+            autoSaveSessionSnapshot.page = angular.copy(pageAutoSaveData.data)
           } else {
             autoSaveSessionSnapshot.page = angular.copy(_.pick($rootScope.page, [
               'title',
@@ -56,14 +56,14 @@
           // Take the original snapshot before we merge in the stading data
           $rootScope.$emit('cms.takePageSnapshot', $rootScope.editMode)
 
-          if(pageStagingData && pageStagingData.data) {
-            $rootScope.page.title = angular.copy(pageStagingData.data.title) || {}
-            $rootScope.page.content = angular.copy(pageStagingData.data.content) || {}
-            $rootScope.page.images = angular.copy(pageStagingData.data.images) || {}
-            $rootScope.page.extensions = angular.copy(pageStagingData.data.extensions) || {}
-            $rootScope.page.lists = angular.copy(pageStagingData.data.lists) || {}
-            $rootScope.page.grid = angular.copy(pageStagingData.data.grid) || {}
-            $rootScope.page.links = angular.copy(pageStagingData.data.links) || {}
+          if(pageAutoSaveData && pageAutoSaveData.data) {
+            $rootScope.page.title = angular.copy(pageAutoSaveData.data.title) || {}
+            $rootScope.page.content = angular.copy(pageAutoSaveData.data.content) || {}
+            $rootScope.page.images = angular.copy(pageAutoSaveData.data.images) || {}
+            $rootScope.page.extensions = angular.copy(pageAutoSaveData.data.extensions) || {}
+            $rootScope.page.lists = angular.copy(pageAutoSaveData.data.lists) || {}
+            $rootScope.page.grid = angular.copy(pageAutoSaveData.data.grid) || {}
+            $rootScope.page.links = angular.copy(pageAutoSaveData.data.links) || {}
           }
 
           let menusStagingData = await api.staging.find({key: 'menus'})
@@ -114,6 +114,12 @@
         menusWatcher();
       }
     });
+
+    this.resetPage = function() {
+      $rootScope.$emit('cms.returnToSnapshot')
+      $rootScope.$emit('cms.revertToPublished')
+      toastr.success('Changes since last published date have been removed')
+    };
 
 		// Creates a new page and prompts the user for a url
 		this.createPage = function(e) {

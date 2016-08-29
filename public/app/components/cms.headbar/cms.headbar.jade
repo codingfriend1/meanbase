@@ -24,6 +24,8 @@
           ul.dropdown-menu.dropdown-menu-right(role="menu").mb-dropdown-menu-right
             li(ng-show="editMode")
               a(ng-click="headbar.editPageModal()") Settings
+            li(ng-show="editMode")
+              a(ng-click="headbar.resetPage()") Reset Draft
             li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && editMode")
               a(ng-click="headbar.togglePublishPage()") 
                 span(ng-hide="page.published") Publish
