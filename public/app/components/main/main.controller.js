@@ -298,7 +298,7 @@
 
     $scope.editorSingleLine = _.merge({}, $scope.editorOptions, {
       disableReturn: true,
-      disableDoubleReturn: true,
+      // disableDoubleReturn: true,
       placeholder: {
         text: 'type here',
         hideOnClick: true
@@ -452,7 +452,7 @@
             'links'
           ])
         }
-        
+
         let pagesPromise
         if(response.length > 0) {
           pagesPromise = await api.staging.update({key: url}, {data: pageContent})
