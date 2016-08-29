@@ -40,10 +40,10 @@ import "./code/comments/comments.js";
 import "./code/comments/comments.controller.js";
 import "./code/cms/cms.js";
 import "./code/cms/cms.controller.js";
-import "./code/account/account.js";
 import "./code/analytics/google-analytics-embed-customizations.js";
 import "./code/analytics/analytics.js";
 import "./code/analytics/analytics.controller.js";
+import "./code/account/account.js";
 // end inject js
 
 // inject jade
@@ -52,10 +52,10 @@ import "./code/cms/cms.jade";
 import "./code/comments/comments.jade";
 import "./code/extensions/extensions.jade";
 import "./code/import/import.jade";
-import "./code/pages/pages.jade";
 import "./code/themes/themes.jade";
 import "./code/media/media.jade";
 import "./code/users/users.jade";
+import "./code/pages/pages.jade";
 import "./code/account/login/login.jade";
 import "./code/account/settings/settings.jade";
 import "../shared/image-selector/image-selector.jade";

@@ -65,11 +65,9 @@
       return false
     }
 
-    // ###handleClick
-    // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
-    $scope.handleClick = function($event, menuItem, href) {
+    $scope.openEditMenuModal = function(event, menuItem) {
       if($scope.editMode) {
-        $event.preventDefault()
+        event.preventDefault()
         var modalInstance = $modal.open({
           templateUrl: require('./editmenu.modal.jade'),
           controller: menuModal,
@@ -83,12 +81,17 @@
             }
           }
         })
+      }
+    }
+
+    // ###handleClick
+    // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
+    $scope.handleClick = function($event, menuItem, href) {
+      if($event.target.classList.contains('mb-edit-menu-btn')) { console.log("false", false); return false }
+      if(menuItem.target) {
+        window.open(href, menuItem.target)
       } else {
-        if(menuItem.target) {
-          window.open(href, menuItem.target)
-        } else {
-          $location.path(href)
-        }
+        $location.path(href)
       }
     }
 
