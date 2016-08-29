@@ -10,7 +10,7 @@ angular.module('meanbaseApp')
       },
       link: function (scope, element, attrs) {
         if(!$rootScope.isLoggedIn) { return false; }
-        
+
         if(!scope.mbNew) {
           scope.mbNew = [];
         }
@@ -20,7 +20,7 @@ angular.module('meanbaseApp')
         }
 
         element.bind('click', function(event) {
-          $rootScope.$emit('cms.saveListItem');
+          $rootScope.$emit('cms.updateView');
           $timeout(function() {
             $timeout(function() {
               scope.mbNew.push(_.cloneDeep(scope.mbModel));

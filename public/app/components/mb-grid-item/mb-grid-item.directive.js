@@ -26,15 +26,10 @@ angular.module('meanbaseApp')
           }
         });
 
-        scope.$onRootScope('cms.saveEdits', function(event, value) {
+        scope.$onRootScope('cms.updateView', function(event, value) {
           var classes = element[0].className;
           scope.item.gridClasses = classes;
           originalClasses = classes;
-        });
-
-        scope.$onRootScope('cms.saveListItem', function(event, value) {
-          var classes = element[0].className;
-          scope.item.gridClasses = classes;
         });
 
         (function() {

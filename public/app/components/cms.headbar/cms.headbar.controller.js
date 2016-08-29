@@ -6,11 +6,11 @@
 
     const msTillAutoSaveMenus = 200;
     const msTillAutoSavePage = 200;
+    let self = this
 
     if(!$rootScope.isLoggedIn) { return false; }
 
 		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
-		var self = this;
 
 		//  ###editMode
 		// The big daddy power house **editMode**! This variable is used all throughout the app to enable edits to be made on the content. We don't want this to be true until we hit the edit button in the admin top menu.
@@ -21,112 +21,170 @@
 		// Used to disable navigation while in edit mode
 		$scope.ableToNavigate = true;
 
+
+    function startEditMode() {
+
+    }
+
 		// Prevent the user from navigating away while in edit mode until they save or discard their changes.
-		$scope.$onRootScope('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-		  if (!$scope.ableToNavigate) {
-		    event.preventDefault();
-		    toastr.info('Please save or discard your changes before navigating.');
-		  }
+		$scope.$onRootScope('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      if($rootScope.currentUser.permissions.indexOf('editContent') > -1) {
+        autoSaveSessionSnapshot = {}
+        self.toggleEdit(true)
+      }
 		});
+
+    $timeout(function() {
+      if($rootScope.currentUser.permissions.indexOf('editContent') > -1) {
+        self.toggleEdit(true)
+      }
+    });
+
 
     var pageWatcher, menusWatcher, autoSaveSessionSnapshot = {};
 		// Toggles the all powerful editMode, emits an event so the rest of the app can make changes
 		this.toggleEdit = async boole => {
 			if(boole !== undefined) { $rootScope.editMode = boole } else { $rootScope.editMode = !$rootScope.editMode }
-
       if($rootScope.editMode) {
-        try {
-          let pageAutoSaveData = await api.staging.find({key: $rootScope.page.url})
-          pageAutoSaveData = pageAutoSaveData[0]
-
-          if(pageAutoSaveData && pageAutoSaveData.data) {
-            autoSaveSessionSnapshot.page = angular.copy(pageAutoSaveData.data)
-          } else {
-            autoSaveSessionSnapshot.page = angular.copy(_.pick($rootScope.page, [
-              'title',
-              'tabTitle',
-              'description',
-              'content',
-              'images',
-              'extensions',
-              'lists',
-              'grid',
-              'links'
-            ]))
-          }
-
-          // Take the original snapshot before we merge in the stading data
-          $rootScope.$emit('cms.takePageSnapshot', $rootScope.editMode)
-
-          if(pageAutoSaveData && pageAutoSaveData.data) {
-            $rootScope.page.title = angular.copy(pageAutoSaveData.data.title) || {}
-            $rootScope.page.tabTitle = angular.copy(pageAutoSaveData.data.tabTitle)
-            $rootScope.page.description = angular.copy(pageAutoSaveData.data.description)
-            $rootScope.page.content = angular.copy(pageAutoSaveData.data.content) || {}
-            $rootScope.page.images = angular.copy(pageAutoSaveData.data.images) || {}
-            $rootScope.page.extensions = angular.copy(pageAutoSaveData.data.extensions) || {}
-            $rootScope.page.lists = angular.copy(pageAutoSaveData.data.lists) || {}
-            $rootScope.page.grid = angular.copy(pageAutoSaveData.data.grid) || {}
-            $rootScope.page.links = angular.copy(pageAutoSaveData.data.links) || {}
-
-            document.title = $rootScope.page.tabTitle
-            jQuery('meta[name=description]').attr('content', $rootScope.page.description)
-          }
-
-          let menusStagingData = await api.staging.find({key: 'menus'})
-          menusStagingData = menusStagingData[0]
-
-          if(menusStagingData && menusStagingData.data) {
-            autoSaveSessionSnapshot.menus = menusStagingData.data
-            $rootScope.$emit('cms.takeMenusSnapshot', $rootScope.editMode)
-            $timeout(function() {
-              $rootScope.menus = menusStagingData.data
-            })
-          } else {
-            autoSaveSessionSnapshot.menus = angular.copy($rootScope.menus)
-          }
-
-          pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
-            if(typeof newValue !== oldValue) {
-              $rootScope.$emit('cms.autoSave')
-            }
-          }, msTillAutoSavePage), true)
-
-
-          menusWatcher = $scope.$watch('menus', _.debounce(function(newValue) {
-            if(typeof newValue !== undefined) {
-              $rootScope.$emit('cms.menusAutoSave')
-            }
-          }, msTillAutoSaveMenus), true)
-
-
-          $rootScope.$emit('cms.editMode', $rootScope.editMode)
-
-
-        } catch(err) {
-          console.log('Error toggling edit mode', err)
-          $rootScope.$emit('cms.editMode', $rootScope.editMode)
-        }
+        $rootScope.$emit('cms.stopPageListener')
+        $rootScope.$emit('cms.pullAutoSaveData', $rootScope.editMode)
+        $rootScope.$emit('cms.editMode', $rootScope.editMode)
+        $rootScope.$emit('cms.startPageListener')
+      } else {
+        $rootScope.$emit('cms.stopPageListener')
+        $rootScope.$emit('cms.updateView')
       }
-
-			// We want to disable navigation while in edit mode, so the user doesn't accidently click away and loose their changes
-			$scope.ableToNavigate = !$rootScope.editMode
 		};
+
+    $scope.$onRootScope('cms.startPageListener', function() {
+      pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
+        if(typeof newValue !== oldValue) {
+          $rootScope.$emit('cms.autoSave')
+        }
+      }, msTillAutoSavePage), true)
+
+
+      menusWatcher = $scope.$watch('menus', _.debounce(function(newValue) {
+        if(typeof newValue !== undefined) {
+          $rootScope.$emit('cms.autoSave')
+        }
+      }, msTillAutoSaveMenus), true)
+    })
+
+
+    function mergeInAutoSaveData(autoSave) {
+      if(autoSave && autoSave.data) {
+        $rootScope.page.title = angular.copy(autoSave.data.title) || {}
+        $rootScope.page.tabTitle = angular.copy(autoSave.data.tabTitle)
+        $rootScope.page.description = angular.copy(autoSave.data.description)
+        $rootScope.page.content = angular.copy(autoSave.data.content) || {}
+        $rootScope.page.images = angular.copy(autoSave.data.images) || {}
+        $rootScope.page.extensions = angular.copy(autoSave.data.extensions) || {}
+        $rootScope.page.lists = angular.copy(autoSave.data.lists) || {}
+        $rootScope.page.grid = angular.copy(autoSave.data.grid) || {}
+        $rootScope.page.links = angular.copy(autoSave.data.links) || {}
+
+        document.title = $rootScope.page.tabTitle
+        jQuery('meta[name=description]').attr('content', $rootScope.page.description)
+      }
+    }
+
+    $scope.$onRootScope('cms.pullAutoSaveData', async url => {
+      try {
+        let pageAutoSaveData = await api.staging.find({key: $rootScope.page.url})
+        pageAutoSaveData = pageAutoSaveData[0]
+
+        if(pageAutoSaveData && pageAutoSaveData.data) {
+          autoSaveSessionSnapshot.page = angular.copy(pageAutoSaveData.data)
+        } else {
+          autoSaveSessionSnapshot.page = angular.copy(_.pick($rootScope.page, [
+            'title',
+            'tabTitle',
+            'description',
+            'content',
+            'images',
+            'extensions',
+            'lists',
+            'grid',
+            'links'
+          ]))
+        }
+
+        // Take the original snapshot before we merge in the stading data
+        $rootScope.$emit('cms.takePageSnapshot', $rootScope.editMode)
+
+        mergeInAutoSaveData(pageAutoSaveData)
+
+        let menusStagingData = await api.staging.find({key: 'menus'})
+        menusStagingData = menusStagingData[0]
+
+        if(menusStagingData && menusStagingData.data) {
+          autoSaveSessionSnapshot.menus = menusStagingData.data
+          $rootScope.$emit('cms.takeMenusSnapshot', $rootScope.editMode)
+          $timeout(function() {
+            $rootScope.menus = menusStagingData.data
+          })
+        } else {
+          autoSaveSessionSnapshot.menus = angular.copy($rootScope.menus)
+        }
+
+        $rootScope.$emit('cms.updateView')
+      } catch(err) {
+        console.log('Error toggling edit mode', err)
+      }
+    })
 
     $scope.$onRootScope('cms.stopPageListener', function() {
       if(pageWatcher) {
-        pageWatcher();
+        pageWatcher()
       }
       if(menusWatcher) {
-        menusWatcher();
+        menusWatcher()
       }
-    });
+    })
 
-    this.resetPage = function() {
-      $rootScope.$emit('cms.returnToSnapshot')
-      $rootScope.$emit('cms.revertToPublished')
-      toastr.success('Changes since last published date have been removed')
-    };
+    $scope.$onRootScope('cms.returnToAutoSave', async function() {
+      $scope.pageAnimation = 'shake'
+      try {
+        let pageAutoSaveData = await api.staging.find({key: $rootScope.page.url})
+        pageAutoSaveData = pageAutoSaveData[0]
+
+        mergeInAutoSaveData(pageAutoSaveData)
+
+        let menusStagingData = await api.staging.find({key: 'menus'})
+        menusStagingData = menusStagingData[0]
+
+        if(menusStagingData && menusStagingData.data) {
+          $rootScope.menus = menusStagingData.data
+        }
+
+        document.title = $rootScope.page.tabTitle
+        jQuery('meta[name=description]').attr('content', $rootScope.page.description)
+
+        $rootScope.$emit('cms.updateView')
+      } catch(err) {
+        console.log('Error returning to auto save data', err);
+      }
+    })
+
+    this.preview = function() {
+      this.toggleEdit(false)
+    }
+
+    this.resetDraft = function() {
+      let confirmResetDraft = window.confirm('Are you sure you want to undo all changes since the last time changes were published?');
+      if(confirmResetDraft){
+        $rootScope.$emit('cms.returnToSnapshot')
+        $rootScope.$emit('cms.resetDraft')
+        $scope.$onRootScope('cms.finishedResetingDraft', function(event, successful) {
+          if(successful) {
+            $rootScope.$emit('cms.updateView')
+            toastr.success('Changes since last published date have been removed')
+          }
+        })
+      }
+
+    }
 
 		// Creates a new page and prompts the user for a url
 		this.createPage = function(e) {
@@ -202,27 +260,24 @@
 		};
 
     this.finishEdits = function() {
-      this.toggleEdit();
-      $rootScope.$emit('cms.stopPageListener');
-      $rootScope.$emit('cms.returnToSnapshot');
-      $rootScope.$emit('cms.editMode', $rootScope.editMode);
-    };
+      this.toggleEdit()
+      $rootScope.$emit('cms.stopPageListener')
+      $rootScope.$emit('cms.returnToSnapshot')
+      $rootScope.$emit('cms.editMode', $rootScope.editMode)
+    }
 
-		this.discardChanges = function() {
-      $rootScope.$emit('cms.stopPageListener');
-      $rootScope.$emit('cms.menusAutoSave', autoSaveSessionSnapshot.menus);
-
-      $rootScope.$emit('cms.autoSave', autoSaveSessionSnapshot.page);
-			this.toggleEdit();
-      autoSaveSessionSnapshot = {};
-      $timeout(function() {
-        $rootScope.$emit('cms.returnToSnapshot');
-
-        $rootScope.$emit('cms.editMode', $rootScope.editMode);
-  			// Event event that alerts all editable parts to discard those changes including the edit directive
-  			toastr.warning('Changes have been discarded');
-      });
-		};
+		this.undoSession = function() {
+      $rootScope.$emit('cms.stopPageListener')
+      $rootScope.$emit('cms.autoSave', autoSaveSessionSnapshot.page, autoSaveSessionSnapshot.menus)
+      $scope.$onRootScope('cms.finishedAutoSaving', function(event, successful) {
+        if(successful) {
+          $rootScope.$emit('cms.returnToAutoSave')
+          toastr.warning('Changes have been discarded')
+        } else {
+          toastr.warning('Opps something went wrong and we could not undo your changes. Try undoing them manually.')
+        }
+      })
+		}
 
 		this.deletePage = async function() {
 			this.toggleEdit();
@@ -368,7 +423,7 @@
           localStorage.setItem('previousEditUrl', response.url);
           $rootScope.previousEditUrl = response.url;
 				}).catch(function(err) {
-				  console.log("err", err);
+				  console.log("Error creating page menu", err);
 				});
 				$timeout(function() {
 					$location.url(url);

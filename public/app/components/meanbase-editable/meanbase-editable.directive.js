@@ -249,7 +249,7 @@ angular.module('meanbaseApp')
           el.trumbowyg('destroy');
         });
 
-        scope.$onRootScope('cms.saveListItem', function() {
+        scope.$onRootScope('cms.updateView', function() {
           scope.html = el.trumbowyg('html');
 
           $timeout(function() {

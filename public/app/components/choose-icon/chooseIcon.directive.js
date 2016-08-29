@@ -41,20 +41,14 @@ angular.module('meanbaseApp')
           setDefaultIfEmpty();
         }
 
-        scope.$onRootScope('cms.editMode', function(event, value) {
-          if(value) {
-            scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
-            setDefaultIfEmpty();
-          } else {
-            scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
-            removeDefault();
-          }
-        });
-
-        scope.$onRootScope('cms.saveListItem', function(event, value) {
+        scope.$onRootScope('cms.updateView', function(event, value) {
           $timeout(function() {
             scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
-            setDefaultIfEmpty();
+            if(!$rootScope.editMode) {
+              removeDefault()
+            } else {
+              setDefaultIfEmpty()
+            }
           });
         });
 

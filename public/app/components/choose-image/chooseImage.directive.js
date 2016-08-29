@@ -35,7 +35,7 @@ angular.module('meanbaseApp')
               alreadySelected: scope.belongsTo[attrs.property]
             };
 
-            scope.$onRootScope('cms.saveListItem', function(event, value) {
+            scope.$onRootScope('cms.updateView', function(event, value) {
               $timeout(function() {
                 scope.belongsTo = scope.$parent.$eval(attrs.belongsTo) || {};
               });
@@ -60,6 +60,8 @@ angular.module('meanbaseApp')
                   scope.belongsTo[attrs.property] = undefined;
                   scope.findImagesConfig.alreadySelected = undefined;
                 }
+
+                $rootScope.$emit('updateView')
               }
             });
           }

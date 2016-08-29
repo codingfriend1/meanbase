@@ -62,24 +62,7 @@ angular.module('meanbaseApp')
 
         if(!$rootScope.isLoggedIn) { return false; }
 
-        scope.$onRootScope('cms.editMode', function(event, value) {
-          if(value) {
-            findOn();
-            setUrls();
-          } else {
-            findOn();
-            setUrls();
-          }
-        });
-
-        scope.$onRootScope('cms.returnToSnapshot', function() {
-          $timeout(function() {
-            findOn();
-            setUrls();
-          });
-        });
-
-        scope.$onRootScope('cms.saveListItem', function() {
+        scope.$onRootScope('cms.updateView', function() {
           $timeout(function() {
             findOn();
             setUrls();
@@ -91,7 +74,8 @@ angular.module('meanbaseApp')
             if(key === gallery.gallerySlug) {
               $timeout(function() {
                 $timeout(function() {
-                  setUrls();
+                  findOn()
+                  setUrls()
                 });
               });
             }
@@ -99,10 +83,13 @@ angular.module('meanbaseApp')
             $timeout(function() {
               $timeout(function() {
                 if(!currentUrl) {
+                  findOn()
                   setUrls();
                 } else if(currentUrl && !on[scope.mbSrc]) {
+                  findOn()
                   setUrls();
                 } else if(on[scope.mbSrc] && (on[scope.mbSrc].url + scope.size + '.jpg') !== currentUrl) {
+                  findOn()
                   setUrls();
                 }
 

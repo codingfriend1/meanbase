@@ -424,7 +424,7 @@
       getSharedContentFromServer()
     })
 
-    $scope.$onRootScope('cms.autoSave', async function(event, content) {
+    $scope.$onRootScope('cms.autoSave', async function(event, pageContent, menuContent) {
       var url = $rootScope.page.url
 
       document.title = $rootScope.page.tabTitle
@@ -433,8 +433,8 @@
       try {
         let response = await api.staging.find({key: url})
 
-        if(!content) {
-          content = _.pick($rootScope.page, [
+        if(!pageContent) {
+          pageContent = _.pick($rootScope.page, [
             'title',
             'tabTitle',
             'description',
@@ -447,37 +447,42 @@
           ])
         }
 
-        let promise
+        let pagesPromise
         if(response.length > 0) {
-          promise = api.staging.update({key: url}, {data: content})
+          pagesPromise = await api.staging.update({key: url}, {data: pageContent})
         } else {
-          promise = api.staging.create({key: url, data: content})
+          pagesPromise = await api.staging.create({key: url, data: pageContent})
         }
 
+        let menuAutoSaveData = await api.staging.find({key: 'menus'})
+
+        let menusPromise
+        if(!menuContent) {
+          menuContent = angular.copy($rootScope.menus)
+        }
+
+        if(menuAutoSaveData.length > 0) {
+          menusPromise = await api.staging.update({key: 'menus'}, {data: menuContent})
+        } else {
+          menusPromise = await api.staging.create({key: 'menus', data: menuContent})
+        }
+
+        $rootScope.$emit('cms.finishedAutoSaving', true)
+
       } catch(err) {
-        console.log('Error auto saving page', err)
+        console.log('Error auto saving', err)
+        $rootScope.$emit('cms.finishedAutoSaving', false)
       }
     })
 
-    $scope.$onRootScope('cms.menusAutoSave', async function(event, content) {
-      try {
-        let response = await api.staging.find({key: 'menus'})
-
-        let promise
-        if(!content) {
-          content = angular.copy($rootScope.menus)
-        }
-
-        if(response.length > 0) {
-          promise = api.staging.update({key: 'menus'}, {data: content})
-        } else {
-          promise = api.staging.create({key: 'menus', data: content})
-        }
-
-      } catch(err) {
-        console.log('Error auto saving menus', err)
-      }
-    })
+    // $scope.$onRootScope('cms.menusAutoSave', async function(event, content) {
+    //   try {
+    //
+    //
+    //   } catch(err) {
+    //     console.log('Error auto saving menus', err)
+    //   }
+    // })
 
     $scope.$onRootScope('cms.publishChanges', async function() {
       try {
@@ -634,7 +639,7 @@
       jQuery('meta[name=description]').attr('content', $rootScope.page.description)
     })
 
-    $scope.$onRootScope('cms.revertToPublished', async function(event, url) {
+    $scope.$onRootScope('cms.resetDraft', async function(event, url) {
       if(!url) { url = $rootScope.page.url }
 
       document.title = $rootScope.page.tabTitle
@@ -643,7 +648,9 @@
       try {
         let response = await api.staging.delete({key: url})
         console.log('Deleting autosave data for ' + url, response)
+        $rootScope.$emit('cms.finishedResetingDraft', true)
       } catch(err) {
+        $rootScope.$emit('cms.finishedResetingDraft', false)
         console.log('Trouble deleting autosave data for ' + url, err)
       }
     })

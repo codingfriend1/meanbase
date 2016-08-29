@@ -25,7 +25,7 @@ angular.module('meanbaseApp')
           scope.item = scope.$eval(attrs.item);
           scope.list = scope.$eval(attrs.list);
           scope.list.push(angular.copy(scope.item));
-          $rootScope.$emit('cms.saveListItem');
+          $rootScope.$emit('cms.updateView');
           scope.item = {};
         });
       }

@@ -12,8 +12,8 @@ import "./templates/home/home-template.html";
 import "./templates/home/home.controller.js";
 import "./templates/blog/blog.controller.js";
 import "./templates/archive/archive.controller.js";
-import "./js/selling-point-list/selling-point-list.directive.js";
 import "./js/text-columns-list/text-columns-list.directive.js";
+import "./js/selling-point-list/selling-point-list.directive.js";
 import "./js/bullet-point-list/bullet-point-list.directive.js";
 // end inject js
 

@@ -61,8 +61,12 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
           ngModel.editor.destroy();
         });
 
+        scope.$onRootScope('cms.updateView', function(event, value) {
+          ngModel.$render()
+        })
+
         scope.$onRootScope('cms.editMode', function(event, value) {
-          if(value) {
+          if($rootScope.editMode) {
             ngModel.editor.setup();
             ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
               // ngModel.$setViewValue( editable.innerHTML.trim() );

@@ -19,8 +19,8 @@ import "../shared/api/api.service.js";
 import "./code/components/mdl/mdl.directive.js";
 import "./code/components/dialog/dialog.directive.js";
 import "./code/components/date-picker/date-picker.directive.js";
-import "./code/components/crud/crud.service.js";
 import "./code/components/camel-to-human/camel-to-human.filter.js";
+import "./code/components/crud/crud.service.js";
 import "./code/account/login/login.controller.js";
 import "./code/account/settings/settings.controller.js";
 import "./code/users/users.js";
@@ -48,20 +48,20 @@ import "./code/account/account.js";
 
 // inject jade
 import "./code/analytics/analytics.jade";
-import "./code/cms/cms.jade";
 import "./code/comments/comments.jade";
+import "./code/cms/cms.jade";
 import "./code/extensions/extensions.jade";
 import "./code/import/import.jade";
 import "./code/media/media.jade";
-import "./code/pages/pages.jade";
 import "./code/themes/themes.jade";
+import "./code/pages/pages.jade";
 import "./code/users/users.jade";
-import "./code/account/login/login.jade";
 import "./code/account/settings/settings.jade";
+import "./code/account/login/login.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
-import "../shared/sortable/sortable.jade";
 import "../shared/taglist/taglist.jade";
+import "../shared/sortable/sortable.jade";
 import "../shared/validate/validate.jade";
 // end inject jade
 
@@ -72,9 +72,9 @@ import "./code/cms/cms.styl";
 import "./code/comments/comments.styl";
 import "./code/extensions/extensions.styl";
 import "./code/import/import.styl";
-import "./code/themes/themes.styl";
 import "./code/media/media.styl";
 import "./code/pages/pages.styl";
+import "./code/themes/themes.styl";
 import "./code/users/users.styl";
 import "./code/account/login/login.styl";
 import "../shared/image-selector/image-selector.styl";
