@@ -46,7 +46,7 @@
               a(ng-href="{{previousEditUrl}}") Return to last edit
             li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
               a(ng-click="headbar.deletePage()") Delete page
-      ul.root-ul.mb-navbar-right(ng-show="!editMode")
+      ul.root-ul.mb-navbar-right
         li.dropdown
           a.dropdown-toggle(data-toggle="dropdown" role="button")
             i.fa.fa-user.fa-lg

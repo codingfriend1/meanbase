@@ -89,6 +89,10 @@
       }
     }
 
+    $scope.$onRootScope('cms.logout', () => {
+      this.toggleEdit(false)
+    })
+
     $scope.$onRootScope('cms.pullAutoSaveData', async url => {
       try {
         let pageAutoSaveData = await api.staging.find({key: $rootScope.page.url})

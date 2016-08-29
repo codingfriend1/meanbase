@@ -195,6 +195,7 @@
 
     // A method that logs the user out
     $scope.logout = function() {
+      $rootScope.$emit('cms.logout')
       Auth.logout()
     }
 
