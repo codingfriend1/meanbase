@@ -20,8 +20,13 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
 	$scope.toggleChecked = function(item, $event) {
 		if(!item) { return false; }
 
-    $scope.chosenList.push(item);
-    angular.element($event.currentTarget).find('.checkbox').addClass('fa-check').removeClass('fa-square-o');
+    if($scope.chosenList.indexOf(item) > -1) {
+      $scope.chosenList.splice($scope.chosenList.indexOf(item), 1);
+      angular.element($event.currentTarget).find('.checkbox').addClass('fa-square-o').removeClass('fa-check');
+    } else {
+      $scope.chosenList.push(item);
+      angular.element($event.currentTarget).find('.checkbox').addClass('fa-check').removeClass('fa-square-o');
+    }
 	};
 
 	// Cleans up document enter listener
