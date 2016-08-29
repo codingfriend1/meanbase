@@ -4,8 +4,8 @@
 	// @ngInject
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr, api) {
 
-    const msTillAutoSaveMenus = 200;
-    const msTillAutoSavePage = 200;
+    const msTillAutoSaveMenus = 100;
+    const msTillAutoSavePage = 100;
     let self = this
 
     if(!$rootScope.isLoggedIn) { return false; }

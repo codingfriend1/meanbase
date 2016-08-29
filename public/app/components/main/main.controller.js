@@ -6,6 +6,8 @@
   // @ngInject
   function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api, $compile) {
 
+    const autoSaveLapse = 100
+
     // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
 
     var server = {}
@@ -427,7 +429,7 @@
       getSharedContentFromServer()
     })
 
-    $scope.$onRootScope('cms.autoSave', async function(event, pageContent, menuContent) {
+    $scope.$onRootScope('cms.autoSave', _.debounce(async function(event, pageContent, menuContent) {
       var url = $rootScope.page.url
 
       document.title = $rootScope.page.tabTitle
@@ -476,7 +478,7 @@
         console.log('Error auto saving', err)
         $rootScope.$emit('cms.finishedAutoSaving', false)
       }
-    })
+    }, autoSaveLapse))
 
     // $scope.$onRootScope('cms.menusAutoSave', async function(event, content) {
     //   try {
