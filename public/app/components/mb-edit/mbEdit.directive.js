@@ -2,10 +2,10 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
 
     function toInnerText(value) {
       var tempEl = document.createElement('div'),
-          text;
-      tempEl.innerHTML = value;
-      text = tempEl.textContent || '';
-      return text.trim();
+          text
+      tempEl.innerHTML = value
+      text = tempEl.textContent || ''
+      return text.trim()
     }
 
     return {
@@ -15,70 +15,79 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
       scope: { bindOptions: '=' },
       link: function(scope, element, iAttrs, ngModel) {
 
-        angular.element(element).addClass('mb-edit');
+        angular.element(element).addClass('mb-edit')
 
         // Global MediumEditor
-        ngModel.editor = new MediumEditor(element, scope.bindOptions);
+        ngModel.editor = new MediumEditor(element, scope.bindOptions)
         if(scope.bindOptions && !scope.bindOptions.disableReturn) {
           $(element).mediumInsert({
             editor: ngModel.editor
-          });
+          })
         }
 
+        ngModel.$setViewValue(ngModel.editor.getContent())
+
         scope.$onRootScope('recompile-editor', function() {
-          ngModel.$setViewValue(ngModel.editor.getContent());
-          ngModel.$render();
-        });
+          ngModel.$setViewValue(ngModel.editor.getContent())
+          ngModel.$render()
+        })
 
         ngModel.$render = function() {
-          element.html(ngModel.$viewValue || "");
-          $compile(element.contents())(scope.$parent);
-          var placeholder = ngModel.editor.getExtensionByName('placeholder');
+          element.html(ngModel.$viewValue || "")
+          $compile(element.contents())(scope.$parent)
+          var placeholder = ngModel.editor.getExtensionByName('placeholder')
           if (placeholder) {
-            placeholder.updatePlaceholder(element[0]);
+            placeholder.updatePlaceholder(element[0])
           }
-        };
+        }
 
         ngModel.$isEmpty = function(value) {
           if (/[<>]/.test(value)) {
-            return toInnerText(value).length === 0;
+            return toInnerText(value).length === 0
           } else if (value) {
-            return value.length === 0;
+            return value.length === 0
           } else {
-            return true;
+            return true
           }
-        };
+        }
 
         scope.$watch('bindOptions', function(bindOptions) {
           if(!$rootScope.editMode) {
-            ngModel.editor.destroy();
+            ngModel.editor.destroy()
           } else {
-            ngModel.editor.init(element, bindOptions);
+            ngModel.editor.init(element, bindOptions)
           }
-        });
+        })
 
         scope.$on('$destroy', function() {
-          ngModel.editor.destroy();
-        });
+          ngModel.editor.destroy()
+        })
 
-        scope.$onRootScope('cms.updateView', function(event, value) {
+        // scope.$onRootScope('cms.saveText', function(event, value) {
+        //   ngModel.$setViewValue(ngModel.editor.getContent())
+        // })
+        
+        scope.$onRootScope('cms.updateView', function(event, shouldSave) {
+          if(shouldSave) {
+            ngModel.$setViewValue(ngModel.editor.getContent())
+          }
           ngModel.$render()
         })
 
         scope.$onRootScope('cms.editMode', function(event, value) {
           if(value) {
-            ngModel.editor.setup();
+            ngModel.editor.setup()
             ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
-              // ngModel.$setViewValue( editable.innerHTML.trim() );
-              ngModel.$setViewValue(ngModel.editor.getContent());
-            }, 200));
+              // ngModel.$setViewValue( editable.innerHTML.trim() )
+              ngModel.$setViewValue(ngModel.editor.getContent())
+            }, 200))
           } else {
-            ngModel.$setViewValue(ngModel.editor.getContent());
-            ngModel.$render();
-            ngModel.editor.destroy();
+            ngModel.$setViewValue(ngModel.editor.getContent())
+            ngModel.$render()
+            ngModel.editor.destroy()
           }
-        });
+        })
       }
-    };
+    }
 
-  });
+  })

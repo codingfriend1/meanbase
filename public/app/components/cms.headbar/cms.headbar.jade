@@ -17,7 +17,7 @@
             span.show-desktop Preview
             span.show-mobile
               i.fa.fa-lg.fa-eye
-        li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Undo Changes")
+        li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Undo the last edit")
           a(ng-click="headbar.undoMoment()") 
             span.show-desktop Undo
             span.show-mobile
