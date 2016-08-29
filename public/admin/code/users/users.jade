@@ -16,8 +16,8 @@ section#users-list.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}
               ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{user._id}}')
                 li.mdl-menu__item.user-settings-button(ng-click="u.toggleModal('isSettingsOpen', 'settings', user)") Settings
                 li.mdl-menu__item.confirm-delete-button(ng-click="u.toggleModal('isDeleteOpen', 'userToDelete', user)") Delete User
-  button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.float-right.right-1.bottom-1
-    i.material-icons(ng-click="openSettingsModal()") add
+  button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.float-right.right-1.bottom-1(ng-click="openSettingsModal()")
+    i.material-icons add
 
 
 
