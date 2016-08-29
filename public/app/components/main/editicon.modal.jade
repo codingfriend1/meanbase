@@ -7,15 +7,16 @@
   div.text-center
     label Preview
   div.text-center.margin-bottom-1
-    i.fa(ng-class="icon.classes")#test-icon
+    i(class="fa" ng-class="icon.classes")#test-icon
     .help-block.error {{hasContentError}}
+  label.mb-instructions Choose an icon from  
+    a(href="http://fontawesome.io/icons/" target="_blank") font-awesome.io
+  label.mb-instructions Prefix it with 
+    b "fa fa-the-icon-name"
   form(novalidate name="editIconForm" ng-submit="saveIcon(editIconForm)")
     input(type="submit").hidden
     .form-group
-      label Type the icon name from 
-      a(href="http://fontawesome.io/icons/" target="_blank")  font-awesome 
-      | (add an fa- prefix) or 
-      a(href="http://getbootstrap.com/components/" target="_blank") bootstrap
+      label Icon name
       input.form-control(ng-model="icon.classes" name="classes" ng-pattern="validators.isCSSClass" ng-change="checkHasContent()")
       div.help-block.error(ng-show="editIconForm.classes.$invalid && editIconForm.classes.$dirty") {{errorMessages.isCSSClass}}
     .form-group

@@ -4,9 +4,9 @@ import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
+import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
-import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/image-selector/image-selector.directive.js";
 import "../shared/helpers/helpers.service.js";
@@ -44,11 +44,11 @@ import "./components/findImages/findImages.directive.js";
 import "./components/find-images-modal/find-images-modal.directive.js";
 import "./components/extensions-selector/extensions.modal.controller.js";
 import "./components/extensions-selector/extensions-selector.directive.js";
-import "./components/dynamic-html/dynamic-html.directive.js";
 import "./components/extensions-area/extensions-area.directive.js";
+import "./components/dynamic-html/dynamic-html.directive.js";
 import "./components/cms.headbar/cms.headbar.controller.js";
-import "./components/choose-icon/chooseIcon.directive.js";
 import "./components/choose-image/chooseImage.directive.js";
+import "./components/choose-icon/chooseIcon.directive.js";
 // end inject js
 
 // inject jade
@@ -70,8 +70,8 @@ import "./components/main/findImage.modal.jade";
 import "./components/main/main.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
-import "../shared/taglist/taglist.jade";
 import "../shared/sortable/sortable.jade";
+import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
 // end inject jade
 
@@ -87,8 +87,8 @@ import "./components/findImages/findImages.styl";
 import "./components/list-area/list-area.styl";
 import "./components/list-selector/list-selector.styl";
 import "./components/main/main.styl";
-import "./components/mb-choose-link/choose-link.styl";
 import "./components/mb-choose-src/mb-choose-src.styl";
+import "./components/mb-choose-link/choose-link.styl";
 import "./components/mb-edit/mb-edit.styl";
 import "./components/mb-grid-add/mb-grid-add.styl";
 import "./components/mb-grid-item/mb-grid-item.styl";
@@ -101,6 +101,6 @@ import "./components/meanbase-editable/meanbase-editable.directive.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/missing/missing.styl";
 import "../shared/sortable/sortable.styl";
-import "../shared/validate/validate.styl";
 import "../shared/taglist/taglist.styl";
+import "../shared/validate/validate.styl";
 // end inject stylus

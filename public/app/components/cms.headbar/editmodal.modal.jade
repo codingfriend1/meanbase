@@ -14,7 +14,7 @@
       input.form-control(type='text' ng-model="page.url"  ng-pattern="validators.isURI")
       span.glyphicon.glyphicon-ok.form-control-feedback
   .form-group(validate="{{errorMessages.isTitle}}").has-feedback
-    label Search Engine Title
+    label Search Engine (Google, Yahoo...) and Tab Title
     input.form-control(type='text' ng-model="page.tabTitle" ng-pattern="validators.isTitle")
     span.glyphicon.glyphicon-ok.form-control-feedback
   .form-group
