@@ -1,0 +1,18 @@
+<div class="container" ng-controller="homeController">
+  <div class="row">
+    <div class="col-sm-12">
+      <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
+    </div>
+    <div class="col-sm-12">
+      <choose-image property="body1">
+        <img mb-src="body1" class="img-responsive"/>
+       </choose-image>
+     </div>
+    <div class="col-sm-12">
+      <mb-edit ng-model="page.content.body1" bind-options="editorOptions"></mb-edit>
+    </div>
+    <div class="col-sm-12">
+      <div list-area="body1"></div>
+    </div>
+  </div>
+</div>
