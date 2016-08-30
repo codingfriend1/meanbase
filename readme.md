@@ -1,5 +1,5 @@
-### Meanbase
-A a CMS built on the MEAN stack and made to be simple and intuitive for users and developers.
+# Meanbase
+A a CMS built on the MEAN (MongoDB, Express, Angular, Node) stack and made to be simple and intuitive for users and developers.
 
 [meanbase.com](http://meanbase.com)
 
@@ -11,48 +11,86 @@ A a CMS built on the MEAN stack and made to be simple and intuitive for users an
 ![Meanbase Screenshot Backend Sidebar](Meanbase-Sidebar.png?raw=true "Meanbase Screenshot Backend Sidebar")
 
 
-A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves.
+Meanbase is built on Mongo, Express, Angular, Node. This stack is superior to the outdated LAMP stack (Linux, Apache, MySQL, and PHP). It provides faster page loads using ajax with AngularJS, can handle more traffic at once through Node and Nginx, and has a more flexible api for interacting with data (Mongo, Express, and [Feathersjs](http://feathersjs.com/)).
 
-#### Simple
-Meanbase is designed from the ground up to be simple for an average user to learn so you can hand over your product for them to update without stress and training.
+##Why it exists
 
-#### Fast
+Meanbase provides a relationship between developers and their clients that allows developers to have full control over the code on their site and allows clients to easily manage content without the need for the developers help.
 
-Meanbase CMS runs off of the MEAN stack: Mongo, Express, Angular, and Node meaning it's generally faster than wordpress so you don't have to wait for every page to refresh when making edits.
 
-#### Developer Friendly
-Meanbase is also focused on making the process of creating themes and adding extensions delightful for developers who have to interact with the code every day. It's provides you control and simplicity so you can spend more time focusing on what matters.
+#### Easy for clients
+Many popular CMS's struggle to be intuitive. Your clients are usually busy, they don't have the time or the motivation to learn a complicated CMS and you have to provide them training which wastes your time.
 
-#### Run Development Mode
-- Make sure bower is installed globally `npm i bower -g`
-- Run `npm run prepare`
-- Install GraphicsMagick and MongoDB
-  - `sudo apt-get install -y graphicsmagick`
-  - `sudo apt-get install mongodb-server`
+Meanbase has been user tested all along the way not by computer experts but by average users to insure they find the product enjoyable and easy.
+
+
+#### Easy for developers
+Building themes in WordPress is confusing and you don't have a lot of flexibility. Meanbase is designed to allow you to take a theme from say [bootswatch.com](https://bootswatch.com/), add a few attributes and elements to it to make it dynamically load data, perhaps have an angular controller for extra functionality and then you have a usable template for your clients to manage. There's far less boilerplate code and the CMS elements largely stay out of the way of your html site.
+
+#### Building the relationship
+Now when a client asks for a site, you can have a customized template quickly available, and trust that they will know how to manage it without much training.
+
+# Getting Started
+
+###Setting up meanbase for development
+Since we are working with node and npm make sure they are installed on your machine. There are several tutorials on the web for how to do that on your machine. If you're using mac, I recommend using [homebrew](http://brew.sh/)
+
+####Install Dependencies
+Make sure bower is installed globally  
+```npm i bower -g```
+
+Install npm and bower modules by running  
+`npm run prepare`
+
+Install GraphicsMagick and MongoDB  
+- If your on Linux  
+`sudo apt-get install -y graphicsmagick`  
+`sudo apt-get install mongodb-server`
+
+- If your on a mac  
+`brew install graphicsmagick`  
+`brew install mongodb`
+
+
+####Run mongo and the server
 - Start Mongodb in one terminal or cmd
 	- `mongod`
   - If that doesn't work here's a quick article explaining how to fix it
   - [Mongodb server permission denied](http://wesleytsai.io/2015/07/26/mongodb-server-directory-permission-denied/)
-- In the root of this project run
+- In the root of meanbase run
 	- `npm start`
-- See app
-	- Open `localhost:3030` in your browser
-- Stop each with ctrl-c
+- Open the app in your browser
+	- Open [localhost:3030](http://localhost:3030) in your browser
+- You can stop mongo and the server with ctrl-c
 
-#### Gulp Commands
-- npm run watch - Injects files into your app and compiles all the main bower components. Then watches your app files for changes and uses webpack to compile.
+#### Making changes
+If you want to update the app make sure to run watch so that your stylus, jade, and es8 files will be updated.
 
+`npm run watch`
 
-### Deploy
-Create a file called `meanbase.env` in the root of this project don't share it with anyone or attach it to your repo, this will contain your app secret for encrypting passwords and such. At a minimum this file needs these variables
+cancel with ctrl-c
+
+### Deploying a meanbase instance
+Meanbase uses docker. So you can
+1. create a droplet on digitalocean.com
+2. Choose the Docker Image
+3. Upload your **passwordless** ssh key and begin working with meanbase. IE: `ssh-copy-id user@your-server-ip-address`
+
+Create a file called `meanbase.env` in the root of meanbase. Don't share it with anyone or attach include it in your repo, this will contain your app secret for encrypting passwords and settings which should be kept secret.
+
+#### Required Options
+At a minimum this file needs
 ```
 FEATHERS_AUTH_SECRET=your-app-secret
 NODE_ENV=production
 DATABASE_URL=mongodb://db/meanbase
 ```
-_NOTE: The MongoDB server name must be db_
+_NOTE: If you are running mongoDB locally the MongoDB server name must be **db** since in Docker that will refer to the MongoDB vm_
 
-These variables are optional. If you do not specify an admin and admin pass then a default account with `admin@admin.com` and pass `admin` will be created for you.
+####Additional Options
+These variables are optional.
+
+*If you do not specify an admin and admin pass then a default account with `admin@admin.com` and pass `admin` will be created for you.*
 ```
 RESET_SEED=false
 DOMAIN=your-domain.com
@@ -61,30 +99,35 @@ ADMIN="adminemail@admin.com"
 ADMIN_PASS="admin_password"
 ```
 
-Run
-
-```npm run compile```
-
-To create the dist folder
-
-Makes sure you can make password-less ssh into your host server.
-
-`ssh-copy-id user@your-server-ip-address`
+Reset seed will reset all your data to default data each time the server restarts. Reset users will just do that for users.
 
 
-Connect to your docker host server
+#### npm run compile
+Now we want to compile all our es8, jade, stylus, combine them into 1 file and build our **dist** folder.
+
 ```
-docker-machine create --driver generic --generic-ip-address=your-server-ip-address you-custom-machine-name
+npm run compile
 ```
 
-Point docker to that machine
+*NOTE: Makes sure you can make password-less ssh into your host server.*
+
+#### Connect to your docker server instance
+Now we must tell docker that we want to interact with your live server. We create a new Docker Machine instance passing in the IP of our server.
+```
+docker-machine create --driver generic --generic-ip-address=your-server-ip-address your-custom-machine-name
+```
+
+Then we point our terminal to it.
 ```
 eval $(docker-machine env you-custom-machine-name)
 ```
 
-then
+#### Deployment
+Finally we upload our dist folder to the server and have it install production dependencies
 
-```docker-compose up -d```
+```
+docker-compose up -d
+```
 
 _NOTE: Parts of the theme are still in development such as cropping and editing images, but for now you can edit locally and then upload._
 
