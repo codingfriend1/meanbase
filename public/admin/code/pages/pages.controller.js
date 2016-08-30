@@ -42,13 +42,13 @@ angular.module('meanbaseApp')
       }
     };
 
-    $scope.saveSettings = function(page, settings) {
+    $scope.saveSettings = async function(page, settings) {
       var previousUrl = page.url;
       if(page && page._id) {
         p.update(page, settings, page.title + ' updated', 'Could not update ' + page.title);
       } else if(page && !page._id) {
 
-        var newMenu = {
+        let newMenu = {
   				title: page.title,
   				url: page.url,
   				location: 'main',
@@ -56,23 +56,40 @@ angular.module('meanbaseApp')
   				published: false
   			};
 
-        api.pages.find({url: page.url}).then(function(response) {
-          if(response.length < 1) {
-            p.create(page, page.title + ' created', 'Could not create ' + page.title).then(function(response) {
-              api.menus.create(newMenu).then(function(response) {
-                localStorage.setItem('previousEditUrl', response.url);
-      				});
-              $timeout(function() {
-                componentHandler.upgradeAllRegistered()
-              });
+        try {
+          let foundPages = await api.pages.find({url: page.url})
+          if(foundPages.length < 1) {
+            await p.create(page, page.title + ' created', 'Could not create ' + page.title)
+            let createdMenu = await api.menus.create(newMenu)
+            localStorage.setItem('previousEditUrl', createdMenu.url)
+
+            $timeout(function() {
+              componentHandler.upgradeAllRegistered()
             });
           } else {
-            toastr.warning('A page with the url of ' + page.url + ' already exists');
+            toastr.warning('A page with the url of ' + page.url + ' already exists')
           }
-        }, function(err) {
+        } catch(err) {
+          console.log('Error creating page and menu', err)
           toastr.warning("Sorry, but something is wrong and you can't add pages right now.");
-        });
+        }
 
+        // api.pages.find({url: page.url}).then(function(response) {
+        //   if(response.length < 1) {
+        //     p.create(page, page.title + ' created', 'Could not create ' + page.title).then(function(response) {
+        //       api.menus.create(newMenu).then(function(response) {
+        //         localStorage.setItem('previousEditUrl', response.url);
+      	// 			});
+        //       $timeout(function() {
+        //         componentHandler.upgradeAllRegistered()
+        //       });
+        //     });
+        //   } else {
+        //     toastr.warning('A page with the url of ' + page.url + ' already exists');
+        //   }
+        // }, function(err) {
+        //   toastr.warning("Sorry, but something is wrong and you can't add pages right now.");
+        // });
       }
 
       p.toggleModal('isSettingsOpen', 'settings');
