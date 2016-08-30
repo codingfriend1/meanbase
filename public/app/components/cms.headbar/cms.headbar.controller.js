@@ -307,10 +307,8 @@
 		};
 
 		this.publishChanges = function() {
-			this.toggleEdit();
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
       $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
-      $rootScope.$emit('cms.stopPageListener');
 			$rootScope.$emit('cms.publishChanges', $rootScope.page);
       autoSaveSessionSnapshot = {}
 		};

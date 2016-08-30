@@ -434,7 +434,7 @@
       var url = $rootScope.page.url
 
       $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
-      
+
       document.title = $rootScope.page.tabTitle
       jQuery('meta[name=description]').attr('content', $rootScope.page.description)
 
