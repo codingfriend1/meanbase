@@ -23,8 +23,8 @@ import "./components/meanbase-editable/meanbase-editable.directive.js";
 import "./components/mb-src/mb-src.directive.js";
 import "./components/mb-recaptcha/mb-recaptcha.directive.js";
 import "./components/mb-new/mbNew.directive.js";
-import "./components/mb-list-remove/mb-grid-remove.directive.js";
 import "./components/mb-list-add/mbListAdd.directive.js";
+import "./components/mb-list-remove/mb-grid-remove.directive.js";
 import "./components/mb-link/mb-link.directive.js";
 import "./components/mb-icon/mb-icon.directive.js";
 import "./components/mb-grid-remove/mbListRemove.directive.js";
@@ -32,8 +32,8 @@ import "./components/mb-grid-item/mb-grid-item.directive.js";
 import "./components/mb-grid-add/mb-grid-add.directive.js";
 import "./components/mb-edit-menu/mb-edit-menu.directive.js";
 import "./components/mb-edit-link/mb-edit-link.directive.js";
-import "./components/mb-edit/mbEdit.directive.js";
 import "./components/mb-choose-src/mbChooseSrc.directive.js";
+import "./components/mb-edit/mbEdit.directive.js";
 import "./components/mb-choose-link/choose-link.directive.js";
 import "./components/main/main.js";
 import "./components/main/main.controller.js";
@@ -48,8 +48,8 @@ import "./components/extensions-selector/extensions-selector.directive.js";
 import "./components/extensions-area/extensions-area.directive.js";
 import "./components/dynamic-html/dynamic-html.directive.js";
 import "./components/cms.headbar/cms.headbar.controller.js";
-import "./components/choose-image/chooseImage.directive.js";
 import "./components/choose-icon/chooseIcon.directive.js";
+import "./components/choose-image/chooseImage.directive.js";
 // end inject js
 
 // inject jade
@@ -79,8 +79,8 @@ import "../shared/validate/validate.jade";
 // inject stylus
 import "./app.styl";
 import "./components/choose-icon/chooseImage.styl";
-import "./components/choose-image/chooseImage.styl";
 import "./components/cms.headbar/cms.headbar.styl";
+import "./components/choose-image/chooseImage.styl";
 import "./components/extensions-area/extensions-area.styl";
 import "./components/extensions-selector/extensions-selector.styl";
 import "./components/find-images-modal/find-images-modal.styl";
