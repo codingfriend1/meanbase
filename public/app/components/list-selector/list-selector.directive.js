@@ -26,7 +26,9 @@ angular.module('meanbaseApp')
                 position: ($rootScope.page.lists[attrs.listSelector].length - 1 < 0)? 0: $rootScope.page.lists[attrs.listSelector].length - 1,
                 label: chosenList[i].label,
                 html: chosenList[i].html,
-                data: {}
+                data: {
+                  items: []
+                }
               };
               listResponse.push(listItem);
             };
