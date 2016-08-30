@@ -286,7 +286,7 @@
 		};
 
 		// This opens the modal for changing page properties such as tabTitle and page description.
-		this.editPageModal = function() {
+		this.editPageModal = async () => {
 		  var modalInstance = $modal.open({
 		    templateUrl: require('./editmodal.modal.jade'),
 		    controller: function($scope, $modalInstance) {
@@ -298,8 +298,15 @@
             toastr.error("Sorry but something is wrong with the server and you can't choose templates for your pages.")
           });
 
-		    	$scope.cancel = function () {
-		    	  $modalInstance.dismiss('cancel');
+          $scope.updatePageTitle = linkUrl => {
+            let {placeholderTitle, menuTitle, url} = convertUrlToTitle(linkUrl)
+            $rootScope.page.title = placeholderTitle
+            $rootScope.page.url = url
+          }
+
+		    	$scope.save = function () {
+		    	  $modalInstance.dismiss('cancel')
+            toastr.success('The page settings were updated. If you changed the url, make sure to update your menus as well after you publish.')
 		    	};
 		    },
 		    size: 'md'
@@ -433,18 +440,24 @@
 			}
 		};
 
-		function prepareDefaultPage(url, e) {
-			// Prepare page default text based on url
-			url = url.replace(/[ ]/g, "-");
+    function convertUrlToTitle(url) {
+      url = url.replace(/[ ]/g, "-")
 			var menuTitle = url.replace(/[_-]/g, " ");
 			var placeholderTitle = menuTitle.replace(/(^| )(\w)/g, function(x) {
 				return x.toUpperCase();
 			});
 			if((url.charAt(0) == '/')) {
-				placeholderTitle = url.substr(1);
+				placeholderTitle = menuTitle.substr(1);
 			} else {
 				url = '/' + url;
 			}
+      return { placeholderTitle, menuTitle, url }
+    }
+
+		async function prepareDefaultPage(link, e) {
+			// Prepare page default text based on url
+
+      let {placeholderTitle, menuTitle, url} = convertUrlToTitle(link)
 
 			// Prepare the template
 			var newPage = {
@@ -470,23 +483,26 @@
 				location: 'main',
 				position: $scope.menus.main.length,
 				classes: '',
-				target: '',
-				published: false
+				target: ''
 			};
 
-			// Save new page to database and reroute to it's new url
-			api.pages.create(newPage).then(function(response) {
-				// Save new menu to database
-				api.menus.create(newMenu).then(function(response) {
-					$scope.menus.main.push(newMenu);
-          $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
-				}).catch(function(err) {
-				  console.log("Error creating page menu", err);
-				});
-				$timeout(function() {
+      try {
+        await api.pages.create(newPage)
+
+        let createdMenu = await api.menus.create(newMenu)
+
+        console.log("createdMenu", createdMenu);
+
+        $scope.menus.main.push(createdMenu);
+        $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
+
+        $timeout(function() {
 					$location.url(url);
 				}, 0, false);
-			});
+      } catch(err) {
+        console.log(err);
+        console.log('Error creating page and menu', err);
+      }
 		}
 	}
 })();

@@ -1,5 +1,5 @@
 .modal-header
-  button.close(type='button' ng-click="cancel()")
+  button.close(type='button' ng-click="save()")
     span(aria-hidden='true') ×
     span.sr-only Close
   h4.modal-title Page Settings
@@ -11,7 +11,7 @@
     label Page Link URL
     .input-group
       span.input-group-addon /
-      input.form-control(type='text' ng-model="page.url"  ng-pattern="validators.isURI")
+      input.form-control(type='text' ng-model="page.url"  ng-pattern="validators.isURI" ng-change="updatePageTitle(page.url)")
       span.glyphicon.glyphicon-ok.form-control-feedback
   .form-group(validate="{{errorMessages.isTitle}}").has-feedback
     label Search Engine (Google, Yahoo...) and Tab Title
@@ -24,4 +24,4 @@
   .col-sm-9
     p.h6.text-left (The headbar save and discard buttons will store changes)
   .col-sm-3
-    button.btn.btn-default(type='button' ng-click="cancel()") Close
+    button.btn.btn-success(type='button' ng-click="save()") Save
