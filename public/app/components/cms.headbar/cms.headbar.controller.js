@@ -99,7 +99,7 @@
 
     function mergeInAutoSaveData(autoSave) {
       if(autoSave && autoSave.data) {
-        $rootScope.page.title = angular.copy(autoSave.data.title) || {}
+        $rootScope.page.title = angular.copy(autoSave.data.title)
         $rootScope.page.tabTitle = angular.copy(autoSave.data.tabTitle)
         $rootScope.page.description = angular.copy(autoSave.data.description)
         $rootScope.page.content = angular.copy(autoSave.data.content) || {}

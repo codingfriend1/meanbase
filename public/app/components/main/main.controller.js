@@ -276,7 +276,7 @@
           'image-selector'
         ],
         diffLeft: 25,
-        diffTop: -70,
+        diffTop: -10,
         forcePlainText: true,
         static: false,
         sticky: true,
@@ -298,12 +298,23 @@
 
     $scope.editorSingleLine = _.merge({}, $scope.editorOptions, {
       disableReturn: true,
-      // disableDoubleReturn: true,
       placeholder: {
         text: 'type here',
         hideOnClick: true
       },
     })
+
+    $scope.editorSingleLine.toolbar.buttons = [
+      'bold',
+      'italic',
+      'anchor',
+      'h1',
+      'h2',
+      'h3',
+      'justifyLeft',
+      'justifyCenter',
+      'justifyRight'
+    ]
 
     var doit
     $rootScope.windowWidth = $(window).width()
