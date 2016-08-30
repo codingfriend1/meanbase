@@ -79,28 +79,13 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         scope.$on('$destroy', function() {
           ngModel.editor.destroy()
         })
-
-        // scope.$onRootScope('cms.saveText', function(event, value) {
-        //   ngModel.$setViewValue(ngModel.editor.getContent())
-        // })
-
+        
         scope.$onRootScope('cms.updateView', function(event, shouldSave) {
           if(shouldSave) {
             ngModel.$setViewValue(ngModel.editor.getContent())
           }
           ngModel.$render()
         })
-
-        // $timeout(function() {
-        //   console.log("$rootScope.editMode", $rootScope.editMode);
-        //   if(!Auth.isLoggedIn() || !$rootScope.editMode) { return false }
-        //   ngModel.editor.setup()
-        //   ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
-        //     console.log('changes to text');
-        //     // ngModel.$setViewValue( editable.innerHTML.trim() )
-        //     ngModel.$setViewValue(ngModel.editor.getContent())
-        //   }, 200))
-        // });
 
 
         scope.$onRootScope('cms.editMode', function(event, value) {

@@ -744,7 +744,7 @@
     }
 
     function linkModalController($scope, $modalInstance, link) {
-      api.pages.find({}).then(function(response) {
+      api.pages.find({$select: ['url']}).then(function(response) {
         $scope.pages = response
       })
 
