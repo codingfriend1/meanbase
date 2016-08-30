@@ -51,7 +51,9 @@
         $rootScope.$emit('cms.stopPageListener')
         $rootScope.$emit('cms.pullAutoSaveData', $rootScope.editMode)
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
-        $rootScope.$emit('cms.startPageListener')
+        $timeout(function() {
+          $rootScope.$emit('cms.startPageListener')
+        });
       } else {
         $rootScope.$emit('cms.stopPageListener')
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
@@ -77,6 +79,7 @@
 
       menusWatcher = $scope.$watch('menus', _.debounce(function(newValue, oldValue) {
         if(typeof newValue !== undefined) {
+
           lastMenuUndoData = angular.copy(oldValue)
           $rootScope.$emit('cms.autoSave')
           $scope.autoSavingInProgress = true
@@ -161,6 +164,8 @@
       if(menusWatcher) {
         menusWatcher()
       }
+      lastPageUndoData = undefined
+      lastMenuUndoData = undefined
     })
 
     $scope.$onRootScope('cms.returnToAutoSave', async function() {
@@ -271,7 +276,6 @@
 
 		this.publishChanges = function() {
 			this.toggleEdit();
-
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
       localStorage.setItem('previousEditUrl', $rootScope.page.url);
       $rootScope.previousEditUrl = $rootScope.page.url;

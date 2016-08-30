@@ -1,4 +1,4 @@
-angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScope, $timeout, $compile) {
+angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScope, $timeout, $compile, Auth) {
 
     function toInnerText(value) {
       var tempEl = document.createElement('div'),
@@ -25,13 +25,6 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
           })
         }
 
-        ngModel.$setViewValue(ngModel.editor.getContent())
-
-        scope.$onRootScope('recompile-editor', function() {
-          ngModel.$setViewValue(ngModel.editor.getContent())
-          ngModel.$render()
-        })
-
         ngModel.$render = function() {
           element.html(ngModel.$viewValue || "")
           $compile(element.contents())(scope.$parent)
@@ -40,6 +33,30 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
             placeholder.updatePlaceholder(element[0])
           }
         }
+
+        if(!Auth.isLoggedIn()) {
+          $timeout(function() {
+            ngModel.$render()
+            console.log('rendering');
+            ngModel.editor.destroy()
+          })
+          return false
+        }
+
+        let isSetup = false
+        $timeout(function() {
+          ngModel.editor.setup()
+          ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
+            ngModel.$setViewValue(ngModel.editor.getContent())
+          }, 200))
+          isSetup = true
+        });
+
+
+        scope.$onRootScope('recompile-editor', function() {
+          ngModel.$setViewValue(ngModel.editor.getContent())
+          ngModel.$render()
+        })
 
         ngModel.$isEmpty = function(value) {
           if (/[<>]/.test(value)) {
@@ -66,7 +83,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         // scope.$onRootScope('cms.saveText', function(event, value) {
         //   ngModel.$setViewValue(ngModel.editor.getContent())
         // })
-        
+
         scope.$onRootScope('cms.updateView', function(event, shouldSave) {
           if(shouldSave) {
             ngModel.$setViewValue(ngModel.editor.getContent())
@@ -74,18 +91,34 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
           ngModel.$render()
         })
 
+        // $timeout(function() {
+        //   console.log("$rootScope.editMode", $rootScope.editMode);
+        //   if(!Auth.isLoggedIn() || !$rootScope.editMode) { return false }
+        //   ngModel.editor.setup()
+        //   ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
+        //     console.log('changes to text');
+        //     // ngModel.$setViewValue( editable.innerHTML.trim() )
+        //     ngModel.$setViewValue(ngModel.editor.getContent())
+        //   }, 200))
+        // });
+
+
         scope.$onRootScope('cms.editMode', function(event, value) {
-          if(value) {
-            ngModel.editor.setup()
-            ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
-              // ngModel.$setViewValue( editable.innerHTML.trim() )
+            if($rootScope.editMode && !isSetup) {
+              $timeout(function() {
+                ngModel.editor.setup()
+                ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
+                  ngModel.$setViewValue(ngModel.editor.getContent())
+                }, 200))
+                isSetup = true
+              })
+            } else if(!$rootScope.editMode) {
+              ngModel.editor.unsubscribe('editableInput')
               ngModel.$setViewValue(ngModel.editor.getContent())
-            }, 200))
-          } else {
-            ngModel.$setViewValue(ngModel.editor.getContent())
-            ngModel.$render()
-            ngModel.editor.destroy()
-          }
+              ngModel.$render()
+              ngModel.editor.destroy()
+              isSetup = false
+            }
         })
       }
     }

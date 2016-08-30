@@ -64,7 +64,6 @@ angular.module('meanbaseApp')
 
         scope.$onRootScope('cms.updateView', function() {
           $timeout(function() {
-            console.log('updating view');
             findOn();
             setUrls();
           });
