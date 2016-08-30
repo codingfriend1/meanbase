@@ -112,10 +112,12 @@ exports.retrieveThemes = async function(activeURL) {
 
           // We want to extract the template name from the file name without the file extension or the -template
           templateName = file.match(/[^(\/|\\)]*(?=-template.[^.]+($|\?))/);
+
           // Since the client makes jade requests without the extension we remove it.
           // file = file.replace('.jade', '.html');
           // Check that the template name is valid
-          if(templateName && templateName[0] && /^[0-9A-Za-z\/\*_.\\\-]*$/.test(file)) {
+
+          if(templateName && templateName[0] && /^[0-9A-Za-z \/\*_.\\\-]*$/.test(file)) {
 
             // If a property with this template name does not already exist create it
             if(!templates[templateName[0]]) { templates[templateName[0]] = {}; }
@@ -175,6 +177,7 @@ exports.retrieveThemes = async function(activeURL) {
               themeJSONFileContents.templates = templateMaps;
             }
           }
+
           if(Object.keys(themeJSONFileContents.templates).length === 0) {
             throw new Error('Theme had no templates. At least one file must have a -template.html or -template.jade ending');
           }
