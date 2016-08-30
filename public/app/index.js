@@ -14,8 +14,8 @@ import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/endpoints/endpoints.service.js";
 import "../shared/doubleClick/doubleClick.directive.js";
-import "../shared/api/api.service.js";
 import "../shared/auth/auth.service.js";
+import "../shared/api/api.service.js";
 import "./components/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "./components/libraries/codrops/classie.js";
 import "./components/page-list/pageList.directive.js";
@@ -47,9 +47,9 @@ import "./components/extensions-selector/extensions.modal.controller.js";
 import "./components/extensions-selector/extensions-selector.directive.js";
 import "./components/extensions-area/extensions-area.directive.js";
 import "./components/dynamic-html/dynamic-html.directive.js";
+import "./components/choose-image/chooseImage.directive.js";
 import "./components/cms.headbar/cms.headbar.controller.js";
 import "./components/choose-icon/chooseIcon.directive.js";
-import "./components/choose-image/chooseImage.directive.js";
 // end inject js
 
 // inject jade
@@ -96,11 +96,11 @@ import "./components/mb-edit-menu/mb-edit-menu.styl";
 import "./components/mb-grid-add/mb-grid-add.styl";
 import "./components/mb-grid-item/mb-grid-item.styl";
 import "./components/mb-grid-remove/mbListRemove.styl";
-import "./components/mb-link/mb-link.styl";
 import "./components/mb-list-add/mbListAdd.styl";
 import "./components/mb-list-remove/mb-grid-remove.styl";
 import "./components/mb-new/mbNew.styl";
 import "./components/meanbase-editable/meanbase-editable.directive.styl";
+import "./components/mb-link/mb-link.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/missing/missing.styl";
 import "../shared/sortable/sortable.styl";
