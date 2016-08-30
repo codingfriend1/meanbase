@@ -3,6 +3,8 @@
   div#mb-headbar-child
     div.ng-cloak
       ul.root-ul
+        li
+          a(href='/cms' target="_self") CMS
         li.dropdown(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
           //- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
           a.dropdown-toggle(data-toggle="dropdown" role="button" title="Create a new page") 
@@ -32,7 +34,10 @@
             span.show-mobile
               i.fa.fa-lg.fa-pencil
         li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && page.published")
-          a(ng-click="headbar.publishChanges()" title="Save all recent edits to the live page") Publish Changes
+          a(ng-click="headbar.publishChanges()" title="Save all recent edits to the live page") 
+            span.show-desktop Publish Changes
+            span.show-mobile
+              i.fa.fa-lg.fa-check
         li(ng-show="autoSavingInProgress").autosaving-text.show-desktop autosaving...
       ul.root-ul.dropdown.navbar-right.mb-right(ng-show="editMode")
         li.dropdown.less-padding
@@ -53,7 +58,7 @@
             i.fa.fa-user.fa-lg
           ul.dropdown-menu(role="menu").dropdown-menu-right
             li
-              a(href='/cms' target="_self") Go To Admin
+              a(href='/cms' target="_self") CMS
             li
               a(href='/') Home Page
             li 
