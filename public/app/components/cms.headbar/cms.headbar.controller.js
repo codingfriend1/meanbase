@@ -18,7 +18,13 @@
 		// The big daddy power house **editMode**! This variable is used all throughout the app to enable edits to be made on the content. We don't want this to be true until we hit the edit button in the admin top menu.
 		$rootScope.editMode = false;
 
-    $rootScope.previousEditUrl = localStorage.getItem('previousEditUrl');
+    let recentUrls
+    try {
+      recentUrls = $rootScope.previousEditUrls = JSON.parse(localStorage.getItem('previousEditUrls')) || []
+    } catch(err) {
+      console.log('Error getting recent urls', err);
+    }
+
 
 		// Used to disable navigation while in edit mode
 		$scope.ableToNavigate = true;
@@ -168,6 +174,32 @@
       lastMenuUndoData = undefined
     })
 
+    $scope.$onRootScope('cms.addRecentEditLink', _.debounce(function(event, recentLink) {
+
+      if(!recentLink) { return false; }
+
+
+
+      for (var i = 0; i < recentUrls.length; i++) {
+        if(recentLink === recentUrls[i]) {
+          return false
+        }
+      }
+
+      if(recentUrls.length > 2) {
+        recentUrls[0] = recentLink
+      } else {
+        recentUrls.unshift(recentLink)
+      }
+
+      localStorage.setItem('previousEditUrls', JSON.stringify(recentUrls))
+
+      $timeout(function() {
+        $rootScope.previousEditUrls = recentUrls
+      });
+
+    }, 1000))
+
     $scope.$onRootScope('cms.returnToAutoSave', async function() {
       $scope.pageAnimation = 'shake'
       try {
@@ -277,8 +309,7 @@
 		this.publishChanges = function() {
 			this.toggleEdit();
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
-      localStorage.setItem('previousEditUrl', $rootScope.page.url);
-      $rootScope.previousEditUrl = $rootScope.page.url;
+      $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
       $rootScope.$emit('cms.stopPageListener');
 			$rootScope.$emit('cms.publishChanges', $rootScope.page);
       autoSaveSessionSnapshot = {}
@@ -450,8 +481,7 @@
 				// Save new menu to database
 				api.menus.create(newMenu).then(function(response) {
 					$scope.menus.main.push(newMenu);
-          localStorage.setItem('previousEditUrl', response.url);
-          $rootScope.previousEditUrl = response.url;
+          $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
 				}).catch(function(err) {
 				  console.log("Error creating page menu", err);
 				});

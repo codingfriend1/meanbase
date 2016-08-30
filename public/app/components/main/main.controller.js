@@ -433,6 +433,8 @@
     $scope.$onRootScope('cms.autoSave', _.debounce(async function(event, pageContent, menuContent) {
       var url = $rootScope.page.url
 
+      $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
+      
       document.title = $rootScope.page.tabTitle
       jQuery('meta[name=description]').attr('content', $rootScope.page.description)
 
@@ -544,8 +546,7 @@
 
           if(updatedPage) {
             if(snapshots.page.url !== updatedPage.url) {
-              localStorage.setItem('previousEditUrl', updatedPage.url)
-              $rootScope.previousEditUrl = updatedPage.url
+              $rootScope.$emit('cms.addRecentEditLink', updatedPage.url)
               try {
                 await api.menus.update({url: snapshots.page.url}, {url: updatedPage.url})
               } catch(err) {

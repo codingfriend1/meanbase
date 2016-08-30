@@ -48,8 +48,11 @@
               a(ng-click="headbar.editPageModal()") Settings
             li(ng-show="editMode" title="Undo all changes since last time this was published")
               a(ng-click="headbar.resetDraft()") Reset Draft
-            li(ng-show="!editMode && previousEditUrl")
-              a(ng-href="{{previousEditUrl}}") Return to last edit
+            li.divider(ng-show="$root.previousEditUrls.length")
+            li.dropdown-header(ng-show="$root.previousEditUrls.length") Recent Edits
+            li(ng-repeat="url in $root.previousEditUrls") 
+              a(ng-href="{{url}}") {{url}}
+            li.divider(ng-show="$root.previousEditUrls.length")
             li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
               a(ng-click="headbar.deletePage()") Delete page
       ul.root-ul.mb-navbar-right
