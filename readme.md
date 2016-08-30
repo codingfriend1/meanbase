@@ -25,7 +25,7 @@ Meanbase has been user tested all along the way not by computer experts but by a
 
 
 #### Easy for developers
-Building themes in WordPress is confusing and you don't have a lot of flexibility. Meanbase is designed to allow you to take a theme from say [bootswatch.com](https://bootswatch.com/), add a few attributes and elements to it to make it dynamically load data, perhaps have an angular controller for extra functionality and then you have a usable template for your clients to manage. There's far less boilerplate code and the CMS elements largely stay out of the way of your html site.
+Building themes in for popular CMS's is confusing and you usually don't have a lot of flexibility. Meanbase is designed to allow you to take a theme from say [bootswatch.com](https://bootswatch.com/), add a few attributes and elements to it to make it dynamically load data, perhaps have an angular controller for extra functionality and then you have a usable template for your clients to manage. There's far less boilerplate code and the CMS elements largely stay out of the way of your html site.
 
 #### Building the relationship
 Now when a client asks for a site, you can have a customized template quickly available, and trust that they will know how to manage it without much training.
