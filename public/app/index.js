@@ -18,7 +18,6 @@ import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
 import "./components/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "./components/libraries/codrops/classie.js";
-import "./components/cms.headbar/cms.headbar.controller.js";
 import "./components/page-list/pageList.directive.js";
 import "./components/meanbase-editable/meanbase-editable.directive.js";
 import "./components/mb-src/mb-src.directive.js";
@@ -46,10 +45,11 @@ import "./components/findImages/findImages.directive.js";
 import "./components/find-images-modal/find-images-modal.directive.js";
 import "./components/extensions-selector/extensions.modal.controller.js";
 import "./components/extensions-selector/extensions-selector.directive.js";
-import "./components/dynamic-html/dynamic-html.directive.js";
 import "./components/extensions-area/extensions-area.directive.js";
-import "./components/choose-image/chooseImage.directive.js";
+import "./components/dynamic-html/dynamic-html.directive.js";
+import "./components/cms.headbar/cms.headbar.controller.js";
 import "./components/choose-icon/chooseIcon.directive.js";
+import "./components/choose-image/chooseImage.directive.js";
 // end inject js
 
 // inject jade
