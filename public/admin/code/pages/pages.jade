@@ -1,6 +1,9 @@
 .mdl-grid
   .mdl-cell.mdl-cell--12-col
     ul.mdl-list
+      li.mb-list-explanation
+        label Link and Title
+        label.mb-publish-label Publish Toggle
       li.mdl-list__item.mdl-list__item--two-line(ng-repeat="page in pages | filter:pageFilter" mdl)
         span.mdl-list__item-primary-content
           span(id="{{page.url}}")
