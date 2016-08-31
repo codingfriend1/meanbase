@@ -1,7 +1,7 @@
 angular.module('meanbaseApp')
   .directive('addMenuItem', function ($rootScope, endpoints, $timeout) {
     return {
-      template: '<span ng-if="$root.editMode"><i class="fa fa-plus"> </i> <span> Add Link</span></div>',
+      template: '<a><span ng-if="$root.editMode"><i class="fa fa-plus"> </i> <span> Add Link</span></a>',
       restrict: 'A',
       link: function (scope, element, attrs) {
 

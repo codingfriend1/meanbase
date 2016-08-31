@@ -48,7 +48,6 @@ const app = feathers()
   .use('/api', api)
   .configure(routes)
 
-
 app.set('view engine', 'jade');
 
 module.exports = app;

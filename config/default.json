@@ -1,7 +1,7 @@
 {
   "host": "localhost",
   "port": 3030,
-  "mongodb": "mongodb://localhost:27017/meanbaseApi",
+  "mongodb": "mongodb://localhost:27017/meanbase-dev",
   "public": "../public/",
   "root": "../",
   "clientPath": "../public/",
