@@ -10,7 +10,7 @@ angular.module('meanbaseApp')
 
         if(!$rootScope.isLoggedIn) { return false; }
 
-        scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
+        scope.belongsTo = scope.$eval(attrs.belongsTo);
 
         if(!scope.belongsTo) { scope.belongsTo = {}; }
         if(!scope.belongsTo[attrs.property]) { scope.belongsTo[attrs.property] = {}; }
@@ -26,6 +26,8 @@ angular.module('meanbaseApp')
           if(!$rootScope.editMode) { return false; }
           if(event.target !== element && event.target !== insideLink) { return false; }
           event.preventDefault();
+          scope.belongsTo = scope.$eval(attrs.belongsTo);
+          if(!scope.belongsTo[attrs.property]) { scope.belongsTo[attrs.property] = {}; }
           scope.openLinkModal(scope.belongsTo, attrs.property);
         }
 

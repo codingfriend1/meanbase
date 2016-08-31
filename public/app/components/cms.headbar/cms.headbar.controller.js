@@ -233,15 +233,16 @@
       if(confirmResetDraft){
         $rootScope.$emit('cms.returnToSnapshot')
         $rootScope.$emit('cms.resetDraft')
-        $scope.$onRootScope('cms.finishedResetingDraft', function(event, successful) {
-          if(successful) {
-            $rootScope.$emit('cms.updateView')
-            toastr.success('Changes since last published date have been removed')
-          }
-        })
       }
-
     }
+
+    $scope.$onRootScope('cms.finishedResetingDraft', function(event, successful) {
+      if(successful) {
+        $rootScope.$emit('cms.updateView')
+        $rootScope.$emit('cms.takePageSnapshot', true)
+        toastr.success('Changes since last published date have been removed')
+      }
+    })
 
 		// Creates a new page and prompts the user for a url
 		this.createPage = function(e) {
@@ -318,6 +319,7 @@
       $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
 			$rootScope.$emit('cms.publishChanges', $rootScope.page);
       autoSaveSessionSnapshot = {}
+      $rootScope.$emit('cms.takePageSnapshot', true)
 		};
 
 		this.undoSession = function() {
