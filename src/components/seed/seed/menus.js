@@ -41,4 +41,4 @@ var CMS = {
   "group": "main",
 };
 
-module.exports = [home, tutorial, login, youtubeDemo, article, CMS];
+module.exports = [CMS];

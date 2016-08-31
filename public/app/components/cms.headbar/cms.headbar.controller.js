@@ -224,6 +224,18 @@
       }
     })
 
+    $scope.$onRootScope('cms.updateMenusToReflectPages', async () => {
+
+      let {placeholderTitle, menuTitle, url} = convertUrlToTitle($rootScope.page.url)
+
+      try {
+        let response = await api.menus.update({linkTo: $rootScope.page._id }, {url: $rootScope.page.url, title: placeholderTitle})
+        $rootScope.menus = await api.menus.find({})
+      } catch(err) {
+        console.log('Error updating menus to reflect page', err);
+      }
+    })
+
     this.preview = function() {
       this.toggleEdit(false)
     }
@@ -322,6 +334,10 @@
       $rootScope.$emit('cms.takePageSnapshot', true)
 		};
 
+    $scope.$onRootScope('cms.finishPublishPages', function() {
+      $rootScope.$emit('cms.updateMenusToReflectPages')
+    })
+
 		this.undoSession = function() {
       $rootScope.$emit('cms.stopPageListener')
       $rootScope.$emit('cms.autoSave', autoSaveSessionSnapshot.page, autoSaveSessionSnapshot.menus)
@@ -408,12 +424,13 @@
 				toastr.warning('Only users with permission to edit pages can see this page.');
 			}
 
+      $rootScope.$emit('cms.publishChanges');
+
       if($rootScope.page.published) {
         $rootScope.page.publishedOn = Date.now();
       }
 
-			this.toggleEdit();
-			$rootScope.$emit('cms.saveEdits', $rootScope.page);
+			this.toggleEdit(true);
 		};
 
 		this.currentScreenshot = null;
@@ -492,10 +509,6 @@
         await api.pages.create(newPage)
 
         let createdMenu = await api.menus.create(newMenu)
-
-        console.log("createdMenu", createdMenu);
-
-        $scope.menus.main.push(createdMenu);
         $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
 
         $timeout(function() {

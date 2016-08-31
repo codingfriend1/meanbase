@@ -528,6 +528,8 @@
         if(menusStagingData)
           await api.staging.delete({key: 'menus'})
 
+        $rootScope.$emit('cms.finishPublishPages')
+
       } catch(err) {
         console.log('Error publishing changes', err)
       }
