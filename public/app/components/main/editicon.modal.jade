@@ -2,8 +2,7 @@
   button.close(type='button' ng-click="$dismiss()")
     span(aria-hidden='true') ×
     span.sr-only Close
-  h4#editMenuItemLabel.modal-title Choose an icon from  
-    a(href="http://fontawesome.io/icons/" target="_blank") font-awesome.io
+  h4#editMenuItemLabel.modal-title Choose an icon from font-awesome
 .modal-body
   .alert.alert-warning
     strong Directions
@@ -16,6 +15,8 @@
   div.text-center.margin-bottom-1
     i(class="fa" ng-class="icon.classes")#test-icon
     .help-block.error {{hasContentError}}
+  div.text-center
+    a(href="http://fontawesome.io/icons/" target="_blank") font-awesome.io
   form(novalidate name="editIconForm" ng-submit="saveIcon(editIconForm)")
     input(type="submit").hidden
     .form-group
