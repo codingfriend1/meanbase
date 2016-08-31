@@ -228,8 +228,14 @@
 
       let {placeholderTitle, menuTitle, url} = convertUrlToTitle($rootScope.page.url)
 
+      let content
+      if(placeholderTitle) {
+        content = {url: $rootScope.page.url, title: placeholderTitle}
+      } else {
+        content = {url: $rootScope.page.url}
+      }
       try {
-        let response = await api.menus.update({linkTo: $rootScope.page._id }, {url: $rootScope.page.url, title: placeholderTitle})
+        let response = await api.menus.update({linkTo: $rootScope.page._id }, content)
         $rootScope.menus = await api.menus.find({})
       } catch(err) {
         console.log('Error updating menus to reflect page', err);
