@@ -7,7 +7,7 @@ angular.module('meanbaseApp')
 
         element.bind('click', function(event) {
           if(!$rootScope.menus[attrs.addMenuItem]) {
-            $rootScope.menus[attrs.addMenuItem] = {}
+            $rootScope.menus[attrs.addMenuItem] = []
           }
           scope.addMenuItem($rootScope.menus, attrs.addMenuItem)
         });
