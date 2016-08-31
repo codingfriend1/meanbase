@@ -1,10 +1,8 @@
-
+// inject jade
+// end inject jade
 
 // inject js
-import "./templates.js";
-import "./panel.directive.js";
 // end inject js
 
 // inject stylus
-import "./panel.css";
 // end inject stylus

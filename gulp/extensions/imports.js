@@ -35,14 +35,32 @@ module.exports = function(gulp, plugins, folders, config) {
   gulp.task('import-extensions-js', function(done) {
     config.async.eachSeries(folders.extensions, function iteratee(extension, callback) {
       var test = config.path.join(folders.root, extension, 'index.js');
-      gulp.src(config.path.join(folders.root, extension, 'index.js'))
-    	 .pipe(plugins.inject(gulp.src([
+
+      var sources = gulp.src([
         config.path.join(folders.root, extension, '/**/*.js'),
         '!**/index.js',
         '!**/extension.min.js',
         '!**/*spec.js',
         '!**/*mock.js',
-       ], { read: true }).pipe(plugins.angularFilesort()), {
+      ], {read: true})
+        .pipe(plugins.babel({
+          presets: ['es2017', 'es2015', 'stage-3'],
+          "plugins": [
+            'transform-runtime',
+            'transform-async-to-generator',
+            "transform-decorators-legacy",
+            "transform-class-properties",
+            "transform-flow-strip-types",
+            "transform-object-rest-spread",
+            "syntax-async-functions",
+            "angularjs-annotate",
+            "ng-annotate"
+          ]
+        }))
+        .pipe(plugins.angularFilesort())
+
+      gulp.src(config.path.join(folders.root, extension, 'index.js'))
+    	 .pipe(plugins.inject(sources), {
     		relative: true,
     		starttag: '// inject js',
     		endtag: '// end inject js',
