@@ -28,9 +28,9 @@ import "./components/mb-list-remove/mb-grid-remove.directive.js";
 import "./components/mb-list-add/mbListAdd.directive.js";
 import "./components/mb-link/mb-link.directive.js";
 import "./components/mb-icon/mb-icon.directive.js";
-import "./components/mb-grid-add/mb-grid-add.directive.js";
 import "./components/mb-grid-remove/mbListRemove.directive.js";
 import "./components/mb-grid-item/mb-grid-item.directive.js";
+import "./components/mb-grid-add/mb-grid-add.directive.js";
 import "./components/mb-edit-menu/mb-edit-menu.directive.js";
 import "./components/mb-edit-link/mb-edit-link.directive.js";
 import "./components/mb-edit/mbEdit.directive.js";
@@ -56,10 +56,10 @@ import "./components/choose-icon/chooseIcon.directive.js";
 // end inject js
 
 // inject jade
+import "./components/choose-image/chooseImage.jade";
 import "./components/cms.headbar/choose-link.modal.jade";
 import "./components/cms.headbar/cms.headbar.jade";
 import "./components/cms.headbar/editmodal.modal.jade";
-import "./components/choose-image/chooseImage.jade";
 import "./components/extensions-area/extensions-area.jade";
 import "./components/extensions-selector/extensions-selector.jade";
 import "./components/extensions-selector/extensions.modal.jade";
@@ -83,8 +83,8 @@ import "../shared/validate/validate.jade";
 // inject stylus
 import "./app.styl";
 import "./components/choose-icon/chooseImage.styl";
-import "./components/cms.headbar/cms.headbar.styl";
 import "./components/choose-image/chooseImage.styl";
+import "./components/cms.headbar/cms.headbar.styl";
 import "./components/extensions-area/extensions-area.styl";
 import "./components/extensions-selector/extensions-selector.styl";
 import "./components/find-images-modal/find-images-modal.styl";

@@ -43,7 +43,7 @@ exports.retrieveThemes = async function(activeURL) {
       }
 
       try {
-        var themeFiles = Finder.from(fullThemeFolderPath).findFiles('<-template\.jade|-template\.html|(scripts|styles)\.html|theme\.json|screenshot>');
+        var themeFiles = Finder.from(fullThemeFolderPath).findFiles('<-template\.jade|-template\.html|-extension\.jade|-extension\.html|(scripts|styles)\.html|theme\.json|screenshot>');
       } catch(err) {
         throw Error('Could not navigate theme folder structure.');
       }
@@ -52,6 +52,7 @@ exports.retrieveThemes = async function(activeURL) {
       var templates = {};
       var themeData = {
         templates: {},
+        extensions: [],
         themeJSONPath: null,
         stylesHTML: null,
         scriptsHTML: null,
@@ -68,7 +69,7 @@ exports.retrieveThemes = async function(activeURL) {
       // And populate the templates with screenshot and template file paths
       // Read the theme.json data
       for (var i = 0; i < themeFiles.length; i++) {
-        var templateName;
+        var templateName, extensionName;
         var file = themeFiles[i];
 
         // We only want a porition of the url for relative searches
@@ -124,6 +125,29 @@ exports.retrieveThemes = async function(activeURL) {
 
             // Set it's template to this file path
             templates[templateName[0]].template = file;
+          }
+        } else if(file.includes('-extension')) { // If we are looking at an actual extension
+
+          // We want to remove the super long absolute path and replace with a relative one
+          file = file;
+
+          // We want to extract the extension name from the file name without the file extension or the -extension
+          extensionName = file.match(/[^(\/|\\)]*(?=-extension.[^.]+($|\?))/);
+
+          // Since the client makes jade requests without the extension we remove it.
+          // file = file.replace('.jade', '.html');
+          // Check that the extension name is valid
+
+          if(extensionName && extensionName[0] && /^[0-9A-Za-z \/\*_.\\\-]*$/.test(file)) {
+
+            let label = extensionName[0].replace(/[ ]/g, "-").replace(/[_-]/g, " ").replace(/(^| )(\w)/g, function(x) {
+              return x.toUpperCase();
+            })
+
+            let extension = {}
+            extension.label = label
+            extension.html = file
+            themeData.extensions.push(extension)
           }
         }
       } //themeFiles loop
@@ -191,6 +215,8 @@ exports.retrieveThemes = async function(activeURL) {
             }
           }
 
+          themeJSONFileContents.extensions = themeData.extensions
+
           themejsons.push(themeJSONFileContents);
           themeData = {};
           themeJSONFileContents = {};
@@ -213,6 +239,7 @@ exports.retrieveThemes = async function(activeURL) {
               continue;
             }
           }
+          themeJSONFileContents.extensions = themeData.extensions
           themejsons.push(themeJSONFileContents);
           themeData = {};
           themeJSONFileContents = {};

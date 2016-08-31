@@ -71,6 +71,16 @@ const themesSchema = new Schema({
     type: Object,
     required: true,
   },
+  extensions: [{
+    label: {
+      required: true,
+      type: String
+    },
+    html: {
+      required: true,
+      type: String
+    }
+  }],
   themeJSONPath: {
     type: String,
     trim: true,
