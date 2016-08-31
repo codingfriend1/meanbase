@@ -42,17 +42,17 @@
                       <div class="enable-click">
                         <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
                         <hr class="intro-divider">
-                        <ul class="list-inline intro-social-buttons" init-list="page.lists.social">
-                          <li ng-repeat="socialBtn in page.lists.social.items" style="position: relative;">
+                        <ul class="list-inline intro-social-buttons" init-list="page.lists.header1">
+                          <li ng-repeat="socialBtn in page.lists.header1.items" style="position: relative;">
                             <choose-link belongs-to="socialBtn" property="link">
                               <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                                 <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
                                 <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
                               </a>
                             </choose-link>
-                            <mb-list-remove list="page.lists.social.items" item="socialBtn"></mb-list-remove>
+                            <mb-list-remove list="page.lists.header1.items" item="socialBtn"></mb-list-remove>
                           </li>
-                          <li mb-list-add list="page.lists.social.items" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
+                          <li mb-list-add list="page.lists.header1.items" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
                           </li>
                         </ul>
                       </div>
@@ -77,17 +77,17 @@
                   <mb-edit ng-model="page.content.footer1" bind-options="editorSingleLine"></mb-edit>
               </div>
               <div class="col-lg-6">
-                  <ul class="list-inline banner-social-buttons" init-list="page.lists.social">
-                    <li ng-repeat="socialBtn in page.lists.social.items" style="position: relative;">
+                  <ul class="list-inline banner-social-buttons" init-list="page.lists.footer1">
+                    <li ng-repeat="socialBtn in page.lists.footer1.items" style="position: relative;">
                       <choose-link belongs-to="socialBtn" property="link">
                         <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                           <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
                           <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
                         </a>
                       </choose-link>
-                      <mb-list-remove list="page.lists.social.items" item="socialBtn"></mb-list-remove>
+                      <mb-list-remove list="page.lists.footer1.items" item="socialBtn"></mb-list-remove>
                     </li>
-                    <li mb-list-add list="page.lists.social.items" item="socialBtn" label="social button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
+                    <li mb-list-add list="page.lists.footer1.items" item="socialBtn" label="social button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
                     </li>
                   </ul>
               </div>
