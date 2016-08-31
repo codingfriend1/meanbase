@@ -466,8 +466,6 @@
           ])
         }
 
-        console.log("pageContent.links", pageContent.links);
-
         let pagesPromise
         if(response.length > 0) {
           pagesPromise = await api.staging.update({key: url}, {data: pageContent})
@@ -674,6 +672,23 @@
         console.log('Trouble deleting autosave data for ' + url, err)
       }
     })
+
+    $scope.addMenuItem = function(belongsTo, property) {
+      if(!belongsTo || !property || !belongsTo[property]) { return false }
+      var modalInstance = $modal.open({
+        templateUrl: require('./add-menu-item.modal.jade'),
+        controller: require('./add-menu-item.controller.js'),
+        size: 'md',
+        resolve: {
+          property: function() {
+            return property
+          },
+          menu: function() {
+            return belongsTo
+          }
+        }
+      })
+    };
 
     // ### Image selector
     // This is not the best place for this modal controller, but it handles opening and getting the images for the inline-text editor.

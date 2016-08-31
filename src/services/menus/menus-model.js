@@ -23,6 +23,11 @@ const menusSchema = new Schema({
     required: true,
     validate: validators.matches(patterns.isURI)
   },
+  linkTo: {
+  	type: String,
+  	trim: true,
+    required: false
+  },
   group: {
   	type: String,
   	trim: true,

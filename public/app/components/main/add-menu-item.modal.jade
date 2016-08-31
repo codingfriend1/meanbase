@@ -1,0 +1,113 @@
+.modal-header
+  button.close(ng-click="$dismiss()")
+    span(aria-hidden="true") ×
+    span.sr-only Close
+  h4.modal-title 
+    i.fa.fa-plus.fa-lg|  
+    |  Choose Links to add
+.modal-body
+  tabset(justified="true")
+    tab(heading="Choose from pages")
+      .simple-padding
+        .form-group
+          .input-group
+            .input-group-addon 
+              i.fa.fa-search
+            input.form-control(type="text" placeholder="search pages" ng-model="searchTitle")
+        .scrollable-body
+          div(ng-repeat="page in pages" ng-hide="page.title.indexOf(searchTitle) === -1" ng-click="toggleSelected(page)").mb-list-item
+            span.mb-list-label {{page.title | htmlToPlainText}}
+            i.fa.fa-lg.mb-list-checkbox(ng-class="{'fa-square-o': !page.selected, 'fa-check': page.selected}")
+      button.btn.btn-info(type='button', data-toggle='collapse', data-target='#extra-styles') Extra Options
+      #extra-styles.collapse
+        form(novalidate name="selectingPagesForm" ng-submit="newMenuItem(selectingPagesForm)")
+          .form-group
+            label CSS Classes
+            input.form-control(ng-model="selectedLinks.classes" name="classes" ng-pattern="validators.isCSSClass")
+            div.help-block.required(ng-show="selectingPagesForm.classes.$error.required && selectingPagesForm.classes.$dirty") {{errorMessages.requiredMessage}}
+            div.help-block.error(ng-show="selectingPagesForm.classes.$invalid && selectingPagesForm.classes.$dirty") {{errorMessages.isCSSClass}}
+          .form-group
+            label Icon Classes
+            input.form-control(ng-model="selectedLinks.iconClasses" name="iconClasses" ng-pattern="validators.isCSSClass")
+            div.help-block.required(ng-show="selectingPagesForm.iconClasses.$error.required && selectingPagesForm.iconClasses.$dirty") {{errorMessages.requiredMessage}}
+            div.help-block.error(ng-show="selectingPagesForm.iconClasses.$invalid && selectingPagesForm.iconClasses.$dirty") {{errorMessages.isCSSClass}}
+      .modal-footer
+        button.btn.btn-primary(type="submit" ng-click="addMenuItems(selectingPagesForm)" ng-class="{disabled: selectingPagesForm.$invalid}") Add Link(s)
+        button.btn.btn-default(type='button' ng-click="$dismiss()") Close
+    tab(heading="Choose from another site")
+      .simple-padding
+        form(novalidate name="editingMenuForm" ng-submit="newMenuItem(editingMenuForm)")
+          input(type="submit").hidden
+          .form-group
+            label Label
+            input.form-control(ng-model="link.title" name="title" ng-pattern="validators.isTitle" required)
+            div.help-block.required(ng-show="editingMenuForm.title.$error.required && editingMenuForm.title.$dirty") {{errorMessages.requiredMessage}}
+            div.help-block.error(ng-show="editingMenuForm.title.$invalid && editingMenuForm.title.$dirty") {{errorMessages.isTitle}}
+          .form-group
+            label Link url
+            input.form-control(ng-model="link.url" name="url" ng-pattern="validators.isURI" required)
+            div.help-block.required(ng-show="editingMenuForm.url.$error.required && editingMenuForm.url.$dirty") {{errorMessages.requiredMessage}}
+            div.help-block.error(ng-show="editingMenuForm.url.$invalid && editingMenuForm.url.$dirty") {{errorMessages.isURI}}
+          button.btn.btn-info(type='button', data-toggle='collapse', data-target='#extra-options-2') Extra Options
+          #extra-options-2.collapse
+            .form-group
+              label CSS Classes
+              input.form-control(ng-model="link.classes" name="classes" ng-pattern="validators.isCSSClass")
+              div.help-block.required(ng-show="editingMenuForm.classes.$error.required && editingMenuForm.classes.$dirty") {{errorMessages.requiredMessage}}
+              div.help-block.error(ng-show="editingMenuForm.classes.$invalid && editingMenuForm.classes.$dirty") {{errorMessages.isCSSClass}}
+            .form-group
+              label Icon Classes
+              input.form-control(ng-model="link.iconClasses" name="iconClasses" ng-pattern="validators.isCSSClass")
+              div.help-block.required(ng-show="editingMenuForm.iconClasses.$error.required && editingMenuForm.iconClasses.$dirty") {{errorMessages.requiredMessage}}
+              div.help-block.error(ng-show="editingMenuForm.iconClasses.$invalid && editingMenuForm.iconClasses.$dirty") {{errorMessages.isCSSClass}}
+            .form-group
+              label How should the link navigate?
+              select(ng-model="link.target").form-control
+                option(value="_self") Replace the current page
+                option(value="_blank") Open in new browser tab
+          .modal-footer
+            button.btn.btn-primary(type="submit" ng-click="addMenuItems(editingMenuForm)" ng-class="{disabled: editingMenuForm.$invalid}") Add Link(s)
+            button.btn.btn-default(type='button' ng-click="$dismiss()") Close
+//- .modal-footer
+//-   button.btn.btn-primary(type="submit" ng-click="addMenuItems(editingMenuForm)" ng-class="{disabled: editingMenuForm.$invalid}") Add Link(s)
+//-   button.btn.btn-default(type='button' ng-click="$dismiss()") Close
+    
+    
+//- .modal-body
+//-   form(novalidate name="editingMenuForm" ng-submit="isNewMenu? newMenuItem(editingMenuForm): editMenuItem(editingMenuForm)")
+//-     input(type="submit").hidden
+//-     .form-group
+//-       label Label
+//-       input.form-control(ng-model="menuItem.title" name="title" ng-pattern="validators.isTitle" required)
+//-       div.help-block.required(ng-show="editingMenuForm.title.$error.required && editingMenuForm.title.$dirty") {{errorMessages.requiredMessage}}
+//-       div.help-block.error(ng-show="editingMenuForm.title.$invalid && editingMenuForm.title.$dirty") {{errorMessages.isTitle}}
+//-     .form-group
+//-       label Link url
+//-       input.form-control(ng-model="menuItem.url" name="url" ng-pattern="validators.isURI" required ng-change="updateTarget(menuItem.url)")
+//-       div.help-block.required(ng-show="editingMenuForm.url.$error.required && editingMenuForm.url.$dirty") {{errorMessages.requiredMessage}}
+//-       div.help-block.error(ng-show="editingMenuForm.url.$invalid && editingMenuForm.url.$dirty") {{errorMessages.isURI}}
+//-     .form-group
+//-       label Choose a link from an existing url: 
+//-       select(ng-options="page.url as page.url for page in pages" ng-model="menuItem.url").form-control
+//-     button.btn.btn-info(type='button', data-toggle='collapse', data-target='#extra-styles') Extra Options
+//-     #extra-styles.collapse
+//-       .form-group
+//-         label CSS Classes
+//-         input.form-control(ng-model="menuItem.classes" name="classes" ng-pattern="validators.isCSSClass")
+//-         div.help-block.required(ng-show="editingMenuForm.classes.$error.required && editingMenuForm.classes.$dirty") {{errorMessages.requiredMessage}}
+//-         div.help-block.error(ng-show="editingMenuForm.classes.$invalid && editingMenuForm.classes.$dirty") {{errorMessages.isCSSClass}}
+//-       .form-group
+//-         label Icon Classes
+//-         input.form-control(ng-model="menuItem.iconClasses" name="iconClasses" ng-pattern="validators.isCSSClass")
+//-         div.help-block.required(ng-show="editingMenuForm.iconClasses.$error.required && editingMenuForm.iconClasses.$dirty") {{errorMessages.requiredMessage}}
+//-         div.help-block.error(ng-show="editingMenuForm.iconClasses.$invalid && editingMenuForm.iconClasses.$dirty") {{errorMessages.isCSSClass}}
+//-       .form-group
+//-         label How should the link navigate?
+//-         select(ng-model="menuItem.target").form-control
+//-           option(value="") Navigate within this site
+//-           option(value="_self") Replace the current page
+//-           option(value="_blank") New Page
+//- .modal-footer
+//-   button.btn.btn-danger(ng-click="removeMenuItem()" ng-hide="isNewMenu") Delete
+//-   button.btn.btn-success(type="submit" ng-click="editMenuItem(editingMenuForm)" ng-hide="isNewMenu" ng-class="{disabled: editingMenuForm.$invalid}") Save
+  
