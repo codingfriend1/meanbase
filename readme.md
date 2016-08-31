@@ -38,33 +38,21 @@ Now when a client asks for a site, you can have a customized template quickly av
 ###Setting up meanbase for development
 Since we are working with node and npm make sure they are installed on your machine. There are several tutorials on the web for how to do that on your machine. If you're using mac, I recommend using [homebrew](http://brew.sh/)
 
-####Install Dependencies
+#### Running locally
 Make sure bower is installed globally  
 ```npm i bower -g```
+
+Install [Docker](https://docs.docker.com/engine/installation/) on your machine (you need at least 4G of ram)
 
 Install npm and bower modules by running  
 `npm run prepare`
 
-Install GraphicsMagick and MongoDB  
-- If your on Linux  
-`sudo apt-get install -y graphicsmagick`  
-`sudo apt-get install mongodb-server`
+Finally start the server by running
+`npm run server`
 
-- If your on a mac  
-`brew install graphicsmagick`  
-`brew install mongodb`
+Open [localhost:3030](http://localhost:3030) in your browser
 
-
-####Run mongo and the server
-- Start Mongodb in one terminal or cmd
-	- `mongod`
-  - If that doesn't work here's a quick article explaining how to fix it
-  - [Mongodb server permission denied](http://wesleytsai.io/2015/07/26/mongodb-server-directory-permission-denied/)
-- In the root of meanbase run
-	- `npm start`
-- Open the app in your browser
-	- Open [localhost:3030](http://localhost:3030) in your browser
-- You can stop mongo and the server with ctrl-c
+_NOTE: You can stop the server by hitting ctrl-c while in the terminal_
 
 #### Making changes
 If you want to update the app make sure to run watch so that your stylus, jade, and es8 files will be updated.
