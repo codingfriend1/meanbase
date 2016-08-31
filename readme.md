@@ -40,15 +40,21 @@ Since we are working with node and npm make sure they are installed on your mach
 
 #### Running locally
 Make sure bower is installed globally  
-```npm i bower -g```
+```
+npm i bower -g
+```
 
 Install [Docker](https://docs.docker.com/engine/installation/) on your machine (you need at least 4G of ram)
 
-Install npm and bower modules by running  
-`npm run prepare`
+Install npm and bower modules by running   
+```
+npm run prepare
+```
 
 Finally start the server by running
-`npm run server`
+```
+npm run server
+```
 
 Open [localhost:3030](http://localhost:3030) in your browser
 
