@@ -5,19 +5,6 @@ angular.module('meanbaseApp')
       restrict: 'EA',
       replace: true,
       link: function (scope, element, attrs) {
-        if(!scope.listItem.data) {
-          scope.listItem.data = {
-            containerClass: '',
-            items: []
-          };
-        }
-
-        if(!scope.listItem.data.items) {
-          scope.listItem.data.items = [];
-        }
-
-        scope.sellingPoints = scope.listItem.data;
-
         scope.point = {};
 
       	scope.openModal = function (point) {
