@@ -57,10 +57,10 @@ import "./components/add-menu-item/add-menu-item.directive.js";
 
 // inject jade
 import "./components/choose-image/chooseImage.jade";
-import "./components/extensions-area/extensions-area.jade";
 import "./components/cms.headbar/choose-link.modal.jade";
 import "./components/cms.headbar/cms.headbar.jade";
 import "./components/cms.headbar/editmodal.modal.jade";
+import "./components/extensions-area/extensions-area.jade";
 import "./components/extensions-selector/extensions-selector.jade";
 import "./components/extensions-selector/extensions.modal.jade";
 import "./components/findImages/findImages.jade";
@@ -76,8 +76,8 @@ import "./components/main/main.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";
-import "../shared/validate/validate.jade";
 import "../shared/taglist/taglist.jade";
+import "../shared/validate/validate.jade";
 // end inject jade
 
 // inject stylus

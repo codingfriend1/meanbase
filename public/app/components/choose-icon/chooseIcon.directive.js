@@ -15,7 +15,7 @@ angular.module('meanbaseApp')
           scope.belongsTo[scope.property] = {};
         }
 
-        if(scope.belongsTo[scope.property].classes === 'fa fa-pencil fa-lg erase-this') {
+        if(scope.belongsTo[scope.property].classes === 'fa fa-pencil fa-lg example') {
           scope.belongsTo[scope.property].classes = '';
         }
 
@@ -24,15 +24,15 @@ angular.module('meanbaseApp')
         function setDefaultIfEmpty() {
           if(!scope.belongsTo[attrs.property]  || _.isEmpty(scope.belongsTo[attrs.property])) {
             scope.belongsTo[attrs.property] = {
-              classes: 'fa fa-pencil fa-lg erase-this'
+              classes: 'fa fa-pencil fa-lg example'
             };
           } else if(scope.belongsTo[attrs.property].classes === '') {
-            scope.belongsTo[attrs.property].classes = 'fa fa-pencil fa-lg erase-this';
+            scope.belongsTo[attrs.property].classes = 'fa fa-pencil fa-lg example';
           }
         }
 
         function removeDefault() {
-          if(scope.belongsTo[attrs.property].classes === 'fa fa-pencil fa-lg erase-this') {
+          if(scope.belongsTo[attrs.property].classes === 'fa fa-pencil fa-lg example') {
             scope.belongsTo[attrs.property].classes = '';
           }
         }
