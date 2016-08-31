@@ -24,7 +24,7 @@ angular.module('meanbaseApp')
           // Logged in, redirect to home
           $timeout(function() {
             $rootScope.isLoggedIn = Auth.isLoggedIn();
-            location.href = '/cms';
+            location.href = '/cms/pages';
           });
         })
         .catch( function(err) {
