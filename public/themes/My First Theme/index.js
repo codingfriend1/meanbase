@@ -1,5 +1,6 @@
 // inject jade
 import "./home-template.html";
+import "./team-members/mft-team-members-extension.html";
 import "./team-members/team-members.html";
 // end inject jade
 

@@ -4,7 +4,7 @@
   angular.module('meanbaseApp').controller('MainCtrl', MainCtrl)
 
   // @ngInject
-  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api, $compile) {
+  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api, $compile, $templateCache) {
 
     const autoSaveLapse = 100
 
@@ -186,6 +186,23 @@
     }
 
     if(!$rootScope.isLoggedIn) { return false }
+
+
+    $rootScope.listOptions = []
+    api.themes.find({active: true}).then(function(response) {
+      if(response[0]) {
+        let extensions = response[0].extensions
+
+        for (var i = 0; i < extensions.length; i++) {
+          extensions[i].html = $templateCache.get(extensions[i].html)
+        }
+
+        $rootScope.listOptions = response[0].extensions
+      }
+
+    }, function(err) {
+      toastr.warning("Sorry but we couldn't load the extensions.")
+    });
 
     // // Let's check if the user is logged in
     // $rootScope.isLoggedIn = Auth.isLoggedIn()

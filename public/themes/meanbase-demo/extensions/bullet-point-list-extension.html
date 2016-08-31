@@ -1,7 +1,7 @@
 <div class="content-section-a">
   <div class="container">
     <div class="row" ng-init="point={}">
-      <div class="col-lg-4 col-sm-4 mb-animate-list relative" mb-grid-item item="point" ng-repeat="point in bulletPoints.items">
+      <div class="col-lg-4 col-sm-4 mb-animate-list relative" mb-grid-item item="point" ng-repeat="point in listItem.data.items">
         <a mb-link="link" belongs-to="point" style="text-decoration: none">
           <div class="text-center">
             <choose-icon belongs-to="point" property="icon" class="margin-bottom-1"></choose-icon>
@@ -11,11 +11,11 @@
             <div mb-edit ng-model="point.title" bind-options="editorSingleLine"></div>
             <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
             <mb-edit-link belongs-to="point" property="link"></mb-edit-link>
-            <mb-list-remove list="bulletPoints.items" item="point"></mb-list-remove>
+            <mb-list-remove list="listItem.data.items" item="point"></mb-list-remove>
           </div>
         </a>
       </div>
-      <mb-list-add class="col-lg-4 col-sm-4 text-center relative" mb-grid-item item="point" ng-if="editMode" list="bulletPoints.items" label="bullet point"></mb-list-add>
+      <mb-list-add class="col-lg-4 col-sm-4 text-center relative" mb-grid-item item="point" ng-if="editMode" list="listItem.data.items" label="bullet point"></mb-list-add>
     </div>
   </div>
 </div>
