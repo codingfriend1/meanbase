@@ -19,7 +19,6 @@ import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
 import "./components/libraries/codrops/codrops-morph-buttons/codrops.morph.buttons.js";
 import "./components/libraries/codrops/classie.js";
-import "./components/dynamic-html/dynamic-html.directive.js";
 import "./components/page-list/pageList.directive.js";
 import "./components/meanbase-editable/meanbase-editable.directive.js";
 import "./components/mb-src/mb-src.directive.js";
@@ -49,10 +48,11 @@ import "./components/find-images-modal/find-images-modal.directive.js";
 import "./components/extensions-selector/extensions.modal.controller.js";
 import "./components/extensions-selector/extensions-selector.directive.js";
 import "./components/extensions-area/extensions-area.directive.js";
+import "./components/dynamic-html/dynamic-html.directive.js";
 import "./components/cms.headbar/cms.headbar.controller.js";
 import "./components/choose-image/chooseImage.directive.js";
-import "./components/choose-icon/chooseIcon.directive.js";
 import "./components/add-menu-item/add-menu-item.directive.js";
+import "./components/choose-icon/chooseIcon.directive.js";
 // end inject js
 
 // inject jade
@@ -83,18 +83,18 @@ import "../shared/validate/validate.jade";
 // inject stylus
 import "./app.styl";
 import "./components/choose-icon/chooseImage.styl";
-import "./components/cms.headbar/cms.headbar.styl";
 import "./components/choose-image/chooseImage.styl";
-import "./components/extensions-selector/extensions-selector.styl";
+import "./components/cms.headbar/cms.headbar.styl";
 import "./components/extensions-area/extensions-area.styl";
+import "./components/extensions-selector/extensions-selector.styl";
 import "./components/find-images-modal/find-images-modal.styl";
 import "./components/findImages/findImages.styl";
 import "./components/list-area/list-area.styl";
 import "./components/list-selector/list-selector.styl";
 import "./components/main/main.styl";
 import "./components/mb-choose-link/choose-link.styl";
-import "./components/mb-choose-src/mb-choose-src.styl";
 import "./components/mb-edit/mb-edit.styl";
+import "./components/mb-choose-src/mb-choose-src.styl";
 import "./components/mb-edit-link/mb-edit-link.styl";
 import "./components/mb-edit-menu/mb-edit-menu.styl";
 import "./components/mb-grid-add/mb-grid-add.styl";

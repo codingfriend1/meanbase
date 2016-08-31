@@ -63,6 +63,7 @@
             .form-group
               label How should the link navigate?
               select(ng-model="link.target").form-control
+                option(value="") Navigate within this site
                 option(value="_self") Replace the current page
                 option(value="_blank") Open in new browser tab
           .modal-footer
