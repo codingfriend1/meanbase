@@ -13,7 +13,7 @@
 
               <choose-link belongs-to="page.links" property="callToAction">
                 <a class="navbar-brand topnav" mb-link="callToAction" belongs-to="page.links">
-                  <choose-icon belongs-to="page.links.callToAction" property="icon"></choose-icon>
+                  <mb-choose-icon belongs-to="page.links.callToAction" property="icon"></mb-choose-icon>
                   <mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></mb-edit>
                 </a>
               </choose-link>
@@ -23,14 +23,14 @@
                   <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
                       <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
                   </li>
-                  <li add-menu-item="main" class="new-menu-item-button">
+                  <li mb-add-menu-item="main" class="new-menu-item-button">
                     <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
                   </li>
               </ul>
           </div>
       </div>
   </nav>
-  <choose-image property="image-1">
+  <mb-choose-image property="image-1">
     <header class="intro-header" mb-src="image-1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
         <div class="container disable-click">
             <div class="row">
@@ -44,7 +44,7 @@
             </div>
         </div>
     </header>
-  </choose-image>
+  </mb-choose-image>
 
   <div class="container">
       <div class="row">
@@ -82,7 +82,7 @@
                           <a mb-link="link" belongs-to="socialBtn">
                             <span class="fa-stack fa-lg">
                               <i class="fa fa-circle fa-stack-2x"></i>
-                              <choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></choose-icon>
+                              <mb-choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></mb-choose-icon>
                               <!-- <i class="fa fa-twitter fa-stack-1x fa-inverse"></i> -->
                             </span>
                           </a>
@@ -94,7 +94,7 @@
                           <a mb-link="link" belongs-to="socialBtn">
                             <span class="fa-stack fa-lg">
                               <i class="fa fa-circle fa-stack-2x"></i>
-                              <choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></choose-icon>
+                              <mb-choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></mb-choose-icon>
                               <!-- <i class="fa fa-twitter fa-stack-1x fa-inverse"></i> -->
                             </span>
                           </a>

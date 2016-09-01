@@ -1,6 +1,5 @@
 // inject js
 import "./code/app.js";
-import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
@@ -8,6 +7,7 @@ import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
+import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/image-selector/image-selector.directive.js";
 import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
 import "../shared/helpers/helpers.service.js";
@@ -48,17 +48,17 @@ import "./code/account/account.js";
 // end inject js
 
 // inject jade
+import "./code/analytics/analytics.jade";
 import "./code/cms/cms.jade";
 import "./code/comments/comments.jade";
-import "./code/analytics/analytics.jade";
-import "./code/pages/pages.jade";
 import "./code/extensions/extensions.jade";
 import "./code/import/import.jade";
+import "./code/media/media.jade";
+import "./code/pages/pages.jade";
 import "./code/themes/themes.jade";
 import "./code/users/users.jade";
-import "./code/media/media.jade";
-import "./code/account/settings/settings.jade";
 import "./code/account/login/login.jade";
+import "./code/account/settings/settings.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";
@@ -69,14 +69,14 @@ import "../shared/validate/validate.jade";
 // inject stylus
 import "./code/app.styl";
 import "./code/analytics/analytics.styl";
-import "./code/cms/cms.styl";
 import "./code/comments/comments.styl";
 import "./code/extensions/extensions.styl";
-import "./code/media/media.styl";
 import "./code/import/import.styl";
+import "./code/media/media.styl";
 import "./code/pages/pages.styl";
 import "./code/themes/themes.styl";
 import "./code/users/users.styl";
+import "./code/cms/cms.styl";
 import "./code/account/login/login.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/missing/missing.styl";

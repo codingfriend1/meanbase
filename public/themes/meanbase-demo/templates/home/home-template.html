@@ -11,19 +11,19 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <choose-link belongs-to="page.links" property="callToAction">
+              <mb-choose-link belongs-to="page.links" property="callToAction">
                 <a class="navbar-brand topnav mb-link" mb-link="callToAction" belongs-to="page.links">
-                  <choose-icon belongs-to="page.links.callToAction" property="icon"></choose-icon>
+                  <mb-choose-icon belongs-to="page.links.callToAction" property="icon"></mb-choose-icon>
                   <mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></mb-edit>
                 </a>
-              </choose-link>
+              </mb-choose-link>
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
                   <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
                       <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}} <mb-edit-menu item="menu"></mb-edit-menu></a>
                   </li>
-                  <li add-menu-item="main" class="new-menu-item-button">
+                  <li mb-add-menu-item="main" class="new-menu-item-button">
                     <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
                   </li>
                   <!-- <li ng-click="createMenuItem('main')" ng-if="editMode" class="new-menu-item-button"><a><i class="fa fa-plus"> </i> <span> Add Link</span></a></li> -->
@@ -35,7 +35,7 @@
 
   <!-- Header -->
   <a name="about"></a>
-  <choose-image property="image-1">
+  <mb-choose-image property="image-1">
     <div class="intro-header" mb-src="image-1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
         <div class="container disable-click">
 
@@ -45,14 +45,14 @@
                       <div class="enable-click">
                         <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
                         <hr class="intro-divider">
-                        <ul class="list-inline intro-social-buttons" init-list="page.lists.header1">
+                        <ul class="list-inline intro-social-buttons" mb-init-list="page.lists.header1">
                           <li ng-repeat="socialBtn in page.lists.header1.items" style="position: relative;">
-                            <choose-link belongs-to="socialBtn" property="link">
+                            <mb-choose-link belongs-to="socialBtn" property="link">
                               <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
-                                <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
+                                <mb-choose-icon belongs-to="socialBtn" property="icon"></mb-choose-icon>
                                 <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
                               </a>
-                            </choose-link>
+                            </mb-choose-link>
                             <mb-list-remove list="page.lists.header1.items" item="socialBtn"></mb-list-remove>
                           </li>
                           <li mb-list-add list="page.lists.header1.items" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
@@ -66,11 +66,11 @@
         </div>
 
     </div>
-  </choose-image>
+  </mb-choose-image>
 
-<div list-area="body1"></div>
+<div mb-list-area="body1"></div>
 
-<choose-image property="image-5">
+<mb-choose-image property="image-5">
   <div class="banner" mb-src="image-5">
 
       <div class="container">
@@ -80,14 +80,14 @@
                   <mb-edit ng-model="page.content.prefooter1" bind-options="editorSingleLine"></mb-edit>
               </div>
               <div class="col-lg-6">
-                  <ul class="list-inline banner-social-buttons" init-list="page.lists.prefooter1">
+                  <ul class="list-inline banner-social-buttons" mb-init-list="page.lists.prefooter1">
                     <li ng-repeat="socialBtn in page.lists.prefooter1.items" style="position: relative;">
-                      <choose-link belongs-to="socialBtn" property="link">
+                      <mb-choose-link belongs-to="socialBtn" property="link">
                         <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
-                          <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
+                          <mb-choose-icon belongs-to="socialBtn" property="icon"></mb-choose-icon>
                           <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
                         </a>
-                      </choose-link>
+                      </mb-choose-link>
                       <mb-list-remove list="page.lists.prefooter1.items" item="socialBtn"></mb-list-remove>
                     </li>
                     <li mb-list-add list="page.lists.prefooter1.items" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
@@ -97,7 +97,7 @@
           </div>
 
       </div>
-  </choose-image>
+  </mb-choose-image>
 </div>
 
   <!-- Footer -->

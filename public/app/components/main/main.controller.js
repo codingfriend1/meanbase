@@ -71,7 +71,7 @@
       if($scope.editMode) {
         event.preventDefault()
         var modalInstance = $modal.open({
-          templateUrl: require('./editmenu.modal.jade'),
+          templateUrl: require('./mb-edit-menu.modal.jade'),
           controller: menuModal,
           size: 'md',
           resolve: {
@@ -105,7 +105,7 @@
         }
         $event.preventDefault()
         var modalInstance = $modal.open({
-          templateUrl: require('./editicon.modal.jade'),
+          templateUrl: require('./mb-edit-icon.modal.jade'),
           controller: iconModalController,
           size: 'md',
           resolve: {
@@ -130,7 +130,7 @@
         }
         $event.preventDefault()
         var modalInstance = $modal.open({
-          templateUrl: require('./editicon.modal.jade'),
+          templateUrl: require('./mb-edit-icon.modal.jade'),
           controller: iconModalController,
           size: 'md',
           resolve: {
@@ -725,8 +725,8 @@
     $scope.addMenuItem = function(belongsTo, property) {
       if(!belongsTo || !property || !belongsTo[property]) { return false }
       var modalInstance = $modal.open({
-        templateUrl: require('./add-menu-item.modal.jade'),
-        controller: require('./add-menu-item.controller.js'),
+        templateUrl: require('./mb-add-menu-item.modal.jade'),
+        controller: require('./mb-add-menu-item.controller.js'),
         size: 'md',
         resolve: {
           property: function() {
@@ -744,7 +744,7 @@
     // This controls the image selector modal that opens with the inline text editor
     $rootScope.openImageModal = function(config, callback) {
       var modalInstance = $modal.open({
-        templateUrl: require('./findImage.modal.jade'),
+        templateUrl: require('./mb-find-image.modal.jade'),
         controller: function($scope, $modalInstance, config) {
           $scope.config = config
 
@@ -810,7 +810,7 @@
     $scope.openLinkModal = function(belongsTo, property) {
       if(!belongsTo || !property) { return false }
       var modalInstance = $modal.open({
-        templateUrl: require('./editLink.modal.jade'),
+        templateUrl: require('./mb-edit-link.modal.jade'),
         controller: linkModalController,
         size: 'md',
         resolve: {
@@ -930,7 +930,7 @@
         $rootScope.menus[group] = []
       }
       var modalInstance = $modal.open({
-        templateUrl: require('./editmenu.modal.jade'),
+        templateUrl: require('./mb-edit-menu.modal.jade'),
         controller: menuModal,
         size: 'md',
         resolve: {
