@@ -1,6 +1,5 @@
 <div class="gallery-container">
   <carousel interval="interval">
-    {{listItem.data.images}}
     <slide ng-repeat="image in listItem.data.images" active="image.active">
       <img ng-src="{{image.modifiedurl}}" style="margin:auto;" fallback-src="http://placehold.it/900x300">
       <div class="carousel-caption">

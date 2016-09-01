@@ -4,6 +4,7 @@ angular.module('meanbaseApp')
       template: '<ng-transclude find-images-modal find-images-config="findImagesConfig"></ng-transclude>',
       restrict: 'E',
       transclude: true,
+      replace: true,
       scope: true,
       compile: function(element, attrs) {
         return {

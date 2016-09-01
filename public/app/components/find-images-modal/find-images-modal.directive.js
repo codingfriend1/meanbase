@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('meanbaseApp')
-  .directive('findImagesModal', function ($rootScope) {
+  .directive('findImagesModal', function ($rootScope, $timeout) {
     return {
       // templateUrl: 'components/find-images-modal/find-images-modal.html',
       restrict: 'EA',
@@ -12,7 +12,7 @@ angular.module('meanbaseApp')
       	var config = scope.findImagesConfig;
         var chosenElement = element;
 
-        if(element.find('mb-src').length) {
+        if(element.find('[mb-src]').length) {
           chosenElement = element.find('[mb-src]:first');
         }
 
