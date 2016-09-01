@@ -951,6 +951,50 @@
       })
     }
 
+    let editExtensionModalInstance
+    $scope.openEditExtensionModal = function(item) {
+      if(editExtensionModalInstance) { return false }
+      editExtensionModalInstance = $modal.open({
+        templateUrl: require('./mb-extension-edit.modal.jade'),
+        controller: function($scope, $modalInstance, item, api, toastr) {
+          $scope.extensionKey = item.key
+
+          $scope.extensionKeys = []
+          api.custom.find({belongsTo: item.label}).then(function(response) {
+            $scope.extensionKeys = response
+          })
+
+          $scope.updateExtension = async function(extensionKey) {
+            if(!extensionKey) {
+              toastr.warning('Please choose a key')
+              return false
+            }
+
+            item.key = extensionKey
+
+            for (var i = 0; i < $scope.extensionKeys.length; i++) {
+              if(extensionKey === $scope.extensionKeys[i].key) {
+                item.data = $scope.extensionKeys[i].value
+              }
+            }
+
+            toastr.success('Key updated')
+            $modalInstance.close();
+          }
+        },
+        size: 'md',
+        resolve: {
+          item: function() {
+            return item
+          }
+        }
+      })
+
+      editExtensionModalInstance.result.then(function (selectedImages) {
+        editExtensionModalInstance = undefined
+      })
+    }
+
 
     // ### The Menu Modal Controller
     // @ngInject

@@ -3,4 +3,5 @@ div(ng-sortable="sortableLists" ng-class="{'mb-drag-to-room': editMode && page.l
     mb-list-remove(list="page.lists[areaName]" item="listItem")
     div.mb-drag-handle(ng-if="$root.editMode")
       i.fa.fa-arrows
+    mb-extension-edit(item="listItem")
 div(list-selector="{{areaName}}")

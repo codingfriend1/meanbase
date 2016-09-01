@@ -1,0 +1,21 @@
+.modal-header
+  button.close(type='button' ng-click="$dismiss()")
+    span(aria-hidden='true') ×
+    span.sr-only Close
+  h4#editMenuItemLabel.modal-title Choose an icon from font-awesome
+.modal-body
+  .alert.alert-warning
+    strong NOTE
+    div Choose an icon from  
+      | Extensions share data between pages. Giving this extension a name helps it to stay in sync with extensions on other pages that share the same name
+  form(novalidate name="editIconForm" ng-submit="updateExtensionKey(editIconForm)")
+    input(type="submit").hidden
+    .form-group
+      label Create a new Key
+      input.form-control(ng-model="extensionKey")
+    .form-group
+      label Or choose from existing extensions
+      select(ng-options="extension.key as extension.key for extension in extensionKeys" ng-model="extensionKey").form-control
+.modal-footer
+  button.btn.btn-success(type="submit" ng-click="updateExtension(extensionKey)" ng-class="{disabled: editIconForm.$invalid || (!hasContent && icon.classes)}") Save
+  button.btn.btn-default(type='button' ng-click="$dismiss()") Close
