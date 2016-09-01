@@ -306,7 +306,7 @@ exports.retrieveExtensions = async function() {
       }
 
       for (var i = 0; i < extensionFilePaths.length; i++) {
-        let file = extensionFilePaths[i].replace(app.get('clientPath'), '')
+        let file = extensionFilePaths[i].replace(path.join(app.get('clientPath'), '/'), '')
 
         if(file.indexOf('-extension.html') > -1 || file.indexOf('-extension.jade') > -1) {
           console.log('html');

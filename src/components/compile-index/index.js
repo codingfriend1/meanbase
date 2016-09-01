@@ -133,13 +133,10 @@ function injectTheme(file, theme) {
 
 function injectExtensions(file, extensionjsons) {
   for (var i = 0; i < extensionjsons.length; i++) {
-    for (var x = 0; x < extensionjsons[i].urls.length; x++) {
+    var jsPattern = new RegExp("\.(js)$");
 
-      var jsPattern = new RegExp("\.(js)$");
-
-      if(/\.(js)$/.test(extensionjsons[i].urls[x])) {
-        file = file.replace('<!-- extensions:js -->', '<script src="' + extensionjsons[i].urls[x] + '"></script>' + '\n\t <!-- extensions:js -->');
-      }
+    if(/\.(js)$/.test(extensionjsons[i].contents)) {
+      file = file.replace('<!-- extensions:js -->', '<script src="' + extensionjsons[i].contents + '"></script>' + '\n\t <!-- extensions:js -->');
     }
   }
   return file;

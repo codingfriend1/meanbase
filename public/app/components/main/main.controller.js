@@ -188,21 +188,36 @@
     if(!$rootScope.isLoggedIn) { return false }
 
 
-    $rootScope.listOptions = []
-    api.themes.find({active: true}).then(function(response) {
-      if(response[0]) {
-        let extensions = response[0].extensions
+    $rootScope.listOptions = [];
+
+    (async () => {
+      try {
+        let response = await api.themes.find({active: true})
+        response = response[0]
+
+        let extensions = []
+
+        if(response) {
+          extensions = response.extensions
+        }
+
+        let foundExtensions = await api.extensions.find({active: true})
+
+        extensions = extensions.concat(foundExtensions)
 
         for (var i = 0; i < extensions.length; i++) {
           extensions[i].html = $templateCache.get(extensions[i].html)
+          if(!extensions[i].html) {
+            extensions.splice(i, 1)
+          }
         }
 
-        $rootScope.listOptions = response[0].extensions
+        $rootScope.listOptions = extensions
+      } catch(err) {
+        console.log('Error fetching extensions', err)
+        toastr.warning("Sorry but we couldn't load the extensions.")
       }
-
-    }, function(err) {
-      toastr.warning("Sorry but we couldn't load the extensions.")
-    });
+    })()
 
     // // Let's check if the user is logged in
     // $rootScope.isLoggedIn = Auth.isLoggedIn()

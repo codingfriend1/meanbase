@@ -3,28 +3,29 @@ angular.module('meanbaseApp').directive('mbPanel', api => ({
   replace: true,
   link: async (scope, element, attrs) => {
 
-    $scope.data = {}
+    scope.data = {}
     let alreadyHasData = false
     try {
       let extensionData = await api.custom.find({belongsTo: 'mb-panel', key: scope.listItem.key})
       extensionData = extensionData[0]
       if(extensionData) {
         alreadyHasData = true
-        $scope.data = extensionData.value
+        scope.data = extensionData.value
       }
     } catch(err) {
       console.log('err', err);
     }
 
-    function saveEdits(event) {
+    async function saveEdits(event) {
       try {
         let response
         if(alreadyHasData) {
-          response = await api.custom.update({belongsTo: 'mb-panel', key: scope.listItem.key}, {value: $scope.data})
+          response = await api.custom.update({belongsTo: 'mb-panel', key: scope.listItem.key}, {value: scope.data})
         } else {
-          response = await api.custom.create({belongsTo: 'mb-panel', key: scope.listItem.key, value: $scope.data, enabled: true, permission: 'editContent'})
+          response = await api.custom.create({belongsTo: 'mb-panel', key: scope.listItem.key, value: scope.data, enabled: true, permission: 'editContent'})
+          alreadyHasData = true
         }
-        $scope.data = response.value
+        scope.data = response.value
       } catch(err) {
         console.log('Error saving extension data ', err);
       }

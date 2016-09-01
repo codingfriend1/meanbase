@@ -25,7 +25,7 @@ angular.module('meanbaseApp')
                 group: attrs.listSelector,
                 position: ($rootScope.page.lists[attrs.listSelector].length - 1 < 0)? 0: $rootScope.page.lists[attrs.listSelector].length - 1,
                 label: chosenList[i].label,
-                key: `${chosenList[i].label}-${attrs.listSelector}-${$rootScope.page.lists[attrs.listSelector].length}`,
+                key: `${chosenList[i].label} ${attrs.listSelector} ${$rootScope.page.lists[attrs.listSelector].length + 1}`,
                 html: chosenList[i].html,
                 data: {
                   items: []

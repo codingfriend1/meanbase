@@ -60,7 +60,7 @@ module.exports = function(gulp, plugins, folders, config) {
         .pipe(plugins.angularFilesort())
 
       gulp.src(config.path.join(folders.root, extension, 'index.js'))
-    	 .pipe(plugins.inject(sources), {
+    	 .pipe(plugins.inject(sources, {
     		relative: true,
     		starttag: '// inject js',
     		endtag: '// end inject js',
@@ -73,7 +73,7 @@ module.exports = function(gulp, plugins, folders, config) {
       		  return 'import "./' + filepath + '";'
           }
     		}
-    	 }))
+      }))
     	 .pipe(gulp.dest(config.path.join(folders.root, extension)))
        .on('error', callback)
        .on('end', callback);
