@@ -15,8 +15,8 @@ import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/endpoints/endpoints.service.js";
 import "../shared/doubleClick/doubleClick.directive.js";
-import "../shared/api/api.service.js";
 import "../shared/auth/auth.service.js";
+import "../shared/api/api.service.js";
 import "./code/components/mdl/mdl.directive.js";
 import "./code/components/dialog/dialog.directive.js";
 import "./code/components/date-picker/date-picker.directive.js";
@@ -41,10 +41,10 @@ import "./code/comments/comments.js";
 import "./code/comments/comments.controller.js";
 import "./code/cms/cms.js";
 import "./code/cms/cms.controller.js";
-import "./code/account/account.js";
 import "./code/analytics/google-analytics-embed-customizations.js";
 import "./code/analytics/analytics.js";
 import "./code/analytics/analytics.controller.js";
+import "./code/account/account.js";
 // end inject js
 
 // inject jade
@@ -57,8 +57,8 @@ import "./code/media/media.jade";
 import "./code/pages/pages.jade";
 import "./code/themes/themes.jade";
 import "./code/users/users.jade";
-import "./code/account/settings/settings.jade";
 import "./code/account/login/login.jade";
+import "./code/account/settings/settings.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";

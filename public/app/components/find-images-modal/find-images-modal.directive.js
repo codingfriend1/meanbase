@@ -12,9 +12,11 @@ angular.module('meanbaseApp')
       	var config = scope.findImagesConfig;
         var chosenElement = element;
 
-        if(element.find('mb-src')) {
+        if(element.find('mb-src').length) {
           chosenElement = element.find('[mb-src]:first');
         }
+
+        console.log("chosenElement", chosenElement);
 
       	chosenElement.bind('click', function(event) {
           if(!$rootScope.editMode) { return false; }

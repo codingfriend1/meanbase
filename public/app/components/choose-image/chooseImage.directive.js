@@ -29,7 +29,7 @@ angular.module('meanbaseApp')
             getBelongsTo();
 
             scope.findImagesConfig = {
-              multiple: false,
+              multiple: attrs.multiple || false,
               allOperations: false,
               gallerySlug: key,
               alreadySelected: scope.belongsTo[attrs.property]
@@ -45,21 +45,44 @@ angular.module('meanbaseApp')
               if(key === gallery.gallerySlug) {
                 getBelongsTo();
                 scope.findImagesConfig.gallerySlug = key;
-                var image = (Array.isArray(gallery.images))? gallery.images[0]: gallery.images;
-                if(image) {
-                  image.location = attrs.property;
-                  image.modifiedurl = image[attrs.size] || image.url;
-                  scope.belongsTo[attrs.property] = {};
-                  scope.belongsTo[attrs.property].url = image.url;
-                  scope.belongsTo[attrs.property].alt = image.alt;
-                  scope.belongsTo[attrs.property].modifiedurl = image.modifiedurl;
-                  scope.belongsTo[attrs.property].location = image.location;
+                if(gallery.images) {
+                  if(Array.isArray(gallery.images)) {
+                    scope.belongsTo[attrs.property] = [];
+                    for (var i = 0; i < gallery.images.length; i++) {
+                      var image = gallery.images[i];
+                      if(image) {
+                        let newImage = {}
+                        image.location = attrs.property;
+                        image.modifiedurl = image[attrs.size] || image.url;
 
-                  scope.findImagesConfig.alreadySelected = image;
-                } else {
-                  scope.belongsTo[attrs.property] = undefined;
-                  scope.findImagesConfig.alreadySelected = undefined;
+                        newImage.url = image.url;
+                        newImage.alt = image.alt;
+                        newImage.modifiedurl = image.modifiedurl;
+                        newImage.location = image.location;
+
+                        scope.belongsTo[attrs.property].push(newImage)
+                      }
+                    }
+                    scope.findImagesConfig.alreadySelected = gallery.images;
+                  } else {
+                    var image = gallery.images;
+                    if(image) {
+                      image.location = attrs.property;
+                      image.modifiedurl = image[attrs.size] || image.url;
+                      scope.belongsTo[attrs.property] = {};
+                      scope.belongsTo[attrs.property].url = image.url;
+                      scope.belongsTo[attrs.property].alt = image.alt;
+                      scope.belongsTo[attrs.property].modifiedurl = image.modifiedurl;
+                      scope.belongsTo[attrs.property].location = image.location;
+
+                      scope.findImagesConfig.alreadySelected = image;
+                    } else {
+                      scope.belongsTo[attrs.property] = undefined;
+                      scope.findImagesConfig.alreadySelected = undefined;
+                    }
+                  }
                 }
+
 
                 $rootScope.$emit('updateView')
               }
