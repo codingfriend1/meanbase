@@ -5,7 +5,7 @@
       span.sr-only Close
     h4.modal-title 
       i.fa.fa-plus.fa-lg|  
-      |  Choose List
+      |  Choose Extension
   .modal-body
     tabset(justified="true")
       tab(heading="Theme extensions")
@@ -16,9 +16,12 @@
                 i.fa.fa-search
               input.form-control(type="text" placeholder="search lists" ng-model="searchLists")
           .list-list.scrollable-body
-            div(ng-repeat="item in $root.listOptions | filter:searchLists" ng-click="toggleChecked(item, $event)").mb-list-item
+            div(ng-repeat="item in $root.listOptions | filter:searchLists" ng-click="toggleSelected(item)").mb-list-item
               span.mb-list-label {{item.label}}
-              i.fa.mb-list-checkbox(ng-class="{'fa-check': chosenList.indexOf(item) > -1, 'fa-square-o': chosenList.indexOf(item) == -1}")
+              i.fa.fa-lg.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
+        .modal-footer
+          button.btn.btn-success(type='button' ng-click="chooseExtension()") Choose
+          button.btn.btn-default(type='button' ng-click="$dismiss()") Close
       tab(heading="Independent Extensions")
         .form-group
           .input-group
@@ -26,11 +29,12 @@
               i.fa.fa-search
             input.form-control(type="text" placeholder="search lists" ng-model="searchLists")
         .scrollable-body
-          div(ng-repeat="item in $root.extensionOptions | filter:searchLists" ng-click="toggleChecked(item, $event)").mb-list-item
-            span.mb-list-label {{item.label}}
-            i.fa.mb-list-checkbox(ng-class="{'fa-check': chosenList.indexOf(item) > -1, 'fa-square-o': chosenList.indexOf(item) == -1}")
+          div(ng-repeat="item in $root.extensionOptions | filter:searchLists" ng-click="toggleSelected(item)").mb-list-item
+            span.mb-list-label
+            i.fa.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
         .form-group
+          label Extension Key {{extensionKey}}
           input.form-control(type="text" placeholder="Extension key" ng-model="extensionKey")
-  .modal-footer
-    button.btn.btn-success(type='button' ng-click="chooseList()") Choose
-    button.btn.btn-default(type='button' ng-click="$dismiss()") Close
+        .modal-footer
+          button.btn.btn-success(type='button' ng-click="chooseExtension(extensionKey)") Choose
+          button.btn.btn-default(type='button' ng-click="$dismiss()") Close

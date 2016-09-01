@@ -49,10 +49,10 @@ import "./components/extensions-selector/extensions.modal.controller.js";
 import "./components/extensions-selector/extensions-selector.directive.js";
 import "./components/extensions-area/extensions-area.directive.js";
 import "./components/dynamic-html/dynamic-html.directive.js";
-import "./components/choose-image/chooseImage.directive.js";
 import "./components/cms.headbar/cms.headbar.controller.js";
-import "./components/choose-icon/chooseIcon.directive.js";
+import "./components/choose-image/chooseImage.directive.js";
 import "./components/add-menu-item/add-menu-item.directive.js";
+import "./components/choose-icon/chooseIcon.directive.js";
 // end inject js
 
 // inject jade

@@ -1,5 +1,5 @@
 <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
-<div ng-controller="blogController as controller">
+<div>
   <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
       <div class="container topnav">
           <!-- Brand and toggle get grouped for better mobile display -->
@@ -11,10 +11,10 @@
                   <span class="icon-bar"></span>
               </button>
 
-              <choose-link belongs-to="page.links" property="callToAction">
-                <a class="navbar-brand topnav mb-link" mb-link="callToAction" belongs-to="page.links">
-                  <choose-icon belongs-to="page.links.callToAction" property="icon"></choose-icon>
-                  <mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></mb-edit>
+              <choose-link belongs-to="page.links" property="header1">
+                <a class="navbar-brand topnav mb-link" mb-link="header1" belongs-to="page.links">
+                  <choose-icon belongs-to="page.links.header1" property="icon"></choose-icon>
+                  <mb-edit ng-model="page.links.header1.title" bind-options="editorSingleLine"></mb-edit>
                 </a>
               </choose-link>
           </div>
@@ -120,8 +120,8 @@
       <div class="container">
           <div class="row">
               <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                  <ul class="list-inline text-center" init-list="page.lists.socialFooter1">
-                      <li ng-repeat="socialBtn in page.lists.socialFooter1.items" style="position: relative;">
+                  <ul class="list-inline text-center" init-list="page.lists.footer1">
+                      <li ng-repeat="socialBtn in page.lists.footer1.items" style="position: relative;">
                         <choose-link belongs-to="socialBtn" property="link">
                           <a mb-link="link" belongs-to="socialBtn">
                             <span class="fa-stack fa-lg">
@@ -131,9 +131,9 @@
                             </span>
                           </a>
                         </choose-link>
-                        <mb-list-remove list="page.lists.socialFooter1.items" item="socialBtn"></mb-list-remove>
+                        <mb-list-remove list="page.lists.footer1.items" item="socialBtn"></mb-list-remove>
                       </li>
-                      <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;" mb-list-add list="page.lists.socialFooter1.items" item="socialBtn" label="button"></li>
+                      <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;" mb-list-add list="page.lists.footer1.items" item="socialBtn" label="button"></li>
                   </ul>
                   <div mb-edit class="copyright text-muted" ng-model="page.content.footer1" bind-options="editorOptions"></div>
               </div>

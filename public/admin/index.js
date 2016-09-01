@@ -4,12 +4,12 @@ import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
 import "../shared/sortable/sortable.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
-import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
+import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/mb-animate/mb-animate.directive.js";
-import "../shared/image-selector/image-selector.directive.js";
 import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
+import "../shared/image-selector/image-selector.directive.js";
 import "../shared/helpers/helpers.service.js";
 import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
@@ -22,8 +22,8 @@ import "./code/components/dialog/dialog.directive.js";
 import "./code/components/date-picker/date-picker.directive.js";
 import "./code/components/crud/crud.service.js";
 import "./code/components/camel-to-human/camel-to-human.filter.js";
-import "./code/account/settings/settings.controller.js";
 import "./code/account/login/login.controller.js";
+import "./code/account/settings/settings.controller.js";
 import "./code/users/users.js";
 import "./code/users/users.controller.js";
 import "./code/themes/themes.js";
@@ -41,10 +41,10 @@ import "./code/comments/comments.js";
 import "./code/comments/comments.controller.js";
 import "./code/cms/cms.js";
 import "./code/cms/cms.controller.js";
-import "./code/account/account.js";
 import "./code/analytics/google-analytics-embed-customizations.js";
 import "./code/analytics/analytics.js";
 import "./code/analytics/analytics.controller.js";
+import "./code/account/account.js";
 // end inject js
 
 // inject jade

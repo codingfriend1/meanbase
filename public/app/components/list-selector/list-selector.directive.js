@@ -14,25 +14,23 @@ angular.module('meanbaseApp')
       	    size: 'md'
       	  });
 
-	      	modalInstance.result.then(function (chosenList) {
-	      		if(!$rootScope.page || !$rootScope.page.url || !chosenList || attrs.listSelector < 1) { return false; }
+	      	modalInstance.result.then(function (chosenExtension) {
+	      		if(!$rootScope.page || !$rootScope.page.url || !chosenExtension || attrs.listSelector < 1) { return false; }
             if(!$rootScope.page.lists[attrs.listSelector]) {
               $rootScope.page.lists[attrs.listSelector] = [];
             }
             var listResponse = [];
-            for (var i = 0; i < chosenList.length; i++) {
-              var listItem = {
-                group: attrs.listSelector,
-                position: ($rootScope.page.lists[attrs.listSelector].length - 1 < 0)? 0: $rootScope.page.lists[attrs.listSelector].length - 1,
-                label: chosenList[i].label,
-                key: `${chosenList[i].label} ${attrs.listSelector} ${$rootScope.page.lists[attrs.listSelector].length + 1}`,
-                html: chosenList[i].html,
-                data: {
-                  items: []
-                }
-              };
-              listResponse.push(listItem);
+            var listItem = {
+              group: attrs.listSelector,
+              position: ($rootScope.page.lists[attrs.listSelector].length - 1 < 0)? 0: $rootScope.page.lists[attrs.listSelector].length - 1,
+              label: chosenExtension.label,
+              key: chosenExtension.key || `${chosenExtension.label} ${attrs.listSelector} ${$rootScope.page.lists[attrs.listSelector].length + 1}`,
+              html: chosenExtension.html,
+              data: {
+                items: []
+              }
             };
+            listResponse.push(listItem);
 
             $rootScope.page.lists[attrs.listSelector] = $rootScope.page.lists[attrs.listSelector].concat(listResponse);
 
