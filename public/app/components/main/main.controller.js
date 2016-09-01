@@ -200,7 +200,7 @@
         if(response) {
           extensions = response.extensions
         }
-        
+
         for (var i = 0; i < extensions.length; i++) {
           extensions[i].html = $templateCache.get(extensions[i].html)
           if(!extensions[i].html) {

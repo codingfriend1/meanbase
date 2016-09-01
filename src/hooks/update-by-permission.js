@@ -4,8 +4,6 @@ import _ from 'lodash'
 export default options => {
   return async hook => {
 
-    console.log('running this');
-
     if (!hook.params.provider) { return hook; }
 
     if(hook.type !== 'before') { throw Error('Update by Permission must be an before hook'); }

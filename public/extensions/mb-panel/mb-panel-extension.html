@@ -1,1 +1,8 @@
-<mb-panel></mb-panel>
+<div class="panel panel-default">
+	<div class="panel-heading">
+    <div mb-edit ng-model="listItem.data.headingText" bind-options="editorSingleLine" ng-change="autoSaveEdits()"></div>
+	</div>
+	<div class="panel-body">
+		<div mb-edit ng-model="listItem.data.bodyText" bind-options="editorOptions" ng-change="autoSaveEdits()"></div>
+	</div>
+</div>
