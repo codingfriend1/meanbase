@@ -57,7 +57,6 @@ angular.module('meanbaseApp').directive('mbPanel', (api, $rootScope, $timeout) =
     }
 
     async function fetchAutoSaveData() {
-      console.log('fetching');
       try {
         let data = await api.staging.find({belongsTo: scope.listItem.label, key: scope.listItem.key})
         data = data[0]
@@ -76,14 +75,10 @@ angular.module('meanbaseApp').directive('mbPanel', (api, $rootScope, $timeout) =
         let response
         if(alreadyHasAutoSaveData) {
           response = await api.staging.update({belongsTo: scope.listItem.label, key: scope.listItem.key}, {data: scope.data})
-          console.log("response", response);
         } else {
           alreadyHasAutoSaveData = true
           response = await api.staging.create({belongsTo: scope.listItem.label, key: scope.listItem.key, data: scope.data, enabled: true, permission: 'editContent'})
-          console.log("response", response);
         }
-        console.log("response", response);
-        scope.data = response.value
       } catch(err) {
         console.log('Error saving extension data ', err);
       }

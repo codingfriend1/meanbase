@@ -62,8 +62,6 @@
             $rootScope.$emit('cms.startPageListener')
           });
         });
-
-
       } else {
         $rootScope.$emit('cms.stopPageListener')
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
