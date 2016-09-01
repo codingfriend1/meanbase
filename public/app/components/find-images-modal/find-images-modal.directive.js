@@ -16,8 +16,6 @@ angular.module('meanbaseApp')
           chosenElement = element.find('[mb-src]:first');
         }
 
-        console.log("chosenElement", chosenElement);
-
       	chosenElement.bind('click', function(event) {
           if(!$rootScope.editMode) { return false; }
 
