@@ -55,12 +55,10 @@
 			if(boole !== undefined) { $rootScope.editMode = boole } else { $rootScope.editMode = !$rootScope.editMode }
       if($rootScope.editMode) {
         $rootScope.$emit('cms.stopPageListener')
+        $rootScope.$emit('cms.pullAutoSaveData', $rootScope.editMode)
+        $rootScope.$emit('cms.editMode', $rootScope.editMode)
         $timeout(function() {
-          $rootScope.$emit('cms.pullAutoSaveData', $rootScope.editMode)
-          $rootScope.$emit('cms.editMode', $rootScope.editMode)
-          $timeout(function() {
-            $rootScope.$emit('cms.startPageListener')
-          });
+          $rootScope.$emit('cms.startPageListener')
         });
       } else {
         $rootScope.$emit('cms.stopPageListener')
