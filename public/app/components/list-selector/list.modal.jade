@@ -30,10 +30,10 @@
             input.form-control(type="text" placeholder="search lists" ng-model="searchLists")
         .scrollable-body
           div(ng-repeat="item in $root.extensionOptions | filter:searchLists" ng-click="toggleSelected(item)").mb-list-item
-            span.mb-list-label
+            span.mb-list-label {{item.label}}
             i.fa.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
         .form-group
-          label Extension Key {{extensionKey}}
+          label Extension Key
           input.form-control(type="text" placeholder="Extension key" ng-model="extensionKey")
         .modal-footer
           button.btn.btn-success(type='button' ng-click="chooseExtension(extensionKey)") Choose
