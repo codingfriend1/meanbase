@@ -200,11 +200,7 @@
         if(response) {
           extensions = response.extensions
         }
-
-        let foundExtensions = await api.extensions.find({active: true})
-
-        extensions = extensions.concat(foundExtensions)
-
+        
         for (var i = 0; i < extensions.length; i++) {
           extensions[i].html = $templateCache.get(extensions[i].html)
           if(!extensions[i].html) {
@@ -214,8 +210,27 @@
 
         $rootScope.listOptions = extensions
       } catch(err) {
+        console.log('Error fetching theme extensions', err)
+      }
+    })()
+
+
+    $rootScope.extensionOptions = [];
+    (async () => {
+      try {
+
+        let foundExtensions = await api.extensions.find({active: true})
+
+        for (var i = 0; i < foundExtensions.length; i++) {
+          foundExtensions[i].html = $templateCache.get(foundExtensions[i].html)
+          if(!foundExtensions[i].html) {
+            foundExtensions.splice(i, 1)
+          }
+        }
+
+        $rootScope.extensionOptions = foundExtensions
+      } catch(err) {
         console.log('Error fetching extensions', err)
-        toastr.warning("Sorry but we couldn't load the extensions.")
       }
     })()
 

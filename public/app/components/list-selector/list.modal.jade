@@ -8,18 +8,29 @@
       |  Choose List
   .modal-body
     tabset(justified="true")
-      tab(heading="Choose new lists")
+      tab(heading="Theme extensions")
         div.list-selector
           .form-group
             .input-group
               .input-group-addon 
                 i.fa.fa-search
-              input.form-control(type="text" placeholder="search lists" ng-model="searchLists.label")
+              input.form-control(type="text" placeholder="search lists" ng-model="searchLists")
           .list-list.scrollable-body
-            div(ng-repeat="item in $root.listOptions | filter:searchLists" ng-click="toggleChecked(item, $event)").list-item
-              img(ng-src="{{item.screenshot}}").list-image
-              h4.list-title {{item.label}}
-              i.fa.checkbox(ng-class="{'fa-check': chosenList.indexOf(item) > -1, 'fa-square-o': chosenList.indexOf(item) == -1}")
+            div(ng-repeat="item in $root.listOptions | filter:searchLists" ng-click="toggleChecked(item, $event)").mb-list-item
+              span.mb-list-label {{item.label}}
+              i.fa.mb-list-checkbox(ng-class="{'fa-check': chosenList.indexOf(item) > -1, 'fa-square-o': chosenList.indexOf(item) == -1}")
+      tab(heading="Independent Extensions")
+        .form-group
+          .input-group
+            .input-group-addon 
+              i.fa.fa-search
+            input.form-control(type="text" placeholder="search lists" ng-model="searchLists")
+        .scrollable-body
+          div(ng-repeat="item in $root.extensionOptions | filter:searchLists" ng-click="toggleChecked(item, $event)").mb-list-item
+            span.mb-list-label {{item.label}}
+            i.fa.mb-list-checkbox(ng-class="{'fa-check': chosenList.indexOf(item) > -1, 'fa-square-o': chosenList.indexOf(item) == -1}")
+        .form-group
+          input.form-control(type="text" placeholder="Extension key" ng-model="extensionKey")
   .modal-footer
     button.btn.btn-success(type='button' ng-click="chooseList()") Choose
     button.btn.btn-default(type='button' ng-click="$dismiss()") Close
