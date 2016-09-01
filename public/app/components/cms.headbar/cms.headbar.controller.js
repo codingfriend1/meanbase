@@ -230,7 +230,7 @@
 
 
       for (var i = 0; i < recentUrls.length; i++) {
-        if(recentLink === recentUrls[i]) {
+        if(recentLink === recentUrls[i] && recentLink.indexOf('/missing') === -1) {
           return false
         }
       }
