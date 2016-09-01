@@ -118,6 +118,52 @@
       this.toggleEdit(false)
     })
 
+    async function addOrUpdateExtension(item) {
+      let found = await api.custom.find({belongsTo: item.label, key: item.key})
+      found = found[0]
+      if(found) {
+        console.log("item.data", item.data);
+        await api.custom.update({belongsTo: item.label, key: item.key}, {value: item.data})
+      } else {
+        await api.custom.create({belongsTo: item.label, key: item.key, value: item.data, enabled: true, permission: 'editContent'})
+      }
+    }
+
+    async function fetchExtension(item) {
+      let found = await api.custom.update({belongsTo: item.label, key: item.key})
+      found = found[0]
+      if(found) {
+        item.data = found.value
+      }
+    }
+
+    $scope.$onRootScope('cms.fetchExtensionData', () => {
+      for (var extension in $rootScope.page.lists) {
+        if ($rootScope.page.lists.hasOwnProperty(extension)) {
+          for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
+            let item = $rootScope.page.lists[extension][i];
+            if(item.key && item.label) {
+              fetchExtension(item)
+            }
+          }
+        }
+      }
+    })
+
+
+    $scope.$onRootScope('cms.publishExtensionData', () => {
+      for (var extension in $rootScope.page.lists) {
+        if ($rootScope.page.lists.hasOwnProperty(extension)) {
+          for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
+            let item = $rootScope.page.lists[extension][i];
+            if(item.key && item.label) {
+              addOrUpdateExtension(item)
+            }
+          }
+        }
+      }
+    })
+
     $scope.$onRootScope('cms.pullAutoSaveData', async url => {
       try {
         let pageAutoSaveData = await api.staging.find({key: $rootScope.page.url})
@@ -335,7 +381,8 @@
 		this.publishChanges = function() {
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
       $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
-			$rootScope.$emit('cms.publishChanges', $rootScope.page);
+			$rootScope.$emit('cms.publishChanges', $rootScope.page)
+			$rootScope.$emit('cms.publishExtensionData')
       autoSaveSessionSnapshot = {}
       $rootScope.$emit('cms.takePageSnapshot', true)
 		};
@@ -425,6 +472,7 @@
 			});
 			if($rootScope.page.published) {
 				toastr.clear();
+        $rootScope.$emit('cms.publishExtensionData')
 				toastr.success('Visitors can now see this page.')
 			} else {
 				toastr.warning('Only users with permission to edit pages can see this page.');

@@ -1,5 +1,5 @@
 div(ng-sortable="sortableLists" ng-class="{'mb-drag-to-room': editMode && page.lists[areaName].length === 0}")
-  div(ng-repeat="listItem in page.lists[areaName]" dynamic-html="listItem.html" class="relative mb-animate-list" ng-class="{'mb-draggable': $root.editMode}")
+  div(ng-repeat="listItem in page.lists[areaName]" dynamic-html="listItem.html" class="relative" ng-class="{'mb-draggable': $root.editMode}")
     mb-list-remove(list="page.lists[areaName]" item="listItem")
     div.mb-drag-handle(ng-if="$root.editMode")
       i.fa.fa-arrows

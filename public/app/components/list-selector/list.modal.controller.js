@@ -1,10 +1,12 @@
-angular.module('meanbaseApp').controller('list.modal.controller', function($scope, endpoints, $modalInstance, $timeout, toastr, api) {
+angular.module('meanbaseApp').controller('list.modal.controller', function($scope, endpoints, $modalInstance, $timeout, toastr, api, group) {
 	$scope.chosenList = [];
 
 	$scope.searchList = {};
 	$scope.findShared = '';
 
-	$scope.chooseExtension = async function(extensionKey) {
+  $scope.extensionKeys = []
+
+	$scope.chooseExtension = async function(extensionKey, existingExtensionKey) {
 
     let chosenExtension
 
@@ -16,18 +18,26 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
     }
 
     if(chosenExtension) {
-      if(!extensionKey) {
-        return false
-      }
-
-      let foundKey = await api.custom.find({belongsTo: chosenExtension.label, key: extensionKey})
-      foundKey = foundKey[0]
-      if(foundKey) {
-        toastr.warning('That key for this extension is already taken. Please choose a different key name.')
-        return false
-      }
-
       chosenExtension.key = extensionKey
+      if(extensionKey) {
+        let foundKey = await api.custom.find({belongsTo: chosenExtension.label, key: extensionKey})
+        foundKey = foundKey[0]
+        if(foundKey) {
+          toastr.warning('That key for this extension is already taken. Please choose a different key name.')
+          return false
+        }
+      }
+
+      if(existingExtensionKey) {
+        extensionKey = existingExtensionKey.key
+        chosenExtension.data = existingExtensionKey.value
+      }
+
+      if(!extensionKey) {
+        extensionKey = `${chosenExtension.label} ${group} ${$rootScope.page.lists[group].length + 1}`
+      }
+
+
     }
 
     for (var i = 0; i < $scope.listOptions.length; i++) {
@@ -50,9 +60,16 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
 	};
 
   $scope.toggleSelected = function(item) {
+    let extensionSelected = false
     for (var i = 0; i < $scope.extensionOptions.length; i++) {
       $scope.extensionOptions[i].selected = false
+      extensionSelected = true
     }
+
+    api.custom.find({belongsTo: item.label}).then(function(response) {
+      $scope.extensionKeys = response
+    })
+
     for (var i = 0; i < $scope.listOptions.length; i++) {
       $scope.listOptions[i].selected = false
     }

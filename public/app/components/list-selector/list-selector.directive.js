@@ -11,7 +11,12 @@ angular.module('meanbaseApp')
       	  modalInstance = $modal.open({
             templateUrl: require('./list.modal.jade'),
       	    controller: 'list.modal.controller',
-      	    size: 'md'
+      	    size: 'md',
+            resolve: {
+              group: function() {
+                return attrs.listSelector
+              }
+            }
       	  });
 
 	      	modalInstance.result.then(function (chosenExtension) {
@@ -24,9 +29,9 @@ angular.module('meanbaseApp')
               group: attrs.listSelector,
               position: ($rootScope.page.lists[attrs.listSelector].length - 1 < 0)? 0: $rootScope.page.lists[attrs.listSelector].length - 1,
               label: chosenExtension.label,
-              key: chosenExtension.key || `${chosenExtension.label} ${attrs.listSelector} ${$rootScope.page.lists[attrs.listSelector].length + 1}`,
+              key: chosenExtension.key,
               html: chosenExtension.html,
-              data: {
+              data: chosenExtension.data || {
                 items: []
               }
             };

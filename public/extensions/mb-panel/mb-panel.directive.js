@@ -1,26 +1,35 @@
 angular.module('meanbaseApp').directive('mbPanel', (api, $rootScope, $timeout) => ({
   templateUrl: require('./mb-panel.html'),
   replace: true,
-  link: async (scope, element, attrs) => {
+  link: (scope, element, attrs) => {
+
+    console.log("scope.listItem", scope.listItem);
 
     scope.data = {}
     let alreadyHasData = false
     let alreadyHasAutoSaveData = false;
 
-    (async () => {
-      try {
-        let extensionData = await api.custom.find({belongsTo: scope.listItem.label, key: scope.listItem.key})
-        extensionData = extensionData[0]
-        if(extensionData) {
-          alreadyHasData = true
-          scope.data = extensionData.value
-        }
-      } catch(err) {
-        console.log(`Error fetching ${scope.listItem.key} data`, err);
-      }
-    })();
+    // if(!$rootScope.currentUser) {
+    //   (async () => {
+    //     try {
+    //       let extensionData = await api.custom.find({belongsTo: scope.listItem.label, key: scope.listItem.key})
+    //       extensionData = extensionData[0]
+    //       if(extensionData) {
+    //         alreadyHasData = true
+    //         scope.data = extensionData.value
+    //       }
+    //     } catch(err) {
+    //       console.log(`Error fetching ${scope.listItem.key} data`, err);
+    //     }
+    //   })()
+    //
+    // } else {
+    //   console.log("scope.listItem.data", scope.listItem.data);
+    //   scope.data = scope.listItem.data
+    // }
 
     scope.data = scope.listItem.data
+
 
 
     if(!$rootScope.currentUser) { return false }
@@ -125,18 +134,18 @@ angular.module('meanbaseApp').directive('mbPanel', (api, $rootScope, $timeout) =
     //   }
     // }, 100), true)
 
-    let publishListener = scope.$onRootScope('cms.publish', saveEdits)
-    let publishChangesListener = scope.$onRootScope('cms.publishChanges', saveEdits)
+    // let publishListener = scope.$onRootScope('cms.publish', saveEdits)
+    // let publishChangesListener = scope.$onRootScope('cms.publishChanges', saveEdits)
     // scope.$onRootScope('cms.autoSave', _.debounce(autoSaveEdits, 100))
     // let resetDraftListener = scope.$onRootScope('cms.resetDraft', removeAutoSaveData)
     // let pullAutoSaveListener = scope.$onRootScope('cms.pullAutoSaveData', fetchAutoSaveData)
 
-    scope.$destroy(function() {
-      publishListener()
-      publishChangesListener()
-      // resetDraftListener()
-      // pullAutoSaveListener()
-    })
+    // scope.$destroy(function() {
+    //   publishListener()
+    //   publishChangesListener()
+    //   // resetDraftListener()
+    //   // pullAutoSaveListener()
+    // })
 
   }
 }))

@@ -35,6 +35,9 @@
         .form-group
           label Extension Key
           input.form-control(type="text" placeholder="Extension key" ng-model="extensionKey")
+        .form-group
+          label Choose from existing key
+          select(ng-options="extension as extension.key for extension in extensionKeys" ng-model="existingExtensionKey").form-control
         .modal-footer
-          button.btn.btn-success(type='button' ng-click="chooseExtension(extensionKey)") Choose
+          button.btn.btn-success(type='button' ng-click="chooseExtension(extensionKey, existingExtensionKey)") Choose
           button.btn.btn-default(type='button' ng-click="$dismiss()") Close
