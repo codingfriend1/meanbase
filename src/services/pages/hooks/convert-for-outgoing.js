@@ -52,6 +52,10 @@ export default options => {
           page.extensions = {};
         }
 
+        if(!page.lists) {
+          page.lists = {};
+        }
+
         // if(page.createdAt) {
         //   page.createdAt = getFormattedDate(page.createdAt)
         // }
@@ -64,6 +68,10 @@ export default options => {
       hook.result.extensions = arrayToObjectWithArray(hook.result.extensions, 'group');
       if(!hook.result.extensions) {
         hook.result.extensions = {};
+      }
+
+      if(!page.lists) {
+        page.lists = {};
       }
       //
       // if(hook.result.createdAt) {

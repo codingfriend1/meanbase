@@ -121,19 +121,20 @@
           <div class="row">
               <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                   <ul class="list-inline text-center" init-list="page.lists.footer1">
-                      <li ng-repeat="socialBtn in page.lists.footer1.items" style="position: relative;">
-                        <choose-link belongs-to="socialBtn" property="link">
-                          <a mb-link="link" belongs-to="socialBtn">
-                            <span class="fa-stack fa-lg">
-                              <i class="fa fa-circle fa-stack-2x"></i>
-                              <choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></choose-icon>
-                              <!-- <i class="fa fa-twitter fa-stack-1x fa-inverse"></i> -->
-                            </span>
-                          </a>
-                        </choose-link>
-                        <mb-list-remove list="page.lists.footer1.items" item="socialBtn"></mb-list-remove>
-                      </li>
-                      <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;" mb-list-add list="page.lists.footer1.items" item="socialBtn" label="button"></li>
+                    <li ng-repeat="socialBtn in page.lists.footer1.items" style="position: relative;">
+                      <choose-link belongs-to="socialBtn" property="link">
+                        <a mb-link="link" belongs-to="socialBtn">
+                          <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></choose-icon>
+                            <!-- <i class="fa fa-twitter fa-stack-1x fa-inverse"></i> -->
+                          </span>
+                        </a>
+                      </choose-link>
+                      <mb-list-remove list="page.lists.footer1.items" item="socialBtn"></mb-list-remove>
+                    </li>
+                    <li>List {{page.lists}}</li>
+                    <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;" mb-list-add list="page.lists.footer1.items" item="socialBtn" label="button"></li>
                   </ul>
                   <div mb-edit class="copyright text-muted" ng-model="page.content.footer1" bind-options="editorOptions"></div>
               </div>
