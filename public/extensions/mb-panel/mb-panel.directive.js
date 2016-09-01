@@ -17,6 +17,8 @@ angular.module('meanbaseApp').directive('mbPanel', api => ({
       console.log(`Error fetching ${scope.listItem.key} data`, err);
     }
 
+    if(!$rootScope.currentUser) { return false }
+
     async function saveEdits(event) {
       try {
         let response
