@@ -68,7 +68,7 @@
     </div>
   </choose-image>
 
-<div list-area="mainList1"></div>
+<div list-area="body1"></div>
 
 <choose-image property="image-5">
   <div class="banner" mb-src="image-5">
@@ -80,17 +80,17 @@
                   <mb-edit ng-model="page.content.prefooter1" bind-options="editorSingleLine"></mb-edit>
               </div>
               <div class="col-lg-6">
-                  <ul class="list-inline banner-social-buttons" init-list="page.lists.footer1">
-                    <li ng-repeat="socialBtn in page.lists.footer1.items" style="position: relative;">
+                  <ul class="list-inline banner-social-buttons" init-list="page.lists.prefooter1">
+                    <li ng-repeat="socialBtn in page.lists.prefooter1.items" style="position: relative;">
                       <choose-link belongs-to="socialBtn" property="link">
                         <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                           <choose-icon belongs-to="socialBtn" property="icon"></choose-icon>
                           <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
                         </a>
                       </choose-link>
-                      <mb-list-remove list="page.lists.footer1.items" item="socialBtn"></mb-list-remove>
+                      <mb-list-remove list="page.lists.prefooter1.items" item="socialBtn"></mb-list-remove>
                     </li>
-                    <li mb-list-add list="page.lists.footer1.items" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
+                    <li mb-list-add list="page.lists.prefooter1.items" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
                     </li>
                   </ul>
               </div>

@@ -22,12 +22,8 @@ var home = {
   "tabTitle": "meanbase",
   "template": "home",
   "content": {
-    "content-4": "<h3>Developer Friendly</h3><p>Meanbase is also focused on making the process of creating themes, modifying the CMS, and adding extensions&nbsp;delightful for developers who have to interact with the code every day. It's provides you control and simplicity so you can spend more time focusing on what matters.</p>",
-    "content-3": "<h3>Fast</h3><p>Meanbase CMS runs off of the MEAN stack: Mongo, Express, Angular, and Node meaning it's generally faster than other web technologies so you don't have to wait for every page to refresh when making edits.</p>",
-    "content-2": "<h3>Simple</h3><p>Meanbase is designed from the ground up to be simple for an average user to learn so you can hand over your product for them to update without stress and training.</p>",
-    "content-1": "Meanbase is a CMS built on the MEAN stack and made to be simple and intuitive for users and developers.",
-    "license": "Some sample text",
-    "footer-1": "<h2 class=\"ng-scope\">Checkout meanbase now</h2>"
+    "prefooter1": "<h2 class=\"ng-scope\">Checkout meanbase now</h2>",
+    "footer1": "<p class=\"ng-scope\">meanbase is MIT license</p>"
   },
   "description": "A demo home page created automatically in meanbase.",
   "summary": "A demo home page created automatically in meanbase.",
@@ -41,8 +37,8 @@ var home = {
     }
   },
   "lists": {
-    "mainList1": [{
-      "group": "mainList1",
+    "body1": [{
+      "group": "body1",
       "position": 0,
       "label": "Bullet Point",
       "html": "<bullet-point-list></bullet-point-list>",
@@ -71,7 +67,7 @@ var home = {
         }]
       }
     }, {
-      "group": "mainList1",
+      "group": "body1",
       "position": 0,
       "label": "Selling Point",
       "html": "<selling-point-list></selling-point-list>",
@@ -107,16 +103,30 @@ var home = {
         }]
       }
     }],
-    "social": {
-      items: [{
+    "footer1": {
+      "items": [{
+        "title": "github",
+        "link": {
+          "target": "_blank",
+          "classes": "btn-lg",
+          "url": "https://github.com/codingfriend1/meanbase"
+        },
         "icon": {
           "classes": "fa fa-github"
-        },
+        }
+      }]
+    },
+    "header1": {
+      "items": [{
+        "title": "meanbase",
         "link": {
-          "url": "https://github.com/codingfriend1/meanbase-1.0.0",
-          "target": "_blank"
+          "target": "_blank",
+          "classes": "btn-lg",
+          "url": "https://github.com/codingfriend1/meanbase"
         },
-        "title": "<span class=\"ng-scope\">Github</span>"
+        "icon": {
+          "classes": "fa fa-github"
+        }
       }]
     }
   },
@@ -131,7 +141,7 @@ var tutorial = {
   "template": "page",
   "title": "Tutorial",
   "content": {
-    "content-1": "Create your themes in client/themes/ folder. Use generator-angular-fullstack to understand project structure. "
+    "body1": "Create your themes in client/themes/ folder. Use generator-angular-fullstack to understand project structure. "
   },
   "description": "A tutorial to get you running with meanbase.",
   "summary": "A tutorial to get you running with meanbase.",
@@ -146,18 +156,16 @@ var article = {
   "template": "article",
   "title": "Why use a CMS",
   "content": {
-    "content-1": "A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves.",
-    "subTitle": "",
-    "content1": "<p class=\"ng-scope\">A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves.<br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"display: none\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>",
-    "leaveComment": "",
-    "commentTitle": "",
-    "license": ""
+    "body1": "<p class=\"ng-scope\">A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves.<br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"display: none\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>",
+    "body2": "Leave a Comment",
+    "body3": "Comments",
+    "footer1": "meanbase is MIT license"
   },
   // "content": {
   //   "content-1": "A CMS allows you to put control of the website into a user's hands so you don't have to be called everytime they need to make small changes. It means you can focus on the fun things like building themes and extensions while your customers can write the content themselves."
   // },
   "lists": {
-    "socialFooter1": {
+    "footer1": {
       "items": [
         {
           "icon": {
