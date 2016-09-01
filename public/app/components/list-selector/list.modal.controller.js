@@ -37,6 +37,8 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
         extensionKey = `${chosenExtension.label} ${group} ${$rootScope.page.lists[group].length + 1}`
       }
 
+      chosenExtension.key = extensionKey
+
 
     }
 

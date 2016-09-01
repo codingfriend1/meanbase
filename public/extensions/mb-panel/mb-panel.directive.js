@@ -2,12 +2,10 @@ angular.module('meanbaseApp').directive('mbPanel', (api, $rootScope, $timeout) =
   templateUrl: require('./mb-panel.html'),
   replace: true,
   link: (scope, element, attrs) => {
-
-    console.log("scope.listItem", scope.listItem);
-
-    scope.data = {}
-    let alreadyHasData = false
-    let alreadyHasAutoSaveData = false;
+    
+    // scope.data = {}
+    // let alreadyHasData = false
+    // let alreadyHasAutoSaveData = false;
 
     // if(!$rootScope.currentUser) {
     //   (async () => {
@@ -28,7 +26,7 @@ angular.module('meanbaseApp').directive('mbPanel', (api, $rootScope, $timeout) =
     //   scope.data = scope.listItem.data
     // }
 
-    scope.data = scope.listItem.data
+    // scope.data = scope.listItem.data
 
 
 
@@ -46,25 +44,25 @@ angular.module('meanbaseApp').directive('mbPanel', (api, $rootScope, $timeout) =
     //   });
     // });
 
-    async function saveEdits(event) {
-      try {
-        let response
-        if(alreadyHasData) {
-          response = await api.custom.update({belongsTo: scope.listItem.label, key: scope.listItem.key}, {value: scope.data})
-        } else {
-          alreadyHasData = true
-          response = await api.custom.create({belongsTo: scope.listItem.label, key: scope.listItem.key, value: scope.data, enabled: true, permission: 'editContent'})
-
-        }
-        scope.data = response.value
-
-        scope.listItem.data = { items: [] }
-
-      } catch(err) {
-        console.log('Error saving extension data ', err);
-      }
-
-    }
+    // async function saveEdits(event) {
+    //   try {
+    //     let response
+    //     if(alreadyHasData) {
+    //       response = await api.custom.update({belongsTo: scope.listItem.label, key: scope.listItem.key}, {value: scope.data})
+    //     } else {
+    //       alreadyHasData = true
+    //       response = await api.custom.create({belongsTo: scope.listItem.label, key: scope.listItem.key, value: scope.data, enabled: true, permission: 'editContent'})
+    //
+    //     }
+    //     scope.data = response.value
+    //
+    //     scope.listItem.data = { items: [] }
+    //
+    //   } catch(err) {
+    //     console.log('Error saving extension data ', err);
+    //   }
+    //
+    // }
     // async function saveEdits(event) {
     //   try {
     //     let response

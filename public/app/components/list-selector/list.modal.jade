@@ -32,6 +32,7 @@
           div(ng-repeat="item in $root.extensionOptions | filter:searchLists" ng-click="toggleSelected(item)").mb-list-item
             span.mb-list-label {{item.label}}
             i.fa.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
+        hr
         .form-group
           label Extension Key
           input.form-control(type="text" placeholder="Extension key" ng-model="extensionKey")

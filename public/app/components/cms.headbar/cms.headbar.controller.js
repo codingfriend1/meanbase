@@ -53,6 +53,7 @@
 		// Toggles the all powerful editMode, emits an event so the rest of the app can make changes
 		this.toggleEdit = async boole => {
 			if(boole !== undefined) { $rootScope.editMode = boole } else { $rootScope.editMode = !$rootScope.editMode }
+
       if($rootScope.editMode) {
         $rootScope.$emit('cms.stopPageListener')
         $rootScope.$emit('cms.pullAutoSaveData', $rootScope.editMode)
@@ -65,6 +66,7 @@
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
         $rootScope.$emit('cms.updateView')
       }
+
 		};
 
     let lastPageUndoData
@@ -122,7 +124,6 @@
       let found = await api.custom.find({belongsTo: item.label, key: item.key})
       found = found[0]
       if(found) {
-        console.log("item.data", item.data);
         await api.custom.update({belongsTo: item.label, key: item.key}, {value: item.data})
       } else {
         await api.custom.create({belongsTo: item.label, key: item.key, value: item.data, enabled: true, permission: 'editContent'})
@@ -130,7 +131,7 @@
     }
 
     async function fetchExtension(item) {
-      let found = await api.custom.update({belongsTo: item.label, key: item.key})
+      let found = await api.custom.find({belongsTo: item.label, key: item.key})
       found = found[0]
       if(found) {
         item.data = found.value
@@ -141,7 +142,7 @@
       for (var extension in $rootScope.page.lists) {
         if ($rootScope.page.lists.hasOwnProperty(extension)) {
           for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
-            let item = $rootScope.page.lists[extension][i];
+            let item = $rootScope.page.lists[extension][i]
             if(item.key && item.label) {
               fetchExtension(item)
             }
@@ -155,7 +156,7 @@
       for (var extension in $rootScope.page.lists) {
         if ($rootScope.page.lists.hasOwnProperty(extension)) {
           for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
-            let item = $rootScope.page.lists[extension][i];
+            let item = $rootScope.page.lists[extension][i]
             if(item.key && item.label) {
               addOrUpdateExtension(item)
             }
@@ -202,6 +203,8 @@
         } else {
           autoSaveSessionSnapshot.menus = angular.copy($rootScope.menus)
         }
+
+        $rootScope.$emit('cms.fetchExtensionData')
 
         $rootScope.$emit('cms.updateView')
       } catch(err) {
