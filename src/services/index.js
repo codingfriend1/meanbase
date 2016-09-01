@@ -6,7 +6,6 @@ import wordpressImport from './wordpress-import'
 
 const imageUploads = require('./image-uploads');
 const ban = require('./ban');
-const extension = require('./extension');
 const themes = require('./themes');
 const sharedContent = require('./shared-content');
 const roles = require('./roles');
@@ -40,7 +39,6 @@ module.exports = function() {
   app.configure(roles);
   app.configure(sharedContent);
   app.configure(themes);
-  app.configure(extension);
   app.configure(ban);
   app.configure(custom);
   app.configure(staging);

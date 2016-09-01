@@ -269,86 +269,68 @@ exports.retrieveThemes = async function(activeURL) {
 exports.retrieveExtensions = async function() {
   const app = this;
 
+  let extensions = []
+
   // Loop through themes in app.get('extensionsPath') and get the extension.json file out of the root of each one
+  let extensionsFolder
   try {
-    var extensionsFolder = fs.readdirSync(app.get('extensionsPath'));
-    var extensionjsons = [];
-    for(var ii = 0; ii < extensionsFolder.length; ii++) {
-      var currentFile = extensionsFolder[ii][0];
-      var activeFolder = extensionsFolder[ii];
-      var currentExtensionPath = path.join(app.get('extensionsPath'), activeFolder);
-
-      if(currentFile !== '.' && currentFile !== '_') {
-        try {
-          var folderContent = fs.statSync(currentExtensionPath);
-        } catch(e) {
-          throw new Error('Could not find extension folder');
-        }
-
-        if(folderContent.isDirectory()) {
-          try {
-            // var extensionFilePaths = Finder.from(currentExtensionPath).findFiles('<\.jade|\.html|\.css|\.js|extension\.json|screenshot>');
-            var extensionFilePaths = Finder.from(currentExtensionPath).findFiles('<extension.min.js|index.html|extension\.json|screenshot>');
-            var index, json, files = [], screenshot;
-
-            for (var i = 0; i < extensionFilePaths.length; i++) {
-              var currentExtensionFile = extensionFilePaths[i];
-              currentExtensionFile = extensionFilePaths[i].replace(app.get('clientPath'), '');
-
-              if(currentExtensionFile.indexOf('index.html') > -1) {
-                index = currentExtensionFile;
-              } else if(currentExtensionFile.indexOf('extension.json') > -1) {
-                json = currentExtensionFile;
-              } else if(currentExtensionFile.indexOf('screenshot') > -1) {
-                screenshot = currentExtensionFile;
-              } else if(currentExtensionFile.indexOf('.jade') > -1 && extractFileNameRegex.test(currentExtensionFile)) {
-                files.push(currentExtensionFile);
-              } else if(extractFileNameRegex.test(currentExtensionFile)) {
-                files.push(currentExtensionFile);
-              }
-
-            }
-
-            try {
-              var extensionjson = JSON.parse(fs.readFileSync(app.get('clientPath') + json, 'utf8'));
-            } catch(e) {
-              throw Error("Could not find a valid extension.json file in the extension. If it's there, make sure it doesn't have any errors.");
-            }
-
-            try {
-              extensionjson.text = fs.readFileSync(app.get('clientPath') + index, 'utf8');
-            } catch(e) {
-              throw Error("Could not find an index.html in the extension. An extension needs this file to know what to compile.");
-            }
-
-            extensionjson.folderName = activeFolder;
-
-            if(files) {
-              extensionjson.urls = files;
-            }
-
-            if(screenshot && extractFileNameRegex.test(screenshot)) {
-              extensionjson.screenshot = screenshot;
-            }
-
-            extensionjsons.push(extensionjson);
-
-            extensionFilePaths = null;
-            index = null;
-            json = null;
-            files = [];
-            screenshot = null;
-            extensionjson = {};
-          } catch(error) {
-            throw Error('Could not parse extension.json in root of extension', error);
-          }
-        } // if is folder
-      } // if file does not begin with . or _
-    } //for
-  //
-  } catch (err) {
-    console.log("searching extension folders error: ", err);
-  } finally {
-    return extensionjsons;
+    extensionsFolder = fs.readdirSync(app.get('extensionsPath'));
+  } catch(err) {
+    console.log('Error reading extensions path', err);
   }
+
+  for (var ii = 0; ii < extensionsFolder.length; ii++) {
+    try {
+      let currentFile = extensionsFolder[ii][0]
+      let activeFolder = extensionsFolder[ii]
+      let currentExtensionPath = path.join(app.get('extensionsPath'), activeFolder)
+
+      if(currentFile === '.' && currentFile === '_') { continue; }
+
+      try {
+        let folderContent = fs.statSync(currentExtensionPath)
+        if(!folderContent.isDirectory()) { continue }
+      } catch(err) {
+        continue
+      }
+
+      let label = activeFolder.replace(/[ ]/g, "-").replace(/[_-]/g, " ").replace(/(^| )(\w)/g, function(x) {
+        return x.toUpperCase();
+      })
+
+      var extensionFilePaths = Finder.from(currentExtensionPath).findFiles('<extension.min.js$|-extension.html|-extension.jade|screenshot>')
+
+      let index, screenshot, contents
+      let extension = {
+        label
+      }
+
+      for (var i = 0; i < extensionFilePaths.length; i++) {
+        let file = extensionFilePaths[i].replace(app.get('clientPath'), '')
+
+        if(file.indexOf('-extension.html') > -1 || file.indexOf('-extension.jade') > -1) {
+          console.log('html');
+          extension.html = file
+        } else if(file.indexOf('screenshot') > -1 && extractFileNameRegex.test(file)) {
+          extension.screenshot = file
+        } else if(file.indexOf('extension.min.js') > -1) {
+          extension.contents = file
+        }
+      }
+
+      if(!extension.html) {
+        throw Error("The extension must contain a {extension-name}-extension.html or {extension-name}-extension.jade file path.");
+      }
+
+      if(!extension.contents) {
+        throw Error("The extension must contain a extension.min.js file which contains the concatenated code for the extension.");
+      }
+
+      extensions.push(extension)
+
+    } catch (err) {
+      console.log("searching extension folders error: ", err);
+    }
+  }
+  return extensions
 };

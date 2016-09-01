@@ -6,7 +6,7 @@ angular.module('meanbaseApp').directive('mbPanel', api => ({
     $scope.data = {}
     let alreadyHasData = false
     try {
-      let extensionData = await api.custom.find({belongsTo: 'mb-panel', key: scope.listItem.data.id})
+      let extensionData = await api.custom.find({belongsTo: 'mb-panel', key: scope.listItem.key})
       extensionData = extensionData[0]
       if(extensionData) {
         alreadyHasData = true
@@ -16,20 +16,23 @@ angular.module('meanbaseApp').directive('mbPanel', api => ({
       console.log('err', err);
     }
 
-    scope.$onRootScope('cms.publishChanges', function(event) {
+    function saveEdits(event) {
       try {
         let response
         if(alreadyHasData) {
-          response = await api.custom.update({belongsTo: 'mb-panel', key: scope.listItem.data.id}, {value: $scope.data})
+          response = await api.custom.update({belongsTo: 'mb-panel', key: scope.listItem.key}, {value: $scope.data})
         } else {
-          response = await api.custom.create({belongsTo: 'mb-panel', key: scope.listItem.data.id, value: $scope.data, enabled: true, permission: 'editContent'})
+          response = await api.custom.create({belongsTo: 'mb-panel', key: scope.listItem.key, value: $scope.data, enabled: true, permission: 'editContent'})
         }
         $scope.data = response.value
       } catch(err) {
         console.log('Error saving extension data ', err);
       }
 
-    })
+    }
+
+    scope.$onRootScope('cms.publish', saveEdits)
+    scope.$onRootScope('cms.publishChanges', saveEdits)
 
   }
 }))

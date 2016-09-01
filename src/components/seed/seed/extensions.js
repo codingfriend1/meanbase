@@ -18,8 +18,8 @@ module.exports = async function() {
   }
 
   try {
-    await app.service('extension').remove(null, {query: {}});
-		await app.service('extension').create(extensionjsons);
+    await app.service('extensions').remove(null, {query: {}});
+		await app.service('extensions').create(extensionjsons);
     console.log('extensions initialized');
   } catch (err) {
     console.log('Initializing extensions error: ', err);

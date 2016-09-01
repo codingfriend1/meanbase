@@ -30,9 +30,9 @@ module.exports = function() {
   app.configure(ifEmptyCreate('roles', rolesData));
   app.configure(ifEmptyCreate('users', userData));
 
-  if(app.get('reset-users')) {
-    app.configure(resetData('users', userData));
-  }
+  // if(app.get('reset-users')) {
+  //   app.configure(resetData('users', userData));
+  // }
 
   if(app.get('seed')) {
     app.configure(ifEmptyCreate('pages', pagesData));
