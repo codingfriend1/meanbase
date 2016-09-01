@@ -1,5 +1,6 @@
 <div class="gallery-container">
   <carousel interval="interval">
+    {{listItem.data.images}}
     <slide ng-repeat="image in listItem.data.images" active="image.active">
       <img ng-src="{{image.modifiedurl}}" style="margin:auto;" fallback-src="http://placehold.it/900x300">
       <div class="carousel-caption">
@@ -8,7 +9,7 @@
       </div>
     </slide>
   </carousel>
-  <choose-image property="images" belongs-to="listItem.data" multiple="true">
+  <choose-image property="images" belongs-to="listItem.data" multiple="true" size="original">
     <button class="btn btn-block btn-success disable-click">Choose Images</button>
   </choose-image>
 </div>

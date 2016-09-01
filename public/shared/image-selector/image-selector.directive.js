@@ -157,7 +157,7 @@ angular.module('meanbaseApp')
               scope.media[i].small = scope.media[i].url + 'small.jpg';
               scope.media[i].medium = scope.media[i].url + 'medium.jpg';
               scope.media[i].large = scope.media[i].url + 'large.jpg';
-              scope.media[i].origional = scope.media[i].url + 'origional.jpg';
+              scope.media[i].original = scope.media[i].url + 'original.jpg';
             };
 
             getGroups();
