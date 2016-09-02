@@ -1,5 +1,3 @@
-'use strict';
-
 (function() {
   // ###Controls the routes for the front end of the site
   // - Defines a parent route for the front end (compared to /cms parent for backend)

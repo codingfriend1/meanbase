@@ -1,7 +1,9 @@
+import 'babel-polyfill';
+
 // inject js
 import "./code/app.js";
-import "../shared/validate/validate.directive.js";
 import "../shared/taglist/taglist.directive.js";
+import "../shared/validate/validate.directive.js";
 import "../shared/sortable/sortable.directive.js";
 import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/mongoose-error/mongoose-error.directive.js";
@@ -9,8 +11,8 @@ import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
 import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/image-selector/image-selector.directive.js";
-import "../shared/helpers/helpers.service.js";
 import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
+import "../shared/helpers/helpers.service.js";
 import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/endpoints/endpoints.service.js";
@@ -80,7 +82,7 @@ import "./code/users/users.styl";
 import "./code/account/login/login.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/missing/missing.styl";
+import "../shared/sortable/sortable.styl";
 import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
-import "../shared/sortable/sortable.styl";
 // end inject stylus

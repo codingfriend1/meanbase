@@ -1,4 +1,3 @@
-'use strict';
 
 describe('Directive: validate', function () {
 

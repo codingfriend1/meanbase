@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .controller('CommentsCtrl', function ($scope, endpoints, helpers, toastr, api, crud, $rootScope) {
 

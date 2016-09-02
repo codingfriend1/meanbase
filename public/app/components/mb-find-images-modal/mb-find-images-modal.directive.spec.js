@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Directive: findImagesModal', function () {
 
   // load the directive's module and view

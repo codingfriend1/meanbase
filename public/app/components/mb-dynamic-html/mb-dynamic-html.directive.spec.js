@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Directive: dynamicHtml', function () {
 
   // load the directive's module

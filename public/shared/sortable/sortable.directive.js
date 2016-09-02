@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('meanbaseApp')
   .directive('sortable', function ($rootScope) {
@@ -7,7 +6,7 @@ angular.module('meanbaseApp')
       restrict: 'EA',
       link: function (scope, element, attrs) {
         if(!$rootScope.isLoggedIn) { return false; }
-        
+
         var menu = element.scope().menu;
       	var wobbling = false;
     		scope.$watch('editMode', function(nv, ov) {

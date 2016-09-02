@@ -1,4 +1,4 @@
-'use strict';
+
 
 angular.module('meanbaseApp')
   .directive('validate', function ($timeout, $rootScope) {

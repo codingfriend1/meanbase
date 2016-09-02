@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Directive: doubleClick', function () {
 
   // load the directive's module

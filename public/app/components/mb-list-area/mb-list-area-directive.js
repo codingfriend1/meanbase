@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .directive('mbListArea', function ($rootScope) {
     return {

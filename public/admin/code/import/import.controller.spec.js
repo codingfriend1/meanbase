@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Controller: ImportCtrl', function () {
 
   // load the controller's module

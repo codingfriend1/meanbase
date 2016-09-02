@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Controller: CommentsCtrl', function () {
 
   // load the controller's module

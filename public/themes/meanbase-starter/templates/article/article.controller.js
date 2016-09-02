@@ -1,4 +1,4 @@
-'use strict';
+
 
 angular.module('meanbaseApp')
   .controller('ArticleCtrl', function ($scope, endpoints, $rootScope, $timeout, $http, api, vcRecaptchaService, toastr) {

@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Directive: fallbackSrc', function () {
 
   // load the directive's module

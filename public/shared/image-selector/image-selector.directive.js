@@ -1,15 +1,15 @@
-'use strict';
+
 /**
  * @overview A gallery that allows users to select, organize, delete, and browser photos
  * @author Jon Paul Miles <milesjonpaul@gmail.com>
  */
 angular.module('meanbaseApp')
-  .directive('imageSelector', function (Auth, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, api, helpers) {
+  .directive('mbImageSelector', function (Auth, endpoints, $compile, $timeout, $rootScope, FileUploader, toastr, api, helpers) {
     return {
       templateUrl: require('./image-selector.jade'),
       restrict: 'EA',
       scope: {
-        config: "=imageSelectorConfig",
+        config: "=mbImageSelectorConfig",
         api: "="
       },
       link: function (scope, element, attrs) {

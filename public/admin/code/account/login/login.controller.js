@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .controller('LoginCtrl', function ($scope, Auth, $location, $window, $rootScope, $timeout) {
     $scope.user = {};

@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Filter: camelToHuman', function () {
 
   // load the filter's module

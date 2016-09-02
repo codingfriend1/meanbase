@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .controller('SettingsCtrl', function ($scope, Auth, toastr) {
     $scope.errors = {};

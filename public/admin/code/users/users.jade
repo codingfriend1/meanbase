@@ -20,7 +20,7 @@ section#users-list.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}
     i.material-icons add
 
 
-
+.dialog-backdrop(ng-class="{'dialog-open': isDeleteOpen}")
   dialog.mdl-dialog(dialog-open="isDeleteOpen")
     h4.mdl-dialog__title Delete {{userToDelete.name}}?
     .mdl-dialog__content
@@ -29,7 +29,7 @@ section#users-list.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}
       button.mdl-button(type='button' ng-click="deleteUser(userToDelete)") Yes
       button.mdl-button(type='button' ng-click="u.toggleModal('isDeleteOpen', 'userToDelete')") No
       
-      
+.dialog-backdrop(ng-class="{'dialog-open': isSettingsOpen}")
   dialog.mdl-dialog(dialog-open="isSettingsOpen")
     h4.mdl-dialog__title User Settings
     .mdl-dialog__content

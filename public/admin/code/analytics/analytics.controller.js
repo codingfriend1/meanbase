@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .controller('AnalyticsCtrl', function ($scope, api, toastr) {
     $scope.$parent.pageTitle = 'Site Traffic and Stats';

@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Directive: meanbase-editable', function () {
 
   // load the directive's module

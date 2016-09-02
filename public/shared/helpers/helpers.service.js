@@ -1,6 +1,4 @@
 // This service contains various helper functions used in common tasks all around the CMS
-'use strict';
-
 angular.module('meanbaseApp')
   .service('helpers', function ($rootScope) {
 

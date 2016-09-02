@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .controller('MediaCtrl', function ($scope, endpoints, FileUploader, $timeout, $cookieStore, $rootScope, toastr, Auth) {
 

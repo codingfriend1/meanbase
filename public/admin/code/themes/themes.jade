@@ -20,21 +20,23 @@ div.drop-zone(nv-file-drop="uploader" multiple uploader="uploader").text-center.
         i.material-icons.float-right.pointer(ng-click="t.toggleModal('isSettingsOpen', 'settings', theme)") settings
         i.material-icons.float-left.pointer(ng-click="t.toggleModal('isDeleteOpen', 'themeToDelete', theme)") delete
 
-dialog.mdl-dialog(dialog-open="isDeleteOpen")
-  h4.mdl-dialog__title Delete {{themeToDelete.title}}?
-  .mdl-dialog__content
-    p Are you sure you want to delete {{themeToDelete.title}}? It will also delete any data specific to this theme.
-  .mdl-dialog__actions
-    button.mdl-button(type='button' ng-click="deleteTheme(themeToDelete)") Yes
-    button.mdl-button(type='button' ng-click="t.toggleModal('isDeleteOpen', 'themeToDelete')") No
+.dialog-backdrop(ng-class="{'dialog-open': isDeleteOpen}")
+  dialog.mdl-dialog(dialog-open="isDeleteOpen")
+    h4.mdl-dialog__title Delete {{themeToDelete.title}}?
+    .mdl-dialog__content
+      p Are you sure you want to delete {{themeToDelete.title}}? It will also delete any data specific to this theme.
+    .mdl-dialog__actions
+      button.mdl-button(type='button' ng-click="deleteTheme(themeToDelete)") Yes
+      button.mdl-button(type='button' ng-click="t.toggleModal('isDeleteOpen', 'themeToDelete')") No
 
-dialog.mdl-dialog(dialog-open="isSettingsOpen")
-  h4.mdl-dialog__title {{settings.title}} Template Mapping
-  .mdl-dialog__content
-    .form-group(ng-repeat="(template, tags) in settings.templates").no-margin
-      label.template-label {{template}}
-      taglist(ng-model="settings.templates[template]")
-  .mdl-dialog__actions
-    button.mdl-button(type='button' ng-click="saveSettings(settings, settings)") Save
-    button.mdl-button(type='button' ng-click="t.toggleModal('isSettingsOpen', 'settings')") Dismiss
+.dialog-backdrop(ng-class="{'dialog-open': isSettingsOpen}")
+  dialog.mdl-dialog(dialog-open="isSettingsOpen")
+    h4.mdl-dialog__title {{settings.title}} Template Mapping
+    .mdl-dialog__content
+      .form-group(ng-repeat="(template, tags) in settings.templates").no-margin
+        label.template-label {{template}}
+        taglist(ng-model="settings.templates[template]")
+    .mdl-dialog__actions
+      button.mdl-button(type='button' ng-click="saveSettings(settings, settings)") Save
+      button.mdl-button(type='button' ng-click="t.toggleModal('isSettingsOpen', 'settings')") Dismiss
     

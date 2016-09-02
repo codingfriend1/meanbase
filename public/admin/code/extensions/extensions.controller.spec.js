@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Controller: ExtensionsCtrl', function () {
 
   // load the controller's module

@@ -1,4 +1,4 @@
-'use strict';
+
 
 describe('Directive: ngEnter', function () {
 

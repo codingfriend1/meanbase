@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .controller('ImportCtrl', function($scope, endpoints, FileUploader, Auth, toastr, $rootScope) {
 

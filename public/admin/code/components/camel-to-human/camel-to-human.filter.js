@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .filter('camelToHuman', function() {
     return function(input) {

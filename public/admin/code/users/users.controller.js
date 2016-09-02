@@ -1,4 +1,3 @@
-'use strict';
 (function(){
 	angular.module('meanbaseApp').controller('UsersCtrl', UsersCtrl);
 

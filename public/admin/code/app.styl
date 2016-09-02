@@ -121,3 +121,36 @@ ASBESTOS = #7F8C8D
   margin-bottom 0.5em
   i
     color #3498DB
+
+dialog
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: -webkit-fit-content;
+  height: fit-content;
+  margin: 1em auto;
+  border: solid;
+  padding: 1em;
+  background-color: white;
+
+
+.dialog-backdrop
+  display none
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  // background: rgba(0, 0, 0, 0.0980392);
+  z-index: 10
+  margin-bottom 1em
+
+.dialog-backdrop.dialog-open
+  display block
+
+  dialog
+    display block

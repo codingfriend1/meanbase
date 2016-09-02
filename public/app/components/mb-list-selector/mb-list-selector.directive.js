@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .directive('mbListSelector', function(endpoints, $modal, $rootScope, $timeout) {
     return {

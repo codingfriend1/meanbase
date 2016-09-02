@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Service: api', function () {
 
   // load the service's module

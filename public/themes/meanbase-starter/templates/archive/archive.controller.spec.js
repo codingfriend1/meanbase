@@ -1,4 +1,3 @@
-'use strict';
 
 describe('Controller: ArchiveCtrl', function () {
 

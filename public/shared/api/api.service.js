@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .service('api', function (endpoints) {
 

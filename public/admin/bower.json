@@ -24,7 +24,8 @@
     "angular-material-design-lite": "^0.4.4",
     "bootstrap": "^3.3.7",
     "bootstrap-material-datetimepicker": "^2.7.1",
-    "lodash": "^4.15.0"
+    "lodash": "^4.15.0",
+    "ng-dialog": "ngDialog#^0.6.4"
   },
   "overrides": {
     "modernizr": {

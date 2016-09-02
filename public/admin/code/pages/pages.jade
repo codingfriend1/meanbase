@@ -23,37 +23,40 @@
 // Colored FAB button
 button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--floating-action(ng-click="openSettingsModal()")
   i.material-icons add
+  
+.dialog-backdrop(ng-class="{'dialog-open': isDeleteOpen}")
+  dialog.mdl-dialog(dialog-open="isDeleteOpen")
+    h4.mdl-dialog__title Delete {{pageToDelete.title}}?
+    .mdl-dialog__content
+      p Are you sure you want to delete {{pageToDelete.title}}?
+    .mdl-dialog__actions
+      button.mdl-button(type='button' ng-click="deletePage(pageToDelete)") Yes
+      button.mdl-button(type='button' ng-click="p.toggleModal('isDeleteOpen', 'pageToDelete')") No
+    
 
-dialog.mdl-dialog(dialog-open="isDeleteOpen")
-  h4.mdl-dialog__title Delete {{pageToDelete.title}}?
-  .mdl-dialog__content
-    p Are you sure you want to delete {{pageToDelete.title}}?
-  .mdl-dialog__actions
-    button.mdl-button(type='button' ng-click="deletePage(pageToDelete)") Yes
-    button.mdl-button(type='button' ng-click="p.toggleModal('isDeleteOpen', 'pageToDelete')") No
-    
-    
-dialog.mdl-dialog(dialog-open="isSettingsOpen")
-  h4.mdl-dialog__title Page Settings
-  .mdl-dialog__content
-    form(action='#' mdl)
-      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.title}")
-        input#title.mdl-textfield__input(type='text', value='Everyone' ng-model='settings.title' ng-change="updateUrl(settings.title)")
-        label.mdl-textfield__label(for='title') Page Title
-      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.url}")
-        input#url.mdl-textfield__input(type='text' ng-model='settings.url' mdl)
-        label.mdl-textfield__label(for='url') Page Link Url
-      .form-group
-        label(for='page-template') Page template:
-        select#page-template.form-control(ng-model="settings.template" ng-options="option for option in templateOptions")
-        //- input#template.mdl-textfield__input(type='text' ng-model='settings.template' mdl)
-        //- label.mdl-textfield__label(for='template') Page Template
-      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.tabTitle}")
-        input#browser-window-title.mdl-textfield__input(type='text' ng-model='settings.tabTitle')
-        label.mdl-textfield__label(for='browser-window-title') Browser Window Title
-      .mdl-textfield.mdl-js-textfield(ng-class="{'is-dirty': settings.description}")
-        textarea.mdl-textfield__input(type='text', rows='3', id='Page Description' ng-model='settings.description')
-        label.mdl-textfield__label(for='Page Description') Page Description
-  .mdl-dialog__actions
-    button.mdl-button(type='button', ng-click="saveSettings(settings, settings)") Save
-    button.mdl-button(type='button' ng-click="p.toggleModal('isSettingsOpen', 'settings')") Dismiss
+
+.dialog-backdrop(ng-class="{'dialog-open': isSettingsOpen}")
+  dialog.mdl-dialog(dialog-open="isSettingsOpen")
+    h4.mdl-dialog__title Page Settings
+    .mdl-dialog__content
+      form(action='#' mdl)
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.title}")
+          input#title.mdl-textfield__input(type='text', value='Everyone' ng-model='settings.title' ng-change="updateUrl(settings.title)")
+          label.mdl-textfield__label(for='title') Page Title
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.url}")
+          input#url.mdl-textfield__input(type='text' ng-model='settings.url' mdl)
+          label.mdl-textfield__label(for='url') Page Link Url
+        .form-group
+          label(for='page-template') Page template:
+          select#page-template.form-control(ng-model="settings.template" ng-options="option for option in templateOptions")
+          //- input#template.mdl-textfield__input(type='text' ng-model='settings.template' mdl)
+          //- label.mdl-textfield__label(for='template') Page Template
+        .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.tabTitle}")
+          input#browser-window-title.mdl-textfield__input(type='text' ng-model='settings.tabTitle')
+          label.mdl-textfield__label(for='browser-window-title') Browser Window Title
+        .mdl-textfield.mdl-js-textfield(ng-class="{'is-dirty': settings.description}")
+          textarea.mdl-textfield__input(type='text', rows='3', id='Page Description' ng-model='settings.description')
+          label.mdl-textfield__label(for='Page Description') Page Description
+    .mdl-dialog__actions
+      button.mdl-button(type='button', ng-click="saveSettings(settings, settings)") Save
+      button.mdl-button(type='button' ng-click="p.toggleModal('isSettingsOpen', 'settings')") Dismiss

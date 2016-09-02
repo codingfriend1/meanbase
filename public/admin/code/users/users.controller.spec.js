@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Controller: UsersCtrl', function () {
 
   // load the controller's module

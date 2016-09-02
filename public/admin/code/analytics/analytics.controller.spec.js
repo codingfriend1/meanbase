@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Controller: AnalyticsCtrl', function () {
 
   // load the controller's module

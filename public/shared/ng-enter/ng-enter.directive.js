@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('meanbaseApp')
   .directive('ngEnter', function () {

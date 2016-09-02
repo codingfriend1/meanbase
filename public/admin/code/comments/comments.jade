@@ -85,26 +85,26 @@ section#banned-commentors.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].
                   span.mdl-list__item-sub-title {{member.ip}}
               .mdl-list__item-secondary-content
                 button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-click="unban(member)") Unban
-
-dialog.mdl-dialog(dialog-open="isDeleteOpen")
-  h4.mdl-dialog__title Delete {{commentToDelete.url}}?
-  .mdl-dialog__content
-    p Are you sure you want to delete {{commentToDelete.url}}?
-  .mdl-dialog__actions
-    button.mdl-button(type='button' ng-click="deleteComment(commentToDelete)") Yes
-    button.mdl-button(type='button' ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete')") No
+.dialog-backdrop(ng-class="{'dialog-open': isDeleteOpen}")
+  dialog.mdl-dialog(dialog-open="isDeleteOpen")
+    h4.mdl-dialog__title Delete {{commentToDelete.url}}?
+    .mdl-dialog__content
+      p Are you sure you want to delete {{commentToDelete.url}}?
+    .mdl-dialog__actions
+      button.mdl-button(type='button' ng-click="deleteComment(commentToDelete)") Yes
+      button.mdl-button(type='button' ng-click="c.toggleModal('isDeleteOpen', 'commentToDelete')") No
     
-    
-dialog.mdl-dialog(dialog-open="isInfoOpen")
-  label.mdl-dialog__title.small {{settings.author}} commented {{settings.date | relativeDate}}
-  .mdl-dialog__content
-    label Url 
-    span  {{settings.url}}
-    p {{settings.content}}
-  .mdl-dialog__actions
-    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-if="!settings.banned" ng-click="ban(settings)") Ban this commentor
-    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-if="settings.banned" ng-click="unban(settings)") Unban this commentor
-    button.mdl-button(type='button' ng-click="c.toggleModal('isInfoOpen', 'settings')") Close
+.dialog-backdrop(ng-class="{'dialog-open': isInfoOpen}")
+  dialog.mdl-dialog(dialog-open="isInfoOpen")
+    label.mdl-dialog__title.small {{settings.author}} commented {{settings.date | relativeDate}}
+    .mdl-dialog__content
+      label Url 
+      span  {{settings.url}}
+      p {{settings.content}}
+    .mdl-dialog__actions
+      button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-if="!settings.banned" ng-click="ban(settings)") Ban this commentor
+      button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-if="settings.banned" ng-click="unban(settings)") Unban this commentor
+      button.mdl-button(type='button' ng-click="c.toggleModal('isInfoOpen', 'settings')") Close
     //- accordion(close-others="true")
     //-   accordion-group(ng-repeat="member in bannedMembers").panel
     //-       accordion-heading.panel-heading(ng-click="status.open=!status.open")

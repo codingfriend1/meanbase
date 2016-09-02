@@ -1,7 +1,4 @@
 // Handles starting up and shutting down the inline text editors and syncing up changes with the model when edits are saved
-
-'use strict';
-
 angular.module('meanbaseApp')
   .directive('mbRecaptcha', function ($sanitize, $rootScope) {
     return {

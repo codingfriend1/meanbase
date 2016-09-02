@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .factory('Auth', function Auth($location, $rootScope, $http, $cookieStore, $q, feathers, api) {
     var currentUser = {};

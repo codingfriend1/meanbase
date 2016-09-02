@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('meanbaseApp')
   .controller('PagesCtrl', function ($scope, endpoints, helpers, toastr, api, crud, Auth, $timeout, $rootScope) {
 

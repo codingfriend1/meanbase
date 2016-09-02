@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Controller: CmsCtrl', function () {
 
   // load the controller's module

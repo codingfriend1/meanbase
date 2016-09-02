@@ -1,5 +1,3 @@
-'use strict';
-
 // ### Parent route for backend.
 // - All routes for the admin interface have cms/ as their prefix
 angular.module('meanbaseApp')

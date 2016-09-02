@@ -1,15 +1,3 @@
-'use strict';
-
-const feathers = require('feathers/client')
-const socketio = require('feathers-socketio/client');
-const hooks = require('feathers-hooks');
-const io = require('socket.io-client');
-
-const socket = io('http://localhost:3030');
-window.app = feathers()
-  .configure(hooks())
-  .configure(socketio(socket));
-
 angular.module('meanbaseApp', [
   'ngCookies',
   'ngResource',
@@ -79,17 +67,19 @@ angular.module('meanbaseApp', [
 
     var toStateName, userIsDefinitelyNotLoggedIn = false;
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
+      function continueNavigation() {
+        var params = angular.copy(toParams);
+        params.skipSomeAsync = true;
+        toStateName = toState.name;
+        $state.go(toState.name, params);
+      }
+
+      
       if(Auth.isLoggedIn()) {
         $rootScope.isLoggedIn = true;
       }
       if(!Auth.isLoggedIn()) {
-
-        function continueNavigation() {
-          var params = angular.copy(toParams);
-          params.skipSomeAsync = true;
-          toStateName = toState.name;
-          $state.go(toState.name, params);
-        }
 
         if(!userIsDefinitelyNotLoggedIn) {
           event.preventDefault();

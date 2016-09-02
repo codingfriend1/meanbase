@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Service: helpers', function () {
 
   // load the service's module
