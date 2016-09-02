@@ -400,7 +400,6 @@
     this.updateTemplate = function(template) {
       $timeout(function() {
         $rootScope.page.template = template
-        console.log("template", template);
       });
       this.hideScreenshot(template)
 
