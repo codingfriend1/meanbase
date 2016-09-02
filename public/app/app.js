@@ -75,7 +75,7 @@ angular.module('meanbaseApp', [
         $state.go(toState.name, params);
       }
 
-      
+
       if(Auth.isLoggedIn()) {
         $rootScope.isLoggedIn = true;
       }

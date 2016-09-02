@@ -509,7 +509,8 @@
             'extensions',
             'lists',
             'grid',
-            'links'
+            'links',
+            'template'
           ])
         }
 

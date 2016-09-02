@@ -110,6 +110,7 @@
         $rootScope.page.lists = angular.copy(autoSave.data.lists) || {}
         $rootScope.page.grid = angular.copy(autoSave.data.grid) || {}
         $rootScope.page.links = angular.copy(autoSave.data.links) || {}
+        $rootScope.page.template = angular.copy(autoSave.data.template) || {}
 
         document.title = $rootScope.page.tabTitle
         jQuery('meta[name=description]').attr('content', $rootScope.page.description)
@@ -162,6 +163,18 @@
             }
           }
         }
+      }
+    })
+
+    $scope.$onRootScope('cms.updateTemplate', () => {
+
+      if(!autoSaveSessionSnapshot.page) {
+        $state.reload()
+        return false
+      }
+
+      if(autoSaveSessionSnapshot.page.template !== $rootScope.page.template) {
+        $state.reload()
       }
     })
 
@@ -307,6 +320,8 @@
       if(successful) {
         $rootScope.$emit('cms.updateView')
         $rootScope.$emit('cms.takePageSnapshot', true)
+        autoSaveSessionSnapshot = {}
+        $rootScope.$emit('cms.updateTemplate')
         toastr.success('Changes since last published date have been removed')
       }
     })
@@ -373,8 +388,9 @@
           }
 
 		    	$scope.save = function () {
+            $rootScope.$emit('cms.updateTemplate')
 		    	  $modalInstance.dismiss('cancel')
-            toastr.success('The page settings were updated. If you changed the url, make sure to update your menus as well after you publish.')
+            toastr.success('The page settings were updated')
 		    	};
 		    },
 		    size: 'md'

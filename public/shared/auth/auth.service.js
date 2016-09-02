@@ -149,6 +149,8 @@ angular.module('meanbaseApp')
 
       // Check if the user's role has the correct permission
       hasPermission: function(permissionName, cb) {
+        if(!cb) { cb = angular.noop }
+        var deferred = $q.defer()
         currentUser = feathers.get('user');
         if(!currentUser || _.isEmpty(currentUser)) {
           feathers.authenticate().then(function(result) {
@@ -159,11 +161,14 @@ angular.module('meanbaseApp')
             // Or if user has allPrivilages
             if(currentUser.permissions.indexOf(permissionName) > -1 || currentUser.permissions.indexOf('allPrivilages') > -1) {
               cb(true);
+              deferred.resolve(true)
             } else {
               cb(false);
+              deferred.reject(false)
             }
           }, function(err) {
             cb(false);
+            deferred.reject(false)
           });
         }
         else if(currentUser.hasOwnProperty('permissions')) {
@@ -171,12 +176,17 @@ angular.module('meanbaseApp')
           // Or if user has allPrivilages
           if(currentUser.permissions.indexOf(permissionName) > -1 || currentUser.permissions.indexOf('allPrivilages') > -1) {
             cb(true);
+            deferred.resolve(true)
           } else {
             cb(false);
+            deferred.reject(false)
           }
         } else {
           cb(false);
+          deferred.reject(false)
         }
+
+        return deferred.promise
       },
 
       /**

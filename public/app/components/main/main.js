@@ -29,9 +29,25 @@
 
           try {
             $rootScope.isLoggedIn = await Auth.isLoggedInAsync();
-            $rootScope.currentUser = Auth.getCurrentUser();
+            // $rootScope.currentUser = Auth.getCurrentUser();
+
 
             let matchingPages = await api.pages.find({url: '/' + $stateParams.page})
+
+            let stagingData
+            try {
+              let hasPermission = await Auth.hasPermission('editMode')
+              if(hasPermission) {
+                try {
+                  stagingData = await api.staging.find({key: '/' + $stateParams.page})
+                  stagingData = stagingData[0]
+                } catch(err) {
+                  console.log('Trouble getting staging data', err);
+                }
+              }
+            } catch(err) {
+              console.log('User does not have edit permission', err);
+            }
 
             if(!matchingPages[0]) {
               throw 'Sorry but we could not find a page with that url'
@@ -44,10 +60,16 @@
             // That variable came from the theme's theme.json file.
             // It finds which template to load based on the template that came back for the page
             // This is done to keep different themes' templates compatible
-            var mappedTemplate = $rootScope.page.template;
+            var mappedTemplate
+            if(stagingData && stagingData.data && stagingData.data.template) {
+              mappedTemplate = stagingData.data.template
+            } else {
+              mappedTemplate = $rootScope.page.template;
+            }
+
             for (var property in meanbaseGlobals.themeTemplates) {
               if (meanbaseGlobals.themeTemplates.hasOwnProperty(property)) {
-                if(meanbaseGlobals.themeTemplates[property].indexOf($rootScope.page.template) > -1) {
+                if(meanbaseGlobals.themeTemplates[property].indexOf(mappedTemplate) > -1) {
                   mappedTemplate = property;
                   break;
                 }
