@@ -422,7 +422,7 @@
     // These regexes may we used throughout forms on the site
     $rootScope.validators = {
       isTitle: /^[A-Za-z0-9@:?&=.\/ _\-]*$/,
-      isURI: /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}((\/|#)[\w~,\-\.\/?%&+#=]*))/,
+      isURI: /(((http|https|ftp):\/\/([\w-\d]+\.)+[\w-\d]+){0,1}((\/|#)[\w~,\-\._\/?%&+#=]*))/,
       isFilePath: /^[0-9A-Za-z\/*_.\\\-]*$/,
       isCSSClass: /^[A-Za-z0-9_ \-*]*$/,
       isAnchorTarget: /^[_blank|_self|_parent|_top]*$/,

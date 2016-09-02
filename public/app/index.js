@@ -70,11 +70,11 @@ import "../shared/validate/validate.jade";
 
 // inject stylus
 import "./app.styl";
-import "./components/cms.headbar/cms.headbar.styl";
 import "./components/main/main.styl";
+import "./components/cms.headbar/cms.headbar.styl";
 import "./components/mb-choose-icon/mb-choose-icon.styl";
-import "./components/mb-choose-link/mb-choose-link.styl";
 import "./components/mb-choose-image/mb-choose-image.styl";
+import "./components/mb-choose-link/mb-choose-link.styl";
 import "./components/mb-edit/mb-edit.styl";
 import "./components/mb-edit-link/mb-edit-link.styl";
 import "./components/mb-edit-menu/mb-edit-menu.styl";

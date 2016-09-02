@@ -47,7 +47,7 @@ var config = {
         loader: 'babel',
         exclude: nodeAndBower,
         query: {
-          presets: ['es2017', 'stage-1'],
+          presets: ['es2015', 'stage-3'],
           "plugins": [
             "ng-annotate",
             "transform-decorators-legacy",
@@ -103,7 +103,7 @@ var config = {
 }
 
 var appConfig = Object.assign({}, config, {
-  entry: folders.app,
+  entry: ['babel-polyfill', folders.app],
   output: {
     path: folders.app,
     pathinfo: true,
@@ -113,7 +113,7 @@ var appConfig = Object.assign({}, config, {
 });
 
 var adminConfig = Object.assign({}, config, {
-  entry: folders.admin,
+  entry: ['babel-polyfill', folders.admin],
   output: {
     path: folders.admin,
     pathinfo: true,

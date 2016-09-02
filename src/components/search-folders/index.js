@@ -309,7 +309,6 @@ exports.retrieveExtensions = async function() {
         let file = extensionFilePaths[i].replace(path.join(app.get('clientPath'), '/'), '')
 
         if(file.indexOf('-extension.html') > -1 || file.indexOf('-extension.jade') > -1) {
-          console.log('html');
           extension.html = file
         } else if(file.indexOf('screenshot') > -1 && extractFileNameRegex.test(file)) {
           extension.screenshot = file
