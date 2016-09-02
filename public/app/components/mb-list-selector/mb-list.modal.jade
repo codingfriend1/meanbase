@@ -5,10 +5,10 @@
       span.sr-only Close
     h4.modal-title 
       i.fa.fa-plus.fa-lg|  
-      |  Choose Extension
+      |  Choose Add On
   .modal-body
     tabset(justified="true")
-      tab(heading="Theme extensions")
+      tab(heading="Theme Add Ons")
         div.list-selector
           .form-group
             .input-group
@@ -22,20 +22,23 @@
         .modal-footer
           button.btn.btn-success(type='button' ng-click="chooseExtension()") Choose
           button.btn.btn-default(type='button' ng-click="$dismiss()") Close
-      tab(heading="Independent Extensions")
+      tab(heading="Independent Add Ons")
         .form-group
           .input-group
             .input-group-addon 
               i.fa.fa-search
-            input.form-control(type="text" placeholder="search lists" ng-model="searchLists")
+            input.form-control(type="text" placeholder="search add ons" ng-model="searchLists")
         .scrollable-body
           div(ng-repeat="item in $root.extensionOptions | filter:searchLists" ng-click="toggleSelected(item)").mb-list-item
             span.mb-list-label {{item.label}}
             i.fa.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
         hr
+        .alert.alert-warning
+          strong Directions
+          div When you choose an addon, give it a key so you can reuse the add on in other places and have the data synced between addons
         .form-group
-          label Extension Key
-          input.form-control(type="text" placeholder="Extension key" ng-model="extensionKey")
+          label Add On Key
+          input.form-control(type="text" placeholder="Add On key" ng-model="extensionKey")
         .form-group
           label Choose from existing key
           select(ng-options="extension as extension.key for extension in extensionKeys" ng-model="existingExtensionKey").form-control
