@@ -19,5 +19,4 @@ COPY dist/ /var/www/
 EXPOSE 8080
 VOLUME /var/www
 
-# CMD ["pm2", "start", "src", "--no-daemon"]
-CMD ["node", "app"]
+CMD ["pm2", "start", "src", "--no-daemon"]
