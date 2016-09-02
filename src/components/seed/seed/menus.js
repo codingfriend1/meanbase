@@ -32,8 +32,8 @@ var article = {
 	"position": 2
 };
 
-var CMS = {
-  "title": "CMS",
+var login = {
+  "title": "Login",
   "url": "/cms",
   "published": true,
   "target": "_self",
@@ -41,4 +41,4 @@ var CMS = {
   "group": "main",
 };
 
-module.exports = [CMS];
+module.exports = [login];
