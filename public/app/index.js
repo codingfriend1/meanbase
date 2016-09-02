@@ -85,9 +85,9 @@ import "./components/mb-list-area/mb-list-area.styl";
 import "./components/mb-list-remove/mb-list-remove.styl";
 import "./components/mb-list-selector/mb-list-selector.styl";
 import "./components/meanbase-editable/meanbase-editable.directive.styl";
+import "../shared/image-selector/image-selector.styl";
 import "../shared/missing/missing.styl";
 import "../shared/sortable/sortable.styl";
 import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
-import "../shared/image-selector/image-selector.styl";
 // end inject stylus

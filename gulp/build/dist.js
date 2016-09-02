@@ -51,14 +51,16 @@ module.exports = function(gulp, plugins, folders, config) {
         config.path.join(folders.themes, '**/theme.json'),
         config.path.join(folders.themes, '**/theme.min.js'),
         config.path.join(folders.themes, '**/*template.*'),
+        config.path.join(folders.themes, '**/*-extension.html'),
+        config.path.join(folders.themes, '**/*-extension.jade'),
         config.path.join(folders.themes, '**/*screenshot.*')
       ])
 				.pipe(plugins.chmod(755))
 				.pipe(gulp.dest('dist/public/themes/')),
 
       gulp.src([
-        config.path.join(folders.extensions, '**/extension.json'),
-        config.path.join(folders.extensions, '**/index.html'),
+        config.path.join(folders.extensions, '**/*-extension.html'),
+        config.path.join(folders.extensions, '**/*-extension.jade'),
         config.path.join(folders.extensions, '**/extension.min.js'),
         config.path.join(folders.extensions, '**/*screenshot.*')
       ])

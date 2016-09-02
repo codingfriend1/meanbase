@@ -9,8 +9,8 @@ import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
 import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/image-selector/image-selector.directive.js";
-import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
 import "../shared/helpers/helpers.service.js";
+import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
 import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/endpoints/endpoints.service.js";
@@ -22,8 +22,8 @@ import "./code/components/dialog/dialog.directive.js";
 import "./code/components/date-picker/date-picker.directive.js";
 import "./code/components/crud/crud.service.js";
 import "./code/components/camel-to-human/camel-to-human.filter.js";
-import "./code/account/settings/settings.controller.js";
 import "./code/account/login/login.controller.js";
+import "./code/account/settings/settings.controller.js";
 import "./code/users/users.js";
 import "./code/users/users.controller.js";
 import "./code/themes/themes.js";
@@ -41,10 +41,10 @@ import "./code/comments/comments.js";
 import "./code/comments/comments.controller.js";
 import "./code/cms/cms.js";
 import "./code/cms/cms.controller.js";
+import "./code/account/account.js";
 import "./code/analytics/google-analytics-embed-customizations.js";
 import "./code/analytics/analytics.js";
 import "./code/analytics/analytics.controller.js";
-import "./code/account/account.js";
 // end inject js
 
 // inject jade
@@ -69,6 +69,7 @@ import "../shared/validate/validate.jade";
 // inject stylus
 import "./code/app.styl";
 import "./code/analytics/analytics.styl";
+import "./code/cms/cms.styl";
 import "./code/comments/comments.styl";
 import "./code/extensions/extensions.styl";
 import "./code/import/import.styl";
@@ -76,11 +77,10 @@ import "./code/media/media.styl";
 import "./code/pages/pages.styl";
 import "./code/themes/themes.styl";
 import "./code/users/users.styl";
-import "./code/cms/cms.styl";
 import "./code/account/login/login.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/missing/missing.styl";
-import "../shared/sortable/sortable.styl";
 import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
+import "../shared/sortable/sortable.styl";
 // end inject stylus

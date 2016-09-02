@@ -17,8 +17,8 @@ import "./extensions/selling-point-list/selling-point-list.directive.js";
 // inject stylus
 import "./extensions/text-columns.styl";
 import "./extensions/selling-point-list/selling-point-list.styl";
+import "./templates/archive/archive.styl";
 import "./templates/blog/blog.styl";
 import "./templates/blog/clean-blog.styl";
-import "./templates/archive/archive.styl";
 import "./css/landing-page.css";
 // end inject stylus
