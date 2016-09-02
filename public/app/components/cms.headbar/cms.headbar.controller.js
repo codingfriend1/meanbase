@@ -388,7 +388,7 @@
           }
 
 		    	$scope.save = function () {
-            $rootScope.$emit('cms.updateTemplate')
+            $rootScope.$emit('cms.autoSave')
 		    	  $modalInstance.dismiss('cancel')
             toastr.success('The page settings were updated')
 		    	};
@@ -396,6 +396,20 @@
 		    size: 'md'
 		  });
 		};
+
+    this.updateTemplate = function(template) {
+      $timeout(function() {
+        $rootScope.page.template = template
+        console.log("template", template);
+      });
+      this.hideScreenshot(template)
+
+      let finishedAutoSavingListener
+      finishedAutoSavingListener = $scope.$onRootScope('cms.finishedAutoSaving', function(event, successful) {
+        finishedAutoSavingListener()
+        $rootScope.$emit('cms.updateTemplate')
+      })
+    }
 
 		this.publishChanges = function() {
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
@@ -413,7 +427,8 @@
 		this.undoSession = function() {
       $rootScope.$emit('cms.stopPageListener')
       $rootScope.$emit('cms.autoSave', autoSaveSessionSnapshot.page, autoSaveSessionSnapshot.menus)
-      $scope.$onRootScope('cms.finishedAutoSaving', function(event, successful) {
+      let finishedAutoSavingListener = $scope.$onRootScope('cms.finishedAutoSaving', function(event, successful) {
+        finishedAutoSavingListener()
         if(successful) {
           $rootScope.$emit('cms.returnToAutoSave')
           toastr.warning('Changes have been discarded')
@@ -528,7 +543,11 @@
 
 		this.hideScreenshot = function(template) {
 			if(this.currentScreenshot) {
-				document.body.removeChild(this.currentScreenshot);
+        try {
+          document.body.removeChild(this.currentScreenshot);
+        } catch(err) {
+
+        }
 			}
 		};
 

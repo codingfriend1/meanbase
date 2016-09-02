@@ -27,6 +27,7 @@ angular.module('meanbaseApp', [
       $delegate.constructor.prototype.$onRootScope = function(name, listener){
         var unsubscribe = $delegate.$on(name, listener);
         this.$on('$destroy', unsubscribe);
+        return unsubscribe
       };
       return $delegate;
     }]);
