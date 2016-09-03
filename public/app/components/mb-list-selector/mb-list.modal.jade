@@ -29,11 +29,11 @@
       label with group:
       select(ng-options="group as group.key for group in syncGroups" ng-model="syncGroup").form-control
       
-      button.btn.btn-info(type='button', data-toggle='collapse', data-target='#create-new-group') Create new group
-      #create-new-group.collapse
-        .form-group
-          label Create a new group
-          input.form-control(ng-model="newSyncGroup")
+    button.btn.btn-info(type='button', data-toggle='collapse', data-target='#create-new-group') Create new group
+    #create-new-group.collapse
+      .form-group
+        label What will the new group be called?
+        input.form-control(ng-model="newSyncGroup")
     .modal-footer
       button.btn.btn-success(type='button' ng-click="chooseAddon(syncGroup, newSyncGroup, sync)") Choose
       button.btn.btn-default(type='button' ng-click="$dismiss()") Close
