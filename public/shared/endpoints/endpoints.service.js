@@ -83,6 +83,35 @@
       return deferred.promise;
 		};
 
+    endpoints.prototype.upsert = function(identifier, replacement) {
+			var self = this;
+      var deferred = $q.defer();
+      var rp = angular.copy(replacement);
+      rp.createdAt = undefined;
+      rp.updatedAt = undefined;
+
+      feathers.service(this.url).find({ query: identifier }).then(response => {
+        if(response.length === 0) {
+          feathers.service(this.url).create(rp).then(deferred.resolve).catch((err) => {
+            console.log("Upsert failure for " + self.url, data);
+            deferred.reject(data)
+    				self.errorHandler(data);
+          })
+        } else {
+          feathers.service(this.url).patch(null, rp, {query: identifier}).then(deferred.resolve).catch(function(data) {
+            console.log("Update failure for " + self.url, data);
+            deferred.reject(data)
+    				self.errorHandler(data);
+    			});
+        }
+      }).catch(err => {
+        console.log("Upsert failure for " + self.url, err);
+        deferred.reject(err)
+				self.errorHandler(err);
+      });
+      return deferred.promise;
+		};
+
 		/**
 		 * Deletes data from the server database that matches the mongoDB query passed in. Calls generic error handler `errorHandler()` if error.
 		 * @param  {object} identifier Raw mongoDB query
