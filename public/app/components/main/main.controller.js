@@ -47,6 +47,13 @@
       }
     }
 
+    $rootScope.comments = []
+    api.comments.find({url: $rootScope.page.url, $limit: 1000000}).then(function(response) {
+      $rootScope.comments = response.data
+    }, function(err) {
+      console.log('promise rejected', err);
+    });
+
     function validateComment(comment) {
       if(comment && $rootScope.page) {
 
