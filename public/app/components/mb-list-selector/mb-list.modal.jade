@@ -5,10 +5,8 @@
       span.sr-only Close
     h4.modal-title 
       i.fa.fa-plus.fa-lg|  
-      |  Choose an Addon
+      |  Choose an Add-on
   .modal-body
-    .alert.alert-success
-      div An addon is a resusable element that you can place on multiple pages. Could be a calender, gallery, team members list, etc...
     .form-group
       .input-group
         .input-group-addon 
@@ -19,14 +17,12 @@
         span.mb-list-label {{item.label}}
         i.fa.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
     hr
-    .alert.alert-warning
-      div Addons can sync data with other addons of the same type. Just choose a group you want to sync with and your data will stay synchronized within that group.
-
-      
+    div.text-center
+      label Do you want to sync this add-on data with a group?
     .checkbox
       label
-        input(type="checkbox" name="sync" ng-model="sync" ng-init="sync=true") 
-        | Sync Addon
+        input(type="checkbox" name="sync" ng-model="sync") 
+        | Sync Add-on
     .form-group(ng-show="sync")
       label with group:
       select(ng-options="group as group.key for group in syncGroups" ng-model="syncGroup").form-control

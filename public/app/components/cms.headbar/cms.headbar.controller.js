@@ -137,6 +137,7 @@
 
     async function fetchExtension(item) {
       if(item.label && item.sync && item.syncGroup) {
+        console.log('syncing');
         let foundStaging = await api.staging.find({belongsTo: item.label, key: item.syncGroup})
         foundStaging = foundStaging[0]
 

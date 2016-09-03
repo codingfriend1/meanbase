@@ -33,17 +33,27 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
       api.custom.create({belongsTo: chosenAddon.label, key: newSyncGroup, permission: 'editContent', value: {}, enabled: true})
     } else if(groupKey) {
       chosenAddon.syncGroup = groupKey.key
-      let stagingData = await api.staging.find({belongsTo: chosenAddon.label, key: groupKey.key})
-      stagingData = stagingData[0]
-      if(stagingData) {
-        chosenAddon.data = stagingData.data
-      } else {
-        chosenAddon.data = groupKey.value
+      if(chosenAddon.sync) {
+        console.log('sync = true');
+        let stagingData = await api.staging.find({belongsTo: chosenAddon.label, key: groupKey.key})
+        stagingData = stagingData[0]
+        if(stagingData) {
+          chosenAddon.data = stagingData.data
+        } else {
+          chosenAddon.data = groupKey.value
+        }
       }
     }
 
-    toastr.success('Addon added')
+    toastr.success('Add-on added')
 		$modalInstance.close(chosenAddon);
+
+    for (var i = 0; i < $scope.extensionOptions.length; i++) {
+      if($scope.extensionOptions[i].selected) {
+        $scope.extensionOptions[i].selected = undefined
+        break
+      }
+    }
 	};
 
 	// Declaring event listeners is generally bad practice in controllers, but in this case the listener needs to be created and deleted with the controller and must be applied to the document
