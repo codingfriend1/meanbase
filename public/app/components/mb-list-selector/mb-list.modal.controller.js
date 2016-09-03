@@ -64,15 +64,19 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
     }
 
     api.custom.find({belongsTo: item.label}).then(function(response) {
-      let foundMain
       if(response.length === 0) {
         createMain(item)
       } else {
+        let foundMain = false
         for (var i = 0; i < response.length; i++) {
-          if(!response[i].key === 'main') {
-            createMain(item)
+          if(response[i].key === 'main') {
+            foundMain = true
             break
           }
+        }
+
+        if(!foundMain) {
+          createMain(item)
         }
       }
 

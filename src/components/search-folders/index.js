@@ -295,7 +295,7 @@ exports.retrieveExtensions = async function() {
       }
 
       let label = activeFolder.replace(/[ ]/g, "-").replace(/[_-]/g, " ").replace(/(^| )(\w)/g, function(x) {
-        return x.toUpperCase();
+        return x
       })
 
       var extensionFilePaths = Finder.from(currentExtensionPath).findFiles('<extension.min.js$|-extension.html|-extension.jade|screenshot>')

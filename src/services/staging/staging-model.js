@@ -16,6 +16,8 @@ const stagingSchema = new Schema({
   updatedAt: { type: Date, 'default': Date.now }
 });
 
+stagingSchema.index({belongsTo: 1, key: 1}, {unique: true});
+
 const stagingModel = mongoose.model('staging', stagingSchema);
 
 module.exports = stagingModel;

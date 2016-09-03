@@ -5,51 +5,35 @@
       span.sr-only Close
     h4.modal-title 
       i.fa.fa-plus.fa-lg|  
-      |  Choose Add On
+      |  Choose an Addon
   .modal-body
-    tabset(justified="true")
-      tab(heading="Theme Add Ons")
-        div.list-selector
-          .form-group
-            .input-group
-              .input-group-addon 
-                i.fa.fa-search
-              input.form-control(type="text" placeholder="search lists" ng-model="searchLists")
-          .list-list.scrollable-body
-            div(ng-repeat="item in $root.listOptions | filter:searchLists" ng-click="toggleSelected(item)").mb-list-item
-              span.mb-list-label {{item.label}}
-              i.fa.fa-lg.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
-        .modal-footer
-          button.btn.btn-success(type='button' ng-click="chooseExtension()") Choose
-          button.btn.btn-default(type='button' ng-click="$dismiss()") Close
-      tab(heading="Independent Add Ons")
-        .form-group
-          .input-group
-            .input-group-addon 
-              i.fa.fa-search
-            input.form-control(type="text" placeholder="search add ons" ng-model="searchLists")
-        .scrollable-body
-          div(ng-repeat="item in $root.extensionOptions | filter:searchLists" ng-click="toggleSelected(item)").mb-list-item
-            span.mb-list-label {{item.label}}
-            i.fa.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
-        hr
-        .alert.alert-warning
-          div Addons can sync data with other addons of the same type. Just choose a group you want to sync with and your data will stay synchronized within that group.
+    .form-group
+      .input-group
+        .input-group-addon 
+          i.fa.fa-search
+        input.form-control(type="text" placeholder="search addons" ng-model="searchLists")
+    .scrollable-body
+      div(ng-repeat="item in $root.extensionOptions | filter:searchLists" ng-click="toggleSelected(item)").mb-list-item
+        span.mb-list-label {{item.label}}
+        i.fa.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
+    hr
+    .alert.alert-warning
+      div Addons can sync data with other addons of the same type. Just choose a group you want to sync with and your data will stay synchronized within that group.
 
-          
-        .checkbox
-          label
-            input(type="checkbox" name="sync" ng-model="sync" ng-init="sync=true") 
-            | Sync Addon
-        .form-group(ng-show="sync")
-          label with group:
-          select(ng-options="group as group.key for group in syncGroups" ng-model="syncGroup").form-control
-          
-          button.btn.btn-info(type='button', data-toggle='collapse', data-target='#create-new-group') Create new group
-          #create-new-group.collapse
-            .form-group
-              label Create a new group
-              input.form-control(ng-model="newSyncGroup")
-        .modal-footer
-          button.btn.btn-success(type='button' ng-click="chooseAddon(syncGroup, newSyncGroup, sync)") Choose
-          button.btn.btn-default(type='button' ng-click="$dismiss()") Close
+      
+    .checkbox
+      label
+        input(type="checkbox" name="sync" ng-model="sync" ng-init="sync=true") 
+        | Sync Addon
+    .form-group(ng-show="sync")
+      label with group:
+      select(ng-options="group as group.key for group in syncGroups" ng-model="syncGroup").form-control
+      
+      button.btn.btn-info(type='button', data-toggle='collapse', data-target='#create-new-group') Create new group
+      #create-new-group.collapse
+        .form-group
+          label Create a new group
+          input.form-control(ng-model="newSyncGroup")
+    .modal-footer
+      button.btn.btn-success(type='button' ng-click="chooseAddon(syncGroup, newSyncGroup, sync)") Choose
+      button.btn.btn-default(type='button' ng-click="$dismiss()") Close

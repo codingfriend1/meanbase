@@ -2,6 +2,7 @@ var gulp = require('gulp')
 var path = require('path')
 var fs = require('fs')
 var async = require('async')
+var exec = require('child_process').exec
 
 var folders = {
   build: {
@@ -136,6 +137,10 @@ gulp.task('build', function(done) {
   plugins.runSequence('dist', done)
 });
 
-gulp.task('empty-database', function() {
-  config.runCommand('mongo --eval "show dbs; use meanbase-dev; db.dropDatabase();"');
+gulp.task('empty-database', function(cb) {
+  exec('mongo --eval "show dbs; use meanbase-dev; db.dropDatabase()"', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    cb(err);
+  });
 });

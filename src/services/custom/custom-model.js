@@ -29,7 +29,7 @@ const customSchema = new Schema({
   updatedAt: { type: Date, 'default': Date.now }
 });
 
-customSchema.index({prefix: 1, key: 1}, {unique: true});
+customSchema.index({belongsTo: 1, key: 1}, {unique: true});
 
 const customModel = mongoose.model('custom', customSchema);
 
