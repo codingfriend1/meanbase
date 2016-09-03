@@ -24,8 +24,11 @@
             span.show-mobile
               i.fa.fa-lg.fa-file
           ul.dropdown-menu(role="menu")
-            li(ng-repeat="template in themeTemplates" ng-show="template !== page.template")
-              a(href="#" ng-click="headbar.updateTemplate(template)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template + ' template'}}
+            li(ng-repeat="template in themeTemplates")
+              a(href="#" ng-click="headbar.updateTemplate(template)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)")
+                span {{template + ' template'}}  
+                span(ng-show="template === page.template").float-right
+                  i.fa.fa-check
         li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Preview Page")
           a(ng-click="headbar.preview()") 
             span.show-desktop Preview
