@@ -18,7 +18,7 @@ exports.before = {
     globalHooks.populateOrRestrict(restriction),
     globalHooks.isEnabled(),
     globalHooks.attachPermissions(),
-    globalHooks.hasPermissionOrRestrict(permissionName, restriction),
+    globalHooks.hasPermissionOrRestrict(permissionName, restriction)
   ],
   get: [
     globalHooks.verifyOrRestrict(restriction),

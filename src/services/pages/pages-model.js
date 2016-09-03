@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const patterns = require('../../components/patterns');
 const validators = require('mongoose-validators');
+const textSearch = require('mongoose-text-search');
 
 const pagesSchema = new Schema({
   url: {
@@ -133,6 +134,12 @@ const pagesSchema = new Schema({
   createdAt: { type: Date, 'default': Date.now },
   updatedAt: { type: Date, 'default': Date.now }
 }, { minimize: false });
+
+pagesSchema.plugin(textSearch);
+
+pagesSchema.index({
+	"$**": "text"
+});
 
 const pagesModel = mongoose.model('pages', pagesSchema);
 
