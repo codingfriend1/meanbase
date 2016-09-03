@@ -18,6 +18,7 @@ angular.module('meanbaseApp')
               list.splice(index, 1);
 
               api.custom.delete({belongsTo: item.label, key: item.key})
+              $rootScope.$emit('cms.elementsChanged')
             }
           });
 

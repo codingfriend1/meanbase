@@ -1,4 +1,4 @@
-module.exports = function linkModalController($scope, $modalInstance, api, menu, property) {
+module.exports = function linkModalController($scope, $modalInstance, api, menu, property, $rootScope) {
   api.pages.find({$select: ['url', 'title', '_id']}).then(function(response) {
     $scope.pages = response
   })
@@ -43,5 +43,7 @@ module.exports = function linkModalController($scope, $modalInstance, api, menu,
       menu[property].push($scope.link);
       $modalInstance.dismiss()
     }
+
+    $rootScope.$emit('cms.elementsChanged')
   }
 }

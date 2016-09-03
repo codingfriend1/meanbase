@@ -156,6 +156,9 @@
       draggable: ".mb-draggable",
       filter: ".ignore-draggable",
       animation: 250,
+      onEnd: function () {
+        $rootScope.$emit('cms.elementsChanged')
+      },
       scroll: true, // or HTMLElement
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
       scrollSpeed: 10 // px
@@ -168,6 +171,9 @@
       draggable: ".mb-draggable",
       filter: ".ignore-draggable",
       animation: 250,
+      onEnd: function () {
+        $rootScope.$emit('cms.elementsChanged')
+      },
       scroll: true, // or HTMLElement
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
       scrollSpeed: 10 // px
@@ -180,6 +186,9 @@
       filter: ".ignore-draggable",
       handle: ".mb-drag-handle",
       animation: 250,
+      onEnd: function () {
+        $rootScope.$emit('cms.elementsChanged')
+      },
       scroll: true, // or HTMLElement
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
       scrollSpeed: 10 // px
@@ -848,6 +857,7 @@
           link.url = $scope.link.url || link.url
           link.classes = $scope.link.classes
           link.target = $scope.link.target
+          $rootScope.$emit('cms.elementsChanged')
           $modalInstance.dismiss()
         }
       }
@@ -900,6 +910,7 @@
 
           icon.classes = $scope.icon.classes
           icon.target = $scope.icon.target
+          $rootScope.$emit('cms.elementsChanged')
           $modalInstance.dismiss()
         }
       }
@@ -980,6 +991,7 @@
             }
 
             toastr.success('Key updated')
+            $rootScope.$emit('cms.elementsChanged')
             $modalInstance.close();
           }
         },
@@ -1024,6 +1036,8 @@
           // Add the menu item to the end of it's group's list
           $scope.menuItem.position = $rootScope.menus[$scope.menuItem.group].length
           $rootScope.menus[$scope.menuItem.group].push($scope.menuItem)
+
+          $rootScope.$emit('cms.elementsChanged')
           $modalInstance.dismiss()
         }
       }
@@ -1046,6 +1060,8 @@
           menuItem.url = $scope.menuItem.url || menuItem.url
           menuItem.classes = $scope.menuItem.classes
           menuItem.target = $scope.menuItem.target
+
+          $rootScope.$emit('cms.elementsChanged')
           $modalInstance.dismiss()
         }
       }
@@ -1055,6 +1071,8 @@
         $rootScope.menus = helpers.updatePositionData($rootScope.menus)
 
         $rootScope.menus[menuItem.group].splice(menuItem.position, 1)
+
+        $rootScope.$emit('cms.elementsChanged')
         $modalInstance.dismiss()
       }
     }

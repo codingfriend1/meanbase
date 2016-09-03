@@ -83,7 +83,6 @@
       lastMenuUndoData = lastMenuUndoData2
       lastMenuUndoData2 = angular.copy($rootScope.menus)
 
-      console.log("lastPageUndoData", lastPageUndoData);
       $rootScope.$emit('cms.autoSave')
       $scope.autoSavingInProgress = true
       $timeout(function() {
@@ -411,7 +410,7 @@
           }
 
 		    	$scope.save = function () {
-            $rootScope.$emit('cms.autoSave')
+            $rootScope.$emit('cms.elementsChanged')
 		    	  $modalInstance.dismiss('cancel')
             toastr.success('The page settings were updated')
 		    	};
@@ -421,9 +420,8 @@
 		};
 
     this.updateTemplate = function(template) {
-      $timeout(function() {
-        $rootScope.page.template = template
-      });
+      $rootScope.page.template = template
+      $rootScope.$emit('cms.elementsChanged')
       this.hideScreenshot(template)
 
       let finishedAutoSavingListener

@@ -37,6 +37,8 @@ angular.module('meanbaseApp')
 
             $rootScope.page.lists[attrs.mbListSelector] = $rootScope.page.lists[attrs.mbListSelector].concat(listResponse);
 
+            $rootScope.$emit('cms.elementsChanged')
+
             modalInstance = null;
 	  	    });
       	};

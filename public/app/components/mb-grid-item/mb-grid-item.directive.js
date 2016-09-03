@@ -207,6 +207,7 @@ angular.module('meanbaseApp')
               beforeColNumber = getCurrentColumnWidth(el, rejex, alsoCheck);
               $timeout(function() {
                 scope.item.gridClasses = el[0].className;
+                $rootScope.$emit('cms.elementsChanged')
               });
             }
           });

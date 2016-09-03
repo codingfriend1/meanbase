@@ -15,6 +15,8 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
       scope: { bindOptions: '=' },
       link: function(scope, element, iAttrs, ngModel) {
 
+        let syncDelay = 600
+
         angular.element(element).addClass('mb-edit')
 
         // Global MediumEditor
@@ -48,7 +50,8 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
           ngModel.editor.setup()
           ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
             ngModel.$setViewValue(ngModel.editor.getContent())
-          }, 200))
+            $rootScope.$emit('cms.elementsChanged')
+          }, syncDelay))
           isSetup = true
         });
 
@@ -79,7 +82,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         scope.$on('$destroy', function() {
           ngModel.editor.destroy()
         })
-        
+
         scope.$onRootScope('cms.updateView', function(event, shouldSave) {
           if(shouldSave) {
             ngModel.$setViewValue(ngModel.editor.getContent())
@@ -94,7 +97,8 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
                 ngModel.editor.setup()
                 ngModel.editor.subscribe('editableInput', _.debounce(function (event, editable) {
                   ngModel.$setViewValue(ngModel.editor.getContent())
-                }, 200))
+                  $rootScope.$emit('cms.elementsChanged')
+                }, syncDelay))
                 isSetup = true
               })
             } else if(!$rootScope.editMode) {
