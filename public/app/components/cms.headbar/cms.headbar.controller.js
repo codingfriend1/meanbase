@@ -75,8 +75,6 @@
     let lastPageUndoData2
 
     $scope.$onRootScope('cms.elementsChanged', _.debounce(function() {
-      console.log('elements changed');
-
       lastPageUndoData = lastPageUndoData2
       lastPageUndoData2 = angular.copy($rootScope.page)
 
