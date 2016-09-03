@@ -310,7 +310,7 @@
 
       let content
       if(placeholderTitle) {
-        content = {url: $rootScope.page.url, title: placeholderTitle}
+        content = {url: $rootScope.page.url}
       } else {
         content = {url: $rootScope.page.url}
       }
