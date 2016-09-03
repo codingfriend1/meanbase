@@ -969,6 +969,7 @@
       editExtensionModalInstance = $modal.open({
         templateUrl: require('./mb-extension-edit.modal.jade'),
         controller: function($scope, $modalInstance, item, api, toastr) {
+          $scope.sync = item.sync
           $scope.syncGroup = item.syncGroup
 
           $scope.syncGroups = []
@@ -977,7 +978,7 @@
             console.log("response", response);
           })
 
-          $scope.updateExtension = async function(syncGroup) {
+          $scope.updateExtension = function(syncGroup, newSyncGroup) {
             item.sync = $scope.sync
 
             if(item.sync) {
@@ -986,8 +987,6 @@
                 return false
               }
 
-              // if(syncGroup.)
-
               item.syncGroup = syncGroup
 
               for (var i = 0; i < $scope.syncGroups.length; i++) {
@@ -995,6 +994,11 @@
                   item.data = $scope.syncGroups[i].value
                 }
               }
+            }
+
+            if(newSyncGroup) {
+              item.syncGroup = newSyncGroup
+              api.custom.create({belongsTo: item.label, key: newSyncGroup, permission: 'editContent', value: {}, enabled: true})
             }
 
             toastr.success('Sync settings updated')

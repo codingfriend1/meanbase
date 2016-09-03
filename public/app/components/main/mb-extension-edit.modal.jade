@@ -13,14 +13,14 @@
         | Sync Addon
     .form-group(ng-show="sync")
       label with group:
-      select(ng-options="extension.key as extension.key for extension in extensionKeys" ng-model="syncGroup").form-control
+      select(ng-options="group.key as group.key for group in syncGroups" ng-model="syncGroup").form-control
     input(type="submit").hidden
     
     button.btn.btn-info(type='button', data-toggle='collapse', data-target='#extra-styles') Create new group
     #extra-styles.collapse
       .form-group
         label Create a new group
-        input.form-control(ng-model="syncGroup")
+        input.form-control(ng-model="newSyncGroup")
 .modal-footer
-  button.btn.btn-success(type="submit" ng-click="updateExtension(syncGroup)" ng-class="{disabled: editIconForm.$invalid || (!hasContent && icon.classes)}") Save
+  button.btn.btn-success(type="submit" ng-click="updateExtension(syncGroup, newSyncGroup)" ng-class="{disabled: editIconForm.$invalid || (!hasContent && icon.classes)}") Save
   button.btn.btn-default(type='button' ng-click="$dismiss()") Close
