@@ -302,7 +302,8 @@ exports.retrieveExtensions = async function() {
 
       let index, screenshot, contents
       let extension = {
-        label
+        label,
+        folder: activeFolder
       }
 
       for (var i = 0; i < extensionFilePaths.length; i++) {

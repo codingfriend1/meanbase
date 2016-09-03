@@ -1,0 +1,14 @@
+<div class="mb-bootstrap-gallery-container">
+  <carousel interval="interval">
+    <slide ng-repeat="image in listItem.data.images" active="image.active">
+      <img ng-src="{{image.modifiedurl}}" style="margin:auto;" fallback-src="http://placehold.it/900x300">
+      <div class="carousel-caption">
+        <h4>Slide {{$index}}</h4>
+        <p>{{image.alt}}</p>
+      </div>
+    </slide>
+  </carousel>
+  <mb-choose-image property="images" belongs-to="listItem.data" multiple="true" size="original">
+    <button class="btn btn-block btn-success disable-click mb-bootstrap-gallery-choose-images-button">Choose Images</button>
+  </mb-choose-image>
+</div>

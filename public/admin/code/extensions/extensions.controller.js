@@ -47,7 +47,7 @@ angular.module('meanbaseApp')
     $scope.deleteExtension = function(extension) {
       var message = 'Deleted ' + extension.label + ' extension.';
       var failure = 'Could not delete ' + extension.label;
-      api.extensions.delete({folderName: extension.folderName}, message, failure).then(function(response) {
+      api.extensions.delete({folder: extension.folder}, message, failure).then(function(response) {
 
         for (var i = 0; i < $scope.extensions.length; i++) {
           if($scope.extensions[i]._id === extension._id) {

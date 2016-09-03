@@ -53,7 +53,12 @@ exports.before = {
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
-    globalHooks.hasPermission(permissionName)
+    globalHooks.hasPermission(permissionName),
+    globalHooks.removeFromDisk({
+      service: 'extensions',
+      containerProperty: 'extensionsPath',
+      folderNameProperty: 'folder'
+    })
   ]
 };
 
@@ -65,6 +70,6 @@ exports.after = {
   update: [],
   patch: [],
   remove: [
-    
+
   ]
 };

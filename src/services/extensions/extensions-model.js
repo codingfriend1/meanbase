@@ -21,6 +21,11 @@ const extensionsSchema = new Schema({
     required: true,
     validate: validators.matches(patterns.isFilePath)
   },
+  folder: {
+    type: String,
+    required: true,
+    validate: validators.matches(patterns.isFilePath)
+  },
   contents: {
     type: String,
     required: true,
