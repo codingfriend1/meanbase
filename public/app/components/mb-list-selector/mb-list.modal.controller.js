@@ -6,7 +6,7 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
 
   $scope.syncGroups = []
 
-	$scope.chooseAddon = function(groupKey, newSyncGroup, sync) {
+	$scope.chooseAddon = async function(groupKey, newSyncGroup, sync) {
 
     let chosenAddon
 
@@ -33,7 +33,13 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
       api.custom.create({belongsTo: chosenAddon.label, key: newSyncGroup, permission: 'editContent', value: {}, enabled: true})
     } else if(groupKey) {
       chosenAddon.syncGroup = groupKey.key
-      chosenAddon.data = groupKey.value
+      let stagingData = await api.staging.find({belongsTo: chosenAddon.label, key: groupKey.key})
+      stagingData = stagingData[0]
+      if(stagingData) {
+        chosenAddon.data = stagingData.data
+      } else {
+        chosenAddon.data = groupKey.value
+      }
     }
 
     toastr.success('Addon added')

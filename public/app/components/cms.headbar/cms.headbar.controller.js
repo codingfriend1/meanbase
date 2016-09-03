@@ -6,6 +6,7 @@
 
     const msTillAutoSaveMenus = 100;
     const msTillAutoSavePage = 100;
+    const msTillAutoSaveExtensions = 100;
 
     $scope.autoSavingInProgress = false
     let self = this
@@ -55,14 +56,9 @@
 			if(boole !== undefined) { $rootScope.editMode = boole } else { $rootScope.editMode = !$rootScope.editMode }
 
       if($rootScope.editMode) {
-        // $rootScope.$emit('cms.stopPageListener')
         $rootScope.$emit('cms.pullAutoSaveData', $rootScope.editMode)
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
-        // $timeout(function() {
-          // $rootScope.$emit('cms.startPageListener')
-        // });
       } else {
-        // $rootScope.$emit('cms.stopPageListener')
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
         $rootScope.$emit('cms.updateView')
       }
@@ -82,37 +78,12 @@
       lastMenuUndoData2 = angular.copy($rootScope.menus)
 
       $rootScope.$emit('cms.autoSave')
+      $rootScope.$emit('cms.autoSaveExtensionData')
       $scope.autoSavingInProgress = true
       $timeout(function() {
         $scope.autoSavingInProgress = false
       }, 1000);
     }, msTillAutoSavePage))
-
-    // $scope.$onRootScope('cms.startPageListener', function() {
-    //   pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
-    //     if(typeof newValue !== oldValue) {
-    //       lastPageUndoData = angular.copy(oldValue)
-    //       $rootScope.$emit('cms.autoSave')
-    //       $scope.autoSavingInProgress = true
-    //       $timeout(function() {
-    //         $scope.autoSavingInProgress = false
-    //       }, 1000);
-    //     }
-    //   }, msTillAutoSavePage), true)
-    //
-    //
-    //   menusWatcher = $scope.$watch('menus', _.debounce(function(newValue, oldValue) {
-    //     if(typeof newValue !== undefined) {
-    //
-    //       lastMenuUndoData = angular.copy(oldValue)
-    //       $rootScope.$emit('cms.autoSave')
-    //       $scope.autoSavingInProgress = true
-    //       $timeout(function() {
-    //         $scope.autoSavingInProgress = false
-    //       }, 1000);
-    //     }
-    //   }, msTillAutoSaveMenus), true)
-    // })
 
 
     function mergeInAutoSaveData(autoSave) {
@@ -138,20 +109,49 @@
     })
 
     async function addOrUpdateExtension(item) {
-      let found = await api.custom.find({belongsTo: item.label, key: item.key})
-      found = found[0]
-      if(found) {
-        await api.custom.update({belongsTo: item.label, key: item.key}, {value: item.data})
-      } else {
-        await api.custom.create({belongsTo: item.label, key: item.key, value: item.data, enabled: true, permission: 'editContent'})
+      if(item.label && item.sync && item.syncGroup) {
+        let found = await api.custom.find({belongsTo: item.label, key: item.syncGroup})
+        found = found[0]
+        if(found) {
+          await api.custom.update({belongsTo: item.label, key: item.syncGroup}, {value: item.data})
+        } else {
+          await api.custom.create({belongsTo: item.label, key: item.syncGroup, value: item.data, enabled: true, permission: 'editContent'})
+        }
+
+        api.staging.delete({belongsTo: item.label, key: item.syncGroup})
+      }
+    }
+
+    async function autoSaveExtension(item) {
+      if(item.label && item.sync && item.syncGroup) {
+        let found = await api.staging.find({belongsTo: item.label, key: item.syncGroup})
+        found = found[0]
+
+        if(found) {
+          let result = await api.staging.update({belongsTo: item.label, key: item.syncGroup}, {data: item.data})
+        } else {
+          let result = await api.staging.create({belongsTo: item.label, key: item.syncGroup, data: item.data, enabled: true, permission: 'editContent'})
+        }
       }
     }
 
     async function fetchExtension(item) {
-      let found = await api.custom.find({belongsTo: item.label, key: item.key})
-      found = found[0]
-      if(found) {
-        item.data = found.value
+      if(item.label && item.sync && item.syncGroup) {
+        let foundStaging = await api.staging.find({belongsTo: item.label, key: item.syncGroup})
+        foundStaging = foundStaging[0]
+
+        if(foundStaging) {
+          $timeout(function() {
+            item.data = foundStaging.data
+          });
+
+        } else {
+          let foundPublishData = await api.custom.find({belongsTo: item.label, key: item.syncGroup})
+          foundPublishData = foundPublishData[0]
+          $timeout(function() {
+            item.data = foundPublishData.value
+          });
+        }
       }
     }
 
@@ -160,27 +160,35 @@
         if ($rootScope.page.lists.hasOwnProperty(extension)) {
           for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
             let item = $rootScope.page.lists[extension][i]
-            if(item.key && item.label) {
-              fetchExtension(item)
-            }
+            fetchExtension(item)
           }
         }
       }
     })
 
 
-    $scope.$onRootScope('cms.publishExtensionData', () => {
+    $scope.$onRootScope('cms.publishExtensionData', _.debounce(() => {
       for (var extension in $rootScope.page.lists) {
         if ($rootScope.page.lists.hasOwnProperty(extension)) {
           for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
             let item = $rootScope.page.lists[extension][i]
-            if(item.key && item.label) {
-              addOrUpdateExtension(item)
-            }
+            addOrUpdateExtension(item)
           }
         }
       }
-    })
+    }, msTillAutoSaveExtensions))
+
+
+    $scope.$onRootScope('cms.autoSaveExtensionData', _.debounce(() => {
+      for (var extension in $rootScope.page.lists) {
+        if ($rootScope.page.lists.hasOwnProperty(extension)) {
+          for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
+            let item = $rootScope.page.lists[extension][i]
+            autoSaveExtension(item)
+          }
+        }
+      }
+    }, msTillAutoSaveExtensions))
 
     $scope.$onRootScope('cms.updateTemplate', () => {
 
@@ -244,17 +252,6 @@
         console.log('Error toggling edit mode', err)
       }
     })
-
-    // $scope.$onRootScope('cms.stopPageListener', function() {
-    //   if(pageWatcher) {
-    //     pageWatcher()
-    //   }
-    //   if(menusWatcher) {
-    //     menusWatcher()
-    //   }
-    //   lastPageUndoData = undefined
-    //   lastMenuUndoData = undefined
-    // })
 
     $scope.$onRootScope('cms.addRecentEditLink', _.debounce(function(event, recentLink) {
 

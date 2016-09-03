@@ -27,7 +27,6 @@ angular.module('meanbaseApp')
               group: attrs.mbListSelector,
               position: ($rootScope.page.lists[attrs.mbListSelector].length - 1 < 0)? 0: $rootScope.page.lists[attrs.mbListSelector].length - 1,
               label: chosenExtension.label,
-              key: chosenExtension.key,
               html: chosenExtension.html,
               sync: true,
               syncGroup: chosenExtension.syncGroup || 'main',
