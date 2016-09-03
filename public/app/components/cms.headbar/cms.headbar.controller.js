@@ -55,14 +55,14 @@
 			if(boole !== undefined) { $rootScope.editMode = boole } else { $rootScope.editMode = !$rootScope.editMode }
 
       if($rootScope.editMode) {
-        $rootScope.$emit('cms.stopPageListener')
+        // $rootScope.$emit('cms.stopPageListener')
         $rootScope.$emit('cms.pullAutoSaveData', $rootScope.editMode)
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
-        $timeout(function() {
-          $rootScope.$emit('cms.startPageListener')
-        });
+        // $timeout(function() {
+          // $rootScope.$emit('cms.startPageListener')
+        // });
       } else {
-        $rootScope.$emit('cms.stopPageListener')
+        // $rootScope.$emit('cms.stopPageListener')
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
         $rootScope.$emit('cms.updateView')
       }
@@ -71,32 +71,51 @@
 
     let lastPageUndoData
     let lastMenuUndoData
+    let lastMenuUndoData2
+    let lastPageUndoData2
 
-    $scope.$onRootScope('cms.startPageListener', function() {
-      pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
-        if(typeof newValue !== oldValue) {
-          lastPageUndoData = angular.copy(oldValue)
-          $rootScope.$emit('cms.autoSave')
-          $scope.autoSavingInProgress = true
-          $timeout(function() {
-            $scope.autoSavingInProgress = false
-          }, 1000);
-        }
-      }, msTillAutoSavePage), true)
+    $scope.$onRootScope('cms.elementsChanged', function() {
+      console.log('elements changed');
 
+      lastPageUndoData = lastPageUndoData2
+      lastPageUndoData2 = angular.copy($rootScope.page)
 
-      menusWatcher = $scope.$watch('menus', _.debounce(function(newValue, oldValue) {
-        if(typeof newValue !== undefined) {
+      lastMenuUndoData = lastMenuUndoData2
+      lastMenuUndoData2 = angular.copy($rootScope.menus)
 
-          lastMenuUndoData = angular.copy(oldValue)
-          $rootScope.$emit('cms.autoSave')
-          $scope.autoSavingInProgress = true
-          $timeout(function() {
-            $scope.autoSavingInProgress = false
-          }, 1000);
-        }
-      }, msTillAutoSaveMenus), true)
+      console.log("lastPageUndoData", lastPageUndoData);
+      $rootScope.$emit('cms.autoSave')
+      $scope.autoSavingInProgress = true
+      $timeout(function() {
+        $scope.autoSavingInProgress = false
+      }, 1000);
     })
+
+    // $scope.$onRootScope('cms.startPageListener', function() {
+    //   pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
+    //     if(typeof newValue !== oldValue) {
+    //       lastPageUndoData = angular.copy(oldValue)
+    //       $rootScope.$emit('cms.autoSave')
+    //       $scope.autoSavingInProgress = true
+    //       $timeout(function() {
+    //         $scope.autoSavingInProgress = false
+    //       }, 1000);
+    //     }
+    //   }, msTillAutoSavePage), true)
+    //
+    //
+    //   menusWatcher = $scope.$watch('menus', _.debounce(function(newValue, oldValue) {
+    //     if(typeof newValue !== undefined) {
+    //
+    //       lastMenuUndoData = angular.copy(oldValue)
+    //       $rootScope.$emit('cms.autoSave')
+    //       $scope.autoSavingInProgress = true
+    //       $timeout(function() {
+    //         $scope.autoSavingInProgress = false
+    //       }, 1000);
+    //     }
+    //   }, msTillAutoSaveMenus), true)
+    // })
 
 
     function mergeInAutoSaveData(autoSave) {
@@ -204,6 +223,8 @@
 
         mergeInAutoSaveData(pageAutoSaveData)
 
+        lastPageUndoData2 = angular.copy($rootScope.page)
+
         let menusStagingData = await api.staging.find({key: 'menus'})
         menusStagingData = menusStagingData[0]
 
@@ -217,6 +238,8 @@
           autoSaveSessionSnapshot.menus = angular.copy($rootScope.menus)
         }
 
+        lastPageUndoData2 = angular.copy($rootScope.menus)
+
         $rootScope.$emit('cms.fetchExtensionData')
 
         $rootScope.$emit('cms.updateView')
@@ -225,16 +248,16 @@
       }
     })
 
-    $scope.$onRootScope('cms.stopPageListener', function() {
-      if(pageWatcher) {
-        pageWatcher()
-      }
-      if(menusWatcher) {
-        menusWatcher()
-      }
-      lastPageUndoData = undefined
-      lastMenuUndoData = undefined
-    })
+    // $scope.$onRootScope('cms.stopPageListener', function() {
+    //   if(pageWatcher) {
+    //     pageWatcher()
+    //   }
+    //   if(menusWatcher) {
+    //     menusWatcher()
+    //   }
+    //   lastPageUndoData = undefined
+    //   lastMenuUndoData = undefined
+    // })
 
     $scope.$onRootScope('cms.addRecentEditLink', _.debounce(function(event, recentLink) {
 
@@ -424,7 +447,7 @@
     })
 
 		this.undoSession = function() {
-      $rootScope.$emit('cms.stopPageListener')
+      // $rootScope.$emit('cms.stopPageListener')
       $rootScope.$emit('cms.autoSave', autoSaveSessionSnapshot.page, autoSaveSessionSnapshot.menus)
       let finishedAutoSavingListener = $scope.$onRootScope('cms.finishedAutoSaving', function(event, successful) {
         finishedAutoSavingListener()
@@ -438,6 +461,8 @@
 		}
 
 		this.undoMoment = function() {
+      lastPageUndoData2 = lastPageUndoData
+      lastMenuUndoData2 = lastMenuUndoData
       if(lastPageUndoData) {
         $rootScope.page = angular.copy(lastPageUndoData)
       }

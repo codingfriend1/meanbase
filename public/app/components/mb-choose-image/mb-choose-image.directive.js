@@ -82,6 +82,8 @@ angular.module('meanbaseApp')
                       scope.findImagesConfig.alreadySelected = undefined;
                     }
                   }
+
+                  $rootScope.$emit('cms.elementsChanged')
                 }
 
 
