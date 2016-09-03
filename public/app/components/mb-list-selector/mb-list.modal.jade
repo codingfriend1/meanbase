@@ -34,14 +34,22 @@
             i.fa.mb-list-checkbox(ng-class="{'fa-square-o': !item.selected, 'fa-check': item.selected}")
         hr
         .alert.alert-warning
-          strong Directions
-          div When you choose an addon, give it a key so you can reuse the add on in other places and have the data synced between addons
-        .form-group
-          label Add On Key
-          input.form-control(type="text" placeholder="Add On key" ng-model="extensionKey")
-        .form-group
-          label Choose from existing key
-          select(ng-options="extension as extension.key for extension in extensionKeys" ng-model="existingExtensionKey").form-control
+          div Addons can sync data with other addons of the same type. Just choose a group you want to sync with and your data will stay synchronized within that group.
+
+          
+        .checkbox
+          label
+            input(type="checkbox" name="sync" ng-model="sync" ng-init="sync=true") 
+            | Sync Addon
+        .form-group(ng-show="sync")
+          label with group:
+          select(ng-options="group as group.key for group in syncGroups" ng-model="syncGroup").form-control
+          
+          button.btn.btn-info(type='button', data-toggle='collapse', data-target='#create-new-group') Create new group
+          #create-new-group.collapse
+            .form-group
+              label Create a new group
+              input.form-control(ng-model="newSyncGroup")
         .modal-footer
-          button.btn.btn-success(type='button' ng-click="chooseExtension(extensionKey, existingExtensionKey)") Choose
+          button.btn.btn-success(type='button' ng-click="chooseAddon(syncGroup, newSyncGroup, sync)") Choose
           button.btn.btn-default(type='button' ng-click="$dismiss()") Close

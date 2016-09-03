@@ -30,7 +30,7 @@ angular.module('meanbaseApp')
               key: chosenExtension.key,
               html: chosenExtension.html,
               sync: true,
-              syncGroup: 'main',
+              syncGroup: chosenExtension.syncGroup || 'main',
               data: chosenExtension.data || {
                 items: []
               }

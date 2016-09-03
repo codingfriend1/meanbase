@@ -4,54 +4,40 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
 	$scope.searchList = {};
 	$scope.findShared = '';
 
-  $scope.extensionKeys = []
+  $scope.syncGroups = []
 
-	$scope.chooseExtension = async function(extensionKey, existingExtensionKey) {
+	$scope.chooseAddon = function(groupKey, newSyncGroup, sync) {
 
-    let chosenExtension
+    let chosenAddon
 
     for (var i = 0; i < $scope.extensionOptions.length; i++) {
       if($scope.extensionOptions[i].selected) {
-        chosenExtension = $scope.extensionOptions[i]
+        chosenAddon = $scope.extensionOptions[i]
         break
       }
     }
 
-    if(chosenExtension) {
-      chosenExtension.key = extensionKey
-      if(extensionKey) {
-        let foundKey = await api.custom.find({belongsTo: chosenExtension.label, key: extensionKey})
-        foundKey = foundKey[0]
-        if(foundKey) {
-          toastr.warning('That key for this extension is already taken. Please choose a different key name.')
-          return false
-        }
-      }
-
-      if(existingExtensionKey) {
-        extensionKey = existingExtensionKey.key
-        chosenExtension.data = existingExtensionKey.value
-      }
-
-      if(!extensionKey) {
-        let num = !$rootScope.page.lists[group]? 1: $rootScope.page.lists[group].length + 1
-        extensionKey = `${chosenExtension.label} ${group} ${num}`
-      }
-
-      chosenExtension.key = extensionKey
-
-
+    if(!chosenAddon) {
+      return false
     }
 
-    for (var i = 0; i < $scope.listOptions.length; i++) {
-      if($scope.listOptions[i].selected) {
-        chosenExtension = $scope.listOptions[i]
-        break
-      }
+    chosenAddon.sync = sync
+
+    if(chosenAddon.sync && !groupKey && !newSyncGroup) {
+      toastr.warning('Please choose a group you want to sync data with')
+      return false
     }
 
-    toastr.success('Extension added')
-		$modalInstance.close(chosenExtension);
+    if(newSyncGroup) {
+      chosenAddon.syncGroup = newSyncGroup
+      api.custom.create({belongsTo: chosenAddon.label, key: newSyncGroup, permission: 'editContent', value: {}, enabled: true})
+    } else if(groupKey) {
+      chosenAddon.syncGroup = groupKey.key
+      chosenAddon.data = groupKey.value
+    }
+
+    toastr.success('Addon added')
+		$modalInstance.close(chosenAddon);
 	};
 
 	// Declaring event listeners is generally bad practice in controllers, but in this case the listener needs to be created and deleted with the controller and must be applied to the document
@@ -62,6 +48,14 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
     }
 	};
 
+  function createMain(item) {
+    let mainItem = {belongsTo: item.label, key: 'main', permission: 'editContent', value: {}, enabled: true};
+    api.custom.create(mainItem).then(createdMain => {
+      $scope.syncGroups.unshift(createdMain)
+      $scope.syncGroup = $scope.syncGroups[0]
+    })
+  }
+
   $scope.toggleSelected = function(item) {
     let extensionSelected = false
     for (var i = 0; i < $scope.extensionOptions.length; i++) {
@@ -70,7 +64,20 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
     }
 
     api.custom.find({belongsTo: item.label}).then(function(response) {
-      $scope.extensionKeys = response
+      let foundMain
+      if(response.length === 0) {
+        createMain(item)
+      } else {
+        for (var i = 0; i < response.length; i++) {
+          if(!response[i].key === 'main') {
+            createMain(item)
+            break
+          }
+        }
+      }
+
+      $scope.syncGroups = response
+      $scope.syncGroup = $scope.syncGroups[0]
     })
 
     for (var i = 0; i < $scope.listOptions.length; i++) {
