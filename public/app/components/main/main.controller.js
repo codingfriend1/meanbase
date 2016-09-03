@@ -969,28 +969,35 @@
       editExtensionModalInstance = $modal.open({
         templateUrl: require('./mb-extension-edit.modal.jade'),
         controller: function($scope, $modalInstance, item, api, toastr) {
-          $scope.extensionKey = item.key
+          $scope.syncGroup = item.syncGroup
 
-          $scope.extensionKeys = []
+          $scope.syncGroups = []
           api.custom.find({belongsTo: item.label}).then(function(response) {
-            $scope.extensionKeys = response
+            $scope.syncGroups = response
+            console.log("response", response);
           })
 
-          $scope.updateExtension = async function(extensionKey) {
-            if(!extensionKey) {
-              toastr.warning('Please choose a key')
-              return false
-            }
+          $scope.updateExtension = async function(syncGroup) {
+            item.sync = $scope.sync
 
-            item.key = extensionKey
+            if(item.sync) {
+              if(!syncGroup) {
+                toastr.warning('Please choose a group to sync with')
+                return false
+              }
 
-            for (var i = 0; i < $scope.extensionKeys.length; i++) {
-              if(extensionKey === $scope.extensionKeys[i].key) {
-                item.data = $scope.extensionKeys[i].value
+              // if(syncGroup.)
+
+              item.syncGroup = syncGroup
+
+              for (var i = 0; i < $scope.syncGroups.length; i++) {
+                if(syncGroup === $scope.syncGroups[i].key) {
+                  item.data = $scope.syncGroups[i].value
+                }
               }
             }
 
-            toastr.success('Key updated')
+            toastr.success('Sync settings updated')
             $rootScope.$emit('cms.elementsChanged')
             $modalInstance.close();
           }

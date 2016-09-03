@@ -1,7 +1,7 @@
 angular.module('meanbaseApp')
   .directive('mbExtensionEdit', function ($rootScope, endpoints, $timeout, $modal) {
     return {
-      template: '<div ng-if="editMode" class="mb-edit-extension-btn"><i class="fa fa-gear"></i></div>',
+      template: '<div ng-if="editMode" class="mb-edit-extension-btn"><i class="fa fa-exchange"></i></div>',
       restrict: 'EA',
       scope: true,
       link: function (scope, element, attrs) {
