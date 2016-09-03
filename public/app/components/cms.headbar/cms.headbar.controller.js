@@ -74,7 +74,7 @@
     let lastMenuUndoData2
     let lastPageUndoData2
 
-    $scope.$onRootScope('cms.elementsChanged', function() {
+    $scope.$onRootScope('cms.elementsChanged', _.debounce(function() {
       console.log('elements changed');
 
       lastPageUndoData = lastPageUndoData2
@@ -89,7 +89,7 @@
       $timeout(function() {
         $scope.autoSavingInProgress = false
       }, 1000);
-    })
+    }, msTillAutoSavePage))
 
     // $scope.$onRootScope('cms.startPageListener', function() {
     //   pageWatcher = $scope.$watch('page', _.debounce(function(newValue, oldValue) {
