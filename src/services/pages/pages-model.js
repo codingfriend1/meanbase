@@ -106,10 +106,6 @@ const pagesSchema = new Schema({
     type: Object,
     default: {}
   },
-  grid: {
-    type: Object,
-    default: {}
-  },
   links: {
     type: Object,
     default: {}

@@ -95,7 +95,6 @@
         $rootScope.page.images = angular.copy(autoSave.data.images) || {}
         $rootScope.page.extensions = angular.copy(autoSave.data.extensions) || {}
         $rootScope.page.lists = angular.copy(autoSave.data.lists) || {}
-        $rootScope.page.grid = angular.copy(autoSave.data.grid) || {}
         $rootScope.page.links = angular.copy(autoSave.data.links) || {}
         $rootScope.page.template = angular.copy(autoSave.data.template) || {}
 
