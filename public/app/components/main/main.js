@@ -36,7 +36,7 @@
 
             let stagingData
             try {
-              let hasPermission = await Auth.hasPermission('editMode')
+              let hasPermission = await Auth.hasPermission('editContent')
               if(hasPermission) {
                 try {
                   stagingData = await api.staging.find({key: '/' + $stateParams.page})
