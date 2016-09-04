@@ -545,6 +545,9 @@
 			if(!window.meanbaseGlobals.themeTemplatePaths[template]) { return false; }
 			var screenshot = window.meanbaseGlobals.themeTemplatePaths[template].screenshot;
 			if(screenshot) {
+        try {
+          document.body.removeChild(self.currentScreenshot);
+        } catch(err) {}
 				this.currentScreenshot = document.createElement("div");
 				this.currentScreenshot.classList.add('template-screenshot-backdrop');
 				var image = new Image();
@@ -560,9 +563,9 @@
 		};
 
 		this.hideScreenshot = function(template) {
-			if(this.currentScreenshot) {
+			if(self.currentScreenshot) {
         try {
-          document.body.removeChild(this.currentScreenshot);
+          document.body.removeChild(self.currentScreenshot);
         } catch(err) {
 
         }
