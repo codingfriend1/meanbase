@@ -31,7 +31,8 @@
     "medium-editor": "^5.21.1",
     "medium-editor-insert-plugin": "^2.4.0",
     "jquery-ui": "^1.12.0",
-    "blueimp-file-upload": "^9.12.5"
+    "blueimp-file-upload": "^9.12.5",
+    "dropdown": "^0.3.0"
   },
   "overrides": {
     "handlebars": {

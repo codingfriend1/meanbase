@@ -1,89 +1,195 @@
+//- //meanbase Head Tool Bar 
+//- #mb-headbar(ng-if="isLoggedIn" ng-controller="cms.headbar.controller as headbar" class="ng-cloak")
+//-   div#mb-headbar-child
+//-     div.ng-cloak
+//-       ul.root-ul
+//-         li
+//-           a(href='/cms' target="_self")
+//-             span.show-desktop Manage Site
+//-             span.show-mobile
+//-               i.fa.fa-lg.fa-sliders
+//-         li.dropdown(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
+//-           //- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
+//-           a.dropdown-toggle(data-toggle="dropdown" role="button" title="Create a new page") 
+//-             span.show-desktop Create Page
+//-             span.show-mobile
+//-               i.fa.fa-lg.fa-plus
+//-           ul.dropdown-menu(role="menu")
+//-             li(ng-repeat="template in themeTemplates")
+//-               a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template + ' template'}}
+//-         li.dropdown(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
+//-           //- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
+//-           a.dropdown-toggle(data-toggle="dropdown" role="button" title="Choose a template for this page") 
+//-             span.show-desktop Templates
+//-             span.show-mobile
+//-               i.fa.fa-lg.fa-file
+//-           ul.dropdown-menu(role="menu")
+//-             li(ng-repeat="template in themeTemplates")
+//-               a(href="#" ng-click="headbar.updateTemplate(template)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)")
+//-                 span {{template + ' template'}}  
+//-                 span(ng-show="template === page.template").float-right
+//-                   i.fa.fa-check
+//-         li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Preview Page")
+//-           a(ng-click="headbar.preview()") 
+//-             span.show-desktop Preview
+//-             span.show-mobile
+//-               i.fa.fa-lg.fa-eye
+//-         li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Undo the last edit")
+//-           a(ng-click="headbar.undoMoment()") 
+//-             span.show-desktop Undo
+//-             span.show-mobile
+//-               i.fa.fa-lg.fa-undo
+//-         li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode")
+//-           a(ng-click="headbar.togglePublishPage()") 
+//-             span(ng-show="!page.published" title="Publish the page") Publish
+//-             span(ng-show="page.published" title="Hide the page from the world") Unpublish 
+//-         li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && !editMode")
+//-           a(ng-click="headbar.toggleEdit()" title="Return to edits")
+//-             span.show-desktop Edit
+//-             span.show-mobile
+//-               i.fa.fa-lg.fa-pencil
+//-         li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && page.published")
+//-           a(ng-click="headbar.publishChanges()" title="Save all recent edits to the live page") 
+//-             span.show-desktop Publish Changes
+//-             span.show-mobile
+//-               i.fa.fa-lg.fa-check
+//-         li(ng-show="autoSavingInProgress").autosaving-text.show-desktop autosaving...
+//-       ul.root-ul.dropdown.navbar-right.mb-right(ng-show="editMode")
+//-         li.dropdown.less-padding
+//-           a.dropdown-toggle(data-toggle="dropdown" role="button" ng-show="editMode").mb-fill
+//-             i.fa.fa-lg.fa-ellipsis-v
+//-           ul.dropdown-menu.dropdown-menu-right(role="menu").mb-dropdown-menu-right
+//-             li(ng-show="editMode")
+//-               a(ng-click="headbar.editPageModal()") Settings
+//-             li(ng-show="editMode" title="Undo all changes since last time this was published")
+//-               a(ng-click="headbar.resetDraft()") Reset Draft
+//-             li.divider(ng-show="$root.previousEditUrls.length")
+//-             li.dropdown-header(ng-show="$root.previousEditUrls.length") Recent Edits
+//-             li(ng-repeat="url in $root.previousEditUrls") 
+//-               a(ng-href="{{url}}") {{url}}
+//-             li.divider(ng-show="$root.previousEditUrls.length")
+//-             li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
+//-               a(ng-click="headbar.deletePage()") Delete page
+//-       ul.root-ul.mb-navbar-right
+//-         li.dropdown
+//-           a.dropdown-toggle(data-toggle="dropdown" role="button")
+//-             i.fa.fa-user.fa-lg
+//-           ul.dropdown-menu(role="menu").dropdown-menu-right
+//-             li
+//-               a(href='/cms' target="_self") CMS
+//-             li
+//-               a(href='/') Home Page
+//-             li 
+//-               a(ng-click="logout()") Log Out
+//-             li 
+//-               a(href='/cms/my-settings' target="_self") Change Password
+//-       ul.mb-navbar-right.root-ul
+//-         li
+//-           a(href='/')
+//-             i.fa.fa-lg.fa-home
+
+
+
 //meanbase Head Tool Bar 
 #mb-headbar(ng-if="isLoggedIn" ng-controller="cms.headbar.controller as headbar" class="ng-cloak")
   div#mb-headbar-child
-    div.ng-cloak
-      ul.root-ul
+    a.mb-headbar-btn.mb-color-none(href='/cms' target="_self")
+      span.show-desktop.mb-button Manage Site
+      span.show-mobile.mb-button
+        i.fa.fa-lg.fa-sliders
+    .mb-headbar-btn.dropdown.mb-color-purple(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
+      span.dropdown-link
+        span.show-desktop Create Page
+        span.show-mobile
+          i.fa.fa-lg.fa-plus
+      ul.dropdown-list
+        li(ng-repeat="template in themeTemplates")
+          a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template + ' template'}}   
+          
+    .mb-headbar-btn.dropdown.mb-color-light-blue(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
+      span.dropdown-link(title="Choose a template for this page").mb-button
+        span.show-desktop Templates
+        span.show-mobile
+          i.fa.fa-lg.fa-file
+      ul.dropdown-list
+        li(ng-repeat="template in themeTemplates")
+          a(href="#" ng-click="headbar.updateTemplate(template)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)")
+            span {{template + ' template'}}  
+            span(ng-show="template === page.template").float-right
+              i.fa.fa-check
+              
+    .mb-headbar-btn.mb-color-red(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Preview Page")
+      a(ng-click="headbar.preview()").mb-button
+        span.show-desktop Preview
+        span.show-mobile
+          i.fa.fa-lg.fa-eye
+    .mb-headbar-btn.mb-color-yellow(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Undo the last edit")
+      a(ng-click="headbar.undoMoment()").mb-button
+        span.show-desktop Undo
+        span.show-mobile
+          i.fa.fa-lg.fa-undo
+    .mb-headbar-btn(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode")
+      a(ng-click="headbar.togglePublishPage()").mb-button.mb-color-green
+        span(ng-show="!page.published" title="Publish the page") Publish
+        span(ng-show="page.published" title="Hide the page from the world") Unpublish 
+    .mb-headbar-btn(ng-show="currentUser.permissions.indexOf('editContent') > -1 && !editMode")
+      a(ng-click="headbar.toggleEdit()" title="Return to edits").mb-button.mb-color-blue
+        span.show-desktop Edit
+        span.show-mobile
+          i.fa.fa-lg.fa-pencil
+    .mb-headbar-btn.mb-color-green(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && page.published")
+      a(ng-click="headbar.publishChanges()" title="Save all recent edits to the live page").mb-button
+        span.show-desktop Publish Changes
+        span.show-mobile
+          i.fa.fa-lg.fa-check
+    .mb-headbar-btn(ng-show="autoSavingInProgress").autosaving-text.show-desktop autosaving...
+              
+              
+    .mb-headbar-btn.dropdown.mb-headbar-btn-right
+      span.dropdown-link.mb-link-btn
+        i.fa.fa-lg.fa-ellipsis-v
+      ul.dropdown-list
+        li(ng-show="editMode")
+          a(ng-click="headbar.editPageModal()") Settings
+        li(ng-show="editMode" title="Undo all changes since last time this was published")
+          a(ng-click="headbar.resetDraft()") Reset Draft
+        li.divider(ng-show="$root.previousEditUrls.length")
+        li.dropdown-header(ng-show="$root.previousEditUrls.length") Recent Edits
+        li(ng-repeat="url in $root.previousEditUrls") 
+          a(ng-href="{{url}}") {{url}}
+        li.divider(ng-show="$root.previousEditUrls.length")
+        li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
+          a(ng-click="headbar.deletePage()") Delete page
+            
+    .mb-headbar-btn.dropdown.mb-headbar-btn-right
+      span.dropdown-link.mb-link-btn
+        i.fa.fa-user.fa-lg
+      ul.dropdown-list
         li
-          a(href='/cms' target="_self")
-            span.show-desktop Manage Site
-            span.show-mobile
-              i.fa.fa-lg.fa-sliders
-        li.dropdown(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
-          //- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
-          a.dropdown-toggle(data-toggle="dropdown" role="button" title="Create a new page") 
-            span.show-desktop Create Page
-            span.show-mobile
-              i.fa.fa-lg.fa-plus
-          ul.dropdown-menu(role="menu")
-            li(ng-repeat="template in themeTemplates")
-              a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template + ' template'}}
-        li.dropdown(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
-          //- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
-          a.dropdown-toggle(data-toggle="dropdown" role="button" title="Choose a template for this page") 
-            span.show-desktop Templates
-            span.show-mobile
-              i.fa.fa-lg.fa-file
-          ul.dropdown-menu(role="menu")
-            li(ng-repeat="template in themeTemplates")
-              a(href="#" ng-click="headbar.updateTemplate(template)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)")
-                span {{template + ' template'}}  
-                span(ng-show="template === page.template").float-right
-                  i.fa.fa-check
-        li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Preview Page")
-          a(ng-click="headbar.preview()") 
-            span.show-desktop Preview
-            span.show-mobile
-              i.fa.fa-lg.fa-eye
-        li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Undo the last edit")
-          a(ng-click="headbar.undoMoment()") 
-            span.show-desktop Undo
-            span.show-mobile
-              i.fa.fa-lg.fa-undo
-        li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode")
-          a(ng-click="headbar.togglePublishPage()") 
-            span(ng-show="!page.published" title="Publish the page") Publish
-            span(ng-show="page.published" title="Hide the page from the world") Unpublish 
-        li(ng-show="currentUser.permissions.indexOf('editContent') > -1 && !editMode")
-          a(ng-click="headbar.toggleEdit()" title="Return to edits")
-            span.show-desktop Edit
-            span.show-mobile
-              i.fa.fa-lg.fa-pencil
-        li(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && page.published")
-          a(ng-click="headbar.publishChanges()" title="Save all recent edits to the live page") 
-            span.show-desktop Publish Changes
-            span.show-mobile
-              i.fa.fa-lg.fa-check
-        li(ng-show="autoSavingInProgress").autosaving-text.show-desktop autosaving...
-      ul.root-ul.dropdown.navbar-right.mb-right(ng-show="editMode")
-        li.dropdown.less-padding
-          a.dropdown-toggle(data-toggle="dropdown" role="button" ng-show="editMode").mb-fill
-            i.fa.fa-lg.fa-ellipsis-v
-          ul.dropdown-menu.dropdown-menu-right(role="menu").mb-dropdown-menu-right
-            li(ng-show="editMode")
-              a(ng-click="headbar.editPageModal()") Settings
-            li(ng-show="editMode" title="Undo all changes since last time this was published")
-              a(ng-click="headbar.resetDraft()") Reset Draft
-            li.divider(ng-show="$root.previousEditUrls.length")
-            li.dropdown-header(ng-show="$root.previousEditUrls.length") Recent Edits
-            li(ng-repeat="url in $root.previousEditUrls") 
-              a(ng-href="{{url}}") {{url}}
-            li.divider(ng-show="$root.previousEditUrls.length")
-            li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
-              a(ng-click="headbar.deletePage()") Delete page
-      ul.root-ul.mb-navbar-right
-        li.dropdown
-          a.dropdown-toggle(data-toggle="dropdown" role="button")
-            i.fa.fa-user.fa-lg
-          ul.dropdown-menu(role="menu").dropdown-menu-right
-            li
-              a(href='/cms' target="_self") CMS
-            li
-              a(href='/') Home Page
-            li 
-              a(ng-click="logout()") Log Out
-            li 
-              a(href='/cms/my-settings' target="_self") Change Password
-      ul.mb-navbar-right.root-ul
+          a(href='/cms' target="_self") CMS
         li
-          a(href='/')
-            i.fa.fa-lg.fa-home
+          a(href='/') Home Page
+        li 
+          a(ng-click="logout()") Log Out
+        li 
+          a(href='/cms/my-settings' target="_self") Change Password
+    
+    .mb-headbar-btn.mb-headbar-btn-right
+      a(href='/').mb-link-btn
+        i.fa.fa-lg.fa-home
+          
+            
+            
+      //- ul.root-ul.mb-navbar-right
+      //-   li.dropdown
+      //-     a.dropdown-toggle(data-toggle="dropdown" role="button")
+      //-       i.fa.fa-user.fa-lg
+      //-     ul.dropdown-menu(role="menu").dropdown-menu-right
+      //-       li
+      //-         a(href='/cms' target="_self") CMS
+      //-       li
+      //-         a(href='/') Home Page
+      //-       li 
+      //-         a(ng-click="logout()") Log Out
+      //-       li 
+      //-         a(href='/cms/my-settings' target="_self") Change Password

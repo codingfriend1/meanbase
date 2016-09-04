@@ -4,6 +4,8 @@
 	// @ngInject
 	function HeadbarController($scope, $rootScope, endpoints, $state, $location, $modal, $timeout, helpers, toastr, api) {
 
+    window.dropdown.init()
+
     const msTillAutoSaveMenus = 100;
     const msTillAutoSavePage = 100;
     const msTillAutoSaveExtensions = 100;
