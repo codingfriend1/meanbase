@@ -19,7 +19,7 @@
               a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template + ' template'}}
         li.dropdown(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
           //- a.dropdown-toggle(data-toggle="dropdown" role="button").fa.fa-plus-circle.fa-2x
-          a.dropdown-toggle(data-toggle="dropdown" role="button" title="Create a new page") 
+          a.dropdown-toggle(data-toggle="dropdown" role="button" title="Choose a template for this page") 
             span.show-desktop Templates
             span.show-mobile
               i.fa.fa-lg.fa-file
