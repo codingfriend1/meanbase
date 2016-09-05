@@ -128,12 +128,12 @@
         span.show-desktop Undo
         span.show-mobile
           i.fa.fa-lg.fa-undo
-    .mb-headbar-btn(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode")
-      a(ng-click="headbar.togglePublishPage()").mb-button.mb-color-green
+    .mb-headbar-btn.mb-color-green(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode")
+      a(ng-click="headbar.togglePublishPage()").mb-button
         span(ng-show="!page.published" title="Publish the page") Publish
         span(ng-show="page.published" title="Hide the page from the world") Unpublish 
-    .mb-headbar-btn(ng-show="currentUser.permissions.indexOf('editContent') > -1 && !editMode")
-      a(ng-click="headbar.toggleEdit()" title="Return to edits").mb-button.mb-color-blue
+    .mb-headbar-btn.mb-color-light-blue(ng-show="currentUser.permissions.indexOf('editContent') > -1 && !editMode")
+      a(ng-click="headbar.toggleEdit()" title="Return to edits").mb-button
         span.show-desktop Edit
         span.show-mobile
           i.fa.fa-lg.fa-pencil

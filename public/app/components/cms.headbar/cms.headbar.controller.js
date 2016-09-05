@@ -365,8 +365,10 @@
 
           $scope.url = '';
 
-          $scope.choose = function(url) {
-            if(!url) { return false; }
+          $scope.choose = function(link) {
+            if(!link) { return false; }
+            console.log("link", link);
+            let {url} = convertUrlToTitle(link)
             api.pages.find({url: url}).then(function(response) {
               if(response.length > 0) {
                 toastr.warning('Sorry but a page with that link name already exists.')
@@ -390,7 +392,7 @@
       modalInstance.result.then(function (url) {
         if(url === null || url === undefined) { return false; }
 
-  			self.toggleEdit(false);
+  			self.toggleEdit(true);
   			// Prepares some default values for the page
   			prepareDefaultPage(url, e);
       });
