@@ -367,7 +367,6 @@
 
           $scope.choose = function(link) {
             if(!link) { return false; }
-            console.log("link", link);
             let {url} = convertUrlToTitle(link)
             api.pages.find({url: url}).then(function(response) {
               if(response.length > 0) {
@@ -481,26 +480,37 @@
 		}
 
 		this.deletePage = async function() {
-			this.toggleEdit();
+      let areYouSure = confirm("Are you sure you want to delete this page?")
+
+      if(!areYouSure) { return false }
+			this.toggleEdit(true);
 			if(!$rootScope.page._id) { return false; }
 
       try {
         await api.pages.delete({_id: $rootScope.page._id})
+      } catch(err) {
+        console.log('Trouble deleting page', err);
+      }
+
+      try {
         let url
         if($rootScope.page.url.charAt(0) !== '/') { url = '/' + $rootScope.page.url; } else { url = $rootScope.page.url; }
 
         await api.staging.delete({key: url})
 
+        console.log('deleting menus', url);
         await api.menus.delete({url: url})
 
         // Refresh menus in case a menu was removed while removing this page
         $rootScope.menus = await api.menus.find({})
-
-        $location.url('/');
-
       } catch(err) {
-        console.log('Trouble deleting page', err);
+        console.log('Error deleting menu and staging', err);
       }
+
+      $timeout(function() {
+        $location.url('/');
+      });
+
 
 			// Delete page
 			// api.pages.delete({_id: $rootScope.page._id}).then(function() {
