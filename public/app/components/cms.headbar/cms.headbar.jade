@@ -108,7 +108,7 @@
           
     .mb-headbar-btn.dropdown.mb-color-light-blue(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
       span.dropdown-link(title="Choose a template for this page").mb-button
-        span.show-desktop Templates
+        span.show-desktop Change Template
         span.show-mobile
           i.fa.fa-lg.fa-file
       ul.dropdown-list
@@ -142,7 +142,8 @@
         span.show-desktop Publish Changes
         span.show-mobile
           i.fa.fa-lg.fa-check
-    .mb-headbar-btn(ng-show="autoSavingInProgress").autosaving-text.show-desktop autosaving...
+    .mb-headbar-btn.mb-color-none.show-desktop(ng-show="autoSavingInProgress")
+      a.mb-button autosaving...
               
               
     .mb-headbar-btn.dropdown.mb-headbar-btn-right
