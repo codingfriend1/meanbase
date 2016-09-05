@@ -15,9 +15,9 @@ angular.module('meanbaseApp')
           scope.openEditExtensionModal(item)
         });
 
-        scope.$on('$destroy', function() {
-          element.unbind('click')
-        })
+        // scope.$on('$destroy', function() {
+        //   element.unbind('click')
+        // })
       }
     }
 

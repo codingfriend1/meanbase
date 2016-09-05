@@ -998,7 +998,7 @@
 
               for (var i = 0; i < $scope.syncGroups.length; i++) {
                 if(syncGroup === $scope.syncGroups[i].key) {
-                  item.data = $scope.syncGroups[i].value
+                  $rootScope.$emit('cms.fetchExtensionData')
                 }
               }
             }
@@ -1022,7 +1022,7 @@
         }
       })
 
-      editExtensionModalInstance.result.then(function (selectedImages) {
+      editExtensionModalInstance.result.finally(function (selectedImages) {
         editExtensionModalInstance = undefined
       })
     }

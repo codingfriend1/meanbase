@@ -151,7 +151,7 @@
         let foundStaging = await api.staging.find({belongsTo: item.label, key: item.syncGroup})
         foundStaging = foundStaging[0]
 
-        if(foundStaging) {
+        if(foundStaging && foundStaging.data) {
           $timeout(function() {
             item.data = foundStaging.data
           });
@@ -159,9 +159,14 @@
         } else {
           let foundPublishData = await api.custom.find({belongsTo: item.label, key: item.syncGroup})
           foundPublishData = foundPublishData[0]
-          $timeout(function() {
-            item.data = foundPublishData.value
-          });
+
+          if(foundPublishData && foundPublishData.value) {
+            $timeout(function() {
+              item.data = foundPublishData.value
+            });
+          } else {
+            autoSaveExtension(item)
+          }
         }
       }
     }
