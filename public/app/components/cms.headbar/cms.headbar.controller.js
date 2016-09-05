@@ -647,17 +647,16 @@
 
       try {
         await api.pages.create(newPage)
-
         let createdMenu = await api.menus.create(newMenu)
-        $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
-
-        $timeout(function() {
-					$location.url(url);
-				}, 0, false);
       } catch(err) {
-        console.log(err);
         console.log('Error creating page and menu', err);
       }
+
+      $rootScope.$emit('cms.addRecentEditLink', newPage.url)
+
+      $timeout(function() {
+        $location.url(url);
+      }, 0, false);
 		}
 	}
 })();
