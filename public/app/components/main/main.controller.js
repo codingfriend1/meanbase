@@ -171,7 +171,7 @@
       group: 'menus',
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
-      delay: 500,
+      delay: 300,
       filter: ".ignore-draggable",
       animation: 250,
       onStart: function (event) {
@@ -192,7 +192,28 @@
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
       filter: ".ignore-draggable",
-      delay: 500,
+      delay: 300,
+      // handle: ".mb-drag-handle",
+      animation: 250,
+      onStart: function (event) {
+        $rootScope.showTrashCan = true
+        activeElGroup = $rootScope.page.lists
+      },
+      onEnd: function () {
+        $rootScope.$emit('cms.elementsChanged')
+        $rootScope.showTrashCan = false
+      },
+      scroll: true, // or HTMLElement
+      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
+      scrollSpeed: 10 // px
+    }
+
+    $rootScope.mbSortableExtensionList = {
+      group: 'extension-list',
+      ghostClass: "mb-draggable-ghost",
+      draggable: ".mb-inner-draggable",
+      filter: ".ignore-inner-draggable",
+      delay: 300,
       // handle: ".mb-drag-handle",
       animation: 250,
       onStart: function (event) {
@@ -210,7 +231,7 @@
 
     $rootScope.trashCanDraggable = {
       group: {
-        put: ['lists', 'extensions', 'menus']
+        put: ['lists', 'extensions', 'menus', 'extension-list']
       },
       onAdd: function (event) {
         $rootScope.$emit('cms.deleteTrashContent', activeElGroup)

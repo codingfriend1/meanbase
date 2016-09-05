@@ -346,28 +346,57 @@
 
 
     $scope.$onRootScope('cms.deleteTrashContent', function(event, list) {
-      if(!list) {
-        toastr.warning('Sorry something went wrong and we could not delete that item.')
-        return false
-      }
       let yes = window.confirm("Are you sure you want to remove this item?")
       if(yes) {
+        let innerList = false
         let draggable = $('.mb-drag-trash-can').find('.mb-draggable')
-        let item = angular.element(draggable).scope()
 
-        if(item.listItem && item.listItem.group) {
-          let index = list[item.listItem.group].indexOf(item.listItem)
-          if(index > -1) {
-            list[item.listItem.group].splice(index, 1)
-          }
+        if(!draggable.length) {
+          innerList = true
+          draggable = $('.mb-drag-trash-can').find('.mb-inner-draggable')
+        }
 
-        } else if(item.item && item.item.group) {
-          let index = list[item.item.group].indexOf(item.item)
-          if(index > -1) {
-            list[item.item.group].splice(index, 1)
+        if(draggable.length) {
+          let item = angular.element(draggable).scope()
+          if(item) {
+            if(innerList) {
+              let parent = item.$parent
+              if(parent.listItem && parent.listItem.data && parent.listItem.data.items) {
+                let list = parent.listItem.data.items
+                if(item.$index > -1) {
+                  list.splice(item.$index, 1)
+                }
+              }
+            } else {
+
+              if(!list) {
+                toastr.warning('Sorry something went wrong and we could not delete that item.')
+                return false
+              }
+
+              if(item.listItem && item.listItem.group) {
+                let index = list[item.listItem.group].indexOf(item.listItem)
+                if(index > -1) {
+                  list[item.listItem.group].splice(index, 1)
+                }
+              } else if(item.item && item.item.group) {
+                let index = list[item.item.group].indexOf(item.item)
+                if(index > -1) {
+                  list[item.item.group].splice(index, 1)
+                }
+              }
+            }
           }
         }
+
+      } else {
+        console.log('updating view');
+        $rootScope.$emit('cms.fetchExtensionData')
+        $rootScope.$emit('cms.pullAutoSaveData')
+        $rootScope.$emit('cms.updateView')
       }
+
+      $('.mb-drag-trash-can').html('<i class="fa fa-trash fa-3x"></i>')
     })
 
     $scope.$onRootScope('cms.updateMenusToReflectPages', async () => {

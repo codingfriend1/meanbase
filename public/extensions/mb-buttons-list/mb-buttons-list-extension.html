@@ -1,12 +1,14 @@
-<ul class="list-inline intro-social-buttons" mb-init-list="listItem.data">
-  <li ng-repeat="socialBtn in listItem.data.items" style="position: relative;">
-    <mb-choose-link belongs-to="socialBtn" property="link">
-      <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
-        <mb-choose-icon belongs-to="socialBtn" property="icon"></mb-choose-icon>
-        <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
-      </a>
-    </mb-choose-link>
-  </li>
-  <li mb-list-add list="listItem.data.items" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
-  </li>
-</ul>
+<div>
+  <ul class="list-inline intro-social-buttons" ng-sortable="mbSortableExtensionList">
+    <li ng-repeat="socialBtn in listItem.data.items" class="relative" ng-class="{'mb-inner-draggable': $root.editMode}">
+      <mb-choose-link belongs-to="socialBtn" property="link">
+        <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
+          <mb-choose-icon belongs-to="socialBtn" property="icon"></mb-choose-icon>
+          <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
+        </a>
+      </mb-choose-link>
+    </li>
+    <li mb-list-add list="listItem.data.items" item="socialBtn" label="button" class="text-center relative ignore-inner-draggable" ng-if="editMode" ng-init="socialBtn = {}">
+    </li>
+  </ul>
+</div>
