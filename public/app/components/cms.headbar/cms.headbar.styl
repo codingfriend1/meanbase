@@ -299,9 +299,9 @@
   div,
   span
   a,
-  li {
+  li
     display none
-  }
+
 
   i
     color white
@@ -310,3 +310,87 @@
     left 50%
     -webkit-transform translate(-50%, -50%)
     transform translate(-50%, -50%)
+
+
+
+/* The side navigation menu */
+.mb-sidenav
+    height: 100% /* 100% Full-height */
+    width: 0 /* 0 width - change this with JavaScript */
+    position: fixed /* Stay in place */
+    z-index: 12 /* Stay on top */
+    top: 0
+    right: 0
+    background-color: #111 /* Black*/
+    overflow-x: hidden /* Disable horizontal scroll */
+    padding-top: 60px /* Place content 60px from the top */
+    transition: 0.5s /* 0.5 second transition effect to slide in the mb-sidenav */
+    overflow: hidden
+
+.mb-sidenav.mb-drawer-open
+  width 250px
+
+.mb-sidenav .mb-sidenav-child
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -17px;
+  overflow-y: scroll;
+
+/* The navigation menu links */
+.mb-sidenav a
+    padding: 8px 8px 8px 32px
+    text-decoration: none
+    font-size: 14px
+    color: #818181
+    display: block
+    transition: 0.3s
+
+.mb-sidenav a.mb-page-link:hover
+  background-color: #2980B9
+  color #ECF0F1
+
+/* Position and style the close button (top right corner) */
+.mb-sidenav .mb-closebtn
+  display none
+  position: fixed
+  top: 0
+  right: 25px
+  font-size: 36px
+  margin-left: 50px
+
+.mb-sidenav.mb-drawer-open .mb-closebtn
+  display block
+
+.mb-drawer-search
+  width 100%
+  position relative
+  background-color: #111
+  color #dedede
+  padding 1em
+  padding-left 3em
+  box-sizing: border-box
+  border none
+  border-bottom 1px solid white
+  overflow-y: scroll
+
+.mb-drawer-search:focus
+  outline none
+
+.mb-draw-pages-list
+  margin-top: 5em
+
+.mb-search-box
+  position fixed
+  width 100%
+  box-sizing: border-box
+  top 0
+  i
+    position absolute
+    top 50%
+    left 1em
+    -webkit-transform translateY(-50%)
+    transform translateY(-50%)
+    color #dedede
+    z-index 1

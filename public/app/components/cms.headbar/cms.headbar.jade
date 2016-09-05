@@ -144,7 +144,10 @@
           i.fa.fa-lg.fa-check
     .mb-headbar-btn.mb-color-none.show-desktop(ng-show="autoSavingInProgress")
       a.mb-button autosaving...
-              
+    
+    .mb-headbar-btn.mb-headbar-btn-right
+      a(ng-click="headbar.openMBPageDrawer($event)").mb-link-btn
+        i.fa.fa-lg.fa-search            
               
     .mb-headbar-btn.dropdown.mb-headbar-btn-right
       span.dropdown-link.mb-link-btn
@@ -179,6 +182,16 @@
       a(href='/').mb-link-btn
         i.fa.fa-lg.fa-home
           
+  #mb-pages-drawer.mb-sidenav
+    .mb-sidenav-child
+      .mb-search-box
+        i.fa.fa-search
+        input(type="text" placeholder="filter pages" ng-model="mbSearchPagesDrawer").mb-drawer-search
+              
+      .mb-draw-pages-list
+        a(ng-repeat="page in drawerPages | filter:mbSearchPagesDrawer" ng-href="{{page.url}}").mb-page-link {{page.title | htmlToPlainText }}
+
+
 div(ng-show="showTrashCan" ng-sortable="trashCanDraggable").mb-drag-trash-can.mb-draggable
   i.fa.fa-trash.fa-3x
             
