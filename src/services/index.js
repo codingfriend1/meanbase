@@ -1,3 +1,4 @@
+const email = require('./email');
 const staging = require('./staging');
 const custom = require('./custom');
 import themeUploads from './theme-uploads';
@@ -42,4 +43,9 @@ module.exports = function() {
   app.configure(ban);
   app.configure(custom);
   app.configure(staging);
+
+  if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    app.configure(email);
+  }
+
 };

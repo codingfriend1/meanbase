@@ -25,7 +25,8 @@ exports.before = {
     // auth.restrictToOwner({ ownerField: '_id' }),
   ],
   create: [
-    auth.hashPassword()
+    auth.hashPassword(),
+    globalHooks.sendVerificationEmail()
   ],
   update: [
     auth.verifyToken(),
