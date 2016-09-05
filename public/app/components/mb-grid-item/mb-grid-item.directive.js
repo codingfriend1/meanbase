@@ -208,6 +208,7 @@ angular.module('meanbaseApp')
               $timeout(function() {
                 scope.item.gridClasses = el[0].className;
                 $rootScope.$emit('cms.elementsChanged')
+                $rootScope.$emit('cms.updateView')
               });
             }
           });
