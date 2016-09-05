@@ -177,7 +177,8 @@
       cursor pointer
 
 
-
+[contenteditable="true"]
+  outline none
 
   //   .btn
   //     margin 10px 4px
@@ -203,9 +204,7 @@
   // .mb-loading-screen
   //   padding-top 1em
   //   color #2C3E50
-  //
-  // [contenteditable="true"]
-  //   outline none
+
   // .navbar
   //   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
   //   text-transform none
@@ -273,14 +272,34 @@
   //     i
   //       color #34495E
 
-@media screen and (max-width: 768px)
+@media screen and (max-width: 919px)
   .show-mobile
     display inherit !important
   .show-desktop
     display none !important
 
-@media screen and (min-width: 769px)
+@media screen and (min-width: 920px)
   .show-mobile
     display none !important
   .show-desktop
     display inherit !important
+
+
+.mb-drag-trash-can
+  position fixed
+  bottom 1em
+  right 1em
+  border-radius: 100em
+  background-color: #DB504A
+  color white
+  z-index: 13
+  height 75px
+  width 75px
+
+  i
+    color white
+    position: relative
+    top 50%
+    left 50%
+    -webkit-transform translate(-50%, -50%)
+    transform translate(-50%, -50%)

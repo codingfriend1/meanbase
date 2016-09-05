@@ -158,6 +158,12 @@
 
     // Rubaxa's library "sortable" and "ng-sortable" (the drag and drop capabilities) need a configuration to be passed in. Here we define it. Inside the ng-repeat, any item with a class of `.mb-draggable` will be able to be dragged.
     //
+
+    $rootScope.showTrashCan = false
+
+    let activeElGroup
+
+
     $rootScope.menusConfig = {
       group: 'menus',
       ghostClass: "mb-draggable-ghost",
@@ -165,24 +171,13 @@
       delay: 500,
       filter: ".ignore-draggable",
       animation: 250,
-      onEnd: function () {
-        $rootScope.$emit('cms.elementsChanged')
+      onStart: function (event) {
+        $rootScope.showTrashCan = true
+        activeElGroup = $rootScope.menus
       },
-      scroll: true, // or HTMLElement
-      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
-      scrollSpeed: 10 // px
-    }
-
-    // Since extensions are draggable we need to define those here too.
-    $rootScope.sortableExtensions = {
-      group: 'extensions',
-      ghostClass: "mb-draggable-ghost",
-      draggable: ".mb-draggable",
-      filter: ".ignore-draggable",
-      delay: 500,
-      animation: 250,
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
+        $rootScope.showTrashCan = false
       },
       scroll: true, // or HTMLElement
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
@@ -197,12 +192,26 @@
       delay: 500,
       // handle: ".mb-drag-handle",
       animation: 250,
+      onStart: function (event) {
+        $rootScope.showTrashCan = true
+        activeElGroup = $rootScope.page.lists
+      },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
+        $rootScope.showTrashCan = false
       },
       scroll: true, // or HTMLElement
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
       scrollSpeed: 10 // px
+    }
+
+    $rootScope.trashCanDraggable = {
+      group: {
+        put: ['lists', 'extensions', 'menus']
+      },
+      onAdd: function (event) {
+        $rootScope.$emit('cms.deleteTrashContent', activeElGroup)
+      },
     }
 
     if(!$rootScope.isLoggedIn) { return false }
@@ -472,8 +481,6 @@
     $scope.$onRootScope('cms.takePageSnapshot', function(event, editMode) {
       // Rubaxa's library has the ability to be disabled.
       // We only want draggable elements while in edit mode
-      $rootScope.sortableExtensions.disabled = !editMode
-
       if(editMode) {
         snapshots.menus = angular.copy($rootScope.menus)
         snapshots.page = angular.copy($rootScope.page)
@@ -496,7 +503,6 @@
       // Rubaxa's library has the ability to be disabled.
       // We only want draggable elements while in edit mode
       $rootScope.menusConfig.disabled = !editMode
-      $rootScope.sortableExtensions.disabled = !editMode
 
       if(editMode) {
         snapshots.menus = angular.copy($rootScope.menus)

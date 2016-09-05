@@ -319,6 +319,19 @@
       }
     })
 
+
+    $scope.$onRootScope('cms.deleteTrashContent', function(event, list) {
+      let yes = window.confirm("Are you sure you want to remove this item?")
+      if(yes) {
+        let draggable = $('.mb-drag-trash-can').find('.mb-draggable')
+        let item = angular.element(draggable).scope()
+        console.log("item", item);
+        if(item.listItem && list) {
+          list[item.listItem.group].splice(item.listItem, 1)
+        }
+      }
+    })
+
     $scope.$onRootScope('cms.updateMenusToReflectPages', async () => {
 
       let {placeholderTitle, menuTitle, url} = convertUrlToTitle($rootScope.page.url)
