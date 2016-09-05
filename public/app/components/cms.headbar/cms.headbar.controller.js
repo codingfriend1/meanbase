@@ -321,13 +321,26 @@
 
 
     $scope.$onRootScope('cms.deleteTrashContent', function(event, list) {
+      if(!list) {
+        toastr.warning('Sorry something went wrong and we could not delete that item.')
+        return false
+      }
       let yes = window.confirm("Are you sure you want to remove this item?")
       if(yes) {
         let draggable = $('.mb-drag-trash-can').find('.mb-draggable')
         let item = angular.element(draggable).scope()
-        console.log("item", item);
-        if(item.listItem && list) {
-          list[item.listItem.group].splice(item.listItem, 1)
+
+        if(item.listItem && item.listItem.group) {
+          let index = list[item.listItem.group].indexOf(item.listItem)
+          if(index > -1) {
+            list[item.listItem.group].splice(index, 1)
+          }
+
+        } else if(item.item && item.item.group) {
+          let index = list[item.item.group].indexOf(item.item)
+          if(index > -1) {
+            list[item.item.group].splice(index, 1)
+          }
         }
       }
     })
