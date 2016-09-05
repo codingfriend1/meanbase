@@ -11,7 +11,7 @@
       .input-group
         .input-group-addon 
           i.fa.fa-search
-        input.form-control(type="text" placeholder="search addons" ng-model="searchLists")
+        input.form-control(type="text" placeholder="filter add-ons" ng-model="searchLists")
     .scrollable-body
       div(ng-repeat="item in $root.extensionOptions | filter:searchLists" ng-click="toggleSelected(item)").mb-list-item
         span.mb-list-label {{item.label}}
