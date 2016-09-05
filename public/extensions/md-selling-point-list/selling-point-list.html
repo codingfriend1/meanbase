@@ -13,7 +13,7 @@
           <div ng-class="{'col-lg-5 col-lg-offset-2 col-sm-6': point.left, 'col-lg-5 col-sm-pull-6  col-sm-6': !point.left}">
             <mb-choose-image property="image" belongs-to="point"><img mb-src="image" belongs-to="point" class="img-responsive"/></mb-choose-image>
           </div>
-          <mb-list-remove list="listItem.data.items" item="point"></mb-list-remove>
+          <!-- <mb-list-remove list="listItem.data.items" item="point"></mb-list-remove> -->
           <div class="md-toggle-type" ng-click="openModal(point)" ng-if="$root.editMode"><i class="fa fa-gear fa-lg"></i></div>
         </div>
       </div>
