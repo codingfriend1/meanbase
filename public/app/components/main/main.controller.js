@@ -1005,6 +1005,7 @@
 
             if(newSyncGroup) {
               item.syncGroup = newSyncGroup
+              item.sync = true
               api.custom.create({belongsTo: item.label, key: newSyncGroup, permission: 'editContent', value: {}, enabled: true})
             }
 

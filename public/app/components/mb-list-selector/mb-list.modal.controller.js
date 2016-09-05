@@ -30,6 +30,7 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
 
     if(newSyncGroup) {
       chosenAddon.syncGroup = newSyncGroup
+      chosenAddon.sync = true
       api.custom.create({belongsTo: chosenAddon.label, key: newSyncGroup, permission: 'editContent', value: {}, enabled: true})
     } else if(groupKey) {
       chosenAddon.syncGroup = groupKey.key
