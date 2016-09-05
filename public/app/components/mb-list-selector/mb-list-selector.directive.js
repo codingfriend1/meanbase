@@ -36,6 +36,10 @@ angular.module('meanbaseApp')
             };
             listResponse.push(listItem);
 
+            if(!$rootScope.page.lists[attrs.mbListSelector]) {
+              $rootScope.page.lists[attrs.mbListSelector] = []
+            }
+
             $rootScope.page.lists[attrs.mbListSelector] = $rootScope.page.lists[attrs.mbListSelector].concat(listResponse);
 
             $rootScope.$emit('cms.elementsChanged')

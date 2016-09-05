@@ -1,7 +1,7 @@
 // inject jade
 import "./templates/about/about-template.html";
-import "./templates/portfolio-item/portfolio-template.html";
 import "./templates/front-page/font-page-template.html";
+import "./templates/portfolio-item/portfolio-template.html";
 // end inject jade
 
 // inject js
