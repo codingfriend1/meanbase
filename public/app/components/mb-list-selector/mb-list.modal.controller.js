@@ -4,7 +4,12 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
 	$scope.searchList = {};
 	$scope.findShared = '';
 
-  $scope.syncGroups = []
+  $scope.syncGroups = [
+    {
+      key: "Please select an add-on to see it's groups"
+    }
+  ]
+  $scope.syncGroup = $scope.syncGroups[0]
 
 	$scope.chooseAddon = async function(groupKey, newSyncGroup, sync) {
 
