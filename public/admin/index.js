@@ -17,15 +17,15 @@ import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/endpoints/endpoints.service.js";
 import "../shared/doubleClick/doubleClick.directive.js";
-import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
+import "../shared/auth/auth.service.js";
 import "./code/components/mdl/mdl.directive.js";
 import "./code/components/dialog/dialog.directive.js";
 import "./code/components/date-picker/date-picker.directive.js";
-import "./code/components/crud/crud.service.js";
 import "./code/components/camel-to-human/camel-to-human.filter.js";
-import "./code/account/settings/settings.controller.js";
+import "./code/components/crud/crud.service.js";
 import "./code/account/login/login.controller.js";
+import "./code/account/settings/settings.controller.js";
 import "./code/users/users.js";
 import "./code/users/users.controller.js";
 import "./code/themes/themes.js";
@@ -51,8 +51,8 @@ import "./code/account/account.js";
 
 // inject jade
 import "./code/analytics/analytics.jade";
-import "./code/cms/cms.jade";
 import "./code/comments/comments.jade";
+import "./code/cms/cms.jade";
 import "./code/extensions/extensions.jade";
 import "./code/import/import.jade";
 import "./code/media/media.jade";

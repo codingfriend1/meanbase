@@ -17,21 +17,17 @@
 // };
 
 var home = {
-  "author": "Admin",
+  "editability": "admin",
   "url": "/",
-  "tabTitle": "meanbase",
+  "tabTitle": "",
   "template": "home",
-  "content": {
-    "prefooter1": "<h2 class=\"ng-scope\">Checkout meanbase now</h2>",
-    "footer1": "<p class=\"ng-scope\">meanbase is MIT license</p>"
-  },
-  "description": "A demo home page created automatically in meanbase.",
-  "summary": "A demo home page created automatically in meanbase.",
+  "summary": "Meanbase is a CMS for the MEAN stack",
+  "description": "Meanbase is a CMS for the MEAN stack",
   "published": true,
   "links": {
     "callToAction": {
       "icon": {
-        "classes": ""
+        "classes": "fa fa-pencil fa-lg example"
       },
       "title": ""
     }
@@ -40,28 +36,33 @@ var home = {
     "body1": [{
       "group": "body1",
       "position": 0,
-      "label": "Bullet Point",
-      "html": "<bullet-point-list></bullet-point-list>",
+      "label": "md bullet point list",
+      "html": "<div class=\"content-section-a\">\n  <div class=\"container\">\n    <div class=\"row\" ng-init=\"point={}\" ng-sortable=\"mbSortableExtensionList\">\n      <div class=\"col-lg-4 col-sm-4 mb-animate-list relative\" mb-grid-item item=\"point\" ng-repeat=\"point in listItem.data.items\" ng-class=\"{'mb-inner-draggable': $root.editMode}\">\n        <a mb-link=\"link\" belongs-to=\"point\" style=\"text-decoration: none\">\n          <div class=\"text-center\">\n            <mb-choose-icon belongs-to=\"point\" property=\"icon\" class=\"margin-bottom-1\"></mb-choose-icon>\n            <mb-choose-image property=\"image\" belongs-to=\"point\">\n              <img mb-src=\"image\" belongs-to=\"point\" class=\"img-responsive\"/>\n            </mb-choose-image>\n            <div mb-edit ng-model=\"point.title\" bind-options=\"editorSingleLine\"></div>\n            <div mb-edit ng-model=\"point.description\" bind-options=\"editorOptions\"></div>\n            <mb-edit-link belongs-to=\"point\" property=\"link\"></mb-edit-link>\n            <!-- <mb-list-remove list=\"listItem.data.items\" item=\"point\"></mb-list-remove> -->\n          </div>\n        </a>\n      </div>\n      <mb-list-add class=\"col-lg-4 col-sm-4 text-center relative\" mb-grid-item item=\"point\" ng-if=\"editMode\" list=\"listItem.data.items\" label=\"bullet point\"></mb-list-add>\n    </div>\n  </div>\n</div>\n",
+      "sync": true,
+      "syncGroup": "main",
       "data": {
         "items": [{
-          "gridClasses": "col-lg-4 col-sm-4 text-center relative   ui-resizable ui-resizable-disabled",
+          "gridClasses": "col-lg-4 col-sm-4 text-center relative   ui-resizable mb-inner-draggable",
           "icon": {
-            "classes": "fa  fa-3x fa-smile-o"
+            "classes": "fa fa-smile-o fa-lg"
           },
+          "link": {},
           "title": "<h3 class=\"ng-scope\">Simple</h3>",
-          "description": "<p class=\"medium-insert-active ng-scope\"><br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"left: 15px; top: 123px; display: none;\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>"
+          "description": "<p class=\"medium-insert-active ng-scope\"><br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"left: 15px; top: 300.5px; display: none;\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>"
         }, {
+          "gridClasses": "col-lg-4 col-sm-4 text-center relative   ui-resizable mb-inner-draggable",
           "icon": {
-            "classes": "fa  fa-3x fa-clock-o"
+            "classes": "fa fa-clock-o fa-lg"
           },
-          "gridClasses": "col-lg-4 col-sm-4 mb-animate-list relative   ui-resizable ui-resizable-disabled",
+          "link": {},
           "title": "<h3 class=\"ng-scope\">Fast</h3>",
           "description": ""
         }, {
+          "gridClasses": "col-lg-4 col-sm-4 text-center relative   ui-resizable mb-inner-draggable",
           "icon": {
-            "classes": "fa  fa-3x fa-laptop"
+            "classes": "fa fa-laptop fa-lg"
           },
-          "gridClasses": "col-lg-4 col-sm-4 mb-animate-list relative   ui-resizable ui-resizable-disabled",
+          "link": {},
           "title": "<h3 class=\"ng-scope\">Developer Friendly</h3>",
           "description": ""
         }]
@@ -69,69 +70,84 @@ var home = {
     }, {
       "group": "body1",
       "position": 0,
-      "label": "Selling Point",
-      "html": "<selling-point-list></selling-point-list>",
+      "label": "md selling point list",
+      "html": "<selling-point-list></selling-point-list>\n",
+      "sync": true,
+      "syncGroup": "main",
       "data": {
         "items": [{
-          "title": "<span class=\"ng-scope\">Simple</span>",
-          "text": "<p class=\"ng-scope\">Meanbase is designed from the ground up to be simple for an average user to learn so you can hand over your product for them to update without stress and training.<br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"left: 15px; top: 184px; display: none;\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>",
-          "image": {
-            "url": "/assets/jonpaulmiles_01journelfive-jpg_1472085515405/",
-            "alt": "",
-            "modifiedurl": "/assets/jonpaulmiles_01journelfive-jpg_1472085515405/",
-            "location": "image"
-          }
+          "title": "<h1 class=\"ng-scope\">Simple</h1>",
+          "text": "<p class=\"ng-scope\">Meanbase is designed from the ground up to be simple for an average user to learn so you can hand over your product for them to update without stress and training.<br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"left: 15px; top: 132px; display: none;\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>"
         }, {
           "left": true,
-          "title": "<span class=\"ng-scope\">Fast</span>",
-          "text": "<p class=\"ng-scope\">Meanbase CMS runs off of the MEAN stack: Mongo, Express, Angular, and Node meaning it's generally faster than wordpress so you don't have to wait for every page to refresh when making edits.<br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"left: 15px; top: 184px; display: none;\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>",
-          "image": {
-            "url": "/assets/fast-jpg_1472086068748/",
-            "alt": "",
-            "modifiedurl": "/assets/fast-jpg_1472086068748/",
-            "location": "image"
-          }
+          "title": "<h1 class=\"ng-scope\">Fast</h1>",
+          "text": "<p class=\"ng-scope\">Meanbase CMS runs off of the MEAN stack: Mongo, Express, Angular, and Node meaning it's generally faster than wordpress so you don't have to wait for every page to refresh when making edits.<br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"left: 15px; top: 103px; display: none;\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>"
         }, {
-          "text": "<p class=\"ng-scope\">Meanbase is also focused on making the process of creating themes and adding extensions delightful for developers who have to interact with the code every day. It's provides you control and simplicity so you can spend more time focusing on what matters.<br></p><div class=\"medium-insert-buttons ng-scope\" contenteditable=\"false\" style=\"display: none\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>",
-          "title": "<span class=\"ng-scope\">Developer Friendly</span>",
-          "image": {
-            "url": "/assets/pexels-photo-jpg_1472086003626/",
-            "alt": "",
-            "modifiedurl": "/assets/pexels-photo-jpg_1472086003626/",
-            "location": "image"
-          }
+          "title": "<h1>Developer Friendly</h1>",
+          "text": "<p class=\"\">Meanbase is also focused on making the process of creating themes and adding extensions delightful for developers who have to interact with the code every day. It's provides you control and simplicity so you can spend more time focusing on what matters.<br></p><div class=\"medium-insert-buttons\" contenteditable=\"false\" style=\"left: 15px; top: 132px; display: none;\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>"
         }]
       }
     }],
-    "footer1": {
-      "items": [{
-        "title": "github",
-        "link": {
-          "target": "_blank",
-          "classes": "btn-lg",
-          "url": "https://github.com/codingfriend1/meanbase"
-        },
-        "icon": {
-          "classes": "fa fa-github"
-        }
-      }]
-    },
-    "header1": {
-      "items": [{
-        "title": "meanbase",
-        "link": {
-          "target": "_blank",
-          "classes": "btn-lg",
-          "url": "https://github.com/codingfriend1/meanbase"
-        },
-        "icon": {
-          "classes": "fa fa-github"
-        }
-      }]
+    "header1": [{
+      "group": "header1",
+      "position": 0,
+      "label": "mb buttons list",
+      "html": "<div>\n  <ul class=\"list-inline intro-social-buttons\" ng-sortable=\"mbSortableExtensionList\">\n    <li ng-repeat=\"socialBtn in listItem.data.items\" class=\"relative\" ng-class=\"{'mb-inner-draggable': $root.editMode}\">\n      <mb-choose-link belongs-to=\"socialBtn\" property=\"link\">\n        <a class=\"btn btn-default\" mb-link=\"link\" belongs-to=\"socialBtn\">\n          <mb-choose-icon belongs-to=\"socialBtn\" property=\"icon\"></mb-choose-icon>\n          <span mb-edit ng-model=\"socialBtn.title\" bind-options=\"editorSingleLine\"></span>\n        </a>\n      </mb-choose-link>\n    </li>\n    <li mb-list-add list=\"listItem.data.items\" item=\"socialBtn\" label=\"button\" class=\"text-center relative ignore-inner-draggable\" ng-if=\"editMode\" ng-init=\"socialBtn = {}\">\n    </li>\n  </ul>\n</div>\n",
+      "sync": true,
+      "syncGroup": "main",
+      "data": {
+        "items": [{
+          "icon": {
+            "classes": "fa fa-github"
+          },
+          "link": {
+            "url": "https://github.com/codingfriend1/meanbase",
+            "classes": "btn-lg",
+            "target": "_blank"
+          },
+          "title": "Github"
+        }]
+      }
+    }],
+    "footer1": [{
+      "group": "footer1",
+      "position": 0,
+      "label": "mb buttons list",
+      "html": "<div>\n  <ul class=\"list-inline intro-social-buttons\" ng-sortable=\"mbSortableExtensionList\">\n    <li ng-repeat=\"socialBtn in listItem.data.items\" class=\"relative\" ng-class=\"{'mb-inner-draggable': $root.editMode}\">\n      <mb-choose-link belongs-to=\"socialBtn\" property=\"link\">\n        <a class=\"btn btn-default\" mb-link=\"link\" belongs-to=\"socialBtn\">\n          <mb-choose-icon belongs-to=\"socialBtn\" property=\"icon\"></mb-choose-icon>\n          <span mb-edit ng-model=\"socialBtn.title\" bind-options=\"editorSingleLine\"></span>\n        </a>\n      </mb-choose-link>\n    </li>\n    <li mb-list-add list=\"listItem.data.items\" item=\"socialBtn\" label=\"button\" class=\"text-center relative ignore-inner-draggable\" ng-if=\"editMode\" ng-init=\"socialBtn = {}\">\n    </li>\n  </ul>\n</div>\n",
+      "sync": true,
+      "syncGroup": "main",
+      "data": {
+        "items": [{
+          "icon": {
+            "classes": "fa fa-github"
+          },
+          "link": {
+            "url": "https://github.com/codingfriend1/meanbase",
+            "classes": "btn-lg",
+            "target": "_blank"
+          },
+          "title": "Github"
+        }]
+      }
+    }]
+  },
+  "extensions": {},
+  "images": {
+    "image-1": {
+      "url": "/assets/blogging-on-meanbase-jpg_1473099864266/",
+      "location": "image-1",
+      "_id": "57cdc223dcee8f000d856b05",
+      "attribute": "",
+      "alt": ""
     }
   },
-  "title": "<h1 class=\"ng-scope\"><span class=\"ng-scope\" style=\"font-weight: normal;\">meanbase</span></h1>"
-};
+  "title": "<h1 class=\"ng-scope\">Meanbase</h1>",
+  "visibility": "admin",
+  "content": {
+    "prefooter1": "<h2>Checkout meanbase</h2>",
+    "footer1": "<p>meanbase is MIT license</p><div class=\"medium-insert-buttons\" contenteditable=\"false\" style=\"display: none\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>"
+  }
+}
 
 var tutorial = {
   "author": "Admin",
