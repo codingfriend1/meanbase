@@ -10,7 +10,7 @@ const Schema = mongoose.Schema;
 
 const stagingSchema = new Schema({
   belongsTo: { type: String, required: false, trim: true, default: '' },
-  key: { type: String, required: true, unique: true},
+  key: { type: String, required: true},
   data: Schema.Types.Mixed,
   createdAt: { type: Date, 'default': Date.now },
   updatedAt: { type: Date, 'default': Date.now }

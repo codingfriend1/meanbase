@@ -34,7 +34,6 @@ angular.module('meanbaseApp').controller('list.modal.controller', function($scop
     } else if(groupKey) {
       chosenAddon.syncGroup = groupKey.key
       if(chosenAddon.sync) {
-        console.log('sync = true');
         let stagingData = await api.staging.find({belongsTo: chosenAddon.label, key: groupKey.key})
         stagingData = stagingData[0]
         if(stagingData) {

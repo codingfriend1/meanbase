@@ -125,20 +125,29 @@
 
     async function autoSaveExtension(item) {
       if(item.label && item.sync && item.syncGroup) {
-        let found = await api.staging.find({belongsTo: item.label, key: item.syncGroup})
-        found = found[0]
-
-        if(found) {
-          let result = await api.staging.update({belongsTo: item.label, key: item.syncGroup}, {data: item.data})
-        } else {
-          let result = await api.staging.create({belongsTo: item.label, key: item.syncGroup, data: item.data, enabled: true, permission: 'editContent'})
+        let found
+        try {
+          found = await api.staging.find({belongsTo: item.label, key: item.syncGroup})
+          found = found[0]
+        } catch (err) {
+          console.log("Error finding add-on staging data", err);
         }
+
+        try {
+          if(found) {
+            let result = await api.staging.update({belongsTo: item.label, key: item.syncGroup}, {data: item.data})
+          } else {
+            let result = await api.staging.create({belongsTo: item.label, key: item.syncGroup, data: item.data, enabled: true, permission: 'editContent'})
+          }
+        } catch(err) {
+          console.log('Error autosaving add-on', err);
+        }
+
       }
     }
 
     async function fetchExtension(item) {
       if(item.label && item.sync && item.syncGroup) {
-        console.log('syncing');
         let foundStaging = await api.staging.find({belongsTo: item.label, key: item.syncGroup})
         foundStaging = foundStaging[0]
 
