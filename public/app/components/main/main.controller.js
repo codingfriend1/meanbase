@@ -96,6 +96,7 @@
     // ###handleClick
     // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
     $scope.handleClick = function($event, menuItem, href) {
+      // if($rootScope.editMode) { return false }
       if($event.target.classList.contains('mb-edit-menu-btn')) { console.log("false", false); return false }
       if(menuItem.target) {
         window.open(href, menuItem.target)
@@ -161,6 +162,7 @@
       group: 'menus',
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
+      delay: 500,
       filter: ".ignore-draggable",
       animation: 250,
       onEnd: function () {
@@ -177,6 +179,7 @@
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
       filter: ".ignore-draggable",
+      delay: 500,
       animation: 250,
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
@@ -191,7 +194,8 @@
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
       filter: ".ignore-draggable",
-      handle: ".mb-drag-handle",
+      delay: 500,
+      // handle: ".mb-drag-handle",
       animation: 250,
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
