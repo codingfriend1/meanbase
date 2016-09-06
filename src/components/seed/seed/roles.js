@@ -145,4 +145,25 @@ var admin = {
 	}
 };
 
-module.exports = [basic, level1, level2, level3, level4, level5, admin];
+var demo = {
+	role: 'demo',
+	permissions: {
+		editContent: true,
+		publishContent: false,
+		deleteContent: true,
+		manageMedia: false,
+		restrictAccess: false,
+		manageExtensions: false,
+		moderateComments: true,
+		manageUsers: false,
+		manageRoles: false,
+		changeSiteSettings: false,
+		importExportData: false,
+		deleteSite: false,
+		viewAnalytics: false,
+		allPrivilages: false,
+		receiveEmails: true
+	}
+};
+
+module.exports = [basic, level1, level2, level3, level4, level5, admin, demo];

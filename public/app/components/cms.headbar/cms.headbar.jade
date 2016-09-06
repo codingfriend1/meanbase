@@ -192,7 +192,7 @@
         a(ng-repeat="page in drawerPages | filter:mbSearchPagesDrawer" ng-href="{{page.url}}").mb-page-link {{page.title | htmlToPlainText }}
 
 
-div(ng-show="editMode" ng-sortable="trashCanDraggable").mb-drag-trash-can.mb-draggable
+div(ng-show="editMode" ng-sortable="trashCanDraggable" title="Drag items here to delete").mb-drag-trash-can.mb-draggable
   i.fa.fa-trash.fa-3x
             
       //- ul.root-ul.mb-navbar-right
