@@ -162,7 +162,7 @@
     // Rubaxa's library "sortable" and "ng-sortable" (the drag and drop capabilities) need a configuration to be passed in. Here we define it. Inside the ng-repeat, any item with a class of `.mb-draggable` will be able to be dragged.
     //
 
-    $rootScope.showTrashCan = false
+    $rootScope.inDragMode = false
 
     let activeElGroup
 
@@ -175,12 +175,12 @@
       filter: ".ignore-draggable",
       animation: 250,
       onStart: function (event) {
-        $rootScope.showTrashCan = true
+        $rootScope.inDragMode = true
         activeElGroup = $rootScope.menus
       },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
-        $rootScope.showTrashCan = false
+        $rootScope.inDragMode = false
       },
       scroll: true, // or HTMLElement
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
@@ -196,12 +196,12 @@
       // handle: ".mb-drag-handle",
       animation: 250,
       onStart: function (event) {
-        $rootScope.showTrashCan = true
+        $rootScope.inDragMode = true
         activeElGroup = $rootScope.page.lists
       },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
-        $rootScope.showTrashCan = false
+        $rootScope.inDragMode = false
       },
       scroll: true, // or HTMLElement
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
@@ -217,12 +217,12 @@
       // handle: ".mb-drag-handle",
       animation: 250,
       onStart: function (event) {
-        $rootScope.showTrashCan = true
+        $rootScope.inDragMode = true
         activeElGroup = $rootScope.page.lists
       },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
-        $rootScope.showTrashCan = false
+        $rootScope.inDragMode = false
       },
       scroll: true, // or HTMLElement
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
