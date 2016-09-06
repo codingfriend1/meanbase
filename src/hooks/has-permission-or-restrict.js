@@ -2,10 +2,12 @@ import errors from 'feathers-errors';
 
 export default (permissionName, restriction) => {
   return async (hook) => {
+
     if (!hook.params.provider) { return hook; }
     if(!hook.params.user || (hook.params.user.permissions.indexOf(permissionName) === -1 && hook.params.user.permissions.indexOf('allPrivilages') === -1) ) {
 
       let query = Object.assign({}, hook.params.query, restriction);
+
       const params = Object.assign({}, hook.params, { provider: undefined });
       if(hook.id !== null && hook.id !== undefined) {
         const id = {};

@@ -37,9 +37,11 @@ export default function(restriction = {}, options = {}){
 
       // Set provider as undefined so we avoid an infinite loop if this hook is
       // set on the resource we are requesting.
-      const params = Object.assign({}, {query}, hook.params, { provider: undefined }, {forceCall: true});
+
+      const params = Object.assign({}, hook.params, { query }, { provider: undefined }, {forceCall: true});
 
       hook.params.provider = undefined;
+
       return this.find(params).then(results => {
         if(hook.method === 'get' && Array.isArray(results) && results.length === 1) {
           hook.result = results[0];
