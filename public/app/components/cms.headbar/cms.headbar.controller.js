@@ -33,7 +33,7 @@
 
     const msTillAutoSaveMenus = 100;
     const msTillAutoSavePage = 100;
-    const msTillAutoSaveExtensions = 100;
+    const msTillAutoSaveExtensions = 200;
 
     $scope.autoSavingInProgress = false
     let self = this
