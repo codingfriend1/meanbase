@@ -41,6 +41,7 @@ section#Login.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl
                   label.mdl-textfield__label(for='username') Email
                 p.help-block {{ resetPasswordError }}
                 button.btn.btn-inverse.btn-lg.btn-block.btn-login(ng-click="resetPassword(user.email)") Reset Password
+                button.btn.btn-inverse.btn-lg.btn-block.btn-login(ng-click="resendVerificationEmail(user.email)") Resend Verification
         .mdl-card.mdl-shadow--6dp.margin-center(ng-show="showResetPassword")
           .mdl-card__supporting-text.no-padding
             form.form(name='resetPasswordForm' ng-submit='saveResetPassword(user.password)')

@@ -42,7 +42,10 @@ module.exports = function() {
     app.configure(resetData('comments', commentsData))
     app.configure(resetData('themes'))
     app.configure(resetData('roles', rolesData))
-    app.configure(removeData('users', userData))
+    app.configure(removeData('users'))
+    app.configure(removeData('staging'))
+    app.configure(removeData('settings'))
+    app.configure(removeData('ban'))
   }
 
   // app.configure(resetData('themes'))

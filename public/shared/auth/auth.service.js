@@ -115,6 +115,7 @@ angular.module('meanbaseApp')
           toastr.success('Resent email verification')
         }, function(err) {
           console.log('Error resending email verification', err);
+          toastr.warning(err)
         });
       },
 

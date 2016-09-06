@@ -109,6 +109,9 @@ angular.module('meanbaseApp')
     }
 
     $scope.resendVerificationEmail = function(email) {
+      if(!email) {
+        toastr.warning('Please add an email to verify.')
+      }
       Auth.resendVerify(email);
     }
 

@@ -149,6 +149,7 @@
     }
 
     async function autoSaveExtension(item) {
+      console.log('running autosave extension', item);
       if(item.label && item.sync && item.syncGroup) {
         let found
         try {
@@ -208,24 +209,24 @@
     })
 
 
-    $scope.$onRootScope('cms.publishExtensionData', _.debounce(() => {
+    $scope.$onRootScope('cms.publishExtensionData', _.debounce(async () => {
       for (var extension in $rootScope.page.lists) {
         if ($rootScope.page.lists.hasOwnProperty(extension)) {
           for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
             let item = $rootScope.page.lists[extension][i]
-            addOrUpdateExtension(item)
+            await addOrUpdateExtension(item)
           }
         }
       }
     }, msTillAutoSaveExtensions))
 
 
-    $scope.$onRootScope('cms.autoSaveExtensionData', _.debounce(() => {
+    $scope.$onRootScope('cms.autoSaveExtensionData', _.debounce(async () => {
       for (var extension in $rootScope.page.lists) {
         if ($rootScope.page.lists.hasOwnProperty(extension)) {
           for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
             let item = $rootScope.page.lists[extension][i]
-            autoSaveExtension(item)
+            await autoSaveExtension(item)
           }
         }
       }
