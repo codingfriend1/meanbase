@@ -107,25 +107,35 @@ angular.module('meanbaseApp')
       verifyReset: app.service('/api/verifyReset/:action/:value'),
 
       resendVerify: function resendVerify(email, cb) {
+        if(!email) { return false }
+        if(currentUser && currentUser.isVerified) {
+          toastr.success("This account has already been verified")
+        }
         return this.verifyReset.create({ action: 'resend', value: email }).then(function(response) {
           toastr.success('Resent email verification')
         }, function(err) {
+          toastr.success("This account has already been verified")
           console.log('Error resending email verification', err);
-        });;
+        });
       },
 
       verifySignUp: function verifySignUp(slug, cb) {
         if(!slug) { return false }
+        if(currentUser && currentUser.isVerified) {
+          toastr.success("This account has already been verified")
+        }
         return this.verifyReset.create({ action: 'verify', value: slug }).then(function(response) {
           toastr.success('Your account has been verified.')
           console.log("account verified", response);
           return response
         }, function(err) {
+          toastr.success("This account has already been verified")
           console.log('Error sending verification email', err);
         });
       },
 
       sendResetPassword: function sendResetPassword(email, cb) {
+        if(!email) { return false }
         return this.verifyReset.create({ action: 'forgot', value: email }).then(function(response) {
           toastr.success('Please check your email. A link to reset your password has been sent.')
         }, function(err) {

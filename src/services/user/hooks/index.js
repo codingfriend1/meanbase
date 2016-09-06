@@ -30,10 +30,6 @@ exports.before = {
   find: [
     auth.verifyToken(),
     auth.populateUser(),
-    function(hook) {
-      console.log('calling find', hook.params);
-      console.log("hook.result", hook.result);
-    },
     auth.restrictToAuthenticated(),
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
@@ -89,7 +85,7 @@ exports.after = {
   find: [
     verifyHooks.removeVerification(true),
     function(hook) {
-      if (!hook.params.provider) {
+      if (!hook.params.provider && (hook.result.data[0] && hook.result.data[0].isVerified)) {
         hook.result = hook.result.data
       }
       return hook

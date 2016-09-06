@@ -108,6 +108,7 @@ angular.module('meanbaseApp')
     }
 
     $scope.resendVerificationEmail = function(email) {
+      console.log("email", email);
       Auth.resendVerify(email);
     }
 

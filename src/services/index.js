@@ -51,50 +51,69 @@ module.exports = function() {
   }
 
 
+  function getLink(action, value) {
+    let link
+    if(app.get('port')) {
+      link = `http://${app.get('host')}:${app.get('port')}/cms/account/${action}/${value}`
+    } else {
+      link = `http://${app.get('host')}/cms/account/${action}/${value}`
+    }
+
+    return link
+  }
+
+
   function emailer(action, user, params, cb) {
     console.log(`-- Sending email for ${action}`);
     const provider = params.provider;
     const route = provider === 'rest' ? 'rest' : 'socket';
 
-    switch (action) {
-      case 'resend': // send another email with link for verifying user's email addr
-        let link
-        if(app.get('port')) {
-          link = `http://${app.get('host')}:${app.get('port')}/cms/account/verify/${user.verifyToken}`
-        } else {
-          link = `http://${app.get('host')}/cms/account/verify/${user.verifyToken}`
-        }
+    let link
+    let email
 
-        let email = {
-           from: process.env.EMAIL,
-           to: user.email,
-           subject: 'Meanbase - Account Resend Verification Token',
-           html: `Dear ${user.name}, please click this link to verify your account. ${link}`
-        }
+    if(process.env.EMAIL) {
+      switch (action) {
+        case 'resend': // send another email with link for verifying user's email addr
 
-        app.service('emails').create(email).then(function (result) {
-          console.log('Sent email', result);
-          cb(null)
-        }).catch(err => {
-          cb(null)
-          console.log('Error sending email', err);
-        });
+          link = getLink('verify', user.verifyToken)
 
-        break;
-      case 'verify': // inform that user's email is now confirmed
-        cb(null);
-        break;
-      case 'forgot': // send email with link for resetting forgotten password
-        if(process.env.EMAIL) {
-
-          let link
-          if(app.get('port')) {
-            link = `http://${app.get('host')}:${app.get('port')}/cms/account/reset/${user.resetToken}`
-          } else {
-            link = `http://${app.get('host')}/cms/account/reset/${user.resetToken}`
+          email = {
+             from: process.env.EMAIL,
+             to: user.email,
+             subject: 'Meanbase - Account Resend Verification Token',
+             html: `Dear ${user.name}, please click this link to verify your account. ${link}`
           }
 
-          let email = {
+          app.service('emails').create(email).then(function (result) {
+            console.log('Resent verification email', result);
+          }).catch(err => {
+            console.log('Error sending email', err);
+          });
+
+          break;
+        case 'verify': // inform that user's email is now confirmed
+
+          link = getLink(action, user.verifyToken)
+
+          email = {
+             from: process.env.EMAIL,
+             to: user.email,
+             subject: 'Meanbase - Account Resend Verification Token',
+             html: `Dear ${user.name}, please click this link to verify your account. ${link}`
+          }
+
+          app.service('emails').create(email).then(function (result) {
+            console.log('Sent email', result);
+          }).catch(err => {
+            console.log('Error sending email', err);
+          });
+
+          break;
+        case 'forgot': // send email with link for resetting forgotten password
+
+          link = getLink(action, user.resetToken)
+
+          email = {
              from: process.env.EMAIL,
              to: user.email,
              subject: 'Meanbase - Account Reset Password',
@@ -102,23 +121,24 @@ module.exports = function() {
           }
 
           app.service('emails').create(email).then(function (result) {
-            console.log('Sent email', result);
-            cb(null)
+            console.log('Sent reset password email', result);
           }).catch(err => {
-            cb(null)
             console.log('Error sending email', err);
           });
-        }
-        console.log(`Dear ${user.name}, please click this link to reset your password.`);
-        console.log(`  http://localhost:3030/${route}/reset/${user.resetToken}`);
-        break;
-      case 'reset': // inform that forgotten password has now been reset
-        cb(null);
-        break;
-      default:
-        cb(null);
-        break;
+
+          break;
+        case 'reset': // inform that forgotten password has now been reset
+          break;
+        default:
+          break;
+      }
+
+      cb(null)
+    } else {
+      cb("The server isn't configured to do emails.")
     }
+
+
 
   }
 
