@@ -103,6 +103,44 @@ angular.module('meanbaseApp')
         });
       },
 
+
+      verifyReset: app.service('/api/verifyReset/:action/:value'),
+
+      resendVerify: function resendVerify(email, cb) {
+        return this.verifyReset.create({ action: 'resend', value: email }).then(function(response) {
+          toastr.success('Resent email verification')
+        }, function(err) {
+          console.log('Error resending email verification', err);
+        });;
+      },
+
+      verifySignUp: function verifySignUp(slug, cb) {
+        if(!slug) { return false }
+        return this.verifyReset.create({ action: 'verify', value: slug }).then(function(response) {
+          toastr.success('Your account has been verified.')
+          console.log("account verified", response);
+          return response
+        }, function(err) {
+          console.log('Error sending verification email', err);
+        });
+      },
+
+      sendResetPassword: function sendResetPassword(email, cb) {
+        return this.verifyReset.create({ action: 'forgot', value: email }).then(function(response) {
+          toastr.success('Please check your email. A link to reset your password has been sent.')
+        }, function(err) {
+          console.log('Error sending reset password email', err);
+        });;
+      },
+
+      saveResetPassword: function saveResetPassword(slug, password, cb) {
+        return this.verifyReset.create({ action: 'reset', value: slug, data: { password } }).then(function(response) {
+          toastr.success('Your password was updated.')
+        }, function(err) {
+          toastr.warning('Sorry but there was an error updating your password.')
+        });;
+      },
+
       /**
        * Gets all available info on authenticated user
        *

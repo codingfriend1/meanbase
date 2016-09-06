@@ -1,7 +1,10 @@
 angular.module('meanbaseApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $window, $rootScope, $timeout) {
+  .controller('LoginCtrl', function ($scope, Auth, $location, $window, $rootScope, $timeout, $state) {
+
     $scope.user = {};
     $scope.errors = {};
+    $scope.showLogin = true
+    $scope.showResetPassword = false
 
     $scope.$parent.pageTitle = "Account";
 
@@ -53,7 +56,7 @@ angular.module('meanbaseApp')
           // Account created, redirect to home
           $timeout(function() {
             $rootScope.isLoggedIn = Auth.isLoggedIn();
-            location.href = '/cms';
+            toastr.success('Please check your email to verify your account.')
           });
         })
         .catch( function(err) {
@@ -68,6 +71,45 @@ angular.module('meanbaseApp')
         });
       }
     };
+
+    if($state.params.action && $state.params.token) {
+      switch ($state.params.action) {
+        case 'verify':
+          Auth.verifySignUp($state.params.token).then(function(response) {
+            if(response && response.email) {
+              $scope.user.email = response.email
+            }
+          }, function(err) {
+            console.log('promise rejected', err);
+          });;
+          break;
+        case 'reset':
+          $scope.showResetPassword = true
+          $scope.showLogin = false
+          break;
+      }
+    }
+
+
+    $scope.resetPassword = function(email) {
+      Auth.sendResetPassword(email);
+    }
+
+    $scope.saveResetPassword = function(password) {
+      Auth.saveResetPassword($state.params.token, password)
+        .then(function(response) {
+          $scope.showLogin = true
+          $scope.showResetPassword = false
+          $location.path('/cms/account');
+        }, function(err) {
+          console.log('promise rejected', err);
+        });
+
+    }
+
+    $scope.resendVerificationEmail = function(email) {
+      Auth.resendVerify(email);
+    }
 
     $scope.$on('$destroy', function() {
       $scope.$parent.tabs = null;

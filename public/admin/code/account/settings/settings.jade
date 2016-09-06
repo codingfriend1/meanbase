@@ -1,12 +1,11 @@
 //- div(ng-include='"components/navbar/navbar.html"')
 //- include ../../components/navbar/navbar.jade
 .container
-  .mdl-card.mdl-shadow--6dp.margin-center
-    .mdl-card__supporting-text.no-padding
-      .row
-        .col-sm-12
+  .row
+    .col-sm-4
+      .mdl-card.mdl-shadow--6dp.margin-center
+        .mdl-card__supporting-text.no-padding
           h3 Change Password
-        .col-sm-12
           form.form(name='form', ng-submit='changePassword(form)', novalidate='')
             .form-group
               label Current Password

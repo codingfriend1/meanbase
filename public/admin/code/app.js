@@ -45,7 +45,7 @@ angular.module('meanbaseApp', [
 
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      if(!Auth.isLoggedIn() && toState.name !== 'cms.account') {
+      if(!Auth.isLoggedIn() && toState.name !== 'cms.account' && toState.name !== 'cms.accountVerify') {
         event.preventDefault();
 
         function continueNavigation() {

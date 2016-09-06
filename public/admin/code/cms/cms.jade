@@ -16,7 +16,7 @@
         span.mdl-list__item-primary-content
           i.material-icons.mdl-list__item-icon arrow_back
           | Back to Site
-      li.mdl-list__item(ng-repeat="state in cmsStates" ui-sref='{{state.name}}' ng-show="state.userHasPermission")
+      li.mdl-list__item(ng-repeat="state in cmsStates" ui-sref='{{state.name}}' ng-show="state.userHasPermission && !state.hide")
         span.mdl-list__item-primary-content
           i.material-icons.mdl-list__item-icon {{state.icon}}
           | {{state.friendlyName}}

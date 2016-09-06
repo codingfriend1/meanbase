@@ -9,7 +9,11 @@
     var r = $scope.r = new crud($scope, 'roles', api.roles);
 
     function findall() {
-      u.find({}, null, 'Could not get the users');
+      api.users.find({}).then(function(response) {
+        $scope.users = response.data
+      }, function(err) {
+        toastr.warning('Sorry but we could not fetch the users.')
+      });
     }
     findall();
 
@@ -82,7 +86,7 @@
     		api.users.update({role: $scope.selectedRole.role}, {role: 'basic'}).then(function(response) {
     			toastr.clear();
     			toastr.warning('Moved users with ' + $scope.selectedRole.role + ' over to basic');
-          u.find({}, null, 'Could not get the users')
+          findall()
     		}).then(function(response) {
     			api.roles.delete({role: $scope.selectedRole.role}).then(function(response) {
     				toastr.success('Deleted ' + $scope.selectedRole.role + ' role.');

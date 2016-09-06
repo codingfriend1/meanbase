@@ -7,11 +7,17 @@ angular.module('meanbaseApp')
         controller: 'LoginCtrl',
         icon: 'assignment_ind'
       })
+      .state('cms.accountVerify', {
+        url: '/account/:action/:token',
+        templateUrl: require('./login/login.jade'),
+        controller: 'LoginCtrl',
+        hide: true,
+      })
       .state('cms.my-settings', {
         url: '/my-settings',
         templateUrl: require('./settings/settings.jade'),
         controller: 'SettingsCtrl',
         authenticate: true,
         icon: 'verified_user'
-      });
+      })
   });

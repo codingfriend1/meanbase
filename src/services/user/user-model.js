@@ -28,6 +28,27 @@ const userSchema = new Schema({
   email: {type: String, required: true, unique: true},
   password: { type: String, required: true },
 
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  verifyToken: {
+    type: String,
+    default: false
+  },
+  verifyExpires: {
+    type: Number,
+    default: false
+  },
+  resetToken: {
+    type: String,
+    default: false
+  },
+  resetExpires: {
+    type: Number,
+    default: false
+  },
+
   role: {
     type: String,
     default: 'basic',

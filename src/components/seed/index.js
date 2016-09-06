@@ -71,7 +71,10 @@ function ifEmptyCreate(name, data) {
   return async () => {
     try {
       let found = await this.service(name).find({query: {}})
-      if(found.length !== 0) return false
+      if(found && Number.isInteger(found.total) && Array.isArray(found.data)) {
+        found = found.data
+      }
+      if(found.length !== 0) { return false }
       await this.service(name).create(data)
       console.log('default ' + name  + ' created')
     } catch (err) {

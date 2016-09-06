@@ -9,14 +9,14 @@ import "../shared/ng-enter/ng-enter.directive.js";
 import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
-import "../shared/image-selector/image-selector.directive.js";
 import "../shared/mb-animate/mb-animate.directive.js";
+import "../shared/image-selector/image-selector.directive.js";
 import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
 import "../shared/helpers/helpers.service.js";
 import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
-import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/endpoints/endpoints.service.js";
+import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
 import "./components/meanbase-editable/meanbase-editable.directive.js";
@@ -38,8 +38,8 @@ import "./components/mb-edit-link/mb-edit-link.directive.js";
 import "./components/mb-edit/mb-edit.directive.js";
 import "./components/mb-dynamic-html/mb-dynamic-html.directive.js";
 import "./components/mb-choose-link/mb-choose-link.directive.js";
-import "./components/mb-choose-icon/mb-choose-icon.directive.js";
 import "./components/mb-choose-image/mb-choose-image.directive.js";
+import "./components/mb-choose-icon/mb-choose-icon.directive.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.directive.js";
 import "./components/main/mb-add-menu-item.controller.js";
 import "./components/main/main.js";
@@ -64,8 +64,8 @@ import "./components/mb-list-selector/mb-list.modal.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";
-import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
+import "../shared/taglist/taglist.jade";
 // end inject jade
 
 // inject stylus

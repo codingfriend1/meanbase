@@ -3,19 +3,24 @@ import errors from 'feathers-errors'
 export default options => {
   return hook => {
 
-    console.log("process.env", process.env);
+    if (!hook.params.provider) { return hook; }
 
-    console.log("hook.data.email", hook.data.email);
+    const user = hook.result
 
-    if(process.env.EMAIL && hook.data && hook.data.email) {
+    if(process.env.EMAIL && hook.data && hook.data.email && user) {
 
-      console.log('sending email');
+      let link
+      if(hook.app.get('port')) {
+        link = `http://${hook.app.get('host')}:${hook.app.get('port')}/cms/account/verify/${user.verifyToken}`
+      } else {
+        link = `http://${hook.app.get('host')}/cms/account/verify/${user.verifyToken}`
+      }
 
       let email = {
          from: process.env.EMAIL,
          to: hook.data.email,
-         subject: 'Meanbase - Account Verification Email',
-         html: 'Please visit this link to verify your meanbase account.'
+         subject: 'Meanbase - Account Verification',
+         html: `Dear ${user.name}, please click this link to verify your email address. ${link}`
       }
 
       hook.app.service('emails').create(email).then(function (result) {

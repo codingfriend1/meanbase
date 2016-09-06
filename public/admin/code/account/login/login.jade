@@ -2,7 +2,7 @@ section#Login.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl
   .page-content      
     .mdl-layout.mdl-js-layout
       main.mdl-layout__content
-        .mdl-card.mdl-shadow--6dp.margin-center
+        .mdl-card.mdl-shadow--6dp.margin-center(ng-show="showLogin")
           .mdl-card__supporting-text.no-padding
             form.form(name='loginForm' ng-submit='login(loginForm)')
               .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
@@ -17,6 +17,8 @@ section#Login.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl
                 p.help-block {{ errors.other }}
               div
                 button.btn.btn-inverse.btn-lg.btn-block.btn-login(type='submit') Login
+
+            button.btn.btn-inverse.btn-lg.btn-block.btn-login(ng-click="resetPassword(user.email)" ng-show="user.email") Reset Password
             div
               a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
                 i.fa.fa-facebook
@@ -30,6 +32,15 @@ section#Login.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl
                 i.fa.fa-twitter
                 |  Connect with Twitter
               button.btn.btn-lg.btn-primary.btn-block(ng-click="logout()") Logout
+        .mdl-card.mdl-shadow--6dp.margin-center(ng-show="showResetPassword")
+          .mdl-card__supporting-text.no-padding
+            form.form(name='resetPasswordForm' ng-submit='saveResetPassword(user.password)')
+              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                input#password.mdl-textfield__input(type='password' ng-model='user.password')
+                label.mdl-textfield__label(for='password') New Password
+                p.help-block {{ errors.other }}
+              div
+                button.btn.btn-inverse.btn-lg.btn-block.btn-login(type='submit') Set New Password
 section#Sign-Up.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" mdl)  
   .page-content      
     .mdl-layout.mdl-js-layout.mdl-color--grey-100(mdl)
@@ -65,6 +76,8 @@ section#Sign-Up.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" m
                   | {{ errors.password }}
               div
                 button.btn.btn-inverse.btn-lg.btn-block.btn-login(type='submit') Sign up
+            div
+              button.btn.btn-inverse.btn-lg.btn-block.btn-login(ng-click="resendVerificationEmail(user.email)") Resend Verification
             div
               a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
                 i.fa.fa-facebook

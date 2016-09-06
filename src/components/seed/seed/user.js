@@ -8,14 +8,7 @@ module.exports = function(app) {
       "password": app.get('admin-pass'),
       "role": "admin"
     }
-  } else {
-    admin = {
-      "email": "admin@admin.com",
-      "password": "admin",
-      "role": "admin"
-    }
+    return admin;
   }
-
-  return admin;
 
 };
