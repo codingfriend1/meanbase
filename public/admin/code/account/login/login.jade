@@ -4,34 +4,43 @@ section#Login.mdl-layout__tab-panel(ng-class="{'is-active': tabs[0].active}" mdl
       main.mdl-layout__content
         .mdl-card.mdl-shadow--6dp.margin-center(ng-show="showLogin")
           .mdl-card__supporting-text.no-padding
-            form.form(name='loginForm' ng-submit='login(loginForm)')
-              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-                input#username.mdl-textfield__input(type="email" ng-model="user.email" name="email" autofocus)
-                label.mdl-textfield__label(for='username') Email
-              .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-                input#password.mdl-textfield__input(type='password' ng-model='user.password')
-                label.mdl-textfield__label(for='password') Password
-              .form-group.has-error
-                p.help-block(ng-show='loginForm.email.$error.required && loginForm.password.$error.required && submitted')
-                  | Please enter your email and password.
-                p.help-block {{ errors.other }}
-              div
-                button.btn.btn-inverse.btn-lg.btn-block.btn-login(type='submit') Login
-
-            button.btn.btn-inverse.btn-lg.btn-block.btn-login(ng-click="resetPassword(user.email)" ng-show="user.email") Reset Password
-            div
-              a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
-                i.fa.fa-facebook
-                |  Connect with Facebook
-              = ' '
-              a.btn.btn-google-plus(href='', ng-click='loginOauth("google")')
-                i.fa.fa-google-plus
-                |  Connect with Google+
-              = ' '
-              a.btn.btn-twitter(href='', ng-click='loginOauth("twitter")')
-                i.fa.fa-twitter
-                |  Connect with Twitter
-              button.btn.btn-lg.btn-primary.btn-block(ng-click="logout()") Logout
+            .mdl-tabs.mdl-js-tabs.mdl-js-ripple-effect
+              .mdl-tabs__tab-bar
+                a.mdl-tabs__tab.is-active(href='#login-panel') Login
+                a.mdl-tabs__tab(href='#reset-password-panel') Reset Password
+              #login-panel.mdl-tabs__panel.is-active
+                form.form(name='loginForm' ng-submit='login(loginForm)')
+                  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                    input#username.mdl-textfield__input(type="email" ng-model="user.email" name="email" autofocus)
+                    label.mdl-textfield__label(for='username') Email
+                  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                    input#password.mdl-textfield__input(type='password' ng-model='user.password')
+                    label.mdl-textfield__label(for='password') Password
+                  .form-group.has-error
+                    p.help-block(ng-show='loginForm.email.$error.required && loginForm.password.$error.required && submitted')
+                      | Please enter your email and password.
+                    p.help-block {{ errors.other }}
+                  div
+                    button.btn.btn-inverse.btn-lg.btn-block.btn-login(type='submit') Login
+                  div
+                    a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
+                      i.fa.fa-facebook
+                      |  Connect with Facebook
+                    = ' '
+                    a.btn.btn-google-plus(href='', ng-click='loginOauth("google")')
+                      i.fa.fa-google-plus
+                      |  Connect with Google+
+                    = ' '
+                    a.btn.btn-twitter(href='', ng-click='loginOauth("twitter")')
+                      i.fa.fa-twitter
+                      |  Connect with Twitter
+                  button.btn.btn-lg.btn-primary.btn-block(ng-click="logout()") Logout
+              #reset-password-panel.mdl-tabs__panel
+                .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                  input#username.mdl-textfield__input(type="email" ng-model="user.email" name="email" autofocus)
+                  label.mdl-textfield__label(for='username') Email
+                p.help-block {{ resetPasswordError }}
+                button.btn.btn-inverse.btn-lg.btn-block.btn-login(ng-click="resetPassword(user.email)") Reset Password
         .mdl-card.mdl-shadow--6dp.margin-center(ng-show="showResetPassword")
           .mdl-card__supporting-text.no-padding
             form.form(name='resetPasswordForm' ng-submit='saveResetPassword(user.password)')
@@ -77,7 +86,7 @@ section#Sign-Up.mdl-layout__tab-panel(ng-class="{'is-active': tabs[1].active}" m
               div
                 button.btn.btn-inverse.btn-lg.btn-block.btn-login(type='submit') Sign up
             div
-              button.btn.btn-inverse.btn-lg.btn-block.btn-login(ng-click="resendVerificationEmail(user.email)") Resend Verification
+              button.btn.btn-inverse.btn-lg.btn-block.btn-login(ng-click="resendVerificationEmail(user.email)" ng-show="resendVerificationBtn") Resend Verification
             div
               a.btn.btn-facebook(href='', ng-click='loginOauth("facebook")')
                 i.fa.fa-facebook

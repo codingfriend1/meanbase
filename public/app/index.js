@@ -11,8 +11,8 @@ import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
 import "../shared/mb-animate/mb-animate.directive.js";
 import "../shared/image-selector/image-selector.directive.js";
-import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
 import "../shared/helpers/helpers.service.js";
+import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
 import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/endpoints/endpoints.service.js";
@@ -64,8 +64,8 @@ import "./components/mb-list-selector/mb-list.modal.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";
-import "../shared/validate/validate.jade";
 import "../shared/taglist/taglist.jade";
+import "../shared/validate/validate.jade";
 // end inject jade
 
 // inject stylus

@@ -5,6 +5,7 @@ angular.module('meanbaseApp')
     $scope.errors = {};
     $scope.showLogin = true
     $scope.showResetPassword = false
+    $scope.resendVerificationBtn = false
 
     $scope.$parent.pageTitle = "Account";
 
@@ -58,6 +59,7 @@ angular.module('meanbaseApp')
             $rootScope.isLoggedIn = Auth.isLoggedIn();
             toastr.success('Please check your email to verify your account.')
           });
+          $scope.resendVerificationBtn = true
         })
         .catch( function(err) {
           err = err.data;
@@ -92,7 +94,11 @@ angular.module('meanbaseApp')
 
 
     $scope.resetPassword = function(email) {
-      Auth.sendResetPassword(email);
+      if(!email) {
+        $scope.resetPasswordError = "Please enter an email address to reset"
+      }
+      $scope.resetPasswordError = ""
+      Auth.sendResetPassword(email)
     }
 
     $scope.saveResetPassword = function(password) {
@@ -103,7 +109,6 @@ angular.module('meanbaseApp')
     }
 
     $scope.resendVerificationEmail = function(email) {
-      console.log("email", email);
       Auth.resendVerify(email);
     }
 
