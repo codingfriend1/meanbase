@@ -10,7 +10,7 @@
 
     function findall() {
       api.users.find({}).then(function(response) {
-        $scope.users = response.data
+        $scope.users = response
       }, function(err) {
         toastr.warning('Sorry but we could not fetch the users.')
       });
