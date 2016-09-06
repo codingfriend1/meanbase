@@ -131,21 +131,11 @@ var home = {
       }
     }]
   },
-  "extensions": {},
-  "images": {
-    "image-1": {
-      "url": "/assets/blogging-on-meanbase-jpg_1473099864266/",
-      "location": "image-1",
-      "_id": "57cdc223dcee8f000d856b05",
-      "attribute": "",
-      "alt": ""
-    }
-  },
-  "title": "<h1 class=\"ng-scope\">Meanbase</h1>",
+  "title": "<h1>Meanbase</h1>",
   "visibility": "admin",
   "content": {
     "prefooter1": "<h2>Checkout meanbase</h2>",
-    "footer1": "<p>meanbase is MIT license</p><div class=\"medium-insert-buttons\" contenteditable=\"false\" style=\"display: none\">\n    <button class=\"medium-insert-buttons-show\" type=\"button\"><span>+</span></button>\n    <ul class=\"medium-insert-buttons-addons\" style=\"display: none\">\n            <li><button data-addon=\"images\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-camera\"></span></button></li>\n            <li><button data-addon=\"embeds\" data-action=\"add\" class=\"medium-insert-action\" type=\"button\"><span class=\"fa fa-youtube-play\"></span></button></li>\n    </ul>\n</div>"
+    "footer1": "<p>meanbase is MIT license</p>"
   }
 }
 

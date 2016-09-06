@@ -11,11 +11,6 @@
   "extensionsPath": "../public/extensions/",
   "uploadsPath": "../public/assets/",
   "viewsPath": "../views/",
-  "seed": "SEED",
-  "reset-seed": "RESET_SEED",
-  "reset-users": "RESET_USERS",
-  "admin-email": "ADMIN",
-  "admin-pass": "ADMIN_PASS",
   "auth": {
     "token": {
       "secret": "FEATHERS_AUTH_SECRET"

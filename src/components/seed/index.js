@@ -28,28 +28,21 @@ module.exports = function() {
   resetData = resetData.bind(this)
 
   app.configure(ifEmptyCreate('roles', rolesData))
-  app.configure(ifEmptyCreate('users', userData))
-
   app.configure(resetData('extensions'))
 
-  // if(app.get('reset-users')) {
-  //   app.configure(resetData('users', userData))
-  // }
-
-  if(app.get('seed')) {
-    app.configure(ifEmptyCreate('users', userData))
+  if(process.env.SEED) {
     app.configure(ifEmptyCreate('pages', pagesData))
     app.configure(ifEmptyCreate('menus', menusData))
     app.configure(ifEmptyCreate('comments', commentsData))
   }
 
-  if(app.get('reset-seed')) {
+  if(process.env.RESET_SEED) {
     app.configure(resetData('pages', pagesData))
     app.configure(resetData('menus', menusData))
     app.configure(resetData('comments', commentsData))
     app.configure(resetData('themes'))
     app.configure(resetData('roles', rolesData))
-    app.configure(resetData('users', userData))
+    app.configure(removeData('users', userData))
   }
 
   // app.configure(resetData('themes'))

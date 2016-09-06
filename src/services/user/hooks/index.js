@@ -9,7 +9,8 @@ const permissionName = 'manageUsers';
 function ifFirstUserThenAdmin(hook) {
   return new Promise((resolve, reject) => {
     hook.app.service('/users').find({query: {}}).then(function(found) {
-      if(found && Number.isInteger(found.total) && Array.isArray(found.data)) {
+      console.log("Checking if first user", found);
+      if(!Array.isArray(found) && found.data) {
         found = found.data
       }
 
