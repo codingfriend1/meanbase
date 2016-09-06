@@ -114,7 +114,6 @@ angular.module('meanbaseApp')
         return this.verifyReset.create({ action: 'resend', value: email }).then(function(response) {
           toastr.success('Resent email verification')
         }, function(err) {
-          toastr.success("This account has already been verified")
           console.log('Error resending email verification', err);
         });
       },
@@ -129,7 +128,6 @@ angular.module('meanbaseApp')
           console.log("account verified", response);
           return response
         }, function(err) {
-          toastr.success("This account has already been verified")
           console.log('Error sending verification email', err);
         });
       },
@@ -139,6 +137,7 @@ angular.module('meanbaseApp')
         return this.verifyReset.create({ action: 'forgot', value: email }).then(function(response) {
           toastr.success('Please check your email. A link to reset your password has been sent.')
         }, function(err) {
+          toastr.warning(err)
           console.log('Error sending reset password email', err);
         });;
       },
@@ -146,7 +145,9 @@ angular.module('meanbaseApp')
       saveResetPassword: function saveResetPassword(slug, password, cb) {
         return this.verifyReset.create({ action: 'reset', value: slug, data: { password } }).then(function(response) {
           toastr.success('Your password was updated.')
+          return true;
         }, function(err) {
+          console.log("Error saving reset password", err);
           toastr.warning('Sorry but there was an error updating your password.')
         });;
       },

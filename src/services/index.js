@@ -111,7 +111,7 @@ module.exports = function() {
           break;
         case 'forgot': // send email with link for resetting forgotten password
 
-          link = getLink(action, user.resetToken)
+          link = getLink('reset', user.resetToken)
 
           email = {
              from: process.env.EMAIL,
@@ -119,6 +119,8 @@ module.exports = function() {
              subject: 'Meanbase - Account Reset Password',
              html: `Dear ${user.name}, you received this email because you requested to reset your password. Click this link to reset. ${link}`
           }
+
+          console.log("email", email);
 
           app.service('emails').create(email).then(function (result) {
             console.log('Sent reset password email', result);

@@ -22,7 +22,7 @@
     "feathers-mailer": "^1.0.4",
     "feathers-mongoose": "^3.5.1",
     "feathers-rest": "^1.4.3",
-    "feathers-service-verify-reset": "^0.3.2",
+    "feathers-service-verify-reset": "git+https://github.com/codingfriend1/feathers-service-verify-reset.git",
     "feathers-socketio": "^1.4.1",
     "formidable": "^1.0.17",
     "fs-blob-store": "^5.2.1",

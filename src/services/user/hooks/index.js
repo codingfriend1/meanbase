@@ -84,12 +84,6 @@ exports.after = {
   ],
   find: [
     verifyHooks.removeVerification(true),
-    function(hook) {
-      if (!hook.params.provider && (hook.result.data[0] && hook.result.data[0].isVerified)) {
-        hook.result = hook.result.data
-      }
-      return hook
-    },
   ],
   get: [
     globalHooks.attachPermissions(),

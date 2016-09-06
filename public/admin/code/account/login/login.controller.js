@@ -97,14 +97,9 @@ angular.module('meanbaseApp')
 
     $scope.saveResetPassword = function(password) {
       Auth.saveResetPassword($state.params.token, password)
-        .then(function(response) {
-          $scope.showLogin = true
-          $scope.showResetPassword = false
-          $location.path('/cms/account');
-        }, function(err) {
-          console.log('promise rejected', err);
-        });
-
+      $scope.showLogin = true
+      $scope.showResetPassword = false
+      $location.path('/cms/account');
     }
 
     $scope.resendVerificationEmail = function(email) {
