@@ -1,6 +1,5 @@
 .meanbase-front(ng-class="{loggedIn: isLoggedIn, 'in-drag-mode': $root.inDragMode}")
   include ../cms.headbar/cms.headbar.jade
-  div {{$root.inDragMode}}
   div(ui-view="" ng-class="{'fixed-header-stopper': isLoggedIn}")#main-view
     div.mb-loading-screen.text-center
       h1

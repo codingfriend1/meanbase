@@ -77,7 +77,30 @@
       return false
     }
 
-    $scope.openEditMenuModal = function(event, menuItem) {
+    // $scope.openEditMenuModal = function(event, menuItem) {
+    //   if($scope.editMode) {
+    //     event.preventDefault()
+    //     var modalInstance = $modal.open({
+    //       templateUrl: require('./mb-edit-menu.modal.jade'),
+    //       controller: menuModal,
+    //       size: 'md',
+    //       resolve: {
+    //         menuItem: function() {
+    //           return menuItem
+    //         },
+    //         isNewMenu: function() {
+    //           return false
+    //         }
+    //       }
+    //     })
+    //   }
+    // }
+
+    // ###handleClick
+    // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
+    $scope.handleClick = function($event, menuItem, href) {
+      // if($rootScope.editMode) { return false }
+
       if($scope.editMode) {
         event.preventDefault()
         var modalInstance = $modal.open({
@@ -93,19 +116,15 @@
             }
           }
         })
-      }
-    }
-
-    // ###handleClick
-    // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
-    $scope.handleClick = function($event, menuItem, href) {
-      // if($rootScope.editMode) { return false }
-      if($event.target.classList.contains('mb-edit-menu-btn')) { console.log("false", false); return false }
-      if(menuItem.target) {
-        window.open(href, menuItem.target)
       } else {
-        $location.path(href)
+        if($event.target.classList.contains('mb-edit-menu-btn')) { console.log("false", false); return false }
+        if(menuItem.target) {
+          window.open(href, menuItem.target)
+        } else {
+          $location.path(href)
+        }
       }
+
     }
 
 
