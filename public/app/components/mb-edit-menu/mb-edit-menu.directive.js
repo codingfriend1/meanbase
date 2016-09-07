@@ -1,5 +1,5 @@
 angular.module('meanbaseApp')
-  .directive('mbEditMenu', function ($rootScope, endpoints, $timeout) {
+  .directive('mbEditMenu', function ($rootScope, endpoints, $timeout, editMenuModal) {
     return {
       template: '<div class="mb-edit-menu-btn" ng-if="$root.editMode"><i class="fa fa-pencil disable-click"></i></div>',
       restrict: 'EA',
@@ -8,7 +8,7 @@ angular.module('meanbaseApp')
 
         element.bind('click', function(event) {
           scope.item = scope.$eval(attrs.item)
-          scope.openEditMenuModal(event, scope.item)
+          editMenuModal.open(event, scope.item)
         })
       }
     }

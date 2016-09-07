@@ -1,4 +1,5 @@
 module.exports = function linkModalController($scope, $modalInstance, api, menu, property, $rootScope) {
+  
   api.pages.find({$select: ['url', 'title', '_id']}).then(function(response) {
     $scope.pages = response
   })

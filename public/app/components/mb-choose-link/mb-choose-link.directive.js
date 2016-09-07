@@ -1,5 +1,5 @@
 angular.module('meanbaseApp')
-  .directive('mbChooseLink', function ($rootScope, endpoints, $timeout) {
+  .directive('mbChooseLink', function ($rootScope, endpoints, $timeout, linkModal) {
     return {
       template: '<ng-transclude></ng-transclude>',
       transclude: true,
@@ -28,7 +28,7 @@ angular.module('meanbaseApp')
           event.preventDefault();
           scope.belongsTo = scope.$eval(attrs.belongsTo);
           if(!scope.belongsTo[attrs.property]) { scope.belongsTo[attrs.property] = {}; }
-          scope.openLinkModal(scope.belongsTo, attrs.property);
+          linkModal.open(scope.belongsTo, attrs.property)
         }
 
         element.bind('click', fireClick);

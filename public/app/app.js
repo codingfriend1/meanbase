@@ -1,3 +1,14 @@
+import autobind from 'autobind-decorator'
+window.autobind = autobind
+
+const mbService = (serviceName, module) => target => {
+  if(target.prototype) {
+    angular.module(module || 'meanbaseApp').service(serviceName || target.prototype.constructor.name, target)
+  }
+}
+
+window.mbService = mbService
+
 angular.module('meanbaseApp', [
   'ngCookies',
   'ngResource',

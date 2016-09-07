@@ -4,7 +4,7 @@
   angular.module('meanbaseApp').controller('MainCtrl', MainCtrl)
 
   // @ngInject
-  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api, $compile, $templateCache) {
+  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api, $compile, $templateCache, editMenuModal) {
 
     const autoSaveLapse = 100
 
@@ -99,83 +99,7 @@
     // ###handleClick
     // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
     $scope.handleClick = function($event, menuItem, href) {
-      // if($rootScope.editMode) { return false }
-
-      if($scope.editMode) {
-        event.preventDefault()
-        var modalInstance = $modal.open({
-          templateUrl: require('./mb-edit-menu.modal.jade'),
-          controller: menuModal,
-          size: 'md',
-          resolve: {
-            menuItem: function() {
-              return menuItem
-            },
-            isNewMenu: function() {
-              return false
-            }
-          }
-        })
-      } else {
-        if($event.target.classList.contains('mb-edit-menu-btn')) { console.log("false", false); return false }
-        if(menuItem.target) {
-          window.open(href, menuItem.target)
-        } else {
-          $location.path(href)
-        }
-      }
-
-    }
-
-
-    $scope.handleIconClick = function($event, item, property, href) {
-      if($scope.editMode) {
-        if(!item[property]) {
-          item[property] = {}
-        }
-        $event.preventDefault()
-        var modalInstance = $modal.open({
-          templateUrl: require('./mb-edit-icon.modal.jade'),
-          controller: iconModalController,
-          size: 'md',
-          resolve: {
-            icon: function() {
-              return item[property]
-            },
-          }
-        })
-      } else {
-        if(item[property].target) {
-          window.open(href, item[property].target)
-        } else {
-          $location.path(href)
-        }
-      }
-    }
-
-    $scope.handleLinkClick = function($event, item, property, href) {
-      if($scope.editMode) {
-        if(!item[property]) {
-          item[property] = {}
-        }
-        $event.preventDefault()
-        var modalInstance = $modal.open({
-          templateUrl: require('./mb-edit-icon.modal.jade'),
-          controller: iconModalController,
-          size: 'md',
-          resolve: {
-            icon: function() {
-              return item[property]
-            },
-          }
-        })
-      } else {
-        if(item[property].target) {
-          window.open(href, item[property].target)
-        } else {
-          $location.path(href)
-        }
-      }
+      editMenuModal.open($event, menuItem, href)
     }
 
     // Rubaxa's library "sortable" and "ng-sortable" (the drag and drop capabilities) need a configuration to be passed in. Here we define it. Inside the ng-repeat, any item with a class of `.mb-draggable` will be able to be dragged.
@@ -460,50 +384,6 @@
       }, 200)
     }
 
-
-    // ###Shared Content
-    // What is shared content? Let's say you have an extension|plugin|widget|component|content, whatever you want to call it, on your page. By default it will only exist on that page. If you create another page, even when using the same template you won't see that extension. Shared data is a concept that let's you have the same extension on multiple pages just by naming the extension. The best part? All extensions with that name and type stay in sync, so when you make changes to an extension on one page all other instances of that extension are updated. It means you don't have to recreate the same information over and over again on every page you want that extension.
-
-    // ####Deleting Shared Content
-    // However, we need some way of knowing when to delete shared content, say when it's no longer being used? Upon every save, if an extension was removed from the page, we send it's shared content name to the server which will perform a check. If no other pages are using that shared content, it deletes it all together, however if some other page is still using that content, we do nothing. This variable keeps a record of extensions with names that were deleted for sending to the server.
-    $scope.sharedContentToCheckDelete = []
-
-
-    function getSharedContentFromServer() {
-      // Gets all existing shared content. Why not just content that's used by the page we are on? Because if the user is in edit mode and they want to add existing content they will need the full list of shared content to choose from.
-      api.sharedContent.find({}).then(function(data) {
-
-        // We need to define this for use even if no data was returned so it doesn't break code when we add properties to this object
-        $rootScope.sharedContent = {}
-
-        // We avoid running this code unnecessarily if no data was returned
-        if(helpers.isEmpty(data)) { return false }
-
-        // The data from the server comes in as an array. We want to convert it to an object for speed increases throughout the app so we can refer to a sharedContent object by it's contentName directly instead of having to do a loop anytime we need acceess to it
-        $rootScope.sharedContent = helpers.arrayToObjectWithObject(data, 'contentName')
-
-        // See helpers.service.js. This is basically a for loop that goes through the extensions only on the current page
-        helpers.loopThroughPageExtensions(function(currentExtension) {
-
-          // If the extension has a name (uses shared content), then we want to update it's data with the shared content data
-          if(currentExtension.contentName && currentExtension.contentName !== '') {
-
-            // If the sharedContent for this extension is blank, we want to at least define the correct structure so it doesn't break code
-            if(!$rootScope.sharedContent[currentExtension.contentName]) {
-              $rootScope.sharedContent[currentExtension.contentName] = {
-                data: undefined,
-                config: undefined
-              }
-            }
-            currentExtension.data = $rootScope.sharedContent[currentExtension.contentName].data
-            currentExtension.config = $rootScope.sharedContent[currentExtension.contentName].config
-          }
-        })
-      })
-    }
-
-    getSharedContentFromServer()
-
     // ###Client Side Validation
     // We want to validate client side data before sending it to the server so the user can know what to correct. The server also validates the data.
 
@@ -543,7 +423,6 @@
       if(editMode) {
         snapshots.menus = angular.copy($rootScope.menus)
         snapshots.page = angular.copy($rootScope.page)
-        snapshots.sharedContent = angular.copy($rootScope.sharedContent)
 
         // In the admin pages, extensions may be disabled so they cannot be added to the page.
         // Here we get only the active extensions so the admin can select extensions to add
@@ -568,10 +447,6 @@
       }
     })
 
-    // Every time we load a new page, we need to get the shared content all over again so we can sync any content on that page with changes that were made on a different page
-    $scope.$onRootScope('$stateChangeSuccess', function() {
-      getSharedContentFromServer()
-    })
 
     $scope.$onRootScope('cms.autoSave', _.debounce(async function(event, pageContent, menuContent) {
       var url = $rootScope.page.url
@@ -705,76 +580,10 @@
           console.log('err', err);
         }
 
-        (async () => {
-          if($scope.sharedContentToCheckDelete.length > 0) {
-            try {
-              await api.sharedContent.delete({ contentName:{ $in : $scope.sharedContentToCheckDelete } })
-                // Get the latest content for the list next time the user want to add existing content
-              getSharedContentFromServer()
-                // Reset the array
-              $scope.sharedContentToCheckDelete = []
-            } catch(err) {
-              console.log('Error deleting shared content', err);
-            }
-          } else {
-            getSharedContentFromServer()
-          }
-
-        })()
-
-        // We want to update the extension position data as well
-        $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions)
-
-        // **In this first loop, we update the shared content with the data from the extensions**
-        helpers.loopThroughPageExtensions(function(currentExtension) {
-          var key = currentExtension.contentName
-          var ext = {
-            contentName: key,
-            type: currentExtension.name,
-            data: currentExtension.data,
-            config: currentExtension.config,
-            screenshot: currentExtension.screenshot
-          }
-          if(key && key !== '') {
-            if(!$rootScope.sharedContent[key]) {
-              $rootScope.sharedContent[key] = _.merge({}, ext)
-              upsertSharedContent(key, $rootScope.sharedContent[key])
-            } else {
-              var mergedItem = _.mergeWith($rootScope.sharedContent[key], ext)
-              upsertSharedContent(key, mergedItem)
-            }
-
-          }
-        }) //helpers.loopThroughPageExtensions
-
-        // **In this second loop, we update the extensions with the data from shared content**
-        // This is so that extensions using the same data on the same page all stay in sync
-        helpers.loopThroughPageExtensions(function(currentExtension) {
-          var key = currentExtension.contentName
-          if(key && key !== '') {
-            currentExtension.data = $rootScope.sharedContent[key].data
-            currentExtension.config = $rootScope.sharedContent[key].config
-          }
-        })
-
         toastr.success('Changes saved')
 
       }) //$timeout
     }) //saveEdits()
-
-    async function upsertSharedContent(key, content) {
-      try {
-        let response = await api.sharedContent.find({contentName: key})
-
-        if(response[0]) {
-          await api.sharedContent.update({contentName: key}, content)
-        } else {
-          await api.sharedContent.create(content)
-        }
-      } catch(err) {
-        console.log("Could not save shared content", err)
-      }
-    }
 
     // ### Discard Edits
     // When cms.headbar or any other script releases the event to discard edits, reset everything to the way it was when the user first clicked edit
@@ -783,10 +592,6 @@
       // We want to set the data to it's old initial snapshot
       $rootScope.menus = snapshots.menus
       $rootScope.page = snapshots.page
-      $rootScope.sharedContent = snapshots.sharedContent
-
-      // We also want to reset the shared content to delete check
-      $rootScope.sharedContentToCheckDelete = []
 
       document.title = $rootScope.page.tabTitle
       jQuery('meta[name=description]').attr('content', $rootScope.page.description)
@@ -807,23 +612,6 @@
         console.log('Trouble deleting autosave data for ' + url, err)
       }
     })
-
-    $scope.addMenuItem = function(belongsTo, property) {
-      if(!belongsTo || !property || !belongsTo[property]) { return false }
-      var modalInstance = $modal.open({
-        templateUrl: require('./mb-add-menu-item.modal.jade'),
-        controller: require('./mb-add-menu-item.controller.js'),
-        size: 'md',
-        resolve: {
-          property: function() {
-            return property
-          },
-          menu: function() {
-            return belongsTo
-          }
-        }
-      })
-    };
 
     // ### Image selector
     // This is not the best place for this modal controller, but it handles opening and getting the images for the inline-text editor.
@@ -892,153 +680,6 @@
       })
     }
 
-
-    $scope.openLinkModal = function(belongsTo, property) {
-      if(!belongsTo || !property) { return false }
-      var modalInstance = $modal.open({
-        templateUrl: require('./mb-edit-link.modal.jade'),
-        controller: linkModalController,
-        size: 'md',
-        resolve: {
-          link: function() {
-            return belongsTo[property]
-          },
-        }
-      })
-    }
-
-    function linkModalController($scope, $modalInstance, link) {
-      api.pages.find({$select: ['url']}).then(function(response) {
-        $scope.pages = response
-      })
-
-      $scope.link = angular.copy(link)
-
-      $scope.updateTarget = function(url) {
-        if(url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
-          if(!$scope.link.target) {
-            $scope.link.target = '_blank'
-          }
-        } else {
-          $scope.link.target = ""
-        }
-      }
-
-      $scope.saveLink = function(editLinkForm) {
-
-        // We want to make sure the changes are valid before submitting it
-        if(editLinkForm.$valid) {
-          // link is the menu that was passed in (the actual menu we want to modify). $scope.link is the object that's being edited in the modal.
-          link.title = $scope.link.title || link.title
-          link.url = $scope.link.url || link.url
-          link.classes = $scope.link.classes
-          link.target = $scope.link.target
-          $rootScope.$emit('cms.elementsChanged')
-          $modalInstance.dismiss()
-        }
-      }
-    }
-
-    function iconModalController($scope, $modalInstance, icon) {
-      api.pages.find({}).then(function(response) {
-        $scope.pages = response
-      })
-
-      $scope.icon = angular.copy(icon)
-
-      $scope.updateTarget = function(url) {
-        if(url && url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
-          if(!$scope.icon.target) {
-            $scope.icon.target = '_blank'
-          }
-        } else {
-          $scope.icon.target = ""
-        }
-      }
-
-
-      $scope.hasContent = true
-      let usesFontAwesome = false
-      let usesBootstrap = false
-      $scope.checkHasContent = function() {
-        $timeout(function() {
-          $timeout(function() {
-            var testIcon = $('#test-icon')[0]
-            let character = getComputedStyle(testIcon, ':before').content.replace(/'|"/g, '')
-            $scope.hasContent = character.charCodeAt(0)
-
-            if(!$scope.hasContent && $scope.icon.classes) {
-              $scope.hasContentError = "Please choose a class name that will make the icon appear or erase all the class names."
-            } else {
-              $scope.hasContentError = ''
-            }
-          })
-        })
-      }
-
-      $scope.saveIcon = function(editIconForm) {
-
-        // We want to make sure the changes are valid before submitting it
-        if(editIconForm.$valid && ($scope.hasContent || !$scope.icon.classes)) {
-          // icon is the menu that was passed in (the actual menu we want to modify). $scope.icon is the object that's being edited in the modal.
-          icon.title = $scope.icon.title || icon.title
-          icon.url = $scope.icon.url || icon.url
-
-          icon.classes = $scope.icon.classes
-          icon.target = $scope.icon.target
-          $rootScope.$emit('cms.elementsChanged')
-          $modalInstance.dismiss()
-        }
-      }
-    }
-
-    // ### Removing extensions
-    // This may not be the best location for this function, but it handles removing extensions when the user clicks the delete **delete** button on an extension
-    // Removes an extension from an extensible area
-    $scope.removeThisExtension = function(extension) {
-
-      // If `sharedContentToCheckDelete` does not already contain this extension `contentName` we want to add it to the array.
-      if(extension.contentName && $scope.sharedContentToCheckDelete.indexOf(extension.contentName) === -1) {
-        $scope.sharedContentToCheckDelete.push(extension.contentName)
-      }
-
-      // Since we are deleting an extension we want to make sure they are in the correct order in the array so we don't delete the wrong extension
-      $rootScope.page.extensions = helpers.updatePositionData($rootScope.page.extensions)
-
-      // Make sure we are deleting an existing extension and then remove it from $rootScope.page.extensions
-      if(extension && extension.group && extension.position !== undefined) {
-        $rootScope.page.extensions[extension.group].splice(extension.position, 1)
-      }
-    }
-
-    // ### Create new menu item
-    // This may not be the best location for this controller, but it handles opening the modal to create a new menu item
-    $scope.createMenuItem = function(group) {
-      if(!$rootScope.menus[group]) {
-        $rootScope.menus[group] = []
-      }
-      var modalInstance = $modal.open({
-        templateUrl: require('./mb-edit-menu.modal.jade'),
-        controller: menuModal,
-        size: 'md',
-        resolve: {
-          menuItem: function() {
-            return {
-              position: $rootScope.menus[group].length,
-              group: group,
-              title: '',
-              classes: '',
-              target: '',
-              url: ''
-            }
-          },
-          isNewMenu: function() {
-            return true
-          }
-        }
-      })
-    }
-
     let editExtensionModalInstance
     $scope.openEditExtensionModal = function(item) {
       if(editExtensionModalInstance) { return false }
@@ -1094,75 +735,6 @@
       editExtensionModalInstance.result.finally(function (selectedImages) {
         editExtensionModalInstance = undefined
       })
-    }
-
-
-    // ### The Menu Modal Controller
-    // @ngInject
-    function menuModal($scope, $modalInstance, menuItem, isNewMenu) {
-
-      api.pages.find({$select: ['url']}).then(function(response) {
-        $scope.pages = response
-      })
-
-      // This is a little distinguishing check to see if this modal was opened from an existing menu item (to edit it) or was opened from the createMenuItem function to create a new menu from scratch
-      $scope.isNewMenu = isNewMenu
-
-      // Since we don't want to be affecting our actual menu until we hit save we must make a copy of it.
-      $scope.menuItem = angular.copy(menuItem)
-
-      $scope.newMenuItem = function(editingMenuForm) {
-        // We want to make sure the data is valid before submitting it
-        if(editingMenuForm.$valid) {
-          if($scope.menuItem._id) { delete $scope.menuItem._id }
-
-          // If this menu group doesn't exist create it
-          if(!$rootScope.menus[$scope.menuItem.group]) {
-            $rootScope.menus[$scope.menuItem.group] = []
-          }
-
-          // Add the menu item to the end of it's group's list
-          $scope.menuItem.position = $rootScope.menus[$scope.menuItem.group].length
-          $rootScope.menus[$scope.menuItem.group].push($scope.menuItem)
-
-          $rootScope.$emit('cms.elementsChanged')
-          $modalInstance.dismiss()
-        }
-      }
-
-      $scope.updateTarget = function(url) {
-        if(url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
-          if(!$scope.menuItem.target) {
-            $scope.menuItem.target = '_blank'
-          }
-        } else {
-          $scope.menuItem.target = ""
-        }
-      }
-
-      $scope.editMenuItem = function(editingMenuForm) {
-        // We want to make sure the changes are valid before submitting it
-        if(editingMenuForm.$valid) {
-          // menuItem is the menu that was passed in (the actual menu we want to modify). $scope.menuItem is the object that's being edited in the modal.
-          menuItem.title = $scope.menuItem.title || menuItem.title
-          menuItem.url = $scope.menuItem.url || menuItem.url
-          menuItem.classes = $scope.menuItem.classes
-          menuItem.target = $scope.menuItem.target
-
-          $rootScope.$emit('cms.elementsChanged')
-          $modalInstance.dismiss()
-        }
-      }
-
-      $scope.removeMenuItem = function() {
-        // Update the position data so that we are sure we are deleting the correct menu item
-        $rootScope.menus = helpers.updatePositionData($rootScope.menus)
-
-        $rootScope.menus[menuItem.group].splice(menuItem.position, 1)
-
-        $rootScope.$emit('cms.elementsChanged')
-        $modalInstance.dismiss()
-      }
     }
 
   }

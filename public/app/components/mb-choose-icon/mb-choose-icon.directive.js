@@ -1,11 +1,13 @@
 angular.module('meanbaseApp')
-  .directive('mbChooseIcon', function ($rootScope, endpoints, $compile, $timeout) {
+  .directive('mbChooseIcon', function ($rootScope, endpoints, $compile, $timeout, iconModal) {
     return {
-      template: '<i ng-class="belongsTo[property].classes" ng-click="handleIconClick($event, belongsTo, property, belongsTo[property].url)"></i>',
+      template: '<i ng-class="belongsTo[property].classes" ng-click="open($event, belongsTo, property, belongsTo[property].url)"></i>',
       restrict: 'EA',
       scope: true,
       replace: true,
       link: function (scope, element, attrs) {
+
+        scope.open = iconModal.open
         scope.belongsTo = scope.$parent.$eval(attrs.belongsTo);
 
         if(!scope.belongsTo) { scope.belongsTo = {}; }
