@@ -613,54 +613,6 @@
       }
     })
 
-    // ### Image selector
-    // This is not the best place for this modal controller, but it handles opening and getting the images for the inline-text editor.
-    // This controls the image selector modal that opens with the inline text editor
-    $rootScope.openImageModal = function(config, callback) {
-      var modalInstance = $modal.open({
-        templateUrl: require('./mb-find-image.modal.jade'),
-        controller: function($scope, $modalInstance, config) {
-          $scope.config = config
-
-          config.allOperations = true
-          $scope.imageSelectorApi = {}
-          var areChanges
-
-          if($scope.config.multiple) {
-            $scope.instructions = 'Choose Images'
-          } else {
-            $scope.instructions = 'Choose Image'
-          }
-
-
-          $modalInstance.opened.then(function() {
-            $timeout(function() {
-              $scope.imageSelectorApi.getAlreadySelected($scope.config.alreadySelected)
-            }, 0, true)
-
-          })
-          // $scope.allOperations = false
-          $scope.chooseImages = function() {
-            areChanges = true
-            var selectedImages = $scope.imageSelectorApi.getSelectedImages()
-            $modalInstance.close(selectedImages)
-          }
-        },
-        size: 'lg',
-        resolve: {
-          config: function() {
-            return config || {}
-          }
-        }
-      })
-
-      modalInstance.result.then(function (selectedImages) {
-        if(callback) {
-          callback(selectedImages)
-        }
-      })
-    }
-
     // ### Publish Gallery Selection
     // In meanbase, a gallery is simply a group of images. When images a selected with the image-selector and chosen, we need a way of saving that selection when the user hits save. This takes the images that were selected and the name of the slug (collection) and saves that slug to those images on the server.
     $rootScope.publishGallerySelection = function(slug, gallerySelection) {

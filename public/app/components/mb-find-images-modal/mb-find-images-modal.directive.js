@@ -1,5 +1,5 @@
 angular.module('meanbaseApp')
-  .directive('mbFindImagesModal', function ($rootScope, $timeout) {
+  .directive('mbFindImagesModal', function ($rootScope, $timeout, imageModal) {
     return {
       restrict: 'EA',
       scope: true,
@@ -18,10 +18,13 @@ angular.module('meanbaseApp')
 
           if (event.target !== this) { return };
 
-      		// openImageModal is defined in main.controller
-      		$rootScope.openImageModal(config, function(selectedImages) {
+          imageModal.open(config, function(selectedImages) {
       			$rootScope.$emit('cms.choseImages', {gallerySlug:  config.gallerySlug, images: selectedImages});
-      		});
+      		})
+
+      		// $rootScope.openImageModal(config, function(selectedImages) {
+      		// 	$rootScope.$emit('cms.choseImages', {gallerySlug:  config.gallerySlug, images: selectedImages});
+      		// });
       	});
 
 
