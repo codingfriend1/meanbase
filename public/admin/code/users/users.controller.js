@@ -8,6 +8,12 @@
 
     var r = $scope.r = new crud($scope, 'roles', api.roles);
 
+    api.settings.find({})
+
+    api.settings.find({name: 'defaultRole'}).then(function(res) {
+      $scope.defaultRole = res[0].value;
+    });
+
     function findall() {
       api.users.find({}).then(function(response) {
         $scope.users = response
@@ -27,7 +33,25 @@
 	  api.roles.find({}).then(function(roles) {
 	  	$scope.roles = roles;
 	  	$scope.selectedRole = $scope.roles[0];
+
+      if(!$scope.defaultRole) {
+        for (var i = 0; i < $scope.roles.length; i++) {
+          if($scope.roles[i].role === 'basic') {
+            $scope.defaultRole = $scope.roles[i]
+          }
+        }
+
+      }
 	  });
+
+    $scope.setDefaultRole = function() {
+      api.settings.upsert({name: 'defaultRole'}, {name: 'defaultRole', value: $scope.defaultRole}).then(function(roles) {
+  	  	toastr.success('Default for for new users is saved.')
+  	  }, function() {
+        toastr.warning("Sorry there was an error, and the default role could not be saved.")
+      });
+    };
+
 
     $scope.toggleEnabled = function(user) {
       user.enabled = !user.enabled;

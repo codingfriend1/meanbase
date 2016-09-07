@@ -55,22 +55,26 @@ angular.module('meanbaseApp', [
         }
 
         Auth.isLoggedInAsync(function(loggedIn) {
-          if (toState.authenticate && !loggedIn) {
-            $location.path('/cms/account');
+          if(!toState.authenticate && !toState.hasPermission) {
+            continueNavigation()
           } else {
-            $rootScope.isLoggedIn = loggedIn;
-            $rootScope.currentUser = Auth.getCurrentUser();
-
-            if(toState.hasPermission) {
-              Auth.hasPermission(toState.hasPermission, function(hasPermission) {
-                if(!hasPermission) {
-                  $location.path('/cms');
-                } else {
-                  continueNavigation();
-                }
-              });
+            if (!loggedIn) {
+              $location.path('/cms/account');
             } else {
-              continueNavigation();
+              $rootScope.isLoggedIn = loggedIn;
+              $rootScope.currentUser = Auth.getCurrentUser();
+
+              if(toState.hasPermission) {
+                Auth.hasPermission(toState.hasPermission, function(hasPermission) {
+                  if(!hasPermission) {
+                    $location.path('/cms');
+                  } else {
+                    continueNavigation();
+                  }
+                });
+              } else {
+                continueNavigation();
+              }
             }
           }
         });

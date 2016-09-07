@@ -183,6 +183,8 @@ angular.module('meanbaseApp')
           return true
         } catch(err) {
           console.log("Error authenticating", err);
+          this.logout();
+          $rootScope.isLoggedIn = false;
           cb(false);
           return false
         }

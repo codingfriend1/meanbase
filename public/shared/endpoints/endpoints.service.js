@@ -93,7 +93,7 @@
       feathers.service(this.url).find({ query: identifier }).then(response => {
         if(response.length === 0) {
           feathers.service(this.url).create(rp).then(deferred.resolve).catch((err) => {
-            console.log("Upsert failure for " + self.url, data);
+            console.log("Upsert failure for " + self.url, rp);
             deferred.reject(data)
     				self.errorHandler(data);
           })

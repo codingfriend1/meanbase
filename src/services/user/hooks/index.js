@@ -26,6 +26,26 @@ function ifFirstUserThenAdmin(hook) {
   })
 }
 
+function defaultRole(hook) {
+  return new Promise(async (resolve, reject) => {
+    if(hook.data) {
+      try {
+        let defaultRole = await hook.app.service('settings').find({name: 'defaultRole'})
+        defaultRole = defaultRole[0]
+
+        if(defaultRole && defaultRole.value && defaultRole.value.role) {
+          hook.data.role = defaultRole.value.role
+        }
+
+        resolve(hook)
+      } catch(err) {
+        resolve(hook)
+      }
+    }
+
+  })
+}
+
 exports.before = {
   all: [],
   find: [
@@ -46,6 +66,7 @@ exports.before = {
   ],
   create: [
     auth.hashPassword(),
+    defaultRole,
     ifFirstUserThenAdmin,
     verifyHooks.addVerification()
   ],
