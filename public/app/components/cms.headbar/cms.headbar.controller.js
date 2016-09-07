@@ -149,7 +149,6 @@
     }
 
     async function autoSaveExtension(item) {
-      console.log('running autosave extension', item);
       if(item.label && item.sync && item.syncGroup) {
         let found
         try {

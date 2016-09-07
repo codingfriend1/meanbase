@@ -113,9 +113,9 @@
           i.fa.fa-lg.fa-file
       ul.dropdown-list
         li(ng-repeat="template in themeTemplates")
-          a(href="#" ng-click="headbar.updateTemplate(template)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)")
+          a.drop-down-item-with-check(href="#" ng-click="headbar.updateTemplate(template)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)")
             span {{template + ' template'}}  
-            span(ng-show="template === page.template").float-right
+            span(ng-show="template === page.template").mb-template-check
               i.fa.fa-check
               
     .mb-headbar-btn.mb-color-red(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Preview Page")
@@ -157,11 +157,11 @@
           a(ng-click="headbar.editPageModal()") Settings
         li(ng-show="editMode" title="Undo all changes since last time this was published")
           a(ng-click="headbar.resetDraft()") Reset Draft
-        li.divider(ng-show="$root.previousEditUrls.length")
-        li.dropdown-header(ng-show="$root.previousEditUrls.length") Recent Edits
-        li(ng-repeat="url in $root.previousEditUrls") 
-          a(ng-href="{{url}}") {{url}}
-        li.divider(ng-show="$root.previousEditUrls.length")
+        //- li.divider(ng-show="$root.previousEditUrls.length")
+        //- li.dropdown-header(ng-show="$root.previousEditUrls.length") Recent Edits
+        //- li(ng-repeat="url in $root.previousEditUrls") 
+        //-   a(ng-href="{{url}}") {{url}}
+        //- li.divider(ng-show="$root.previousEditUrls.length")
         li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
           a(ng-click="headbar.deletePage()") Delete page
             
@@ -189,6 +189,9 @@
         input(type="text" placeholder="filter pages" ng-model="mbSearchPagesDrawer").mb-drawer-search
               
       .mb-draw-pages-list
+        label(ng-show="$root.previousEditUrls.length") Recent Edits
+        a(ng-repeat="url in $root.previousEditUrls" ng-href="{{url}}") {{url}}
+        hr
         a(ng-repeat="page in drawerPages | filter:mbSearchPagesDrawer" ng-href="{{page.url}}").mb-page-link {{page.title | htmlToPlainText }}
 
 

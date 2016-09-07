@@ -337,11 +337,27 @@
         var self = this
         this.base.saveSelection()
         $scope.openImageModal({multiple: false}, function(image) {
-          var imageToInsert = document.createElement("img")
-          imageToInsert.src = image.small
-          imageToInsert.alt = image.alt
+          var div = document.createElement("div")
+
+          div.innerHTML = `
+            <figure contenteditable=\"false\" class="img-responsive">
+              <img src="${image.small}" alt="${image.alt}" class=\"medium-insert-image-active img-responsive\">
+              <figcaption contenteditable=\"true\" class="medium-insert-caption-placeholder" data-placeholder="Type caption for image (optional)"></figcaption>
+            <figure>
+          `
+          // var imageToInsert = document.createElement("img")
+          // imageToInsert.src = image.small
+          // imageToInsert.alt = image.alt
           // imageToInsert.class = 'img-responsive'
-          imageToInsert.className = 'img-responsive medium-editor-insert-images'
+
+          let imageToInsert = div
+
+
+
+
+
+
+          // imageToInsert.className = 'img-responsive medium-editor-insert-images'
           self.base.restoreSelection()
           var tmp = document.createElement("div")
           tmp.appendChild(imageToInsert)
@@ -392,7 +408,7 @@
           'justifyRight',
           'orderedlist',
           'unorderedlist',
-          'image-selector'
+          // 'image-selector'
         ],
         diffLeft: 25,
         diffTop: -10,
@@ -402,7 +418,7 @@
         updateOnEmptySelection: true
       },
       extensions: {
-        "image-selector": new ImageSelector(),
+        // "image-selector": new ImageSelector(),
         // 'insert': new MediumEditorInsert()
       },
       // imageDragging: true,
@@ -425,7 +441,7 @@
 
     $scope.editorSingleLine.toolbar.buttons = [
       'bold',
-      'italic',
+      // 'italic',
       'anchor',
       'h1',
       'h2',

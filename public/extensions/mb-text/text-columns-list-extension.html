@@ -3,7 +3,7 @@
     <div class="row" ng-init="point={}">
       <div class="col-sm-12 mb-animate-list relative" mb-grid-item item="point" ng-repeat="point in listItem.data.items">
           <div mb-edit ng-model="point.text" bind-options="editorOptions"></div>
-          <mb-list-remove list="listItem.data.items" item="point"></mb-list-remove>
+          <!-- <mb-list-remove list="listItem.data.items" item="point"></mb-list-remove> -->
         </div>
       </div>
       <mb-list-add class="col-sm-12 relative" mb-grid-item item="point" ng-if="editMode" list="listItem.data.items" label="plain text"></mb-list-add>

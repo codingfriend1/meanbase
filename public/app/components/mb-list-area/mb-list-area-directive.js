@@ -10,6 +10,8 @@ angular.module('meanbaseApp')
           if(!$rootScope.page.lists[scope.areaName]) {
             $rootScope.page.lists[scope.areaName] = [];
           }
+
+          if(!$rootScope.currentUser) { return false }
       	}
       }
     };

@@ -4,6 +4,9 @@
     span.sr-only Close
   h4#editMenuItemLabel.modal-title Choose Link
 .modal-body
+  .alert.alert-warning
+    strong Notice
+    div Links won't work while in edit mode. If you want to visit the link then hit visit link
   form(novalidate name="editLinkForm" ng-submit="saveLink(editLinkForm)")
     input(type="submit").hidden
     .form-group
@@ -26,5 +29,6 @@
           option(value="_self") Replace the current page
           option(value="_blank") New Page
 .modal-footer
+  a.btn.btn-warning(ng-href="{{link.url}}" target="{{link.target}}" ng-click="$dismiss()") Visit Link
   button.btn.btn-success(type="submit" ng-click="saveLink(editLinkForm)" ng-class="{disabled: editLinkForm.$invalid}") Save
   button.btn.btn-default(type='button' ng-click="$dismiss()") Close
