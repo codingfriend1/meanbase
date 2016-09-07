@@ -637,6 +637,11 @@
 				toastr.warning('Only users with permission to edit pages can see this page.');
 			}
 
+      api.menus.update({url: $rootScope.page.url}, {published: $rootScope.page.published}).then(() => {}, err => {
+        console.log("Error publishing menu", err);
+        toastr.warning('There was an error and the menu for this page could not be published. Try unpublishing and publishing the page again.')
+      });
+
       $rootScope.$emit('cms.publishChanges');
 
       if($rootScope.page.published) {
