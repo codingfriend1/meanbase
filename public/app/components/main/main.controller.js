@@ -77,25 +77,6 @@
       return false
     }
 
-    // $scope.openEditMenuModal = function(event, menuItem) {
-    //   if($scope.editMode) {
-    //     event.preventDefault()
-    //     var modalInstance = $modal.open({
-    //       templateUrl: require('./mb-edit-menu.modal.jade'),
-    //       controller: menuModal,
-    //       size: 'md',
-    //       resolve: {
-    //         menuItem: function() {
-    //           return menuItem
-    //         },
-    //         isNewMenu: function() {
-    //           return false
-    //         }
-    //       }
-    //     })
-    //   }
-    // }
-
     // ###handleClick
     // If the user is in edit mode, we prevent menus that use this function in their ng-click from navigating away and instead open the edit menu modal. If the user is not in edit mode, navigation functions normally.
     $scope.handleClick = function($event, menuItem, href) {
@@ -109,14 +90,19 @@
 
     let activeElGroup
 
-
-    $rootScope.menusConfig = {
-      group: 'menus',
+    let sortableTemplateDefaults = {
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
       delay: 300,
       filter: ".ignore-draggable",
       animation: 250,
+      scroll: true,
+      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
+      scrollSpeed: 10 // px
+    }
+
+    $rootScope.menusConfig = _.extend({}, sortableTemplateDefaults, {
+      group: 'menus',
       onStart: function (event) {
         $rootScope.inDragMode = true
         activeElGroup = $rootScope.menus
@@ -124,20 +110,11 @@
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
         $rootScope.inDragMode = false
-      },
-      scroll: true, // or HTMLElement
-      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
-      scrollSpeed: 10 // px
-    }
+      }
+    })
 
-    $rootScope.sortableLists = {
+    $rootScope.sortableLists = _.extend({}, sortableTemplateDefaults, {
       group: 'lists',
-      ghostClass: "mb-draggable-ghost",
-      draggable: ".mb-draggable",
-      filter: ".ignore-draggable",
-      delay: 300,
-      // handle: ".mb-drag-handle",
-      animation: 250,
       onStart: function (event) {
         $rootScope.inDragMode = true
         activeElGroup = $rootScope.page.lists
@@ -145,20 +122,14 @@
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
         $rootScope.inDragMode = false
-      },
-      scroll: true, // or HTMLElement
-      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
-      scrollSpeed: 10 // px
-    }
+      }
+    })
 
-    $rootScope.mbSortableExtensionList = {
+    $rootScope.mbSortableExtensionList = _.extend({}, sortableTemplateDefaults, {
       group: 'extension-list',
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-inner-draggable",
       filter: ".ignore-inner-draggable",
-      delay: 300,
-      // handle: ".mb-drag-handle",
-      animation: 250,
       onStart: function (event) {
         $rootScope.inDragMode = true
         activeElGroup = $rootScope.page.lists
@@ -166,11 +137,8 @@
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
         $rootScope.inDragMode = false
-      },
-      scroll: true, // or HTMLElement
-      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
-      scrollSpeed: 10 // px
-    }
+      }
+    })
 
     $rootScope.trashCanDraggable = {
       group: {
