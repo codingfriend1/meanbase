@@ -64,7 +64,7 @@ angular.module('meanbaseApp', [
             if(toState.hasPermission) {
               Auth.hasPermission(toState.hasPermission, function(hasPermission) {
                 if(!hasPermission) {
-                  $location.path('/cms/account');
+                  $location.path('/cms');
                 } else {
                   continueNavigation();
                 }
