@@ -189,4 +189,4 @@ var article = {
   "published": true
 };
 
-module.exports = [home, tutorial, article];
+module.exports = [home];
