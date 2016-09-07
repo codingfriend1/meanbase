@@ -57,8 +57,27 @@ angular.module('meanbaseApp')
         try {
           let foundPages = await api.pages.find({url: page.url})
           if(foundPages.length < 1) {
+            page.published = false
             await p.create(page, page.title + ' created', 'Could not create ' + page.title)
-            let createdMenu = await api.menus.create(newMenu)
+
+            try {
+              let createdMenu = await api.menus.create(newMenu)
+              let menusStagingData = await api.staging.find({key: 'menus'})
+              menusStagingData = menusStagingData[0]
+
+              if(menusStagingData && menusStagingData.data) {
+                menusStagingData.data.main[0] = createdMenu;
+                try {
+                  await api.staging.update({key: 'menus'}, {data: menusStagingData.data})
+                } catch(err) {
+                  console.log("Error saving new menu to staging area", err);
+                  toastr.warning("Sorry but we could not add the menu to your autosave area. It exists but you won't be able to see it.")
+                }
+              }
+            } catch(err) {
+              console.log('Error creating menu', err);
+            }
+
             localStorage.setItem('previousEditUrl', createdMenu.url)
 
             $timeout(function() {

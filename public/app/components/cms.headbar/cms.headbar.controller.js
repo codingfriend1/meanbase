@@ -722,7 +722,7 @@
       }
 
 			var newMenu = {
-				title: menuTitle,
+				title: placeholderTitle,
 				url: url,
 				location: 'main',
 				position: $scope.menus.main.length,
@@ -732,7 +732,24 @@
 
       try {
         await api.pages.create(newPage)
-        let createdMenu = await api.menus.create(newMenu)
+
+        try {
+          let createdMenu = await api.menus.create(newMenu)
+          let menusStagingData = await api.staging.find({key: 'menus'})
+          menusStagingData = menusStagingData[0]
+
+          if(menusStagingData && menusStagingData.data) {
+            menusStagingData.data.main[0] = createdMenu;
+            try {
+              await api.staging.update({key: 'menus'}, {data: menusStagingData.data})
+            } catch(err) {
+              console.log("Error saving new menu to staging area", err);
+              toastr.warning("Sorry but we could not add the menu to your autosave area. It exists but you won't be able to see it.")
+            }
+          }
+        } catch(err) {
+          console.log('Error creating menu', err);
+        }
       } catch(err) {
         console.log('Error creating page and menu', err);
       }
