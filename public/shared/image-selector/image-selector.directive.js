@@ -408,12 +408,22 @@ angular.module('meanbaseApp')
           });
         }
 
-        uploader.onCompleteAll = function() {
-          toastr.success('Images successfully saved');
+        let showImagesSaved = true
+
+        uploader.onCompleteAll = function(response) {
+          if(showImagesSaved) {
+            toastr.success('Images successfully saved');
+          } else {
+            toastr.warning('Sorry but the images failed to upload. You may not have permission to upload images.')
+          }
+
           uploader.clearQueue()
         };
 
-        uploader.onCompleteItem = function() {
+        uploader.onCompleteItem = function(response) {
+          if(response.isError) {
+            showImagesSaved = false
+          }
           $rootScope.$emit('cms.imagesUploaded');
         };
 
