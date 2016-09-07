@@ -1,8 +1,8 @@
 // inject jade
 import "./components/site-menu.jade";
-import "./templates/home/home-template.jade";
 import "./templates/archive/archive-template.jade";
 import "./templates/article/article-template.jade";
+import "./templates/home/home-template.jade";
 import "./templates/page/page-template.jade";
 // end inject jade
 
@@ -17,6 +17,6 @@ import "./templates/article/article.controller.js";
 import "./components/site-menu.styl";
 import "./templates/archive/archive.styl";
 import "./templates/article/article.styl";
-import "./templates/home/home.styl";
 import "./templates/page/page.styl";
+import "./templates/home/home.styl";
 // end inject stylus
