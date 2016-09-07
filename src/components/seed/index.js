@@ -26,26 +26,29 @@ module.exports = function() {
 
   ifEmptyCreate = ifEmptyCreate.bind(this)
   resetData = resetData.bind(this)
+  removeData = removeData.bind(this)
 
   app.configure(ifEmptyCreate('roles', rolesData))
   app.configure(resetData('extensions'))
 
   if(process.env.SEED) {
+    console.log('seeding site data');
     app.configure(ifEmptyCreate('pages', pagesData))
     app.configure(ifEmptyCreate('menus', menusData))
     app.configure(ifEmptyCreate('comments', commentsData))
   }
 
   if(process.env.RESET_SEED) {
+    console.log('resetting site data');
     app.configure(resetData('pages', pagesData))
     app.configure(resetData('menus', menusData))
     app.configure(resetData('comments', commentsData))
     app.configure(resetData('themes'))
     app.configure(resetData('roles', rolesData))
-    app.configure(removeData('users'))
-    app.configure(removeData('staging'))
-    app.configure(removeData('settings'))
-    app.configure(removeData('ban'))
+    removeData('users')()
+    removeData('staging')()
+    removeData('settings')()
+    removeData('ban')()
   }
 
   // app.configure(resetData('themes'))
@@ -98,6 +101,7 @@ function resetData(name, data) {
 
 function removeData(name) {
   return async () => {
+    console.log('resetting ' + name);
     await this.service(name).remove(null, {query:{}})
   }
 }
