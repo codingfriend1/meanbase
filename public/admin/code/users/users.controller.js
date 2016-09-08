@@ -46,7 +46,7 @@
 
     $scope.setDefaultRole = function() {
       api.settings.upsert({name: 'defaultRole'}, {name: 'defaultRole', value: $scope.defaultRole}).then(function(roles) {
-  	  	toastr.success('Default for for new users is saved.')
+  	  	toastr.success('Default role for new users is saved.')
   	  }, function() {
         toastr.warning("Sorry there was an error, and the default role could not be saved.")
       });
