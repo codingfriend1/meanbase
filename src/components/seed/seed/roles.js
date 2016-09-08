@@ -151,7 +151,7 @@ var demo = {
 		editContent: true,
 		publishContent: false,
 		deleteContent: true,
-		manageMedia: false,
+		manageMedia: true,
 		restrictAccess: false,
 		manageExtensions: false,
 		moderateComments: true,
