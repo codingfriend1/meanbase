@@ -31,14 +31,18 @@ module.exports = function() {
   app.configure(ifEmptyCreate('roles', rolesData))
   app.configure(resetData('extensions'))
 
-  if(process.env.SEED) {
+  let seed = process.env.SEED && typeof process.env.SEED === 'string'? process.env.SEED.toLowerCase(): process.env.SEED
+  
+  let reset_seed = process.env.RESET_SEED && typeof process.env.RESET_SEED === 'string'? process.env.RESET_SEED.toLowerCase(): process.env.RESET_SEED
+
+  if(seed === "true") {
     console.log('seeding site data');
     app.configure(ifEmptyCreate('pages', pagesData))
     app.configure(ifEmptyCreate('menus', menusData))
     app.configure(ifEmptyCreate('comments', commentsData))
   }
 
-  if(process.env.RESET_SEED) {
+  if(reset_seed === "true") {
     console.log('resetting site data');
     app.configure(resetData('pages', pagesData))
     app.configure(resetData('menus', menusData))
