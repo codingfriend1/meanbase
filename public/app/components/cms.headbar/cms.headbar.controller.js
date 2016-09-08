@@ -176,11 +176,10 @@
         let foundStaging = await api.staging.find({belongsTo: item.label, key: item.syncGroup})
         foundStaging = foundStaging[0]
 
-        if(foundStaging && foundStaging.data) {
+        if(_.get(foundStaging, 'data') && !_.isEqual(foundStaging.data, { items: [] }) ) {
           $timeout(function() {
             item.data = foundStaging.data
           });
-
         } else {
           let foundPublishData = await api.custom.find({belongsTo: item.label, key: item.syncGroup})
           foundPublishData = foundPublishData[0]
