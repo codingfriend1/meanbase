@@ -27,9 +27,11 @@ var home = {
   "links": {
     "callToAction": {
       "icon": {
-        "classes": "fa fa-pencil fa-lg example"
+        "classes": "fa fa-book"
       },
-      "title": ""
+      "title": "Documentation",
+      "url": "https://codingfriend1.gitbooks.io/meanbase/content/",
+      "target": "_blank"
     }
   },
   "lists": {

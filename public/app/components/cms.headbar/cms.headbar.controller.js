@@ -195,7 +195,7 @@
       }
     }
 
-    $scope.$onRootScope('cms.fetchExtensionData', () => {
+    $scope.$onRootScope('cms.fetchExtensionData', async () => {
       for (var extension in $rootScope.page.lists) {
         if ($rootScope.page.lists.hasOwnProperty(extension)) {
           for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
