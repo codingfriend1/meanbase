@@ -93,7 +93,7 @@
     let sortableTemplateDefaults = {
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
-      delay: 200,
+      delay: 100,
       filter: ".ignore-draggable",
       animation: 250,
       scroll: true,

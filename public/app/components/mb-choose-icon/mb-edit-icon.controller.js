@@ -1,4 +1,4 @@
-module.exports = function iconModalController($scope, $modalInstance, icon, api, $rootScope) {
+module.exports = function iconModalController($scope, $modalInstance, icon, api, $rootScope, $timeout) {
   api.pages.find({}).then(function(response) {
     $scope.pages = response
   })
@@ -23,6 +23,7 @@ module.exports = function iconModalController($scope, $modalInstance, icon, api,
     $timeout(function() {
       $timeout(function() {
         var testIcon = $('#test-icon')[0]
+
         let character = getComputedStyle(testIcon, ':before').content.replace(/'|"/g, '')
         $scope.hasContent = character.charCodeAt(0)
 
