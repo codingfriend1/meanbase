@@ -40,9 +40,37 @@ angular.module('meanbaseApp')
       }
     };
 
+    $scope.updateTitle = function(url) {
+      if(!$scope.settings) { return false; }
+      if(url) {
+        let { placeholderTitle } = convertUrlToTitle(url)
+        $scope.settings.title = placeholderTitle;
+      }
+    };
+
+    function convertUrlToTitle(url) {
+      url = url.replace(/[ ]/g, "-")
+			var menuTitle = url.replace(/[_-]/g, " ");
+			var placeholderTitle = menuTitle.replace(/(^| )(\w)/g, function(x) {
+				return x.toUpperCase();
+			});
+			if((url.charAt(0) == '/')) {
+				placeholderTitle = menuTitle.substr(1);
+			} else {
+				url = '/' + url;
+			}
+      return { placeholderTitle, menuTitle, url }
+    }
+
+    let previousUrl
     $scope.saveSettings = async function(page, settings) {
-      var previousUrl = page.url;
       if(page && page._id) {
+
+        if(previousUrl !== page.url) {
+          let { placeholderTitle } = convertUrlToTitle(page.url)
+          page.title = placeholderTitle
+        }
+
         p.update(page, settings, page.title + ' updated', 'Could not update ' + page.title);
       } else if(page && !page._id) {
 
@@ -130,6 +158,11 @@ angular.module('meanbaseApp')
 
       p.toggleModal('isSettingsOpen', 'settings', settings)
     };
+
+    $scope.openEditPageModal = function(page) {
+      previousUrl = page.url
+      p.toggleModal('isSettingsOpen', 'settings', page)
+    }
 
 	  $scope.pageFilter = function(page) {
       if(page) {

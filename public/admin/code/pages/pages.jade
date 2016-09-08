@@ -18,7 +18,7 @@
           button(id="{{page._id}}").mdl-button.mdl-js-button.mdl-button--icon
             i.material-icons more_vert
           ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for='{{page._id}}')
-            li.mdl-menu__item.page-settings-button(ng-click="p.toggleModal('isSettingsOpen', 'settings', page)") Settings
+            li.mdl-menu__item.page-settings-button(ng-click="openEditPageModal(page)") Settings
             li.mdl-menu__item.confirm-delete-button(ng-click="p.toggleModal('isDeleteOpen', 'pageToDelete', page)") Delete Page
 // Colored FAB button
 button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--floating-action(ng-click="openSettingsModal()")
@@ -44,7 +44,7 @@ button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--
           input#title.mdl-textfield__input(type='text', value='Everyone' ng-model='settings.title' ng-change="updateUrl(settings.title)")
           label.mdl-textfield__label(for='title') Page Title
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.url}")
-          input#url.mdl-textfield__input(type='text' ng-model='settings.url' mdl)
+          input#url.mdl-textfield__input(type='text' ng-model='settings.url' mdl ng-change="updateTitle(settings.url)")
           label.mdl-textfield__label(for='url') Page Link Url
         .form-group
           label(for='page-template') Page template:
