@@ -189,7 +189,7 @@
               item.data = foundPublishData.value
             });
           } else {
-            autoSaveExtension(item)
+            await autoSaveExtension(item)
           }
         }
       }
@@ -200,7 +200,7 @@
         if ($rootScope.page.lists.hasOwnProperty(extension)) {
           for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
             let item = $rootScope.page.lists[extension][i]
-            fetchExtension(item)
+            await fetchExtension(item)
           }
         }
       }
