@@ -1,15 +1,13 @@
-'use strict';
+const globalHooks = require('../../../hooks')
+const hooks = require('feathers-hooks')
+const auth = require('feathers-authentication').hooks
 
-const globalHooks = require('../../../hooks');
-const hooks = require('feathers-hooks');
-const auth = require('feathers-authentication').hooks;
+import convertForIncoming from './convert-for-incoming'
+import convertForOutgoing from './convert-for-outgoing'
+import { deleteMenu, createMenu } from './mirror-menus'
 
-import convertForIncoming from './convert-for-incoming';
-
-import convertForOutgoing from './convert-for-outgoing';
-
-const permissionName = 'editContent';
-const restriction = {published: true};
+const permissionName = 'editContent'
+const restriction = {published: true}
 
 exports.before = {
   all: [],
@@ -62,7 +60,7 @@ exports.before = {
     globalHooks.isEnabled(),
     globalHooks.hasPermission(permissionName)
   ]
-};
+}
 
 exports.after = {
   all: [
@@ -73,8 +71,12 @@ exports.after = {
   get: [
     convertForOutgoing()
   ],
-  create: [],
+  create: [
+    createMenu(),
+  ],
   update: [],
   patch: [],
-  remove: []
-};
+  remove: [
+    deleteMenu()
+  ]
+}

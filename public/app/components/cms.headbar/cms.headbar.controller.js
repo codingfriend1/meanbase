@@ -583,8 +583,8 @@
 
         await api.staging.delete({key: url})
 
-        console.log('deleting menus', url);
-        await api.menus.delete({url: url})
+        // console.log('deleting menus', url);
+        // await api.menus.delete({url: url})
 
         // Refresh menus in case a menu was removed while removing this page
         $rootScope.menus = await api.menus.find({})
@@ -717,39 +717,39 @@
         updated: Date.now()
 			};
 
-      if(!$scope.menus.main) {
-        $scope.menus.main = [];
-      }
-
-			var newMenu = {
-				title: placeholderTitle,
-				url: url,
-				location: 'main',
-				position: $scope.menus.main.length,
-				classes: '',
-				target: ''
-			};
+      // if(!$scope.menus.main) {
+      //   $scope.menus.main = [];
+      // }
+      //
+			// var newMenu = {
+			// 	title: placeholderTitle,
+			// 	url: url,
+			// 	location: 'main',
+			// 	position: $scope.menus.main.length,
+			// 	classes: '',
+			// 	target: ''
+			// };
 
       try {
         await api.pages.create(newPage)
 
-        try {
-          let createdMenu = await api.menus.create(newMenu)
-          let menusStagingData = await api.staging.find({key: 'menus'})
-          menusStagingData = menusStagingData[0]
-
-          if(menusStagingData && menusStagingData.data) {
-            menusStagingData.data.main[0] = createdMenu;
-            try {
-              await api.staging.update({key: 'menus'}, {data: menusStagingData.data})
-            } catch(err) {
-              console.log("Error saving new menu to staging area", err);
-              toastr.warning("Sorry but we could not add the menu to your autosave area. It exists but you won't be able to see it.")
-            }
-          }
-        } catch(err) {
-          console.log('Error creating menu', err);
-        }
+        // try {
+        //   let createdMenu = await api.menus.create(newMenu)
+        //   let menusStagingData = await api.staging.find({key: 'menus'})
+        //   menusStagingData = menusStagingData[0]
+        //
+        //   if(menusStagingData && menusStagingData.data) {
+        //     menusStagingData.data.main[0] = createdMenu;
+        //     try {
+        //       await api.staging.update({key: 'menus'}, {data: menusStagingData.data})
+        //     } catch(err) {
+        //       console.log("Error saving new menu to staging area", err);
+        //       toastr.warning("Sorry but we could not add the menu to your autosave area. It exists but you won't be able to see it.")
+        //     }
+        //   }
+        // } catch(err) {
+        //   console.log('Error creating menu', err);
+        // }
       } catch(err) {
         console.log('Error creating page and menu', err);
       }
