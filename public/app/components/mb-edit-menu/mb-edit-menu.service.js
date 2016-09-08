@@ -3,9 +3,10 @@
   @mbService()
   class editMenuModal {
 
-    constructor($rootScope, $modal) {
+    constructor($rootScope, $modal, $location) {
       this.$rootScope = $rootScope
       this.$modal = $modal
+      this.$location = $location
     }
 
     @autobind
@@ -34,7 +35,7 @@
         if(menuItem.target) {
           window.open(href, menuItem.target)
         } else {
-          $location.path(href)
+          this.$location.path(href)
         }
 
       }

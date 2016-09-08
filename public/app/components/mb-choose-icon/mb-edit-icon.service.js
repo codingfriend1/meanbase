@@ -4,9 +4,10 @@
 
   class iconModal {
 
-    constructor($rootScope, $modal) {
+    constructor($rootScope, $modal, $location) {
       this.$rootScope = $rootScope
       this.$modal = $modal
+      this.$location = $location
     }
 
     @autobind
@@ -30,7 +31,7 @@
         if(item[property].target) {
           window.open(href, item[property].target)
         } else {
-          $location.path(href)
+          this.$location.path(href)
         }
       }
     }
