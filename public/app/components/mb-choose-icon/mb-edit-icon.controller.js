@@ -5,6 +5,8 @@ module.exports = function iconModalController($scope, $modalInstance, icon, api,
 
   $scope.icon = angular.copy(icon)
 
+  $scope.mergeClasses = $scope.icon.classes
+
   $scope.updateTarget = function(url) {
     if(url && url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
       if(!$scope.icon.target) {
@@ -20,6 +22,11 @@ module.exports = function iconModalController($scope, $modalInstance, icon, api,
   let usesFontAwesome = false
   let usesBootstrap = false
   $scope.checkHasContent = function() {
+    let classes = $scope.icon.classes
+    if($scope.icon.classes.search(/[ ]fa$/) === -1 && $scope.icon.classes.search(/^fa[ ]/) === -1 && $scope.icon.classes.search(/[ ]fa[ ]/) === -1) {
+      classes = 'fa ' + $scope.icon.classes
+    }
+    $scope.mergeClasses = classes
     $timeout(function() {
       $timeout(function() {
         var testIcon = $('#test-icon')[0]
@@ -43,6 +50,10 @@ module.exports = function iconModalController($scope, $modalInstance, icon, api,
       // icon is the menu that was passed in (the actual menu we want to modify). $scope.icon is the object that's being edited in the modal.
       icon.title = $scope.icon.title || icon.title
       icon.url = $scope.icon.url || icon.url
+
+      if($scope.icon.classes.search(/[ ]fa$/) === -1 && $scope.icon.classes.search(/^fa[ ]/) === -1 && $scope.icon.classes.search(/[ ]fa[ ]/) === -1) {
+        $scope.icon.classes = 'fa ' + $scope.icon.classes
+      }
 
       icon.classes = $scope.icon.classes
       icon.target = $scope.icon.target
