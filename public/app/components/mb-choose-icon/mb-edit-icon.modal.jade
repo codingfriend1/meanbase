@@ -43,5 +43,6 @@
           option(value="_self") Replace the current page
           option(value="_blank") New Page
 .modal-footer
+  a.btn.btn-warning(ng-href="{{icon.url}}" target="{{icon.target}}" ng-click="$dismiss()") Visit Link
   button.btn.btn-success(type="submit" ng-click="saveIcon(editIconForm)" ng-class="{disabled: editIconForm.$invalid || (!hasContent && icon.classes)}") Save
   button.btn.btn-default(type='button' ng-click="$dismiss()") Close

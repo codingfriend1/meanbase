@@ -8,6 +8,13 @@ module.exports = function iconModalController($scope, $modalInstance, icon, api,
   $scope.mergeClasses = $scope.icon.classes
 
   $scope.updateTarget = function(url) {
+    // if(/^(?!(\/|#)).*/.test(url)) {
+    //   console.log('is absolute');
+    //   $scope.icon.target = "_blank"
+    // } else {
+    //   console.log('is not absolute');
+    //   $scope.icon.target = ""
+    // }
     if(url && url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
       if(!$scope.icon.target) {
         $scope.icon.target = '_blank'
