@@ -134,7 +134,7 @@ export const createMenu = options => {
 async function updateMenuInStaging(menu) {
   interactMenuStaging = interactMenuStaging.bind(this)
   await interactMenuStaging(menu, function(current_menu, index, location_value) {
-    if(_.get(current_menu, 'belongsTo') === menu.belongsTo) {
+    if(_.get(current_menu, 'linkTo') === menu.linkTo) {
       current_menu.url = menu.url
       current_menu.title = menu.title
       current_menu.published = menu.published
