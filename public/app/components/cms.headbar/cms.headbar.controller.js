@@ -630,7 +630,7 @@
 			var pageUrl = $rootScope.page.url;
 			if($rootScope.page.url.charAt(0) !== '/') { pageUrl = '/' + pageUrl; }
 			helpers.loopThroughMenus(function(item) {
-				if(item.url === pageUrl) {
+				if(item && item.url === pageUrl) {
 					item.published = $rootScope.page.published;
 				}
 			});

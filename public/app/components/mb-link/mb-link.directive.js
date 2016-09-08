@@ -15,7 +15,7 @@ angular.module('meanbaseApp')
         if(!scope.belongsTo) { scope.belongsTo = {}; }
         if(!scope.belongsTo[scope.mbLink]) { scope.belongsTo[scope.mbLink] = {}; }
 
-        element.bind('click', function(event) {
+        element.bind('click', _.debounce(function(event) {
           if(!$rootScope.editMode) {
             var anchorLink = scope.belongsTo[scope.mbLink];
             if(anchorLink.target) {
@@ -26,7 +26,7 @@ angular.module('meanbaseApp')
           } else {
             event.preventDefault()
           }
-        })
+        }, 30))
 
         if(!Auth.isLoggedIn()) { return false }
 

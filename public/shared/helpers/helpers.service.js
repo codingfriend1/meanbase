@@ -184,8 +184,10 @@ angular.module('meanbaseApp')
       for(var group in draggableGroupsObject) {
         if (draggableGroupsObject.hasOwnProperty(group)) {
           for(var i = 0; i < draggableGroupsObject[group].length; i++) {
-            draggableGroupsObject[group][i].group = group;
-            draggableGroupsObject[group][i].position = i;
+            if(draggableGroupsObject[group][i]) {
+              draggableGroupsObject[group][i].group = group;
+              draggableGroupsObject[group][i].position = i;
+            }
           }
         }
       }
