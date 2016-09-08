@@ -60,25 +60,7 @@ angular.module('meanbaseApp')
             page.published = false
             await p.create(page, page.title + ' created', 'Could not create ' + page.title)
 
-            try {
-              let createdMenu = await api.menus.create(newMenu)
-              let menusStagingData = await api.staging.find({key: 'menus'})
-              menusStagingData = menusStagingData[0]
-
-              if(menusStagingData && menusStagingData.data) {
-                menusStagingData.data.main[0] = createdMenu;
-                try {
-                  await api.staging.update({key: 'menus'}, {data: menusStagingData.data})
-                } catch(err) {
-                  console.log("Error saving new menu to staging area", err);
-                  toastr.warning("Sorry but we could not add the menu to your autosave area. It exists but you won't be able to see it.")
-                }
-              }
-            } catch(err) {
-              console.log('Error creating menu', err);
-            }
-
-            localStorage.setItem('previousEditUrl', createdMenu.url)
+            localStorage.setItem('previousEditUrl', page.url)
 
             $timeout(function() {
               componentHandler.upgradeAllRegistered()
@@ -119,16 +101,13 @@ angular.module('meanbaseApp')
 
       page.publishedOn = Date.now();
 
-      $scope.p.update(page, {published: page.published}, message, failure).then(function() {
-        api.menus.update({url: page.url}, {published: page.published});
-      });
+      $scope.p.update(page, {published: page.published}, message, failure)
   	};
 
   	$scope.deletePage = function(page) {
       var message = page.title + " deleted";
       var failure = 'Could not delete ' + page.title;
       p.delete(page, page.title + ' unpublished.', message, failure).then(function(response) {
-        api.menus.delete({url: page.url}, {published: page.published});
         api.staging.delete({key: page.url}).then(function(response) {
           console.log('Deleting autosave data for that page', response);
         }, function(err) {

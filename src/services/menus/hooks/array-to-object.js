@@ -1,7 +1,7 @@
 export default options => {
   return hook => {
 
-    if (!hook.params.provider) { return hook; }
+    if(!hook.params.provider && !hook.params.forceCall) { return hook; }
 
     if(hook.result && Array.isArray(hook.result) && hook.result.length > 0) {
       let allMenus = [].concat(hook.result), menus = {}, i = 0;
