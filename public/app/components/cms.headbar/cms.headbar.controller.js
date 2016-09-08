@@ -362,6 +362,8 @@
 
         if(draggable.length) {
           let item = angular.element(draggable).scope()
+
+          console.log("item", item);
           if(item) {
             if(innerList) {
               let parent = item.$parent
@@ -383,10 +385,10 @@
                 if(index > -1) {
                   list[item.listItem.group].splice(index, 1)
                 }
-              } else if(item.item && item.item.group) {
-                let index = list[item.item.group].indexOf(item.item)
+              } else if(item.menu && item.menu.group) {
+                let index = list[item.menu.group].indexOf(item.menu)
                 if(index > -1) {
-                  list[item.item.group].splice(index, 1)
+                  list[item.menu.group].splice(index, 1)
                 }
               }
             }
