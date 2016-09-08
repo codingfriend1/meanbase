@@ -11,7 +11,12 @@ async function interactMenuStaging(menu, cb) {
 
     _.each(menudata, (location_value, location_key) => {
       _.each(location_value, (current_menu, index) => {
-        cb(current_menu, index, location_value)
+        if(current_menu) {
+          cb(current_menu, index, location_value)
+        } else {
+          location_value.splice(index, 1)
+        }
+
       })
     })
 
