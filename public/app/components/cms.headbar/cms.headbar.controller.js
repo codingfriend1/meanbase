@@ -281,6 +281,11 @@
             $rootScope.menus = menusStagingData.data
           })
         } else {
+          try {
+            $rootScope.menus = await api.menus.find({})
+          } catch(err) {
+            console.log('Error fetching menu data', err);
+          }
           autoSaveSessionSnapshot.menus = angular.copy($rootScope.menus)
         }
 
@@ -586,8 +591,9 @@
         // console.log('deleting menus', url);
         // await api.menus.delete({url: url})
 
+        $rootScope.$emit('cms.pullAutoSaveData')
+
         // Refresh menus in case a menu was removed while removing this page
-        // $rootScope.menus = await api.menus.find({})
       } catch(err) {
         console.log('Error deleting menu and staging', err);
       }

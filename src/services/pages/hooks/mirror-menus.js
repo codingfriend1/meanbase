@@ -90,6 +90,7 @@ async function addMenu(page) {
 
     let menu = {
       url: page.url,
+      linkTo: page._id,
       title: page.title.replace(/<[^>]+>/gm, ''),
       group: 'main',
       position: 0,
@@ -153,6 +154,7 @@ async function patchMenu(page) {
       let title = page.title.replace(/<[^>]+>/gm, '')
       let menu = await this.service('menus').patch(null, {url: page.url, title: title, published: page.published}, { query: {linkTo: page._id} })
       menu = menu[0]
+      console.log("menu", menu);
       if(menu) {
         await updateMenuInStaging(menu)
         return true
