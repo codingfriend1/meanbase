@@ -1,7 +1,8 @@
 import errors from 'feathers-errors'
 import _ from 'lodash'
 
-async function removeMenuFromStaging(oldMenu) {
+async function interactMenuStaging(menu, cb) {
+  if(!cb) { return false }
   let currentStaging = await this.service('staging').find({ query: {key: 'menus'} })
   currentStaging = currentStaging[0]
   if(_.get(currentStaging, 'data')) {
@@ -10,9 +11,7 @@ async function removeMenuFromStaging(oldMenu) {
 
     _.each(menudata, (location_value, location_key) => {
       _.each(location_value, (current_menu, index) => {
-        if(_.get(current_menu, 'url') === oldMenu.url) {
-          location_value.splice(index, 1)
-        }
+        cb(current_menu, index, location_value)
       })
     })
 
@@ -25,13 +24,19 @@ async function removeMenuFromStaging(oldMenu) {
 
 async function removeMenu(page) {
   if(_.get(page, 'url')) {
-    removeMenuFromStaging = removeMenuFromStaging.bind(this)
 
     try {
       let oldMenu = await this.service('menus').remove(null, { query: {url: page.url} })
       oldMenu = oldMenu[0]
       if(oldMenu) {
-        await removeMenuFromStaging(oldMenu)
+        interactMenuStaging = interactMenuStaging.bind(this)
+        await interactMenuStaging(oldMenu, function(current_menu, index, location_value) {
+
+          if(current_menu.url === oldMenu.url) {
+            location_value.splice(index, 1)
+          }
+
+        })
         return true
       } else {
         return true
@@ -43,7 +48,8 @@ async function removeMenu(page) {
     }
   }
 }
-//
+
+
 export const deleteMenu = options => {
   return hook => {
     removeMenu = removeMenu.bind(hook.app)
@@ -112,6 +118,66 @@ export const createMenu = options => {
       return hook
     } else {
       await addMenu(hook.result)
+      return hook
+    }
+  }
+}
+
+
+
+async function updateMenuInStaging(menu) {
+  interactMenuStaging = interactMenuStaging.bind(this)
+  await interactMenuStaging(menu, function(current_menu, index, location_value) {
+    if(_.get(current_menu, 'belongsTo') === menu.belongsTo) {
+      current_menu.url = menu.url
+      current_menu.title = menu.title
+      current_menu.published = menu.published
+    }
+  })
+}
+
+async function patchMenu(page) {
+  if(_.get(page, '_id')) {
+    updateMenuInStaging = updateMenuInStaging.bind(this)
+
+    if(!page.title || !page.url || typeof page.title !== 'string') {
+      return false
+    }
+
+    try {
+      let title = page.title.replace(/<[^>]+>/gm, '')
+      let menu = await this.service('menus').patch(null, {url: page.url, title: title, published: page.published}, { query: {linkTo: page._id} })
+      menu = menu[0]
+      if(menu) {
+        await updateMenuInStaging(menu)
+        return true
+      } else {
+        return true
+      }
+      return true
+    } catch(err) {
+      console.log('Error updating menu to reflect page', err);
+      return false
+    }
+  } else {
+    return false
+  }
+}
+
+
+
+export const updateMenu = options => {
+  return async hook => {
+
+    patchMenu = patchMenu.bind(hook.app)
+
+    if(!hook.result) { return hook }
+
+    if(Array.isArray(hook.result)) {
+      _.each(hook.result, patchMenu)
+      return hook
+    } else {
+      await patchMenu(hook.result)
       return hook
     }
   }

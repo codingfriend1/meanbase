@@ -4,7 +4,7 @@ const auth = require('feathers-authentication').hooks
 
 import convertForIncoming from './convert-for-incoming'
 import convertForOutgoing from './convert-for-outgoing'
-import { deleteMenu, createMenu } from './mirror-menus'
+import { deleteMenu, createMenu, updateMenu } from './mirror-menus'
 
 const permissionName = 'editContent'
 const restriction = {published: true}
@@ -74,8 +74,12 @@ exports.after = {
   create: [
     createMenu(),
   ],
-  update: [],
-  patch: [],
+  update: [
+    updateMenu()
+  ],
+  patch: [
+    updateMenu()
+  ],
   remove: [
     deleteMenu()
   ]

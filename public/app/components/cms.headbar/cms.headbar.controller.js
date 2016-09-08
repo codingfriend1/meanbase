@@ -587,7 +587,7 @@
         // await api.menus.delete({url: url})
 
         // Refresh menus in case a menu was removed while removing this page
-        $rootScope.menus = await api.menus.find({})
+        // $rootScope.menus = await api.menus.find({})
       } catch(err) {
         console.log('Error deleting menu and staging', err);
       }
