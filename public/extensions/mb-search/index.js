@@ -10,3 +10,5 @@ import "./search-form.directive.js";
 // inject stylus
 import "./search-form.styl";
 // end inject stylus
+
+// It works

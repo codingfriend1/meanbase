@@ -1,0 +1,21 @@
+<div class="content-section-a">
+  <div class="container">
+    <div class="row" ng-init="point={}" ng-sortable="mbSortableExtensionList">
+      <div class="col-lg-4 col-sm-4 mb-animate-list relative" mb-grid-item item="point" ng-repeat="point in listItem.data.items" ng-class="{'mb-inner-draggable': $root.editMode}">
+        <a mb-link="link" belongs-to="point" style="text-decoration: none">
+          <div class="text-center">
+            <mb-choose-icon belongs-to="point" property="icon" class="margin-bottom-1"></mb-choose-icon>
+            <mb-choose-image property="image" belongs-to="point">
+              <img mb-src="image" belongs-to="point" class="img-responsive"/>
+            </mb-choose-image>
+            <div mb-edit ng-model="point.title" bind-options="editorSingleLine"></div>
+            <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
+            <mb-edit-link belongs-to="point" property="link"></mb-edit-link>
+            <!-- <mb-list-remove list="listItem.data.items" item="point"></mb-list-remove> -->
+          </div>
+        </a>
+      </div>
+      <mb-list-add class="col-lg-4 col-sm-4 text-center relative" mb-grid-item item="point" ng-if="editMode" list="listItem.data.items" label="bullet point"></mb-list-add>
+    </div>
+  </div>
+</div>

@@ -1,17 +1,14 @@
 # Ignore everything
 *
-.DS_Store
 # But not these files...
 !.gitignore
-!mb-bullet-point-list/**
-!mb-bullet-point-list
+!md-bullet-point-list/**
+!md-bullet-point-list
 
-!mb-search/extension.min.js
-!mb-search/extension.min.js.map
-!mb-search/index.js
-!mb-search/mb-search-box-extension.html
-!mb-search/screenshot.png
-!mb-search/search-form.directive.js
-!mb-search/search-form.html
-!mb-search/search-form.styl
+!md-selling-point-list/**
+!md-selling-point-list
+
+!mb-search/**
 !mb-search
+
+.DS_Store

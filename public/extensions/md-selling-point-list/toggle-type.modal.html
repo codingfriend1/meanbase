@@ -1,0 +1,19 @@
+<div id="list-modal" class="list-selector">
+  <div class="modal-header">
+    <button ng-click="$dismiss()" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title"> <i class="fa fa-plus fa-lg"> </i> Choose section type</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="type">Select list:</label>
+      <select class="form-control" id="type" ng-model="left">
+        <option value="true">Image left - Text right</option>
+        <option value="false">Text left - Image right</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" ng-click="chooseLeft(left)" class="btn btn-success">Choose</button>
+    <button type="button" ng-click="$dismiss()" class="btn btn-default">Close</button>
+  </div>
+</div>
