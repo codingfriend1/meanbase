@@ -1,3 +1,4 @@
+const importExport = require('./import-export');
 const email = require('./email');
 const staging = require('./staging');
 const custom = require('./custom');
@@ -22,34 +23,6 @@ const user = require('./user');
 const mongoose = require('mongoose');
 module.exports = function() {
   const app = this;
-
-  mongoose.connect(app.get('mongodb'));
-  mongoose.Promise = global.Promise;
-
-  app.configure(authentication);
-  app.configure(imageUploads);
-  app.configure(themeUploads);
-  app.configure(extensionUploads);
-  app.configure(wordpressImport);
-  app.configure(user);
-  app.configure(pages);
-  app.configure(menus);
-  app.configure(comments);
-  app.configure(extensions);
-  app.configure(settings);
-  app.configure(images);
-  app.configure(roles);
-  app.configure(sharedContent);
-  app.configure(themes);
-  app.configure(ban);
-  app.configure(custom);
-  app.configure(staging);
-
-  if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-    app.configure(verifyReset({ emailer }));
-    app.configure(email);
-  }
-
 
   function getLink(action, value) {
     let link
@@ -144,4 +117,36 @@ module.exports = function() {
 
   }
 
+
+
+
+
+
+  mongoose.connect(app.get('mongodb'));
+  mongoose.Promise = global.Promise;
+
+  app.configure(authentication);
+  app.configure(imageUploads);
+  app.configure(themeUploads);
+  app.configure(extensionUploads);
+  app.configure(wordpressImport);
+  app.configure(user);
+  app.configure(pages);
+  app.configure(menus);
+  app.configure(comments);
+  app.configure(extensions);
+  app.configure(settings);
+  app.configure(images);
+  app.configure(roles);
+  app.configure(sharedContent);
+  app.configure(themes);
+  app.configure(ban);
+  app.configure(custom);
+  app.configure(staging);
+  app.configure(importExport);
+
+  if(process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    app.configure(verifyReset({ emailer }));
+    app.configure(email);
+  }
 };
