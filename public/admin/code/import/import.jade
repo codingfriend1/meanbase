@@ -9,3 +9,6 @@
           i.material-icons add
       .progress
           .progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
+  .mdl-cell.mdl-cell--12-col(ng-show="$root.currentUser.permissions.indexOf('importExportData') > -1 || $root.currentUser.permissions.indexOf('allPrivilages')")
+    p If you wish to transfer data to another meanbase site or make a manual backup of your site you can download your data here.
+    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-click="downloadSiteData()") Download

@@ -12,6 +12,10 @@
   "uploadsPath": "../public/assets/",
   "viewsPath": "../views/",
   "exportPath": "../export/",
+  "themesExportPath": "../export/themes",
+  "extensionsExportPath": "../export/extensions",
+  "imagesExportPath": "../export/images",
+  "dataExportPath": "../export/data",
   "auth": {
     "token": {
       "secret": "qhWPy33jz+vvkug6w/e/+SMYqPoWU+zgbeYMV1RSGvpsV8GLEIR3FTg6lVg6Y1ACdJ4XWTelnyW7h0wlbMXQ9w=="

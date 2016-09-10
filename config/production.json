@@ -12,6 +12,10 @@
   "uploadsPath": "../public/assets/",
   "viewsPath": "../views/",
   "exportPath": "../export/",
+  "themesExportPath": "../export/themes",
+  "extensionsExportPath": "../export/extensions",
+  "imagesExportPath": "../export/images",
+  "dataExportPath": "../export/data",
   "auth": {
     "token": {
       "secret": "FEATHERS_AUTH_SECRET"
