@@ -1,17 +1,47 @@
 import path from 'path'
-// const zip = require('decompress-unzip');
 const formidable = require('formidable');
 import feathersErrors from 'feathers-errors'
 import fs from 'fs';
 import fsExtra from 'fs-extra'
-// const Decompress = require('decompress');
-// const decompressUnzip = require('decompress-unzip')
 const decompress = require('decompress')
+const exec = require('child_process').exec
+
+const collections = [
+  "extensions",
+  "themes",
+  "bans",
+  "comments",
+  "custom",
+  "images",
+  "menus",
+  "pages",
+  "roles",
+  "settings",
+  "staging",
+  "users"
+]
 
 export default function(req, res, next) {
 
   if(req.method !== "POST") { return next() }
-  const app = this;
+
+  function importCollection(collection) {
+    return new Promise((resolve, reject) => {
+      if(!req.app.get('db') || !collection || !req.app.get('dataExportPath')) { return reject('missing either the collection, db ENV or dataExportPath ENV')}
+
+      const child = exec(`mongoimport --db ${req.app.get('db')} --collection ${collection} --file ${path.join(req.app.get('dataImportPath'), collection + '.json')} --jsonArray`)
+
+      child.on('close', function(code) {
+        console.log(`Import of ${collection} was successful`);
+        return resolve(`Import of ${collection} was successful`)
+      })
+    })
+  }
+
+  async function removeData(name) {
+    console.log('resetting ' + name);
+    await req.app.service(name).remove(null, {query:{}})
+  }
 
   if(!req.app || !req.app.get('exportPath')) {
     next(new Error('exportPath not found on server'));
@@ -36,85 +66,29 @@ export default function(req, res, next) {
       var fileName  = files.file.name;
       var contentType   = files.file.type;
 
-
-      // var compressType;
-      // // var decompress = new Decompress();
-      // switch(contentType) {
-      //   case 'application/x-gzip':
-      //     compressType = Decompress.targz;
-      //     break;
-      //   case 'application/zip':
-      //     compressType = Decompress.zip;
-      //     break;
-      //   case 'application/x-tar':
-      //     compressType = Decompress.tar;
-      //     break;
-      //   case 'application/x-bzip2':
-      //     compressType = Decompress.tar;
-      //     break;
-      //   default:
-      //     compressType = null;
-      // }
-
-      // if(!compressType) {
-      //   return next(new feathersErrors.NotAcceptable('Please send a zip, gz, bz2, or tar file type.'));
-      // }
-
-      decompress(tempFilePath, req.app.get('exportPath')).then(files => {
+      decompress(tempFilePath, req.app.get('exportPath')).then(async files => {
         let currentPath = path.join(req.app.get('exportPath'), 'export')
-
-
         try {
           fsExtra.copySync(path.join(currentPath, 'images'), req.app.get('uploadsPath'))
           fsExtra.copySync(path.join(currentPath, 'themes'), req.app.get('themesPath'))
           fsExtra.copySync(path.join(currentPath, 'extensions'), req.app.get('extensionsPath'))
+          fsExtra.copySync(path.join(currentPath, 'data'), req.app.get('extensionsPath'))
+
+          for (var i = 0; i < collections.length; i++) {
+            try {
+              await removeData(collections[i])
+              let response = await importCollection(collections[i])
+            } catch(err) {
+              console.log("Error importing data", err);
+              return next(err)
+            }
+          }
           console.log("success!")
         } catch (err) {
           console.error(err)
         }
         next()
       })
-
-      // try {
-      //   // Query the entry
-      //   var stats = fs.lstatSync(createdFolderPath);
-      //   // Is it a directory?
-      //   if (stats.isDirectory()) {
-      //     return next(new feathersErrors.NotAcceptable('A folder with that name has already been uploaded. Please choose a different folder name for your upload.'));
-      //   }
-      // } catch (err) {
-      //   console.log("Checking if folder already exists error", err);
-      // }
-
-      // decompress(tempFilePath, 'dist', {
-      //   plugins: [
-      //     decompressUnzip()
-      //   ]
-      // }).then((err, files) => {
-      //   console.log("err", err);
-      //   console.log("files", files);
-      //   console.log('Files decompressed');
-      // });
-
-      // decompress.src(tempFilePath)
-      //   .dest(createdFolderPath)
-      //   .use(compressType({strip: 1}));
-      //
-      // decompress.run(function (err, files) {
-      //   console.log("err", err);
-      //   console.log("files", files);
-      //   if (err) {
-      //     console.log("unzipping folder error: ", err);
-      //     return next(new feathersErrors.Unprocessable(err));
-      //   }
-      //   return next();
-      // });
-      // try {
-      //   fsExtra.copySync('/tmp/myfile', '/tmp/mynewfile')
-      //   console.log("success!")
-      // } catch (err) {
-      //   console.error(err)
-      // }
     });
   } catch(err) {
     return next(err);

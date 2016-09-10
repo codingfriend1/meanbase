@@ -17,7 +17,7 @@ import unzip from './hooks/unzip'
 const collections = [
   "extensions",
   "themes",
-  "ban",
+  "bans",
   "comments",
   "custom",
   "images",
@@ -26,7 +26,7 @@ const collections = [
   "roles",
   "settings",
   "staging",
-  // "users"
+  "users"
 ]
 
 class Service {
@@ -36,7 +36,9 @@ class Service {
 
   _find(collection) {
     return new Promise((resolve, reject) => {
-      const child = exec(`mongoexport --db meanbase-dev --collection ${collection} --out ${path.join(this.app.get('dataExportPath'), collection + '.json')} --jsonArray`)
+      if(!this.app.get('db') || !collection || !this.app.get('dataExportPath')) { return reject('missing either the collection, db ENV or dataExportPath ENV')}
+
+      const child = exec(`mongoexport --db ${this.app.get('db')} --collection ${collection} --out ${path.join(this.app.get('dataExportPath'), collection + '.json')} --jsonArray`)
 
       // child.stdout.on('data', function(data) {
         // console.log("stdout: " + data);
@@ -96,7 +98,6 @@ class Service {
         }
 
         if(i === collections.length - 1) {
-          console.log("self.app.get('exportPath')", self.app.get('exportPath'));
           const folderWeWantToZip = self.app.get('exportPath');
 
           params.res.writeHead(200, {
@@ -122,23 +123,19 @@ class Service {
   }
 
   create(data, params) {
-    if(Array.isArray(data)) {
-      return Promise.all(data.map(current => this.create(current)));
-    }
-
-    return Promise.resolve(data);
+    return Promise.resolve('Importing meanbase data')
   }
 
   update(id, data, params) {
-    return Promise.resolve(data);
+    return Promise.resolve('This method is not supported');
   }
 
   patch(id, data, params) {
-    return Promise.resolve(data);
+    return Promise.resolve('This method is not supported');
   }
 
   remove(id, params) {
-    return Promise.resolve({ id });
+    return Promise.resolve('This method is not supported');
   }
 }
 
@@ -156,9 +153,9 @@ module.exports = function(){
 
   // Initialize our service with any options it requires
 
-  app.use('/import-export', unzip, getRes)
+  app.use('/import-export', getRes)
 
-  app.use('/import-export', new Service());
+  app.use('/import-export', new Service(), unzip);
   // app.use('/import-export', getRes, new Service());
 
   // Get our initialize service to that we can bind hooks

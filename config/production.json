@@ -2,6 +2,7 @@
   "host": "DOMAIN",
   "port": 80,
   "mongodb": "DATABASE_URL",
+  "db": "DATABASE_NAME",
   "public": "../public/",
   "root": "../",
   "clientPath": "../public/",
@@ -16,6 +17,7 @@
   "extensionsExportPath": "../export/extensions",
   "imagesExportPath": "../export/images",
   "dataExportPath": "../export/data",
+  "dataImportPath": "../export/export/data",
   "auth": {
     "token": {
       "secret": "FEATHERS_AUTH_SECRET"
