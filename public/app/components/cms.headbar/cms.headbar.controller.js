@@ -502,9 +502,13 @@
           });
 
           $scope.updatePageTitle = linkUrl => {
-            let {placeholderTitle, menuTitle, url} = convertUrlToTitle(linkUrl)
-            $rootScope.page.title = placeholderTitle
-            $rootScope.page.url = url
+            if(linkUrl === '/') {
+              $rootScope.page.title = 'Home'
+            } else {
+              let {placeholderTitle, menuTitle, url} = convertUrlToTitle(linkUrl)
+              $rootScope.page.title = placeholderTitle
+              $rootScope.page.url = url
+            }
           }
 
 		    	$scope.save = function () {
