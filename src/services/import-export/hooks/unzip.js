@@ -76,8 +76,10 @@ export default function(req, res, next) {
 
           for (var i = 0; i < collections.length; i++) {
             try {
-              await removeData(collections[i])
-              let response = await importCollection(collections[i])
+              if( fs.lstatSync(path.join(currentPath, 'data', collections[i] + '.json')) ) {
+                await removeData(collections[i])
+                let response = await importCollection(collections[i])
+              }
             } catch(err) {
               console.log("Error importing data", err);
               return next(err)
