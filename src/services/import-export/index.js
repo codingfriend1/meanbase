@@ -4,16 +4,15 @@ const hooks = require('./hooks');
 import path from 'path'
 import zip from 'express-zip'
 import fsExtra from 'fs-extra'
-const EasyZip = require('easy-zip').EasyZip
-const zipper = new EasyZip()
 const childProcess = require('child_process')
-const Archiver = require('archiver')
 import fs from 'fs'
 const exec = require('child_process').exec
 const spawn = require('child_process').spawn
 const tar = require('tar')
 const zlib = require('zlib')
 const fstream = require('fstream')
+
+import unzip from './hooks/unzip'
 
 const collections = [
   "extensions",
@@ -157,7 +156,7 @@ module.exports = function(){
 
   // Initialize our service with any options it requires
 
-  app.use('/import-export', getRes)
+  app.use('/import-export', unzip, getRes)
 
   app.use('/import-export', new Service());
   // app.use('/import-export', getRes, new Service());

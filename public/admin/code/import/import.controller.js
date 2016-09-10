@@ -26,6 +26,30 @@ angular.module('meanbaseApp')
       toastr.error("Error importing data from wordpress. " + response.message);
     };
 
+
+    if (Auth.getToken()) {
+      var uploader2 = $scope.uploader2 = new FileUploader({
+          url: '/api/import-export',
+          headers: {
+            'Authorization': 'Bearer ' + Auth.getToken()
+          },
+          autoUpload: true
+      });
+    }
+
+
+    uploader2.onCompleteAll = function(e) {
+      uploader2.clearQueue();
+    };
+
+    uploader2.onSuccessItem = function() {
+      toastr.success('Data successfully imported. Checkout your site.');
+    };
+
+    uploader2.onErrorItem = function(item, response, status, headers) {
+      toastr.error("Error importing meanbase data. " + response.message);
+    };
+
     $scope.downloadSiteData = function() {
       toastr.success('Collecting images, extensions, themes, and data from your site. The download will appear in a minute.')
       var url = '/api/import-export';

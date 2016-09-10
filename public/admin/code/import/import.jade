@@ -1,5 +1,6 @@
 .mdl-grid
   .mdl-cell.mdl-cell--12-col
+    h3 Wordpress import
     p Import data from wordpress using an xml file
     div.drop-zone(nv-file-drop="uploader" uploader="uploader").text-center.form-inline
       p Drop #[strong xml] file here to upload or
@@ -9,6 +10,18 @@
           i.material-icons add
       .progress
           .progress-bar(role="progressbar" ng-style="{ 'width': uploader.progress + '%' }")
+  .mdl-cell.mdl-cell--12-col
+    h3 Meanbase import
+    p Import data downloaded from another meanbase site
+    div.drop-zone(nv-file-drop="uploader2" uploader="uploader2").text-center.form-inline
+      p Drop #[strong zip] file here to upload or
+      .form-group.text-center
+        input#file2.form-control(type='file' nv-file-select multiple uploader="uploader2" style="display: none")
+        label.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.file-upload-btn(for="file2")
+          i.material-icons add
+      .progress
+          .progress-bar(role="progressbar" ng-style="{ 'width': uploader2.progress + '%' }")
   .mdl-cell.mdl-cell--12-col(ng-show="$root.currentUser.permissions.indexOf('importExportData') > -1 || $root.currentUser.permissions.indexOf('allPrivilages')")
+    h3 Download meanbase data
     p If you wish to transfer data to another meanbase site or make a manual backup of your site you can download your data here.
     button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-click="downloadSiteData()") Download
