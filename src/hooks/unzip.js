@@ -1,5 +1,6 @@
 import path from 'path'
-const Decompress = require('decompress');
+// const Decompress = require('decompress');
+const decompress = require('decompress');
 const zip = require('decompress-unzip');
 const formidable = require('formidable');
 import feathersErrors from 'feathers-errors'
@@ -43,21 +44,19 @@ export default options => {
         }
 
         createdFolderPath = path.join(req.app.get(options.folderPathProperty), createdFolderName);
-
-        var compressType;
-        var decompress = new Decompress();
+        let compressType
         switch(contentType) {
           case 'application/x-gzip':
-            compressType = Decompress.targz;
+            compressType = true;
             break;
           case 'application/zip':
-            compressType = Decompress.zip;
+            compressType = true;
             break;
           case 'application/x-tar':
-            compressType = Decompress.tar;
+            compressType = true;
             break;
           case 'application/x-bzip2':
-            compressType = Decompress.tar;
+            compressType = true;
             break;
           default:
             compressType = null;
@@ -78,11 +77,7 @@ export default options => {
           console.log("Checking if folder already exists error", err);
         }
 
-        decompress.src(tempFilePath)
-          .dest(createdFolderPath)
-          .use(compressType({strip: 1}));
-
-        decompress.run(function (err, files) {
+        decompress(tempFilePath, createdFolderPath).then(files => {
           if (err) {
             console.log("unzipping folder error: ", err);
             return next(new feathersErrors.Unprocessable(err));
@@ -90,7 +85,18 @@ export default options => {
 
           req.feathers[options.setProperty] = createdFolderName;
           return next();
-        });
+          next()
+        })
+
+        // decompress.run(function (err, files) {
+        //   if (err) {
+        //     console.log("unzipping folder error: ", err);
+        //     return next(new feathersErrors.Unprocessable(err));
+        //   }
+        //
+        //   req.feathers[options.setProperty] = createdFolderName;
+        //   return next();
+        // });
       });
     } catch(err) {
       return next(err);
