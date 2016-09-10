@@ -10,7 +10,7 @@ export default class ImageUploadService {
   create(data, params) {
     return new Promise((resolve, reject) => {
       if(data && !_.isEmpty(data)) {
-        this.app.service('extension').create(data).then(function(found) {
+        this.app.service('extensions').create(data).then(function(found) {
           return resolve(found);
         }).catch(function(err) {
           console.log("error uploading theme", err);

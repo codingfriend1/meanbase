@@ -21,6 +21,8 @@ export default function(options) {
 
       const extensionFolderPath = path.join(hook.app.get('extensionsPath'), hook.params.extensionUrl);
 
+      const extensionFolder = hook.params.extensionUrl
+
       try {
         try {
           var folderContent = fs.statSync(extensionFolderPath);
@@ -32,31 +34,41 @@ export default function(options) {
           return reject(new feathersErrors.Unprocessable('Could not find the extension folder'));
         }
 
+        let label = extensionFolder.replace(/[ ]/g, "-").replace(/[_-]/g, " ").replace(/(^| )(\w)/g, function(x) {
+          return x
+        })
 
-        var extensionjson = {};
+
+        var extension = {
+          label,
+          folder: extensionFolder
+        };
 
         if(folderContent.isDirectory()) {
           try {
             try {
-              var extensionFilePaths = Finder.from(extensionFolderPath).findFiles('<extension.min.js|index.html|extension\.json|screenshot>');
-              var index, json, files = [], screenshot;
+              var extensionFilePaths = Finder.from(extensionFolderPath).findFiles('<extension.min.js$|-extension.html|-extension.jade|screenshot>')
+
+              let index, screenshot, contents
 
               for (var i = 0; i < extensionFilePaths.length; i++) {
-                var currentExtensionFile = extensionFilePaths[i];
-                currentExtensionFile = extensionFilePaths[i].replace(hook.app.get('clientPath'), '');
+                let file = extensionFilePaths[i].replace(path.join(hook.app.get('clientPath'), '/'), '')
 
-                if(currentExtensionFile.indexOf('index.html') > -1) {
-                  index = currentExtensionFile;
-                } else if(currentExtensionFile.indexOf('extension.json') > -1) {
-                  json = currentExtensionFile;
-                } else if(currentExtensionFile.indexOf('screenshot') > -1) {
-                  screenshot = currentExtensionFile;
-                } else if(currentExtensionFile.indexOf('.jade') > -1 && extractFileNameRegex.test(currentExtensionFile)) {
-                  files.push(currentExtensionFile);
-                } else if(extractFileNameRegex.test(currentExtensionFile)) {
-                  files.push(currentExtensionFile);
+                if(file.indexOf('-extension.html') > -1 || file.indexOf('-extension.jade') > -1) {
+                  extension.html = file
+                } else if(file.indexOf('screenshot') > -1 && extractFileNameRegex.test(file)) {
+                  extension.screenshot = file
+                } else if(file.indexOf('extension.min.js') > -1) {
+                  extension.contents = file
                 }
+              }
 
+              if(!extension.html) {
+                throw Error("The extension must contain a {extension-name}-extension.html or {extension-name}-extension.jade file path.");
+              }
+
+              if(!extension.contents) {
+                throw Error("The extension must contain a extension.min.js file which contains the concatenated code for the extension.");
               }
             } catch(err) {
               if(deletePath) {
@@ -64,35 +76,6 @@ export default function(options) {
               }
               console.log('Error searching files', err);
               return reject(new feathersErrors.NotAcceptable('Extension folder did not contain valid content.'))
-            }
-
-
-            try {
-              var extensionjson = JSON.parse(fs.readFileSync(path.join(hook.app.get('clientPath'), json), 'utf8'));
-            } catch(e) {
-              if(deletePath) {
-                fse.remove(deletePath);
-              }
-              return reject(new feathersErrors.BadRequest("Could not find a valid extension.json file in the extension. If it's there, make sure it doesn't have any errors."));
-            }
-
-            try {
-              extensionjson.text = fs.readFileSync( path.join(hook.app.get('clientPath'), index), 'utf8');
-            } catch(e) {
-              if(deletePath) {
-                fse.remove(deletePath);
-              }
-              return reject(new feathersErrors.BadRequest("Could not find an index.html in the extension. An extension needs this file to know what to compile."));
-            }
-
-            extensionjson.folderName = hook.params.extensionUrl;
-
-            if(files) {
-              extensionjson.urls = files;
-            }
-
-            if(screenshot && extractFileNameRegex.test(screenshot)) {
-              extensionjson.screenshot = screenshot;
             }
           } catch(err) {
             if(deletePath) {
@@ -110,7 +93,7 @@ export default function(options) {
         }
         return reject(err);
       } finally {
-        hook.data = extensionjson;
+        hook.data = extension;
         return resolve(hook);
       }
 
