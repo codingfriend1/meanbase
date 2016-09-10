@@ -5,6 +5,9 @@ import fs from 'fs';
 import fsExtra from 'fs-extra'
 const decompress = require('decompress')
 const exec = require('child_process').exec
+import compileIndex from '../../../components/compile-index';
+import themes from '../../../components/seed/seed/themes'
+import extensions from '../../../components/seed/seed/extensions'
 
 const collections = [
   "extensions",
@@ -77,7 +80,7 @@ export default function(req, res, next) {
           for (var i = 0; i < collections.length; i++) {
             try {
               if( fs.lstatSync(path.join(currentPath, 'data', collections[i] + '.json')) ) {
-                await removeData(collections[i])
+                // await removeData(collections[i])
                 let response = await importCollection(collections[i])
               }
             } catch(err) {
@@ -86,6 +89,10 @@ export default function(req, res, next) {
             }
           }
           console.log("success!")
+          await themes.call(req.app)
+          await extensions.call(req.app)
+          compileIndex.call(req.app);
+          console.log('Recompiling index.html');
         } catch (err) {
           console.error(err)
         }

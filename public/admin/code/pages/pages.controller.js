@@ -40,13 +40,13 @@ angular.module('meanbaseApp')
       }
     };
 
-    $scope.updateTitle = function(url) {
-      if(!$scope.settings) { return false; }
-      if(url) {
-        let { placeholderTitle } = convertUrlToTitle(url)
-        $scope.settings.title = placeholderTitle;
-      }
-    };
+    // $scope.updateTitle = function(url) {
+    //   if(!$scope.settings) { return false; }
+    //   if(url) {
+    //     let { placeholderTitle } = convertUrlToTitle(url)
+    //     $scope.settings.title = placeholderTitle;
+    //   }
+    // };
 
     function convertUrlToTitle(url) {
       url = url.replace(/[ ]/g, "-")
@@ -66,10 +66,10 @@ angular.module('meanbaseApp')
     $scope.saveSettings = async function(page, settings) {
       if(page && page._id) {
 
-        if(previousUrl !== page.url) {
-          let { placeholderTitle } = convertUrlToTitle(page.url)
-          page.title = placeholderTitle
-        }
+        // if(previousUrl !== page.url) {
+        //   let { placeholderTitle } = convertUrlToTitle(page.url)
+        //   page.title = placeholderTitle
+        // }
 
         p.update(page, settings, page.title + ' updated', 'Could not update ' + page.title);
       } else if(page && !page._id) {
