@@ -1,0 +1,14 @@
+# Ignore everything
+*
+# But not these files...
+!.gitignore
+!md-bullet-point-list/**
+!md-bullet-point-list
+
+!md-selling-point-list/**
+!md-selling-point-list
+
+!mb-search/**
+!mb-search
+
+.DS_Store
