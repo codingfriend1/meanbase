@@ -53,10 +53,12 @@ button.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--
           //- label.mdl-textfield__label(for='template') Page Template
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-dirty': settings.tabTitle}")
           input#browser-window-title.mdl-textfield__input(type='text' ng-model='settings.tabTitle')
-          label.mdl-textfield__label(for='browser-window-title') Browser Window Title
-        .mdl-textfield.mdl-js-textfield(ng-class="{'is-dirty': settings.description}")
-          textarea.mdl-textfield__input(type='text', rows='3', id='Page Description' ng-model='settings.description')
-          label.mdl-textfield__label(for='Page Description') Search Engine Description
+          label.mdl-textfield__label(for='browser-window-title') Google Search Title
+        .mdl-textfield(ng-class="{'is-dirty': settings.description}")
+          label(for='Page Description') Google Search Description
+          textarea(type='text', rows='3', id='Page Description' ng-model='settings.description')
+          
+          
     .mdl-dialog__actions
       button.mdl-button(type='button', ng-click="saveSettings(settings, settings)") Save
       button.mdl-button(type='button' ng-click="p.toggleModal('isSettingsOpen', 'settings')") Dismiss
