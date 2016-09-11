@@ -15,7 +15,11 @@
     p Import data downloaded from another meanbase site
     .alert.alert-danger
       strong WARNING
-      div This will erase all data on your site and log you out and replace it with the data and users from the .zip file
+      div This will erase all data on your site and log you out (if you choose to replace users) and replace it with the data and users from the .zip file
+    .checkbox
+      label.mdl-checkbox.mdl-js-checkbox(for='includeUsers')
+        input#includeUsers.mdl-checkbox__input(type='checkbox', ng-model="includeUsersAndRoles")
+        span.mdl-checkbox__label Replace users and roles too?
     div.drop-zone(nv-file-drop="uploader2" uploader="uploader2").text-center.form-inline
       p Drop #[strong zip] file here to upload or
       .form-group.text-center

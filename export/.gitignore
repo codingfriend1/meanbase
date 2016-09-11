@@ -2,3 +2,5 @@
 *
 # But not these files...
 !.gitignore
+!export/
+!import/

@@ -12,12 +12,9 @@
   "extensionsPath": "../public/extensions/",
   "uploadsPath": "../public/assets/",
   "viewsPath": "../views/",
-  "exportPath": "../export/",
-  "themesExportPath": "../export/themes",
-  "extensionsExportPath": "../export/extensions",
-  "imagesExportPath": "../export/images",
-  "dataExportPath": "../export/data",
-  "dataImportPath": "../export/export/data",
+  "exportPath": "../export/export",
+  "importPath": "../export/import",
+  "importContentPath": "../export/import/export",
   "auth": {
     "token": {
       "secret": "FEATHERS_AUTH_SECRET"

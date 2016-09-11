@@ -30,9 +30,9 @@ export default function(req, res, next) {
 
   function importCollection(collection) {
     return new Promise((resolve, reject) => {
-      if(!req.app.get('db') || !collection || !req.app.get('dataExportPath')) { return reject('missing either the collection, db ENV or dataExportPath ENV')}
+      if(!req.app.get('db') || !collection || !req.app.get('exportPath')) { return reject('missing either the collection, db ENV or dataExportPath ENV')}
 
-      const child = exec(`mongoimport --db ${req.app.get('db')} --collection ${collection} --file ${path.join(req.app.get('dataImportPath'), collection + '.json')} --jsonArray`)
+      const child = exec(`mongoimport --db ${req.app.get('db')} --collection ${collection} --file ${path.join(req.app.get('exportPath'), 'data', collection + '.json')} --jsonArray`)
 
       child.on('close', function(code) {
         console.log(`Import of ${collection} was successful`);
@@ -46,13 +46,13 @@ export default function(req, res, next) {
     await req.app.service(name).remove(null, {query:{}})
   }
 
-  if(!req.app || !req.app.get('exportPath')) {
-    next(new Error('exportPath not found on server'));
+  if(!req.app || !req.app.get('importPath')) {
+    next(new Error('importPath not found on server'));
   }
 
   var createdFolderName = '125098dsflkj1324';
 
-  var createdFolderPath = path.join(req.app.get('exportPath'));
+  var createdFolderPath = path.join(req.app.get('importPath'));
   try {
     var form = new formidable.IncomingForm();
     form.keepExtensions = true;
@@ -69,22 +69,31 @@ export default function(req, res, next) {
       var fileName  = files.file.name;
       var contentType   = files.file.type;
 
-      decompress(tempFilePath, req.app.get('exportPath')).then(async files => {
-        let currentPath = path.join(req.app.get('exportPath'), 'export')
+      decompress(tempFilePath, req.app.get('importPath')).then(async () => {
+        let currentPath = path.join(req.app.get('importContentPath'))
         try {
           fsExtra.copySync(path.join(currentPath, 'images'), req.app.get('uploadsPath'))
           fsExtra.copySync(path.join(currentPath, 'themes'), req.app.get('themesPath'))
           fsExtra.copySync(path.join(currentPath, 'extensions'), req.app.get('extensionsPath'))
-          fsExtra.copySync(path.join(currentPath, 'data'), req.app.get('extensionsPath'))
+
+          let includeUsers = req.query.includeUsersAndRoles
+          if(typeof includeUsers === 'string') {
+            includeUsers = includeUsers.toLowerCase() === 'true'
+          }
 
           for (var i = 0; i < collections.length; i++) {
+            let doesFileExist = fs.lstatSync(path.join(currentPath, 'data', collections[i] + '.json'))
             try {
-              if( fs.lstatSync(path.join(currentPath, 'data', collections[i] + '.json')) ) {
-                // await removeData(collections[i])
-                let response = await importCollection(collections[i])
+              if((collections[i] !== 'users' && collections[i] !== 'roles') || includeUsers) {
+                if(doesFileExist) {
+                  // await removeData(collections[i])
+                  let response = await importCollection(collections[i])
+                }
               }
+
             } catch(err) {
               console.log("Error importing data", err);
+              break
               return next(err)
             }
           }
@@ -93,10 +102,15 @@ export default function(req, res, next) {
           await extensions.call(req.app)
           compileIndex.call(req.app);
           console.log('Recompiling index.html');
+          next()
         } catch (err) {
           console.error(err)
+          return next(err)
         }
         next()
+      }, function(err) {
+        console.log('Error unzipping import data from another meanbase site', err);
+        next(err)
       })
     });
   } catch(err) {

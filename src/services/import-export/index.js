@@ -36,9 +36,9 @@ class Service {
 
   _find(collection) {
     return new Promise((resolve, reject) => {
-      if(!this.app.get('db') || !collection || !this.app.get('dataExportPath')) { return reject('missing either the collection, db ENV or dataExportPath ENV')}
+      if(!this.app.get('db') || !collection || !this.app.get('exportPath')) { return reject('missing either the collection, db ENV or dataExportPath ENV')}
 
-      const child = exec(`mongoexport --db ${this.app.get('db')} --collection ${collection} --out ${path.join(this.app.get('dataExportPath'), collection + '.json')} --jsonArray`)
+      const child = exec(`mongoexport --db ${this.app.get('db')} --collection ${collection} --out ${path.join(this.app.get('exportPath'), 'data', collection + '.json')} --jsonArray`)
 
       // child.stdout.on('data', function(data) {
         // console.log("stdout: " + data);
@@ -65,22 +65,24 @@ class Service {
     const self = this
     return new Promise( async (resolve, reject) => {
 
+      let exportPath = this.app.get('exportPath')
+
       try {
-        fsExtra.copySync(this.app.get('extensionsPath'), this.app.get('extensionsExportPath'))
+        fsExtra.copySync(this.app.get('extensionsPath'), path.join(this.app.get('exportPath'), 'extensions') )
         console.log("Copied extensions to exports folder")
       } catch (err) {
         console.error("Error copying extensions to exports folder.", err)
       }
 
       try {
-        fsExtra.copySync(this.app.get('themesPath'), this.app.get('themesExportPath'))
+        fsExtra.copySync(this.app.get('themesPath'), path.join(this.app.get('exportPath'), 'themes') )
         console.log("Copied themes to exports folder")
       } catch (err) {
         console.error("Error copying themes to exports folder.", err)
       }
 
       try {
-        fsExtra.copySync(this.app.get('uploadsPath'), this.app.get('imagesExportPath'))
+        fsExtra.copySync(this.app.get('uploadsPath'), path.join(this.app.get('exportPath'), 'images') )
         console.log("Copied images to exports folder")
       } catch (err) {
         console.error("Error copying images to exports folder.", err)
@@ -90,7 +92,7 @@ class Service {
       for (var i = 0; i < collections.length; i++) {
         try {
           let response = await this._find(collections[i])
-          let url = path.join(self.app.get('dataExportPath'), collections[i] + '.json')
+          let url = path.join(this.app.get('exportPath'), 'data', collections[i] + '.json')
           forZip.push({path: url, name: collections[i] + '.json'})
         } catch(err) {
           console.log("Error exporting data", err);
@@ -108,9 +110,9 @@ class Service {
 
           /* Read the source directory */
           fstream.Reader({ 'path' : folderWeWantToZip, 'type' : 'Directory' })
-              .pipe(tar.Pack())/* Convert the directory to a .tar file */
-              .pipe(zlib.Gzip())/* Compress the .tar file */
-              .pipe(params.res); // Write back to the response, or wherever else...
+            .pipe(tar.Pack())/* Convert the directory to a .tar file */
+            .pipe(zlib.Gzip())/* Compress the .tar file */
+            .pipe(params.res); // Write back to the response, or wherever else...
         }
       }
     })

@@ -1,7 +1,4 @@
 # Ignore everything
 *
-
 # But not these files...
 !.gitignore
-!meanbase-demo/**
-!meanbase-demo
