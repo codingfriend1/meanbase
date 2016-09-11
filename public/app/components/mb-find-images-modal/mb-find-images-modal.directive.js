@@ -7,27 +7,17 @@ angular.module('meanbaseApp')
         if(!$rootScope.isLoggedIn) { return false; }
 
       	var config = scope.findImagesConfig;
-        var chosenElement = element;
 
-        if(element.find('[mb-src]').length) {
-          chosenElement = element.find('[mb-src]:first');
-        }
-
-      	chosenElement.bind('click', function(event) {
+        element.bind('click', function openModal(event) {
+          event.stopPropagation()
           if(!$rootScope.editMode) { return false; }
 
-          if (event.target !== this) { return };
+          if (event.target !== this && !$(event.target).is('[mb-src]') && !$(event.target).is('img')) { return };
 
           imageModal.open(config, function(selectedImages) {
-      			$rootScope.$emit('cms.choseImages', {gallerySlug:  config.gallerySlug, images: selectedImages});
-      		})
-
-      		// $rootScope.openImageModal(config, function(selectedImages) {
-      		// 	$rootScope.$emit('cms.choseImages', {gallerySlug:  config.gallerySlug, images: selectedImages});
-      		// });
-      	});
-
-
+            $rootScope.$emit('cms.choseImages', {gallerySlug:  config.gallerySlug, images: selectedImages});
+          })
+        });
       }
     };
   });
