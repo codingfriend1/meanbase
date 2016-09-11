@@ -632,6 +632,12 @@
 
 		this.togglePublishPage = function() {
 			if(!$rootScope.page._id) { return false; }
+      let answer
+      if(!$rootScope.page.published)
+        answer = confirm('Are you sure you want to publish the page where everyone can see it?')
+      else
+        answer = confirm('Are you sure you want to unpublish this page and hide it from the public?')
+      if(!answer) { return false }
 			$rootScope.page.published = !$rootScope.page.published;
 			var pageUrl = $rootScope.page.url;
 			if($rootScope.page.url.charAt(0) !== '/') { pageUrl = '/' + pageUrl; }
