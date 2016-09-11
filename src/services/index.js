@@ -1,3 +1,4 @@
+const subscribe = require('./subscribe');
 const importExport = require('./import-export');
 const email = require('./email');
 const staging = require('./staging');
@@ -149,4 +150,5 @@ module.exports = function() {
     app.configure(verifyReset({ emailer }));
     app.configure(email);
   }
+  app.configure(subscribe);
 };

@@ -33,6 +33,7 @@
     "gm": "^1.23.0",
     "jade-browser-middleware": "^0.3.3",
     "lodash": "^4.14.2",
+    "mailgun-js": "^0.7.12",
     "mongoose": "^4.5.8",
     "mongoose-text-search": "0.0.2",
     "mongoose-validators": "^0.1.0",
