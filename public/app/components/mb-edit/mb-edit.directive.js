@@ -18,6 +18,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         let syncDelay = 600
 
         angular.element(element).addClass('mb-edit')
+        // .addClass('ignore-draggable')
 
         // Global MediumEditor
         ngModel.editor = new MediumEditor(element, scope.bindOptions)

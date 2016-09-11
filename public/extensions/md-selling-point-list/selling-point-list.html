@@ -1,6 +1,6 @@
-<div ng-init="point = {}">
+<div ng-init="point = {}" class="mb-draggable-ghost">
   <div class="" ng-sortable="mbSortableExtensionList">
-    <div class="relative mb-animate-list" ng-repeat="point in listItem.data.items" ng-class="{'content-section-a': point.left, 'content-section-b': !point.left, 'mb-inner-draggable': $root.editMode}">
+    <div class="relative mb-inner-draggable-ghost" ng-repeat="point in listItem.data.items" ng-class="{'content-section-a': point.left, 'content-section-b': !point.left, 'mb-inner-draggable': $root.editMode}">
       <div class="container">
         <div class="row relative">
           <div ng-class="{'col-lg-5 col-sm-6': point.left, 'col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6': !point.left}">

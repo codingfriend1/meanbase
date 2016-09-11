@@ -93,8 +93,8 @@
     let sortableTemplateDefaults = {
       ghostClass: "mb-draggable-ghost",
       draggable: ".mb-draggable",
-      delay: 150,
-      filter: ".ignore-draggable",
+      delay: 140,
+      filter: ".ignore-draggable, .medium-editor-placeholder:after",
       animation: 250,
       scroll: true,
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
@@ -127,9 +127,9 @@
 
     $rootScope.mbSortableExtensionList = _.extend({}, sortableTemplateDefaults, {
       group: 'extension-list',
-      ghostClass: "mb-draggable-ghost",
+      ghostClass: "mb-inner-draggable-ghost",
       draggable: ".mb-inner-draggable",
-      filter: ".ignore-inner-draggable",
+      filter: ".ignore-inner-draggable, .medium-editor-placeholder:after",
       onStart: function (event) {
         $rootScope.inDragMode = true
         activeElGroup = $rootScope.page.lists

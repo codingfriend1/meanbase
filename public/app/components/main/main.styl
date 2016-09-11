@@ -77,8 +77,16 @@
   padding 30px 0
   text-align center
 
-.mb-draggable-ghost
-  background-color #2ECC71
+
+[draggable=true] .mb-draggable-ghost,
+[draggable=true].mb-draggable-ghost
+  cursor move
+  outline 2px solid #2ECC71
+
+[draggable=true] .mb-inner-draggable-ghost,
+[draggable=true].mb-inner-draggable-ghost
+  cursor move
+  outline 2px solid #2ECC71
 
 .panel-chevron
   padding-left 0.5em

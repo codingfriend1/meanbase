@@ -22,7 +22,7 @@
     .checkbox
       label
         input(type="checkbox" name="sync" ng-model="sync") 
-        | Sync Add-on
+        | Sync and auto-fill Add-on
     .form-group(ng-show="sync")
       label with group:
       select(ng-options="group as group.key for group in syncGroups" ng-model="syncGroup").form-control

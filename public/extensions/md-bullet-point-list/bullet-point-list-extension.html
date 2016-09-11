@@ -1,7 +1,7 @@
-<div class="content-section-a">
+<div class="content-section-a mb-draggable-ghost">
   <div class="container">
     <div class="row" ng-init="point={}" ng-sortable="mbSortableExtensionList">
-      <div class="col-lg-4 col-sm-4 mb-animate-list relative" mb-grid-item item="point" ng-repeat="point in listItem.data.items" ng-class="{'mb-inner-draggable': $root.editMode}">
+      <div class="col-lg-4 col-sm-4 mb-animate-list relative mb-inner-draggable-ghost" mb-grid-item item="point" ng-repeat="point in listItem.data.items" ng-class="{'mb-inner-draggable': $root.editMode}">
         <a mb-link="link" belongs-to="point" style="text-decoration: none">
           <div class="text-center">
             <mb-choose-icon belongs-to="point" property="icon" class="margin-bottom-1"></mb-choose-icon>
