@@ -142,10 +142,10 @@
               
     .mb-headbar-btn.dropdown.mb-headbar-btn-right
       span.dropdown-link.mb-link-btn
-        i.fa.fa-lg.fa-ellipsis-v
+        i.fa.fa-lg.fa-trash
       ul.dropdown-list
-        li(ng-show="editMode")
-          a(ng-click="headbar.editPageModal()") Settings
+        //- li(ng-show="editMode")
+        //-   a(ng-click="headbar.editPageModal()") Settings
         li(ng-show="editMode" title="Undo all changes since last time this was published")
           a(ng-click="headbar.resetDraft()") Reset Draft
         //- li.divider(ng-show="$root.previousEditUrls.length")
