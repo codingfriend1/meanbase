@@ -11,4 +11,7 @@
 !mb-search/**
 !mb-search
 
+!mb-subscribe/**
+!mb-subscribe
+
 .DS_Store

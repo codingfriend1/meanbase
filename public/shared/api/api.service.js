@@ -22,7 +22,8 @@ angular.module('meanbaseApp')
       roles: new endpoints('roles'),
       users: new endpoints('users'),
       staging: new endpoints('staging'),
-      importExport: new endpoints('import-export')
+      importExport: new endpoints('import-export'),
+      subscribe: new endpoints('subscribe')
     };
 
     return api;

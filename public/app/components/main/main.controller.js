@@ -56,6 +56,26 @@
       });
     }
 
+    $rootScope.subscribe = function(email) {
+      api.subscribe.update(null, {email}).then(function(response) {
+        console.log("Successfully subscribed email", response);
+        toastr.success(response)
+      }, function(err) {
+        console.log('Error subscribing email', err);
+        toastr.warning(err.message)
+      });
+    }
+
+    $rootScope.unsubscribe = function(email) {
+      api.subscribe.deleteOne(email).then(function(response) {
+        console.log("Successfully unsubscribed email", response);
+        toastr.success(response)
+      }, function(err) {
+        console.log('Error unsubscribing email', err);
+        toastr.warning(err.message)
+      });
+    }
+
 
     function validateComment(comment) {
       if(comment && $rootScope.page) {

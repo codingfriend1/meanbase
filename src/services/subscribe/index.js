@@ -2,6 +2,7 @@
 
 const hooks = require('./hooks');
 import feathersErrors from 'feathers-errors'
+import _ from 'lodash'
 
 let mailgun, mailingList
 if(process.env.MAILGUN_API_KEY && process.env.MAILGUN_DOMAIN && process.env.MAILGUN_SUBSCRIPTION_EMAIL && process.env.ACCOUNT_EMAIL) {
@@ -63,7 +64,41 @@ class Service {
   }
 
   patch(id, data, params) {
-    return Promise.reject(new feathersErrors.NotImplemented(`The subscription api doesn't support the patch method`))
+    if(!mailgun || !mailingList) { return Promise.reject(new feathersErrors.NotImplemented("Sorry but this server isn't setup to handle email subscriptions."))  }
+    if(!data.email) { return Promise.reject(new feathersErrors.BadRequest('An email must be required.')) }
+    return new Promise((resolve, reject) => {
+
+      let memberExists = false
+      mailingList.members().list(function (err, members) {
+        if(err) {
+          return reject(err)
+        }
+        _.each(members.items, (member) => {
+          if(member.address === data.email) {
+            memberExists = true
+            if(member.subscribed) {
+              return resolve("This member is already subscribed.")
+            }
+          }
+        })
+
+        function respond(err, response) {
+          if(err) { return reject(err) }
+          if(response.message.indexOf("Address already exists") > -1) {
+            return reject("That email already exists.")
+          } else {
+            return resolve(data.email + ' is now subscribed and will be notified when new pages are published.')
+          }
+        }
+
+        if(memberExists) {
+          mailingList.members(data.email).update({subscribed: 'true'}, respond)
+        } else {
+          mailingList.members().create({subscribed: 'true', address: data.email})
+        }
+      })
+
+    })
   }
 
   remove(id, params) {
@@ -71,7 +106,7 @@ class Service {
     if(!id) { return Promise.reject(new feathersErrors.BadRequest('An email is required in the params.')) }
 
     return new Promise((resolve, reject) => {
-      mailingList.members(id).delete({subscribed: false}, function (err, response) {
+      mailingList.members(id).update({subscribed: false}, function (err, response) {
        if(err) {
          return reject(err)
        } else {
