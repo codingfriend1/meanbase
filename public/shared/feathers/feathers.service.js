@@ -7,7 +7,7 @@ const authentication = require('feathers-authentication/client');
 const rest = require('feathers-rest/client');
 
 angular.module('meanbaseApp').factory('feathers', function() {
-  const socket = io(window.location.origin);
+  // const socket = io(window.location.origin);
 
   window.app = feathers()
     .configure(hooks())

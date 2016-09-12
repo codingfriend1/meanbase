@@ -6,6 +6,13 @@ module.exports = function() {
 
   app.use( express.static(app.get('clientPath')) );
 
+  if(process.env.PRERENDER_TOKEN) {
+    console.log('Using prerender service')
+    // app.use(require('prerender-node'))
+    app.use(require('prerender-node').set('prerenderToken', process.env.PRERENDER_TOKEN))
+  }
+
+
   // render home page
   app.get('/themes/*', (req, res) => {
     try {
