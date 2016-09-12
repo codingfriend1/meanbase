@@ -8,7 +8,9 @@ exports.before = {
   all: [],
   find: [],
   get: [],
-  create: [],
+  create: [
+    hooks.disable('external')
+  ],
   update: [],
   patch: [],
   remove: []

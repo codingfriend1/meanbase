@@ -6,6 +6,7 @@ const custom = require('./custom');
 import themeUploads from './theme-uploads';
 import extensionUploads from './extension-uploads'
 import wordpressImport from './wordpress-import'
+import url from 'url'
 
 const verifyReset = require('feathers-service-verify-reset').service
 const imageUploads = require('./image-uploads');
@@ -126,6 +127,17 @@ module.exports = function() {
   mongoose.connect(app.get('mongodb'));
   mongoose.Promise = global.Promise;
 
+  app.use(function attachUrl(req, res, next) {
+    let path = url.format({
+      protocol: req.protocol,
+      hostname: req.hostname
+    })
+    if(app.get('port')) {
+      path = path + ':' + app.get('port')
+    }
+    req.feathers.serverUrl = path
+    next()
+  })
   app.configure(authentication);
   app.configure(imageUploads);
   app.configure(themeUploads);

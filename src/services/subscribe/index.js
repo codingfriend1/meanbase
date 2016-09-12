@@ -31,13 +31,13 @@ class Service {
 
     return new Promise((resolve, reject) => {
       let email = {
-        from: ACCOUNT_EMAIL,
+        from: process.env.ACCOUNT_EMAIL,
         to: process.env.MAILGUN_SUBSCRIPTION_EMAIL,
         subject: data.subject,
-        text: data.message
+        html: data.message
       }
 
-      mailgun.messages().send(email, function (error, body) {
+      mailgun.messages().send(email, function (err, body) {
         if(err) {
           return reject(err)
         } else {

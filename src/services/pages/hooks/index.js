@@ -2,6 +2,7 @@ const globalHooks = require('../../../hooks')
 const hooks = require('feathers-hooks')
 const auth = require('feathers-authentication').hooks
 
+import notifySubscribers from './notify-subscribers'
 import convertForIncoming from './convert-for-incoming'
 import convertForOutgoing from './convert-for-outgoing'
 import { deleteMenu, createMenu, updateMenu } from './mirror-menus'
@@ -41,6 +42,7 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermission(permissionName),
+    notifySubscribers(),
     convertForIncoming()
   ],
   patch: [
@@ -50,6 +52,7 @@ exports.before = {
     globalHooks.attachPermissions(),
     globalHooks.isEnabled(),
     globalHooks.hasPermission(permissionName),
+    notifySubscribers(),
     convertForIncoming()
   ],
   remove: [
@@ -75,10 +78,11 @@ exports.after = {
     createMenu(),
   ],
   update: [
-    updateMenu()
+    updateMenu(),
+
   ],
   patch: [
-    updateMenu()
+    updateMenu(),
   ],
   remove: [
     deleteMenu()
