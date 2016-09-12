@@ -634,7 +634,7 @@
 			if(!$rootScope.page._id) { return false; }
       let answer
       if(!$rootScope.page.published)
-        answer = confirm('Are you sure you want to publish the page where everyone can see it?')
+        answer = confirm('Are you sure you want to publish the page where everyone can see it and notify subscribers?')
       else
         answer = confirm('Are you sure you want to unpublish this page and hide it from the public?')
       if(!answer) { return false }
