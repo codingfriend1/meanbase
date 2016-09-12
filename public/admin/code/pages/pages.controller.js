@@ -123,6 +123,13 @@ angular.module('meanbaseApp')
   	};
 
   	$scope.togglePublished = function(page) {
+      let answer
+      if(!page.published) {
+        answer = confirm('Are you sure you want to publish the page and notify subscribers?')
+      } else {
+        answer = confirm('Are you sure you want to hide this page from the public?')
+      }
+      if(!answer) { return false }
       page.published = !page.published;
       var message = page.published? page.title + ' published.': page.title + ' unpublished.';
       var failure = page.published? 'Could not publish ' + page.title: 'Could not unpublish ' + page.title;
