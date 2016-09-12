@@ -83,7 +83,7 @@ class Service {
         if(memberExists) {
           mailingList.members(data.email).update({subscribed: 'true'}, respond)
         } else {
-          mailingList.members().create({subscribed: 'true', address: data.email})
+          mailingList.members().create({subscribed: true, address: data.email}, respond)
         }
       })
 
