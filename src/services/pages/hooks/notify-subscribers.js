@@ -5,8 +5,6 @@ export default options => {
   return async hook => {
     if (!hook.params.provider) { return hook; }
 
-    console.log("hook.params.serverUrl", hook.params.serverUrl);
-
     if(hook.data && hook.data.published && hook.id) {
       try {
         let response = await hook.app.service('pages').get(hook.id)
@@ -20,7 +18,7 @@ export default options => {
               <p>${response.description}</p>
               <a href="${hook.params.serverUrl + response.url}">Visit ${response.title}</a>
               <hr>
-              <p><a href="%mailing_list_unsubscribe_url%">Stop following ${hook.params.serverUrl}/a></p>
+              <p><a href="%mailing_list_unsubscribe_url%">Stop following ${hook.params.serverUrl}</a></p>
             `
           })
         } else {
