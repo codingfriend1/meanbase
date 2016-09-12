@@ -8,6 +8,8 @@
 
     const autoSaveLapse = 100
 
+    window.prerenderReady = true;
+
     // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
 
     var server = {}

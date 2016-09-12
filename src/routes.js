@@ -6,12 +6,6 @@ module.exports = function() {
 
   app.use( express.static(app.get('clientPath')) );
 
-  if(process.env.PRERENDER_TOKEN) {
-    console.log('Using prerender service')
-    // app.use(require('prerender-node'))
-    app.use(require('prerender-node').set('prerenderToken', process.env.PRERENDER_TOKEN))
-  }
-
 
   // render home page
   app.get('/themes/*', (req, res) => {
@@ -39,4 +33,11 @@ module.exports = function() {
   app.get('/*', (req, res) => {
     res.sendFile(path.join(app.get('appPath'), 'index.html'));
   });
+
+  if(process.env.PRERENDER_TOKEN) {
+    console.log('Using prerender service')
+    // app.use(require('prerender-node'))
+    // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:3000/'))
+    app.use(require('prerender-node').set('prerenderToken', process.env.PRERENDER_TOKEN))
+  }
 };

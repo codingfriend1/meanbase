@@ -11,9 +11,9 @@ angular.module('meanbaseApp').factory('feathers', function() {
 
   window.app = feathers()
     .configure(hooks())
-    // .configure(rest(window.location.origin).jquery(jQuery))
+    .configure(rest(window.location.origin).jquery(jQuery))
     // .configure(socketio(socket))
-    .configure(rest(window.location.origin).fetch(window.fetch.bind(window)))
+    // .configure(rest(window.location.origin).fetch(window.fetch.bind(window)))
     .configure(authentication({ storage: window.localStorage, localEndpoint: '/api/auth/local', tokenEndpoint: '/api/auth/token' }));
 
   return app;
