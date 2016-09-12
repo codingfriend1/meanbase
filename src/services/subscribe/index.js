@@ -49,18 +49,7 @@ class Service {
   }
 
   update(id, data, params) {
-    if(!mailgun || !mailingList) { return Promise.reject(new feathersErrors.NotImplemented("Sorry but this server isn't setup to handle email subscriptions."))  }
-    if(!data.email) { return Promise.reject(new feathersErrors.BadRequest('An email must be required.')) }
-    return new Promise((resolve, reject) => {
-      mailingList.members().create({subscribed: true, address: data.email}, function (err, response) {
-        if(err) { return reject(err) }
-        if(response.message.indexOf("Address already exists") > -1) {
-          return reject("That email already exists.")
-        } else {
-          return resolve(data.email + ' is now subscribed and will be notified when new pages are published.')
-        }
-     });
-    })
+    return Promise.reject('The update method is not supported on this server. Use patch instead.')
   }
 
   patch(id, data, params) {
