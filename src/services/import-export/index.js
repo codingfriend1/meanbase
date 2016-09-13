@@ -41,10 +41,10 @@ class Service {
       const child = exec(`mongoexport --db ${this.app.get('db')} --collection ${collection} --out ${path.join(this.app.get('exportPath'), 'data', collection + '.json')} --jsonArray`)
 
       // child.stdout.on('data', function(data) {
-        // console.log("stdout: " + data);
+      //   console.log("stdout: " + data);
       // })
 
-      // child.stderr.on('data', function(data) {
+      // child.stderr.on('error', function(data) {
       //   console.log("stderr", data);
       //   return reject('Export failed')
       // })
@@ -86,6 +86,10 @@ class Service {
         console.log("Copied images to exports folder")
       } catch (err) {
         console.error("Error copying images to exports folder.", err)
+      }
+
+      if (!fs.existsSync(path.join(this.app.get('exportPath'), 'data'))){
+        fs.mkdirSync(path.join(this.app.get('exportPath'), 'data'));
       }
 
       let forZip = []
