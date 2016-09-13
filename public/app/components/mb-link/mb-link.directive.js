@@ -15,19 +15,6 @@ angular.module('meanbaseApp')
         if(!scope.belongsTo) { scope.belongsTo = {}; }
         if(!scope.belongsTo[scope.mbLink]) { scope.belongsTo[scope.mbLink] = {}; }
 
-        element.bind('click', _.debounce(function(event) {
-          if(!$rootScope.editMode) {
-            var anchorLink = scope.belongsTo[scope.mbLink];
-            if(anchorLink.target) {
-              window.open(anchorLink.url, anchorLink.target);
-            } else {
-              $location.path(anchorLink.url);
-            }
-          } else {
-            event.preventDefault()
-          }
-        }, 30))
-
         if(!Auth.isLoggedIn()) { return false }
 
         scope.$onRootScope('cms.updateView', function(event, shouldSave) {
