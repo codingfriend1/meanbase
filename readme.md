@@ -1,5 +1,6 @@
-# Meanbase
-A a CMS built on the MEAN (MongoDB, Express, Angular, Node) stack and made to be simple and intuitive for users and developers.
+![Meanbase Logo](meanbase-logo.png?raw=true =200x)
+
+A CMS built on the MEAN (MongoDB, Express, Angular, Node) stack and made to be simple and intuitive for users and developers.
 
 See the documentation here
 [meanbase docs](https://codingfriend1.gitbooks.io/meanbase/content/)
