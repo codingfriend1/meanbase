@@ -540,6 +540,7 @@
 			$rootScope.$emit('cms.publishExtensionData')
       autoSaveSessionSnapshot = {}
       $rootScope.$emit('cms.takePageSnapshot', true)
+      lastPageUndoData2 = angular.copy($rootScope.page)
 		};
 
     $scope.$onRootScope('cms.finishPublishPages', function() {
@@ -648,6 +649,7 @@
 			});
 			if($rootScope.page.published) {
 				toastr.clear();
+        lastPageUndoData2 = angular.copy($rootScope.page)
         $rootScope.$emit('cms.publishExtensionData')
 				toastr.success('Visitors can now see this page.')
 			} else {
