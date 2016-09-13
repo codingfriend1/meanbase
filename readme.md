@@ -11,7 +11,6 @@ See the documentation here
 
 #### Backend
 ![Meanbase Screenshot Backend](Meanbase-Themes-Page.png?raw=true "Meanbase Screenshot Backend Screenshot")
-![Meanbase Screenshot Backend Sidebar](Meanbase-Sidebar.png?raw=true "Meanbase Screenshot Backend Sidebar")
 
 
 Meanbase is built on Mongo, Express, Angular, Node. This stack is superior to the outdated LAMP stack (Linux, Apache, MySQL, and PHP). It provides faster page loads using ajax with AngularJS, can handle more traffic at once through Node and Nginx, and has a more flexible api for interacting with data (Mongo, Express, and [Feathersjs](http://feathersjs.com/)).
