@@ -25,6 +25,7 @@ import filterByPermissionOrRestrict from './filter-by-permission-or-restrict'
 import updateByPermission from './update-by-permission'
 import deleteCustomData from './delete-custom-data'
 import sendVerificationEmail from './send-verification-email'
+import allowUpsert from './allow-upsert'
 
 
 exports.verifyOrRestrict = verifyOrRestrict;
@@ -44,3 +45,4 @@ exports.filterByPermissionOrRestrict = filterByPermissionOrRestrict;
 exports.updateByPermission = updateByPermission;
 exports.deleteCustomData = deleteCustomData;
 exports.sendVerificationEmail = sendVerificationEmail;
+exports.allowUpsert = allowUpsert;

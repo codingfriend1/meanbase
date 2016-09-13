@@ -17,7 +17,9 @@ exports.before = {
   get: [],
   create: [],
   update: [],
-  patch: [],
+  patch: [
+    globalHooks.allowUpsert()
+  ],
   remove: []
 };
 

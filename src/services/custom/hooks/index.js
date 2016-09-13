@@ -38,6 +38,7 @@ exports.before = {
     globalHooks.updateByPermission()
   ],
   patch: [
+    globalHooks.allowUpsert(),
     auth.verifyToken(),
     auth.populateUser(),
     auth.restrictToAuthenticated(),

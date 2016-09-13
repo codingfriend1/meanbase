@@ -46,6 +46,7 @@ exports.before = {
     convertForIncoming()
   ],
   patch: [
+    globalHooks.allowUpsert(),
     auth.verifyToken(),
     auth.populateUser(),
     auth.restrictToAuthenticated(),

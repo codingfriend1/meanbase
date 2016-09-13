@@ -81,6 +81,7 @@ exports.before = {
     globalHooks.ifPasswordThenHash()
   ],
   patch: [
+    globalHooks.allowUpsert(),
     auth.verifyToken(),
     auth.populateUser(),
     auth.restrictToAuthenticated(),
