@@ -51,9 +51,9 @@ import "./components/mb-choose-icon/mb-choose-icon.directive.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.service.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.directive.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.controller.js";
-import "./components/cms.headbar/cms.headbar.controller.js";
 import "./components/main/main.js";
 import "./components/main/main.controller.js";
+import "./components/cms.headbar/cms.headbar.controller.js";
 // end inject js
 
 // inject jade
@@ -64,9 +64,9 @@ import "./components/main/main.jade";
 import "./components/mb-add-menu-item/mb-add-menu-item.modal.jade";
 import "./components/mb-choose-icon/mb-edit-icon.modal.jade";
 import "./components/mb-choose-link/mb-edit-link.modal.jade";
-import "./components/mb-edit-menu/mb-edit-menu.modal.jade";
-import "./components/mb-extension-edit/mb-extension-edit.modal.jade";
 import "./components/mb-find-images-modal/mb-find-image.modal.jade";
+import "./components/mb-extension-edit/mb-extension-edit.modal.jade";
+import "./components/mb-edit-menu/mb-edit-menu.modal.jade";
 import "./components/mb-list-area/mb-list-area.jade";
 import "./components/mb-list-selector/mb-list-selector.jade";
 import "./components/mb-list-selector/mb-list.modal.jade";
