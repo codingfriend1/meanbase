@@ -5,7 +5,6 @@
 
 FROM codingfriend/meanbase
 
-
 ################## ESTABLISH DIRECTORIES ######################
 RUN rm -rf /var/www/
 WORKDIR /var/www/

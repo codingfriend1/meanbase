@@ -51,9 +51,9 @@ import "./components/mb-choose-icon/mb-choose-icon.directive.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.service.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.directive.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.controller.js";
+import "./components/cms.headbar/cms.headbar.controller.js";
 import "./components/main/main.js";
 import "./components/main/main.controller.js";
-import "./components/cms.headbar/cms.headbar.controller.js";
 // end inject js
 
 // inject jade

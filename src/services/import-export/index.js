@@ -35,24 +35,46 @@ class Service {
   }
 
   _find(collection) {
-    return new Promise((resolve, reject) => {
-      if(!this.app.get('db') || !collection || !this.app.get('exportPath')) { return reject('missing either the collection, db ENV or dataExportPath ENV')}
+    return new Promise(async (resolve, reject) => {
+      if(!this.app.get('exportPath')) {
+        return reject("missing the export path.")
+      }
 
-      const child = exec(`mongoexport --db ${this.app.get('db')} --collection ${collection} --out ${path.join(this.app.get('exportPath'), 'data', collection + '.json')} --jsonArray`)
+      try {
+        let results = await this.app.service(collection).find({ query: {} })
+        console.log("results", results);
+        fs.writeFileSync(path.join(this.app.get('exportPath'), 'data', collection + '.json'), JSON.stringify(results, null, 2) )
+        console.log(`${collection} successfully exported!`);
+        return resolve(`${collection} successfully exported!`)
+      } catch(err) {
+        console.log("Error fetching data.", err);
+        return reject(err)
+      }
 
+      // if(!this.app.get('db') || !collection || !this.app.get('exportPath')) { return reject('missing either the collection, db ENV or dataExportPath ENV')}
+
+      // const child = exec(`mongoexport --host mongodb://db/ --port 27017 --db ${this.app.get('db')} --collection ${collection} --out ${path.join(this.app.get('exportPath'), 'data', collection + '.json')} --jsonArray`)
+
+      // const child = exec(`mongoexport --db ${this.app.get('db')} --collection ${collection} --out ${path.join(this.app.get('exportPath'), 'data', collection + '.json')} --jsonArray`)
+      //
       // child.stdout.on('data', function(data) {
       //   console.log("stdout: " + data);
       // })
-
+      //
       // child.stderr.on('error', function(data) {
       //   console.log("stderr", data);
-      //   return reject('Export failed')
+      //   // return reject('Export failed')
       // })
-
-      child.on('close', function(code) {
-        console.log(`Export of ${collection} was successful`);
-        return resolve(`Export of ${collection} was successful`)
-      })
+      //
+      // child.on('close', function(code) {
+      //   console.log("exporting data code", code);
+      //   if(code === 0) {
+      //     console.log(`Export of ${collection} was successful`)
+      //     return resolve(`Export of ${collection} was successful`)
+      //   } else {
+      //     return reject(`Export of ${collection} failed with code ${code}`)
+      //   }
+      // })
     })
 
   }
