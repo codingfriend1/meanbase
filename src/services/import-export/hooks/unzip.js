@@ -29,15 +29,27 @@ export default function(req, res, next) {
   if(req.method !== "POST") { return next() }
 
   function importCollection(collection) {
-    return new Promise((resolve, reject) => {
-      if(!req.app.get('db') || !collection || !req.app.get('exportPath')) { return reject('missing either the collection, db ENV or dataExportPath ENV')}
+    return new Promise(async (resolve, reject) => {
+      if(!collection || !req.app.get('importContentPath')) { return reject('missing either the collection, or importContentPath')}
 
-      const child = exec(`mongoimport --db ${req.app.get('db')} --collection ${collection} --file ${path.join(req.app.get('exportPath'), 'data', collection + '.json')} --jsonArray`)
+      const url = path.join(req.app.get('importContentPath'), 'data', collection + '.json');
+      try {
+        const items = JSON.parse(fs.readFileSync(url, 'utf8'))
+        const createdItems = await req.app.service(collection).create(items)
+        console.log(`Successfully imported ${collection}.`);
+        return resolve(`Successfully imported ${collection}.`)
+      } catch(err) {
+        console.log('Error parsing imported data and importing.', err);
+        return resolve('Error parsing imported data and importing.')
+      }
 
-      child.on('close', function(code) {
-        console.log(`Import of ${collection} was successful`);
-        return resolve(`Import of ${collection} was successful`)
-      })
+
+      // const child = exec(`mongoimport --db ${req.app.get('db')} --collection ${collection} --file ${path.join(req.app.get('exportPath'), 'data', collection + '.json')} --jsonArray`)
+
+      // child.on('close', function(code) {
+      //   console.log(`Import of ${collection} was successful`);
+      //   return resolve(`Import of ${collection} was successful`)
+      // })
     })
   }
 
@@ -86,7 +98,7 @@ export default function(req, res, next) {
             try {
               if((collections[i] !== 'users' && collections[i] !== 'roles') || includeUsers) {
                 if(doesFileExist) {
-                  // await removeData(collections[i])
+                  await removeData(collections[i])
                   let response = await importCollection(collections[i])
                 }
               }
