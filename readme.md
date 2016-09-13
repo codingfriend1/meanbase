@@ -15,6 +15,9 @@ See the documentation here
 
 Meanbase is built on Mongo, Express, Angular, Node. This stack is superior to the outdated LAMP stack (Linux, Apache, MySQL, and PHP). It provides faster page loads using ajax with AngularJS, can handle more traffic at once through Node and Nginx, and has a more flexible api for interacting with data (Mongo, Express, and [Feathersjs](http://feathersjs.com/)).
 
+### Special Thanks
+I would also like to give special thanks to Natalie Gee for helping me work on the User Experience for the CMS. By putting herself into the user's shoes she was able to make many complicated features much easier.
+
 ##Why it exists
 
 Meanbase provides a relationship between developers and their clients that allows developers to have full control over the code on their site and allows clients to easily manage content without the need for the developers help.
