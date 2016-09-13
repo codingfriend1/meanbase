@@ -12,13 +12,6 @@
 
     // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
 
-    var server = {}
-    if($rootScope.currentUser && $rootScope.currentUser.permissions && $rootScope.currentUser.permissions.indexOf('editContent') > -1) {
-      server.menus = api.menus
-    } else {
-      server.menus = api.publishedMenus
-    }
-
     // Get all the menus on the server.
     api.menus.find({}).then(function(response) {
       if(Array.isArray(response) && response.length === 0)
@@ -447,7 +440,7 @@
       jQuery('meta[name=description]').attr('content', $rootScope.page.description)
 
       try {
-        let response = await api.staging.find({key: url})
+        // let response = await api.staging.find({key: url})
 
         if(!pageContent) {
           pageContent = _.pick($rootScope.page, [
@@ -464,25 +457,13 @@
           ])
         }
 
-        let pagesPromise
-        if(response.length > 0) {
-          pagesPromise = await api.staging.update({key: url}, {data: pageContent})
-        } else {
-          pagesPromise = await api.staging.create({key: url, data: pageContent})
-        }
-
-        let menuAutoSaveData = await api.staging.find({key: 'menus'})
-
-        let menusPromise
+        // let menusPromise
         if(!menuContent) {
           menuContent = angular.copy($rootScope.menus)
         }
 
-        if(menuAutoSaveData.length > 0) {
-          menusPromise = await api.staging.update({key: 'menus'}, {data: menuContent})
-        } else {
-          menusPromise = await api.staging.create({key: 'menus', data: menuContent})
-        }
+        await api.staging.update({key: url}, {data: pageContent})
+        await api.staging.update({key: 'menus'}, {data: menuContent})
 
         $rootScope.$emit('cms.finishedAutoSaving', true)
 
@@ -491,15 +472,6 @@
         $rootScope.$emit('cms.finishedAutoSaving', false)
       }
     }, autoSaveLapse))
-
-    // $scope.$onRootScope('cms.menusAutoSave', async function(event, content) {
-    //   try {
-    //
-    //
-    //   } catch(err) {
-    //     console.log('Error auto saving menus', err)
-    //   }
-    // })
 
     $scope.$onRootScope('cms.publishChanges', async function() {
       try {

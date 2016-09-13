@@ -136,38 +136,22 @@
 
     async function addOrUpdateExtension(item) {
       if(item.label && item.sync && item.syncGroup) {
-        let found = await api.custom.find({belongsTo: item.label, key: item.syncGroup})
-        found = found[0]
-        if(found) {
-          await api.custom.update({belongsTo: item.label, key: item.syncGroup}, {value: item.data})
-        } else {
-          await api.custom.create({belongsTo: item.label, key: item.syncGroup, value: item.data, enabled: true, permission: 'editContent'})
+        try {
+          await api.custom.update({belongsTo: item.label, key: item.syncGroup}, {value: item.data, enabled: true, permission: 'editContent'})
+          api.staging.delete({belongsTo: item.label, key: item.syncGroup})
+        } catch(err) {
+          console.log('err', err);
         }
-
-        api.staging.delete({belongsTo: item.label, key: item.syncGroup})
       }
     }
 
     async function autoSaveExtension(item) {
       if(item.label && item.sync && item.syncGroup) {
-        let found
         try {
-          found = await api.staging.find({belongsTo: item.label, key: item.syncGroup})
-          found = found[0]
-        } catch (err) {
-          console.log("Error finding add-on staging data", err);
-        }
-
-        try {
-          if(found) {
-            let result = await api.staging.update({belongsTo: item.label, key: item.syncGroup}, {data: item.data})
-          } else {
-            let result = await api.staging.create({belongsTo: item.label, key: item.syncGroup, data: item.data, enabled: true, permission: 'editContent'})
-          }
+          await api.staging.update({belongsTo: item.label, key: item.syncGroup}, {data: item.data, enabled: true, permission: 'editContent'})
         } catch(err) {
           console.log('Error autosaving add-on', err);
         }
-
       }
     }
 
@@ -189,7 +173,7 @@
               item.data = foundPublishData.value
             });
           } else {
-            await autoSaveExtension(item)
+            autoSaveExtension(item)
           }
         }
       }
@@ -212,7 +196,7 @@
         if ($rootScope.page.lists.hasOwnProperty(extension)) {
           for (var i = 0; i < $rootScope.page.lists[extension].length; i++) {
             let item = $rootScope.page.lists[extension][i]
-            await addOrUpdateExtension(item)
+            addOrUpdateExtension(item)
           }
         }
       }
@@ -719,7 +703,6 @@
 
 		async function prepareDefaultPage(link, e) {
 			// Prepare page default text based on url
-
       let {placeholderTitle, menuTitle, url} = convertUrlToTitle(link)
 
 			// Prepare the template
@@ -736,39 +719,8 @@
         updated: Date.now()
 			};
 
-      // if(!$scope.menus.main) {
-      //   $scope.menus.main = [];
-      // }
-      //
-			// var newMenu = {
-			// 	title: placeholderTitle,
-			// 	url: url,
-			// 	location: 'main',
-			// 	position: $scope.menus.main.length,
-			// 	classes: '',
-			// 	target: ''
-			// };
-
       try {
         await api.pages.create(newPage)
-
-        // try {
-        //   let createdMenu = await api.menus.create(newMenu)
-        //   let menusStagingData = await api.staging.find({key: 'menus'})
-        //   menusStagingData = menusStagingData[0]
-        //
-        //   if(menusStagingData && menusStagingData.data) {
-        //     menusStagingData.data.main[0] = createdMenu;
-        //     try {
-        //       await api.staging.update({key: 'menus'}, {data: menusStagingData.data})
-        //     } catch(err) {
-        //       console.log("Error saving new menu to staging area", err);
-        //       toastr.warning("Sorry but we could not add the menu to your autosave area. It exists but you won't be able to see it.")
-        //     }
-        //   }
-        // } catch(err) {
-        //   console.log('Error creating menu', err);
-        // }
       } catch(err) {
         console.log('Error creating page and menu', err);
       }
