@@ -12,7 +12,8 @@ RUN rm -rf /var/www/
 WORKDIR /var/www/
 COPY dist/package.json /var/www/
 ENV NODE_ENV=production
-RUN npm-install-que --production
+# RUN npm-install-que --production
+RUN npm install --production
 COPY dist/ /var/www/
 # RUN chmod -R 755 /var/www
 ################## END DIRECTORIES ######################
