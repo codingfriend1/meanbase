@@ -19,14 +19,16 @@
               </choose-link>
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
-                  <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
-                      <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
-                  </li>
-                  <li mb-add-menu-item="main" class="new-menu-item-button ignore-draggable">
-                    <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
-                  </li>
-              </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li mb-add-menu-item="main" class="new-menu-item-button ignore-draggable">
+                <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
+                <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
+                    <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
+                </li>
+            </ul>
           </div>
       </div>
   </nav>

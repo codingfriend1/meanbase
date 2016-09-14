@@ -100,9 +100,6 @@
 
     // Rubaxa's library "sortable" and "ng-sortable" (the drag and drop capabilities) need a configuration to be passed in. Here we define it. Inside the ng-repeat, any item with a class of `.mb-draggable` will be able to be dragged.
     //
-
-    $rootScope.inDragMode = false
-
     let meanbaseFront = document.getElementById('mb-meanbase-front')
 
     let activeElGroup
@@ -112,6 +109,9 @@
       draggable: ".mb-draggable",
       delay: 140,
       filter: ".ignore-draggable, .medium-editor-placeholder:after",
+      onMove: function (evt) {
+        return evt.related.className.indexOf('ignore-draggable') === -1;
+      },
       animation: 250,
       scroll: true,
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
@@ -121,14 +121,12 @@
     $rootScope.menusConfig = _.extend({}, sortableTemplateDefaults, {
       group: 'menus',
       onStart: function (event) {
-        $rootScope.inDragMode = true
         meanbaseFront.classList.add('in-drag-mode')
         activeElGroup = $rootScope.menus
       },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
         meanbaseFront.classList.remove('in-drag-mode')
-        $rootScope.inDragMode = false
       }
     })
 
@@ -136,13 +134,11 @@
       group: 'lists',
       onStart: function (event) {
         meanbaseFront.classList.add('in-drag-mode')
-        $rootScope.inDragMode = true
         activeElGroup = $rootScope.page.lists
       },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
         meanbaseFront.classList.remove('in-drag-mode')
-        $rootScope.inDragMode = false
       }
     })
 
@@ -152,14 +148,12 @@
       draggable: ".mb-inner-draggable",
       filter: ".ignore-inner-draggable, .medium-editor-placeholder:after",
       onStart: function (event) {
-        $rootScope.inDragMode = true
         meanbaseFront.classList.add('in-drag-mode')
         activeElGroup = $rootScope.page.lists
       },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
         meanbaseFront.classList.remove('in-drag-mode')
-        $rootScope.inDragMode = false
       }
     })
 

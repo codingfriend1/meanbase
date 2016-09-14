@@ -352,7 +352,6 @@
         if(draggable.length) {
           let item = angular.element(draggable).scope()
 
-          console.log("item", item);
           if(item) {
             if(innerList) {
               let parent = item.$parent
