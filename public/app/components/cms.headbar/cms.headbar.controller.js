@@ -9,9 +9,11 @@
 
     $scope.drawerPages = []
 
+    this.permissions = _.get($rootScope, 'currentUser.permissions') || []
+
     let mbPageDrawer = document.getElementById("mb-pages-drawer")
     /* Set the width of the side navigation to 250px */
-    this.openMBPageDrawer = function($event) {
+    this.openMBPageDrawer = ($event) => {
       if(mbPageDrawer) {
         mbPageDrawer.classList.add('mb-drawer-open')
       }
@@ -40,7 +42,7 @@
 
     if(!$rootScope.isLoggedIn) { return false; }
 
-		$scope.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
+		this.themeTemplates = Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates);
 
 		//  ###editMode
 		// The big daddy power house **editMode**! This variable is used all throughout the app to enable edits to be made on the content. We don't want this to be true until we hit the edit button in the admin top menu.
@@ -48,7 +50,7 @@
 
     let recentUrls
     try {
-      recentUrls = $rootScope.previousEditUrls = JSON.parse(localStorage.getItem('previousEditUrls')) || []
+      recentUrls = this.previousEditUrls = JSON.parse(localStorage.getItem('previousEditUrls')) || []
     } catch(err) {
       console.log('Error getting recent urls', err);
     }
@@ -83,9 +85,11 @@
 			if(boole !== undefined) { $rootScope.editMode = boole } else { $rootScope.editMode = !$rootScope.editMode }
 
       if($rootScope.editMode) {
+        document.body.classList.add('inEditMode')
         $rootScope.$emit('cms.pullAutoSaveData', $rootScope.editMode)
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
       } else {
+        document.body.classList.remove('inEditMode')
         $rootScope.$emit('cms.editMode', $rootScope.editMode)
         $rootScope.$emit('cms.updateView')
       }
@@ -131,6 +135,7 @@
     }
 
     $scope.$onRootScope('cms.logout', () => {
+      this.permissions = []
       this.toggleEdit(false)
     })
 
@@ -302,8 +307,8 @@
 
       localStorage.setItem('previousEditUrls', JSON.stringify(recentUrls))
 
-      $timeout(function() {
-        $rootScope.previousEditUrls = recentUrls
+      $timeout(() => {
+        self.previousEditUrls = recentUrls
       });
 
     }, 1000))

@@ -97,38 +97,38 @@
       span.show-desktop.mb-button Manage Site
       span.show-mobile.mb-button
         i.fa.fa-lg.fa-gears
-    .mb-headbar-btn.dropdown(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
+    .mb-headbar-btn.dropdown(ng-show="$root.editMode && headbar.permissions.indexOf('editContent') > -1")
       span.dropdown-link(title="Choose a template for this page").mb-button
         span.show-desktop Change Template
         span.show-mobile
           i.fa.fa-lg.fa-paint-brush
       ul.dropdown-list
-        li(ng-repeat="template in themeTemplates")
+        li(ng-repeat="template in headbar.themeTemplates")
           a.drop-down-item-with-check(href="#" ng-click="headbar.updateTemplate(template)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)")
-            span {{template + ' template'}}  
+            span {{::template + ' template'}}  
             span(ng-show="template === page.template").mb-template-check
               i.fa.fa-check
               
-    .mb-headbar-btn(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Preview Page")
+    .mb-headbar-btn(ng-show="headbar.permissions.indexOf('editContent') > -1 && editMode" title="Preview Page")
       a(ng-click="headbar.preview()").mb-button
         span.show-desktop Preview
         span.show-mobile
           i.fa.fa-lg.fa-eye
-    .mb-headbar-btn(ng-show="currentUser.permissions.indexOf('editContent') > -1 && editMode" title="Undo the last edit")
+    .mb-headbar-btn(ng-show="headbar.permissions.indexOf('editContent') > -1 && editMode" title="Undo the last edit")
       a(ng-click="headbar.undoMoment()").mb-button
         span.show-desktop Undo
         span.show-mobile
           i.fa.fa-lg.fa-undo
-    .mb-headbar-btn(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && !editMode")
+    .mb-headbar-btn(ng-show="headbar.permissions.indexOf('publishContent') > -1 && !editMode")
       a(ng-click="headbar.togglePublishPage()").mb-button
         span(ng-show="!page.published" title="Publish the page") Publish
         span(ng-show="page.published" title="Hide the page from the world") Unpublish 
-    .mb-headbar-btn(ng-show="currentUser.permissions.indexOf('editContent') > -1 && !editMode")
+    .mb-headbar-btn(ng-show="headbar.permissions.indexOf('editContent') > -1 && !editMode")
       a(ng-click="headbar.toggleEdit()" title="Return to edits").mb-button
         span.show-desktop Edit
         span.show-mobile
           i.fa.fa-lg.fa-pencil
-    .mb-headbar-btn(ng-show="currentUser.permissions.indexOf('publishContent') > -1 && page.published")
+    .mb-headbar-btn(ng-show="headbar.permissions.indexOf('publishContent') > -1 && page.published")
       a(ng-click="headbar.publishChanges()" title="Save all recent edits to the live page").mb-button
         span.show-desktop Publish Changes
         span.show-mobile
@@ -153,7 +153,7 @@
         //- li(ng-repeat="url in $root.previousEditUrls") 
         //-   a(ng-href="{{url}}") {{url}}
         //- li.divider(ng-show="$root.previousEditUrls.length")
-        li(ng-show="currentUser.permissions.indexOf('deleteContent') > -1 && editMode")
+        li(ng-show="headbar.permissions.indexOf('deleteContent') > -1 && editMode")
           a(ng-click="headbar.deletePage()") Delete page
             
     .mb-headbar-btn.dropdown.mb-headbar-btn-right
@@ -173,13 +173,13 @@
       a(href='/').mb-link-btn
         i.fa.fa-lg.fa-home
         
-    .mb-headbar-btn.dropdown.mb-headbar-btn-right(ng-show="editMode && currentUser.permissions.indexOf('editContent') > -1")
+    .mb-headbar-btn.dropdown.mb-headbar-btn-right(ng-show="$root.editMode && headbar.permissions.indexOf('editContent') > -1")
       span.dropdown-link.mb-create-page-btn
         span
           i.fa.fa-lg.fa-plus
       ul.dropdown-list
-        li(ng-repeat="template in themeTemplates")
-          a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{template + ' template'}}   
+        li(ng-repeat="template in headbar.themeTemplates")
+          a(href="#" ng-click="headbar.createPage($event)" ng-mouseover="headbar.showScreenshot(template)" ng-mouseleave="headbar.hideScreenshot(template)") {{::template + ' template'}}   
           
   #mb-pages-drawer.mb-sidenav
     .mb-sidenav-child
@@ -188,8 +188,8 @@
         input(type="text" placeholder="filter pages" ng-model="mbSearchPagesDrawer").mb-drawer-search
               
       .mb-draw-pages-list
-        label(ng-show="$root.previousEditUrls.length") Recent Edits
-        a(ng-repeat="url in $root.previousEditUrls" ng-href="{{url}}") {{url}}
+        label(ng-show="headbar.previousEditUrls.length") Recent Edits
+        a(ng-repeat="url in headbar.previousEditUrls" ng-href="{{url}}") {{url}}
         hr
         a(ng-repeat="page in drawerPages | filter:mbSearchPagesDrawer" ng-href="{{page.url}}").mb-page-link {{page.title | htmlToPlainText }}
 

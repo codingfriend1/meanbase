@@ -103,6 +103,8 @@
 
     $rootScope.inDragMode = false
 
+    let meanbaseFront = document.getElementById('mb-meanbase-front')
+
     let activeElGroup
 
     let sortableTemplateDefaults = {
@@ -120,10 +122,12 @@
       group: 'menus',
       onStart: function (event) {
         $rootScope.inDragMode = true
+        meanbaseFront.classList.add('in-drag-mode')
         activeElGroup = $rootScope.menus
       },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
+        meanbaseFront.classList.remove('in-drag-mode')
         $rootScope.inDragMode = false
       }
     })
@@ -131,11 +135,13 @@
     $rootScope.sortableLists = _.extend({}, sortableTemplateDefaults, {
       group: 'lists',
       onStart: function (event) {
+        meanbaseFront.classList.add('in-drag-mode')
         $rootScope.inDragMode = true
         activeElGroup = $rootScope.page.lists
       },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
+        meanbaseFront.classList.remove('in-drag-mode')
         $rootScope.inDragMode = false
       }
     })
@@ -147,10 +153,12 @@
       filter: ".ignore-inner-draggable, .medium-editor-placeholder:after",
       onStart: function (event) {
         $rootScope.inDragMode = true
+        meanbaseFront.classList.add('in-drag-mode')
         activeElGroup = $rootScope.page.lists
       },
       onEnd: function () {
         $rootScope.$emit('cms.elementsChanged')
+        meanbaseFront.classList.remove('in-drag-mode')
         $rootScope.inDragMode = false
       }
     })

@@ -72,13 +72,15 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
           }
         }
 
-        scope.$watch('bindOptions', function(bindOptions) {
-          if(!$rootScope.editMode) {
-            ngModel.editor.destroy()
-          } else {
-            ngModel.editor.init(element, bindOptions)
-          }
-        })
+        // scope.$watch('bindOptions', function(bindOptions) {
+        //   if(!$rootScope.editMode) {
+        //     ngModel.editor.destroy()
+        //   } else {
+        //     ngModel.editor.init(element, bindOptions)
+        //   }
+        // })
+
+        ngModel.editor.init(element, scope.bindOptions)
 
         scope.$on('$destroy', function() {
           ngModel.editor.destroy()

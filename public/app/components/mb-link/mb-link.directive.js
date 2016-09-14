@@ -2,7 +2,7 @@ angular.module('meanbaseApp')
   .directive('mbLink', function ($rootScope, $timeout, $location, Auth) {
     return {
       restrict: 'A',
-      template: '<a class="mb-link" ng-class="belongsTo[mbLink].classes" target="{{belongsTo[mbLink].target}}" ng-transclude></a>',
+      template: '<a class="mb-link" ng-class="belongsTo[mbLink].classes" ng-transclude></a>',
       transclude: true,
       replace: true,
       scope: {
