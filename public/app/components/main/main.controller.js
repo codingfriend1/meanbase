@@ -109,9 +109,9 @@
       draggable: ".mb-draggable",
       delay: 140,
       filter: ".ignore-draggable, .medium-editor-placeholder:after",
-      onMove: function (evt) {
-        return evt.related.className.indexOf('ignore-draggable') === -1;
-      },
+      // onMove: function (evt) {
+      //   return evt.related.className.indexOf('ignore-draggable') === -1;
+      // },
       animation: 250,
       scroll: true,
       scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.

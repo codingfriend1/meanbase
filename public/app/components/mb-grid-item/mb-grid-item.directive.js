@@ -9,7 +9,7 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         if(!scope.item.gridClasses) {
-          scope.item.gridClasses = element[0].className.replace('ng-scope', '').replace('ng-isolate-scope', '').replace('ui-resizable', '');
+          scope.item.gridClasses = element[0].className.replace('ng-scope', '').replace('ng-isolate-scope', '').replace('ui-resizable', '').replace('ignore-inner-draggable', '').replace('ignore-draggable', '');
         }
         element[0].className = scope.item.gridClasses;
 
@@ -21,14 +21,14 @@ angular.module('meanbaseApp')
             $(element).resizable('disable');
           } else {
             originalClasses = element[0].className;
-            originalClasses = originalClasses.replace('ng-scope', '').replace('ng-isolate-scope', '').replace('ui-resizable', '');
+            originalClasses = originalClasses.replace('ng-scope', '').replace('ng-isolate-scope', '').replace('ui-resizable', '').replace('ignore-inner-draggable', '').replace('ignore-draggable', '');
             $(element).resizable('enable');
           }
         });
 
         scope.$onRootScope('cms.updateView', function(event, value) {
           var classes = element[0].className;
-          scope.item.gridClasses = classes;
+          scope.item.gridClasses = classes.replace('ignore-inner-draggable', '').replace('ignore-draggable', '');
           originalClasses = classes;
         });
 
