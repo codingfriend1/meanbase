@@ -29,10 +29,11 @@
                       <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-if="!menu.isDropdown" ng-click="handleClick($event, menu, menu.url)">
                         {{menu.title}}
                       </a>
-                      <a target="{{menu.target}}" class="mb-link" class="dropdown-toggle {{menu.classes}}" data-toggle="dropdown" ng-if="menu.isDropdown">
+                      <a target="{{menu.target}}" class="mb-link" class="dropdown-toggle relative {{menu.classes}}" data-toggle="dropdown" ng-if="menu.isDropdown">
                         <!-- ng-click="handleClick($event, menu, menu.url)" -->
                         {{menu.title}}
                         <span class="caret"></span>
+                        <mb-edit_menu item="menu"></mb-edit_menu>
                       </a>
                       <ul class="dropdown-menu" ng-sortable="$root.subMenuList" ng-init="newSubMenu={}" ng-if="menu.isDropdown">
                         <li ng-repeat="subMenu in menu.subMenus" class="mb-sub-draggable">
