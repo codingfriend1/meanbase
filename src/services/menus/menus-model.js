@@ -39,6 +39,10 @@ const menusSchema = new Schema({
   	type: Number,
   	default: 0,
   },
+  isDropdown: {
+  	type: Boolean,
+  	default: false
+  },
   classes: {
   	type: String,
   	default: '',

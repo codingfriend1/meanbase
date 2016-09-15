@@ -20,6 +20,12 @@ module.exports = function ($scope, $modalInstance, menuItem, isNewMenu, api, $ro
         $rootScope.menus[$scope.menuItem.group] = []
       }
 
+      if($scope.menuItem.isDropdown) {
+        if(!$scope.menuItem.subMenus) {
+          $scope.menuItem.subMenus = []
+        }
+      }
+
       // Add the menu item to the end of it's group's list
       $scope.menuItem.position = $rootScope.menus[$scope.menuItem.group].length
       $rootScope.menus[$scope.menuItem.group].push($scope.menuItem)
@@ -47,6 +53,12 @@ module.exports = function ($scope, $modalInstance, menuItem, isNewMenu, api, $ro
       menuItem.url = $scope.menuItem.url || menuItem.url
       menuItem.classes = $scope.menuItem.classes
       menuItem.target = $scope.menuItem.target
+      menuItem.isDropdown = $scope.menuItem.isDropdown
+      if(menuItem.isDropdown) {
+        if(!menuItem.subMenus) {
+          menuItem.subMenus = []
+        }
+      }
 
       $rootScope.$emit('cms.elementsChanged')
       $modalInstance.dismiss()

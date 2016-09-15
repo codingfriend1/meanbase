@@ -21,6 +21,10 @@
       select(ng-options="page.url as page.url for page in pages" ng-model="menuItem.url").form-control
     button.btn.btn-info(type='button', data-toggle='collapse', data-target='#extra-styles') Extra Options
     #extra-styles.collapse
+      .checkbox
+        label
+          input(type='checkbox' ng-model="menuItem.isDropdown")
+          | Is a dropdown? (Does this menu contain other menus)
       .form-group
         label CSS Classes
         input.form-control(ng-model="menuItem.classes" name="classes" ng-pattern="validators.isCSSClass")

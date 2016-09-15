@@ -341,22 +341,35 @@
     $scope.$onRootScope('cms.deleteTrashContent', function(event, list) {
       let yes = window.confirm("Are you sure you want to remove this item?")
       if(yes) {
-        let innerList = false
+        let type = 'draggable'
         let draggable = $('.mb-drag-trash-can').find('.mb-draggable')
 
         if(!draggable.length) {
-          innerList = true
+          type = 'inner'
           draggable = $('.mb-drag-trash-can').find('.mb-inner-draggable')
+        }
+
+        if(!draggable.length) {
+          type = 'submenu'
+          draggable = $('.mb-drag-trash-can').find('.mb-sub-draggable')
         }
 
         if(draggable.length) {
           let item = angular.element(draggable).scope()
 
           if(item) {
-            if(innerList) {
+            if(type === 'inner') {
               let parent = item.$parent
               if(parent.listItem && parent.listItem.data && parent.listItem.data.items) {
                 let list = parent.listItem.data.items
+                if(item.$index > -1) {
+                  list.splice(item.$index, 1)
+                }
+              }
+            } else if(type === 'submenu') {
+              let parent = item.$parent.$parent
+              if(parent.menu && parent.menu.subMenus && parent.menu.subMenus) {
+                let list = parent.menu.subMenus
                 if(item.$index > -1) {
                   list.splice(item.$index, 1)
                 }

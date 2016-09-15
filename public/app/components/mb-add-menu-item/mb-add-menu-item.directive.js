@@ -6,10 +6,20 @@ angular.module('meanbaseApp')
       link: function (scope, element, attrs) {
 
         element.bind('click', function(event) {
-          if(!$rootScope.menus[attrs.mbAddMenuItem]) {
-            $rootScope.menus[attrs.mbAddMenuItem] = []
+          let group = scope.$parent.$eval(attrs.mbAddMenuItem)
+
+          if(!group) {
+            if(!$rootScope.menus[attrs.mbAddMenuItem]) {
+              $rootScope.menus[attrs.mbAddMenuItem] = []
+            }
+            group = attrs.mbAddMenuItem
+            addMenuModal.open($rootScope.menus, group)
+          } else {
+            addMenuModal.open(group, attrs.property)
           }
-          addMenuModal.open($rootScope.menus, attrs.mbAddMenuItem)
+
+
+
         });
       }
     }

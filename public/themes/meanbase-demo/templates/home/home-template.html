@@ -25,8 +25,25 @@
                 </li>
               </ul> -->
               <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
-                  <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode}">
-                      <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-click="handleClick($event, menu, menu.url)">{{menu.title}}</a>
+                  <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode, 'dropdown': menu.isDropdown}">
+                      <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-if="!menu.isDropdown" ng-click="handleClick($event, menu, menu.url)">
+                        {{menu.title}}
+                      </a>
+                      <a target="{{menu.target}}" class="mb-link" class="dropdown-toggle {{menu.classes}}" data-toggle="dropdown" ng-if="menu.isDropdown">
+                        <!-- ng-click="handleClick($event, menu, menu.url)" -->
+                        {{menu.title}}
+                        <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu" ng-sortable="$root.subMenuList" ng-init="newSubMenu={}" ng-if="menu.isDropdown">
+                        <li ng-repeat="subMenu in menu.subMenus" class="mb-sub-draggable">
+                          <a target="{{subMenu.target}}" class="mb-link" class="dropdown-toggle subMenu.classes" ng-click="handleClick($event, subMenu, subMenu.url)">
+                            {{subMenu.title}}
+                          </a>
+                        </li>
+                        <li mb-add-menu-item="menu" property="subMenus" class="new-menu-item-button ignore-draggable ignore-sub-draggable">
+                          <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
+                        </li>
+                      </ul>
                   </li>
                   <li mb-add-menu-item="main" class="new-menu-item-button ignore-draggable">
                     <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>

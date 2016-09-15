@@ -142,6 +142,21 @@
       }
     })
 
+    $rootScope.subMenuList = _.extend({}, sortableTemplateDefaults, {
+      group: 'sub-menus',
+      ghostClass: "mb-sub-draggable-ghost",
+      draggable: ".mb-sub-draggable",
+      filter: ".ignore-sub-draggable, .medium-editor-placeholder:after",
+      onStart: function (event) {
+        activeElGroup = $rootScope.menus
+        meanbaseFront.classList.add('in-drag-mode')
+      },
+      onEnd: function () {
+        $rootScope.$emit('cms.elementsChanged')
+        meanbaseFront.classList.remove('in-drag-mode')
+      }
+    })
+
     $rootScope.mbSortableExtensionList = _.extend({}, sortableTemplateDefaults, {
       group: 'extension-list',
       ghostClass: "mb-inner-draggable-ghost",
@@ -159,7 +174,7 @@
 
     $rootScope.trashCanDraggable = {
       group: {
-        put: ['lists', 'extensions', 'menus', 'extension-list']
+        put: ['lists', 'extensions', 'menus', 'extension-list', 'sub-menus']
       },
       onAdd: function (event) {
         $rootScope.$emit('cms.deleteTrashContent', activeElGroup)
