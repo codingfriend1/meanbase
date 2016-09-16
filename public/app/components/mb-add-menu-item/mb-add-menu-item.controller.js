@@ -32,6 +32,7 @@ module.exports = function linkModalController($scope, $modalInstance, api, menu,
           linkTo: page._id,
           classes: $scope.selectedLinks.classes,
           iconClasses: $scope.selectedLinks.iconClasses,
+          subMenus: []
         })
       }
     });
@@ -40,8 +41,11 @@ module.exports = function linkModalController($scope, $modalInstance, api, menu,
 
       menu[property] = menu[property].concat(selectedPages)
       $modalInstance.dismiss()
-    } else if(_.get($scope.link, 'url') && _.get($scope.link, 'title') ) {
-      menu[property].push(scope.link);
+    } else if((_.get($scope.link, 'url') || _.get($scope.link, 'isDropdown')) && _.get($scope.link, 'title') ) {
+      if($scope.link.isDropdown) {
+        $scope.link.subMenus = []
+      }
+      menu[property].push($scope.link);
       $modalInstance.dismiss()
     }
 

@@ -20,7 +20,7 @@ const menusSchema = new Schema({
   url: {
   	type: String,
   	trim: true,
-    required: true,
+    required: false,
     validate: validators.matches(patterns.isURI)
   },
   linkTo: {
@@ -42,6 +42,9 @@ const menusSchema = new Schema({
   isDropdown: {
   	type: Boolean,
   	default: false
+  },
+  subMenus: {
+    type: Schema.Types.Mixed
   },
   classes: {
   	type: String,

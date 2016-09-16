@@ -43,9 +43,13 @@
             input.form-control(ng-model="link.title" name="title" ng-pattern="validators.isTitle" required)
             div.help-block.required(ng-show="editingMenuForm.title.$error.required && editingMenuForm.title.$dirty") {{errorMessages.requiredMessage}}
             div.help-block.error(ng-show="editingMenuForm.title.$invalid && editingMenuForm.title.$dirty") {{errorMessages.isTitle}}
+          .checkbox
+            label
+              input(type='checkbox' ng-model="link.isDropdown")
+              | Is a dropdown? (Does this menu contain other menus)
           .form-group
             label Link url
-            input.form-control(ng-model="link.url" name="url" ng-pattern="validators.isURI" required)
+            input.form-control(ng-model="link.url" name="url" ng-pattern="validators.isURI" ng-required="!link.isDropdown")
             div.help-block.required(ng-show="editingMenuForm.url.$error.required && editingMenuForm.url.$dirty") {{errorMessages.requiredMessage}}
             div.help-block.error(ng-show="editingMenuForm.url.$invalid && editingMenuForm.url.$dirty") {{errorMessages.isURI}}
           button.btn.btn-info(type='button', data-toggle='collapse', data-target='#extra-options-2') Extra Options
