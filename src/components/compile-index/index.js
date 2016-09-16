@@ -64,7 +64,7 @@ async function compileIndex(theme, extensionjsons) {
   	}
 
   	if(extensionjsons) {
-      index = injectExtensions(index, extensionjsons);
+      // index = injectExtensions(index, extensionjsons);
   	}
 
   	global.meanbaseGlobals.extensions = null;

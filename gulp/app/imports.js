@@ -8,20 +8,18 @@ module.exports = function(gulp, plugins, folders, config) {
     return gulp.src(config.path.join(folders.root, 'index.js'))
       .pipe(plugins.inject(gulp.src([
         folders.components + '/**/*.jade',
-        folders.shared + '/**/*.jade'
       ], {
         read: true
       }), {
         relative: true,
         starttag: '// inject jade',
         endtag: '// end inject jade',
-        // ignorePath: 'client',
         addRootSlash: false,
         transform: function(filepath, file, i, length) {
           if (filepath.indexOf('..') !== -1) {
-            return 'import "' + filepath + '";'
+            return 'import "' + filepath + '"'
           } else {
-            return 'import "./' + filepath + '";'
+            return 'import "./' + filepath + '"'
           }
         }
       }))
@@ -33,27 +31,16 @@ module.exports = function(gulp, plugins, folders, config) {
   gulp.task('import-app-js', function() {
 
       var sources = gulp.src([
-        folders.components + '/**/*.js',
-        folders.shared + '/**/*.js',
-        folders.root + '/app.js',
+        folders.root + '/**/*.js',
+        '!**/bower_components/**',
+        '!' + folders.root + '/**/globals.js',
+        '!' + folders.root + '/**/index.js',
+        '!' + folders.root + '/**/master.controller.js',
+        '!**/bundle.js',
+        '!**/bower.js',
         '!**/*spec.js',
         '!**/*mock.js',
-      ], {read: true})
-        .pipe(plugins.babel({
-          presets: ['es2017', 'es2015', 'stage-3'],
-          "plugins": [
-            'transform-runtime',
-            'transform-async-to-generator',
-            "transform-decorators-legacy",
-            "transform-class-properties",
-            "transform-flow-strip-types",
-            "transform-object-rest-spread",
-            "syntax-async-functions",
-            "angularjs-annotate",
-            "ng-annotate"
-          ]
-        }))
-        .pipe(plugins.angularFilesort());
+      ], {read: false})
 
       return gulp.src(config.path.join(folders.root, 'index.js'))
         .pipe(plugins.inject(sources, {
@@ -64,9 +51,9 @@ module.exports = function(gulp, plugins, folders, config) {
           addRootSlash: false,
           transform: function(filepath, file, i, length) {
             if (filepath.indexOf('..') !== -1) {
-              return 'import "' + filepath + '";'
+              return 'import "' + filepath + '"'
             } else {
-              return 'import "./' + filepath + '";'
+              return 'import "./' + filepath + '"'
             }
           }
         }))
@@ -74,13 +61,11 @@ module.exports = function(gulp, plugins, folders, config) {
   })
 
 gulp.task('import-app-stylus', function() {
-  return gulp.src(config.path.join(folders.root, 'index.js'))
+  return gulp.src(config.path.join(folders.root, 'app.styl'))
     .pipe(plugins.inject(gulp.src([
-      folders.root + '/app.styl',
-      folders.components + '/**/*.styl',
-      // folders.code + '/**/*.css',
-      folders.shared + '/**/*.styl',
-      // folders.shared + '/**/*.css',
+      folders.root + '/**/*.styl',
+      "!**/app.styl",
+      "!**/bower_components/**"
     ], {
       read: false
     }), {
@@ -89,9 +74,9 @@ gulp.task('import-app-stylus', function() {
       endtag: '// end inject stylus',
       transform: function(filepath, file, i, length) {
         if (filepath.indexOf('..') !== -1) {
-          return 'import "' + filepath + '";'
+          return '@import "' + filepath + '";'
         } else {
-          return 'import "./' + filepath + '";'
+          return '@import "./' + filepath + '";'
         }
       }
     }))

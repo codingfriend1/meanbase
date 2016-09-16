@@ -28,7 +28,7 @@ module.exports = function(gulp, plugins, folders, config) {
 
     return plugins.es.merge(css, js)
       .pipe(plugins.concat('bower.js'))
-      .pipe(plugins.uglify())
+      // .pipe(plugins.uglify())
       .pipe(gulp.dest(folders.root))
   })
 }
