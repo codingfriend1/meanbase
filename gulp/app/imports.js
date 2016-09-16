@@ -34,6 +34,7 @@ module.exports = function(gulp, plugins, folders, config) {
         folders.root + '/**/*.js',
         '!**/bower_components/**',
         '!' + folders.root + '/**/globals.js',
+        '!' + folders.root + '/**/api/**',
         '!' + folders.root + '/**/index.js',
         '!' + folders.root + '/**/master.controller.js',
         '!**/bundle.js',

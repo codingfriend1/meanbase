@@ -1,7 +1,8 @@
 #mb-meanbase-front.meanbase-front(:class='{loggedIn: isLoggedIn}')
   cms-headbar
-  router-view#main-view(:class="{'fixed-header-stopper': isLoggedIn}")
-    .mb-loading-screen.text-center
-      h1
-        i.fa.fa-spinner.fa-spin  
-        span  Loading Template
+  #main-view(:class="{'fixed-header-stopper': isLoggedIn}")
+    router-view
+      .mb-loading-screen.text-center
+        h1
+          i.fa.fa-spinner.fa-spin  
+          span  Loading Template
