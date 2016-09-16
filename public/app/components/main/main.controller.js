@@ -505,15 +505,13 @@
           await api.menus.delete({})
           let newMenus = await api.menus.create(menusStagingData.data)
           $rootScope.menus = newMenus
+          await api.staging.delete({key: 'menus'})
         }
 
         $rootScope.$emit('cms.saveEdits')
 
         if(pageStagingData)
           await api.staging.delete({key: $rootScope.page.url})
-
-        if(menusStagingData)
-          await api.staging.delete({key: 'menus'})
 
         $rootScope.$emit('cms.finishPublishPages')
 
@@ -584,6 +582,7 @@
 
       try {
         let response = await api.staging.delete({key: url})
+        await api.staging.delete({key: 'menus'})
         console.log('Deleting autosave data for ' + url, response)
         $rootScope.$emit('cms.finishedResetingDraft', true)
       } catch(err) {
