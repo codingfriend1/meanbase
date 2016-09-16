@@ -38,7 +38,7 @@ const pagesSchema = new Schema({
 	},
 	author: {
 		type: String,
-		validate: validators.matches(patterns.isTitle, {skipEmpty:true})
+		// validate: validators.matches(patterns.isTitle, {skipEmpty:true})
 	},
 	tabTitle: {
 		type: String,
