@@ -16,15 +16,22 @@ router.map({
   }
 })
 
-router.beforeEach((transition) => {
-  auth.isLoggedIn().then(transition.next).catch(transition.next)
-})
+window.radio = new Vue()
+window.page = {}
 
 const App = Vue.extend({
-  template: require('./app.jade')
+  template: require('./app.jade'),
+  data: () => ({
+    editMode: true,
+    page
+  })
 })
 
-router.start(App, '#app')
+function startApp() {
+  router.start(App, '#app')
+}
+
+auth.isLoggedIn().then(startApp).catch(startApp)
 
 // just for debugging
 window.router = router

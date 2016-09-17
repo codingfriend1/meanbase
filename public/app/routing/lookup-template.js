@@ -74,11 +74,14 @@ export default (resolve, reject) => {
 
       let html = await $.get("../../" + templatePath)
 
+      window.page = page
+
       if(html) {
         let templateComponent = Vue.extend({
           template: html,
+          props: ['page'],
           data: () => ({
-            page
+
           })
         })
 

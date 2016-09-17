@@ -1,5 +1,5 @@
 #mb-meanbase-front.meanbase-front(:class='{loggedIn: isLoggedIn}')
-  cms-headbar
+  cms-headbar(:page="page", :edit-mode="editMode")
   #main-view(:class="{'fixed-header-stopper': isLoggedIn}")
     router-view
       .mb-loading-screen.text-center
