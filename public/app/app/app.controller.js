@@ -18,16 +18,19 @@ router.map({
 
 window.radio = new Vue()
 window.page = {}
-
-const App = Vue.extend({
-  template: require('./app.jade'),
-  data: () => ({
-    editMode: true,
-    page
-  })
-})
+window.menus = {}
 
 function startApp() {
+  const App = Vue.extend({
+    template: require('./app.jade'),
+    data: () => ({
+      editMode: true,
+      page,
+      menus,
+      currentUser: auth.currentUser
+    })
+  })
+  
   router.start(App, '#app')
 }
 

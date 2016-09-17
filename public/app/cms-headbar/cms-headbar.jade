@@ -11,7 +11,7 @@
           i.fa.fa-lg.fa-paint-brush
       ul.dropdown-list
         li(v-for="template in themeTemplates")
-          a.drop-down-item-with-check(href="#" @click="updateTemplate(template)" ng-mouseover="showScreenshot(template)" ng-mouseleave="hideScreenshot(template)")
+          a.drop-down-item-with-check(href="#", @click="updateTemplate(template)", @mouseover="showScreenshot(template)", @mouseleave="hideScreenshot(template)")
             span {{template + ' template'}}
             span(v-show="template === page.template").mb-template-check
               i.fa.fa-check
@@ -79,7 +79,7 @@
           i.fa.fa-lg.fa-plus
       ul.dropdown-list
         li(v-for="template in themeTemplates")
-          a(href="#" @click="createPage($event)" ng-mouseover="showScreenshot(template)" ng-mouseleave="hideScreenshot(template)") {{template + ' template'}}
+          a(href="#" @click="createPage($event)" @mouseover="showScreenshot(template)", @mouseleave="hideScreenshot(template)") {{template + ' template'}}
 
   #mb-pages-drawer.mb-sidenav
     .mb-sidenav-child
