@@ -1,16 +1,17 @@
+/**
+ * The most important part of the app. This requests a page from the server that has a url property that matches the current window path. If found it will examine which template the page data uses. Instead of loading that template directly it will try to find which template it has been mapped to for this theme. It takes that mapped template and fetches it from the correct path provided by the  `meanbaseGlobals.themeTemplatePaths`. If there is any error in the this process it redirects to a missing page.
+ */
+
 export default (resolve, reject) => {
   (async() => {
     try {
-      // this.isLoggedIn = await Auth.isLoggedIn();
-      // this.currentUser = Auth.currentUser();
-
       const currentRoute = window.location.pathname
 
       let matchingPages = await api.pages.find({url: currentRoute})
 
       let stagingData
       try {
-        let hasPermission = await Auth.hasPermission('editContent')
+        let hasPermission = await auth.hasPermission('editContent')
         if(hasPermission) {
           try {
             stagingData = await api.staging.find({key: currentRoute})
@@ -69,7 +70,9 @@ export default (resolve, reject) => {
         jQuery('meta[name=description]').attr('content', page.description);
       }
 
-      let html = require("../../" + templatePath)
+      if(!templatePath) { throw 'No template path.' }
+
+      let html = await $.get("../../" + templatePath)
 
       if(html) {
         let templateComponent = Vue.extend({

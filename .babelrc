@@ -1,4 +1,0 @@
-{
-  "presets": ["es2017"],
-  "plugins": ["transform-async-to-generator", "angularjs-annotate"]
-}

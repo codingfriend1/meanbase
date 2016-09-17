@@ -149,6 +149,7 @@
     "bower": "cd public/admin; bower install --allow-root --config.interactive=false; cd ../app; bower install --allow-root --config.interactive=false; cd ../../",
     "prepare": "npm install && npm run bower && gulp && webpack",
     "server": "docker-compose -f docker-compose.dev.yml stop && docker-compose -f docker-compose.dev.yml up",
+    "bowerjs": "gulp",
     "watch": "gulp && webpack -w",
     "start": "babel-watch src",
     "build": "gulp && webpack && gulp dist",

@@ -20,14 +20,14 @@ var config = {
     modules: ['node_modules']
   },
   module : {
-    noParse: [],
-    // preLoaders: [
+    // noParse: [],
+    preLoaders: [
     //   {
     //     test: /\.js$/,
     //     exclude: nodeAndBower,
     //     loaders: [ "babel-loader", "eslint-loader" ]
     //   }
-    // ],
+    ],
     loaders : [
       {
         test: /\.js$/,
@@ -88,9 +88,9 @@ var config = {
     ]
   },
   plugins: isProduction? [
-    // new webpack.optimize.DedupePlugin(),
-    // new webpack.optimize.OccurenceOrderPlugin(),
-    // new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
   ]: []
 }
 
@@ -206,4 +206,5 @@ themes.forEach(function (file) {
 // })
 
 // Return Array of Configurations
+// module.exports = configs
 module.exports = configs
