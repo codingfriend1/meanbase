@@ -20,6 +20,17 @@ window.radio = new Vue()
 window.page = {}
 window.menus = {}
 
+async function getMenus() {
+  try {
+    window.menus = await api.menus.find({})
+  } catch(err) {
+    console.log('Error getting menus', err);
+    toastr.warning('Error getting menus.')
+  }
+}
+
+getMenus()
+
 function startApp() {
   const App = Vue.extend({
     template: require('./app.jade'),
@@ -30,7 +41,7 @@ function startApp() {
       currentUser: auth.currentUser
     })
   })
-  
+
   router.start(App, '#app')
 }
 
