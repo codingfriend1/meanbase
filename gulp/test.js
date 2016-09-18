@@ -7,16 +7,24 @@
 
 var karma = require('karma').server;
 
-module.exports = function (gulp, plugins, config) {
+module.exports = function (gulp, plugins, folders, config) {
 	// Unit Tests
 	gulp.task('karma', function() {
-		return gulp.src('../karma.conf.js')
-		  .pipe(plugins.inject(gulp.src(plugins.mainBowerFiles('**/*.js'), {read: false}), {
+
+    var source = gulp.src(plugins.mainBowerFiles('**/*.js', {
+      paths: {
+        bowerDirectory: folders.app.root + '/bower_components',
+        bowerJson: folders.app.root + '/bower.json'
+      }
+    }))
+
+		return gulp.src('./karma.conf.js')
+		  .pipe(plugins.inject(source, {
 		    starttag: 'files: [',
-		    endtag: "'client/bower_components/angular-mocks/angular-mocks.js'",
+		    endtag: "'client/app/**/services/**/*.{js,css,html,jade}',",
 		    addRootSlash: false,
 		    transform: function (filepath, file, i, length) {
-		    	return '"' + filepath + '",';;
+		    	return '"' + filepath + '",';
 		    }
 		  }))
 		  .pipe(gulp.dest('./'));

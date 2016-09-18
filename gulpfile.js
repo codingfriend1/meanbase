@@ -5,6 +5,7 @@ var async = require('async')
 var exec = require('child_process').exec
 
 var folders = {
+  gulp: path.resolve(__dirname, 'gulp'),
   build: {
     app: path.resolve(__dirname, 'public', 'app'),
     admin: path.resolve(__dirname, 'public', 'admin'),
@@ -69,6 +70,17 @@ var config = {
 /**
  * Collect all the applications in gulp folder
  */
+var otherTasks = fs.readdirSync(folders.gulp).filter(function(file) {
+  if(file[0] === '.' || file[0] === '_') {
+    return;
+  }
+ return fs.statSync(path.join(folders.gulp, file)).isFile()
+})
+
+otherTasks.forEach(function (file) {
+	require( path.join(folders.gulp, file))(gulp, plugins, folders, config)
+})
+
 var adminTasks = fs.readdirSync(folders.admin.gulp).filter(function(file) {
  return fs.statSync(path.join(folders.admin.gulp, file)).isFile()
 })
