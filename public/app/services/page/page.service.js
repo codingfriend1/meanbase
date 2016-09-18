@@ -13,10 +13,22 @@
       return _.clone(_page, true)
     },
     set: async function(value) {
-      _page = value
-      // return await service.save(value)
+      _.debounce(service.save(value), 100)
     }
   })
+
+  function setHTMLHeader() {
+    document.title = _.get(_page, 'tabTitle')
+    jQuery('meta[name=description]').attr('content', _.get(_page, 'description'))
+  }
+
+  function addHistory() {
+    history.unshift(_page)
+
+    if(history.length > 5) {
+      history.length = 5
+    }
+  }
 
   // service.page.get()
   /**
@@ -54,20 +66,70 @@
     return _page
   }
 
-  service.save = async function(data) {
+  service.save = async function(data, addHistory) {
+
+    if(!data) {
+      toastr.warning('You must provide data to autosave.')
+      return false
+    }
+
+    if(!_page) {
+      toastr.warning('There is no page to update')
+      return false
+    }
+
+    _page = _.merge({}, _page, data)
+
+    try {
+      await api.staging.update({belongsTo: 'meanbase-cms', key: _page.url}, { data })
+
+      if(typeof addHistory !== 'boolean' && addHistory !== false) {
+        addHistory()
+      }
+
+    } catch(err) {
+      console.log('Error autosaving page: ', err)
+    }
+
+
+    setHTMLHeader()
 
   }
 
-  service.undo = async function() {
-
+  service.undo = function() {
+    if(history.length) {
+      _page = history.shift()
+      service.save(_page, false)
+    } else {
+      toastr.warning('There is no undo history to return to.')
+    }
   }
 
   service.reset = async function() {
 
+    if(!_.get(page, 'url')) {
+      toastr.warning('Sorry, but we could not find a page link to reset.')
+      return false
+    }
+
+    api.staging.delete({belongsTo: 'meanbase-cms', key: _page.url})
+    history = []
+
+    try {
+      let result = await api.pages.find(query)
+      _page = _.get(result, '0')
+      setHTMLHeader()
+    } catch(err) {
+      console.log('Error resetting page: ', err);
+    }
+
+    return _page
   }
 
   service.remove = async function(url) {
     let query = url? {url: url}: {url: _page.url}
+
+    history = []
 
     return Promise.all(
       api.pages.delete(query),
@@ -122,6 +184,22 @@
       return false
     }
     return result
+  }
+
+  service.publish = async function() {
+    if(_page.published) {
+      _page.published = true
+    }
+
+    api.staging.delete({belongsTo: 'meanbase-cms', key: _page.url}).catch(err => {
+      console.log('Could not delete the leftover page autosave data.');
+    })
+
+    try {
+      _page = await api.pages.updateOne(_page._id, _page)
+    } catch(err) {
+      console.log('err', err);
+    }
   }
 
   window.services.page = service
