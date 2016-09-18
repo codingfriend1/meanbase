@@ -17,6 +17,8 @@ public/app/bundle.js
 public/app/bundle.js.map
 public/themes/*/theme.min.js
 public/themes/*/theme.min.js.map
+public/old-app/
+public/old-app/**
 server/logs/debug.log
 .vscode
 .tmp
