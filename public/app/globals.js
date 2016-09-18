@@ -3,3 +3,6 @@ var VueRouter = require('vue-router')
 window.Vue = Vue
 window.VueRouter = VueRouter
 window.Vue.use(window.VueRouter)
+
+window.radio = new Vue()
+window.services = {}

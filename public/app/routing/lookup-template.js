@@ -7,40 +7,15 @@ export default (resolve, reject) => {
     try {
       const currentRoute = window.location.pathname
 
-      let matchingPages = await api.pages.find({url: currentRoute})
+      let page = await services.page.get()
 
-      let stagingData
-      try {
-        let hasPermission = await auth.hasPermission('editContent')
-        if(hasPermission) {
-          try {
-            stagingData = await api.staging.find({key: currentRoute})
-            stagingData = stagingData[0]
-          } catch(err) {
-            console.log('Trouble getting staging data', err);
-          }
-        }
-      } catch(err) {
-        console.log('User does not have edit permission', err);
-      }
-
-      if(!_.get(matchingPages, '0')) {
-        throw 'Sorry but we could not find a page with that url'
-      }
-
-      let page = matchingPages[0]
-
+      if(!page) { throw 'Sorry but we could not find a page with that url' }
 
       // Loop through the template mapping stored in themeTemplates.
       // That variable came from the theme's theme.json file.
       // It finds which template to load based on the template that came back for the page
       // This is done to keep different themes' templates compatible
-      var mappedTemplate
-      if(stagingData && stagingData.data && stagingData.data.template) {
-        mappedTemplate = stagingData.data.template
-      } else {
-        mappedTemplate = page.template;
-      }
+      let mappedTemplate = page.template
 
       for (var property in meanbaseGlobals.themeTemplates) {
         if (meanbaseGlobals.themeTemplates.hasOwnProperty(property)) {

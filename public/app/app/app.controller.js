@@ -16,7 +16,6 @@ router.map({
   }
 })
 
-window.radio = new Vue()
 window.page = {}
 window.menus = {}
 
