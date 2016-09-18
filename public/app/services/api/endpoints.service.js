@@ -134,7 +134,7 @@
 
     var category = this.endpoint;
 
-    console.log("general error: ", data);
+    // console.log("general error: ", data);
 
     // toastr.warning(category + ': ' + data);
 		// var category = this.endpoint;
