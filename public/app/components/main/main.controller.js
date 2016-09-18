@@ -502,6 +502,17 @@
         menusStagingData = menusStagingData[0]
 
         if(menusStagingData && menusStagingData.data) {
+
+          _.each(menusStagingData.data, group => {
+            _.each(group, menu => {
+              if(!menu.published) {
+                if((menu.url && (menu.url.indexOf('http://') > -1 || menu.url.indexOf('https://') > -1)) || menu.isDropdown) {
+                  menu.published = true
+                }
+              }
+            })
+          })
+
           await api.menus.delete({})
           let newMenus = await api.menus.create(menusStagingData.data)
           $rootScope.menus = newMenus
