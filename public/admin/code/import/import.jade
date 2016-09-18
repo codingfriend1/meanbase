@@ -20,6 +20,30 @@
       label.mdl-checkbox.mdl-js-checkbox(for='includeUsers')
         input#includeUsers.mdl-checkbox__input(type='checkbox', ng-model="includeUsersAndRoles")
         span.mdl-checkbox__label Replace users and roles too?
+    .checkbox
+      label.mdl-checkbox.mdl-js-checkbox(for='includeImages')
+        input#includeImages.mdl-checkbox__input(type='checkbox', ng-model="includeImages")
+        span.mdl-checkbox__label Images?
+    .checkbox
+      label.mdl-checkbox.mdl-js-checkbox(for='includeThemes')
+        input#includeThemes.mdl-checkbox__input(type='checkbox', ng-model="includeThemes")
+        span.mdl-checkbox__label Themes?
+    .checkbox
+      label.mdl-checkbox.mdl-js-checkbox(for='includeExtensions')
+        input#includeExtensions.mdl-checkbox__input(type='checkbox', ng-model="includeExtensions")
+        span.mdl-checkbox__label Extensions?
+    .checkbox
+      label.mdl-checkbox.mdl-js-checkbox(for='includePagesMenus')
+        input#includePagesMenus.mdl-checkbox__input(type='checkbox', ng-model="includePagesMenus")
+        span.mdl-checkbox__label Pages and Menus?
+    .checkbox
+      label.mdl-checkbox.mdl-js-checkbox(for='includeComments')
+        input#includeComments.mdl-checkbox__input(type='checkbox', ng-model="includeComments")
+        span.mdl-checkbox__label Comments?
+    .checkbox
+      label.mdl-checkbox.mdl-js-checkbox(for='includeSettings')
+        input#includeSettings.mdl-checkbox__input(type='checkbox', ng-model="includeSettings")
+        span.mdl-checkbox__label Site settings and codes?
     div.drop-zone(nv-file-drop="uploader2" uploader="uploader2").text-center.form-inline
       p Drop #[strong zip] file here to upload or
       .form-group.text-center

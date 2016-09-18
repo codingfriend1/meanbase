@@ -84,20 +84,64 @@ export default function(req, res, next) {
       decompress(tempFilePath, req.app.get('importPath')).then(async () => {
         let currentPath = path.join(req.app.get('importContentPath'))
         try {
-          fsExtra.copySync(path.join(currentPath, 'images'), req.app.get('uploadsPath'))
-          fsExtra.copySync(path.join(currentPath, 'themes'), req.app.get('themesPath'))
-          fsExtra.copySync(path.join(currentPath, 'extensions'), req.app.get('extensionsPath'))
+          let includeThemes = req.query.includeThemes
+          if(typeof includeThemes === 'string') {
+            includeThemes = includeThemes.toLowerCase() === 'true'
+          }
+          if(includeThemes) {
+            console.log('loading themes');
+            fsExtra.copySync(path.join(currentPath, 'themes'), req.app.get('themesPath'))
+          }
+
+          let includeExtensions = req.query.includeExtensions
+          if(typeof includeExtensions === 'string') {
+            includeExtensions = includeExtensions.toLowerCase() === 'true'
+          }
+          if(includeExtensions) {
+            console.log('loading extensions');
+            fsExtra.copySync(path.join(currentPath, 'extensions'), req.app.get('extensionsPath'))
+          }
+
+          let includeImages = req.query.includeImages
+          if(typeof includeImages === 'string') {
+            includeImages = includeImages.toLowerCase() === 'true'
+          }
+          if(includeImages) {
+            console.log('loading images');
+            fsExtra.copySync(path.join(currentPath, 'images'), req.app.get('uploadsPath'))
+          }
 
           let includeUsers = req.query.includeUsersAndRoles
           if(typeof includeUsers === 'string') {
             includeUsers = includeUsers.toLowerCase() === 'true'
           }
 
+          let includePagesMenus = req.query.includePagesMenus
+          if(typeof includePagesMenus === 'string') {
+            includePagesMenus = includePagesMenus.toLowerCase() === 'true'
+          }
+
+          let includeComments = req.query.includeComments
+          if(typeof includeComments === 'string') {
+            includeComments = includeComments.toLowerCase() === 'true'
+          }
+
+          let includeSettings = req.query.includeSettings
+          if(typeof includeSettings === 'string') {
+            includeSettings = includeSettings.toLowerCase() === 'true'
+          }
+
           for (var i = 0; i < collections.length; i++) {
             let doesFileExist = fs.lstatSync(path.join(currentPath, 'data', collections[i] + '.json'))
             try {
-              if((collections[i] !== 'users' && collections[i] !== 'roles') || includeUsers) {
+              if(
+                  ( (collections[i] === 'users' || collections[i] === 'roles') && includeUsers) ||
+                  ( (collections[i] === 'pages' || collections[i] === 'menus') && includePagesMenus) ||
+                  ( collections[i] === 'comments' && includeComments) ||
+                  ( collections[i] === 'settings' && includeSettings)
+                ) {
                 if(doesFileExist) {
+                  console.log("loading collection", collections[i]);
                   await removeData(collections[i])
                   let response = await importCollection(collections[i])
                 }

@@ -12,6 +12,13 @@ angular.module('meanbaseApp')
       });
     }
 
+    $scope.includeImages = true
+    $scope.includeThemes = true
+    $scope.includeExtensions = true
+    $scope.includePagesMenus = true
+    $scope.includeComments = true
+    $scope.includeSettings = true
+
 
     uploader.onCompleteAll = function(e) {
       uploader.clearQueue();
@@ -36,7 +43,15 @@ angular.module('meanbaseApp')
     }
 
     uploader2.onBeforeUploadItem = function(item) {
-      item.url = `/api/import-export?includeUsersAndRoles=${$scope.includeUsersAndRoles || false}`
+      let query = `includeUsersAndRoles=${$scope.includeUsersAndRoles || false}&`
+      query = query + `includeThemes=${$scope.includeThemes || false}&`
+      query = query + `includeImages=${$scope.includeImages || false}&`
+      query = query + `includeExtensions=${$scope.includeExtensions || false}&`
+      query = query + `includePagesMenus=${$scope.includePagesMenus || false}&`
+      query = query + `includeComments=${$scope.includeComments || false}&`
+      query = query + `includeSettings=${$scope.includeSettings || false}`
+
+      item.url = `/api/import-export?${query}`
     }
 
     uploader2.onCompleteAll = function(e) {
