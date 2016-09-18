@@ -38,12 +38,16 @@
    */
   service.get = async function(query) {
 
+    console.log('running get');
+
     if(!query) {
       query = {url: window.location.pathname}
     } else if (!query.url) {
       console.log('You must provide a url to get a page');
       return false
     }
+
+    console.log("query", query);
 
     try {
       let hasPermission = auth.hasPermissionSync('editContent')

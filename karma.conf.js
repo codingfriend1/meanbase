@@ -20,6 +20,7 @@ module.exports = function(config) {
     },
 
     files: [
+      './test-helpers/mock-ajax.js',
       './public/app/index.html',
       './public/app/bower.js',
       './public/app/bundle.js',
