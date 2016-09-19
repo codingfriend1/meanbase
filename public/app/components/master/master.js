@@ -11,7 +11,8 @@ export default Vue.extend({
     editMode: true,
     page: window.page,
     menus: {},
-    currentUser: auth.currentUser
+    currentUser: auth.currentUser,
+    currentModal: undefined
   }),
   created: async function() {
 

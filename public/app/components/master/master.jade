@@ -6,3 +6,6 @@
         h1
           i.fa.fa-spinner.fa-spin  
           span  Loading Template
+  mb-modal(:show.sync='currentModal', @onclose='currentModal = undefined')
+    component(:is='currentModal')
+  
