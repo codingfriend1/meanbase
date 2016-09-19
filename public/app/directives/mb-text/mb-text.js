@@ -63,8 +63,8 @@ singleLineText.toolbar.buttons = [
 Vue.directive('mb-text', {
   twoWay: true,
   params: ['single'],
-  bind: function () {
-
+  bind: function (value) {
+    
     let syncDelay = 600
     let isSetup = false
 
@@ -86,7 +86,8 @@ Vue.directive('mb-text', {
     function subscribe() {
       editor.setup()
       editor.subscribe('editableInput', _.debounce( (event, editable) => {
-        this.set(editor.getContent())
+        // this.set(editor.getContent())
+        value = editor.getContent()
         radio.$emit('cms.elementsChanged')
       }, syncDelay))
       isSetup = true
@@ -99,14 +100,7 @@ Vue.directive('mb-text', {
       isSetup = false
     }
 
-
-    radio.$on('cms.editMode', value => {
-      if(root.editMode && !isSetup) {
-        subscribe()
-      } else if(!this.editMode) {
-        destroy()
-      }
-    })
+    subscribe()
 
     radio.$on('cms.updateView', shouldSave => {
       if(shouldSave) {

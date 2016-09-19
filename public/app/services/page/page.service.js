@@ -12,8 +12,8 @@
     get: function() {
       return _.clone(_page, true)
     },
-    set: async function(value) {
-      _.debounce(service.save(value), 100)
+    set: function(value) {
+      _.debounce(service.save(_.clone(value, true)), 100)
     }
   })
 
@@ -38,39 +38,38 @@
    */
   service.get = async function(query) {
 
-    console.log('running get');
-
-    if(!query) {
-      query = {url: window.location.pathname}
-    } else if (!query.url) {
-      console.log('You must provide a url to get a page');
-      return false
-    }
-
-    console.log("query", query);
-
-    try {
-      let hasPermission = auth.hasPermissionSync('editContent')
-      let result
-      if(hasPermission) {
-        result = await api.staging.find({belongsTo: 'meanbase-cms', url: query.url})
-        result = _.get(result, '0.data')
+    return new Promise(async (resolve, reject) => {
+      if(!query) {
+        query = {url: window.location.pathname}
+      } else if (!query.url) {
+        console.log('You must provide a url to get a page');
+        // return false
+        return reject(false)
       }
 
-      if(!hasPermission || !result) {
-        result = await api.pages.find(query)
-        result = result[0]
+      try {
+        let hasPermission = auth.hasPermissionSync('editContent')
+        let result
+        if(hasPermission) {
+          result = await api.staging.find({belongsTo: 'meanbase-cms', url: query.url})
+          result = _.get(result, '0.data')
+        }
+
+        if(!hasPermission || !result) {
+          result = await api.pages.find(query)
+
+          result = result[0]
+        }
+
+        _page = result
+        return resolve(_page)
+      } catch(err) {
+        return reject(false)
       }
-
-      _page = result
-    } catch(err) {
-      return false
-    }
-
-    return _page
+    })
   }
 
-  service.save = async function(data, addHistory) {
+  service.save = async function(data, shouldAddHistory) {
 
     if(!data) {
       toastr.warning('You must provide data to autosave.')
@@ -87,7 +86,7 @@
     try {
       await api.staging.update({belongsTo: 'meanbase-cms', key: _page.url}, { data })
 
-      if(typeof addHistory !== 'boolean' && addHistory !== false) {
+      if(typeof shouldAddHistory !== 'boolean' && shouldAddHistory !== false) {
         addHistory()
       }
 
@@ -190,17 +189,24 @@
     return result
   }
 
-  service.publish = async function() {
-    if(_page.published) {
-      _page.published = true
+  service.publish = async function(published) {
+    let shouldPublish = true
+    if(typeof published === 'boolean' && published === false) {
+      shouldPublish = false
     }
 
-    api.staging.delete({belongsTo: 'meanbase-cms', key: _page.url}).catch(err => {
-      console.log('Could not delete the leftover page autosave data.');
-    })
+    if(shouldPublish && _page.published) {
+      _page.published = true
+    } else if(!shouldPublish) {
+      _page.published = false
+    }
 
     try {
       _page = await api.pages.updateOne(_page._id, _page)
+
+      api.staging.delete({belongsTo: 'meanbase-cms', key: _page.url}).catch(err => {
+        console.log('Could not delete the leftover page autosave data.');
+      })
     } catch(err) {
       console.log('err', err);
     }
