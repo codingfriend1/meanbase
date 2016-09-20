@@ -9,10 +9,10 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <mb-choose-link belongs-to="page.links" property="callToAction">
-                <a class="navbar-brand topnav mb-link" mb-link="callToAction" belongs-to="page.links">
-                  <mb-choose-icon belongs-to="page.links.callToAction" property="icon"></mb-choose-icon>
-                  <mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></mb-edit>
+              <mb-choose-link :belongs-to="page.links" property="callToAction">
+                <a class="navbar-brand topnav mb-link" mb-link="callToAction" :belongs-to="page.links">
+                  <mb-choose-icon :belongs-to="page.links.callToAction" property="icon"></mb-choose-icon>
+                  <span v-mb-text ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></span>
                 </a>
               </mb-choose-link>
           </div>
@@ -47,8 +47,8 @@
   </nav>
 
   <a name="about"></a>
-  <mb-choose-image property="image-1">
-    <div class="intro-header" mb-src="image-1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
+  <div v-mb-choose-image="header1" :belongs-to="page.images">
+    <div class="intro-header" v-mb-src="header1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
         <div class="container disable-click">
 
             <div class="row">
@@ -67,18 +67,18 @@
         </div>
 
     </div>
-  </mb-choose-image>
+  </div>
 
 <div mb-list-area="body1"></div>
 
-<mb-choose-image property="image-5">
-  <div class="banner" mb-src="image-5">
+<div v-mb-choose-image="prefooter1" :belongs-to="page.images" single="false">
+  <div class="banner" v-mb-src="prefooter1">
 
       <div class="container">
 
           <div class="row">
               <div class="col-lg-6">
-                  <div v-mb-text="page.content.prefooter1" single="true"></div>
+                  <div v-mb-text="page.content.prefooter1"></div>
               </div>
               <div class="col-lg-6">
                   <div mb-list-area="footer1"></div>
@@ -86,7 +86,7 @@
           </div>
 
       </div>
-  </mb-choose-image>
+  </div>
 </div>
 
   <footer>

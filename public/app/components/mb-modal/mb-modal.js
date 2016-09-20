@@ -5,7 +5,7 @@
 
 Vue.component('mb-modal', {
   template: require('./mb-modal.jade'),
-  props: ['show'],
+  props: ['show', 'modalConfig'],
   methods: {
     close: function () {
       this.$emit('onclose')

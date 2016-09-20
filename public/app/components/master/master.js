@@ -12,7 +12,11 @@ export default Vue.extend({
     page: window.page,
     menus: {},
     currentUser: auth.currentUser,
-    currentModal: undefined
+    currentModal: undefined,
+    imageManagerConfig: {
+      multiple: false,
+      alreadySelected: []
+    }
   }),
   created: async function() {
 
@@ -58,6 +62,14 @@ export default Vue.extend({
 
     radio.$on('cms.removePage', () => {
       services.page.remove()
+    })
+
+    radio.$on('cms.currentModal', component => {
+      this.currentModal = component
+    })
+
+    radio.$on('cms.modalConfig', config => {
+      this.modalConfig = config
     })
   }
 })

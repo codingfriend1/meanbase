@@ -1,0 +1,66 @@
+div.image-selector()
+  .headbar
+    div(v-show="!fullscreen")
+      .mass-edit-buttons
+        div(v-show="hasToken").import-photos
+          button#upload-image-btn.mb-btn Upload photos
+          #progressBox
+        button.btn.download-selected(@click="downloadSelected()" v-show="media.length > 0") Download Selected
+        button.btn.group-selected(@click="groupSelected()" v-show="media.length > 0") Group Selected
+        button.btn.ungroup-selected(@click="ungroupSelected()" v-show="media.length > 0") Ungroup Selected
+        button.btn.delete-selected(@click="deleteSelected()" v-show="media.length > 0")
+          i.fa.fa-trash.fa-lg
+      .select-all.pull-left(@click="selectAllVisible()")
+        i.fa(:class="{'fa-circle-o': !allSelected, 'fa-check': allSelected}")
+      .album-left.pull-left
+        select(ng-options="group for group in groups" v-model="selectedGroup").form-control
+          option(v-for='group in groups', :value='group') {{ group }}
+      .right-leftover
+        .input-group
+          .input-group-addon 
+            i.fa.fa-search
+          input.form-control(placeholder="Search Media" v-model="mediaFilter")
+    .row(v-show="fullscreen")
+      .col-sm-12
+        .btn-spacing.pull-left
+          button.btn.btn-danger(@click="deleteOne(fullscreenImage)")
+            i.fa.fa-trash 
+            |  Delete
+        i.exit-fullscreen.fa.fa-times(@click="exitFullscreen()").pull-right
+          
+  .body
+    .row
+      .col-sm-12(v-show="!fullscreen")
+        .help-block(v-show="media.length === 0") There are no images to show.
+        .image-grid-4(v-for="item in filteredMedia", @click="selectImage($event, item)")
+          div.image-thumbnail(double-click="expand($event, item, $index)")
+            i.fa.fa-circle-o.select-button(:class="{selected: selectedImages.indexOf(item) !== -1}")
+            img(:src="item.thumbnail" ng-swipe-right="prev()" ng-swipe-left="next()")
+      .col-sm-12(v-show="fullscreen" ng-swipe-right="prev()" ng-swipe-left="next()" @click="selectImage($event, fullscreenImage)")
+        .fullscreen-master-container(double-click="expand($event, item, $index)")
+          i.fa.fa-circle-o.select-button(:class="{selected: selectedImages.indexOf(fullscreenImage) !== -1}")
+          i.previous-image-button.fa.fa-chevron-left(@click="prev(); $event.stopPropagation();")
+          i.fa.fa-chevron-right.next-image-button(@click="next(); $event.stopPropagation();")
+          .fullsize-box.main
+            img(:src="firstImageUrl").fullscreen-image
+  .image-details(v-show="fullscreen")
+    .row
+      .col-sm-12
+        .form-group.has-feedback
+          .input-group
+            .input-group-addon Caption
+            input.form-control(placeholder="Alt or Caption" v-model="fullscreenImage.alt" @blur="saveImageEdits()")
+            span.glyphicon.glyphicon-ok.form-control-feedback
+    .row
+      .col-sm-4
+        .form-group().has-feedback
+          .input-group
+            .input-group-addon(title="Credit the author") Citation
+            input.form-control(placeholder="Credit to author", v-model="fullscreenImage.attribute", @blur="saveImageEdits()")
+            span.glyphicon.glyphicon-ok.form-control-feedback
+      .col-sm-8.text-left
+        label.set-albums Albums
+        //- mb-taglist(v-model="fullscreenImage.groups")
+      .col-sm-12
+          label.set-albums Galleries
+          //- mb-taglist(v-model="fullscreenImage.galleries")
