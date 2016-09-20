@@ -12,7 +12,7 @@ router.map({
   '/': {
     component: lookupTemplate
   },
-  '/:page': {
+  '/*page': {
     component: lookupTemplate
   }
 })

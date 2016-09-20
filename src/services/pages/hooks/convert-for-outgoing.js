@@ -48,12 +48,21 @@ export default options => {
         let page = hook.result[i];
         page.images = arrayToObjectWithObject(page.images, 'location');
         page.extensions = arrayToObjectWithArray(page.extensions, 'group');
+
         if(!page.extensions) {
           page.extensions = {};
         }
 
         if(!page.lists) {
           page.lists = {};
+        }
+
+        if(!page.images) {
+          page.images = {};
+        }
+
+        if(!page.content) {
+          page.content = {};
         }
 
         // if(page.createdAt) {
@@ -73,6 +82,15 @@ export default options => {
       if(!page.lists) {
         page.lists = {};
       }
+
+      if(!page.images) {
+        page.images = {};
+      }
+
+      if(!page.content) {
+        page.content = {};
+      }
+
       //
       // if(hook.result.createdAt) {
       //   hook.result.createdAt = getFormattedDate(page.createdAt)

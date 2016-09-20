@@ -1,5 +1,5 @@
 <!-- <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet"> -->
-<div>
+<div :page="page">
   <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
       <div class="container topnav">
           <div class="navbar-header">
@@ -47,8 +47,8 @@
   </nav>
 
   <a name="about"></a>
-  <div v-mb-choose-image="header1" :belongs-to="page.images">
-    <div class="intro-header" v-mb-src="header1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
+  <div :v-mb-choose-image="header1" :belongs-to="page.images">
+    <div class="intro-header" v-mb-src="header1" :belongs-to="page.images" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
         <div class="container disable-click">
 
             <div class="row">
@@ -71,8 +71,8 @@
 
 <div mb-list-area="body1"></div>
 
-<div v-mb-choose-image="prefooter1" :belongs-to="page.images" single="false">
-  <div class="banner" v-mb-src="prefooter1">
+<div v-mb-choose-image="prefooter1" :belongs-to="page.images">
+  <div class="banner" v-mb-src="prefooter1" :belongs-to="page.images">
 
       <div class="container">
 

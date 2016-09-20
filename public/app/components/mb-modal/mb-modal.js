@@ -8,13 +8,13 @@ Vue.component('mb-modal', {
   props: ['show', 'modalConfig'],
   methods: {
     close: function () {
-      this.$emit('onclose')
+      radio.$emit('cms.currentModal', undefined)
     }
   },
   ready: function () {
     document.addEventListener("keydown", (e) => {
       if (this.show && e.keyCode == 27) {
-        this.$emit('onclose')
+        radio.$emit('cms.currentModal', undefined)
       }
     })
   }

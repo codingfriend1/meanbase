@@ -1,7 +1,4 @@
 Vue.filter('filterMedia', function (media) {
-  console.log("media", media);
-  console.log("media.url", media.url);
-  console.log("media.alt", media.alt);
   return (media.url + media.alt).toLowerCase().indexOf(vm.mediaFilter.toLowerCase()) >= 0
 })
 
@@ -20,9 +17,10 @@ Vue.filter('filterByAlbum', function (value, selectedImages, selectedGroup) {
 
 let vm = Vue.component('mb-image-manager', {
   template: require('./mb-image-manager.jade'),
-  props: ['modalConfig'],
+  props: ['modalConfig', 'close'],
   data: () => ({
     media: [],
+    instructions: "Choose image(s)",
     groups: ['all', 'selected'],
     selectedImages: [],
     selectedGroup: '',
@@ -53,6 +51,14 @@ let vm = Vue.component('mb-image-manager', {
     }
   },
   methods: {
+    close: function() {
+      radio.$emit('cms.currentModal', undefined)
+    },
+    chooseImages: function() {
+      radio.$emit('cms.choseImages', {gallerySlug:  this.modalConfig.gallerySlug, images: this.getSelectedImages()})
+      console.log('chose', this.modalConfig.gallerySlug);
+      this.close()
+    },
     getMedia: function() {
       api.media.find({}).then(media => {
         this.media = media;

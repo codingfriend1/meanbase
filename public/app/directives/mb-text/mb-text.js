@@ -64,7 +64,7 @@ Vue.directive('mb-text', {
   twoWay: true,
   params: ['single'],
   bind: function (value) {
-    
+
     let syncDelay = 600
     let isSetup = false
 
@@ -106,7 +106,7 @@ Vue.directive('mb-text', {
       if(shouldSave) {
         this.set(editor.getContent())
       }
-      this.el.html(this.value || "")
+      $(this.el).html(this.value || "")
     })
 
     radio.$on('cms.editMode', function(event, value) {

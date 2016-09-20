@@ -20,6 +20,10 @@ export default Vue.extend({
   }),
   created: async function() {
 
+    if(!this.page.images) {
+      this.page.images = {}
+    }
+
     try {
       this.menus = await api.menus.find({})
     } catch(err) {

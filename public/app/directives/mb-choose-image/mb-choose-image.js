@@ -2,19 +2,33 @@ Vue.directive('mbChooseImage', {
   params: ['single', 'belongsTo'],
   twoWay: true,
   bind: function (value) {
-    console.log("this.params", this.params);
-    let id = this.expression + Date.now()
+    let gallerySlug = this.expression + "_" + Date.now()
 
-    let single = window.services.helpers.asBoolean(this.params.single)
+    let single
+    if(typeof this.params.single === 'undefined' ) {
+      single = true
+    } else {
+      single = window.services.helpers.asBoolean(this.params.single)
+    }
 
-    // let single = true
-    // if((typeof this.params.single === 'string' && this.params.single.toLowerCase() === 'false') || (typeof this.params.single === 'boolean' && this.params.single === false) ) {
-    //   this.params.single = false
-    // }
-    // console.log("single", single);
-    this.el.addEventListener("click", () => {
-      radio.$emit('cms.modalConfig', { single, id })
+    this.el.addEventListener("click", (event) => {
+      event.stopPropagation()
+      if (!$(event.target).is('.v-mb-src') && !$(event.target).is('img')) { return };
+      radio.$emit('cms.modalConfig', { single, gallerySlug })
       radio.$emit('cms.currentModal', 'mb-image-manager')
-    });
+    })
+
+    radio.$on('cms.choseImages', response => {
+      if(response.gallerySlug === gallerySlug) {
+        if(response.images) {
+          this.params.belongsTo[this.expression] = response.images
+        } else {
+          this.params.belongsTo[this.expression] = {
+            url: 'http://placehold.it/768x432'
+          }
+        }
+        radio.$emit('cms.updateView')
+      }
+    })
   }
 })

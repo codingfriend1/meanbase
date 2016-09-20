@@ -41,7 +41,7 @@ export default (resolve, reject) => {
       if(html) {
         let templateComponent = Vue.extend({
           template: html,
-          props: ['page'],
+          props: ['page', 'editMode', 'menus', 'currentUser'],
           data: () => ({
 
           })
