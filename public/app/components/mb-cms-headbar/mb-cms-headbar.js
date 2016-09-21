@@ -73,7 +73,7 @@ let cmsHeadbar = Vue.component('mb-cms-headbar', {
       radio.$emit('cms.togglePublish')
     },
     toggleEdit: function() {
-
+      radio.$emit('cms.toggleEditMode')
     },
     publishChanges: function() {
       radio.$emit('cms.publishChanges')

@@ -76,6 +76,10 @@ export default Vue.extend({
       services.page.publish()
     })
 
+    radio.$on('cms.toggleEditMode', () => {
+      this.editMode = !this.editMode
+    })
+
     radio.$on('cms.removePage', () => {
       services.page.remove()
     })

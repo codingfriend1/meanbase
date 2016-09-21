@@ -36,7 +36,7 @@
    * @param {object} query Optional - FeathersJS query
    * @return {Promise} Returns the page object
    */
-  service.get = async function(query) {
+  service.get = function(query) {
 
     return new Promise(async (resolve, reject) => {
       if(!query) {
@@ -51,7 +51,7 @@
         let hasPermission = auth.hasPermissionSync('editContent')
         let result
         if(hasPermission) {
-          result = await api.staging.find({belongsTo: 'meanbase-cms', url: query.url})
+          result = await api.staging.find({belongsTo: 'meanbase-cms', key: query.url})
           result = _.get(result, '0.data')
         }
 

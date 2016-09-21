@@ -12,7 +12,7 @@
               <mb-choose-link :belongs-to="page.links" property="callToAction">
                 <a class="navbar-brand topnav mb-link" mb-link="callToAction" :belongs-to="page.links">
                   <mb-icon :source="page.links.callToAction.icon"></mb-icon>
-                  <span v-mb-text ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></span>
+                  <span v-mb-text ng-model="page.links.callToAction.title" bind-options="editorSingleLine" :belongs-to="page.content"></span>
                 </a>
               </mb-choose-link>
           </div>

@@ -63,65 +63,55 @@ singleLineText.toolbar.buttons = [
 Vue.directive('mb-text', {
   twoWay: true,
   params: ['single'],
+  update: function(value) {
+    if(auth.currentUser) {
+      this.editor.setContent(value || "")
+    } else {
+      $(this.el).html(value)
+    }
+  },
   bind: function (value) {
-
     let syncDelay = 600
     let isSetup = false
-
     let config = this.params.single? singleLineText: multilineText
 
-    var editor = new MediumEditor(this.el, config)
-
+    // Instantiate Editor
+    this.editor = new MediumEditor(this.el, config)
     if(!config.disableReturn) {
       $(this.el).mediumInsert({
-        editor: editor
+        editor: this.editor
       })
     }
 
-    if(!auth.currentUser) {
-      editor.destroy()
-      return false
-    }
-
     function subscribe() {
-      editor.setup()
-      editor.subscribe('editableInput', _.debounce( (event, editable) => {
-        // this.set(editor.getContent())
-        value = editor.getContent()
-        radio.$emit('cms.elementsChanged')
+      this.editor.setup()
+      this.editor.subscribe('editableInput', _.debounce( (event, editable) => {
+        // this.params.belongsTo[this.expression] = this.editor.getContent()
+        this.set(this.editor.getContent())
+        radio.$emit('cms.autosave')
       }, syncDelay))
       isSetup = true
     }
 
-    function destroy() {
-      editor.unsubscribe('editableInput')
-      this.el.html(this.value || "")
-      editor.destroy()
-      isSetup = false
-    }
-
+    subscribe = subscribe.bind(this)
     subscribe()
 
-    radio.$on('cms.updateView', shouldSave => {
-      if(shouldSave) {
-        this.set(editor.getContent())
-      }
-      $(this.el).html(this.value || "")
-    })
-
-    radio.$on('cms.editMode', function(event, value) {
-        if(root.editMode && !isSetup) {
+    radio.$on('cms.editMode', (event, value) => {
+        if(value && !isSetup) {
           subscribe()
-        } else if(!this.editMode) {
-          this.set(editor.getContent())
-          destroy()
+        } else if(!value) {
+          this.set(this.editor.getContent())
+          this.editor.unsubscribe('editableInput')
+          $(this.el).html(this.el.value || "")
+          this.editor.destroy()
+          isSetup = false
         }
     })
 
 
   },
   unbind: function () {
-    editor.unsubscribe('editableInput')
-    editor.destroy()
+    this.editor.unsubscribe('editableInput')
+    this.editor.destroy()
   }
 })
