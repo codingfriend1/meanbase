@@ -1,0 +1,49 @@
+.modal-header
+  button.close(type='button' @click="close()")
+    span(aria-hidden='true') ×
+    span.sr-only Close
+  h4#editMenuItemLabel.modal-title Choose an icon from font-awesome
+.modal-body
+  .alert.alert-warning
+    strong Directions
+    div Choose an icon from  
+      a(href="http://fontawesome.io/icons/" target="_blank") font-awesome.io
+      |  and prefix it with 
+      b "fa fa-the-icon-name"
+  div.text-center
+    label Preview
+  div.text-center.margin-bottom-1
+    i(:class="mergeClasses")#test-icon
+    .help-block.error {{hasContentError}}
+  div.text-center
+    a(href="http://fontawesome.io/icons/" target="_blank") font-awesome.io
+  form(novalidate name="editIconForm" @submit="saveIcon(editIconForm)")
+    input(type="submit").hidden
+    .form-group
+      label Icon name
+      input.form-control(v-model="icon.classes" name="classes", :pattern="validators.isCSSClass", :change="checkHasContent()")
+      div.help-block.error(v-show="editIconForm.classes.$invalid && editIconForm.classes.$dirty") {{errorMessages.isCSSClass}}
+    button.btn.btn-info(type='button', data-toggle='collapse', data-target='#extra-styles') Extra Options
+    #extra-styles.collapse
+      .form-group
+        label Link for when you click on the icon
+        input.form-control(v-model="icon.url", name="url", :pattern="validators.isURI", :change="updateTarget(icon.url)")
+        div.help-block.error(v-show="editIconForm.url.$invalid && editIconForm.url.$dirty") {{errorMessages.isURI}}
+      .form-group
+        label Choose a link from an existing page:
+        select(v-model="icon.url").form-control
+          option(v-for="page in pages" value="page.url") {{page.url}}
+      .form-group
+        label Tool-tip
+        input.form-control(v-model="icon.title" name="title", :pattern="validators.isTitle")
+        div.help-block.error(v-show="editIconForm.title.$invalid && editIconForm.title.$dirty") {{errorMessages.isTitle}}
+      .form-group
+        label How should the link navigate?
+        select(v-model="icon.target").form-control
+          option(value="") Navigate within this site
+          option(value="_self") Replace the current page
+          option(value="_blank") New Page
+.modal-footer
+  a.btn.btn-warning(ng-href="{{icon.url}}" target="{{icon.target}}" @click="close()") Visit Link
+  button.btn.btn-success(type="submit" @click="saveIcon(editIconForm)", :class="{disabled: editIconForm.$invalid || (!hasContent && icon.classes)}") Save
+  button.btn.btn-default(type='button' @click="close()") Close

@@ -11,15 +11,15 @@
               </button>
               <mb-choose-link :belongs-to="page.links" property="callToAction">
                 <a class="navbar-brand topnav mb-link" mb-link="callToAction" :belongs-to="page.links">
-                  <mb-choose-icon :belongs-to="page.links.callToAction" property="icon"></mb-choose-icon>
+                  <mb-icon :source="page.links.callToAction.icon"></mb-icon>
                   <span v-mb-text ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></span>
                 </a>
               </mb-choose-link>
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
-                  <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode, 'dropdown': menu.isDropdown}">
-                      <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-if="!menu.isDropdown" ng-click="handleClick($event, menu, menu.url)">
+              <ul class="nav navbar-nav navbar-right" v-sortable="sortMenusConfig">
+                  <li v-for="menu in menus.main" :class="{'mb-draggable': $root.editMode, 'dropdown': menu.isDropdown}">
+                      <a target="{{menu.target}}" class="mb-link" :class="menu.classes" ng-if="!menu.isDropdown" @click="handleClick($event, menu, menu.url)">
                         {{menu.title}}
                       </a>
                       <a target="{{menu.target}}" class="mb-link" class="dropdown-toggle relative {{menu.classes}}" data-toggle="dropdown" ng-if="menu.isDropdown">
@@ -28,8 +28,8 @@
                         <mb-edit_menu item="menu"></mb-edit_menu>
                       </a>
                       <ul class="dropdown-menu" ng-sortable="$root.subMenuList" ng-init="newSubMenu={}" ng-if="menu.isDropdown">
-                        <li ng-repeat="subMenu in menu.subMenus" class="mb-sub-draggable">
-                          <a target="{{subMenu.target}}" class="mb-link" class="dropdown-toggle subMenu.classes" ng-click="handleClick($event, subMenu, subMenu.url)">
+                        <li v-for="subMenu in menu.subMenus" class="mb-sub-draggable">
+                          <a target="{{subMenu.target}}" class="dropdown-toggle subMenu.classes" @click="handleClick($event, subMenu, subMenu.url)">
                             {{subMenu.title}}
                           </a>
                         </li>
