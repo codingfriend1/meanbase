@@ -47,7 +47,7 @@
   </nav>
 
 <a name="about"></a>
-<div v-mb-choose-image="header1" :belongs-to="page.images">
+<div v-mb-choose-image="page.images.header1">
   <div class="intro-header" v-mb-src="page.images.header1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
       <div class="container disable-click">
 
@@ -70,8 +70,8 @@
 
 <div mb-list-area="body1"></div>
 
-<div v-mb-choose-image="prefooter1" :belongs-to="page.images">
-  <div class="banner" v-mb-src="page.images.prefooter1", :belongs-to="page.images">
+<div v-mb-choose-image="page.images.prefooter1">
+  <div class="banner" v-mb-src="page.images.prefooter1">
 
       <div class="container">
 

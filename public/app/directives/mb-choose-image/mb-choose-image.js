@@ -21,13 +21,12 @@ Vue.directive('mbChooseImage', {
     radio.$on('cms.choseImages', response => {
       if(response.gallerySlug === gallerySlug) {
         if(response.images) {
-          this.params.belongsTo[this.expression] = response.images
+          this.set(response.images)
         } else {
-          this.params.belongsTo[this.expression] = {
+          this.set({
             url: 'http://placehold.it/768x432'
-          }
+          })
         }
-        // radio.$emit('cms.updateView')
         radio.$emit('cms.autosave')
       }
     })

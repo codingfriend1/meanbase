@@ -1,79 +1,21 @@
-let multilineText = {
-  buttonLabels: 'fontawesome',
-  toolbar: {
-    buttons: [
-      'removeFormat',
-      'bold',
-      'italic',
-      'anchor',
-      'quote',
-      'p',
-      'h1',
-      'h2',
-      'h3',
-      'h4',
-      'h5',
-      'justifyLeft',
-      'justifyCenter',
-      'justifyRight',
-      'orderedlist',
-      'unorderedlist',
-      // 'image-selector'
-    ],
-    diffLeft: 25,
-    diffTop: -10,
-    forcePlainText: true,
-    static: false,
-    sticky: true,
-    updateOnEmptySelection: true
-  },
-  extensions: {
-    // "image-selector": new ImageSelector(),
-    // 'insert': new MediumEditorInsert()
-  },
-  paste: {
-    forcePlainText: true,
-    cleanPastedHTML: true,
-    cleanReplacements: [],
-    cleanAttrs: ['style', 'dir'],
-    cleanTags: ['meta']
-  }
-}
-
-let singleLineText = _.merge({}, multilineText, {
-  disableReturn: true,
-  placeholder: {
-    text: 'type here',
-    hideOnClick: true
-  },
-})
-
-singleLineText.toolbar.buttons = [
-  'bold',
-  // 'italic',
-  'anchor',
-  'h1',
-  'h2',
-  'h3',
-  'justifyLeft',
-  'justifyCenter',
-  'justifyRight'
-]
+const syncDelay = 600
 
 Vue.directive('mb-text', {
   twoWay: true,
   params: ['single'],
   update: function(value) {
-    if(auth.currentUser) {
+    if(auth.hasPermissionSync('editContent')) {
       this.editor.setContent(value || "")
     } else {
       $(this.el).html(value)
     }
   },
   bind: function (value) {
-    let syncDelay = 600
+
+    if(!auth.hasPermissionSync('editContent')) { return false }
+
     let isSetup = false
-    let config = this.params.single? singleLineText: multilineText
+    let config = this.params.single? window.services.sortableConfig.single: window.services.sortableConfig.multi
 
     // Instantiate Editor
     this.editor = new MediumEditor(this.el, config)
@@ -83,10 +25,10 @@ Vue.directive('mb-text', {
       })
     }
 
+    // Update model when html is edited
     function subscribe() {
       this.editor.setup()
       this.editor.subscribe('editableInput', _.debounce( (event, editable) => {
-        // this.params.belongsTo[this.expression] = this.editor.getContent()
         this.set(this.editor.getContent())
         radio.$emit('cms.autosave')
       }, syncDelay))
@@ -96,19 +38,17 @@ Vue.directive('mb-text', {
     subscribe = subscribe.bind(this)
     subscribe()
 
-    radio.$on('cms.editMode', (event, value) => {
-        if(value && !isSetup) {
-          subscribe()
-        } else if(!value) {
-          this.set(this.editor.getContent())
-          this.editor.unsubscribe('editableInput')
-          $(this.el).html(this.el.value || "")
-          this.editor.destroy()
-          isSetup = false
-        }
+    // When editmode changes toggle editability
+    radio.$on('cms.editMode', (value) => {
+      this.editMode = value
+      if(value && !isSetup) {
+        subscribe()
+      } else if(!value) {
+        this.editor.unsubscribe('editableInput')
+        this.editor.destroy()
+        isSetup = false
+      }
     })
-
-
   },
   unbind: function () {
     this.editor.unsubscribe('editableInput')

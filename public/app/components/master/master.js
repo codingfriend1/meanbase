@@ -39,10 +39,6 @@ export default Vue.extend({
       toastr.warning('Something went wrong and we could not fetch the menus.')
     }
 
-    // radio.$on('cms.elementsChanged', () => {
-    //   services.page.page = this.page
-    // })
-
     radio.$on('cms.updatePage', page => {
       this.page = services.page.save(page)
     })
@@ -78,6 +74,7 @@ export default Vue.extend({
 
     radio.$on('cms.toggleEditMode', () => {
       this.editMode = !this.editMode
+      radio.$emit('cms.editMode', this.editMode)
     })
 
     radio.$on('cms.removePage', () => {

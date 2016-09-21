@@ -1,5 +1,3 @@
-
-
 Vue.directive('mb-src', {
   params: [
     'size',
@@ -18,7 +16,7 @@ Vue.directive('mb-src', {
     if(this.isImage) {
       this.element.attr('src', url);
       if(alt) {
-        this.element.attr('alt', this.params.belongsTo[this.expression].alt);
+        this.element.attr('alt', value.alt);
       }
     } else {
       let backgroundUrl = this.params.backgroundPrefix? this.params.backgroundPrefix + ', url(' + url +')': 'url(' + url +')';

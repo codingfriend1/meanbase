@@ -9,6 +9,7 @@ import "./services/api/api.service.js"
 import "./services/auth/auth.service.js"
 import './services/page/page.service'
 import './services/helpers/helpers.service'
+import './services/sortable/sortable-config.service'
 
 // inject js
 import "./components/mb-cms-headbar/mb-cms-headbar.js"
