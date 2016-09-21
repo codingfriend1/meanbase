@@ -10,10 +10,10 @@
 
   Object.defineProperty(service, 'page', {
     get: function() {
-      return _.clone(_page, true)
+      return _.cloneDeep(_page)
     },
     set: function(value) {
-      _.debounce(service.save(_.clone(value, true)), 100)
+      _.debounce(service.save(_.cloneDeep(value)), 100)
     }
   })
 
@@ -23,7 +23,7 @@
   }
 
   function addHistory() {
-    history.unshift(_page)
+    history.unshift(_.cloneDeep(_page))
 
     if(history.length > 5) {
       history.length = 5
@@ -69,7 +69,7 @@
     })
   }
 
-  service.save = async function(data, shouldAddHistory) {
+  service.save = function(data, shouldAddHistory) {
 
     if(!data) {
       toastr.warning('You must provide data to autosave.')
@@ -81,31 +81,34 @@
       return false
     }
 
-    _page = _.merge({}, _page, data)
-
-    try {
-      await api.staging.update({belongsTo: 'meanbase-cms', key: _page.url}, { data })
-
-      if(typeof shouldAddHistory !== 'boolean' && shouldAddHistory !== false) {
-        addHistory()
-      }
-
-    } catch(err) {
-      console.log('Error autosaving page: ', err)
+    if(typeof shouldAddHistory !== 'boolean' && shouldAddHistory !== false) {
+      addHistory()
     }
+
+    _page = data
+
+    api.staging.update({belongsTo: 'meanbase-cms', key: _page.url}, { data }).then(() => {
+
+    }).catch(err => {
+      console.log('Error autosaving page: ', err)
+    })
 
 
     setHTMLHeader()
+
+    return _page
 
   }
 
   service.undo = function() {
     if(history.length) {
-      _page = history.shift()
-      service.save(_page, false)
+      // We call shift twice to get the previous value
+      // history.shift()
+      service.save(history.shift(), false)
     } else {
       toastr.warning('There is no undo history to return to.')
     }
+    return _page
   }
 
   service.reset = async function() {

@@ -1,7 +1,7 @@
 Vue.directive('mbChooseImage', {
   params: ['single', 'belongsTo'],
   twoWay: true,
-  bind: function (value) {
+  bind: function () {
     let gallerySlug = this.expression + "_" + Date.now()
 
     let single
@@ -27,7 +27,8 @@ Vue.directive('mbChooseImage', {
             url: 'http://placehold.it/768x432'
           }
         }
-        radio.$emit('cms.updateView')
+        // radio.$emit('cms.updateView')
+        radio.$emit('cms.autosave')
       }
     })
   }

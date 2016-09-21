@@ -20,18 +20,18 @@ export default Vue.extend({
   }),
   created: async function() {
 
-    if(!this.page.images) {
-      this.page.images = {}
-    }
-
     try {
       this.menus = await api.menus.find({})
     } catch(err) {
       toastr.warning('Something went wrong and we could not fetch the menus.')
     }
 
-    radio.$on('cms.elementsChanged', () => {
-      services.page.page = this.page
+    // radio.$on('cms.elementsChanged', () => {
+    //   services.page.page = this.page
+    // })
+
+    radio.$on('cms.updatePage', page => {
+      this.page = services.page.save(page)
     })
 
     radio.$on('cms.updateTemplate', () => {
@@ -39,8 +39,7 @@ export default Vue.extend({
     })
 
     radio.$on('cms.undoMoment', () => {
-      services.page.undo()
-      radio.$emit('cms.updateView')
+      this.page = services.page.undo()
     })
 
     radio.$on('cms.deletePage', () => {

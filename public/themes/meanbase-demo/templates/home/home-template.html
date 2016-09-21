@@ -46,33 +46,32 @@
       </div>
   </nav>
 
-  <a name="about"></a>
-  <div :v-mb-choose-image="header1" :belongs-to="page.images">
-    <div class="intro-header" v-mb-src="header1" :belongs-to="page.images" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
-        <div class="container disable-click">
+<a name="about"></a>
+<div v-mb-choose-image="header1" :belongs-to="page.images">
+  <div class="intro-header" v-mb-src="page.images.header1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
+      <div class="container disable-click">
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="intro-message">
-                      <div class="enable-click">
-                        <div v-mb-text="page.title" single="true"></div>
-                        <hr class="intro-divider">
+          <div class="row">
+              <div class="col-lg-12">
+                  <div class="intro-message">
+                    <div class="enable-click">
+                      <div v-mb-text="page.title" single="true"></div>
+                      <hr class="intro-divider">
 
-                        <div mb-list-area="header1"></div>
-                      </div>
+                      <div mb-list-area="header1"></div>
                     </div>
-                </div>
-            </div>
+                  </div>
+              </div>
+          </div>
 
-        </div>
-
-    </div>
+      </div>
   </div>
+</div>
 
 <div mb-list-area="body1"></div>
 
 <div v-mb-choose-image="prefooter1" :belongs-to="page.images">
-  <div class="banner" v-mb-src="prefooter1" :belongs-to="page.images">
+  <div class="banner" v-mb-src="page.images.prefooter1", :belongs-to="page.images">
 
       <div class="container">
 

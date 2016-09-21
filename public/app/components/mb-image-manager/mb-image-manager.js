@@ -56,7 +56,6 @@ let vm = Vue.component('mb-image-manager', {
     },
     chooseImages: function() {
       radio.$emit('cms.choseImages', {gallerySlug:  this.modalConfig.gallerySlug, images: this.getSelectedImages()})
-      console.log('chose', this.modalConfig.gallerySlug);
       this.close()
     },
     getMedia: function() {

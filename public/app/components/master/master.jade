@@ -1,7 +1,7 @@
 #mb-meanbase-front.meanbase-front(:class='{loggedIn: currentUser}')
   mb-cms-headbar(:current-template="page.template", :is-published="page.published", :edit-mode="editMode")
   #main-view(:class="{'fixed-header-stopper': currentUser}")
-    router-view(:page="page", :edit-mode="editMode", :menus="menus", :current-user="currentUser")
+    router-view(:page-source="page", :edit-mode="editMode", :menus="menus", :current-user="currentUser")
       .mb-loading-screen.text-center
         h1
           i.fa.fa-spinner.fa-spin  

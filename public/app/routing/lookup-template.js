@@ -41,10 +41,20 @@ export default (resolve, reject) => {
       if(html) {
         let templateComponent = Vue.extend({
           template: html,
-          props: ['page', 'editMode', 'menus', 'currentUser'],
+          props: ['pageSource', 'editMode', 'menus', 'currentUser'],
           data: () => ({
 
-          })
+          }),
+          computed: {
+            page: function() {
+              return _.cloneDeep(this.pageSource)
+            }
+          },
+          created: function() {
+            radio.$on('cms.autosave', () => {
+              radio.$emit('cms.updatePage', this.page)
+            })
+          }
         })
 
         return resolve(templateComponent);
