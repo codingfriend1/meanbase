@@ -14,5 +14,3 @@ import "./templates/blog/blog.styl";
 import "./templates/blog/clean-blog.styl";
 import "./css/landing-page.css";
 // end inject stylus
-
-// it works
