@@ -12,6 +12,11 @@ angular.module('meanbaseApp').controller('cmsCtrl', function($scope, Auth, $root
       });
 
       tab.active = true;
+      $timeout(function() {
+        $('.mdl-js-textfield').each(function(index, item) {
+          item.MaterialTextfield.checkDirty()
+        })
+      });
     });
   };
 
