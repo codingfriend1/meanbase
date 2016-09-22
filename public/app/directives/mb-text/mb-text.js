@@ -4,6 +4,11 @@ Vue.directive('mb-text', {
   twoWay: true,
   params: ['single'],
   update: function(value) {
+    this.value = value
+    if(this.ignoreUpdate) {
+      this.ignoreUpdate = false
+      return false
+    }
     if(auth.hasPermissionSync('editContent')) {
       this.editor.setContent(value || "")
     } else {
@@ -29,8 +34,11 @@ Vue.directive('mb-text', {
     function subscribe() {
       this.editor.setup()
       this.editor.subscribe('editableInput', _.debounce( (event, editable) => {
-        this.set(this.editor.getContent())
+        let content = this.editor.getContent()
+        if(content === this.value) { return false }
+        this.set(content)
         radio.$emit('cms.autosave')
+        this.ignoreUpdate = true
       }, syncDelay))
       isSetup = true
     }
