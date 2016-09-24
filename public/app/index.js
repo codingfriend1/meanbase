@@ -10,6 +10,7 @@ import "./services/auth/auth.service.js"
 import './services/page/page.service'
 import './services/helpers/helpers.service'
 import './services/sortable/sortable-config.service'
+import './services/patterns/patterns.service'
 
 // inject js
 import "./components/mb-cms-headbar/mb-cms-headbar.js"
@@ -25,12 +26,14 @@ import "./directives/mb-choose-menu/mb-choose-menu.js"
 import "./directives/mb-choose-sync/mb-choose-sync.js"
 import "./directives/mb-grid/mb-grid.js"
 import "./directives/mb-icon/mb-icon.js"
+import "./directives/mb-init/mb-init.js"
 import "./directives/mb-link/mb-link.js"
 import "./directives/mb-menu/mb-menu.js"
 import "./directives/mb-recaptcha/mb-recaptcha.js"
 import "./directives/mb-src/mb-src.js"
 import "./directives/mb-text/mb-text.js"
 import "./filters/html-to-text/html-to-text.js"
+import "./directives/mb-icon/mb-model-icon/mb-model-icon.js"
 // end inject js
 
 import "./main.js"

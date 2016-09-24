@@ -21,17 +21,19 @@ async function startApp() {
 
   try {
     window.page = await services.page.get()
+
+    if(page.tabTitle) {
+      document.title = page.tabTitle;
+    }
+
+    if(page.description) {
+      jQuery('meta[name=description]').attr('content', page.description);
+    }
   } catch(err) {
     console.log('err', err)
   }
 
-  if(page.tabTitle) {
-    document.title = page.tabTitle;
-  }
-
-  if(page.description) {
-    jQuery('meta[name=description]').attr('content', page.description);
-  }
+  window.editMode = auth.hasPermissionSync('editContent')? true: false
 
   router.start(master, '#app')
 }

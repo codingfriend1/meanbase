@@ -8,7 +8,7 @@ export default Vue.extend({
   template: require('./master.jade'),
 
   data: () => ({
-    editMode: true,
+    editMode: window.editMode,
     page: window.page,
     menus: {},
     currentUser: auth.currentUser,
@@ -74,7 +74,9 @@ export default Vue.extend({
 
     radio.$on('cms.toggleEditMode', () => {
       this.editMode = !this.editMode
+      window.editMode = !window.editMode
       radio.$emit('cms.editMode', this.editMode)
+      radio.$emit('cms.autosave')
     })
 
     radio.$on('cms.removePage', () => {
@@ -83,6 +85,9 @@ export default Vue.extend({
 
     radio.$on('cms.currentModal', component => {
       this.currentModal = component
+      if(!component) {
+        radio.$emit('cms.autosave')
+      }
     })
 
     radio.$on('cms.modalConfig', config => {

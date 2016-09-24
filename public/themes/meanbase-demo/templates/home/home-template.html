@@ -9,10 +9,10 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <mb-choose-link :belongs-to="page.links" property="callToAction">
+              <mb-choose-link :belongs-to="page.links.callToAction" v-mb-init="!page.links.callToAction? page.links.callToAction = {}" property="callToAction">
                 <a class="navbar-brand topnav mb-link" mb-link="callToAction" :belongs-to="page.links">
-                  <mb-icon :source="page.links.callToAction.icon"></mb-icon>
-                  <span v-mb-text ng-model="page.links.callToAction.title" bind-options="editorSingleLine" :belongs-to="page.content"></span>
+                  <i v-mb-icon="page.links.callToAction.icon"></i>
+                  <span v-mb-text="page.links.callToAction.title" single="true"></span>
                 </a>
               </mb-choose-link>
           </div>
