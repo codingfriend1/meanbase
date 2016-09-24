@@ -106,7 +106,7 @@
       // history.shift()
       service.save(history.shift(), false)
     } else {
-      toastr.warning('There is no undo history to return to.')
+      toastr.warning('There is no more undo history to return to.')
     }
     return _page
   }

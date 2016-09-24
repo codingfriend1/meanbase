@@ -24,6 +24,12 @@
   z-index 10
 
 .meanbase-front
+
+  .mb-button
+    display block
+    padding 0.5em 0.5em
+    color white
+
   #mb-headbar
     font-size 16px
     background-color: #454851
@@ -73,11 +79,6 @@
 
           i
             padding 0
-
-      .mb-button
-        display block
-        padding 0.5em 0.5em
-        color white
 
       .mb-link-btn
         display block
@@ -199,7 +200,7 @@
 
 [contenteditable="true"]
   outline none
-  
+
 .scrollable-body
   max-height 300px
   overflow auto
@@ -218,14 +219,16 @@
 @media screen and (max-width: 919px)
   .show-mobile
     display inherit !important
-  .show-desktop
-    display none !important
+  body .show-desktop,
+  .meanbase-front .show-desktop
+    display none
 
 @media screen and (min-width: 920px)
   .show-mobile
     display none !important
-  .show-desktop
-    display inherit !important
+  body .show-desktop,
+  .meanbase-front .show-desktop
+    display inherit
 
 
 .mb-drag-trash-can

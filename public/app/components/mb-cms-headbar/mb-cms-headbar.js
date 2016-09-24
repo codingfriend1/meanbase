@@ -18,8 +18,17 @@ let cmsHeadbar = Vue.component('mb-cms-headbar', {
     drawerPages: [],
     currentScreenshot: null,
     themeTemplates: Object.getOwnPropertyNames(window.meanbaseGlobals.themeTemplates),
-    permissions: _.get(auth, 'currentUser.permissions') || []
+    permissions: _.get(auth, 'currentUser.permissions') || [],
+    autoSavingInProgress: false
   }),
+  created: function() {
+    radio.$on('cms.autosave', () => {
+      this.autoSavingInProgress = true
+      setTimeout(() => {
+        this.autoSavingInProgress = false
+      }, 1000);
+    })
+  },
   methods: {
     updateTemplate: function(template) {
       radio.$emit('cms.updateTemplate')
