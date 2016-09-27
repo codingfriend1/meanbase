@@ -1,0 +1,9 @@
+div(v-sortable="sortableLists", :class="{'mb-drag-to-room': editMode && extensions[area].length === 0}")
+  div(v-for="addon in extensions[area]" class="relative", :class="{'mb-draggable': editMode}")
+    mb-dynamic-component(:addon="addon")
+    //- div(v-mb-list-remove="addon")
+    //- div.mb-drag-handle(ng-if="$root.editMode")
+    //-   i.fa.fa-arrows
+    //- mb-add-on(item="addon")
+div(mb-choose-add-on="{{area}}" @click="openModal").mb-choose-add-on
+  i.fa.fa-plus.fa-lg

@@ -190,21 +190,20 @@ themes.forEach(function (file) {
 	configs.push(theme);
 })
 
-// var extensions = fs.readdirSync(folders.extensions).filter(function(file) {
-//  return fs.statSync(path.join(folders.extensions, file)).isDirectory()
-// })
-//
-// extensions.forEach(function (file) {
-//   var theme = Object.assign({}, config, {
-//     entry: path.join(folders.extensions, file, "index.js"),
-//     output: {
-//        path: path.join(folders.extensions, file),
-//        filename: "extension.min.js"
-//     }
-//   });
-// 	configs.push(theme);
-// })
+var extensions = fs.readdirSync(folders.extensions).filter(function(file) {
+ return fs.statSync(path.join(folders.extensions, file)).isDirectory()
+})
+
+extensions.forEach(function (file) {
+  var theme = Object.assign({}, config, {
+    entry: path.join(folders.extensions, file, "index.js"),
+    output: {
+       path: path.join(folders.extensions, file),
+       filename: "extension.min.js"
+    }
+  });
+	configs.push(theme);
+})
 
 // Return Array of Configurations
-// module.exports = configs
 module.exports = configs

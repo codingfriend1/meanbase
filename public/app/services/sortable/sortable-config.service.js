@@ -62,10 +62,92 @@
     'justifyRight'
   ]
 
+  const sortableConfig = {
+    ghostClass: "mb-draggable-ghost",
+    draggable: ".mb-draggable",
+    delay: 140,
+    filter: ".ignore-draggable, .medium-editor-placeholder:after",
+    // onMove: function (evt) {
+    //   return evt.related.className.indexOf('ignore-draggable') === -1;
+    // },
+    animation: 250,
+    scroll: true,
+    scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
+    scrollSpeed: 10 // px
+  }
+
+  let sortable = {}
+  let activeElGroup
+
+  sortable.menus = _.extend({}, sortableConfig, {
+    group: 'menus',
+    onStart: function (event) {
+      dragging = true
+      activeElGroup = menus
+    },
+    onEnd: function () {
+      radio.$emit('cms.elementsChanged')
+      dragging = false
+    }
+  })
+
+  sortable.addOns = _.extend({}, sortableConfig, {
+    group: 'lists',
+    onStart: function (event) {
+      dragging = true
+      activeElGroup = page.lists
+    },
+    onEnd: function () {
+      radio.$emit('cms.elementsChanged')
+      dragging = false
+    }
+  })
+
+  sortable.submenus = _.extend({}, sortableConfig, {
+    group: 'sub-menus',
+    ghostClass: "mb-sub-draggable-ghost",
+    draggable: ".mb-sub-draggable",
+    filter: ".ignore-sub-draggable, .medium-editor-placeholder:after",
+    onStart: function (event) {
+      activeElGroup = menus
+      dragging = true
+    },
+    onEnd: function () {
+      radio.$emit('cms.elementsChanged')
+      dragging = false
+    }
+  })
+
+  sortable.addOnLists = _.extend({}, sortableConfig, {
+    group: 'extension-list',
+    ghostClass: "mb-inner-draggable-ghost",
+    draggable: ".mb-inner-draggable",
+    filter: ".ignore-inner-draggable, .medium-editor-placeholder:after",
+    onStart: function (event) {
+      dragging = true
+      activeElGroup = page.lists
+    },
+    onEnd: function () {
+      radio.$emit('cms.elementsChanged')
+      dragging = false
+    }
+  })
+
+  sortable.trashcan = {
+    group: {
+      put: ['lists', 'extensions', 'menus', 'extension-list', 'sub-menus']
+    },
+    onAdd: function (event) {
+      console.log('added');
+      radio.$emit('cms.deleteTrashContent', activeElGroup)
+    },
+  }
+
 
   window.services.sortableConfig = {
     single: singleLineText,
-    multi: multilineText
+    multi: multilineText,
+    sortable: sortable
   }
 
 })()

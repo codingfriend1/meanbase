@@ -41,7 +41,7 @@ export default (resolve, reject) => {
       if(html) {
         let templateComponent = Vue.extend({
           template: html,
-          props: ['pageSource', 'editMode', 'menus', 'currentUser', 'sortMenusConfig'],
+          props: ['pageSource', 'editMode', 'menus', 'currentUser', 'sortable'],
           data: () => ({
 
           }),

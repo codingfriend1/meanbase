@@ -92,7 +92,3 @@
         a(v-for="url in previousEditUrls", :href="url") {{url}}
         hr(v-show="previousEditUrls.length")
         a(v-for="page in drawerPages | filterBy mbSearchPagesDrawer", :href="page.url").mb-page-link {{page.title | html-to-text }}
-
-
-div(v-show="editMode" ng-sortable="trashCanDraggable" title="Drag items here to delete").mb-drag-trash-can.mb-draggable
-  i.fa.fa-trash.fa-3x

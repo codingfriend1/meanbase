@@ -23,11 +23,11 @@ async function startApp() {
     window.page = await services.page.get()
 
     if(page.tabTitle) {
-      document.title = page.tabTitle;
+      document.title = window.page.tabTitle;
     }
 
     if(page.description) {
-      jQuery('meta[name=description]').attr('content', page.description);
+      jQuery('meta[name=description]').attr('content', window.page.description);
     }
   } catch(err) {
     console.log('err', err)

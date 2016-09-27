@@ -11,25 +11,15 @@ export default Vue.extend({
     editMode: window.editMode,
     page: window.page,
     menus: {},
+    dragging: false,
     currentUser: auth.currentUser,
     currentModal: undefined,
     imageManagerConfig: {
       multiple: false,
       alreadySelected: []
     },
-    sortableConfig: {
-      ghostClass: "mb-draggable-ghost",
-      draggable: ".mb-draggable",
-      delay: 140,
-      filter: ".ignore-draggable, .medium-editor-placeholder:after",
-      // onMove: function (evt) {
-      //   return evt.related.className.indexOf('ignore-draggable') === -1;
-      // },
-      animation: 250,
-      scroll: true,
-      scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
-      scrollSpeed: 10 // px
-    }
+    sortable: window.services.sortableConfig.sortable,
+    trashCanDraggable: {}
   }),
   created: async function() {
 
@@ -94,72 +84,54 @@ export default Vue.extend({
       this.modalConfig = config
     })
 
-
-    let meanbaseFront = document.getElementById('mb-meanbase-front')
-
-    let activeElGroup
-
-    this.sortMenusConfig = _.extend({}, this.sortableConfig, {
-      group: 'menus',
-      onStart: function (event) {
-        meanbaseFront.classList.add('in-drag-mode')
-        activeElGroup = this.menus
-      },
-      onEnd: function () {
-        radio.$emit('cms.elementsChanged')
-        meanbaseFront.classList.remove('in-drag-mode')
+    radio.$on('cms.choseAddOn', (area, addOn) => {
+      if(!this.page.extensions[area]) {
+        Vue.set(this.page.extensions, area, [])
       }
+      this.page.extensions[area].push(addOn)
+      this.page = services.page.save(this.page)
     })
 
-    this.sortableLists = _.extend({}, this.sortableConfig, {
-      group: 'lists',
-      onStart: function (event) {
-        meanbaseFront.classList.add('in-drag-mode')
-        activeElGroup = this.page.lists
-      },
-      onEnd: function () {
-        radio.$emit('cms.elementsChanged')
-        meanbaseFront.classList.remove('in-drag-mode')
-      }
-    })
+    (async () => {
+      try {
+        let response = await api.themes.find({active: true})
+        response = response[0]
 
-    this.subMenuList = _.extend({}, this.sortableConfig, {
-      group: 'sub-menus',
-      ghostClass: "mb-sub-draggable-ghost",
-      draggable: ".mb-sub-draggable",
-      filter: ".ignore-sub-draggable, .medium-editor-placeholder:after",
-      onStart: function (event) {
-        activeElGroup = this.menus
-        meanbaseFront.classList.add('in-drag-mode')
-      },
-      onEnd: function () {
-        radio.$emit('cms.elementsChanged')
-        meanbaseFront.classList.remove('in-drag-mode')
-      }
-    })
+        let addons = []
 
-    this.mbSortableExtensionList = _.extend({}, this.sortableConfig, {
-      group: 'extension-list',
-      ghostClass: "mb-inner-draggable-ghost",
-      draggable: ".mb-inner-draggable",
-      filter: ".ignore-inner-draggable, .medium-editor-placeholder:after",
-      onStart: function (event) {
-        meanbaseFront.classList.add('in-drag-mode')
-        activeElGroup = this.page.lists
-      },
-      onEnd: function () {
-        radio.$emit('cms.elementsChanged')
-        meanbaseFront.classList.remove('in-drag-mode')
-      }
-    })
+        if(response) {
+          addons = response.addons
+        }
 
-    this.trashCanDraggable = {
-      group: {
-        put: ['lists', 'extensions', 'menus', 'extension-list', 'sub-menus']
-      },
-      onAdd: function (event) {
-        radio.$emit('cms.deleteTrashContent', activeElGroup)
-      },
-    }
+        for (var i = 0; i < addons.length; i++) {
+          addons[i].html = await $.get("../../../" + addons[i].html)
+          if(!addons[i].html) {
+            addons.splice(i, 1)
+          }
+        }
+
+        this.addonsOptions = $rootScope.addonsOptions.concat(addons)
+      } catch(err) {
+        console.log('Error fetching theme extensions', err)
+      }
+    })()
+
+    (async () => {
+      try {
+
+        let foundExtensions = await api.extensions.find({active: true})
+
+        for (var i = 0; i < foundExtensions.length; i++) {
+          foundExtensions[i].html = await $.get("../../../" + foundExtensions[i].html)
+          if(!foundExtensions[i].html) {
+            foundExtensions.splice(i, 1)
+          }
+        }
+
+        this.addonsOptions = $rootScope.addonsOptions.concat(foundExtensions)
+      } catch(err) {
+        console.log('Error fetching extensions', err)
+      }
+    })()
   }
 })
