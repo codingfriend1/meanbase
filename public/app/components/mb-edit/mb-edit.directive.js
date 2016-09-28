@@ -26,8 +26,9 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
           $(element).mediumInsert({
             editor: ngModel.editor,
             addons: {
-              images: {},
-              embeds: true
+              images: {
+                preview: false
+              }
             }
           })
         }
