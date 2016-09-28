@@ -4,7 +4,7 @@
   angular.module('meanbaseApp').controller('MainCtrl', MainCtrl)
 
   // @ngInject
-  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api, $compile, $templateCache, editMenuModal) {
+  function MainCtrl($rootScope, $scope, $http, Auth, $location, endpoints, $modal, $sanitize, helpers, $timeout, toastr, api, $compile, $templateCache, editMenuModal, imageModal) {
 
     const autoSaveLapse = 100
 
@@ -260,14 +260,16 @@
       handleClick: function (event) {
         var self = this
         this.base.saveSelection()
-        $scope.openImageModal({multiple: false}, function(image) {
+        imageModal.open({multiple: false}, function(image) {
           var div = document.createElement("div")
 
           div.innerHTML = `
-            <figure contenteditable=\"false\" class="img-responsive">
-              <img src="${image.small}" alt="${image.alt}" class=\"medium-insert-image-active img-responsive\">
-              <figcaption contenteditable=\"true\" class="medium-insert-caption-placeholder" data-placeholder="Type caption for image (optional)"></figcaption>
-            <figure>
+            <div class="medium-insert-images">
+              <figure contenteditable=\"false\" class="img-responsive">
+                <img src="${image.small}" alt="${image.alt}" class=\"img-responsive\">
+                <figcaption contenteditable=\"true\" class="medium-insert-caption-placeholder" data-placeholder="Type caption for image (optional)"></figcaption>
+              <figure>
+            </div>
           `
           // var imageToInsert = document.createElement("img")
           // imageToInsert.src = image.small
@@ -332,7 +334,7 @@
           'justifyRight',
           'orderedlist',
           'unorderedlist',
-          // 'image-selector'
+          'image-selector'
         ],
         diffLeft: 25,
         diffTop: -10,
@@ -342,7 +344,7 @@
         updateOnEmptySelection: true
       },
       extensions: {
-        // "image-selector": new ImageSelector(),
+        "image-selector": new ImageSelector(),
         // 'insert': new MediumEditorInsert()
       },
       // imageDragging: true,

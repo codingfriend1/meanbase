@@ -10,8 +10,8 @@ import "../shared/mongoose-error/mongoose-error.directive.js";
 import "../shared/missing/missing.js";
 import "../shared/missing/missing.controller.js";
 import "../shared/mb-animate/mb-animate.directive.js";
-import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
 import "../shared/image-selector/image-selector.directive.js";
+import "../shared/htmlToPlainText/htmlToPlainText.filter.js";
 import "../shared/helpers/helpers.service.js";
 import "../shared/feathers/feathers.service.js";
 import "../shared/fallback-src/fallback-src.directive.js";
@@ -57,12 +57,12 @@ import "./components/main/main.controller.js";
 // end inject js
 
 // inject jade
+import "./components/main/main.jade";
 import "./components/cms.headbar/choose-link.modal.jade";
 import "./components/cms.headbar/cms.headbar.jade";
 import "./components/cms.headbar/editmodal.modal.jade";
-import "./components/main/main.jade";
-import "./components/mb-choose-icon/mb-edit-icon.modal.jade";
 import "./components/mb-add-menu-item/mb-add-menu-item.modal.jade";
+import "./components/mb-choose-icon/mb-edit-icon.modal.jade";
 import "./components/mb-choose-link/mb-edit-link.modal.jade";
 import "./components/mb-edit-menu/mb-edit-menu.modal.jade";
 import "./components/mb-extension-edit/mb-extension-edit.modal.jade";
@@ -81,8 +81,8 @@ import "../shared/validate/validate.jade";
 import "./app.styl";
 import "./components/cms.headbar/cms.headbar.styl";
 import "./components/main/main.styl";
-import "./components/mb-choose-image/mb-choose-image.styl";
 import "./components/mb-choose-icon/mb-choose-icon.styl";
+import "./components/mb-choose-image/mb-choose-image.styl";
 import "./components/mb-choose-link/mb-choose-link.styl";
 import "./components/mb-edit/mb-edit.styl";
 import "./components/mb-edit-link/mb-edit-link.styl";

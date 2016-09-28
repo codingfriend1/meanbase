@@ -1,6 +1,6 @@
 // Handles starting up and shutting down the inline text editors and syncing up changes with the model when edits are saved
 angular.module('meanbaseApp')
-  .directive('meanbaseEditable', function ($sanitize, $rootScope, $timeout) {
+  .directive('meanbaseEditable', function ($sanitize, $rootScope, $timeout, imageModal) {
     return {
       restrict: 'EA',
       scope: {
@@ -37,10 +37,15 @@ angular.module('meanbaseApp')
                 dropdown: ['unorderedList', 'orderedList'],
                 ico:'unorderedList'
               },
+              bold: {
+                dropdown: ['bold', 'italic'],
+                ico: "bold"
+              },
               chooseImage: {
                 func: function(params, tbw) {
                   el.trumbowyg('saveSelection');
-                  scope.$parent.openImageModal({multiple: false}, function(image) {
+
+                  imageModal.open({multiple: false}, function(image) {
                     el.trumbowyg('restoreSelection');
                     // var imageWrapper = document.createElement('span');
                     // imageWrapper.classList.add('mb-img-container');
@@ -54,7 +59,7 @@ angular.module('meanbaseApp')
                     var sel = el.trumbowyg('getSelection');
                     sel.insertNode(imageToInsert);
                     startImageListeners();
-                  });
+                  })
                 },
                 ico: 'insertImage'
               },
@@ -92,6 +97,7 @@ angular.module('meanbaseApp')
             '|', 'formatting',
             '|', 'align',
             '|', 'lists',
+            '|', 'bold',
             '|', 'chooseImage', 'floatLeft', 'floatRight'
           ]
         };
