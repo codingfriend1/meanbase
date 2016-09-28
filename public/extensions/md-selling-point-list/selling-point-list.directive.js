@@ -15,6 +15,7 @@ angular.module('meanbaseApp')
               $scope.left = point.left.toString();
               $scope.chooseLeft = function(left) {
                 point.left = left === 'true';
+                $rootScope.$emit('cms.elementsChanged')
                 $modalInstance.dismiss();
               };
             },

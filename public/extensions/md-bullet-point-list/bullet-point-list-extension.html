@@ -8,8 +8,8 @@
             <mb-choose-image property="image" belongs-to="point">
               <img mb-src="image" belongs-to="point" class="img-responsive"/>
             </mb-choose-image>
-            <div mb-edit ng-model="point.title" bind-options="editorSingleLine"></div>
-            <div mb-edit ng-model="point.description" bind-options="editorOptions"></div>
+            <div mb-text ng-model="point.title" single="true"></div>
+            <div mb-text ng-model="point.description"></div>
             <mb-edit-link belongs-to="point" property="link"></mb-edit-link>
             <!-- <mb-list-remove list="listItem.data.items" item="point"></mb-list-remove> -->
           </div>

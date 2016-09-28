@@ -14,7 +14,7 @@
               <choose-link belongs-to="page.links" property="callToAction">
                 <a class="navbar-brand topnav" mb-link="callToAction" belongs-to="page.links">
                   <mb-choose-icon belongs-to="page.links.callToAction" property="icon"></mb-choose-icon>
-                  <mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></mb-edit>
+                  <mb-text ng-model="page.links.callToAction.title" single="true"></mb-text>
                 </a>
               </choose-link>
           </div>
@@ -54,9 +54,9 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="site-heading enable-click">
-                        <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
+                        <mb-text ng-model="page.title" single="true"></mb-text>
                         <hr class="small">
-                        <mb-edit class="subheading" ng-model="page.content.header1" bind-options="editorSingleLine"></mb-edit>
+                        <mb-text class="subheading" ng-model="page.content.header1" single="true"></mb-text>
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                         <mb-list-add list="page.lists.socialFooter1.items" item="socialBtn"></mb-list-add>
                       </li>
                   </ul>
-                  <mb-edit class="copyright text-muted" ng-model="page.content.footer1" bind-options="editorOptions"></mb-edit>
+                  <mb-text class="copyright text-muted" ng-model="page.content.footer1"></mb-text>
               </div>
           </div>
       </div>

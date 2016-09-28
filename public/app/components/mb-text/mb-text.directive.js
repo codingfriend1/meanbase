@@ -1,4 +1,4 @@
-angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScope, $timeout, $compile, Auth) {
+angular.module("meanbaseApp").directive('mbText', function ($sanitize, $rootScope, $timeout, $compile, Auth, mbTextConfig) {
 
     function toInnerText(value) {
       var tempEl = document.createElement('div'),
@@ -12,8 +12,15 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
       require: 'ngModel',
       restrict: 'AE',
       // template: '<div></div>',
-      scope: { bindOptions: '=' },
+      scope: { single: '@' },
       link: function(scope, element, iAttrs, ngModel) {
+
+        let single = false
+        if(scope.single && scope.single.toLowerCase() === 'true') {
+          single = true
+        }
+
+        let options = single? mbTextConfig.singleline: mbTextConfig.multiline
 
         let syncDelay = 600
 
@@ -21,8 +28,8 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         // .addClass('ignore-draggable')
 
         // Global MediumEditor
-        ngModel.editor = new MediumEditor(element, scope.bindOptions)
-        if(scope.bindOptions && !scope.bindOptions.disableReturn) {
+        ngModel.editor = new MediumEditor(element, options)
+        if(options && !options.disableReturn) {
           $(element).mediumInsert({
             editor: ngModel.editor,
             addons: {
@@ -45,7 +52,6 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         if(!Auth.isLoggedIn()) {
           $timeout(function() {
             ngModel.$render()
-            console.log('rendering');
             ngModel.editor.destroy()
           })
           return false
@@ -85,7 +91,7 @@ angular.module("meanbaseApp").directive('mbEdit', function ($sanitize, $rootScop
         //   }
         // })
 
-        ngModel.editor.init(element, scope.bindOptions)
+        ngModel.editor.init(element, options)
 
         scope.$on('$destroy', function() {
           ngModel.editor.destroy()

@@ -14,7 +14,7 @@
               <mb-choose-link belongs-to="page.links" property="callToAction">
                 <a class="navbar-brand topnav mb-link" mb-link="callToAction" belongs-to="page.links">
                   <mb-choose-icon belongs-to="page.links.callToAction" property="icon"></mb-choose-icon>
-                  <mb-edit ng-model="page.links.callToAction.title" bind-options="editorSingleLine"></mb-edit>
+                  <mb-text ng-model="page.links.callToAction.title" single="true"></mb-text>
                 </a>
               </mb-choose-link>
           </div>
@@ -65,7 +65,7 @@
                 <div class="col-lg-12">
                     <div class="intro-message">
                       <div class="enable-click">
-                        <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
+                        <mb-text ng-model="page.title" single="true"></mb-text>
                         <hr class="intro-divider">
 
                         <div mb-list-area="header1"></div>
@@ -75,7 +75,7 @@
                             <mb-choose-link belongs-to="socialBtn" property="link">
                               <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                                 <mb-choose-icon belongs-to="socialBtn" property="icon"></mb-choose-icon>
-                                <span mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></span>
+                                <span mb-text ng-model="socialBtn.title"></span>
                               </a>
                             </mb-choose-link>
                             <mb-list-remove list="page.lists.header1.items" item="socialBtn"></mb-list-remove>
@@ -102,7 +102,7 @@
 
           <div class="row">
               <div class="col-lg-6">
-                  <mb-edit ng-model="page.content.prefooter1" bind-options="editorSingleLine"></mb-edit>
+                  <mb-text ng-model="page.content.prefooter1" single="true"></mb-text>
               </div>
               <div class="col-lg-6">
                   <div mb-list-area="footer1"></div>
@@ -111,7 +111,7 @@
                       <mb-choose-link belongs-to="socialBtn" property="link">
                         <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
                           <mb-choose-icon belongs-to="socialBtn" property="icon"></mb-choose-icon>
-                          <mb-edit ng-model="socialBtn.title" bind-options="editorSingleLine"></mb-edit>
+                          <mb-text ng-model="socialBtn.title"></mb-text>
                         </a>
                       </mb-choose-link>
                       <mb-list-remove list="page.lists.prefooter1.items" item="socialBtn"></mb-list-remove>
@@ -131,7 +131,7 @@
       <div class="container">
           <div class="row">
               <div class="col-lg-12">
-                <div mb-edit class="copyright text-muted small" ng-model="page.content.footer1" bind-options="editorOptions"></div>
+                <div mb-text class="copyright text-muted small" ng-model="page.content.footer1"></div>
               </div>
           </div>
       </div>

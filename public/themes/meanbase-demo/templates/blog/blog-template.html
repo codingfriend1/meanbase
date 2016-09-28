@@ -14,7 +14,7 @@
               <mb-choose-link belongs-to="page.links" property="header1">
                 <a class="navbar-brand topnav mb-link" mb-link="header1" belongs-to="page.links">
                   <mb-choose-icon belongs-to="page.links.header1" property="icon"></mb-choose-icon>
-                  <mb-edit ng-model="page.links.header1.title" bind-options="editorSingleLine"></mb-edit>
+                  <mb-text ng-model="page.links.header1.title" single="true"></mb-text>
                 </a>
               </mb-choose-link>
           </div>
@@ -58,9 +58,9 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
                       <div class="enable-click">
-                        <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
+                        <mb-text ng-model="page.title" single="true"></mb-text>
                         <hr class="small">
-                        <span mb-edit class="subheading" ng-model="page.content.header1" bind-options="editorSingleLine"></span>
+                        <span mb-text class="subheading" ng-model="page.content.header1" single="true"></span>
                         <span class="meta">Posted by <a href="#">{{::page.author}}</a> on {{::page.createdAt | date:'MMM d, yyyy h:ma'}}</span>
                       </div>
                     </div>
@@ -75,7 +75,7 @@
       <div class="container">
           <div class="row">
               <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                  <div mb-edit class="meta" ng-model="page.content.body1" bind-options="editorOptions"></div>
+                  <div mb-text class="meta" ng-model="page.content.body1"></div>
               </div>
           </div>
       </div>
@@ -86,7 +86,7 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="well">
-            <h3 mb-edit ng-model="page.content.body2" bind-options="editorSingleLine"></h3>
+            <h3 mb-text ng-model="page.content.body2" single="true"></h3>
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-addon">Name</div>
@@ -120,7 +120,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
-          <h3 mb-edit ng-model="page.content.body3" bind-options="editorSingleLine"></h3>
+          <h3 mb-text ng-model="page.content.body3" single="true"></h3>
           <div ng-repeat="comment in $root.comments" class="well media"><a href="#" class="pull-left"><img src="http://placehold.it/64x64" alt="" class="media-object"/></a>
             <div class="media-body">
               <h4 class="media-heading">{{comment.author}}</h4><small>{{comment.date | date:'MMM d, yyyy h:ma'}} </small>
@@ -153,7 +153,7 @@
                     </li>
                     <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;" mb-list-add list="page.lists.footer1.items" item="socialBtn" label="button"></li>
                   </ul>
-                  <div mb-edit class="copyright text-muted" ng-model="page.content.footer1" bind-options="editorOptions"></div>
+                  <div mb-text class="copyright text-muted" ng-model="page.content.footer1"></div>
               </div>
           </div>
       </div>
