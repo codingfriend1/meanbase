@@ -322,6 +322,8 @@
 
       $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
 
+      // $rootScope.menus = helpers.updatePositionData($rootScope.menus)
+
       document.title = $rootScope.page.tabTitle
       jQuery('meta[name=description]').attr('content', $rootScope.page.description)
 

@@ -19,13 +19,8 @@
               </mb-choose-link>
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <!-- <ul class="nav navbar-nav navbar-right">
-                <li mb-add-menu-item="main" class="new-menu-item-button ignore-draggable">
-                  <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
-                </li>
-              </ul> -->
               <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
-                  <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode, 'dropdown': menu.isDropdown}">
+                  <li ng-repeat="menu in $root.menus.main" ng-class="{'mb-draggable': $root.editMode, 'dropdown': menu.isDropdown}">
                       <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-if="!menu.isDropdown" ng-click="handleClick($event, menu, menu.url)">
                         {{menu.title}}
                       </a>
@@ -67,22 +62,7 @@
                       <div class="enable-click">
                         <mb-text ng-model="page.title" single="true"></mb-text>
                         <hr class="intro-divider">
-
                         <div mb-list-area="header1"></div>
-
-                        <!-- <ul class="list-inline intro-social-buttons" mb-init-list="page.lists.header1">
-                          <li ng-repeat="socialBtn in page.lists.header1.items" style="position: relative;">
-                            <mb-choose-link belongs-to="socialBtn" property="link">
-                              <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
-                                <mb-choose-icon belongs-to="socialBtn" property="icon"></mb-choose-icon>
-                                <span mb-text ng-model="socialBtn.title"></span>
-                              </a>
-                            </mb-choose-link>
-                            <mb-list-remove list="page.lists.header1.items" item="socialBtn"></mb-list-remove>
-                          </li>
-                          <li mb-list-add list="page.lists.header1.items" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
-                          </li>
-                        </ul> -->
                       </div>
                     </div>
                 </div>
@@ -106,19 +86,6 @@
               </div>
               <div class="col-lg-6">
                   <div mb-list-area="footer1"></div>
-                  <!-- <ul class="list-inline banner-social-buttons" mb-init-list="page.lists.prefooter1">
-                    <li ng-repeat="socialBtn in page.lists.prefooter1.items" style="position: relative;">
-                      <mb-choose-link belongs-to="socialBtn" property="link">
-                        <a class="btn btn-default" mb-link="link" belongs-to="socialBtn">
-                          <mb-choose-icon belongs-to="socialBtn" property="icon"></mb-choose-icon>
-                          <mb-text ng-model="socialBtn.title"></mb-text>
-                        </a>
-                      </mb-choose-link>
-                      <mb-list-remove list="page.lists.prefooter1.items" item="socialBtn"></mb-list-remove>
-                    </li>
-                    <li mb-list-add list="page.lists.prefooter1.items" item="socialBtn" label="button" class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;">
-                    </li>
-                  </ul> -->
               </div>
           </div>
 
