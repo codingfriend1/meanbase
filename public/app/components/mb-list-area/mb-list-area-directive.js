@@ -8,11 +8,7 @@ angular.module('meanbaseApp')
       	if(attrs.mbListArea) {
     			scope.areaName = attrs.mbListArea || 'list1';
           if(!$rootScope.page.lists[scope.areaName]) {
-            $rootScope.page.lists[scope.areaName] = {items: []};
-          }
-
-          if(!$rootScope.page.lists[scope.areaName].items) {
-            $rootScope.page.lists[scope.areaName].items = []
+            $rootScope.page.lists[scope.areaName] = [];
           }
 
           if(!$rootScope.currentUser) { return false }
