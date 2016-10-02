@@ -5,9 +5,14 @@ export default options => {
   return async hook => {
     if (!hook.params.provider) { return hook; }
 
-    if(hook.data && hook.data.published && hook.id) {
+    let id = hook.id
+    if(!id) {
+      id = hook.data._id
+    }
+    
+    if(hook.data && hook.data.published && id) {
       try {
-        let response = await hook.app.service('pages').get(hook.id)
+        let response = await hook.app.service('pages').get(id)
 
         if(response && response.published === false) {
           console.log('page was published');
