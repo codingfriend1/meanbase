@@ -30,3 +30,4 @@ dist
 __MACOSX
 code-documentation
 meanbase.env
+.DS_Store
