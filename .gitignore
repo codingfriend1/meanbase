@@ -32,3 +32,4 @@ dist
 __MACOSX
 code-documentation
 meanbase.env
+environment.env
