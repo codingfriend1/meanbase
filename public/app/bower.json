@@ -5,7 +5,7 @@
     "angular": "1.6.3",
     "json3": "3.3.2",
     "es5-shim": "3.0.2",
-    "jquery": "3.1.0",
+    "jquery": "1.11.3",
     "angular-resource": "1.6.3",
     "angular-cookies": "1.6.3",
     "angular-sanitize": "1.6.3",
@@ -28,11 +28,11 @@
     "font-awesome": "^4.6.3",
     "angular-animate": "1.6.3",
     "handlebars": "4.0.5",
-    "medium-editor": "5.21.1",
+    "medium-editor": "5.23.0",
     "jquery-ui": "1.12.1",
-    "blueimp-file-upload": "9.17.0",
+    "blueimp-file-upload": "9.12.6",
     "dropdown": "0.3.0",
-    "medium-editor-insert-plugin": "3.0"
+    "medium-editor-insert-plugin": "2.4.0"
   },
   "overrides": {
     "handlebars": {

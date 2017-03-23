@@ -88,8 +88,8 @@ import "./components/mb-choose-link/mb-choose-link.styl";
 import "./components/mb-edit-link/mb-edit-link.styl";
 import "./components/mb-edit-menu/mb-edit-menu.styl";
 import "./components/mb-extension-edit/mb-extension-edit.styl";
-import "./components/mb-grid-item/mb-grid-item.styl";
 import "./components/mb-find-images-modal/mb-find-images-modal.styl";
+import "./components/mb-grid-item/mb-grid-item.styl";
 import "./components/mb-link/mb-link.styl";
 import "./components/mb-list-add/mb-list-add.styl";
 import "./components/mb-list-area/mb-list-area.styl";
@@ -100,6 +100,6 @@ import "./components/meanbase-editable/meanbase-editable.directive.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/missing/missing.styl";
 import "../shared/sortable/sortable.styl";
-import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
+import "../shared/taglist/taglist.styl";
 // end inject stylus

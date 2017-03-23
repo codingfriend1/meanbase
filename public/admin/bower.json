@@ -19,7 +19,7 @@
     "angular-toastr": "1.4.1",
     "angular-relative-date": "1.0.0",
     "ngAnalytics": "nganalytics#1.1.4",
-    "toastr": "^2.1.3",
+    "toastr": "2.1.3",
     "mdl-pack": "1.3.1",
     "angular-material-design-lite": "0.4.4",
     "bootstrap": "3.3.7",
@@ -35,9 +35,9 @@
     },
     "mdl-pack": {
       "main": [
-        "css/blue_grey-amber.min.css",
-        "icons/material-icons.css",
-        "js/material.min.js"
+        "dist/css/blue_grey-amber.min.css",
+        "dist/icons/material-icons.css",
+        "dist/js/material.min.js"
       ]
     },
     "angular-toastr": {
