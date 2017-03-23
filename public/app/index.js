@@ -16,6 +16,7 @@ import './services/patterns/patterns.service'
 import "./components/mb-add-on-area/mb-add-on-area.js"
 import "./components/mb-choose-add-on/mb-choose-add-on.js"
 import "./components/mb-cms-headbar/mb-cms-headbar.js"
+import "./components/mb-edit-menu/mb-edit-menu.js"
 import "./components/mb-image-manager/mb-image-manager.js"
 import "./components/mb-modal/mb-modal.js"
 import "./components/mb-taglist/mb-taglist.js"

@@ -31,3 +31,4 @@ __MACOSX
 code-documentation
 meanbase.env
 .DS_Store
+environment.env
