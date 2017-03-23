@@ -1,4 +1,7 @@
 'use strict';
+const custom = require('./custom');
+const commments = require('./commments');
+const ban = require('./ban');
 const settings = require('./settings');
 const roles = require('./roles');
 const message = require('./message');
@@ -21,4 +24,7 @@ module.exports = function() {
   app.configure(message);
   app.configure(roles);
   app.configure(settings);
+  app.configure(ban);
+  app.configure(commments);
+  app.configure(custom);
 };

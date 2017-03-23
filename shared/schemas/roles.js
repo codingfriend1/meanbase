@@ -1,14 +1,18 @@
 const patterns = require('../patterns')
 
 const sitePermissions = [
-  'email',
-  'delete',
-  'create',
-  'update',
-  'read',
+  'editContent',
+  'publishContent',
+  'deleteContent',
+  'manageMedia',
+  'manageExtensions',
+  'moderateComments',
   'manageUsers',
   'manageRoles',
-  'manageSettings'
+  'manageSettings',
+  'importExportData',
+  'viewAnalytics',
+  'receiveEmails'
 ]
 
 exports.schema = {

@@ -3882,6 +3882,12 @@ mongodb@2.2.24:
     mongodb-core "2.1.8"
     readable-stream "2.1.5"
 
+mongoose-validators@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/mongoose-validators/-/mongoose-validators-0.1.0.tgz#7e5c829e5d55ffb81ef196a9dd793bd5104ff74c"
+  dependencies:
+    validator "3.16.0"
+
 mongoose@^4.8.3:
   version "4.8.3"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-4.8.3.tgz#69bc529f49bbd2067f07bd2c04e5e66e6ae4b079"
@@ -6121,6 +6127,10 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
+
+validator@3.16.0:
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-3.16.0.tgz#ec2c6c3a8be5f7e7085cb79e1b1681fc5bd27846"
 
 vary@^1, vary@~1.1.0:
   version "1.1.0"

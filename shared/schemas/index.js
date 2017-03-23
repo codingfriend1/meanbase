@@ -13,9 +13,19 @@ if(!global.mongoose) {
 
 let schemas = {
   // inject schemas
+  ban: require("./ban.js"),
+  comments: require("./comments.js"),
+  custom: require("./custom.js"),
+  extensions: require("./extensions.js"),
+  images: require("./images.js"),
+  menus: require("./menus.js"),
   message: require("./message.js"),
+  pages: require("./pages.js"),
   roles: require("./roles.js"),
   settings: require("./settings.js"),
+  shared_content: require("./shared-content.js"),
+  staging: require("./staging.js"),
+  themes: require("./themes.js"),
   user: require("./user.js"),
   // end inject schemas
 }
@@ -31,6 +41,7 @@ let models = {}
 _.forOwn(schemas, (schema, key) => {
   const composition = schema.schema
   const validations = schema.validations
+  const indexBy = schema.indexBy
   _.forOwn(composition, function(val, key) {
     if(val.pattern && val.patternMessage) {
       composition[key].validate = {
@@ -55,6 +66,10 @@ _.forOwn(schemas, (schema, key) => {
         })
       }
     })
+  }
+
+  if(indexBy) {
+    schemas[key].schema.index(indexBy, {unique: true});
   }
 
   if(global.mongoose.model) {

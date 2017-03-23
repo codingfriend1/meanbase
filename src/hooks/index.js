@@ -4,12 +4,43 @@
 // see http://docs.feathersjs.com/hooks/readme.html for more details
 // on hooks.
 
-exports.allowUpsert = require('./allow-upsert');
-exports.isEnabled = require('./is-enabled');
-exports.hasPermission = require('./has-permission');
+import populateOrRestrict from './populate-or-restrict';
+import verifyOrRestrict from './verify-or-restrict';
+import attachPermissions from './attach-permissions';
+import hasPermissionOrRestrict from './has-permission-or-restrict';
+import hasPermission from './has-permission';
+import isEnabled from './is-enabled';
+import recaptcha from './recaptcha';
+import isTargetEnabled from './is-target-enabled';
+import removeFromDisk from './remove-from-disk';
+import hasPermissionOrRestrictChanges from './permission-or-restrict-changes';
+import ownerOrRestrictChanges from './owner-or-restrict-changes';
+import ifPasswordThenHash from './if-password-then-hash';
+import permitChangePassword from './permit-change-password';
+import filterByPermissionOrRestrict from './filter-by-permission-or-restrict'
+import updateByPermission from './update-by-permission'
+import deleteCustomData from './delete-custom-data'
+import sendVerificationEmail from './send-verification-email'
+import allowUpsert from './allow-upsert'
+
 exports.setFirstUserToRole = require('./set-first-user-role');
 exports.setDefaultRole = require('./set-default-role');
-exports.sendVerificationEmail = require('./send-verification-email');
-exports.isTargetEnabled = require('./is-target-enabled');
-exports.hasPermissionOrRestrictChanges = require('./permission-or-restrict-changes');
 exports.preventDisabledAdmin = require('./prevent-disabled-admin');
+exports.verifyOrRestrict = verifyOrRestrict;
+exports.populateOrRestrict = populateOrRestrict;
+exports.attachPermissions = attachPermissions;
+exports.hasPermissionOrRestrict = hasPermissionOrRestrict;
+exports.hasPermission = hasPermission;
+exports.isEnabled = isEnabled;
+exports.recaptcha = recaptcha;
+exports.isTargetEnabled = isTargetEnabled;
+exports.removeFromDisk = removeFromDisk;
+exports.hasPermissionOrRestrictChanges = hasPermissionOrRestrictChanges;
+exports.ownerOrRestrictChanges = ownerOrRestrictChanges;
+exports.ifPasswordThenHash = ifPasswordThenHash;
+exports.permitChangePassword = permitChangePassword;
+exports.filterByPermissionOrRestrict = filterByPermissionOrRestrict;
+exports.updateByPermission = updateByPermission;
+exports.deleteCustomData = deleteCustomData;
+exports.sendVerificationEmail = sendVerificationEmail;
+exports.allowUpsert = allowUpsert;

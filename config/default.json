@@ -2,7 +2,7 @@
   "host": "localhost",
   "port": 3030,
   "protocal": "http",
-  "mongodb": "mongodb://localhost:27017/FeathersVue",
+  "mongodb": "mongodb://localhost:27017/meanbase-dev",
   "public": "../public/",
   "lib": "../lib/",
   "src": "../src/",
