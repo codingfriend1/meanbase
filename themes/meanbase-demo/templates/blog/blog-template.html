@@ -1,0 +1,161 @@
+<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+<div>
+  <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+      <div class="container topnav">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+
+              <mb-choose-link belongs-to="page.links" property="header1">
+                <a class="navbar-brand topnav mb-link" mb-link="header1" belongs-to="page.links">
+                  <mb-choose-icon belongs-to="page.links.header1" property="icon"></mb-choose-icon>
+                  <mb-edit ng-model="page.links.header1.title" bind-options="editorSingleLine"></mb-edit>
+                </a>
+              </mb-choose-link>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right" ng-sortable="$root.menusConfig">
+                <li ng-repeat="menu in menus.main" ng-class="{'mb-draggable': $root.editMode, 'dropdown': menu.isDropdown}">
+                    <a target="{{menu.target}}" class="mb-link" ng-class="menu.classes" ng-if="!menu.isDropdown" ng-click="handleClick($event, menu, menu.url)">
+                      {{menu.title}}
+                    </a>
+                    <a target="{{menu.target}}" class="mb-link" class="dropdown-toggle relative {{menu.classes}}" data-toggle="dropdown" ng-if="menu.isDropdown">
+                      <!-- ng-click="handleClick($event, menu, menu.url)" -->
+                      {{menu.title}}
+                      <span class="caret"></span>
+                      <mb-edit_menu item="menu"></mb-edit_menu>
+                    </a>
+                    <ul class="dropdown-menu" ng-sortable="$root.subMenuList" ng-init="newSubMenu={}" ng-if="menu.isDropdown">
+                      <li ng-repeat="subMenu in menu.subMenus" class="mb-sub-draggable">
+                        <a target="{{subMenu.target}}" class="mb-link" class="dropdown-toggle subMenu.classes" ng-click="handleClick($event, subMenu, subMenu.url)">
+                          {{subMenu.title}}
+                        </a>
+                      </li>
+                      <li mb-add-menu-item="menu" property="subMenus" class="new-menu-item-button ignore-draggable ignore-sub-draggable">
+                        <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
+                      </li>
+                    </ul>
+                </li>
+                <li mb-add-menu-item="main" class="new-menu-item-button ignore-draggable">
+                  <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
+                </li>
+            </ul>
+          </div>
+      </div>
+  </nav>
+
+  <!-- Page Header -->
+  <!-- Set your background image for this header on the line below. -->
+  <mb-choose-image property="image-1">
+    <header class="intro-header" mb-src="image-1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
+        <div class="container disable-click">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                      <div class="enable-click">
+                        <mb-edit ng-model="page.title" bind-options="editorSingleLine"></mb-edit>
+                        <hr class="small">
+                        <span mb-edit class="subheading" ng-model="page.content.header1" bind-options="editorSingleLine"></span>
+                        <span class="meta">Posted by <a href="#">{{::page.author}}</a> on {{::page.createdAt | date:'MMM d, yyyy h:ma'}}</span>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+  </mb-choose-image>
+
+  <!-- Post Content -->
+  <article>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                  <div mb-edit class="meta" ng-model="page.content.body1" bind-options="editorOptions"></div>
+              </div>
+          </div>
+      </div>
+  </article>
+
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="well">
+            <h3 mb-edit ng-model="page.content.body2" bind-options="editorSingleLine"></h3>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">Name</div>
+                <input type="text" ng-model="newComment.author" placeholder="nickname" class="form-control"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">Email</div>
+                <input type="email" ng-model="newComment.email" placeholder="email" class="form-control"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea ng-model="newComment.content" placeholder="Message" rows="3" class="form-control"></textarea>
+            </div>
+            <mb-recaptcha ng-model="newComment.recaptcha"></mb-recaptcha>
+            <button ng-click="$root.submitComment(newComment)" class="btn btn-primary">Comment</button>
+            <div ng-show="commentSent" class="help-block">Comment sent!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr/>
+
+
+  <hr/>
+
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 mb-edit ng-model="page.content.body3" bind-options="editorSingleLine"></h3>
+          <div ng-repeat="comment in $root.comments" class="well media"><a href="#" class="pull-left"><img src="http://placehold.it/64x64" alt="" class="media-object"/></a>
+            <div class="media-body">
+              <h4 class="media-heading">{{comment.author}}</h4><small>{{comment.date | date:'MMM d, yyyy h:ma'}} </small>
+              <p>{{comment.content}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                  <ul class="list-inline text-center" mb-init-list="page.lists.footer1">
+                    <li ng-repeat="socialBtn in page.lists.footer1.items" style="position: relative;">
+                      <mb-choose-link belongs-to="socialBtn" property="link">
+                        <a mb-link="link" belongs-to="socialBtn">
+                          <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <mb-choose-icon class="fa-stack-1x fa-inverse" belongs-to="socialBtn" property="icon"></mb-choose-icon>
+                            <!-- <i class="fa fa-twitter fa-stack-1x fa-inverse"></i> -->
+                          </span>
+                        </a>
+                      </mb-choose-link>
+                      <mb-list-remove list="page.lists.footer1.items" item="socialBtn"></mb-list-remove>
+                    </li>
+                    <li class="text-center" ng-if="editMode" ng-init="socialBtn = {}" style="position: relative;" mb-list-add list="page.lists.footer1.items" item="socialBtn" label="button"></li>
+                  </ul>
+                  <div mb-edit class="copyright text-muted" ng-model="page.content.footer1" bind-options="editorOptions"></div>
+              </div>
+          </div>
+      </div>
+  </footer>
+</div>

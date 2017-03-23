@@ -1,0 +1,100 @@
+<!-- <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet"> -->
+<div>
+  <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+      <div class="container topnav">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <mb-choose-link :belongs-to="page.links.callToAction" v-mb-init="!page.links.callToAction? page.links.callToAction = {}" property="callToAction">
+                <a class="navbar-brand topnav mb-link" mb-link="callToAction" :belongs-to="page.links">
+                  <i v-mb-icon="page.links.callToAction.icon"></i>
+                  <span v-mb-text="page.links.callToAction.title" single="true"></span>
+                </a>
+              </mb-choose-link>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right" v-sortable="{{sortable.menus}}">
+                  <li v-for="menu in menus.main", :class="{'mb-draggable': editMode, 'dropdown': menu.isDropdown}">
+                      <a target="{{menu.target}}" class="mb-link" :class="menu.classes" v-if="!menu.isDropdown" @click="handleClick($event, menu, menu.url)">
+                        {{menu.title}}
+                      </a>
+                      <a target="{{menu.target}}" class="mb-link" class="dropdown-toggle relative {{menu.classes}}" data-toggle="dropdown" v-if="menu.isDropdown">
+                        {{menu.title}}
+                        <span class="caret"></span>
+                        <mb-edit-menu item="menu"></mb-edit-menu>
+                      </a>
+                      <ul class="dropdown-menu" v-sortable="sortableSubmenus" v-init="newSubMenu={}" v-if="menu.isDropdown">
+                        <li v-for="subMenu in menu.subMenus" class="mb-sub-draggable">
+                          <a target="{{subMenu.target}}" class="dropdown-toggle subMenu.classes" @click="handleClick($event, subMenu, subMenu.url)">
+                            {{subMenu.title}}
+                          </a>
+                        </li>
+                        <li mb-add-menu-item="menu" property="subMenus" class="new-menu-item-button ignore-draggable ignore-sub-draggable">
+                          <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
+                        </li>
+                      </ul>
+                  </li>
+                  <li mb-add-menu-item="main" class="new-menu-item-button ignore-draggable">
+                    <a><i class="fa fa-plus"> </i> <span> Add Link</span></a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+<a name="about"></a>
+<div v-mb-choose-image="page.images.header1">
+  <div class="intro-header" v-mb-src="page.images.header1" background-prefix="linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) )">
+      <div class="container disable-click">
+
+          <div class="row">
+              <div class="col-lg-12">
+                  <div class="intro-message">
+                    <div class="enable-click">
+                      <div v-mb-text="page.title" single="true"></div>
+                      <hr class="intro-divider">
+
+                      <div mb-list-area="header1"></div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+<mb-add-on-area area="body1" :extensions="page.extensions"></mb-add-on-area>
+
+<div v-mb-choose-image="page.images.prefooter1">
+  <div class="banner" v-mb-src="page.images.prefooter1">
+
+      <div class="container">
+
+          <div class="row">
+              <div class="col-lg-6">
+                  <div v-mb-text="page.content.prefooter1"></div>
+              </div>
+              <div class="col-lg-6">
+                  <div mb-list-area="footer1"></div>
+              </div>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+  <footer>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12">
+                <div v-mb-text="page.content.footer1" class="copyright text-muted small"></div>
+              </div>
+          </div>
+      </div>
+  </footer>
+</div>

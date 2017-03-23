@@ -1,0 +1,94 @@
+#mb-headbar(ng-if="isLoggedIn")
+  div#mb-headbar-child
+    a.mb-headbar-btn(href='/cms' target="_self")
+      span.show-desktop.mb-button Manage Site
+      span.show-mobile.mb-button
+        i.fa.fa-lg.fa-gears
+    .mb-headbar-btn.dropdown(v-show="$root.editMode && permissions.indexOf('editContent') > -1")
+      span.dropdown-link(title="Choose a template for this page").mb-button
+        span.show-desktop Change Template
+        span.show-mobile
+          i.fa.fa-lg.fa-paint-brush
+      ul.dropdown-list
+        li(v-for="template in themeTemplates")
+          a.drop-down-item-with-check(href="#", @click="updateTemplate(template)", @mouseover="showScreenshot(template)", @mouseleave="hideScreenshot(template)")
+            span {{template + ' template'}}
+            span(v-show="template === pageTemplate").mb-template-check
+              i.fa.fa-check
+
+    .mb-headbar-btn(v-show="permissions.indexOf('editContent') > -1 && editMode" title="Preview Page")
+      a(@click="preview()").mb-button
+        span.show-desktop Preview
+        span.show-mobile
+          i.fa.fa-lg.fa-eye
+    .mb-headbar-btn(v-show="permissions.includes('editContent') > -1 && editMode" title="Undo the last edit")
+      a(@click="undoMoment()").mb-button
+        span.show-desktop Undo
+        span.show-mobile
+          i.fa.fa-lg.fa-undo
+    .mb-headbar-btn(v-show="permissions.indexOf('publishContent') > -1 && !editMode")
+      a(@click="togglePublishPage()").mb-button
+        span(v-show="!isPublished" title="Publish the page") Publish
+        span(v-show="isPublished" title="Hide the page from the world") Unpublish
+    .mb-headbar-btn(v-show="permissions.indexOf('editContent') > -1 && !editMode")
+      a(@click="toggleEdit()" title="Return to edits").mb-button
+        span.show-desktop Edit
+        span.show-mobile
+          i.fa.fa-lg.fa-pencil
+    .mb-headbar-btn(v-show="permissions.indexOf('publishContent') > -1 && isPublished")
+      a(@click="publishChanges()" title="Save all recent edits to the live page").mb-button
+        span.show-desktop Publish Changes
+        span.show-mobile
+          i.fa.fa-lg.fa-check
+    .mb-headbar-btn.show-desktop(v-show="autoSavingInProgress")
+      a.mb-button autosaving...
+
+    .mb-headbar-btn.mb-headbar-btn-right
+      a(@click="openMBPageDrawer($event)").mb-link-btn
+        i.fa.fa-lg.fa-search
+
+    .mb-headbar-btn.dropdown.mb-headbar-btn-right
+      span.dropdown-link.mb-link-btn
+        i.fa.fa-lg.fa-trash
+      ul.dropdown-list
+        li(v-show="editMode" title="Undo all changes since last time this was published")
+          a(@click="resetDraft()") Reset Draft
+        li(v-show="permissions.indexOf('deleteContent') > -1 && editMode")
+          a(@click="deletePage()") Delete page
+
+    .mb-headbar-btn.dropdown.mb-headbar-btn-right
+      span.dropdown-link.mb-link-btn
+        i.fa.fa-user.fa-lg
+      ul.dropdown-list
+        li
+          a(href='/cms' target="_self") CMS
+        li
+          a(href='/') Home Page
+        li
+          a(@click="logout()") Log Out
+        li
+          a(href='/cms/my-settings' target="_self") Change Password
+
+    .mb-headbar-btn.mb-headbar-btn-right
+      a(href='/').mb-link-btn
+        i.fa.fa-lg.fa-home
+
+    .mb-headbar-btn.dropdown.mb-headbar-btn-right(v-show="$root.editMode && permissions.indexOf('editContent') > -1")
+      span.dropdown-link.mb-create-page-btn
+        span
+          i.fa.fa-lg.fa-plus
+      ul.dropdown-list
+        li(v-for="template in themeTemplates")
+          a(href="#" @click="createPage($event)" @mouseover="showScreenshot(template)", @mouseleave="hideScreenshot(template)") {{template + ' template'}}
+
+  #mb-pages-drawer.mb-sidenav
+    .mb-sidenav-child
+      .mb-search-box
+        i.fa.fa-search
+        input(type="text" placeholder="filter pages" v-model="mbSearchPagesDrawer").mb-drawer-search
+
+      .mb-draw-pages-list
+        label(v-show="previousEditUrls.length") Recent Edits
+        a(v-for="url in previousEditUrls", :href="url") {{url}}
+        hr(v-show="previousEditUrls.length")
+        a(v-for="page in drawerPages | filterBy mbSearchPagesDrawer", :href="page.url").mb-page-link {{page.title | html-to-text }}
