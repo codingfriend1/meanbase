@@ -13,7 +13,7 @@ angular.module('meanbaseApp')
 
         var isImage = element.is('img') || element.find('img').length > 0;
         if(!scope.size) { scope.size = 'original'; }
-        if(!scope.placeholdIt) { scope.placeholdIt = 'http://placehold.it/768x432'; }
+        if(!scope.placeholdIt) { scope.placeholdIt = 'https://placehold.it/768x432'; }
 
         var currentUrl, on, key;
 

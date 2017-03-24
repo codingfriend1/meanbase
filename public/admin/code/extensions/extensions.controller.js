@@ -8,7 +8,7 @@ angular.module('meanbaseApp')
       $scope.e.find({}, null, 'Could not get the extensions').then(function(response) {
         for (var i = 0; i < $scope.extensions.length; i++) {
             if(!$scope.extensions[i].preview) {
-              $scope.extensions[i].preview = 'http://placehold.it/500x300';
+              $scope.extensions[i].preview = 'https://placehold.it/500x300';
             }
           }
       }, function(err) {

@@ -302,7 +302,7 @@
           $rootScope.extensions = res
           for (var i = 0; i < $rootScope.extensions.length; i++) {
             if(!$rootScope.extensions[i].screenshot) {
-              $rootScope.extensions[i].screenshot = 'http://placehold.it/200x100'
+              $rootScope.extensions[i].screenshot = 'https://placehold.it/200x100'
             }
           }
         })

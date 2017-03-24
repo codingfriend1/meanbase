@@ -9,7 +9,7 @@ div.drop-zone(nv-file-drop="uploader" multiple uploader="uploader").text-center.
 .mdl-grid
   .mdl-cell.mdl-cell--4-col.mdl-cell--16-col-tablet(ng-repeat="theme in themes | filter:filterThemes" mdl).theme
     .mdl-card.mdl-shadow--2dp
-      img(ng-src="{{theme.preview}}" fallback-src="http://placehold.it/500x300")
+      img(ng-src="{{theme.preview}}" fallback-src="https://placehold.it/500x300")
       .mdl-card__title.mdl-card--expand
         h2.mdl-card__title-text {{theme.title}}
       .mdl-card__actions.mdl-card--border

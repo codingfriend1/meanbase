@@ -9,7 +9,7 @@ angular.module('meanbaseApp')
       $scope.t.find({}, null, 'Could not get the themes').then(function(response) {
         for (var i = 0; i < $scope.themes.length; i++) {
           if(!$scope.themes[i].preview) {
-            $scope.themes[i].preview = 'http://placehold.it/500x300';
+            $scope.themes[i].preview = 'https://placehold.it/500x300';
           }
         }
       });
