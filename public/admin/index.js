@@ -61,11 +61,11 @@ import "./code/themes/themes.jade";
 import "./code/users/users.jade";
 import "./code/account/login/login.jade";
 import "./code/account/settings/settings.jade";
-import "../shared/missing/missing.jade";
 import "../shared/image-selector/image-selector.jade";
+import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";
-import "../shared/validate/validate.jade";
 import "../shared/taglist/taglist.jade";
+import "../shared/validate/validate.jade";
 // end inject jade
 
 // inject stylus
@@ -82,7 +82,7 @@ import "./code/users/users.styl";
 import "./code/account/login/login.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/missing/missing.styl";
-import "../shared/taglist/taglist.styl";
 import "../shared/sortable/sortable.styl";
+import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
 // end inject stylus

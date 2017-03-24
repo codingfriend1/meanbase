@@ -77,7 +77,7 @@ export default options => {
           console.log("Checking if folder already exists error", err);
         }
 
-        decompress(tempFilePath, createdFolderPath).then(files => {
+        decompress(tempFilePath, createdFolderPath, { strip: 1 }).then(files => {
           if (err) {
             console.log("unzipping folder error: ", err);
             return next(new feathersErrors.Unprocessable(err));
