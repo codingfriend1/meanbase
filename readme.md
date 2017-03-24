@@ -84,6 +84,13 @@ At a minimum this file needs
 FEATHERS_AUTH_SECRET=your-app-secret
 NODE_ENV=production
 DATABASE_URL=mongodb://db/meanbase
+
+# For free SSL with Let's Encrypt
+DOMAINS=your-domain.com
+EMAIL=your-email@your-address.com
+
+# SSL Check frequency
+CHECK_FREQ=30
 ```
 _NOTE: If you are running mongoDB locally the MongoDB server name must be **db** since in Docker that will refer to the MongoDB vm_
 

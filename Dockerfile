@@ -17,7 +17,6 @@ ENV NODE_ENV=production
 # RUN npm install feathers express passport prerender-node
 # RUN npm install
 COPY dist/ /var/www/
-# RUN chmod -R 755 /var/www
 ################## END DIRECTORIES ######################
 
 # Expose the default port
