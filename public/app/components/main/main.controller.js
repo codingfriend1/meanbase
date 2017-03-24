@@ -10,7 +10,7 @@
 
     setTimeout(function() {
       window.prerenderReady = true;
-    }, 3000);
+    }, 1000);
 
 
     // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
