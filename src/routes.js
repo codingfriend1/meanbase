@@ -4,6 +4,11 @@ const express = require('express');
 module.exports = function() {
   const app = this;
 
+  if(process.env.PRERENDER_TOKEN) {
+    console.log('Using prerender service')
+    app.use(require('prerender-node').set('prerenderServiceUrl', 'http://prerender:3000/'))
+  }
+
   app.use( express.static(app.get('clientPath')) );
 
 
@@ -33,11 +38,4 @@ module.exports = function() {
   app.get('/*', (req, res) => {
     res.sendFile(path.join(app.get('appPath'), 'index.html'));
   });
-
-  if(process.env.PRERENDER_TOKEN) {
-    console.log('Using prerender service')
-    // app.use(require('prerender-node'))
-    // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:3000/'))
-    app.use(require('prerender-node').set('prerenderToken', process.env.PRERENDER_TOKEN))
-  }
 };

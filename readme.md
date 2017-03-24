@@ -47,7 +47,7 @@ Make sure bower is installed globally
 npm i bower -g
 ```
 
-Install [Docker](https://docs.docker.com/engine/installation/) on your machine (you need at least 4G of ram)
+Install [Docker](https://docs.docker.com/engine/installation/) on your machine (you need at least 4G of ram) and [docker-compose](https://docs.docker.com/compose/install/).
 
 Install npm and bower modules by running   
 ```

@@ -8,7 +8,10 @@
 
     const autoSaveLapse = 100
 
-    window.prerenderReady = true;
+    setTimeout(function() {
+      window.prerenderReady = true;
+    }, 3000);
+
 
     // It's becoming a standard in meanbase prepare the api endpoints the controller will hit at the top of the file.
 

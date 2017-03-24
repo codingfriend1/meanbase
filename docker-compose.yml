@@ -6,19 +6,27 @@ db:
     - "27017"
     - "37017"
   command: --smallfiles
+  restart: always
+prerender:
+  image: mondora/prerender
+  ports:
+    - "3000:3000"
+  restart: always
 web:
   build: .
   expose:
     - "80"
   env_file:
     - meanbase.env
+  restart: always
   links:
       - db:db
 nginx:
-  # restart: always
+  restart: always
   build: nginx
   links:
     - web:web
+    - prerender:prerender
   volumes_from:
     - web
   ports:
