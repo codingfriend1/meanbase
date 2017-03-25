@@ -39,6 +39,8 @@ Now when a client asks for a site, you can have a customized template quickly av
 #### SEO
 Meanbase provides a personal Prerender server for good SEO without having to pay the prerender service.
 
+## Features
+
 #### Automatic SSL.
 Meanbase use Let's Encrypt to automatically provide SSL free for your application by just setting environment variables.
 
@@ -47,7 +49,7 @@ Meanbase can run on a $5/Month digitalocean.com docker server using up minimal r
 
 # Getting Started
 
-###Setting up meanbase for development
+### Setting up meanbase for development
 Since we are working with node and npm make sure they are installed on your machine. There are several tutorials on the web for how to do that on your machine. If you're using mac, I recommend using [homebrew](http://brew.sh/)
 
 #### Running locally
