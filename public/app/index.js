@@ -58,22 +58,22 @@ import "./components/cms.headbar/cms.headbar.controller.js";
 // end inject js
 
 // inject jade
+import "./components/main/main.jade";
+import "./components/mb-add-menu-item/mb-add-menu-item.modal.jade";
 import "./components/cms.headbar/choose-link.modal.jade";
 import "./components/cms.headbar/cms.headbar.jade";
 import "./components/cms.headbar/editmodal.modal.jade";
-import "./components/main/main.jade";
-import "./components/mb-add-menu-item/mb-add-menu-item.modal.jade";
 import "./components/mb-choose-icon/mb-edit-icon.modal.jade";
 import "./components/mb-choose-link/mb-edit-link.modal.jade";
-import "./components/mb-edit-menu/mb-edit-menu.modal.jade";
 import "./components/mb-extension-edit/mb-extension-edit.modal.jade";
+import "./components/mb-edit-menu/mb-edit-menu.modal.jade";
 import "./components/mb-find-images-modal/mb-find-image.modal.jade";
 import "./components/mb-list-area/mb-list-area.jade";
 import "./components/mb-list-selector/mb-list-selector.jade";
 import "./components/mb-list-selector/mb-list.modal.jade";
-import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
 import "../shared/sortable/sortable.jade";
+import "../shared/image-selector/image-selector.jade";
 import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
 // end inject jade
@@ -87,11 +87,11 @@ import "./components/mb-choose-image/mb-choose-image.styl";
 import "./components/mb-choose-link/mb-choose-link.styl";
 import "./components/mb-edit-link/mb-edit-link.styl";
 import "./components/mb-edit-menu/mb-edit-menu.styl";
-import "./components/mb-find-images-modal/mb-find-images-modal.styl";
 import "./components/mb-extension-edit/mb-extension-edit.styl";
+import "./components/mb-find-images-modal/mb-find-images-modal.styl";
 import "./components/mb-grid-item/mb-grid-item.styl";
-import "./components/mb-list-add/mb-list-add.styl";
 import "./components/mb-link/mb-link.styl";
+import "./components/mb-list-add/mb-list-add.styl";
 import "./components/mb-list-area/mb-list-area.styl";
 import "./components/mb-list-remove/mb-list-remove.styl";
 import "./components/mb-list-selector/mb-list-selector.styl";
@@ -99,7 +99,7 @@ import "./components/mb-text/mb-text.styl";
 import "./components/meanbase-editable/meanbase-editable.directive.styl";
 import "../shared/image-selector/image-selector.styl";
 import "../shared/missing/missing.styl";
-import "../shared/taglist/taglist.styl";
 import "../shared/sortable/sortable.styl";
+import "../shared/taglist/taglist.styl";
 import "../shared/validate/validate.styl";
 // end inject stylus
