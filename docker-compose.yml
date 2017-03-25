@@ -34,6 +34,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    env_file:
+      - meanbase.env
+    command: /bin/bash -c "envsubst '$${PRERENDER_TOKEN}' < /etc/nginx/conf.d/meanbase-nginx.template > /etc/nginx/conf.d/meanbase-nginx.conf && nginx -g 'daemon off;'"
     volumes:
       - certs:/etc/nginx/certs
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www

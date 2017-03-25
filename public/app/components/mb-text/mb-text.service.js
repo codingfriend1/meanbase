@@ -121,6 +121,12 @@
         sticky: true,
         updateOnEmptySelection: true
       },
+      placeholder: {
+        /* This example includes the default options for placeholder,
+           if nothing is passed this is what it used */
+        text: 'Type here',
+        hideOnClick: true
+      },
       extensions: {
         "image-selector": new this.ImageSelector(),
         // 'insert': new MediumEditorInsert()

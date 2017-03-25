@@ -65,7 +65,8 @@ server {
   }
 
   location @prerender {
-    #proxy_set_header X-Prerender-Token YOUR_TOKEN;
+    set $token ${PRERENDER_TOKEN};
+    proxy_set_header X-Prerender-Token $token;
 
     set $prerender 0;
     if ($http_user_agent ~* "googlebot|yahoo|bingbot|baiduspider|yandex|yeti|yodaobot|gigabot|ia_archiver|facebookexternalhit|twitterbot|developers\.google\.com") {
@@ -82,11 +83,38 @@ server {
         set $prerender 0;
     }
 
+    #resolve using Google's DNS server to force DNS resolution and prevent caching of IPs
     resolver 8.8.8.8;
+
     if ($prerender = 1) {
-        rewrite .* /$scheme://$host$request_uri? break;
-        proxy_pass http://prerender:3000;
+      set $pre A;
     }
+
+    if ($token != "local") {
+      set $pre "${pre}B";
+    }
+
+    if ($token = "local") {
+      set $pre "${pre}C";
+    }
+
+    if ($pre = AB) {
+      #setting prerender as a variable forces DNS resolution since nginx caches IPs and doesnt play well with load balancing
+      set $prerender "service.prerender.io";
+      rewrite .* /$scheme://$host$request_uri? break;
+      proxy_pass http://$prerender;
+    }
+
+    if ($pre = AC) {
+      rewrite .* /$scheme://$host$request_uri? break;
+      proxy_pass http://prerender:3000;
+    }
+
+    # resolver 8.8.8.8;
+    # if ($prerender = 1) {
+    #     rewrite .* /$scheme://$host$request_uri? break;
+    #     proxy_pass http://prerender:3000;
+    # }
 
     if ($prerender = 0) {
       rewrite .* /app/index.html break;

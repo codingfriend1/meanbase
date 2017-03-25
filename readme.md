@@ -39,13 +39,10 @@ Now when a client asks for a site, you can have a customized template quickly av
 ## Features
 
 #### Good SEO
-Meanbase provides a personal Prerender server for good SEO without having to pay the prerender service.
+Meanbase provides a personal Prerender server for good SEO without having to pay the prerender service. If you want to use your own personal server set the environment variable in your `meanbase.env` to `PRERENDER_TOKEN=local`. Otherwise, set it to the token you received from prerender.io.
 
 #### Automatic SSL.
 Meanbase use Let's Encrypt to automatically provide SSL free for your application by just setting environment variables.
-
-#### Cheap to maintain
-Meanbase can run on a $5/Month digitalocean.com docker server.
 
 # Getting Started
 
