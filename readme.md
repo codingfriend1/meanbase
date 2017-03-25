@@ -36,10 +36,10 @@ Building themes in for popular CMS's is confusing and you usually don't have a l
 #### Building the relationship
 Now when a client asks for a site, you can have a customized template quickly available, and trust that they will know how to manage it without much training.
 
-#### SEO
-Meanbase provides a personal Prerender server for good SEO without having to pay the prerender service.
-
 ## Features
+
+#### Good SEO
+Meanbase provides a personal Prerender server for good SEO without having to pay the prerender service.
 
 #### Automatic SSL.
 Meanbase use Let's Encrypt to automatically provide SSL free for your application by just setting environment variables.
