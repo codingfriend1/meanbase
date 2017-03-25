@@ -104,7 +104,7 @@ CHECK_FREQ=30
 PRERENDER_TOKEN=local
 ```
 
-__Note: Setting the PRERENDER_TOKEN to local means you wish to use the personal prerender service running on your server. This means you can avoid the pricing in prerender.io but your server will use more memory. If you wish to use the prerender.io service at a price set it to your token you received from them.__
+_Note: Setting the PRERENDER_TOKEN to local means you wish to use the personal prerender service running on your server. This means you can avoid the pricing in prerender.io but your server will use more memory. If you wish to use the prerender.io service at a price set it to your token you received from them._
 
 _NOTE: If you are running mongoDB locally the MongoDB server name must be **db** since in Docker that will refer to the MongoDB vm_
 
