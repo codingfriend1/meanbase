@@ -99,7 +99,13 @@ EMAIL=your-email@your-address.com
 
 # SSL Check frequency
 CHECK_FREQ=30
+
+# Prerender
+PRERENDER_TOKEN=local
 ```
+
+__Note: Setting the PRERENDER_TOKEN to local means you wish to use the personal prerender service running on your server. This means you can avoid the pricing in prerender.io but your server will use more memory. If you wish to use the prerender.io service at a price set it to your token you received from them.__
+
 _NOTE: If you are running mongoDB locally the MongoDB server name must be **db** since in Docker that will refer to the MongoDB vm_
 
 #### Additional Options
@@ -112,6 +118,10 @@ DOMAIN=your-domain.com
 RESET_USERS=false
 ADMIN="adminemail@admin.com"
 ADMIN_PASS="admin_password"
+
+# Prerender Options for lower memory
+PRERENDER_NUM_WORKERS=1
+PHANTOM_WORKER_ITERATIONS=3
 ```
 
 Reset seed will reset all your data to default data each time the server restarts. Reset users will just do that for users.
@@ -138,10 +148,16 @@ eval $(docker-machine env you-custom-machine-name)
 ```
 
 #### Deployment
-Finally we upload our dist folder to the server and have it install production dependencies
+Finally we upload our dist folder to the server and have it install production dependencies. if your running the personal prerender server set the `PRERENDER_TOKEN` variable in your `meanbase.env` to local and run:
 
 ```
-docker-compose up -d
+npm run production-prerender
+```
+
+Otherwise if you want to not run the personal prerender service just use
+
+```
+npm run production
 ```
 
 _NOTE: Parts of the theme are still in development such as cropping and editing images, but for now you can edit locally and then upload._

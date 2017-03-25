@@ -2,10 +2,17 @@ version: "2.1"
 services:
   db:
     image: mongo
+    # volumes:
+    #   - './data:/data/db'
     expose:
       - "27017"
       - "37017"
     command: --smallfiles
+    restart: unless-stopped
+  prerender:
+    image: mondora/prerender
+    ports:
+      - "3000:3000"
     restart: unless-stopped
   web:
     build: .
@@ -16,11 +23,12 @@ services:
     restart: unless-stopped
     links:
         - db:db
-  nginx:
+  nginx-prerender:
     restart: unless-stopped
-    build: nginx
+    build: nginx-prerender
     links:
       - web:web
+      - prerender:prerender
     volumes_from:
       - web
     ports:
@@ -52,6 +60,6 @@ services:
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www
       - certs:/etc/nginx/certs
     links:
-      - nginx
+      - nginx-prerender
 volumes:
     certs:

@@ -142,6 +142,8 @@
     "reset-dev": "docker-compose -f docker-compose.dev.yml stop && docker-compose -f docker-compose.dev.yml rm -fv && docker-compose -f docker-compose.dev.yml build --no-cache && docker-compose -f docker-compose.dev.yml up",
     "update-dev": "docker-compose -f docker-compose.dev.yml stop && docker-compose -f docker-compose.dev.yml rm --force web && docker-compose -f docker-compose.dev.yml build --no-cache web && docker-compose -f docker-compose.dev.yml up -d",
     "update": "docker-compose stop && docker-compose rm --force web nginx && docker-compose build --no-cache web nginx && docker-compose up -d",
+    "production": "docker-compose stop && docker-compose -f docker-compose.prerender.yml stop && docker-compose up -d",
+    "production-prerender": "docker-compose stop && docker-compose -f docker-compose.prerender.yml stop && docker-compose -f docker-compose.prerender.yml up -d",
     "watch": "gulp && webpack -w",
     "start": "babel-watch src",
     "build": "gulp && webpack && gulp dist",
