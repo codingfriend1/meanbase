@@ -19,7 +19,7 @@ Meanbase is built on Mongo, Express, Angular, Node. This stack is superior to th
 ### Special Thanks
 I would also like to give special thanks to Natalie Gee for helping me work on the User Experience for the CMS. By putting herself into the user's shoes she was able to make many complicated features much easier.
 
-##Why it exists
+## Why it exists
 
 Meanbase provides a relationship between developers and their clients that allows developers to have full control over the code on their site and allows clients to easily manage content without the need for the developers help.
 
@@ -39,8 +39,8 @@ Now when a client asks for a site, you can have a customized template quickly av
 #### SEO
 Meanbase provides a personal Prerender server for good SEO without having to pay the prerender service.
 
-#### Automatic SSL by just setting environment variables.
-Meanbase use Let's Encrypt to automatically provide SSL free for your application.
+#### Automatic SSL.
+Meanbase use Let's Encrypt to automatically provide SSL free for your application by just setting environment variables.
 
 #### Cheap to maintain
 Meanbase can run on a $5/Month digitalocean.com docker server using up minimal resources.
@@ -103,7 +103,7 @@ CHECK_FREQ=30
 ```
 _NOTE: If you are running mongoDB locally the MongoDB server name must be **db** since in Docker that will refer to the MongoDB vm_
 
-####Additional Options
+#### Additional Options
 These variables are optional.
 
 *If you do not specify an admin and admin pass then a default account with `admin@admin.com` and pass `admin` will be created for you.*
@@ -147,9 +147,9 @@ docker-compose up -d
 
 _NOTE: Parts of the theme are still in development such as cropping and editing images, but for now you can edit locally and then upload._
 
-##MIT LICENSE
+## MIT LICENSE
 
-Copyright 2013-2015 Jon Paul Miles codingfriend1@gmail.com
+Copyright 2013-2017 Jon Paul Miles codingfriend1@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
