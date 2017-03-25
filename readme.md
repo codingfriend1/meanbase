@@ -45,7 +45,7 @@ Meanbase provides a personal Prerender server for good SEO without having to pay
 Meanbase use Let's Encrypt to automatically provide SSL free for your application by just setting environment variables.
 
 #### Cheap to maintain
-Meanbase can run on a $5/Month digitalocean.com docker server using up minimal resources.
+Meanbase can run on a $5/Month digitalocean.com docker server.
 
 # Getting Started
 
