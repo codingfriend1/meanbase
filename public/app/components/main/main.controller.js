@@ -420,45 +420,42 @@
       $timeout(async function(){
         if(!$rootScope.page._id) { return false }
 
-        try {
-          var results = _.cloneDeep($rootScope.page)
-          if(snapshots.page.title === $rootScope.page.title) {
-            results = _.omit(results, 'title')
-          }
+        var results;
+        $timeout(function() {
+          $rootScope.editMode = false;
 
-          _.forOwn(results.lists, function(location) {
-            _.each(location, function(listItem, index) {
-              try {
-                var cleanedOfDraggables = JSON.stringify(listItem).replace(/(mb\-sub\-draggable|mb\-draggable|mb\-inner\-draggable)/g, '')
-                location[index] = JSON.parse(cleanedOfDraggables)
-              } catch(err) {
-                console.log('err', err);
+          $timeout(async function() {
+            results = _.cloneDeep($rootScope.page)
+            try {
+
+              if(snapshots.page.title === $rootScope.page.title) {
+                results = _.omit(results, 'title')
               }
-            })
-          })
 
-          let updatedPage = await api.pages.update({_id: $rootScope.page._id}, results)
-          updatedPage = updatedPage[0]
+              let updatedPage = await api.pages.update({_id: $rootScope.page._id}, results)
+              updatedPage = updatedPage[0]
 
-          document.title = $rootScope.page.tabTitle
-          jQuery('meta[name=description]').attr('content', $rootScope.page.description);
+              document.title = $rootScope.page.tabTitle
+              jQuery('meta[name=description]').attr('content', $rootScope.page.description);
 
-          if(updatedPage) {
-            if(snapshots.page.url !== updatedPage.url) {
-              $rootScope.$emit('cms.addRecentEditLink', updatedPage.url)
-              try {
-                await api.menus.update({url: snapshots.page.url}, {url: updatedPage.url})
-              } catch(err) {
-                console.log('Error updating menus to match url change', err);
-                toastr.warning('Make sure to update any menus that point to the previous url for the page.')
+              if(updatedPage) {
+                if(snapshots.page.url !== updatedPage.url) {
+                  $rootScope.$emit('cms.addRecentEditLink', updatedPage.url)
+                  try {
+                    await api.menus.update({url: snapshots.page.url}, {url: updatedPage.url})
+                  } catch(err) {
+                    console.log('Error updating menus to match url change', err);
+                    toastr.warning('Make sure to update any menus that point to the previous url for the page.')
+                  }
+                }
               }
+            } catch(err) {
+              console.log('err', err);
             }
-          }
-        } catch(err) {
-          console.log('err', err);
-        }
 
-        toastr.success('Changes saved')
+            toastr.success('Changes saved')
+          })
+        })
 
       }) //$timeout
     }) //saveEdits()

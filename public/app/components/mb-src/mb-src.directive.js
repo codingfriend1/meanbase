@@ -40,8 +40,10 @@ angular.module('meanbaseApp')
           } else {
             if($rootScope.editMode) {
               url = scope.placeholdIt;
+              $(element).css('display', '');
             } else {
               url  = '';
+              $(element).css('display', 'none');
             }
           }
 
