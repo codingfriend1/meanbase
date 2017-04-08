@@ -151,19 +151,22 @@ async function patchMenu(hook, page) {
     }
 
     try {
-      let changes = {url: page.url, published: page.published}
+      let found = await this.service('menus').find({query: {linkTo: page._id}})
 
-      if(hook.params.titleWasChanged) {
-        changes.title = page.title.replace(/<[^>]+>/gm, '')
-      }
+      if(found[0]) {
+        let changes = {url: page.url, published: page.published}
 
-      let menu = await this.service('menus').patch(null, changes, { query: {linkTo: page._id} })
-      menu = menu[0]
-      if(menu) {
-        await updateMenuInStaging(menu)
-        return true
-      } else {
-        return true
+        if(hook.params.titleWasChanged) {
+          changes.title = page.title.replace(/<[^>]+>/gm, '')
+        }
+        let menu = await this.service('menus').patch(null, changes, { query: {linkTo: page._id} })
+        menu = menu[0]
+        if(menu) {
+          await updateMenuInStaging(menu)
+          return true
+        } else {
+          return true
+        }
       }
       return true
     } catch(err) {
