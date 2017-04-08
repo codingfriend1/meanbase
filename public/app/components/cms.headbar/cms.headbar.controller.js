@@ -96,6 +96,10 @@
 
 		};
 
+    $scope.$onRootScope('cms.toggleEditMode', function(event, mode) {
+      self.toggleEdit(mode)
+    })
+
     let lastPageUndoData
     let lastMenuUndoData
     let lastMenuUndoData2

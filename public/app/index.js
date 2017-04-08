@@ -49,12 +49,12 @@ import "./components/mb-choose-image/mb-choose-image.directive.js";
 import "./components/mb-choose-icon/mb-edit-icon.service.js";
 import "./components/mb-choose-icon/mb-edit-icon.controller.js";
 import "./components/mb-choose-icon/mb-choose-icon.directive.js";
+import "./components/cms.headbar/cms.headbar.controller.js";
+import "./components/main/main.js";
+import "./components/main/main.controller.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.service.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.directive.js";
 import "./components/mb-add-menu-item/mb-add-menu-item.controller.js";
-import "./components/main/main.js";
-import "./components/main/main.controller.js";
-import "./components/cms.headbar/cms.headbar.controller.js";
 // end inject js
 
 // inject jade
@@ -73,15 +73,15 @@ import "./components/mb-list-selector/mb-list-selector.jade";
 import "./components/mb-list-selector/mb-list.modal.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
-import "../shared/taglist/taglist.jade";
 import "../shared/sortable/sortable.jade";
+import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
 // end inject jade
 
 // inject stylus
 import "./app.styl";
-import "./components/main/main.styl";
 import "./components/cms.headbar/cms.headbar.styl";
+import "./components/main/main.styl";
 import "./components/mb-choose-icon/mb-choose-icon.styl";
 import "./components/mb-choose-image/mb-choose-image.styl";
 import "./components/mb-choose-link/mb-choose-link.styl";

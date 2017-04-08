@@ -422,7 +422,7 @@
 
         var results;
         $timeout(function() {
-          $rootScope.editMode = false;
+          $rootScope.$emit('cms.toggleEditMode', false)
 
           $timeout(async function() {
             results = _.cloneDeep($rootScope.page)
