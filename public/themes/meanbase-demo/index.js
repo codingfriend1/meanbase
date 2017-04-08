@@ -1,6 +1,6 @@
 // inject jade
-import "./templates/archive/archive-template.html";
 import "./templates/blog/blog-template.html";
+import "./templates/archive/archive-template.html";
 import "./templates/home/home-template.html";
 // end inject jade
 

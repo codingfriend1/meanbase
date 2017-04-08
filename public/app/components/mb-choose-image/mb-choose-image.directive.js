@@ -44,6 +44,7 @@ angular.module('meanbaseApp')
 
             scope.$onRootScope('cms.choseImages', function(e, gallery) {
               if(key === gallery.gallerySlug) {
+                console.log('gallery', gallery);
                 getBelongsTo();
                 scope.findImagesConfig.gallerySlug = key;
                 if(gallery.images) {
@@ -84,6 +85,9 @@ angular.module('meanbaseApp')
                   }
 
                   $rootScope.$emit('cms.elementsChanged')
+                } else {
+                  scope.belongsTo[attrs.property] = undefined;
+                  scope.findImagesConfig.alreadySelected = undefined;
                 }
 
 

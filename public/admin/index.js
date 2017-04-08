@@ -19,9 +19,9 @@ import "../shared/fallback-src/fallback-src.directive.js";
 import "../shared/doubleClick/doubleClick.directive.js";
 import "../shared/auth/auth.service.js";
 import "../shared/api/api.service.js";
-import "./code/components/date-picker/date-picker.directive.js";
 import "./code/components/mdl/mdl.directive.js";
 import "./code/components/dialog/dialog.directive.js";
+import "./code/components/date-picker/date-picker.directive.js";
 import "./code/components/crud/crud.service.js";
 import "./code/components/camel-to-human/camel-to-human.filter.js";
 import "./code/account/login/login.controller.js";
@@ -56,15 +56,15 @@ import "./code/comments/comments.jade";
 import "./code/extensions/extensions.jade";
 import "./code/import/import.jade";
 import "./code/media/media.jade";
-import "./code/pages/pages.jade";
 import "./code/themes/themes.jade";
+import "./code/pages/pages.jade";
 import "./code/users/users.jade";
 import "./code/account/login/login.jade";
 import "./code/account/settings/settings.jade";
 import "../shared/image-selector/image-selector.jade";
 import "../shared/missing/missing.jade";
-import "../shared/taglist/taglist.jade";
 import "../shared/sortable/sortable.jade";
+import "../shared/taglist/taglist.jade";
 import "../shared/validate/validate.jade";
 // end inject jade
 
