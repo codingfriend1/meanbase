@@ -9,7 +9,7 @@ export default options => {
     if(!id) {
       id = hook.data._id
     }
-    
+
     if(hook.data && hook.data.published && id) {
       try {
         let response = await hook.app.service('pages').get(id)

@@ -80,7 +80,6 @@ exports.after = {
   ],
   update: [
     updateMenu(),
-
   ],
   patch: [
     updateMenu(),

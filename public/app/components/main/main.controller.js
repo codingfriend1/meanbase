@@ -421,7 +421,12 @@
         if(!$rootScope.page._id) { return false }
 
         try {
-          let updatedPage = await api.pages.update({_id: $rootScope.page._id}, $rootScope.page)
+          var results = $rootScope.page
+          if(snapshots.page.title === $rootScope.page.title) {
+            results = _.omit($rootScope.page, 'title')
+          }
+
+          let updatedPage = await api.pages.update({_id: $rootScope.page._id}, results)
           updatedPage = updatedPage[0]
 
           document.title = $rootScope.page.tabTitle

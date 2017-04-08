@@ -5,6 +5,12 @@ export default function(options) {
   return (hook) => {
     if (!hook.params.provider || !hook.data) { return hook; }
 
+    if(hook.data.title) {
+      hook.params.titleWasChanged = true;
+    } else {
+      hook.params.titleWasChanged = false;
+    }
+
     if(typeof hook.data.url === 'string' && hook.data.url.charAt(0) !== '/') {
       hook.data.url = '/' + hook.data.url;
     }

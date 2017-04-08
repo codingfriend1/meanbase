@@ -536,11 +536,14 @@
 
 		this.publishChanges = function() {
 			// This event calls the edit directive to save it's values and the main.controller to erase and rewrite all the menus
+      var oneTimeFinishPagesListener = $scope.$onRootScope('cms.finishPublishPages', function() {
+        oneTimeFinishPagesListener();
+        $rootScope.$emit('cms.takePageSnapshot', true)
+      })
       $rootScope.$emit('cms.addRecentEditLink', $rootScope.page.url)
-			$rootScope.$emit('cms.publishChanges', $rootScope.page)
+			$rootScope.$emit('cms.publishChanges', $rootScope.page, true)
 			$rootScope.$emit('cms.publishExtensionData')
       autoSaveSessionSnapshot = {}
-      $rootScope.$emit('cms.takePageSnapshot', true)
       lastPageUndoData2 = angular.copy($rootScope.page)
 		};
 

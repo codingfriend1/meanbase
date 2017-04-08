@@ -135,14 +135,14 @@ async function updateMenuInStaging(menu) {
   interactMenuStaging = interactMenuStaging.bind(this)
   await interactMenuStaging(menu, function(current_menu, index, location_value) {
     if(_.get(current_menu, 'linkTo') === menu.linkTo) {
-      current_menu.url = menu.url
-      current_menu.title = menu.title
+      current_menu.url = menu.url ? menu.url : current_menu.url
+      current_menu.title = menu.title ? menu.title : current_menu.title
       current_menu.published = menu.published
     }
   })
 }
 
-async function patchMenu(page) {
+async function patchMenu(hook, page) {
   if(_.get(page, '_id')) {
     updateMenuInStaging = updateMenuInStaging.bind(this)
 
@@ -151,8 +151,13 @@ async function patchMenu(page) {
     }
 
     try {
-      let title = page.title.replace(/<[^>]+>/gm, '')
-      let menu = await this.service('menus').patch(null, {url: page.url, title: title, published: page.published}, { query: {linkTo: page._id} })
+      let changes = {url: page.url, published: page.published}
+
+      if(hook.params.titleWasChanged) {
+        changes.title = page.title.replace(/<[^>]+>/gm, '')
+      }
+
+      let menu = await this.service('menus').patch(null, changes, { query: {linkTo: page._id} })
       menu = menu[0]
       if(menu) {
         await updateMenuInStaging(menu)
@@ -175,15 +180,15 @@ async function patchMenu(page) {
 export const updateMenu = options => {
   return async hook => {
 
-    patchMenu = patchMenu.bind(hook.app)
+    const patchMenuBound = patchMenu.bind(hook.app, hook)
 
     if(!hook.result) { return hook }
 
     if(Array.isArray(hook.result)) {
-      _.each(hook.result, patchMenu)
+      _.forEach(hook.result, patchMenuBound)
       return hook
     } else {
-      await patchMenu(hook.result)
+      await patchMenuBound(hook.result)
       return hook
     }
   }
