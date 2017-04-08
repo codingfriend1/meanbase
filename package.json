@@ -80,6 +80,7 @@
     "babel-preset-stage-1": "^6.5.0",
     "babel-preset-stage-3": "^6.11.0",
     "babel-watch": "^2.0.2",
+    "bower": "^1.8.0",
     "connect-livereload": "~0.4.0",
     "css-loader": "^0.23.1",
     "del": "^2.0.2",
