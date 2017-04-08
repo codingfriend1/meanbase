@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "async": "^2.0.1",
-    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.13.2",
     "babel-loader": "6.2.4",
     "babel-plugin-angularjs-annotate": "^0.5.1",
