@@ -421,10 +421,21 @@
         if(!$rootScope.page._id) { return false }
 
         try {
-          var results = $rootScope.page
+          var results = _.cloneDeep($rootScope.page)
           if(snapshots.page.title === $rootScope.page.title) {
-            results = _.omit($rootScope.page, 'title')
+            results = _.omit(results, 'title')
           }
+
+          _.forOwn(results.lists, function(location) {
+            _.each(location, function(listItem, index) {
+              try {
+                var cleanedOfDraggables = JSON.stringify(listItem).replace(/(mb\-sub\-draggable|mb\-draggable|mb\-inner\-draggable)/g, '')
+                location[index] = JSON.parse(cleanedOfDraggables)
+              } catch(err) {
+                console.log('err', err);
+              }
+            })
+          })
 
           let updatedPage = await api.pages.update({_id: $rootScope.page._id}, results)
           updatedPage = updatedPage[0]
