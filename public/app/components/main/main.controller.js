@@ -423,7 +423,9 @@
         var results;
         $timeout(function() {
           var beforeTitle = snapshots.page.title
-          $rootScope.$emit('cms.toggleEditMode', false)
+          if($rootScope.editMode) {
+            $rootScope.$emit('cms.toggleEditMode', false)
+          }
 
           $timeout(async function() {
             results = _.cloneDeep($rootScope.page)
